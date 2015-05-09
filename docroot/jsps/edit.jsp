@@ -18,6 +18,10 @@
     <liferay-portlet:param name="mvcPath" value="/jsps/destinations.jsp" />
     <liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
+    <%--<liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />--%>
+</liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="saveDDT"  />
 <portlet:resourceURL var="printDDT" id="printDDT" />
 <aui:field-wrapper >
@@ -35,6 +39,7 @@
             <aui:input type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
             <aui:input type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=cliente.getIndirizzo()%>" inlineField="true"/>
+            <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a>
             <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Ordine"     inlineField="true" />
             <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Consegna"   inlineField="true" />
 
@@ -54,15 +59,28 @@
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <aui:a id="btnAdd" cssClass="btn" href="#"><i class="icon-plus"></i>Aggiungi</aui:a>
-            <aui:a id="btnRemove" cssClass="btn" href="#"><i class="icon-trash"></i>Rimuovi</aui:a>
+            <aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi</aui:a>
+            <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
+            <aui:a id="btnClearSelected" cssClass="btn" href="#a"><i class="icon-trash"></i>CLEAR</aui:a>
             </div>
         </div>  
+        <div class="yui3-skin-sam">
+        <aui:fieldset id="myDataTable" />
+    </div>
 </aui:field-wrapper>
 
-<aui:fieldset id="myDataTable" />
 
 <script type="text/javascript">
+
+    var indirizzo;
+
+    function restoreAdress() {
+        if (indirizzo) {
+            console.log(indirizzo);
+            document.getElementById('<portlet:namespace/>destinazioneTxt').value = indirizzo;
+        }
+    }
+
 
     YUI({lang: 'it'}).use('aui-datepicker', 'aui-modal', function (Y) {
         var orderDate = new Y.DatePicker({
@@ -144,12 +162,14 @@
         console.log(dialog);
         dialog.hide();
         console.log(data);
+        if (!indirizzo)
+            indirizzo = document.getElementById('<portlet:namespace/>destinazioneTxt').value;
         document.getElementById('<portlet:namespace/>destinazioneTxt').value = data;
 
     }, ['liferay-util-window']);
 
 
-    YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', "datatable-mutable", function (Y) {
+    YUI({ skin: 'sam' }).use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
 
         var nameEditor = new Y.TextAreaCellEditor({
             validator: {
@@ -163,10 +183,19 @@
         });
 
         var columns = [
+//            {
+//                key: 'select',
+//                allowHTML: true, // to avoid HTML escaping
+//                label: '<input type="checkbox" class="protocol-select-all" title="Seleziona tutti"/>',
+//                formatter: '<input type="checkbox" checked/>',
+//                emptyCellValue: '<input type="checkbox"/>'
+//            },
             {
-                editor: nameEditor,
+//                editor: nameEditor,
+                allowHTML: true,
                 key: 'codiceArticolo',
-                label: 'Codice'
+                label: 'Codice',
+                emptyCellValue: '<button class="selectArt"><i class="icon-hdd"></i>Seleziona</button>'
             },
             {
                 key: 'descrizione',
@@ -218,8 +247,16 @@
             }
         ];
 
-        var data = [{codiceArticolo: '1236', descrizione: 'San Francisco', lotto: 'A1'}];
+//        var data = [{codiceArticolo: '1236', descrizione: 'San Francisco', lotto: 'A1'},
+//            {codiceArticolo: '1234', descrizione: 'New York', lotto: 'A1'},
+//            {codiceArticolo: '4321', descrizione: 'Los Angeles', lotto: 'A1'},
+//            {codiceArticolo: '5432', descrizione: 'Chicago', lotto: 'A1'},
+//            {codiceArticolo: '2345', descrizione: 'Boston', lotto: 'A1'},
+//            {codiceArticolo: '4422', descrizione: 'Seattle', lotto: 'A1'},
+//            {codiceArticolo: '2244', descrizione: 'Springfield', lotto: 'A1'}
+//        ];
 
+        var data = [{codiceArticolo: '', descrizione: '', lotto: ''}];
         var table = new Y.DataTable({
             columns: columns,
             data: data,
@@ -234,13 +271,92 @@
             ]
 
         }).render('#<portlet:namespace />myDataTable');
+//
+//        // To avoid checkbox click causing harmless error in sorting
+//        // Workaround for bug #2532244
+//        table.detach('*:change');
+//
+//        //----------------
+//        //   "checkbox" Click listeners ...
+//        //----------------
+//
+//        // Define a listener on the DT first column for each record's "checkbox",
+//        //   to set the value of `select` to the checkbox setting
+//        table.delegate("click", function (e) {
+//            console.log("1");
+//            // undefined to trigger the emptyCellValue
+//            var checked = e.target.get('checked') || undefined;
+//
+//            // Don't pass `{silent:true}` if there are other objects in your app
+//            // that need to be notified of the checkbox change.
+//            this.getRecord(e.target).set('select', checked, {silent: true});
+//
+//            // Uncheck the header checkbox
+//            this.get('contentBox')
+//                    .one('.protocol-select-all').set('checked', false);
+//        }, ".yui3-datatable-data .yui3-datatable-col-select input", table);
+//
+//
+//        // Also define a listener on the single TH "checkbox" to
+//        //   toggle all of the checkboxes
+//        table.delegate('click', function (e) {
+//            console.log("2");
+//            // undefined to trigger the emptyCellValue
+//            var checked = e.target.get('checked') || undefined;
+//            console.log(e);
+//            // Set the selected attribute in all records in the ModelList silently
+//            // to avoid each update triggering a table update
+//            this.data.invoke('set', 'select', checked, {silent: true});
+//
+//            // Update the table now that all records have been updated
+//            this.syncUI();
+//        }, '.protocol-select-all', table);
+
+        table.delegate('click', function (e) {
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false,
+                    height: '600px',
+                    width: '800px'
+                },
+                id: '<portlet:namespace/>dialogArticoli',
+                title: 'Seleziona Articolo',
+                uri: '<%=itemURL %>'
+            });
+        }, '.selectArt', table);
 
         Y.one("#<portlet:namespace />btnAdd").on("click", function () {
-            var new_data = {codiceArticolo: '1236', descrizione: 'San Francisco', lotto: 'A1'};
-            table.addRow(new_data);
+//            var new_data = {};
+            table.addRow({});
         });
-        
+
+        Y.one("#<portlet:namespace />btnRemove").on("click", process);
+
+
+
+        function process() {
+
+            var ml = table.data,
+                    msg = '',
+                    template = 'Record index = {index} Data = {codiceArticolo} : {descrizione}\n';
+
+            ml.each(function (item, i) {
+                var data = item.getAttrs(['select', 'codiceArticolo', 'descrizione']);
+
+                if (data.select) {
+                    data.index = i;
+                    msg += Y.Lang.sub(template, data);
+                }
+            });
+
+            console.log(msg || '(None)');
+            //Y.one("#processed").setHTML(msg || '<li>(None)</li>');
+        }
     });
+
+
 //    YUI().use("datatable-sort", "datatable-scroll", "datatable-mutable",
 //            function (Y) {
 //                var columns = [

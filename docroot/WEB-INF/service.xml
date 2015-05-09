@@ -64,4 +64,6 @@
 			</finder-column>
 		</finder>
 	</entity>
+	<entity name='Articoli' table='Articoli' local-service='true' remote-service='true'>
+	</entity>
 </service-builder>
