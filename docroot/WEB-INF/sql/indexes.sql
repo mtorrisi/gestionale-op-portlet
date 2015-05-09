@@ -1,0 +1,1 @@
+create index IX_75890C32 on DestinatariDiversi (RavCodrif);

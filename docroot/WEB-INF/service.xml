@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
+<service-builder package-path='it.bysoftware.ct'>
+	<namespace>gestionaleOP</namespace>
+	<entity name='Anagrafica' table='AnagraficheClientiFornitori' local-service='true' remote-service='true' data-source='gestionaleOPDataSource' session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
+		<column name='attivoEC' db-name='RacAttivoEC' type='int'>
+		</column>
+		<column name='cap' db-name='RacCap' type='String'>
+		</column>
+		<column name='codiceAnagrafica' db-name='RacCodana' type='String' primary='true'>
+		</column>
+		<column name='codiceFiscale' db-name='RacCodfis' type='String'>
+		</column>
+		<column name='codiceMne' db-name='RacCodmne' type='String'>
+		</column>
+		<column name='comune' db-name='RacComune' type='String'>
+		</column>
+		<column name='Indirizzo' db-name='RacIndiri' type='String'>
+		</column>
+		<column name='note' db-name='RacNote' type='String'>
+		</column>
+		<column name='partitaIVA' db-name='RacPariva' type='String'>
+		</column>
+		<column name='ragioneSociale' db-name='RacRagso1' type='String'>
+		</column>
+		<column name='ragioneSocialeAlternativa' db-name='RacRagso2' type='String'>
+		</column>
+		<column name='provincia' db-name='RacSigpro' type='String'>
+		</column>
+		<column name='stato' db-name='RacSigsta' type='String'>
+		</column>
+		<column name='tepefi' db-name='RacTepefi' type='int'>
+		</column>
+		<column name='tipoSoggetto' db-name='RacTipoSoggetto' type='String'>
+		</column>
+		<column name='tipsol' db-name='RacTipsol' type='int'>
+		</column>
+		<column name='codiceAzienda' db-name='RacCodiaz' type='String'>
+		</column>
+		<finder name='tipoSoggetto' return-type='Collection'>
+			<finder-column name='tipoSoggetto'>
+			</finder-column>
+		</finder>
+	</entity>
+	<entity name='DestinatariDiversi' table='DestinatariDiversi' local-service='true' remote-service='true'>
+		<column name='codiceAnagrafica' db-name='RavCodana' type='String' primary='true'>
+		</column>
+		<column name='codiceRiferimento' db-name='RavCodrif' type='String'>
+		</column>
+		<column name='CAP' db-name='RavCap' type='String'>
+		</column>
+		<column name='comune' db-name='RavComune' type='String'>
+		</column>
+		<column name='indirizzo' db-name='RavIndiri' type='String'>
+		</column>
+		<column name='provincia' db-name='RavSigpro' type='String'>
+		</column>
+		<column name='stato' db-name='RavSigsta' type='String'>
+		</column>
+		<column name='tipoAnagrafica' db-name='RavTipana' type='String'>
+		</column>
+		<finder name='codiceRiferimento' return-type='Collection'>
+			<finder-column name='codiceRiferimento'>
+			</finder-column>
+		</finder>
+	</entity>
+</service-builder>

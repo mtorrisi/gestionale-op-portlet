@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="it.bysoftware.ct.model.Anagrafica">
+		<field name="attivoEC" type="int" />
+		<field name="cap" type="String" />
+		<field name="codiceAnagrafica" type="String" />
+		<field name="codiceFiscale" type="String" />
+		<field name="codiceMne" type="String" />
+		<field name="comune" type="String" />
+		<field name="Indirizzo" type="String" />
+		<field name="note" type="String" />
+		<field name="partitaIVA" type="String" />
+		<field name="ragioneSociale" type="String" />
+		<field name="ragioneSocialeAlternativa" type="String" />
+		<field name="provincia" type="String" />
+		<field name="stato" type="String" />
+		<field name="tepefi" type="int" />
+		<field name="tipoSoggetto" type="String" />
+		<field name="tipsol" type="int" />
+		<field name="codiceAzienda" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.DestinatariDiversi">
+		<field name="codiceAnagrafica" type="String" />
+		<field name="codiceRiferimento" type="String" />
+		<field name="CAP" type="String" />
+		<field name="comune" type="String" />
+		<field name="indirizzo" type="String" />
+		<field name="provincia" type="String" />
+		<field name="stato" type="String" />
+		<field name="tipoAnagrafica" type="String" />
+	</model>
+</model-hints>

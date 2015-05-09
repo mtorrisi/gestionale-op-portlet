@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_1_0.xsd">
+	<persistence-unit-metadata>
+		<xml-mapping-metadata-complete/>
+		<persistence-unit-defaults>
+			<access>PROPERTY</access>
+		</persistence-unit-defaults>
+	</persistence-unit-metadata>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.AnagraficaModelImpl">
+		<attributes>
+			<id name="codiceAnagrafica">
+				<column name="RACCODANA" />
+			</id>
+			<basic name="attivoEC">
+				<column name="RACATTIVOEC" />
+			</basic>
+			<basic name="cap">
+				<column name="RACCAP" />
+			</basic>
+			<basic name="codiceFiscale">
+				<column name="RACCODFIS" />
+			</basic>
+			<basic name="codiceMne">
+				<column name="RACCODMNE" />
+			</basic>
+			<basic name="comune">
+				<column name="RACCOMUNE" />
+			</basic>
+			<basic name="Indirizzo">
+				<column name="RACINDIRI" />
+			</basic>
+			<basic name="note">
+				<column name="RACNOTE" />
+			</basic>
+			<basic name="partitaIVA">
+				<column name="RACPARIVA" />
+			</basic>
+			<basic name="ragioneSociale">
+				<column name="RACRAGSO1" />
+			</basic>
+			<basic name="ragioneSocialeAlternativa">
+				<column name="RACRAGSO2" />
+			</basic>
+			<basic name="provincia">
+				<column name="RACSIGPRO" />
+			</basic>
+			<basic name="stato">
+				<column name="RACSIGSTA" />
+			</basic>
+			<basic name="tepefi">
+				<column name="RACTEPEFI" />
+			</basic>
+			<basic name="tipoSoggetto">
+				<column name="RACTIPOSOGGETTO" />
+			</basic>
+			<basic name="tipsol">
+				<column name="RACTIPSOL" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RACCODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.DestinatariDiversiModelImpl">
+		<attributes>
+			<id name="codiceAnagrafica">
+				<column name="RAVCODANA" />
+			</id>
+			<basic name="codiceRiferimento">
+				<column name="RAVCODRIF" />
+			</basic>
+			<basic name="CAP">
+				<column name="RAVCAP" />
+			</basic>
+			<basic name="comune">
+				<column name="RAVCOMUNE" />
+			</basic>
+			<basic name="indirizzo">
+				<column name="RAVINDIRI" />
+			</basic>
+			<basic name="provincia">
+				<column name="RAVSIGPRO" />
+			</basic>
+			<basic name="stato">
+				<column name="RAVSIGSTA" />
+			</basic>
+			<basic name="tipoAnagrafica">
+				<column name="RAVTIPANA" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<entity class="it.bysoftware.ct.model.impl.AnagraficaImpl" name="Anagrafica">
+		<table name="AnagraficheClientiFornitori" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">
+		<table name="DestinatariDiversi" />
+		<attributes />
+	</entity>
+</entity-mappings>

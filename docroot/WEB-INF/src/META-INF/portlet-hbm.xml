@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-lazy="false" auto-import="false">
+	<import class="it.bysoftware.ct.model.Anagrafica" />
+	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
+	<class name="it.bysoftware.ct.model.impl.AnagraficaImpl" table="AnagraficheClientiFornitori">
+		<cache usage="read-write" />
+		<id name="codiceAnagrafica" column="RacCodana" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="attivoEC" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="RacAttivoEC" />
+		<property name="cap" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCap" />
+		<property name="codiceFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCodfis" />
+		<property name="codiceMne" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCodmne" />
+		<property name="comune" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacComune" />
+		<property name="Indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacIndiri" />
+		<property name="note" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacNote" />
+		<property name="partitaIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacPariva" />
+		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacRagso1" />
+		<property name="ragioneSocialeAlternativa" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacRagso2" />
+		<property name="provincia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacSigpro" />
+		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacSigsta" />
+		<property name="tepefi" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="RacTepefi" />
+		<property name="tipoSoggetto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacTipoSoggetto" />
+		<property name="tipsol" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="RacTipsol" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" table="DestinatariDiversi">
+		<cache usage="read-write" />
+		<id name="codiceAnagrafica" column="RavCodana" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="codiceRiferimento" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCodrif" />
+		<property name="CAP" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCap" />
+		<property name="comune" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavComune" />
+		<property name="indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavIndiri" />
+		<property name="provincia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigpro" />
+		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigsta" />
+		<property name="tipoAnagrafica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavTipana" />
+	</class>
+</hibernate-mapping>
