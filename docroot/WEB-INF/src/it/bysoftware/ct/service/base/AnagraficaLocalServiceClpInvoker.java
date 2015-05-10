@@ -106,21 +106,21 @@ public class AnagraficaLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.Anagrafica"
 			};
 
-		_methodName40 = "getBeanIdentifier";
-
-		_methodParameterTypes40 = new String[] {  };
-
-		_methodName41 = "setBeanIdentifier";
-
-		_methodParameterTypes41 = new String[] { "java.lang.String" };
-
-		_methodName46 = "getClienti";
+		_methodName46 = "getBeanIdentifier";
 
 		_methodParameterTypes46 = new String[] {  };
 
-		_methodName47 = "countClienti";
+		_methodName47 = "setBeanIdentifier";
 
-		_methodParameterTypes47 = new String[] {  };
+		_methodParameterTypes47 = new String[] { "java.lang.String" };
+
+		_methodName52 = "getClienti";
+
+		_methodParameterTypes52 = new String[] {  };
+
+		_methodName53 = "countClienti";
+
+		_methodParameterTypes53 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -212,25 +212,25 @@ public class AnagraficaLocalServiceClpInvoker {
 			return AnagraficaLocalServiceUtil.updateAnagrafica((it.bysoftware.ct.model.Anagrafica)arguments[0]);
 		}
 
-		if (_methodName40.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes40, parameterTypes)) {
+		if (_methodName46.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
 			return AnagraficaLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName41.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes41, parameterTypes)) {
+		if (_methodName47.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
 			AnagraficaLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName46.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
+		if (_methodName52.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
 			return AnagraficaLocalServiceUtil.getClienti();
 		}
 
-		if (_methodName47.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+		if (_methodName53.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
 			return AnagraficaLocalServiceUtil.countClienti();
 		}
 
@@ -269,12 +269,12 @@ public class AnagraficaLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName40;
-	private String[] _methodParameterTypes40;
-	private String _methodName41;
-	private String[] _methodParameterTypes41;
 	private String _methodName46;
 	private String[] _methodParameterTypes46;
 	private String _methodName47;
 	private String[] _methodParameterTypes47;
+	private String _methodName52;
+	private String[] _methodParameterTypes52;
+	private String _methodName53;
+	private String[] _methodParameterTypes53;
 }

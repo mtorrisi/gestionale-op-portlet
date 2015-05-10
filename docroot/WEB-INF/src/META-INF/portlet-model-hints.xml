@@ -20,6 +20,13 @@
 		<field name="tipsol" type="int" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.Articoli">
+		<field name="codiceArticolo" type="String" />
+		<field name="categoriaMerceologica" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="descrizioneDocumento" type="String" />
+		<field name="descrizioneFiscale" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.DestinatariDiversi">
 		<field name="codiceAnagrafica" type="String" />
 		<field name="codiceRiferimento" type="String" />

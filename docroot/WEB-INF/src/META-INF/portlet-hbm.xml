@@ -3,6 +3,7 @@
 
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="it.bysoftware.ct.model.Anagrafica" />
+	<import class="it.bysoftware.ct.model.Articoli" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
 	<class name="it.bysoftware.ct.model.impl.AnagraficaImpl" table="AnagraficheClientiFornitori">
 		<cache usage="read-write" />
@@ -25,6 +26,16 @@
 		<property name="tipoSoggetto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacTipoSoggetto" />
 		<property name="tipsol" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="RacTipsol" />
 		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.ArticoliImpl" table="Articoli">
+		<cache usage="read-write" />
+		<id name="codiceArticolo" column="RanCodart" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="categoriaMerceologica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanCatmer" />
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDescri" />
+		<property name="descrizioneDocumento" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDesdoc" />
+		<property name="descrizioneFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDesfis" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" table="DestinatariDiversi">
 		<cache usage="read-write" />

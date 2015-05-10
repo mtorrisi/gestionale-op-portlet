@@ -12,7 +12,7 @@
 <%@page import="com.liferay.portal.kernel.util.WebKeys"%>
 <%@page import="com.liferay.portal.model.UserGroup"%>
 <%@page import="com.liferay.portal.service.UserGroupLocalServiceUtil"%>
-
+<%@page import="javax.portlet.PortletURL"%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions"%>

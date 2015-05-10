@@ -34,6 +34,7 @@ import com.liferay.portal.service.persistence.UserPersistence;
 import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.service.AnagraficaLocalService;
 import it.bysoftware.ct.service.persistence.AnagraficaPersistence;
+import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 
 import java.io.Serializable;
@@ -339,6 +340,62 @@ public abstract class AnagraficaLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the articoli local service.
+	 *
+	 * @return the articoli local service
+	 */
+	public it.bysoftware.ct.service.ArticoliLocalService getArticoliLocalService() {
+		return articoliLocalService;
+	}
+
+	/**
+	 * Sets the articoli local service.
+	 *
+	 * @param articoliLocalService the articoli local service
+	 */
+	public void setArticoliLocalService(
+		it.bysoftware.ct.service.ArticoliLocalService articoliLocalService) {
+		this.articoliLocalService = articoliLocalService;
+	}
+
+	/**
+	 * Returns the articoli remote service.
+	 *
+	 * @return the articoli remote service
+	 */
+	public it.bysoftware.ct.service.ArticoliService getArticoliService() {
+		return articoliService;
+	}
+
+	/**
+	 * Sets the articoli remote service.
+	 *
+	 * @param articoliService the articoli remote service
+	 */
+	public void setArticoliService(
+		it.bysoftware.ct.service.ArticoliService articoliService) {
+		this.articoliService = articoliService;
+	}
+
+	/**
+	 * Returns the articoli persistence.
+	 *
+	 * @return the articoli persistence
+	 */
+	public ArticoliPersistence getArticoliPersistence() {
+		return articoliPersistence;
+	}
+
+	/**
+	 * Sets the articoli persistence.
+	 *
+	 * @param articoliPersistence the articoli persistence
+	 */
+	public void setArticoliPersistence(ArticoliPersistence articoliPersistence) {
+		this.articoliPersistence = articoliPersistence;
+	}
+
+	/**
 	 * Returns the destinatari diversi local service.
 	 *
 	 * @return the destinatari diversi local service
@@ -577,6 +634,12 @@ public abstract class AnagraficaLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.AnagraficaService anagraficaService;
 	@BeanReference(type = AnagraficaPersistence.class)
 	protected AnagraficaPersistence anagraficaPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.ArticoliLocalService.class)
+	protected it.bysoftware.ct.service.ArticoliLocalService articoliLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.ArticoliService.class)
+	protected it.bysoftware.ct.service.ArticoliService articoliService;
+	@BeanReference(type = ArticoliPersistence.class)
+	protected ArticoliPersistence articoliPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiLocalService.class)
 	protected it.bysoftware.ct.service.DestinatariDiversiLocalService destinatariDiversiLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiService.class)

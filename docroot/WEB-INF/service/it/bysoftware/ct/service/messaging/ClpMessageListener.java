@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.messaging.Message;
 
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.AnagraficaServiceUtil;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliServiceUtil;
 import it.bysoftware.ct.service.ClpSerializer;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
@@ -41,6 +43,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			AnagraficaLocalServiceUtil.clearService();
 
 			AnagraficaServiceUtil.clearService();
+			ArticoliLocalServiceUtil.clearService();
+
+			ArticoliServiceUtil.clearService();
 			DestinatariDiversiLocalServiceUtil.clearService();
 
 			DestinatariDiversiServiceUtil.clearService();

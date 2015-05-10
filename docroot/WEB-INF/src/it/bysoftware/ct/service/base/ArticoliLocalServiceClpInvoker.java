@@ -14,7 +14,7 @@
 
 package it.bysoftware.ct.service.base;
 
-import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 
 import java.util.Arrays;
 
@@ -22,27 +22,23 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class DestinatariDiversiLocalServiceClpInvoker {
-	public DestinatariDiversiLocalServiceClpInvoker() {
-		_methodName0 = "addDestinatariDiversi";
+public class ArticoliLocalServiceClpInvoker {
+	public ArticoliLocalServiceClpInvoker() {
+		_methodName0 = "addArticoli";
 
-		_methodParameterTypes0 = new String[] {
-				"it.bysoftware.ct.model.DestinatariDiversi"
-			};
+		_methodParameterTypes0 = new String[] { "it.bysoftware.ct.model.Articoli" };
 
-		_methodName1 = "createDestinatariDiversi";
+		_methodName1 = "createArticoli";
 
 		_methodParameterTypes1 = new String[] { "java.lang.String" };
 
-		_methodName2 = "deleteDestinatariDiversi";
+		_methodName2 = "deleteArticoli";
 
 		_methodParameterTypes2 = new String[] { "java.lang.String" };
 
-		_methodName3 = "deleteDestinatariDiversi";
+		_methodName3 = "deleteArticoli";
 
-		_methodParameterTypes3 = new String[] {
-				"it.bysoftware.ct.model.DestinatariDiversi"
-			};
+		_methodParameterTypes3 = new String[] { "it.bysoftware.ct.model.Articoli" };
 
 		_methodName4 = "dynamicQuery";
 
@@ -80,11 +76,11 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName10 = "fetchDestinatariDiversi";
+		_methodName10 = "fetchArticoli";
 
 		_methodParameterTypes10 = new String[] { "java.lang.String" };
 
-		_methodName11 = "getDestinatariDiversi";
+		_methodName11 = "getArticoli";
 
 		_methodParameterTypes11 = new String[] { "java.lang.String" };
 
@@ -92,19 +88,17 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 
 		_methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-		_methodName13 = "getDestinatariDiversis";
+		_methodName13 = "getArticolis";
 
 		_methodParameterTypes13 = new String[] { "int", "int" };
 
-		_methodName14 = "getDestinatariDiversisCount";
+		_methodName14 = "getArticolisCount";
 
 		_methodParameterTypes14 = new String[] {  };
 
-		_methodName15 = "updateDestinatariDiversi";
+		_methodName15 = "updateArticoli";
 
-		_methodParameterTypes15 = new String[] {
-				"it.bysoftware.ct.model.DestinatariDiversi"
-			};
+		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.Articoli" };
 
 		_methodName46 = "getBeanIdentifier";
 
@@ -114,65 +108,72 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 
 		_methodParameterTypes47 = new String[] { "java.lang.String" };
 
-		_methodName52 = "getDestinazioni";
+		_methodName52 = "getImballaggi";
 
 		_methodParameterTypes52 = new String[] {  };
 
-		_methodName53 = "getDestinazioni";
+		_methodName53 = "countImballaggi";
 
-		_methodParameterTypes53 = new String[] { "java.lang.String" };
+		_methodParameterTypes53 = new String[] {  };
 
-		_methodName54 = "getDestinazioni";
+		_methodName54 = "getArticoli";
 
-		_methodParameterTypes54 = new String[] { "java.lang.String", "int", "int" };
+		_methodParameterTypes54 = new String[] {  };
 
-		_methodName55 = "countDestinazioniDiverse";
+		_methodName55 = "countArticoli";
 
-		_methodParameterTypes55 = new String[] { "java.lang.String" };
+		_methodParameterTypes55 = new String[] {  };
+
+		_methodName56 = "searchArticoli";
+
+		_methodParameterTypes56 = new String[] {
+				"java.lang.String", "boolean", "int", "int",
+				"com.liferay.portal.kernel.util.OrderByComparator"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
 		if (_methodName0.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes0, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.addDestinatariDiversi((it.bysoftware.ct.model.DestinatariDiversi)arguments[0]);
+			return ArticoliLocalServiceUtil.addArticoli((it.bysoftware.ct.model.Articoli)arguments[0]);
 		}
 
 		if (_methodName1.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.createDestinatariDiversi((java.lang.String)arguments[0]);
+			return ArticoliLocalServiceUtil.createArticoli((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName2.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.deleteDestinatariDiversi((java.lang.String)arguments[0]);
+			return ArticoliLocalServiceUtil.deleteArticoli((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName3.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes3, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.deleteDestinatariDiversi((it.bysoftware.ct.model.DestinatariDiversi)arguments[0]);
+			return ArticoliLocalServiceUtil.deleteArticoli((it.bysoftware.ct.model.Articoli)arguments[0]);
 		}
 
 		if (_methodName4.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes4, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.dynamicQuery();
+			return ArticoliLocalServiceUtil.dynamicQuery();
 		}
 
 		if (_methodName5.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes5, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return ArticoliLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName6.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes6, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return ArticoliLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue());
 		}
 
 		if (_methodName7.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes7, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return ArticoliLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue(),
 				(com.liferay.portal.kernel.util.OrderByComparator)arguments[3]);
@@ -180,78 +181,85 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 
 		if (_methodName8.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes8, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return ArticoliLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName9.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return ArticoliLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				(com.liferay.portal.kernel.dao.orm.Projection)arguments[1]);
 		}
 
 		if (_methodName10.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.fetchDestinatariDiversi((java.lang.String)arguments[0]);
+			return ArticoliLocalServiceUtil.fetchArticoli((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName11.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getDestinatariDiversi((java.lang.String)arguments[0]);
+			return ArticoliLocalServiceUtil.getArticoli((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName12.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
+			return ArticoliLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
 		}
 
 		if (_methodName13.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getDestinatariDiversis(((Integer)arguments[0]).intValue(),
+			return ArticoliLocalServiceUtil.getArticolis(((Integer)arguments[0]).intValue(),
 				((Integer)arguments[1]).intValue());
 		}
 
 		if (_methodName14.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getDestinatariDiversisCount();
+			return ArticoliLocalServiceUtil.getArticolisCount();
 		}
 
 		if (_methodName15.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.updateDestinatariDiversi((it.bysoftware.ct.model.DestinatariDiversi)arguments[0]);
+			return ArticoliLocalServiceUtil.updateArticoli((it.bysoftware.ct.model.Articoli)arguments[0]);
 		}
 
 		if (_methodName46.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getBeanIdentifier();
+			return ArticoliLocalServiceUtil.getBeanIdentifier();
 		}
 
 		if (_methodName47.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
-			DestinatariDiversiLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
+			ArticoliLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
 		if (_methodName52.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getDestinazioni();
+			return ArticoliLocalServiceUtil.getImballaggi();
 		}
 
 		if (_methodName53.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getDestinazioni((java.lang.String)arguments[0]);
+			return ArticoliLocalServiceUtil.countImballaggi();
 		}
 
 		if (_methodName54.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.getDestinazioni((java.lang.String)arguments[0],
-				((Integer)arguments[1]).intValue(),
-				((Integer)arguments[2]).intValue());
+			return ArticoliLocalServiceUtil.getArticoli();
 		}
 
 		if (_methodName55.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
-			return DestinatariDiversiLocalServiceUtil.countDestinazioniDiverse((java.lang.String)arguments[0]);
+			return ArticoliLocalServiceUtil.countArticoli();
+		}
+
+		if (_methodName56.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+			return ArticoliLocalServiceUtil.searchArticoli((java.lang.String)arguments[0],
+				((Boolean)arguments[1]).booleanValue(),
+				((Integer)arguments[2]).intValue(),
+				((Integer)arguments[3]).intValue(),
+				(com.liferay.portal.kernel.util.OrderByComparator)arguments[4]);
 		}
 
 		throw new UnsupportedOperationException();
@@ -301,4 +309,6 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 	private String[] _methodParameterTypes54;
 	private String _methodName55;
 	private String[] _methodParameterTypes55;
+	private String _methodName56;
+	private String[] _methodParameterTypes56;
 }

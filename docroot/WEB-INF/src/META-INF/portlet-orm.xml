@@ -65,6 +65,28 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.ArticoliModelImpl">
+		<attributes>
+			<id name="codiceArticolo">
+				<column name="RANCODART" />
+			</id>
+			<basic name="categoriaMerceologica">
+				<column name="RANCATMER" />
+			</basic>
+			<basic name="descrizione">
+				<column name="RANDESCRI" />
+			</basic>
+			<basic name="descrizioneDocumento">
+				<column name="RANDESDOC" />
+			</basic>
+			<basic name="descrizioneFiscale">
+				<column name="RANDESFIS" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.DestinatariDiversiModelImpl">
 		<attributes>
 			<id name="codiceAnagrafica">
@@ -98,6 +120,10 @@
 	</mapped-superclass>
 	<entity class="it.bysoftware.ct.model.impl.AnagraficaImpl" name="Anagrafica">
 		<table name="AnagraficheClientiFornitori" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.ArticoliImpl" name="Articoli">
+		<table name="Articoli" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">

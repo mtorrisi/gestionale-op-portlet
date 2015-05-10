@@ -39,7 +39,7 @@
             <aui:input type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
             <aui:input type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=cliente.getIndirizzo()%>" inlineField="true"/>
-            <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a>
+            <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
             <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Ordine"     inlineField="true" />
             <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Consegna"   inlineField="true" />
 
@@ -61,7 +61,6 @@
         <div class="btn-group">
             <aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi</aui:a>
             <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
-            <aui:a id="btnClearSelected" cssClass="btn" href="#a"><i class="icon-trash"></i>CLEAR</aui:a>
             </div>
         </div>  
         <div class="yui3-skin-sam">
@@ -140,8 +139,8 @@
 
     YUI().use('liferay-util-window', function (Y) {
         Y.one('#<portlet:namespace/>destinazioneTxt').on('click', function (event) {
-//            console.log(event);
-            Liferay.Util.openWindow({
+
+        Liferay.Util.openWindow({
                 dialog: {
                     centered: true,
                     modal: true,
@@ -162,14 +161,21 @@
         console.log(dialog);
         dialog.hide();
         console.log(data);
-        if (!indirizzo)
-            indirizzo = document.getElementById('<portlet:namespace/>destinazioneTxt').value;
-        document.getElementById('<portlet:namespace/>destinazioneTxt').value = data;
-
+        switch (dialogId) {
+            case '<portlet:namespace/>dialog':
+                if (!indirizzo)
+                    indirizzo = document.getElementById('<portlet:namespace/>destinazioneTxt').value;
+                document.getElementById('<portlet:namespace/>destinazioneTxt').value = data;
+                break;
+            case '<portlet:namespace/>itemDialog':
+//                alert("PIPPO");  
+                setItem(data);
+                break;
+        }
     }, ['liferay-util-window']);
 
-
-    YUI({ skin: 'sam' }).use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
+    var table;
+    YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
 
         var nameEditor = new Y.TextAreaCellEditor({
             validator: {
@@ -182,6 +188,13 @@
             }
         });
 
+        var retiCheckbox = new Y.RadioCellEditor({
+//                    editable: true,
+            options: {
+                si: 'Si',
+                no: 'No'
+            }
+        });
         var columns = [
 //            {
 //                key: 'select',
@@ -191,7 +204,6 @@
 //                emptyCellValue: '<input type="checkbox"/>'
 //            },
             {
-//                editor: nameEditor,
                 allowHTML: true,
                 key: 'codiceArticolo',
                 label: 'Codice',
@@ -202,14 +214,30 @@
                 label: 'Descrizione'
             },
             {
+                editor: nameEditor,
                 key: 'lotto',
                 label: 'Lotto'
             },
             {
+                editor: retiCheckbox,
                 key: 'reti',
                 label: 'Reti'
+
             },
             {
+                editor: new Y.TextCellEditor(
+                        {
+                            inputFormatter: Y.DataType.String.evaluate,
+                            validator: {
+                                rules: {
+                                    value: {
+                                        number: true,
+                                        required: true
+                                    }
+                                }
+                            }
+                        }
+                ),
                 key: 'pedane',
                 label: 'Ped'
             },
@@ -247,20 +275,11 @@
             }
         ];
 
-//        var data = [{codiceArticolo: '1236', descrizione: 'San Francisco', lotto: 'A1'},
-//            {codiceArticolo: '1234', descrizione: 'New York', lotto: 'A1'},
-//            {codiceArticolo: '4321', descrizione: 'Los Angeles', lotto: 'A1'},
-//            {codiceArticolo: '5432', descrizione: 'Chicago', lotto: 'A1'},
-//            {codiceArticolo: '2345', descrizione: 'Boston', lotto: 'A1'},
-//            {codiceArticolo: '4422', descrizione: 'Seattle', lotto: 'A1'},
-//            {codiceArticolo: '2244', descrizione: 'Springfield', lotto: 'A1'}
-//        ];
-
-        var data = [{codiceArticolo: '', descrizione: '', lotto: ''}];
-        var table = new Y.DataTable({
+//        var data = [{}];
+        table = new Y.DataTable({
             columns: columns,
-            data: data,
-            editEvent: 'dblclick',
+//            data: data,
+            editEvent: 'click',
             plugins: [
                 {
                     cfg: {
@@ -312,24 +331,30 @@
 //            this.syncUI();
 //        }, '.protocol-select-all', table);
 
-        table.delegate('click', function (e) {
+        table.addAttr("selectedRow", { value: null });
+        table.after('dblclick', function (e) { 
+            console.log(e.currentTarget); 
+            this.set('selectedRow', e.currentTarget);
+            console.log(e.currentTarget); 
+        });
+        
+        table.after('*:pedaneChange', function (e) { console.log(e.newVal); });
+        table.after('*:retiChange', function (e) { console.log(e.newVal); });
+        
+        Y.one("#<portlet:namespace />btnAdd").on("click", function () {
             Liferay.Util.openWindow({
                 dialog: {
                     centered: true,
                     modal: true,
-                    resizable: false,
+                    resizable: true,
+                    draggable: true,
                     height: '600px',
-                    width: '800px'
+                    width: '1024px'
                 },
-                id: '<portlet:namespace/>dialogArticoli',
+                id: '<portlet:namespace/>itemDialog',
                 title: 'Seleziona Articolo',
                 uri: '<%=itemURL %>'
             });
-        }, '.selectArt', table);
-
-        Y.one("#<portlet:namespace />btnAdd").on("click", function () {
-//            var new_data = {};
-            table.addRow({});
         });
 
         Y.one("#<portlet:namespace />btnRemove").on("click", process);
@@ -356,6 +381,11 @@
         }
     });
 
+    function setItem(data) {
+        var tmp = data.split('|');
+//        table.modifyRow(0, {codiceArticolo: tmp[0], descrizione: tmp[1]}, {sync: true});
+        table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1]}, {sync: true});
+    }
 
 //    YUI().use("datatable-sort", "datatable-scroll", "datatable-mutable",
 //            function (Y) {

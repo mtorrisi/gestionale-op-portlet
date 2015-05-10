@@ -65,5 +65,23 @@
 		</finder>
 	</entity>
 	<entity name='Articoli' table='Articoli' local-service='true' remote-service='true'>
+		<column name='codiceArticolo' db-name='RanCodart' type='String' primary='true'>
+		</column>
+		<column name='categoriaMerceologica' db-name='RanCatmer' type='String'>
+		</column>
+		<column name='descrizione' db-name='RanDescri' type='String'>
+		</column>
+		<column name='descrizioneDocumento' db-name='RanDesdoc' type='String'>
+		</column>
+		<column name='descrizioneFiscale' db-name='RanDesfis' type='String'>
+		</column>
+		<finder name='categoriaMerceologica' return-type='Collection'>
+			<finder-column name='categoriaMerceologica'>
+			</finder-column>
+		</finder>
+		<finder name='categoriaArticoli' return-type='Collection'>
+			<finder-column name='categoriaMerceologica' comparator="!=" >
+			</finder-column>
+		</finder>
 	</entity>
 </service-builder>

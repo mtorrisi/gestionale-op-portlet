@@ -20,8 +20,10 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Anagrafica;
+import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.model.DestinatariDiversi;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import java.io.PrintWriter;
 import java.util.List;
@@ -51,6 +53,24 @@ public class DDTPortlet extends MVCPortlet {
             _log.info(destinazioni.size());
             for (DestinatariDiversi destinazione : destinazioni) {
                 _log.info(destinazione.getComune());
+            }
+            
+            List<Articoli> articoli = ArticoliLocalServiceUtil.getArticoli();
+            _log.info(articoli.size());
+            for (Articoli articoli1 : articoli) {
+                _log.info("ARTICOLO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
+            }
+            
+            List<Articoli> imballaggi = ArticoliLocalServiceUtil.getImballaggi();
+            _log.info(imballaggi.size());
+            for (Articoli articoli1 : imballaggi) {
+                _log.info("IMBALLAGGIO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
+            }
+            
+            List<Articoli> searchArticoli = ArticoliLocalServiceUtil.searchArticoli("ARMO", true, 0, 105, null);
+            _log.info(searchArticoli.size());
+            for (Articoli searchArticoli1 : searchArticoli) {
+                _log.info(searchArticoli1.getCodiceArticolo());
             }
         } catch (SystemException ex) {
             _log.error(ex);

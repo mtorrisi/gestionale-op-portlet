@@ -14,7 +14,7 @@
 
 package it.bysoftware.ct.service.base;
 
-import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
+import it.bysoftware.ct.service.ArticoliServiceUtil;
 
 import java.util.Arrays;
 
@@ -22,8 +22,8 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class DestinatariDiversiServiceClpInvoker {
-	public DestinatariDiversiServiceClpInvoker() {
+public class ArticoliServiceClpInvoker {
+	public ArticoliServiceClpInvoker() {
 		_methodName30 = "getBeanIdentifier";
 
 		_methodParameterTypes30 = new String[] {  };
@@ -37,12 +37,12 @@ public class DestinatariDiversiServiceClpInvoker {
 		Object[] arguments) throws Throwable {
 		if (_methodName30.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes30, parameterTypes)) {
-			return DestinatariDiversiServiceUtil.getBeanIdentifier();
+			return ArticoliServiceUtil.getBeanIdentifier();
 		}
 
 		if (_methodName31.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes31, parameterTypes)) {
-			DestinatariDiversiServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
+			ArticoliServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
