@@ -10,8 +10,3 @@ YUI().ready('aui-io-plugin', function (Y) {
 function receiver(e){
     console.log(e);
 }
-
-
-function prova(e){
-    console.log("Prova.... " + e);
-}

@@ -42,24 +42,24 @@ public class DDTPortlet extends MVCPortlet {
 
         try {
 
-            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
-            int countClienti = AnagraficaLocalServiceUtil.countClienti();
-            for (Anagrafica cliente : listClienti) {
-                _log.info(cliente.getRagioneSociale());
-            }
-            _log.info(countClienti);
-
-            List<DestinatariDiversi> destinazioni = DestinatariDiversiLocalServiceUtil.getDestinazioni("00003");
-            _log.info(destinazioni.size());
-            for (DestinatariDiversi destinazione : destinazioni) {
-                _log.info(destinazione.getComune());
-            }
-            
-            List<Articoli> articoli = ArticoliLocalServiceUtil.getArticoli();
-            _log.info(articoli.size());
-            for (Articoli articoli1 : articoli) {
-                _log.info("ARTICOLO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
-            }
+//            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
+//            int countClienti = AnagraficaLocalServiceUtil.countClienti();
+//            for (Anagrafica cliente : listClienti) {
+//                _log.info(cliente.getRagioneSociale());
+//            }
+//            _log.info(countClienti);
+//
+//            List<DestinatariDiversi> destinazioni = DestinatariDiversiLocalServiceUtil.getDestinazioni("00003");
+//            _log.info(destinazioni.size());
+//            for (DestinatariDiversi destinazione : destinazioni) {
+//                _log.info(destinazione.getComune());
+//            }
+//            
+//            List<Articoli> articoli = ArticoliLocalServiceUtil.getArticoli();
+//            _log.info(articoli.size());
+//            for (Articoli articoli1 : articoli) {
+//                _log.info("ARTICOLO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
+//            }
             
             List<Articoli> imballaggi = ArticoliLocalServiceUtil.getImballaggi();
             _log.info(imballaggi.size());
@@ -67,11 +67,11 @@ public class DDTPortlet extends MVCPortlet {
                 _log.info("IMBALLAGGIO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
             }
             
-            List<Articoli> searchArticoli = ArticoliLocalServiceUtil.searchArticoli("ARMO", true, 0, 105, null);
-            _log.info(searchArticoli.size());
-            for (Articoli searchArticoli1 : searchArticoli) {
-                _log.info(searchArticoli1.getCodiceArticolo());
-            }
+//            List<Articoli> searchArticoli = ArticoliLocalServiceUtil.searchArticoli("ARMO", true, 0, 105, null);
+//            _log.info(searchArticoli.size());
+//            for (Articoli searchArticoli1 : searchArticoli) {
+//                _log.info(searchArticoli1.getCodiceArticolo());
+//            }
         } catch (SystemException ex) {
             _log.error(ex);
         }

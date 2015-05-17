@@ -304,6 +304,16 @@ public class ArticoliLocalServiceUtil {
 			orderByComparator);
 	}
 
+	public static java.util.List searchImballaggi(
+		java.lang.String codiceImballaggio, boolean andSearch, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .searchImballaggi(codiceImballaggio, andSearch, start, end,
+			orderByComparator);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

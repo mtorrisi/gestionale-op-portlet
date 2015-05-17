@@ -319,6 +319,15 @@ public class ArticoliLocalServiceWrapper implements ArticoliLocalService,
 			start, end, orderByComparator);
 	}
 
+	@Override
+	public java.util.List searchImballaggi(java.lang.String codiceImballaggio,
+		boolean andSearch, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _articoliLocalService.searchImballaggi(codiceImballaggio,
+			andSearch, start, end, orderByComparator);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

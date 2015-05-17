@@ -20,7 +20,9 @@
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
-    <%--<liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />--%>
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
 </liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="saveDDT"  />
 <portlet:resourceURL var="printDDT" id="printDDT" />
@@ -140,7 +142,7 @@
     YUI().use('liferay-util-window', function (Y) {
         Y.one('#<portlet:namespace/>destinazioneTxt').on('click', function (event) {
 
-        Liferay.Util.openWindow({
+            Liferay.Util.openWindow({
                 dialog: {
                     centered: true,
                     modal: true,
@@ -171,10 +173,15 @@
 //                alert("PIPPO");  
                 setItem(data);
                 break;
+            case '<portlet:namespace/>packDialog':
+//                alert("PIPPO");
+                setPack(data);
+                break;
         }
     }, ['liferay-util-window']);
 
     var table;
+    var recordSelected;
     YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
 
         var nameEditor = new Y.TextAreaCellEditor({
@@ -195,6 +202,21 @@
                 no: 'No'
             }
         });
+
+        var numberEditor = new Y.TextCellEditor(
+                {
+                    inputFormatter: Y.DataType.String.evaluate,
+                    validator: {
+                        rules: {
+                            value: {
+                                number: true,
+                                required: true
+                            }
+                        }
+                    }
+                }
+        );
+
         var columns = [
 //            {
 //                key: 'select',
@@ -204,10 +226,11 @@
 //                emptyCellValue: '<input type="checkbox"/>'
 //            },
             {
-                allowHTML: true,
+//                allowHTML: true,
                 key: 'codiceArticolo',
                 label: 'Codice',
-                emptyCellValue: '<button class="selectArt"><i class="icon-hdd"></i>Seleziona</button>'
+                width: '30px'
+//                emptyCellValue: '<button class="selectArt"><i class="icon-hdd"></i>Seleziona</button>'
             },
             {
                 key: 'descrizione',
@@ -222,56 +245,67 @@
                 editor: retiCheckbox,
                 key: 'reti',
                 label: 'Reti'
-
             },
             {
-                editor: new Y.TextCellEditor(
-                        {
-                            inputFormatter: Y.DataType.String.evaluate,
-                            validator: {
-                                rules: {
-                                    value: {
-                                        number: true,
-                                        required: true
-                                    }
-                                }
-                            }
-                        }
-                ),
+                editor: numberEditor,
                 key: 'pedane',
                 label: 'Ped'
             },
             {
+                allowHTML: true,
                 key: 'imballo',
-                label: 'Imballo'
+                label: 'Imballo',
+                emptyCellValue: '<button id="selectPack"><i class="icon-hdd"></i>Seleziona</button>'
             },
             {
+                editor: numberEditor,
                 key: 'rtxCl',
                 label: 'RtxCl'
             },
             {
+                editor: numberEditor,
                 key: 'kgRete',
                 label: 'KG Rete'
             },
             {
+                editor: numberEditor,
                 key: 'colli',
                 label: 'Colli'
             },
             {
+                editor: numberEditor,
                 key: 'pesoLordo',
                 label: 'P. Lordo'
             },
             {
+                editor: numberEditor,
                 key: 'tara',
                 label: 'Tara'
             },
             {
+                editor: numberEditor,
                 key: 'taraPedana',
                 label: 'Tara P.'
             },
             {
                 key: 'pesoNetto',
                 label: 'P. Netto'
+            },
+            {
+                key: 'prezzo',
+                label: 'Prezzo'
+            },
+            {
+                key: 'codArtFornitore',
+                label: 'Art. For.'
+            },
+            {
+                key: 'passaporto',
+                label: 'Passaporto'
+            },
+            {
+                key: 'progressivo',
+                label: 'Progr.'
             }
         ];
 
@@ -331,17 +365,76 @@
 //            this.syncUI();
 //        }, '.protocol-select-all', table);
 
-        table.addAttr("selectedRow", { value: null });
-        table.after('dblclick', function (e) { 
-            console.log(e.currentTarget); 
-            this.set('selectedRow', e.currentTarget);
-            console.log(e.currentTarget); 
+        table.addAttr("selectedRow", {value: null});
+        table.delegate('dblclick', function (e) {
+            console.log(e.currentTarget._node.cells[0].innerText);
+            console.log(e.currentTarget);
+            recordSelected = table.getRecord(e.currentTarget);
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: true,
+                    draggable: true,
+                    height: '600px',
+                    width: '1024px'
+                },
+                id: '<portlet:namespace/>itemDialog',
+                title: 'Seleziona Articolo',
+                uri: '<%=itemURL %>'
+            });
+
+        }, 'tr', table);
+
+        table.delegate('click', function (e) {
+            recordSelected = table.getRecord(e.currentTarget);
+        }, 'tr', table);
+        
+        table.delegate('click', function (e) {
+            recordSelected = table.getRecord(e.currentTarget);
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: true,
+                    draggable: true,
+                    height: '600px',
+                    width: '1024px'
+                },
+                id: '<portlet:namespace/>packDialog',
+                title: 'Seleziona Imballaggio',
+                uri: '<%=packingURL %>'
+            });
+        }, '#selectPack', table);
+
+//        table.after('*:pedaneChange', function (e) {
+//            console.log(e.newVal);
+//        });
+//        table.after('*:retiChange', function (e) {
+//            console.log(e.newVal);
+//        });
+
+        table.after('*:rtxclChange', function (e) {
+            calcola();
         });
-        
-        table.after('*:pedaneChange', function (e) { console.log(e.newVal); });
-        table.after('*:retiChange', function (e) { console.log(e.newVal); });
-        
+//        table.after('*:kgReteChange', function (e) {
+//            calcola();
+//        });
+        table.after('*:colliChange', function (e) {
+            calcola();
+        });
+        table.after('*:pesoLordoChange', function (e) {
+            calcola();
+        });
+        table.after('*:taraChange', function (e) {
+            calcola();
+        });
+        table.after('*:taraPedanaChange', function (e) {
+            calcola();
+        });
+
         Y.one("#<portlet:namespace />btnAdd").on("click", function () {
+            recordSelected = undefined;
             Liferay.Util.openWindow({
                 dialog: {
                     centered: true,
@@ -383,57 +476,48 @@
 
     function setItem(data) {
         var tmp = data.split('|');
-//        table.modifyRow(0, {codiceArticolo: tmp[0], descrizione: tmp[1]}, {sync: true});
-        table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1]}, {sync: true});
+
+        console.log(recordSelected);
+        if (recordSelected) {
+            recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1]});
+            recordSelected = undefined;
+        } else {
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1]}, {sync: true});
+        }
     }
 
-//    YUI().use("datatable-sort", "datatable-scroll", "datatable-mutable",
-//            function (Y) {
-//                var columns = [
-//                    {
-//                        key: 'name',
-//                        label: 'Nome'
-//                    },
-//                    {
-//                        key: 'address',
-//                        label: 'Indirizzo'
-//                    },
-//                    {
-//                        key: 'city',
-//                        label: 'Città'
-//                    },
-//                    {
-//                        key: 'state',
-//                        label: 'Stato'
-//                    }];
-//                var data = [
-//                    {address: '1236 Some Street', city: 'San Francisco', name: 'John A. Smith', state: 'CA'},
-//                    {address: '3271 Another Ave', city: 'New York', name: 'Joan B. Jones', state: 'NY'},
-//                    {address: '9996 Random Road', city: 'Los Angeles', name: 'Bob C. Uncle', state: 'CA'},
-//                    {address: '1623 Some Street', city: 'San Francisco', name: 'John D. Smith', state: 'CA'},
-//                    {address: '9899 Random Road', city: 'Los Angeles', name: 'Bob F. Uncle', state: 'CA'}
-//                ];
-//                var table = new Y.DataTable(
-//                        {
-//                            columnset: columns,
-//                            recordset: data,
-//                            scrollable: 'y',
-//                            width: 'auto'
-////                            height: '250px',
-////                            sortable: ['name', 'city'],
-//                        }
-//                ).render('#<portlet:namespace />myDataTable');
-//                Y.one("#<portlet:namespace />btnAdd").on("click", function () {
-//                    alert("PIPPO");
-//                    var new_data = {address: 'AAAAAAAAA', city: 'BBBBBBB', name: 'CCCCCCCCC', state: 'IT'};
-//                    //     table.get('data').add(new_data);   // this works fine!
-//                    table.addRow(new_data);
-//                    //      table.syncUI();        // don't need this ... unless silent:true is set
-//                });
-//            }
-//
-//    ); //http://jsfiddle.net/emooney/jHnXD/1/
-
+    function setPack(data) {
+        if (recordSelected) {
+            recordSelected.setAttrs({imballo: data});
+            recordSelected = undefined;
+        }
+    }
+    
+    function calcola(){
+        var record = recordSelected.getAttrs();
+        var colli;
+        if(!record.reti || record.reti === 'no'){
+            console.log("GESTIONE RETI NO");
+            var pesoLordo= record.pesoLordo;
+            colli = record.colli;
+            var tara = record.tara;
+            var taraPedana = record.taraPedana;
+            var pesoNetto = pesoLordo-((tara * colli) + taraPedana);
+            console.log(pesoNetto);
+            recordSelected.setAttrs({pesoNetto: pesoNetto});
+        }else if(record.reti === 'si'){
+            console.log("GESTIONE RETI SI");
+//            recordSelected.setAttrs({tara: 1.25, taraPedana: 0}, {sync: true});
+            var rtxCl = record.rtxCl;
+            var kgRete = record.kgRete;
+            colli = record.colli;
+            
+            var pesoNetto = rtxCl * kgRete * colli;
+            var pesoLordo = pesoNetto + (1.25 * colli);
+            
+            recordSelected.setAttrs({pesoNetto: pesoNetto, pesoLordo: pesoLordo, tara: 1.25, taraPedana: 0});
+        }
+    }
 
     YUI().use('aui-io-request', 'node', function (Y) {
         Y.one('#btnSave').on('click', function () {

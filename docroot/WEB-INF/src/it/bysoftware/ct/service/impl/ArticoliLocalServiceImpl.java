@@ -70,11 +70,17 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
 
     public List searchArticoli(String codiceArticolo, boolean andSearch, int start, int end, OrderByComparator orderByComparator)
             throws SystemException {
-        DynamicQuery dynamicQuery = buildArticoliDynamicQuery(codiceArticolo, andSearch);
+        DynamicQuery dynamicQuery = buildArticoliDynamicQuery(codiceArticolo, andSearch, false);
         return ArticoliLocalServiceUtil.dynamicQuery(dynamicQuery, start, end, orderByComparator);
     }
 
-    protected DynamicQuery buildArticoliDynamicQuery(String codiceArticolo, boolean andSearch) {
+    public List searchImballaggi(String codiceImballaggio, boolean andSearch, int start, int end, OrderByComparator orderByComparator)
+            throws SystemException {
+        DynamicQuery dynamicQuery = buildArticoliDynamicQuery(codiceImballaggio, andSearch, true);
+        return ArticoliLocalServiceUtil.dynamicQuery(dynamicQuery, start, end, orderByComparator);
+    }
+    
+    protected DynamicQuery buildArticoliDynamicQuery(String codiceArticolo, boolean andSearch, boolean imballaggio) {
         Junction junction = null;
         if (andSearch) {
             junction = RestrictionsFactoryUtil.conjunction();
@@ -82,6 +88,16 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
             junction = RestrictionsFactoryUtil.disjunction();
         }
 
+        if(imballaggio){
+            Property property = PropertyFactoryUtil.forName("categoriaMerceologica");
+            String value = "IMB";
+            junction.add(property.eq(value));
+        } else {
+            Property property = PropertyFactoryUtil.forName("categoriaMerceologica");
+            String value = "IMB";
+            junction.add(property.ne(value));
+        }
+        
         if (Validator.isNotNull(codiceArticolo)) {
             Property property = PropertyFactoryUtil.forName("codiceArticolo");
             String value = (new StringBuilder("%")).append(codiceArticolo).append("%").toString();
