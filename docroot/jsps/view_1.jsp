@@ -64,7 +64,7 @@
 
 <script>
     YUI({lang: 'it'}).use(
-            'aui-datepicker',
+            'aui-datepicker-deprecated',
             function (Y) {
                 var datepicker = new Y.DatePicker(
                         {

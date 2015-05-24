@@ -29,7 +29,7 @@
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button id="btnSave" class="btn"><i class="icon-hdd"></i>Salva</button>
+            <button id="btnSave" class="btn" onclick="SalvaDDT()"><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint" class="btn"><i class="icon-print"></i>Stampa</button>
         </div>
     </div>  
@@ -83,7 +83,7 @@
     }
 
 
-    YUI({lang: 'it'}).use('aui-datepicker', 'aui-modal', function (Y) {
+    YUI({lang: 'it'}).use('aui-datepicker-deprecated', 'aui-modal', function (Y) {
         var orderDate = new Y.DatePicker({
             trigger: '#<portlet:namespace />orderDate',
             mask: '%d/%m/%y',
@@ -292,18 +292,22 @@
                 label: 'P. Netto'
             },
             {
+                editor: numberEditor,
                 key: 'prezzo',
                 label: 'Prezzo'
             },
             {
+                editor: nameEditor,
                 key: 'codArtFornitore',
                 label: 'Art. For.'
             },
             {
+                editor: nameEditor,
                 key: 'passaporto',
                 label: 'Passaporto'
             },
             {
+                editor: numberEditor,
                 key: 'progressivo',
                 label: 'Progr.'
             }
@@ -389,7 +393,7 @@
         table.delegate('click', function (e) {
             recordSelected = table.getRecord(e.currentTarget);
         }, 'tr', table);
-        
+
         table.delegate('click', function (e) {
             recordSelected = table.getRecord(e.currentTarget);
             Liferay.Util.openWindow({
@@ -417,9 +421,7 @@
         table.after('*:rtxclChange', function (e) {
             calcola();
         });
-//        table.after('*:kgReteChange', function (e) {
-//            calcola();
-//        });
+
         table.after('*:colliChange', function (e) {
             calcola();
         });
@@ -492,62 +494,97 @@
             recordSelected = undefined;
         }
     }
-    
-    function calcola(){
+
+    function calcola() {
         var record = recordSelected.getAttrs();
         var colli;
-        if(!record.reti || record.reti === 'no'){
+        if (!record.reti || record.reti === 'no') {
             console.log("GESTIONE RETI NO");
-            var pesoLordo= record.pesoLordo;
+            var pesoLordo = record.pesoLordo;
             colli = record.colli;
             var tara = record.tara;
             var taraPedana = record.taraPedana;
-            var pesoNetto = pesoLordo-((tara * colli) + taraPedana);
+            var pesoNetto = pesoLordo - ((tara * colli) + taraPedana);
             console.log(pesoNetto);
             recordSelected.setAttrs({pesoNetto: pesoNetto});
-        }else if(record.reti === 'si'){
+        } else if (record.reti === 'si') {
             console.log("GESTIONE RETI SI");
 //            recordSelected.setAttrs({tara: 1.25, taraPedana: 0}, {sync: true});
             var rtxCl = record.rtxCl;
             var kgRete = record.kgRete;
             colli = record.colli;
-            
+
             var pesoNetto = rtxCl * kgRete * colli;
             var pesoLordo = pesoNetto + (1.25 * colli);
-            
+
             recordSelected.setAttrs({pesoNetto: pesoNetto, pesoLordo: pesoLordo, tara: 1.25, taraPedana: 0});
         }
     }
 
-    YUI().use('aui-io-request', 'node', function (Y) {
-        Y.one('#btnSave').on('click', function () {
-            Y.io.request(
-                    '${saveDDT}',
-                    {
-                        on: {
-                            success: function () {
-                                var data = this.get('responseData');
-                                alert("SUCCESS: " + data);
-                            }
-                        }
-                    }
-            );
-        });
-        Y.one('#btnPrint').on('click', function () {
-            Y.io.request(
-                    '${printDDT}',
-                    {
-                        on: {
-                            success: function () {
-                                var data = this.get('responseData');
-                                alert("SUCCESS: " + data);
-                            }
-                        }
-                    }
-            );
-        });
-    });
+//    YUI().use('aui-io-request-deprecated', 'node', function (Y) {
+//        Y.one('#btnSave').on('click', function () {
+//            Y.io.request(
+//                    '${saveDDT}',
+//                    {
+//                        on: {
+//                            success: function () {
+//                                var data = this.get('responseData');
+//                                alert("SUCCESS: " + data);
+//                            }
+//                        }
+//                    }
+//            );
+//        });
+//        Y.one('#btnPrint').on('click', function () {
+//            Y.io.request(
+//                    '${printDDT}',
+//                    {
+//                        on: {
+//                            success: function () {
+//                                var data = this.get('responseData');
+//                                alert("SUCCESS: " + data);
+//                            }
+//                        }
+//                    }
+//            );
+//        });
+//    });
 
+
+    function SalvaDDT() {
+        var rows = [];
+        var header = table.head.columns[0]; //prendo le chiavi delle colonne
+        for (var i = 0; i < table.data.size(); i++) {
+            var row = '{';
+            for (var j = 0; j < header.length; j++) {
+                if(j !== header.length - 1){
+                    if(table.data.get(header[j].key)[i]){
+                        if(isNaN(table.data.get(header[j].key)[i]))
+                            row += '"'+header[j].key+'":"'+table.data.get(header[j].key)[i]+'",';
+                        else
+                            row += '"'+header[j].key+'":'+table.data.get(header[j].key)[i]+',';
+                    }else{
+                        row += '"'+header[j].key+'":"",';
+                    }
+                }
+                else
+                    if(table.data.get(header[j].key)[i]){
+                        if(isNaN(table.data.get(header[j].key)[i]))
+                            row += '"'+header[j].key+'":"'+table.data.get(header[j].key)[i]+'"';
+                        else
+                            row += '"'+header[j].key+'":'+table.data.get(header[j].key)[i]+'';
+                    }else{
+                        row += '"'+header[j].key+'":""';
+                    }
+            }
+            row +='}';
+            console.log(row);
+            rows.push(JSON.parse(row));
+        }
+        
+        console.log(rows)
+        
+    }
 
 </script>
 
