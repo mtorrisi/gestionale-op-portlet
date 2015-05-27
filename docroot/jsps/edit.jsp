@@ -58,20 +58,75 @@
         </aui:column>
     </aui:layout>
 </aui:fieldset>
-<aui:field-wrapper >
-    <div class="btn-toolbar">
-        <div class="btn-group">
-            <aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi</aui:a>
-            <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
-            </div>
-        </div>  
-        <div class="yui3-skin-sam">
-        <aui:fieldset id="myDataTable" />
-    </div>
-</aui:field-wrapper>
 
+<div id="myTab">
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-1">Corpo Documento</a></li>
+        <li><a href="#tab-2">Fine Corpo</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tab-1" class="tab-pane">
+            <aui:field-wrapper >
+                <div class="btn-toolbar">
+                    <div class="btn-group">
+                        <aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi</aui:a>
+                        <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
+                        </div>
+                    </div>  
+                    <div class="yui3-skin-sam">
+                    <aui:fieldset id="myDataTable" />
+                </div>
+            </aui:field-wrapper>
+        </div>
+        <div id="tab-2">
+            <aui:input type="text" name="vettore1"      label="Vettore 1:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
+            <aui:input type="text" name="vettore2"      label="Vettore 2:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
+            <aui:input type="text" name="autista"       label="Autista:             " cssClass="input-xlarge"  inlineLabel="left" inlineField="true" value="" />
+            <aui:input type="text" name="telefono"      label="Telefono:            " cssClass="input-large" inlineLabel="left" inlineField="true" value="" /> <br/>
+            <aui:input type="text" name="codVettore"    label="Trasporto a cura:    " disabled="true" cssClass="input-small" inlineLabel="left" inlineField="true" value=""/>
+            <aui:input type="text" name="descrVettore"  label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
+            <aui:input type="text" name="codAspetto"    label="Aspetto Esteriore:   " disabled="true" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+            <aui:input type="text" name="descrAspetto"  label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
+            <aui:input type="text" name="codCausale"    label="Causale Trasporto:   " disabled="true" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+            <aui:input type="text" name="descrCausale"  label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
+            <aui:input type="text" name="codPorto"      label="Porto:               " disabled="true"  cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+            <aui:input type="text" name="descrPorto"    label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
+            <aui:input type="text" name="origine"       label="Origine:               " cssClass="input-xxlarge" inlineLabel="left" inlineField="true" value=""  /><br/>
+            <aui:input inlineLabel="left" inlineField="true" label="Rigo descrittivo: "  name="rigoDescrittivo" type="textarea" cssClass="input-xxlarge"></aui:input>
+            <aui:layout> 
+                <aui:column columnWidth="30" first="true">
+                    <aui:input type="text" name="origine"       label="Costo Trasporto: " cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+                    <aui:input type="text" name="targaMotrice"  label="Targa Motrice: " cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+                </aui:column>
+                <aui:column columnWidth="5"/>
+                <aui:column columnWidth="30" >
+                    <aui:input type="text" name="pedaneEuro"       label="N°  pedane Euro:" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+                    <aui:input type="text" name="targaRimorichio"  label="Targa Rimorchio: " cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+                </aui:column>
+                <aui:column columnWidth="5"/>
+                <aui:column columnWidth="30" last="true">
+                    <aui:input type="text" name="pedaneEuro" label="N°  pedane normali:" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
+                </aui:column>
+            </aui:layout>
+        </div>
+    </div>
+
+</div>
 
 <script type="text/javascript">
+
+    YUI().use(
+            'aui-tabview',
+            function (Y) {
+                new Y.TabView(
+                        {
+                            srcNode: '#myTab'
+                        }
+                ).render();
+            }
+    );
 
     var indirizzo;
 
@@ -425,9 +480,9 @@
         table.after('*:colliChange', function (e) {
             calcola();
         });
-        table.after('*:pesoLordoChange', function (e) {
-            calcola();
-        });
+//        table.after('*:pesoLordoChange', function (e) {
+//            calcola();
+//        });
         table.after('*:taraChange', function (e) {
             calcola();
         });
@@ -497,14 +552,16 @@
 
     function calcola() {
         var record = recordSelected.getAttrs();
-        var colli;
+        var colli = colli = record.colli;
+        var pesoLordo;
+        var tara = record.tara;
+        var taraPedana = record.taraPedana;
+        var pedane = record.pedane;
+        var pesoNetto;
         if (!record.reti || record.reti === 'no') {
             console.log("GESTIONE RETI NO");
-            var pesoLordo = record.pesoLordo;
-            colli = record.colli;
-            var tara = record.tara;
-            var taraPedana = record.taraPedana;
-            var pesoNetto = pesoLordo - ((tara * colli) + taraPedana);
+            pesoLordo = record.pesoLordo;
+            pesoNetto = pesoLordo - ((tara * colli) - (taraPedana * pedane));
             console.log(pesoNetto);
             recordSelected.setAttrs({pesoNetto: pesoNetto});
         } else if (record.reti === 'si') {
@@ -512,28 +569,30 @@
 //            recordSelected.setAttrs({tara: 1.25, taraPedana: 0}, {sync: true});
             var rtxCl = record.rtxCl;
             var kgRete = record.kgRete;
-            colli = record.colli;
-
-            var pesoNetto = rtxCl * kgRete * colli;
-            var pesoLordo = pesoNetto + (1.25 * colli);
-
-            recordSelected.setAttrs({pesoNetto: pesoNetto, pesoLordo: pesoLordo, tara: 1.25, taraPedana: 0});
+//            var tara = record.tara;
+//            var taraPedana = record.taraPedana;
+            pesoNetto = rtxCl * kgRete * colli;
+            pesoLordo = pesoNetto + (tara * colli) + (taraPedana * pedane);
+            if (!isNaN(pesoLordo))
+                recordSelected.setAttrs({pesoNetto: pesoNetto, pesoLordo: pesoLordo});
         }
     }
 
-//    YUI().use('aui-io-request-deprecated', 'node', function (Y) {
+    function sendData(data) { //loadURL + "&" + portletNamespace + "file=" + file + ""
+//        console.log('${saveDDT}' + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)));
+        YUI().use('aui-io-request', 'node', function (Y) {
 //        Y.one('#btnSave').on('click', function () {
-//            Y.io.request(
-//                    '${saveDDT}',
-//                    {
-//                        on: {
-//                            success: function () {
-//                                var data = this.get('responseData');
-//                                alert("SUCCESS: " + data);
-//                            }
-//                        }
-//                    }
-//            );
+            Y.io.request(
+                    '${saveDDT}' + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
+                    {
+                        on: {
+                            success: function () {
+                                var data = this.get('responseData');
+                                alert("SUCCESS: " + data);
+                            }
+                        }
+                    }
+            );
 //        });
 //        Y.one('#btnPrint').on('click', function () {
 //            Y.io.request(
@@ -548,8 +607,8 @@
 //                    }
 //            );
 //        });
-//    });
-
+        });
+    }
 
     function SalvaDDT() {
         var rows = [];
@@ -557,33 +616,33 @@
         for (var i = 0; i < table.data.size(); i++) {
             var row = '{';
             for (var j = 0; j < header.length; j++) {
-                if(j !== header.length - 1){
-                    if(table.data.get(header[j].key)[i]){
-                        if(isNaN(table.data.get(header[j].key)[i]))
-                            row += '"'+header[j].key+'":"'+table.data.get(header[j].key)[i]+'",';
+                if (j !== header.length - 1) {
+                    if (table.data.get(header[j].key)[i]) {
+                        if (isNaN(table.data.get(header[j].key)[i]))
+                            row += '"' + header[j].key + '":"' + table.data.get(header[j].key)[i] + '",';
                         else
-                            row += '"'+header[j].key+'":'+table.data.get(header[j].key)[i]+',';
-                    }else{
-                        row += '"'+header[j].key+'":"",';
+                            row += '"' + header[j].key + '":' + table.data.get(header[j].key)[i] + ',';
+                    } else {
+                        row += '"' + header[j].key + '":"",';
                     }
                 }
                 else
-                    if(table.data.get(header[j].key)[i]){
-                        if(isNaN(table.data.get(header[j].key)[i]))
-                            row += '"'+header[j].key+'":"'+table.data.get(header[j].key)[i]+'"';
-                        else
-                            row += '"'+header[j].key+'":'+table.data.get(header[j].key)[i]+'';
-                    }else{
-                        row += '"'+header[j].key+'":""';
-                    }
+                if (table.data.get(header[j].key)[i]) {
+                    if (isNaN(table.data.get(header[j].key)[i]))
+                        row += '"' + header[j].key + '":"' + table.data.get(header[j].key)[i] + '"';
+                    else
+                        row += '"' + header[j].key + '":' + table.data.get(header[j].key)[i] + '';
+                } else {
+                    row += '"' + header[j].key + '":""';
+                }
             }
-            row +='}';
-            console.log(row);
+            row += '}';
+            //console.log(row);
             rows.push(JSON.parse(row));
         }
-        
-        console.log(rows)
-        
+
+        console.log(rows);
+        sendData(rows);
     }
 
 </script>

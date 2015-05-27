@@ -10,9 +10,12 @@ package it.its.ct.gestionaleOP;
  * @author mario
  */
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.ParamUtil;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -100,7 +103,7 @@ public class DDTPortlet extends MVCPortlet {
 //        System.out.println("#############AJAX CALL####################");
 
         String resourceID = resourceRequest.getResourceID();
-        
+
         resourceResponse.setContentType("text/html");
         PrintWriter writer = resourceResponse.getWriter();
 
@@ -108,7 +111,8 @@ public class DDTPortlet extends MVCPortlet {
 
         writer.flush();
         writer.close();
-        
+        String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
+        _log.info("DATA: " + string);
 //        super.serveResource(resourceRequest, resourceResponse);
     }
 }
