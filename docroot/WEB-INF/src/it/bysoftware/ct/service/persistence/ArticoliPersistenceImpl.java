@@ -1445,6 +1445,7 @@ public class ArticoliPersistenceImpl extends BasePersistenceImpl<Articoli>
 		articoliImpl.setDescrizione(articoli.getDescrizione());
 		articoliImpl.setDescrizioneDocumento(articoli.getDescrizioneDocumento());
 		articoliImpl.setDescrizioneFiscale(articoli.getDescrizioneFiscale());
+		articoliImpl.setTara(articoli.getTara());
 
 		return articoliImpl;
 	}
@@ -1769,7 +1770,7 @@ public class ArticoliPersistenceImpl extends BasePersistenceImpl<Articoli>
 	private static Log _log = LogFactoryUtil.getLog(ArticoliPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"codiceArticolo", "categoriaMerceologica", "descrizione",
-				"descrizioneDocumento", "descrizioneFiscale"
+				"descrizioneDocumento", "descrizioneFiscale", "tara"
 			});
 	private static Articoli _nullArticoli = new ArticoliImpl() {
 			@Override

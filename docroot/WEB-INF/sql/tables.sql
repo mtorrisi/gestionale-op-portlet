@@ -3,7 +3,8 @@ create table Articoli (
 	RanCatmer VARCHAR(75) null,
 	RanDescri VARCHAR(75) null,
 	RanDesdoc VARCHAR(75) null,
-	RanDesfis VARCHAR(75) null
+	RanDesfis VARCHAR(75) null,
+	RanLibDbl1 DOUBLE
 );
 
 create table DestinatariDiversi (

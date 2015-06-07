@@ -63,9 +63,10 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			{ "RanCatmer", Types.VARCHAR },
 			{ "RanDescri", Types.VARCHAR },
 			{ "RanDesdoc", Types.VARCHAR },
-			{ "RanDesfis", Types.VARCHAR }
+			{ "RanDesfis", Types.VARCHAR },
+			{ "RanLibDbl1", Types.DOUBLE }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Articoli (RanCodart VARCHAR(75) not null primary key,RanCatmer VARCHAR(75) null,RanDescri VARCHAR(75) null,RanDesdoc VARCHAR(75) null,RanDesfis VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table Articoli (RanCodart VARCHAR(75) not null primary key,RanCatmer VARCHAR(75) null,RanDescri VARCHAR(75) null,RanDesdoc VARCHAR(75) null,RanDesfis VARCHAR(75) null,RanLibDbl1 DOUBLE)";
 	public static final String TABLE_SQL_DROP = "drop table Articoli";
 	public static final String ORDER_BY_JPQL = " ORDER BY articoli.codiceArticolo ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Articoli.RanCodart ASC";
@@ -102,6 +103,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		model.setDescrizione(soapModel.getDescrizione());
 		model.setDescrizioneDocumento(soapModel.getDescrizioneDocumento());
 		model.setDescrizioneFiscale(soapModel.getDescrizioneFiscale());
+		model.setTara(soapModel.getTara());
 
 		return model;
 	}
@@ -171,6 +173,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		attributes.put("descrizione", getDescrizione());
 		attributes.put("descrizioneDocumento", getDescrizioneDocumento());
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
+		attributes.put("tara", getTara());
 
 		return attributes;
 	}
@@ -207,6 +210,12 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 		if (descrizioneFiscale != null) {
 			setDescrizioneFiscale(descrizioneFiscale);
+		}
+
+		Double tara = (Double)attributes.get("tara");
+
+		if (tara != null) {
+			setTara(tara);
 		}
 	}
 
@@ -300,6 +309,17 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		_descrizioneFiscale = descrizioneFiscale;
 	}
 
+	@JSON
+	@Override
+	public double getTara() {
+		return _tara;
+	}
+
+	@Override
+	public void setTara(double tara) {
+		_tara = tara;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -323,6 +343,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		articoliImpl.setDescrizione(getDescrizione());
 		articoliImpl.setDescrizioneDocumento(getDescrizioneDocumento());
 		articoliImpl.setDescrizioneFiscale(getDescrizioneFiscale());
+		articoliImpl.setTara(getTara());
 
 		articoliImpl.resetOriginalValues();
 
@@ -418,12 +439,14 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			articoliCacheModel.descrizioneFiscale = null;
 		}
 
+		articoliCacheModel.tara = getTara();
+
 		return articoliCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{codiceArticolo=");
 		sb.append(getCodiceArticolo());
@@ -435,6 +458,8 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		sb.append(getDescrizioneDocumento());
 		sb.append(", descrizioneFiscale=");
 		sb.append(getDescrizioneFiscale());
+		sb.append(", tara=");
+		sb.append(getTara());
 		sb.append("}");
 
 		return sb.toString();
@@ -442,7 +467,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Articoli");
@@ -468,6 +493,10 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			"<column><column-name>descrizioneFiscale</column-name><column-value><![CDATA[");
 		sb.append(getDescrizioneFiscale());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tara</column-name><column-value><![CDATA[");
+		sb.append(getTara());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -484,6 +513,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 	private String _descrizione;
 	private String _descrizioneDocumento;
 	private String _descrizioneFiscale;
+	private double _tara;
 	private long _columnBitmask;
 	private Articoli _escapedModel;
 }

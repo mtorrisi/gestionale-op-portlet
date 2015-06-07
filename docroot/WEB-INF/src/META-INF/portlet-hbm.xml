@@ -36,6 +36,7 @@
 		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDescri" />
 		<property name="descrizioneDocumento" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDesdoc" />
 		<property name="descrizioneFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDesfis" />
+		<property name="tara" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="RanLibDbl1" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" table="DestinatariDiversi">
 		<cache usage="read-write" />

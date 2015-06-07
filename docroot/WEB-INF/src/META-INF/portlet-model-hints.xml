@@ -26,6 +26,7 @@
 		<field name="descrizione" type="String" />
 		<field name="descrizioneDocumento" type="String" />
 		<field name="descrizioneFiscale" type="String" />
+		<field name="tara" type="double" />
 	</model>
 	<model name="it.bysoftware.ct.model.DestinatariDiversi">
 		<field name="codiceAnagrafica" type="String" />

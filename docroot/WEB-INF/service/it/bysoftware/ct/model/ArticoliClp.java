@@ -77,6 +77,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		attributes.put("descrizione", getDescrizione());
 		attributes.put("descrizioneDocumento", getDescrizioneDocumento());
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
+		attributes.put("tara", getTara());
 
 		return attributes;
 	}
@@ -113,6 +114,12 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 
 		if (descrizioneFiscale != null) {
 			setDescrizioneFiscale(descrizioneFiscale);
+		}
+
+		Double tara = (Double)attributes.get("tara");
+
+		if (tara != null) {
+			setTara(tara);
 		}
 	}
 
@@ -235,6 +242,29 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		}
 	}
 
+	@Override
+	public double getTara() {
+		return _tara;
+	}
+
+	@Override
+	public void setTara(double tara) {
+		_tara = tara;
+
+		if (_articoliRemoteModel != null) {
+			try {
+				Class<?> clazz = _articoliRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setTara", double.class);
+
+				method.invoke(_articoliRemoteModel, tara);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getArticoliRemoteModel() {
 		return _articoliRemoteModel;
 	}
@@ -309,6 +339,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		clone.setDescrizione(getDescrizione());
 		clone.setDescrizioneDocumento(getDescrizioneDocumento());
 		clone.setDescrizioneFiscale(getDescrizioneFiscale());
+		clone.setTara(getTara());
 
 		return clone;
 	}
@@ -353,7 +384,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{codiceArticolo=");
 		sb.append(getCodiceArticolo());
@@ -365,6 +396,8 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		sb.append(getDescrizioneDocumento());
 		sb.append(", descrizioneFiscale=");
 		sb.append(getDescrizioneFiscale());
+		sb.append(", tara=");
+		sb.append(getTara());
 		sb.append("}");
 
 		return sb.toString();
@@ -372,7 +405,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(19);
+		StringBundler sb = new StringBundler(22);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Articoli");
@@ -398,6 +431,10 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 			"<column><column-name>descrizioneFiscale</column-name><column-value><![CDATA[");
 		sb.append(getDescrizioneFiscale());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tara</column-name><column-value><![CDATA[");
+		sb.append(getTara());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -409,6 +446,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 	private String _descrizione;
 	private String _descrizioneDocumento;
 	private String _descrizioneFiscale;
+	private double _tara;
 	private BaseModel<?> _articoliRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }

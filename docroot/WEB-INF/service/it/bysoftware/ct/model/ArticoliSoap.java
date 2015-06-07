@@ -35,6 +35,7 @@ public class ArticoliSoap implements Serializable {
 		soapModel.setDescrizione(model.getDescrizione());
 		soapModel.setDescrizioneDocumento(model.getDescrizioneDocumento());
 		soapModel.setDescrizioneFiscale(model.getDescrizioneFiscale());
+		soapModel.setTara(model.getTara());
 
 		return soapModel;
 	}
@@ -127,9 +128,18 @@ public class ArticoliSoap implements Serializable {
 		_descrizioneFiscale = descrizioneFiscale;
 	}
 
+	public double getTara() {
+		return _tara;
+	}
+
+	public void setTara(double tara) {
+		_tara = tara;
+	}
+
 	private String _codiceArticolo;
 	private String _categoriaMerceologica;
 	private String _descrizione;
 	private String _descrizioneDocumento;
 	private String _descrizioneFiscale;
+	private double _tara;
 }

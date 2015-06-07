@@ -35,7 +35,7 @@ import java.io.ObjectOutput;
 public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(11);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("{codiceArticolo=");
 		sb.append(codiceArticolo);
@@ -47,6 +47,8 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 		sb.append(descrizioneDocumento);
 		sb.append(", descrizioneFiscale=");
 		sb.append(descrizioneFiscale);
+		sb.append(", tara=");
+		sb.append(tara);
 		sb.append("}");
 
 		return sb.toString();
@@ -91,6 +93,8 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 			articoliImpl.setDescrizioneFiscale(descrizioneFiscale);
 		}
 
+		articoliImpl.setTara(tara);
+
 		articoliImpl.resetOriginalValues();
 
 		return articoliImpl;
@@ -103,6 +107,7 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 		descrizione = objectInput.readUTF();
 		descrizioneDocumento = objectInput.readUTF();
 		descrizioneFiscale = objectInput.readUTF();
+		tara = objectInput.readDouble();
 	}
 
 	@Override
@@ -142,6 +147,8 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 		else {
 			objectOutput.writeUTF(descrizioneFiscale);
 		}
+
+		objectOutput.writeDouble(tara);
 	}
 
 	public String codiceArticolo;
@@ -149,4 +156,5 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 	public String descrizione;
 	public String descrizioneDocumento;
 	public String descrizioneFiscale;
+	public double tara;
 }

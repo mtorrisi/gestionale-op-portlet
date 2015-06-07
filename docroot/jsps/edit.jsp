@@ -138,7 +138,7 @@
     }
 
 
-    YUI({lang: 'it'}).use('aui-datepicker-deprecated', 'aui-modal', function (Y) {
+    YUI({lang: 'it'}).use('aui-datepicker', 'aui-modal', function (Y) {
         var orderDate = new Y.DatePicker({
             trigger: '#<portlet:namespace />orderDate',
             mask: '%d/%m/%y',
@@ -497,9 +497,9 @@
                     centered: true,
                     modal: true,
                     resizable: true,
-                    draggable: true,
-                    height: '600px',
-                    width: '1024px'
+                    draggable: true//,
+//                    height: '600px',
+//                    width: '1024px'
                 },
                 id: '<portlet:namespace/>itemDialog',
                 title: 'Seleziona Articolo',
@@ -507,7 +507,11 @@
             });
         });
 
-        Y.one("#<portlet:namespace />btnRemove").on("click", process);
+        Y.one("#<portlet:namespace />btnRemove").on("click", function () {
+            console.log(recordSelected);
+//            table.removeRow(recordSelected);
+//            recordSelected = undefined;
+        });
 
 
 
@@ -536,10 +540,10 @@
 
         console.log(recordSelected);
         if (recordSelected) {
-            recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1]});
+            recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
             recordSelected = undefined;
         } else {
-            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1]}, {sync: true});
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]}, {sync: true});
         }
     }
 

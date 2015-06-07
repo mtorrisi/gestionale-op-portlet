@@ -132,6 +132,20 @@ public interface ArticoliModel extends BaseModel<Articoli> {
 	 */
 	public void setDescrizioneFiscale(String descrizioneFiscale);
 
+	/**
+	 * Returns the tara of this articoli.
+	 *
+	 * @return the tara of this articoli
+	 */
+	public double getTara();
+
+	/**
+	 * Sets the tara of this articoli.
+	 *
+	 * @param tara the tara of this articoli
+	 */
+	public void setTara(double tara);
+
 	@Override
 	public boolean isNew();
 

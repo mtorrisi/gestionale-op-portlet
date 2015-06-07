@@ -53,6 +53,7 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 		attributes.put("descrizione", getDescrizione());
 		attributes.put("descrizioneDocumento", getDescrizioneDocumento());
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
+		attributes.put("tara", getTara());
 
 		return attributes;
 	}
@@ -89,6 +90,12 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 
 		if (descrizioneFiscale != null) {
 			setDescrizioneFiscale(descrizioneFiscale);
+		}
+
+		Double tara = (Double)attributes.get("tara");
+
+		if (tara != null) {
+			setTara(tara);
 		}
 	}
 
@@ -210,6 +217,26 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 	@Override
 	public void setDescrizioneFiscale(java.lang.String descrizioneFiscale) {
 		_articoli.setDescrizioneFiscale(descrizioneFiscale);
+	}
+
+	/**
+	* Returns the tara of this articoli.
+	*
+	* @return the tara of this articoli
+	*/
+	@Override
+	public double getTara() {
+		return _articoli.getTara();
+	}
+
+	/**
+	* Sets the tara of this articoli.
+	*
+	* @param tara the tara of this articoli
+	*/
+	@Override
+	public void setTara(double tara) {
+		_articoli.setTara(tara);
 	}
 
 	@Override
