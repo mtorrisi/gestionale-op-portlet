@@ -86,4 +86,125 @@
 			</finder-column>
 		</finder>
 	</entity>
+	<entity name='TestataDocumento' table='SSTESORD' local-service='true' remote-service='true'>
+		<column name='anno' db-name='WKAnno' type='int' primary='true'>
+		</column>
+		<column name='numeroOrdine' db-name='WKNOrd' type='int' primary='true'>
+		</column>
+		<column name='codiceSoggetto' db-name='WkCodsog' type='String'>
+		</column>
+		<column name='dataOrdine' db-name='WkDatord' type='String'>
+		</column>
+		<column name='dataConsegna' db-name='WkDatcon' type='String'>
+		</column>
+		<column name='destinazione' db-name='WkDesti2' type='String'>
+		</column>
+		<column name='codiceDestinazione' db-name='WkDesdiv' type='int'>
+		</column>
+		<column name='completo' db-name='WKCompleto' type='String'>
+		</column>
+		<column name='operatore' db-name='WkOperatore' type='String'>
+		</column>
+		<column name='visto' db-name='WKVisto' type='int'>
+		</column>
+		<column name='inviato' db-name='WKInviato' type='int'>
+		</column>
+		<column name='lotto' db-name='WKLotto' type='String'>
+		</column>
+		<column name='tipoDocumeto' db-name='WKTipdoc' type='String'>
+		</column>
+		<column name='vettore' db-name='WkVettore' type='String'>
+		</column>
+		<column name='autista' db-name='WkAutista' type='String'>
+		</column>
+		<column name='telefono' db-name='WkTelefono' type='String'>
+		</column>
+		<column name='centro' db-name='WKCentro' type='String'>
+		</column>
+		<column name='palletCaricati' db-name='EpalCaricati' type='int'>
+		</column>
+		<column name='palletScaricati' db-name='EpalScaricati' type='int'>
+		</column>
+		<column name='codiceVettore' db-name='CodDestiVett1' type='String'>
+		</column>
+		<column name='vettore' db-name='DestiVett1' type='String'>
+		</column>
+		<column name='nota1' db-name='Nota1' type='String'>
+		</column>
+		<column name='nota2' db-name='Nota2' type='String'>
+		</column>
+		<column name='rigoDescrittivo' db-name='Rigodescrittivo' type='String'>
+		</column>
+		<column name='vettore2' db-name='WkVettore2' type='String'>
+		</column>
+		<column name='curaTrasoirto' db-name='TraspCura' type='String'>
+		</column>
+		<column name='aspettoEsteriore' db-name='AspEst' type='String'>
+		</column>
+		<column name='causaleTrasporto' db-name='CauTrasp' type='String'>
+		</column>
+		<column name='porto' db-name='porto' type='String'>
+		</column>
+		<column name='origine' db-name='Origine' type='String'>
+		</column>
+		<column name='numeroPedaneEuro' db-name='NpedEpal' type='int'>
+		</column>
+		<column name='numeroPedaneNormali' db-name='NpedNormali' type='int'>
+		</column>
+		<column name='costoTrasporto' db-name='CostoTrasp' type='double'>
+		</column>
+		<column name='totalePedaneOrdine' db-name='TotPedOrd' type='int'>
+		</column>
+		<column name='targaCamion' db-name='TargaCamion' type='String'>
+		</column>
+		<column name='targaRimorchio' db-name='TargaRimorchio' type='String'>
+		</column>
+                <column name="righeDocumento" type="Collection" entity="RigoDocumento" mapping-table="Testata_Righe" />
+	</entity>
+	<entity name='RigoDocumento' table='SSRIGORD' local-service='true' remote-service='true'>
+		<column name='anno' db-name='WKAnno' type='int' primary='true'>
+		</column>
+		<column name='numeroOrdine' db-name='WkNOrd' type='int' primary='true'>
+		</column>
+		<column name='rigoOrdin' db-name='WkRigord' type='int'>
+		</column>
+		<column name='descrizioneVariante' db-name='WkDesvar' type='String'>
+		</column>
+		<column name='codiceArticolo' db-name='WkCodart' type='String'>
+		</column>
+		<column name='descrizione' db-name='WkDescri' type='String'>
+		</column>
+		<column name='unitaMisura' db-name='WkUnimis' type='String'>
+		</column>
+		<column name='colli' db-name='WkColli' type='int'>
+		</column>
+		<column name='pesoLordo' db-name='WkPeslor' type='double'>
+		</column>
+		<column name='tara' db-name='WkTara' type='double'>
+		</column>
+		<column name='pesoNetto' db-name='WkPesnet' type='double'>
+		</column>
+		<column name='prezzo' db-name='WkPrezzo' type='double'>
+		</column>
+		<column name='pedane' db-name='WkPedane' type='double'>
+		</column>
+		<column name='note' db-name='WkNote' type='String'>
+		</column>
+		<column name='totalePesata' db-name='WkTotpes' type='double'>
+		</column>
+		<column name='imballo' db-name='WKImballo' type='String'>
+		</column>
+		<column name='gestioneReti' db-name='WkGesRetine' type='boolean'>
+		</column>
+		<column name='RtxCl' db-name='WkRtxCl' type='double'>
+		</column>
+		<column name='kgRete' db-name='WkKgRetine' type='double'>
+		</column>
+		<column name='lotto' db-name='WkLotto' type='String'>
+		</column>
+		<column name='passaporto' db-name='CodPassaportoAlfa' type='String'>
+		</column>
+		<column name='progressivo' db-name='CodPassaportoNum' type='int'>
+		</column>
+	</entity>
 </service-builder>

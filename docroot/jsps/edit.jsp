@@ -49,10 +49,10 @@
             <aui:input type="text" name="Tot. Pesate"  label="Tot. Pesate"     inlineField="true" cssClass="input-small" /--%>
         </aui:column>
         <aui:column columnWidth="20" cssClass="test" last="true" >
-            <aui:field-wrapper label="Ordine Finito"  >
+            <%--aui:field-wrapper label="Ordine Finito"  >
                 <aui:input type="radio" name="completoSi" label="Si" inlineLabel="true" checked="true" inlineField="true"/>
                 <aui:input type="radio" name="completoNo" label="No" inlineLabel="true" inlineField="true"/>
-            </aui:field-wrapper>
+            </aui:field-wrapper--%>
             <aui:input type="text" name="nDoc"    label="N. Documento" style="width: 90%" />
             <aui:input type="text" name="recProt" label="Rec Protocollo" style="width: 90%"/>
         </aui:column>
@@ -81,7 +81,88 @@
             </aui:field-wrapper>
         </div>
         <div id="tab-2">
-            <aui:input type="text" name="vettore1"      label="Vettore 1:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label for="vettore1" class="control-label">Vettore 1: </label>
+                    <div class="controls">
+                        <input id="vettore1" type="text" class="input-xxlarge" name="vettore1" placeholder="Seleziona vettore..."/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="vettore2" class="control-label">Vettore 2: </label>
+                    <div class="controls">
+                        <input id="vettore2" type="text" class="input-xxlarge" name="vettore2" placeholder="Seleziona vettore..."/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="autista" class="control-label">Autista: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-xxlarge" id="autista">
+                        <label for="telefono">Telefono: </label>
+                        <input type="text" class="input-small" id="telefono">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="trasporto" class="control-label">Trasporto a cura: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-small" id="trasporto" readonly="true" style="display: none;">
+                        <input type="text" class="input-xxlarge" id="telefonoTXT" placeholder="Seleziona...">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="aspetto" class="control-label">Aspetto esteriore: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-small" id="aspetto" readonly="true" style="display: none;">
+                        <input type="text" class="input-xxlarge" id="aspettoTXT" placeholder="Seleziona...">
+                    </div>
+                </div>                
+                <div class="control-group">
+                    <label for="causale" class="control-label">Causale trsaporto: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-small" id="causale" readonly="true" style="display: none;">
+                        <input type="text" class="input-xxlarge" id="causaleTXT" placeholder="Seleziona...">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="porto" class="control-label">Porto: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-small" id="porto" readonly="true" style="display: none;">
+                        <input type="text" class="input-xxlarge" id="portoTXT" placeholder="Seleziona...">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="origine" class="control-label">Origine: </label>
+                    <div class="controls">
+                        <input id="origine" type="text" class="input-xxlarge" name="origine" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="rigo" class="control-label">Rigo descrittivo: </label>
+                    <div class="controls">
+                        <textarea class="form-control input-xxlarge" rows="3" id="rigo"></textarea>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="costo" class="control-label">Costo Trasorto: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-small" id="costo">
+                        <label for="pedane-euro">N° Pedane Euro: </label>
+                        <input type="text" class="input-small" id="pedane-euro"/>
+                        <label for="pedane-normali">N° Pedane Normali: </label>
+                        <input type="text" class="input-small" id="pedane-normali"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="motrice" class="control-label">Targa Motrice: </label>
+                    <div class="controls form-inline">
+                        <input type="text" class="input-small" id="motrice">
+                        <label for="rimorchio">Targa rimorchio: </label>
+                        <input type="text" class="input-small" id="rimorchio"/>
+                    </div>
+                </div>
+            </form>
+
+            <%--aui:input type="text" name="vettore1"      label="Vettore 1:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
             <aui:input type="text" name="vettore2"      label="Vettore 2:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
             <aui:input type="text" name="autista"       label="Autista:             " cssClass="input-xlarge"  inlineLabel="left" inlineField="true" value="" />
             <aui:input type="text" name="telefono"      label="Telefono:            " cssClass="input-large" inlineLabel="left" inlineField="true" value="" /> <br/>
@@ -109,7 +190,7 @@
                 <aui:column columnWidth="30" last="true">
                     <aui:input type="text" name="pedaneEuro" label="N°  pedane normali:" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
                 </aui:column>
-            </aui:layout>
+            </aui:layout--%>
         </div>
     </div>
 
@@ -148,7 +229,7 @@
                     header: [[
                             {
                                 icon: 'icon-trash',
-                                label: 'Clear',
+                                label: 'Cancella',
                                 on: {
                                     click: function () {
                                         orderDate.clearSelection();
@@ -174,7 +255,7 @@
                     header: [[
                             {
                                 icon: 'icon-trash',
-                                label: 'Clear',
+                                label: 'Cancella',
                                 on: {
                                     click: function () {
                                         deliveryDate.clearSelection();
@@ -202,8 +283,8 @@
                     centered: true,
                     modal: true,
                     resizable: false,
-                    height: '600px',
-                    width: '800px'
+//                    height: '600px',
+//                    width: '800px'
                 },
                 id: '<portlet:namespace/>dialog',
                 title: 'Seleziona Destinazione',
@@ -310,7 +391,7 @@
                 allowHTML: true,
                 key: 'imballo',
                 label: 'Imballo',
-                emptyCellValue: '<button id="selectPack"><i class="icon-hdd"></i>Seleziona</button>'
+                emptyCellValue: '<button id="selectPack">Seleziona Imballo</button>'
             },
             {
                 editor: numberEditor,
@@ -435,8 +516,8 @@
                     modal: true,
                     resizable: true,
                     draggable: true,
-                    height: '600px',
-                    width: '1024px'
+//                    height: '600px',
+//                    width: '1024px'
                 },
                 id: '<portlet:namespace/>itemDialog',
                 title: 'Seleziona Articolo',
@@ -457,8 +538,8 @@
                     modal: true,
                     resizable: true,
                     draggable: true,
-                    height: '600px',
-                    width: '1024px'
+//                    height: '600px',
+//                    width: '1024px'
                 },
                 id: '<portlet:namespace/>packDialog',
                 title: 'Seleziona Imballaggio',
@@ -616,35 +697,9 @@
 
     function SalvaDDT() {
         var rows = [];
-        var header = table.head.columns[0]; //prendo le chiavi delle colonne
         for (var i = 0; i < table.data.size(); i++) {
-            var row = '{';
-            for (var j = 0; j < header.length; j++) {
-                if (j !== header.length - 1) {
-                    if (table.data.get(header[j].key)[i]) {
-                        if (isNaN(table.data.get(header[j].key)[i]))
-                            row += '"' + header[j].key + '":"' + table.data.get(header[j].key)[i] + '",';
-                        else
-                            row += '"' + header[j].key + '":' + table.data.get(header[j].key)[i] + ',';
-                    } else {
-                        row += '"' + header[j].key + '":"",';
-                    }
-                }
-                else
-                if (table.data.get(header[j].key)[i]) {
-                    if (isNaN(table.data.get(header[j].key)[i]))
-                        row += '"' + header[j].key + '":"' + table.data.get(header[j].key)[i] + '"';
-                    else
-                        row += '"' + header[j].key + '":' + table.data.get(header[j].key)[i] + '';
-                } else {
-                    row += '"' + header[j].key + '":""';
-                }
-            }
-            row += '}';
-            //console.log(row);
-            rows.push(JSON.parse(row));
+            rows[i] = table.data.item(i).toJSON();
         }
-
         console.log(rows);
         sendData(rows);
     }
