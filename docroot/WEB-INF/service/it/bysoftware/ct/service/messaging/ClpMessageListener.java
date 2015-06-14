@@ -24,6 +24,10 @@ import it.bysoftware.ct.service.ArticoliServiceUtil;
 import it.bysoftware.ct.service.ClpSerializer;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
+import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.RigoDocumentoServiceUtil;
+import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.TestataDocumentoServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -49,6 +53,12 @@ public class ClpMessageListener extends BaseMessageListener {
 			DestinatariDiversiLocalServiceUtil.clearService();
 
 			DestinatariDiversiServiceUtil.clearService();
+			RigoDocumentoLocalServiceUtil.clearService();
+
+			RigoDocumentoServiceUtil.clearService();
+			TestataDocumentoLocalServiceUtil.clearService();
+
+			TestataDocumentoServiceUtil.clearService();
 		}
 	}
 }

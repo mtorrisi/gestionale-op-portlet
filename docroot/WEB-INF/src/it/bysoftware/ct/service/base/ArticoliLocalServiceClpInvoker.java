@@ -100,40 +100,40 @@ public class ArticoliLocalServiceClpInvoker {
 
 		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.Articoli" };
 
-		_methodName46 = "getBeanIdentifier";
+		_methodName58 = "getBeanIdentifier";
 
-		_methodParameterTypes46 = new String[] {  };
+		_methodParameterTypes58 = new String[] {  };
 
-		_methodName47 = "setBeanIdentifier";
+		_methodName59 = "setBeanIdentifier";
 
-		_methodParameterTypes47 = new String[] { "java.lang.String" };
+		_methodParameterTypes59 = new String[] { "java.lang.String" };
 
-		_methodName52 = "getImballaggi";
+		_methodName64 = "getImballaggi";
 
-		_methodParameterTypes52 = new String[] {  };
+		_methodParameterTypes64 = new String[] {  };
 
-		_methodName53 = "countImballaggi";
+		_methodName65 = "countImballaggi";
 
-		_methodParameterTypes53 = new String[] {  };
+		_methodParameterTypes65 = new String[] {  };
 
-		_methodName54 = "getArticoli";
+		_methodName66 = "getArticoli";
 
-		_methodParameterTypes54 = new String[] {  };
+		_methodParameterTypes66 = new String[] {  };
 
-		_methodName55 = "countArticoli";
+		_methodName67 = "countArticoli";
 
-		_methodParameterTypes55 = new String[] {  };
+		_methodParameterTypes67 = new String[] {  };
 
-		_methodName56 = "searchArticoli";
+		_methodName68 = "searchArticoli";
 
-		_methodParameterTypes56 = new String[] {
+		_methodParameterTypes68 = new String[] {
 				"java.lang.String", "boolean", "int", "int",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
 
-		_methodName57 = "searchImballaggi";
+		_methodName69 = "searchImballaggi";
 
-		_methodParameterTypes57 = new String[] {
+		_methodParameterTypes69 = new String[] {
 				"java.lang.String", "boolean", "int", "int",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
@@ -228,40 +228,40 @@ public class ArticoliLocalServiceClpInvoker {
 			return ArticoliLocalServiceUtil.updateArticoli((it.bysoftware.ct.model.Articoli)arguments[0]);
 		}
 
-		if (_methodName46.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes46, parameterTypes)) {
+		if (_methodName58.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes58, parameterTypes)) {
 			return ArticoliLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName47.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes47, parameterTypes)) {
+		if (_methodName59.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes59, parameterTypes)) {
 			ArticoliLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName52.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes52, parameterTypes)) {
+		if (_methodName64.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes64, parameterTypes)) {
 			return ArticoliLocalServiceUtil.getImballaggi();
 		}
 
-		if (_methodName53.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes53, parameterTypes)) {
+		if (_methodName65.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes65, parameterTypes)) {
 			return ArticoliLocalServiceUtil.countImballaggi();
 		}
 
-		if (_methodName54.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes54, parameterTypes)) {
+		if (_methodName66.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes66, parameterTypes)) {
 			return ArticoliLocalServiceUtil.getArticoli();
 		}
 
-		if (_methodName55.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes55, parameterTypes)) {
+		if (_methodName67.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes67, parameterTypes)) {
 			return ArticoliLocalServiceUtil.countArticoli();
 		}
 
-		if (_methodName56.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes56, parameterTypes)) {
+		if (_methodName68.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes68, parameterTypes)) {
 			return ArticoliLocalServiceUtil.searchArticoli((java.lang.String)arguments[0],
 				((Boolean)arguments[1]).booleanValue(),
 				((Integer)arguments[2]).intValue(),
@@ -269,8 +269,8 @@ public class ArticoliLocalServiceClpInvoker {
 				(com.liferay.portal.kernel.util.OrderByComparator)arguments[4]);
 		}
 
-		if (_methodName57.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes57, parameterTypes)) {
+		if (_methodName69.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes69, parameterTypes)) {
 			return ArticoliLocalServiceUtil.searchImballaggi((java.lang.String)arguments[0],
 				((Boolean)arguments[1]).booleanValue(),
 				((Integer)arguments[2]).intValue(),
@@ -313,20 +313,20 @@ public class ArticoliLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName46;
-	private String[] _methodParameterTypes46;
-	private String _methodName47;
-	private String[] _methodParameterTypes47;
-	private String _methodName52;
-	private String[] _methodParameterTypes52;
-	private String _methodName53;
-	private String[] _methodParameterTypes53;
-	private String _methodName54;
-	private String[] _methodParameterTypes54;
-	private String _methodName55;
-	private String[] _methodParameterTypes55;
-	private String _methodName56;
-	private String[] _methodParameterTypes56;
-	private String _methodName57;
-	private String[] _methodParameterTypes57;
+	private String _methodName58;
+	private String[] _methodParameterTypes58;
+	private String _methodName59;
+	private String[] _methodParameterTypes59;
+	private String _methodName64;
+	private String[] _methodParameterTypes64;
+	private String _methodName65;
+	private String[] _methodParameterTypes65;
+	private String _methodName66;
+	private String[] _methodParameterTypes66;
+	private String _methodName67;
+	private String[] _methodParameterTypes67;
+	private String _methodName68;
+	private String[] _methodParameterTypes68;
+	private String _methodName69;
+	private String[] _methodParameterTypes69;
 }

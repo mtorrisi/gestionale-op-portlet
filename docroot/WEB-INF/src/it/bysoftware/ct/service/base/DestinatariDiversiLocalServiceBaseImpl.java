@@ -36,6 +36,8 @@ import it.bysoftware.ct.service.DestinatariDiversiLocalService;
 import it.bysoftware.ct.service.persistence.AnagraficaPersistence;
 import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
+import it.bysoftware.ct.service.persistence.RigoDocumentoPersistence;
+import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
 
 import java.io.Serializable;
 
@@ -453,6 +455,120 @@ public abstract class DestinatariDiversiLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the rigo documento local service.
+	 *
+	 * @return the rigo documento local service
+	 */
+	public it.bysoftware.ct.service.RigoDocumentoLocalService getRigoDocumentoLocalService() {
+		return rigoDocumentoLocalService;
+	}
+
+	/**
+	 * Sets the rigo documento local service.
+	 *
+	 * @param rigoDocumentoLocalService the rigo documento local service
+	 */
+	public void setRigoDocumentoLocalService(
+		it.bysoftware.ct.service.RigoDocumentoLocalService rigoDocumentoLocalService) {
+		this.rigoDocumentoLocalService = rigoDocumentoLocalService;
+	}
+
+	/**
+	 * Returns the rigo documento remote service.
+	 *
+	 * @return the rigo documento remote service
+	 */
+	public it.bysoftware.ct.service.RigoDocumentoService getRigoDocumentoService() {
+		return rigoDocumentoService;
+	}
+
+	/**
+	 * Sets the rigo documento remote service.
+	 *
+	 * @param rigoDocumentoService the rigo documento remote service
+	 */
+	public void setRigoDocumentoService(
+		it.bysoftware.ct.service.RigoDocumentoService rigoDocumentoService) {
+		this.rigoDocumentoService = rigoDocumentoService;
+	}
+
+	/**
+	 * Returns the rigo documento persistence.
+	 *
+	 * @return the rigo documento persistence
+	 */
+	public RigoDocumentoPersistence getRigoDocumentoPersistence() {
+		return rigoDocumentoPersistence;
+	}
+
+	/**
+	 * Sets the rigo documento persistence.
+	 *
+	 * @param rigoDocumentoPersistence the rigo documento persistence
+	 */
+	public void setRigoDocumentoPersistence(
+		RigoDocumentoPersistence rigoDocumentoPersistence) {
+		this.rigoDocumentoPersistence = rigoDocumentoPersistence;
+	}
+
+	/**
+	 * Returns the testata documento local service.
+	 *
+	 * @return the testata documento local service
+	 */
+	public it.bysoftware.ct.service.TestataDocumentoLocalService getTestataDocumentoLocalService() {
+		return testataDocumentoLocalService;
+	}
+
+	/**
+	 * Sets the testata documento local service.
+	 *
+	 * @param testataDocumentoLocalService the testata documento local service
+	 */
+	public void setTestataDocumentoLocalService(
+		it.bysoftware.ct.service.TestataDocumentoLocalService testataDocumentoLocalService) {
+		this.testataDocumentoLocalService = testataDocumentoLocalService;
+	}
+
+	/**
+	 * Returns the testata documento remote service.
+	 *
+	 * @return the testata documento remote service
+	 */
+	public it.bysoftware.ct.service.TestataDocumentoService getTestataDocumentoService() {
+		return testataDocumentoService;
+	}
+
+	/**
+	 * Sets the testata documento remote service.
+	 *
+	 * @param testataDocumentoService the testata documento remote service
+	 */
+	public void setTestataDocumentoService(
+		it.bysoftware.ct.service.TestataDocumentoService testataDocumentoService) {
+		this.testataDocumentoService = testataDocumentoService;
+	}
+
+	/**
+	 * Returns the testata documento persistence.
+	 *
+	 * @return the testata documento persistence
+	 */
+	public TestataDocumentoPersistence getTestataDocumentoPersistence() {
+		return testataDocumentoPersistence;
+	}
+
+	/**
+	 * Sets the testata documento persistence.
+	 *
+	 * @param testataDocumentoPersistence the testata documento persistence
+	 */
+	public void setTestataDocumentoPersistence(
+		TestataDocumentoPersistence testataDocumentoPersistence) {
+		this.testataDocumentoPersistence = testataDocumentoPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -646,6 +762,18 @@ public abstract class DestinatariDiversiLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.DestinatariDiversiService destinatariDiversiService;
 	@BeanReference(type = DestinatariDiversiPersistence.class)
 	protected DestinatariDiversiPersistence destinatariDiversiPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.RigoDocumentoLocalService.class)
+	protected it.bysoftware.ct.service.RigoDocumentoLocalService rigoDocumentoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.RigoDocumentoService.class)
+	protected it.bysoftware.ct.service.RigoDocumentoService rigoDocumentoService;
+	@BeanReference(type = RigoDocumentoPersistence.class)
+	protected RigoDocumentoPersistence rigoDocumentoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.TestataDocumentoLocalService.class)
+	protected it.bysoftware.ct.service.TestataDocumentoLocalService testataDocumentoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.TestataDocumentoService.class)
+	protected it.bysoftware.ct.service.TestataDocumentoService testataDocumentoService;
+	@BeanReference(type = TestataDocumentoPersistence.class)
+	protected TestataDocumentoPersistence testataDocumentoPersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

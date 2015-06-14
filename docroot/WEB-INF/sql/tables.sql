@@ -17,3 +17,78 @@ create table DestinatariDiversi (
 	RavSigsta VARCHAR(75) null,
 	RavTipana VARCHAR(75) null
 );
+
+create table SSRIGORD (
+	WKAnno INTEGER not null,
+	WkNOrd INTEGER not null,
+	WkRigord INTEGER not null,
+	WkDesvar VARCHAR(75) null,
+	WkCodart VARCHAR(75) null,
+	WkDescri VARCHAR(75) null,
+	WkUnimis VARCHAR(75) null,
+	WkColli INTEGER,
+	WkPeslor DOUBLE,
+	WkTara DOUBLE,
+	WkPesnet DOUBLE,
+	WkPrezzo DOUBLE,
+	WkPedane DOUBLE,
+	WkNote VARCHAR(75) null,
+	WkTotpes DOUBLE,
+	WKImballo VARCHAR(75) null,
+	WkGesRetine BOOLEAN,
+	WkRtxCl DOUBLE,
+	WkKgRetine DOUBLE,
+	WkLotto VARCHAR(75) null,
+	CodPassaportoAlfa VARCHAR(75) null,
+	CodPassaportoNum INTEGER,
+	primary key (WKAnno, WkNOrd, WkRigord)
+);
+
+create table SSTESORD (
+	WKAnno INTEGER not null,
+	WKNOrd INTEGER not null,
+	WkCodsog VARCHAR(75) null,
+	WkDatord VARCHAR(75) null,
+	WkDatcon VARCHAR(75) null,
+	WkDesti2 VARCHAR(75) null,
+	WkDesdiv INTEGER,
+	WKCompleto VARCHAR(75) null,
+	WkOperatore VARCHAR(75) null,
+	WKVisto INTEGER,
+	WKInviato INTEGER,
+	WKLotto VARCHAR(75) null,
+	WKTipdoc VARCHAR(75) null,
+	WkVettore VARCHAR(75) null,
+	WkAutista VARCHAR(75) null,
+	WkTelefono VARCHAR(75) null,
+	WKCentro VARCHAR(75) null,
+	EpalCaricati INTEGER,
+	EpalScaricati INTEGER,
+	CodDestiVett1 VARCHAR(75) null,
+	DestiVett1 VARCHAR(75) null,
+	Nota1 VARCHAR(75) null,
+	Nota2 VARCHAR(75) null,
+	Rigodescrittivo VARCHAR(75) null,
+	WkVettore2 VARCHAR(75) null,
+	TraspCura VARCHAR(75) null,
+	AspEst VARCHAR(75) null,
+	CauTrasp VARCHAR(75) null,
+	porto VARCHAR(75) null,
+	Origine VARCHAR(75) null,
+	NpedEpal INTEGER,
+	NpedNormali INTEGER,
+	CostoTrasp DOUBLE,
+	TotPedOrd INTEGER,
+	TargaCamion VARCHAR(75) null,
+	TargaRimorchio VARCHAR(75) null,
+	primary key (WKAnno, WKNOrd)
+);
+
+create table gestionaleOP_Testata_Righe (
+	WKAnno INTEGER not null,
+	WkNOrd INTEGER not null,
+	WkRigord INTEGER not null,
+	WKAnno INTEGER not null,
+	WKNOrd INTEGER not null,
+	primary key (WKAnno, WkNOrd, WkRigord, WKAnno, WKNOrd)
+);

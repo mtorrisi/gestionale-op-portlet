@@ -28,6 +28,8 @@ import com.liferay.portal.model.BaseModel;
 import it.bysoftware.ct.model.AnagraficaClp;
 import it.bysoftware.ct.model.ArticoliClp;
 import it.bysoftware.ct.model.DestinatariDiversiClp;
+import it.bysoftware.ct.model.RigoDocumentoClp;
+import it.bysoftware.ct.model.TestataDocumentoClp;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -116,6 +118,14 @@ public class ClpSerializer {
 			return translateInputDestinatariDiversi(oldModel);
 		}
 
+		if (oldModelClassName.equals(RigoDocumentoClp.class.getName())) {
+			return translateInputRigoDocumento(oldModel);
+		}
+
+		if (oldModelClassName.equals(TestataDocumentoClp.class.getName())) {
+			return translateInputTestataDocumento(oldModel);
+		}
+
 		return oldModel;
 	}
 
@@ -155,6 +165,26 @@ public class ClpSerializer {
 		DestinatariDiversiClp oldClpModel = (DestinatariDiversiClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getDestinatariDiversiRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputRigoDocumento(BaseModel<?> oldModel) {
+		RigoDocumentoClp oldClpModel = (RigoDocumentoClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getRigoDocumentoRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputTestataDocumento(BaseModel<?> oldModel) {
+		TestataDocumentoClp oldClpModel = (TestataDocumentoClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getTestataDocumentoRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -288,6 +318,80 @@ public class ClpSerializer {
 			}
 		}
 
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.RigoDocumentoImpl")) {
+			return translateOutputRigoDocumento(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.TestataDocumentoImpl")) {
+			return translateOutputTestataDocumento(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
 		return oldModel;
 	}
 
@@ -381,6 +485,14 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchDestinatariDiversiException();
 		}
 
+		if (className.equals("it.bysoftware.ct.NoSuchRigoDocumentoException")) {
+			return new it.bysoftware.ct.NoSuchRigoDocumentoException();
+		}
+
+		if (className.equals("it.bysoftware.ct.NoSuchTestataDocumentoException")) {
+			return new it.bysoftware.ct.NoSuchTestataDocumentoException();
+		}
+
 		return throwable;
 	}
 
@@ -411,6 +523,26 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setDestinatariDiversiRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputRigoDocumento(BaseModel<?> oldModel) {
+		RigoDocumentoClp newModel = new RigoDocumentoClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setRigoDocumentoRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputTestataDocumento(BaseModel<?> oldModel) {
+		TestataDocumentoClp newModel = new TestataDocumentoClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setTestataDocumentoRemoteModel(oldModel);
 
 		return newModel;
 	}

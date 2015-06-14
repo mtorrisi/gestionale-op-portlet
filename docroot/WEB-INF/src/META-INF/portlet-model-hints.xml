@@ -38,4 +38,66 @@
 		<field name="stato" type="String" />
 		<field name="tipoAnagrafica" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.RigoDocumento">
+		<field name="anno" type="int" />
+		<field name="numeroOrdine" type="int" />
+		<field name="rigoOrdin" type="int" />
+		<field name="descrizioneVariante" type="String" />
+		<field name="codiceArticolo" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="unitaMisura" type="String" />
+		<field name="colli" type="int" />
+		<field name="pesoLordo" type="double" />
+		<field name="tara" type="double" />
+		<field name="pesoNetto" type="double" />
+		<field name="prezzo" type="double" />
+		<field name="pedane" type="double" />
+		<field name="note" type="String" />
+		<field name="totalePesata" type="double" />
+		<field name="imballo" type="String" />
+		<field name="gestioneReti" type="boolean" />
+		<field name="RtxCl" type="double" />
+		<field name="kgRete" type="double" />
+		<field name="lotto" type="String" />
+		<field name="passaporto" type="String" />
+		<field name="progressivo" type="int" />
+	</model>
+	<model name="it.bysoftware.ct.model.TestataDocumento">
+		<field name="anno" type="int" />
+		<field name="numeroOrdine" type="int" />
+		<field name="codiceSoggetto" type="String" />
+		<field name="dataOrdine" type="String" />
+		<field name="dataConsegna" type="String" />
+		<field name="destinazione" type="String" />
+		<field name="codiceDestinazione" type="int" />
+		<field name="completo" type="String" />
+		<field name="operatore" type="String" />
+		<field name="visto" type="int" />
+		<field name="inviato" type="int" />
+		<field name="lotto" type="String" />
+		<field name="tipoDocumeto" type="String" />
+		<field name="vettore" type="String" />
+		<field name="autista" type="String" />
+		<field name="telefono" type="String" />
+		<field name="centro" type="String" />
+		<field name="palletCaricati" type="int" />
+		<field name="palletScaricati" type="int" />
+		<field name="codiceVettore" type="String" />
+		<field name="destinazioneVettore" type="String" />
+		<field name="nota1" type="String" />
+		<field name="nota2" type="String" />
+		<field name="rigoDescrittivo" type="String" />
+		<field name="vettore2" type="String" />
+		<field name="curaTrasoirto" type="String" />
+		<field name="aspettoEsteriore" type="String" />
+		<field name="causaleTrasporto" type="String" />
+		<field name="porto" type="String" />
+		<field name="origine" type="String" />
+		<field name="numeroPedaneEuro" type="int" />
+		<field name="numeroPedaneNormali" type="int" />
+		<field name="costoTrasporto" type="double" />
+		<field name="totalePedaneOrdine" type="int" />
+		<field name="targaCamion" type="String" />
+		<field name="targaRimorchio" type="String" />
+	</model>
 </model-hints>

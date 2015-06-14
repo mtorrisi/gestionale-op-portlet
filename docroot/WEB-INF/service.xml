@@ -127,7 +127,7 @@
 		</column>
 		<column name='codiceVettore' db-name='CodDestiVett1' type='String'>
 		</column>
-		<column name='vettore' db-name='DestiVett1' type='String'>
+		<column name='destinazioneVettore' db-name='DestiVett1' type='String'>
 		</column>
 		<column name='nota1' db-name='Nota1' type='String'>
 		</column>
@@ -159,14 +159,13 @@
 		</column>
 		<column name='targaRimorchio' db-name='TargaRimorchio' type='String'>
 		</column>
-                <column name="righeDocumento" type="Collection" entity="RigoDocumento" mapping-table="Testata_Righe" />
 	</entity>
 	<entity name='RigoDocumento' table='SSRIGORD' local-service='true' remote-service='true'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
 		<column name='numeroOrdine' db-name='WkNOrd' type='int' primary='true'>
 		</column>
-		<column name='rigoOrdin' db-name='WkRigord' type='int'>
+		<column name='rigoOrdin' db-name='WkRigord' type='int' primary='true'>
 		</column>
 		<column name='descrizioneVariante' db-name='WkDesvar' type='String'>
 		</column>
@@ -206,5 +205,9 @@
 		</column>
 		<column name='progressivo' db-name='CodPassaportoNum' type='int'>
 		</column>
+                <finder name='numeroOrdine' return-type='Collection'>
+			<finder-column name='numeroOrdine'>
+			</finder-column>
+		</finder>
 	</entity>
 </service-builder>
