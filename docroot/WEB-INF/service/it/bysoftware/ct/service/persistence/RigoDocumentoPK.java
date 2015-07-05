@@ -27,15 +27,15 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 	Serializable {
 	public int anno;
 	public int numeroOrdine;
-	public int rigoOrdin;
+	public int rigoOrdine;
 
 	public RigoDocumentoPK() {
 	}
 
-	public RigoDocumentoPK(int anno, int numeroOrdine, int rigoOrdin) {
+	public RigoDocumentoPK(int anno, int numeroOrdine, int rigoOrdine) {
 		this.anno = anno;
 		this.numeroOrdine = numeroOrdine;
-		this.rigoOrdin = rigoOrdin;
+		this.rigoOrdine = rigoOrdine;
 	}
 
 	public int getAnno() {
@@ -54,12 +54,12 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 		this.numeroOrdine = numeroOrdine;
 	}
 
-	public int getRigoOrdin() {
-		return rigoOrdin;
+	public int getRigoOrdine() {
+		return rigoOrdine;
 	}
 
-	public void setRigoOrdin(int rigoOrdin) {
-		this.rigoOrdin = rigoOrdin;
+	public void setRigoOrdine(int rigoOrdine) {
+		this.rigoOrdine = rigoOrdine;
 	}
 
 	@Override
@@ -98,10 +98,10 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 			return value;
 		}
 
-		if (rigoOrdin < pk.rigoOrdin) {
+		if (rigoOrdine < pk.rigoOrdine) {
 			value = -1;
 		}
-		else if (rigoOrdin > pk.rigoOrdin) {
+		else if (rigoOrdine > pk.rigoOrdine) {
 			value = 1;
 		}
 		else {
@@ -128,7 +128,7 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 		RigoDocumentoPK pk = (RigoDocumentoPK)obj;
 
 		if ((anno == pk.anno) && (numeroOrdine == pk.numeroOrdine) &&
-				(rigoOrdin == pk.rigoOrdin)) {
+				(rigoOrdine == pk.rigoOrdine)) {
 			return true;
 		}
 		else {
@@ -139,7 +139,7 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 	@Override
 	public int hashCode() {
 		return (String.valueOf(anno) + String.valueOf(numeroOrdine) +
-		String.valueOf(rigoOrdin)).hashCode();
+		String.valueOf(rigoOrdine)).hashCode();
 	}
 
 	@Override
@@ -160,9 +160,9 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 
 		sb.append(StringPool.COMMA);
 		sb.append(StringPool.SPACE);
-		sb.append("rigoOrdin");
+		sb.append("rigoOrdine");
 		sb.append(StringPool.EQUAL);
-		sb.append(rigoOrdin);
+		sb.append(rigoOrdine);
 
 		sb.append(StringPool.CLOSE_CURLY_BRACE);
 

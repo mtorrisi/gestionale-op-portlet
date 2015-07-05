@@ -41,7 +41,7 @@
 	<model name="it.bysoftware.ct.model.RigoDocumento">
 		<field name="anno" type="int" />
 		<field name="numeroOrdine" type="int" />
-		<field name="rigoOrdin" type="int" />
+		<field name="rigoOrdine" type="int" />
 		<field name="descrizioneVariante" type="String" />
 		<field name="codiceArticolo" type="String" />
 		<field name="descrizione" type="String" />

@@ -58,7 +58,7 @@
 		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.RigoDocumentoPK">
 			<key-property name="anno" column="WKAnno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="numeroOrdine" column="WkNOrd" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-			<key-property name="rigoOrdin" column="WkRigord" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="rigoOrdine" column="WkRigord" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		</composite-id>
 		<property name="descrizioneVariante" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesvar" />
 		<property name="codiceArticolo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkCodart" />

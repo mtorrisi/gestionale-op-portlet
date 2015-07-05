@@ -42,8 +42,8 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sb.append(anno);
 		sb.append(", numeroOrdine=");
 		sb.append(numeroOrdine);
-		sb.append(", rigoOrdin=");
-		sb.append(rigoOrdin);
+		sb.append(", rigoOrdine=");
+		sb.append(rigoOrdine);
 		sb.append(", descrizioneVariante=");
 		sb.append(descrizioneVariante);
 		sb.append(", codiceArticolo=");
@@ -93,7 +93,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 
 		rigoDocumentoImpl.setAnno(anno);
 		rigoDocumentoImpl.setNumeroOrdine(numeroOrdine);
-		rigoDocumentoImpl.setRigoOrdin(rigoOrdin);
+		rigoDocumentoImpl.setRigoOrdine(rigoOrdine);
 
 		if (descrizioneVariante == null) {
 			rigoDocumentoImpl.setDescrizioneVariante(StringPool.BLANK);
@@ -175,7 +175,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		anno = objectInput.readInt();
 		numeroOrdine = objectInput.readInt();
-		rigoOrdin = objectInput.readInt();
+		rigoOrdine = objectInput.readInt();
 		descrizioneVariante = objectInput.readUTF();
 		codiceArticolo = objectInput.readUTF();
 		descrizione = objectInput.readUTF();
@@ -202,7 +202,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		throws IOException {
 		objectOutput.writeInt(anno);
 		objectOutput.writeInt(numeroOrdine);
-		objectOutput.writeInt(rigoOrdin);
+		objectOutput.writeInt(rigoOrdine);
 
 		if (descrizioneVariante == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -278,7 +278,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 
 	public int anno;
 	public int numeroOrdine;
-	public int rigoOrdin;
+	public int rigoOrdine;
 	public String descrizioneVariante;
 	public String codiceArticolo;
 	public String descrizione;

@@ -51,7 +51,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 
 		attributes.put("anno", getAnno());
 		attributes.put("numeroOrdine", getNumeroOrdine());
-		attributes.put("rigoOrdin", getRigoOrdin());
+		attributes.put("rigoOrdine", getRigoOrdine());
 		attributes.put("descrizioneVariante", getDescrizioneVariante());
 		attributes.put("codiceArticolo", getCodiceArticolo());
 		attributes.put("descrizione", getDescrizione());
@@ -89,10 +89,10 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 			setNumeroOrdine(numeroOrdine);
 		}
 
-		Integer rigoOrdin = (Integer)attributes.get("rigoOrdin");
+		Integer rigoOrdine = (Integer)attributes.get("rigoOrdine");
 
-		if (rigoOrdin != null) {
-			setRigoOrdin(rigoOrdin);
+		if (rigoOrdine != null) {
+			setRigoOrdine(rigoOrdine);
 		}
 
 		String descrizioneVariante = (String)attributes.get(
@@ -273,23 +273,23 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	}
 
 	/**
-	* Returns the rigo ordin of this rigo documento.
+	* Returns the rigo ordine of this rigo documento.
 	*
-	* @return the rigo ordin of this rigo documento
+	* @return the rigo ordine of this rigo documento
 	*/
 	@Override
-	public int getRigoOrdin() {
-		return _rigoDocumento.getRigoOrdin();
+	public int getRigoOrdine() {
+		return _rigoDocumento.getRigoOrdine();
 	}
 
 	/**
-	* Sets the rigo ordin of this rigo documento.
+	* Sets the rigo ordine of this rigo documento.
 	*
-	* @param rigoOrdin the rigo ordin of this rigo documento
+	* @param rigoOrdine the rigo ordine of this rigo documento
 	*/
 	@Override
-	public void setRigoOrdin(int rigoOrdin) {
-		_rigoDocumento.setRigoOrdin(rigoOrdin);
+	public void setRigoOrdine(int rigoOrdine) {
+		_rigoDocumento.setRigoOrdine(rigoOrdine);
 	}
 
 	/**

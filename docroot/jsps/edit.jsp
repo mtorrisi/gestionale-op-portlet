@@ -24,13 +24,13 @@
 <liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
 </liferay-portlet:renderURL>
-<portlet:resourceURL var="saveDDT"  id="saveDDT"  />
-<portlet:resourceURL var="printDDT" id="printDDT" />
+<portlet:resourceURL var="saveDDT"  id="save"  />
+<portlet:resourceURL var="printDDT" id="print" />
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button id="btnSave" class="btn" onclick="SalvaDDT()"><i class="icon-hdd"></i>Salva</button>
-            <button id="btnPrint" class="btn"><i class="icon-print"></i>Stampa</button>
+            <button id="btnSave" class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
+            <button id="btnPrint" class="btn" ><i class="icon-print"></i>Stampa</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -38,9 +38,10 @@
 <aui:fieldset label="Compila DDT">
     <aui:layout>
         <aui:column columnWidth="70" cssClass="detail-column detail-column-first">
-            <aui:input type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
-            <aui:input type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
+            <aui:input id="codiceClienteTxt" type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
+            <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=cliente.getIndirizzo()%>" inlineField="true"/>
+            <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none"/>
             <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
             <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Ordine"     inlineField="true" />
             <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Consegna"   inlineField="true" />
@@ -161,36 +162,6 @@
                     </div>
                 </div>
             </form>
-
-            <%--aui:input type="text" name="vettore1"      label="Vettore 1:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
-            <aui:input type="text" name="vettore2"      label="Vettore 2:           " cssClass="input-xxlarge" inlineLabel="left" value="" />
-            <aui:input type="text" name="autista"       label="Autista:             " cssClass="input-xlarge"  inlineLabel="left" inlineField="true" value="" />
-            <aui:input type="text" name="telefono"      label="Telefono:            " cssClass="input-large" inlineLabel="left" inlineField="true" value="" /> <br/>
-            <aui:input type="text" name="codVettore"    label="Trasporto a cura:    " disabled="true" cssClass="input-small" inlineLabel="left" inlineField="true" value=""/>
-            <aui:input type="text" name="descrVettore"  label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
-            <aui:input type="text" name="codAspetto"    label="Aspetto Esteriore:   " disabled="true" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-            <aui:input type="text" name="descrAspetto"  label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
-            <aui:input type="text" name="codCausale"    label="Causale Trasporto:   " disabled="true" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-            <aui:input type="text" name="descrCausale"  label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
-            <aui:input type="text" name="codPorto"      label="Porto:               " disabled="true"  cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-            <aui:input type="text" name="descrPorto"    label="" cssClass="input-xlarge" inlineLabel="left" inlineField="true" value="" /><br/>
-            <aui:input type="text" name="origine"       label="Origine:               " cssClass="input-xxlarge" inlineLabel="left" inlineField="true" value=""  /><br/>
-            <aui:input inlineLabel="left" inlineField="true" label="Rigo descrittivo: "  name="rigoDescrittivo" type="textarea" cssClass="input-xxlarge"></aui:input>
-            <aui:layout> 
-                <aui:column columnWidth="30" first="true">
-                    <aui:input type="text" name="origine"       label="Costo Trasporto: " cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-                    <aui:input type="text" name="targaMotrice"  label="Targa Motrice: " cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-                </aui:column>
-                <aui:column columnWidth="5"/>
-                <aui:column columnWidth="30" >
-                    <aui:input type="text" name="pedaneEuro"       label="N°  pedane Euro:" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-                    <aui:input type="text" name="targaRimorichio"  label="Targa Rimorchio: " cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-                </aui:column>
-                <aui:column columnWidth="5"/>
-                <aui:column columnWidth="30" last="true">
-                    <aui:input type="text" name="pedaneEuro" label="N°  pedane normali:" cssClass="input-small" inlineLabel="left" inlineField="true" value=""  />
-                </aui:column>
-            </aui:layout--%>
         </div>
     </div>
 
@@ -215,14 +186,24 @@
         if (indirizzo) {
             console.log(indirizzo);
             document.getElementById('<portlet:namespace/>destinazioneTxt').value = indirizzo;
+            document.getElementById('<portlet:namespace/>codiceDestinazione').value = "";
         }
     }
 
 
     YUI({lang: 'it'}).use('aui-datepicker', 'aui-modal', function (Y) {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var todayDateInMMDDYYYY = dd + '/' + mm + '/' + yyyy;
+
         var orderDate = new Y.DatePicker({
             trigger: '#<portlet:namespace />orderDate',
-            mask: '%d/%m/%y',
+            calendar: {
+                dates: [todayDateInMMDDYYYY],
+                dateFormat: '%d/%m/%Y'
+            },
             popover: {
                 position: 'top',
                 toolbars: {
@@ -303,7 +284,11 @@
             case '<portlet:namespace/>dialog':
                 if (!indirizzo)
                     indirizzo = document.getElementById('<portlet:namespace/>destinazioneTxt').value;
-                document.getElementById('<portlet:namespace/>destinazioneTxt').value = data;
+                var tmp = data.split('|');
+                var dest = tmp[0];
+                var codice = tmp[1];
+                document.getElementById('<portlet:namespace/>destinazioneTxt').value = dest;
+                document.getElementById('<portlet:namespace/>codiceDestinazione').value = codice;
                 break;
             case '<portlet:namespace/>itemDialog':
 //                alert("PIPPO");  
@@ -664,11 +649,19 @@
     }
 
     function sendData(data) { //loadURL + "&" + portletNamespace + "file=" + file + ""
-//        console.log('${saveDDT}' + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)));
+        //        console.log('${saveDDT}' + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)));
         YUI().use('aui-io-request', 'node', function (Y) {
-//        Y.one('#btnSave').on('click', function () {
+            var codiceCliente = Y.one('#<portlet:namespace />codiceClienteTxt').val();
+            var clienteTxt = Y.one('#<portlet:namespace />clienteTxt').val();
+            var destinazioneTxt = Y.one('#<portlet:namespace />destinazioneTxt').val();
+            var orderDate = Y.one('#<portlet:namespace />orderDate').val();
+            var deliveryDate = Y.one('#<portlet:namespace />deliveryDate').val();
+            var queryString = "&codiceCliente=" + codiceCliente +
+                    "&clienteTxt=" + clienteTxt + "&destinazioneTxt=" + destinazioneTxt +
+                    "&orderDate=" + orderDate + "&=deliveryDate" + deliveryDate;
+            //        Y.one('#btnSave').on('click', function () {
             Y.io.request(
-                    '${saveDDT}' + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
+                    '${saveDDT}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
                     {
                         on: {
                             success: function () {
@@ -703,6 +696,22 @@
         console.log(rows);
         sendData(rows);
     }
+
+    YUI().use('aui-io-request', 'node', function (Y) {
+        Y.one('#btnPrint').on('click', function () {
+            Y.io.request(
+                    '${printDDT}',
+                    {
+                        on: {
+                            success: function () {
+                                var data = this.get('responseData');
+                                alert("SUCCESS: " + data);
+                            }
+                        }
+                    }
+            );
+        });
+    });
 
 </script>
 

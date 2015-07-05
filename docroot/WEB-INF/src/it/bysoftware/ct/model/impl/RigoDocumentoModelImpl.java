@@ -85,7 +85,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		};
 	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd INTEGER not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,primary key (WKAnno, WkNOrd, WkRigord))";
 	public static final String TABLE_SQL_DROP = "drop table SSRIGORD";
-	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdin ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
@@ -101,7 +101,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			true);
 	public static long NUMEROORDINE_COLUMN_BITMASK = 1L;
 	public static long ANNO_COLUMN_BITMASK = 2L;
-	public static long RIGOORDIN_COLUMN_BITMASK = 4L;
+	public static long RIGOORDINE_COLUMN_BITMASK = 4L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -118,7 +118,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		model.setAnno(soapModel.getAnno());
 		model.setNumeroOrdine(soapModel.getNumeroOrdine());
-		model.setRigoOrdin(soapModel.getRigoOrdin());
+		model.setRigoOrdine(soapModel.getRigoOrdine());
 		model.setDescrizioneVariante(soapModel.getDescrizioneVariante());
 		model.setCodiceArticolo(soapModel.getCodiceArticolo());
 		model.setDescrizione(soapModel.getDescrizione());
@@ -170,19 +170,19 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public RigoDocumentoPK getPrimaryKey() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdin);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
 	}
 
 	@Override
 	public void setPrimaryKey(RigoDocumentoPK primaryKey) {
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
-		setRigoOrdin(primaryKey.rigoOrdin);
+		setRigoOrdine(primaryKey.rigoOrdine);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdin);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
 	}
 
 	@Override
@@ -206,7 +206,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		attributes.put("anno", getAnno());
 		attributes.put("numeroOrdine", getNumeroOrdine());
-		attributes.put("rigoOrdin", getRigoOrdin());
+		attributes.put("rigoOrdine", getRigoOrdine());
 		attributes.put("descrizioneVariante", getDescrizioneVariante());
 		attributes.put("codiceArticolo", getCodiceArticolo());
 		attributes.put("descrizione", getDescrizione());
@@ -244,10 +244,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			setNumeroOrdine(numeroOrdine);
 		}
 
-		Integer rigoOrdin = (Integer)attributes.get("rigoOrdin");
+		Integer rigoOrdine = (Integer)attributes.get("rigoOrdine");
 
-		if (rigoOrdin != null) {
-			setRigoOrdin(rigoOrdin);
+		if (rigoOrdine != null) {
+			setRigoOrdine(rigoOrdine);
 		}
 
 		String descrizioneVariante = (String)attributes.get(
@@ -402,13 +402,13 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@JSON
 	@Override
-	public int getRigoOrdin() {
-		return _rigoOrdin;
+	public int getRigoOrdine() {
+		return _rigoOrdine;
 	}
 
 	@Override
-	public void setRigoOrdin(int rigoOrdin) {
-		_rigoOrdin = rigoOrdin;
+	public void setRigoOrdine(int rigoOrdine) {
+		_rigoOrdine = rigoOrdine;
 	}
 
 	@JSON
@@ -685,7 +685,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		rigoDocumentoImpl.setAnno(getAnno());
 		rigoDocumentoImpl.setNumeroOrdine(getNumeroOrdine());
-		rigoDocumentoImpl.setRigoOrdin(getRigoOrdin());
+		rigoDocumentoImpl.setRigoOrdine(getRigoOrdine());
 		rigoDocumentoImpl.setDescrizioneVariante(getDescrizioneVariante());
 		rigoDocumentoImpl.setCodiceArticolo(getCodiceArticolo());
 		rigoDocumentoImpl.setDescrizione(getDescrizione());
@@ -764,7 +764,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		rigoDocumentoCacheModel.numeroOrdine = getNumeroOrdine();
 
-		rigoDocumentoCacheModel.rigoOrdin = getRigoOrdin();
+		rigoDocumentoCacheModel.rigoOrdine = getRigoOrdine();
 
 		rigoDocumentoCacheModel.descrizioneVariante = getDescrizioneVariante();
 
@@ -864,8 +864,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getAnno());
 		sb.append(", numeroOrdine=");
 		sb.append(getNumeroOrdine());
-		sb.append(", rigoOrdin=");
-		sb.append(getRigoOrdin());
+		sb.append(", rigoOrdine=");
+		sb.append(getRigoOrdine());
 		sb.append(", descrizioneVariante=");
 		sb.append(getDescrizioneVariante());
 		sb.append(", codiceArticolo=");
@@ -926,8 +926,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getNumeroOrdine());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>rigoOrdin</column-name><column-value><![CDATA[");
-		sb.append(getRigoOrdin());
+			"<column><column-name>rigoOrdine</column-name><column-value><![CDATA[");
+		sb.append(getRigoOrdine());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>descrizioneVariante</column-name><column-value><![CDATA[");
@@ -1019,7 +1019,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private int _numeroOrdine;
 	private int _originalNumeroOrdine;
 	private boolean _setOriginalNumeroOrdine;
-	private int _rigoOrdin;
+	private int _rigoOrdine;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;
 	private String _descrizione;

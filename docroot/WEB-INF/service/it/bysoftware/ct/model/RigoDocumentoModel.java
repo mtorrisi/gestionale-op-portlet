@@ -88,18 +88,18 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	public void setNumeroOrdine(int numeroOrdine);
 
 	/**
-	 * Returns the rigo ordin of this rigo documento.
+	 * Returns the rigo ordine of this rigo documento.
 	 *
-	 * @return the rigo ordin of this rigo documento
+	 * @return the rigo ordine of this rigo documento
 	 */
-	public int getRigoOrdin();
+	public int getRigoOrdine();
 
 	/**
-	 * Sets the rigo ordin of this rigo documento.
+	 * Sets the rigo ordine of this rigo documento.
 	 *
-	 * @param rigoOrdin the rigo ordin of this rigo documento
+	 * @param rigoOrdine the rigo ordine of this rigo documento
 	 */
-	public void setRigoOrdin(int rigoOrdin);
+	public void setRigoOrdine(int rigoOrdine);
 
 	/**
 	 * Returns the descrizione variante of this rigo documento.

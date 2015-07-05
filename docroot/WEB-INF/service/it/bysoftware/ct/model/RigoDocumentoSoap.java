@@ -34,7 +34,7 @@ public class RigoDocumentoSoap implements Serializable {
 
 		soapModel.setAnno(model.getAnno());
 		soapModel.setNumeroOrdine(model.getNumeroOrdine());
-		soapModel.setRigoOrdin(model.getRigoOrdin());
+		soapModel.setRigoOrdine(model.getRigoOrdine());
 		soapModel.setDescrizioneVariante(model.getDescrizioneVariante());
 		soapModel.setCodiceArticolo(model.getCodiceArticolo());
 		soapModel.setDescrizione(model.getDescrizione());
@@ -99,13 +99,13 @@ public class RigoDocumentoSoap implements Serializable {
 	}
 
 	public RigoDocumentoPK getPrimaryKey() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdin);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
 	}
 
 	public void setPrimaryKey(RigoDocumentoPK pk) {
 		setAnno(pk.anno);
 		setNumeroOrdine(pk.numeroOrdine);
-		setRigoOrdin(pk.rigoOrdin);
+		setRigoOrdine(pk.rigoOrdine);
 	}
 
 	public int getAnno() {
@@ -124,12 +124,12 @@ public class RigoDocumentoSoap implements Serializable {
 		_numeroOrdine = numeroOrdine;
 	}
 
-	public int getRigoOrdin() {
-		return _rigoOrdin;
+	public int getRigoOrdine() {
+		return _rigoOrdine;
 	}
 
-	public void setRigoOrdin(int rigoOrdin) {
-		_rigoOrdin = rigoOrdin;
+	public void setRigoOrdine(int rigoOrdine) {
+		_rigoOrdine = rigoOrdine;
 	}
 
 	public String getDescrizioneVariante() {
@@ -290,7 +290,7 @@ public class RigoDocumentoSoap implements Serializable {
 
 	private int _anno;
 	private int _numeroOrdine;
-	private int _rigoOrdin;
+	private int _rigoOrdine;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;
 	private String _descrizione;

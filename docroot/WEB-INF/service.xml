@@ -165,7 +165,7 @@
 		</column>
 		<column name='numeroOrdine' db-name='WkNOrd' type='int' primary='true'>
 		</column>
-		<column name='rigoOrdin' db-name='WkRigord' type='int' primary='true'>
+		<column name='rigoOrdine' db-name='WkRigord' type='int' primary='true'>
 		</column>
 		<column name='descrizioneVariante' db-name='WkDesvar' type='String'>
 		</column>

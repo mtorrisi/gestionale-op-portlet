@@ -130,7 +130,7 @@
 			<id name="numeroOrdine">
 				<column name="WKNORD" />
 			</id>
-			<id name="rigoOrdin">
+			<id name="rigoOrdine">
 				<column name="WKRIGORD" />
 			</id>
 			<basic name="descrizioneVariante">
