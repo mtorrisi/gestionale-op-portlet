@@ -276,7 +276,7 @@
 			<basic name="vettore2">
 				<column name="WKVETTORE2" />
 			</basic>
-			<basic name="curaTrasoirto">
+			<basic name="curaTrasporto">
 				<column name="TRASPCURA" />
 			</basic>
 			<basic name="aspettoEsteriore">
@@ -312,6 +312,58 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.VettoriModelImpl">
+		<attributes>
+			<id name="codiceVettore">
+				<column name="RAVCODANA" />
+			</id>
+			<basic name="albo">
+				<column name="RAVALBO" />
+			</basic>
+			<basic name="CAP">
+				<column name="RAVCAP" />
+			</basic>
+			<basic name="codiceFiscale">
+				<column name="RAVCODFIS" />
+			</basic>
+			<basic name="codiceRiferimento">
+				<column name="RAVCODRIF" />
+			</basic>
+			<basic name="comune">
+				<column name="RAVCOMUNE" />
+			</basic>
+			<basic name="indirizzo">
+				<column name="RAVINDIRI" />
+			</basic>
+			<basic name="note">
+				<column name="RAVNOTE" />
+			</basic>
+			<basic name="partitaIVA">
+				<column name="RAVPARIVA" />
+			</basic>
+			<basic name="ragioneSociale">
+				<column name="RAVRAGSO1" />
+			</basic>
+			<basic name="ragioneSociale2">
+				<column name="RAVRAGSO2" />
+			</basic>
+			<basic name="provincia">
+				<column name="RAVSIGPRO" />
+			</basic>
+			<basic name="stato">
+				<column name="RAVSIGSTA" />
+			</basic>
+			<basic name="tipoAnagrafica">
+				<column name="RAVTIPANA" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RAVCODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<entity class="it.bysoftware.ct.model.impl.AnagraficaImpl" name="Anagrafica">
 		<table name="AnagraficheClientiFornitori" />
 		<attributes />
@@ -330,6 +382,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.TestataDocumentoImpl" name="TestataDocumento">
 		<table name="SSTESORD" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.VettoriImpl" name="Vettori">
+		<table name="Vettori" />
 		<attributes />
 	</entity>
 </entity-mappings>

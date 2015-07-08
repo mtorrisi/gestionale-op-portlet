@@ -101,7 +101,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		attributes.put("nota2", getNota2());
 		attributes.put("rigoDescrittivo", getRigoDescrittivo());
 		attributes.put("vettore2", getVettore2());
-		attributes.put("curaTrasoirto", getCuraTrasoirto());
+		attributes.put("curaTrasporto", getCuraTrasporto());
 		attributes.put("aspettoEsteriore", getAspettoEsteriore());
 		attributes.put("causaleTrasporto", getCausaleTrasporto());
 		attributes.put("porto", getPorto());
@@ -276,10 +276,10 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 			setVettore2(vettore2);
 		}
 
-		String curaTrasoirto = (String)attributes.get("curaTrasoirto");
+		String curaTrasporto = (String)attributes.get("curaTrasporto");
 
-		if (curaTrasoirto != null) {
-			setCuraTrasoirto(curaTrasoirto);
+		if (curaTrasporto != null) {
+			setCuraTrasporto(curaTrasporto);
 		}
 
 		String aspettoEsteriore = (String)attributes.get("aspettoEsteriore");
@@ -949,21 +949,21 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	}
 
 	@Override
-	public String getCuraTrasoirto() {
-		return _curaTrasoirto;
+	public String getCuraTrasporto() {
+		return _curaTrasporto;
 	}
 
 	@Override
-	public void setCuraTrasoirto(String curaTrasoirto) {
-		_curaTrasoirto = curaTrasoirto;
+	public void setCuraTrasporto(String curaTrasporto) {
+		_curaTrasporto = curaTrasporto;
 
 		if (_testataDocumentoRemoteModel != null) {
 			try {
 				Class<?> clazz = _testataDocumentoRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setCuraTrasoirto", String.class);
+				Method method = clazz.getMethod("setCuraTrasporto", String.class);
 
-				method.invoke(_testataDocumentoRemoteModel, curaTrasoirto);
+				method.invoke(_testataDocumentoRemoteModel, curaTrasporto);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -1304,7 +1304,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		clone.setNota2(getNota2());
 		clone.setRigoDescrittivo(getRigoDescrittivo());
 		clone.setVettore2(getVettore2());
-		clone.setCuraTrasoirto(getCuraTrasoirto());
+		clone.setCuraTrasporto(getCuraTrasporto());
 		clone.setAspettoEsteriore(getAspettoEsteriore());
 		clone.setCausaleTrasporto(getCausaleTrasporto());
 		clone.setPorto(getPorto());
@@ -1413,8 +1413,8 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(getRigoDescrittivo());
 		sb.append(", vettore2=");
 		sb.append(getVettore2());
-		sb.append(", curaTrasoirto=");
-		sb.append(getCuraTrasoirto());
+		sb.append(", curaTrasporto=");
+		sb.append(getCuraTrasporto());
 		sb.append(", aspettoEsteriore=");
 		sb.append(getAspettoEsteriore());
 		sb.append(", causaleTrasporto=");
@@ -1553,8 +1553,8 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(getVettore2());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>curaTrasoirto</column-name><column-value><![CDATA[");
-		sb.append(getCuraTrasoirto());
+			"<column><column-name>curaTrasporto</column-name><column-value><![CDATA[");
+		sb.append(getCuraTrasporto());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>aspettoEsteriore</column-name><column-value><![CDATA[");
@@ -1628,7 +1628,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	private String _nota2;
 	private String _rigoDescrittivo;
 	private String _vettore2;
-	private String _curaTrasoirto;
+	private String _curaTrasporto;
 	private String _aspettoEsteriore;
 	private String _causaleTrasporto;
 	private String _porto;

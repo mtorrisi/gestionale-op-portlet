@@ -353,7 +353,7 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 		testataDocumentoImpl.setNota2(testataDocumento.getNota2());
 		testataDocumentoImpl.setRigoDescrittivo(testataDocumento.getRigoDescrittivo());
 		testataDocumentoImpl.setVettore2(testataDocumento.getVettore2());
-		testataDocumentoImpl.setCuraTrasoirto(testataDocumento.getCuraTrasoirto());
+		testataDocumentoImpl.setCuraTrasporto(testataDocumento.getCuraTrasporto());
 		testataDocumentoImpl.setAspettoEsteriore(testataDocumento.getAspettoEsteriore());
 		testataDocumentoImpl.setCausaleTrasporto(testataDocumento.getCausaleTrasporto());
 		testataDocumentoImpl.setPorto(testataDocumento.getPorto());
@@ -694,7 +694,7 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				"lotto", "tipoDocumeto", "vettore", "autista", "telefono",
 				"centro", "palletCaricati", "palletScaricati", "codiceVettore",
 				"destinazioneVettore", "nota1", "nota2", "rigoDescrittivo",
-				"vettore2", "curaTrasoirto", "aspettoEsteriore",
+				"vettore2", "curaTrasporto", "aspettoEsteriore",
 				"causaleTrasporto", "origine", "numeroPedaneEuro",
 				"numeroPedaneNormali", "costoTrasporto", "totalePedaneOrdine",
 				"targaCamion", "targaRimorchio"

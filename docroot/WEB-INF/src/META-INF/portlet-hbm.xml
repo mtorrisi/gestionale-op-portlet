@@ -7,6 +7,7 @@
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
 	<import class="it.bysoftware.ct.model.RigoDocumento" />
 	<import class="it.bysoftware.ct.model.TestataDocumento" />
+	<import class="it.bysoftware.ct.model.Vettori" />
 	<class name="it.bysoftware.ct.model.impl.AnagraficaImpl" table="AnagraficheClientiFornitori">
 		<cache usage="read-write" />
 		<id name="codiceAnagrafica" column="RacCodana" type="java.lang.String">
@@ -110,7 +111,7 @@
 		<property name="nota2" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Nota2" />
 		<property name="rigoDescrittivo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Rigodescrittivo" />
 		<property name="vettore2" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkVettore2" />
-		<property name="curaTrasoirto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="TraspCura" />
+		<property name="curaTrasporto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="TraspCura" />
 		<property name="aspettoEsteriore" type="com.liferay.portal.dao.orm.hibernate.StringType" column="AspEst" />
 		<property name="causaleTrasporto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CauTrasp" />
 		<property name="porto" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -121,5 +122,25 @@
 		<property name="totalePedaneOrdine" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="TotPedOrd" />
 		<property name="targaCamion" type="com.liferay.portal.dao.orm.hibernate.StringType" column="TargaCamion" />
 		<property name="targaRimorchio" type="com.liferay.portal.dao.orm.hibernate.StringType" column="TargaRimorchio" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.VettoriImpl" table="Vettori">
+		<cache usage="read-write" />
+		<id name="codiceVettore" column="RavCodana" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="albo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavAlbo" />
+		<property name="CAP" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCap" />
+		<property name="codiceFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCodfis" />
+		<property name="codiceRiferimento" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCodrif" />
+		<property name="comune" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavComune" />
+		<property name="indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavIndiri" />
+		<property name="note" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavNote" />
+		<property name="partitaIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavPariva" />
+		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavRagso1" />
+		<property name="ragioneSociale2" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavRagso2" />
+		<property name="provincia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigpro" />
+		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigsta" />
+		<property name="tipoAnagrafica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavTipana" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCodiaz" />
 	</class>
 </hibernate-mapping>

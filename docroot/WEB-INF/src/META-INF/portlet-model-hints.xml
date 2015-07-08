@@ -89,7 +89,7 @@
 		<field name="nota2" type="String" />
 		<field name="rigoDescrittivo" type="String" />
 		<field name="vettore2" type="String" />
-		<field name="curaTrasoirto" type="String" />
+		<field name="curaTrasporto" type="String" />
 		<field name="aspettoEsteriore" type="String" />
 		<field name="causaleTrasporto" type="String" />
 		<field name="porto" type="String" />
@@ -100,5 +100,22 @@
 		<field name="totalePedaneOrdine" type="int" />
 		<field name="targaCamion" type="String" />
 		<field name="targaRimorchio" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.Vettori">
+		<field name="albo" type="String" />
+		<field name="CAP" type="String" />
+		<field name="codiceVettore" type="String" />
+		<field name="codiceFiscale" type="String" />
+		<field name="codiceRiferimento" type="String" />
+		<field name="comune" type="String" />
+		<field name="indirizzo" type="String" />
+		<field name="note" type="String" />
+		<field name="partitaIVA" type="String" />
+		<field name="ragioneSociale" type="String" />
+		<field name="ragioneSociale2" type="String" />
+		<field name="provincia" type="String" />
+		<field name="stato" type="String" />
+		<field name="tipoAnagrafica" type="String" />
+		<field name="codiceAzienda" type="String" />
 	</model>
 </model-hints>

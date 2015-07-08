@@ -152,7 +152,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		model.setNota2(soapModel.getNota2());
 		model.setRigoDescrittivo(soapModel.getRigoDescrittivo());
 		model.setVettore2(soapModel.getVettore2());
-		model.setCuraTrasoirto(soapModel.getCuraTrasoirto());
+		model.setCuraTrasporto(soapModel.getCuraTrasporto());
 		model.setAspettoEsteriore(soapModel.getAspettoEsteriore());
 		model.setCausaleTrasporto(soapModel.getCausaleTrasporto());
 		model.setPorto(soapModel.getPorto());
@@ -255,7 +255,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		attributes.put("nota2", getNota2());
 		attributes.put("rigoDescrittivo", getRigoDescrittivo());
 		attributes.put("vettore2", getVettore2());
-		attributes.put("curaTrasoirto", getCuraTrasoirto());
+		attributes.put("curaTrasporto", getCuraTrasporto());
 		attributes.put("aspettoEsteriore", getAspettoEsteriore());
 		attributes.put("causaleTrasporto", getCausaleTrasporto());
 		attributes.put("porto", getPorto());
@@ -430,10 +430,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			setVettore2(vettore2);
 		}
 
-		String curaTrasoirto = (String)attributes.get("curaTrasoirto");
+		String curaTrasporto = (String)attributes.get("curaTrasporto");
 
-		if (curaTrasoirto != null) {
-			setCuraTrasoirto(curaTrasoirto);
+		if (curaTrasporto != null) {
+			setCuraTrasporto(curaTrasporto);
 		}
 
 		String aspettoEsteriore = (String)attributes.get("aspettoEsteriore");
@@ -882,18 +882,18 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@JSON
 	@Override
-	public String getCuraTrasoirto() {
-		if (_curaTrasoirto == null) {
+	public String getCuraTrasporto() {
+		if (_curaTrasporto == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _curaTrasoirto;
+			return _curaTrasporto;
 		}
 	}
 
 	@Override
-	public void setCuraTrasoirto(String curaTrasoirto) {
-		_curaTrasoirto = curaTrasoirto;
+	public void setCuraTrasporto(String curaTrasporto) {
+		_curaTrasporto = curaTrasporto;
 	}
 
 	@JSON
@@ -1076,7 +1076,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		testataDocumentoImpl.setNota2(getNota2());
 		testataDocumentoImpl.setRigoDescrittivo(getRigoDescrittivo());
 		testataDocumentoImpl.setVettore2(getVettore2());
-		testataDocumentoImpl.setCuraTrasoirto(getCuraTrasoirto());
+		testataDocumentoImpl.setCuraTrasporto(getCuraTrasporto());
 		testataDocumentoImpl.setAspettoEsteriore(getAspettoEsteriore());
 		testataDocumentoImpl.setCausaleTrasporto(getCausaleTrasporto());
 		testataDocumentoImpl.setPorto(getPorto());
@@ -1302,12 +1302,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			testataDocumentoCacheModel.vettore2 = null;
 		}
 
-		testataDocumentoCacheModel.curaTrasoirto = getCuraTrasoirto();
+		testataDocumentoCacheModel.curaTrasporto = getCuraTrasporto();
 
-		String curaTrasoirto = testataDocumentoCacheModel.curaTrasoirto;
+		String curaTrasporto = testataDocumentoCacheModel.curaTrasporto;
 
-		if ((curaTrasoirto != null) && (curaTrasoirto.length() == 0)) {
-			testataDocumentoCacheModel.curaTrasoirto = null;
+		if ((curaTrasporto != null) && (curaTrasporto.length() == 0)) {
+			testataDocumentoCacheModel.curaTrasporto = null;
 		}
 
 		testataDocumentoCacheModel.aspettoEsteriore = getAspettoEsteriore();
@@ -1425,8 +1425,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(getRigoDescrittivo());
 		sb.append(", vettore2=");
 		sb.append(getVettore2());
-		sb.append(", curaTrasoirto=");
-		sb.append(getCuraTrasoirto());
+		sb.append(", curaTrasporto=");
+		sb.append(getCuraTrasporto());
 		sb.append(", aspettoEsteriore=");
 		sb.append(getAspettoEsteriore());
 		sb.append(", causaleTrasporto=");
@@ -1565,8 +1565,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(getVettore2());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>curaTrasoirto</column-name><column-value><![CDATA[");
-		sb.append(getCuraTrasoirto());
+			"<column><column-name>curaTrasporto</column-name><column-value><![CDATA[");
+		sb.append(getCuraTrasporto());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>aspettoEsteriore</column-name><column-value><![CDATA[");
@@ -1644,7 +1644,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private String _nota2;
 	private String _rigoDescrittivo;
 	private String _vettore2;
-	private String _curaTrasoirto;
+	private String _curaTrasporto;
 	private String _aspettoEsteriore;
 	private String _causaleTrasporto;
 	private String _porto;

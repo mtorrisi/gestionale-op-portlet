@@ -85,6 +85,24 @@ create table SSTESORD (
 	primary key (WKAnno, WKNOrd)
 );
 
+create table Vettori (
+	RavAlbo VARCHAR(75) null,
+	RavCap VARCHAR(75) null,
+	RavCodana VARCHAR(75) not null primary key,
+	RavCodfis VARCHAR(75) null,
+	RavCodrif VARCHAR(75) null,
+	RavComune VARCHAR(75) null,
+	RavIndiri VARCHAR(75) null,
+	RavNote VARCHAR(75) null,
+	RavPariva VARCHAR(75) null,
+	RavRagso1 VARCHAR(75) null,
+	RavRagso2 VARCHAR(75) null,
+	RavSigpro VARCHAR(75) null,
+	RavSigsta VARCHAR(75) null,
+	RavTipana VARCHAR(75) null,
+	RavCodiaz VARCHAR(75) null
+);
+
 create table gestionaleOP_Testata_Righe (
 	WKAnno INTEGER not null,
 	WkNOrd INTEGER not null,

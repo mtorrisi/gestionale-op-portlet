@@ -28,6 +28,8 @@ import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoServiceUtil;
+import it.bysoftware.ct.service.VettoriLocalServiceUtil;
+import it.bysoftware.ct.service.VettoriServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -59,6 +61,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			TestataDocumentoLocalServiceUtil.clearService();
 
 			TestataDocumentoServiceUtil.clearService();
+			VettoriLocalServiceUtil.clearService();
+
+			VettoriServiceUtil.clearService();
 		}
 	}
 }

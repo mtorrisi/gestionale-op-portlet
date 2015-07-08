@@ -31,4 +31,10 @@
         <property name="dataSource" ref="gestionaleOPDataSource" />
         <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
     </bean>
+    <bean id="it.bysoftware.ct.service.VettoriLocalService" class="it.bysoftware.ct.service.impl.VettoriLocalServiceImpl" />
+    <bean id="it.bysoftware.ct.service.VettoriService" class="it.bysoftware.ct.service.impl.VettoriServiceImpl" />
+    <bean id="it.bysoftware.ct.service.persistence.VettoriPersistence" class="it.bysoftware.ct.service.persistence.VettoriPersistenceImpl" parent="basePersistence">
+        <property name="dataSource" ref="gestionaleOPDataSource" />
+        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+    </bean>
 </beans>

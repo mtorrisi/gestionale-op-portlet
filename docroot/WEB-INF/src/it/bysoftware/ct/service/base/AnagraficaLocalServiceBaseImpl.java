@@ -38,6 +38,7 @@ import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
+import it.bysoftware.ct.service.persistence.VettoriPersistence;
 
 import java.io.Serializable;
 
@@ -569,6 +570,62 @@ public abstract class AnagraficaLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the vettori local service.
+	 *
+	 * @return the vettori local service
+	 */
+	public it.bysoftware.ct.service.VettoriLocalService getVettoriLocalService() {
+		return vettoriLocalService;
+	}
+
+	/**
+	 * Sets the vettori local service.
+	 *
+	 * @param vettoriLocalService the vettori local service
+	 */
+	public void setVettoriLocalService(
+		it.bysoftware.ct.service.VettoriLocalService vettoriLocalService) {
+		this.vettoriLocalService = vettoriLocalService;
+	}
+
+	/**
+	 * Returns the vettori remote service.
+	 *
+	 * @return the vettori remote service
+	 */
+	public it.bysoftware.ct.service.VettoriService getVettoriService() {
+		return vettoriService;
+	}
+
+	/**
+	 * Sets the vettori remote service.
+	 *
+	 * @param vettoriService the vettori remote service
+	 */
+	public void setVettoriService(
+		it.bysoftware.ct.service.VettoriService vettoriService) {
+		this.vettoriService = vettoriService;
+	}
+
+	/**
+	 * Returns the vettori persistence.
+	 *
+	 * @return the vettori persistence
+	 */
+	public VettoriPersistence getVettoriPersistence() {
+		return vettoriPersistence;
+	}
+
+	/**
+	 * Sets the vettori persistence.
+	 *
+	 * @param vettoriPersistence the vettori persistence
+	 */
+	public void setVettoriPersistence(VettoriPersistence vettoriPersistence) {
+		this.vettoriPersistence = vettoriPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -774,6 +831,12 @@ public abstract class AnagraficaLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.TestataDocumentoService testataDocumentoService;
 	@BeanReference(type = TestataDocumentoPersistence.class)
 	protected TestataDocumentoPersistence testataDocumentoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.VettoriLocalService.class)
+	protected it.bysoftware.ct.service.VettoriLocalService vettoriLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.VettoriService.class)
+	protected it.bysoftware.ct.service.VettoriService vettoriService;
+	@BeanReference(type = VettoriPersistence.class)
+	protected VettoriPersistence vettoriPersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

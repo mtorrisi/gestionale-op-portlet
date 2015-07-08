@@ -58,7 +58,7 @@ public class TestataDocumentoSoap implements Serializable {
 		soapModel.setNota2(model.getNota2());
 		soapModel.setRigoDescrittivo(model.getRigoDescrittivo());
 		soapModel.setVettore2(model.getVettore2());
-		soapModel.setCuraTrasoirto(model.getCuraTrasoirto());
+		soapModel.setCuraTrasporto(model.getCuraTrasporto());
 		soapModel.setAspettoEsteriore(model.getAspettoEsteriore());
 		soapModel.setCausaleTrasporto(model.getCausaleTrasporto());
 		soapModel.setPorto(model.getPorto());
@@ -332,12 +332,12 @@ public class TestataDocumentoSoap implements Serializable {
 		_vettore2 = vettore2;
 	}
 
-	public String getCuraTrasoirto() {
-		return _curaTrasoirto;
+	public String getCuraTrasporto() {
+		return _curaTrasporto;
 	}
 
-	public void setCuraTrasoirto(String curaTrasoirto) {
-		_curaTrasoirto = curaTrasoirto;
+	public void setCuraTrasporto(String curaTrasporto) {
+		_curaTrasporto = curaTrasporto;
 	}
 
 	public String getAspettoEsteriore() {
@@ -446,7 +446,7 @@ public class TestataDocumentoSoap implements Serializable {
 	private String _nota2;
 	private String _rigoDescrittivo;
 	private String _vettore2;
-	private String _curaTrasoirto;
+	private String _curaTrasporto;
 	private String _aspettoEsteriore;
 	private String _causaleTrasporto;
 	private String _porto;

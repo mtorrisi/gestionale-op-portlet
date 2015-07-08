@@ -24,6 +24,9 @@
 <liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="carrier1URL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectcarrier.jsp" />
+</liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
 <portlet:resourceURL var="printDDT" id="print" />
 <aui:field-wrapper >
@@ -86,49 +89,51 @@
                 <div class="control-group">
                     <label for="vettore1" class="control-label">Vettore 1: </label>
                     <div class="controls">
+                        <input type="text" class="input-small" id="codiceVettore1" readonly="true" style="display: none;"/>
                         <input id="vettore1" type="text" class="input-xxlarge" name="vettore1" placeholder="Seleziona vettore..."/>
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="vettore2" class="control-label">Vettore 2: </label>
                     <div class="controls">
-                        <input id="vettore2" type="text" class="input-xxlarge" name="vettore2" placeholder="Seleziona vettore..."/>
+                        <input type="text" class="input-small" id="codiceVettore2" readonly="true" style="display: none;"/>
+                        <input id="vettore2" type="text" class="input-xxlarge" name="vettore2" placeholder="Seleziona vettore..." />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="autista" class="control-label">Autista: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-xxlarge" id="autista">
+                        <input type="text" class="input-xxlarge" id="autista" />
                         <label for="telefono">Telefono: </label>
-                        <input type="text" class="input-small" id="telefono">
+                        <input type="text" class="input-small" id="telefono" />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="trasporto" class="control-label">Trasporto a cura: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="trasporto" readonly="true" style="display: none;">
-                        <input type="text" class="input-xxlarge" id="telefonoTXT" placeholder="Seleziona...">
+                        <input type="text" class="input-small" id="trasporto" readonly="true" style="display: none;" />
+                        <input type="text" class="input-xxlarge" id="telefonoTXT" placeholder="Seleziona..." />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="aspetto" class="control-label">Aspetto esteriore: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="aspetto" readonly="true" style="display: none;">
-                        <input type="text" class="input-xxlarge" id="aspettoTXT" placeholder="Seleziona...">
+                        <input type="text" class="input-small" id="aspetto" readonly="true" style="display: none;" />
+                        <input type="text" class="input-xxlarge" id="aspettoTXT" placeholder="Seleziona..." />
                     </div>
                 </div>                
                 <div class="control-group">
                     <label for="causale" class="control-label">Causale trsaporto: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="causale" readonly="true" style="display: none;">
-                        <input type="text" class="input-xxlarge" id="causaleTXT" placeholder="Seleziona...">
+                        <input type="text" class="input-small" id="causale" readonly="true" style="display: none;" />
+                        <input type="text" class="input-xxlarge" id="causaleTXT" placeholder="Seleziona..." />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="porto" class="control-label">Porto: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="porto" readonly="true" style="display: none;">
-                        <input type="text" class="input-xxlarge" id="portoTXT" placeholder="Seleziona...">
+                        <input type="text" class="input-small" id="porto" readonly="true" style="display: none;" />
+                        <input type="text" class="input-xxlarge" id="portoTXT" placeholder="Seleziona..." />
                     </div>
                 </div>
                 <div class="control-group">
@@ -263,7 +268,7 @@
                 dialog: {
                     centered: true,
                     modal: true,
-                    resizable: false,
+                    resizable: false
 //                    height: '600px',
 //                    width: '800px'
                 },
@@ -274,10 +279,28 @@
         });
     });
 
+    YUI().use('liferay-util-window', function (Y) {
+        Y.one('#vettore1').on('click', function (event) {
+
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false
+//                    height: '600px',
+//                    width: '800px'
+                },
+                id: '<portlet:namespace/>vettore1',
+                title: 'Seleziona Vettore',
+                uri: '<%=carrier1URL %>'
+            });
+        });
+    });
+
     Liferay.provide(window, 'closePopup', function (data, dialogId) {
         // Closing the dialog
         var dialog = Liferay.Util.Window.getById(dialogId);
-        console.log(dialog);
+//        console.log(dialog);
         dialog.hide();
         console.log(data);
         switch (dialogId) {
@@ -291,12 +314,13 @@
                 document.getElementById('<portlet:namespace/>codiceDestinazione').value = codice;
                 break;
             case '<portlet:namespace/>itemDialog':
-//                alert("PIPPO");  
                 setItem(data);
                 break;
             case '<portlet:namespace/>packDialog':
-//                alert("PIPPO");
                 setPack(data);
+                break;
+            case '<portlet:namespace/>vettore1':
+                setCarrier(1, data);
                 break;
         }
     }, ['liferay-util-window']);
@@ -619,7 +643,16 @@
             recordSelected = undefined;
         }
     }
-
+    function setCarrier(i, data) {
+        console.log("*****" + i);
+        console.log("*****" + data);
+        var tmp = data.split('|');
+        
+        if(i===1){
+            document.getElementById('codiceVettore1').value = tmp[0];
+            document.getElementById('vettore1').value = tmp[1];
+        }
+    }
     function calcola() {
         var record = recordSelected.getAttrs();
         var colli = colli = record.colli;

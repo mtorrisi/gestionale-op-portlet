@@ -90,8 +90,8 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		sb.append(rigoDescrittivo);
 		sb.append(", vettore2=");
 		sb.append(vettore2);
-		sb.append(", curaTrasoirto=");
-		sb.append(curaTrasoirto);
+		sb.append(", curaTrasporto=");
+		sb.append(curaTrasporto);
 		sb.append(", aspettoEsteriore=");
 		sb.append(aspettoEsteriore);
 		sb.append(", causaleTrasporto=");
@@ -265,11 +265,11 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			testataDocumentoImpl.setVettore2(vettore2);
 		}
 
-		if (curaTrasoirto == null) {
-			testataDocumentoImpl.setCuraTrasoirto(StringPool.BLANK);
+		if (curaTrasporto == null) {
+			testataDocumentoImpl.setCuraTrasporto(StringPool.BLANK);
 		}
 		else {
-			testataDocumentoImpl.setCuraTrasoirto(curaTrasoirto);
+			testataDocumentoImpl.setCuraTrasporto(curaTrasporto);
 		}
 
 		if (aspettoEsteriore == null) {
@@ -352,7 +352,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		nota2 = objectInput.readUTF();
 		rigoDescrittivo = objectInput.readUTF();
 		vettore2 = objectInput.readUTF();
-		curaTrasoirto = objectInput.readUTF();
+		curaTrasporto = objectInput.readUTF();
 		aspettoEsteriore = objectInput.readUTF();
 		causaleTrasporto = objectInput.readUTF();
 		porto = objectInput.readUTF();
@@ -512,11 +512,11 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			objectOutput.writeUTF(vettore2);
 		}
 
-		if (curaTrasoirto == null) {
+		if (curaTrasporto == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(curaTrasoirto);
+			objectOutput.writeUTF(curaTrasporto);
 		}
 
 		if (aspettoEsteriore == null) {
@@ -593,7 +593,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	public String nota2;
 	public String rigoDescrittivo;
 	public String vettore2;
-	public String curaTrasoirto;
+	public String curaTrasporto;
 	public String aspettoEsteriore;
 	public String causaleTrasporto;
 	public String porto;

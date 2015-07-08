@@ -75,7 +75,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 		attributes.put("nota2", getNota2());
 		attributes.put("rigoDescrittivo", getRigoDescrittivo());
 		attributes.put("vettore2", getVettore2());
-		attributes.put("curaTrasoirto", getCuraTrasoirto());
+		attributes.put("curaTrasporto", getCuraTrasporto());
 		attributes.put("aspettoEsteriore", getAspettoEsteriore());
 		attributes.put("causaleTrasporto", getCausaleTrasporto());
 		attributes.put("porto", getPorto());
@@ -250,10 +250,10 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 			setVettore2(vettore2);
 		}
 
-		String curaTrasoirto = (String)attributes.get("curaTrasoirto");
+		String curaTrasporto = (String)attributes.get("curaTrasporto");
 
-		if (curaTrasoirto != null) {
-			setCuraTrasoirto(curaTrasoirto);
+		if (curaTrasporto != null) {
+			setCuraTrasporto(curaTrasporto);
 		}
 
 		String aspettoEsteriore = (String)attributes.get("aspettoEsteriore");
@@ -861,23 +861,23 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	}
 
 	/**
-	* Returns the cura trasoirto of this testata documento.
+	* Returns the cura trasporto of this testata documento.
 	*
-	* @return the cura trasoirto of this testata documento
+	* @return the cura trasporto of this testata documento
 	*/
 	@Override
-	public java.lang.String getCuraTrasoirto() {
-		return _testataDocumento.getCuraTrasoirto();
+	public java.lang.String getCuraTrasporto() {
+		return _testataDocumento.getCuraTrasporto();
 	}
 
 	/**
-	* Sets the cura trasoirto of this testata documento.
+	* Sets the cura trasporto of this testata documento.
 	*
-	* @param curaTrasoirto the cura trasoirto of this testata documento
+	* @param curaTrasporto the cura trasporto of this testata documento
 	*/
 	@Override
-	public void setCuraTrasoirto(java.lang.String curaTrasoirto) {
-		_testataDocumento.setCuraTrasoirto(curaTrasoirto);
+	public void setCuraTrasporto(java.lang.String curaTrasporto) {
+		_testataDocumento.setCuraTrasporto(curaTrasporto);
 	}
 
 	/**

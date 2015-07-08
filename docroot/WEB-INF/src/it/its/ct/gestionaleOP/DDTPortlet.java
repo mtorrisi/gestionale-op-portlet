@@ -40,6 +40,7 @@ import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
+import it.bysoftware.ct.service.VettoriLocalServiceUtil;
 import it.its.ct.gestionaleOP.report.Report;
 import java.io.File;
 import java.io.PrintWriter;

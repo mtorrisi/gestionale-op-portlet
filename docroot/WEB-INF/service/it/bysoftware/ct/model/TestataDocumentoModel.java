@@ -443,19 +443,19 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	public void setVettore2(String vettore2);
 
 	/**
-	 * Returns the cura trasoirto of this testata documento.
+	 * Returns the cura trasporto of this testata documento.
 	 *
-	 * @return the cura trasoirto of this testata documento
+	 * @return the cura trasporto of this testata documento
 	 */
 	@AutoEscape
-	public String getCuraTrasoirto();
+	public String getCuraTrasporto();
 
 	/**
-	 * Sets the cura trasoirto of this testata documento.
+	 * Sets the cura trasporto of this testata documento.
 	 *
-	 * @param curaTrasoirto the cura trasoirto of this testata documento
+	 * @param curaTrasporto the cura trasporto of this testata documento
 	 */
-	public void setCuraTrasoirto(String curaTrasoirto);
+	public void setCuraTrasporto(String curaTrasporto);
 
 	/**
 	 * Returns the aspetto esteriore of this testata documento.
