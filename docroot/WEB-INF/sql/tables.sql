@@ -7,6 +7,24 @@ create table Articoli (
 	RanLibDbl1 DOUBLE
 );
 
+create table AspettoEsterioreBeni (
+	RdeCoddes VARCHAR(75) not null primary key,
+	RdeDescri VARCHAR(75) null,
+	RdeCodiaz VARCHAR(75) null
+);
+
+create table CausaleTrasporto (
+	RdeCoddes VARCHAR(75) not null primary key,
+	RdeDescri VARCHAR(75) null,
+	RdeCodiaz VARCHAR(75) null
+);
+
+create table CuraTrasporto (
+	RdeCoddes VARCHAR(75) not null primary key,
+	RdeDescri VARCHAR(75) null,
+	RdeCodiaz VARCHAR(75) null
+);
+
 create table DestinatariDiversi (
 	RavCodana VARCHAR(75) not null primary key,
 	RavCodrif VARCHAR(75) null,
@@ -16,6 +34,14 @@ create table DestinatariDiversi (
 	RavSigpro VARCHAR(75) null,
 	RavSigsta VARCHAR(75) null,
 	RavTipana VARCHAR(75) null
+);
+
+create table Porto (
+	RdeCdinco VARCHAR(75) null,
+	RdeCoddes VARCHAR(75) not null primary key,
+	RdeDescri VARCHAR(75) null,
+	RdeIncoterm VARCHAR(75) null,
+	RdeCodiaz VARCHAR(75) null
 );
 
 create table SSRIGORD (

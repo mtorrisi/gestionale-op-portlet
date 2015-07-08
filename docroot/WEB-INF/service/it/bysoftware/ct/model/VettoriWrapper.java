@@ -544,7 +544,7 @@ public class VettoriWrapper implements Vettori, ModelWrapper<Vettori> {
 	}
 
 	@Override
-	public int compareTo(Vettori vettori) {
+	public int compareTo(it.bysoftware.ct.model.Vettori vettori) {
 		return _vettori.compareTo(vettori);
 	}
 
@@ -554,17 +554,17 @@ public class VettoriWrapper implements Vettori, ModelWrapper<Vettori> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Vettori> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.Vettori> toCacheModel() {
 		return _vettori.toCacheModel();
 	}
 
 	@Override
-	public Vettori toEscapedModel() {
+	public it.bysoftware.ct.model.Vettori toEscapedModel() {
 		return new VettoriWrapper(_vettori.toEscapedModel());
 	}
 
 	@Override
-	public Vettori toUnescapedModel() {
+	public it.bysoftware.ct.model.Vettori toUnescapedModel() {
 		return new VettoriWrapper(_vettori.toUnescapedModel());
 	}
 

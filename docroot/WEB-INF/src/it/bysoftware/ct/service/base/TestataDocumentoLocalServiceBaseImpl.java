@@ -35,7 +35,11 @@ import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.service.TestataDocumentoLocalService;
 import it.bysoftware.ct.service.persistence.AnagraficaPersistence;
 import it.bysoftware.ct.service.persistence.ArticoliPersistence;
+import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
+import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
+import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
+import it.bysoftware.ct.service.persistence.PortoPersistence;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
@@ -403,6 +407,177 @@ public abstract class TestataDocumentoLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the aspetto esteriore beni local service.
+	 *
+	 * @return the aspetto esteriore beni local service
+	 */
+	public it.bysoftware.ct.service.AspettoEsterioreBeniLocalService getAspettoEsterioreBeniLocalService() {
+		return aspettoEsterioreBeniLocalService;
+	}
+
+	/**
+	 * Sets the aspetto esteriore beni local service.
+	 *
+	 * @param aspettoEsterioreBeniLocalService the aspetto esteriore beni local service
+	 */
+	public void setAspettoEsterioreBeniLocalService(
+		it.bysoftware.ct.service.AspettoEsterioreBeniLocalService aspettoEsterioreBeniLocalService) {
+		this.aspettoEsterioreBeniLocalService = aspettoEsterioreBeniLocalService;
+	}
+
+	/**
+	 * Returns the aspetto esteriore beni remote service.
+	 *
+	 * @return the aspetto esteriore beni remote service
+	 */
+	public it.bysoftware.ct.service.AspettoEsterioreBeniService getAspettoEsterioreBeniService() {
+		return aspettoEsterioreBeniService;
+	}
+
+	/**
+	 * Sets the aspetto esteriore beni remote service.
+	 *
+	 * @param aspettoEsterioreBeniService the aspetto esteriore beni remote service
+	 */
+	public void setAspettoEsterioreBeniService(
+		it.bysoftware.ct.service.AspettoEsterioreBeniService aspettoEsterioreBeniService) {
+		this.aspettoEsterioreBeniService = aspettoEsterioreBeniService;
+	}
+
+	/**
+	 * Returns the aspetto esteriore beni persistence.
+	 *
+	 * @return the aspetto esteriore beni persistence
+	 */
+	public AspettoEsterioreBeniPersistence getAspettoEsterioreBeniPersistence() {
+		return aspettoEsterioreBeniPersistence;
+	}
+
+	/**
+	 * Sets the aspetto esteriore beni persistence.
+	 *
+	 * @param aspettoEsterioreBeniPersistence the aspetto esteriore beni persistence
+	 */
+	public void setAspettoEsterioreBeniPersistence(
+		AspettoEsterioreBeniPersistence aspettoEsterioreBeniPersistence) {
+		this.aspettoEsterioreBeniPersistence = aspettoEsterioreBeniPersistence;
+	}
+
+	/**
+	 * Returns the causale trasporto local service.
+	 *
+	 * @return the causale trasporto local service
+	 */
+	public it.bysoftware.ct.service.CausaleTrasportoLocalService getCausaleTrasportoLocalService() {
+		return causaleTrasportoLocalService;
+	}
+
+	/**
+	 * Sets the causale trasporto local service.
+	 *
+	 * @param causaleTrasportoLocalService the causale trasporto local service
+	 */
+	public void setCausaleTrasportoLocalService(
+		it.bysoftware.ct.service.CausaleTrasportoLocalService causaleTrasportoLocalService) {
+		this.causaleTrasportoLocalService = causaleTrasportoLocalService;
+	}
+
+	/**
+	 * Returns the causale trasporto remote service.
+	 *
+	 * @return the causale trasporto remote service
+	 */
+	public it.bysoftware.ct.service.CausaleTrasportoService getCausaleTrasportoService() {
+		return causaleTrasportoService;
+	}
+
+	/**
+	 * Sets the causale trasporto remote service.
+	 *
+	 * @param causaleTrasportoService the causale trasporto remote service
+	 */
+	public void setCausaleTrasportoService(
+		it.bysoftware.ct.service.CausaleTrasportoService causaleTrasportoService) {
+		this.causaleTrasportoService = causaleTrasportoService;
+	}
+
+	/**
+	 * Returns the causale trasporto persistence.
+	 *
+	 * @return the causale trasporto persistence
+	 */
+	public CausaleTrasportoPersistence getCausaleTrasportoPersistence() {
+		return causaleTrasportoPersistence;
+	}
+
+	/**
+	 * Sets the causale trasporto persistence.
+	 *
+	 * @param causaleTrasportoPersistence the causale trasporto persistence
+	 */
+	public void setCausaleTrasportoPersistence(
+		CausaleTrasportoPersistence causaleTrasportoPersistence) {
+		this.causaleTrasportoPersistence = causaleTrasportoPersistence;
+	}
+
+	/**
+	 * Returns the cura trasporto local service.
+	 *
+	 * @return the cura trasporto local service
+	 */
+	public it.bysoftware.ct.service.CuraTrasportoLocalService getCuraTrasportoLocalService() {
+		return curaTrasportoLocalService;
+	}
+
+	/**
+	 * Sets the cura trasporto local service.
+	 *
+	 * @param curaTrasportoLocalService the cura trasporto local service
+	 */
+	public void setCuraTrasportoLocalService(
+		it.bysoftware.ct.service.CuraTrasportoLocalService curaTrasportoLocalService) {
+		this.curaTrasportoLocalService = curaTrasportoLocalService;
+	}
+
+	/**
+	 * Returns the cura trasporto remote service.
+	 *
+	 * @return the cura trasporto remote service
+	 */
+	public it.bysoftware.ct.service.CuraTrasportoService getCuraTrasportoService() {
+		return curaTrasportoService;
+	}
+
+	/**
+	 * Sets the cura trasporto remote service.
+	 *
+	 * @param curaTrasportoService the cura trasporto remote service
+	 */
+	public void setCuraTrasportoService(
+		it.bysoftware.ct.service.CuraTrasportoService curaTrasportoService) {
+		this.curaTrasportoService = curaTrasportoService;
+	}
+
+	/**
+	 * Returns the cura trasporto persistence.
+	 *
+	 * @return the cura trasporto persistence
+	 */
+	public CuraTrasportoPersistence getCuraTrasportoPersistence() {
+		return curaTrasportoPersistence;
+	}
+
+	/**
+	 * Sets the cura trasporto persistence.
+	 *
+	 * @param curaTrasportoPersistence the cura trasporto persistence
+	 */
+	public void setCuraTrasportoPersistence(
+		CuraTrasportoPersistence curaTrasportoPersistence) {
+		this.curaTrasportoPersistence = curaTrasportoPersistence;
+	}
+
+	/**
 	 * Returns the destinatari diversi local service.
 	 *
 	 * @return the destinatari diversi local service
@@ -457,6 +632,62 @@ public abstract class TestataDocumentoLocalServiceBaseImpl
 	public void setDestinatariDiversiPersistence(
 		DestinatariDiversiPersistence destinatariDiversiPersistence) {
 		this.destinatariDiversiPersistence = destinatariDiversiPersistence;
+	}
+
+	/**
+	 * Returns the porto local service.
+	 *
+	 * @return the porto local service
+	 */
+	public it.bysoftware.ct.service.PortoLocalService getPortoLocalService() {
+		return portoLocalService;
+	}
+
+	/**
+	 * Sets the porto local service.
+	 *
+	 * @param portoLocalService the porto local service
+	 */
+	public void setPortoLocalService(
+		it.bysoftware.ct.service.PortoLocalService portoLocalService) {
+		this.portoLocalService = portoLocalService;
+	}
+
+	/**
+	 * Returns the porto remote service.
+	 *
+	 * @return the porto remote service
+	 */
+	public it.bysoftware.ct.service.PortoService getPortoService() {
+		return portoService;
+	}
+
+	/**
+	 * Sets the porto remote service.
+	 *
+	 * @param portoService the porto remote service
+	 */
+	public void setPortoService(
+		it.bysoftware.ct.service.PortoService portoService) {
+		this.portoService = portoService;
+	}
+
+	/**
+	 * Returns the porto persistence.
+	 *
+	 * @return the porto persistence
+	 */
+	public PortoPersistence getPortoPersistence() {
+		return portoPersistence;
+	}
+
+	/**
+	 * Sets the porto persistence.
+	 *
+	 * @param portoPersistence the porto persistence
+	 */
+	public void setPortoPersistence(PortoPersistence portoPersistence) {
+		this.portoPersistence = portoPersistence;
 	}
 
 	/**
@@ -817,12 +1048,36 @@ public abstract class TestataDocumentoLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.ArticoliService articoliService;
 	@BeanReference(type = ArticoliPersistence.class)
 	protected ArticoliPersistence articoliPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.AspettoEsterioreBeniLocalService.class)
+	protected it.bysoftware.ct.service.AspettoEsterioreBeniLocalService aspettoEsterioreBeniLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.AspettoEsterioreBeniService.class)
+	protected it.bysoftware.ct.service.AspettoEsterioreBeniService aspettoEsterioreBeniService;
+	@BeanReference(type = AspettoEsterioreBeniPersistence.class)
+	protected AspettoEsterioreBeniPersistence aspettoEsterioreBeniPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.CausaleTrasportoLocalService.class)
+	protected it.bysoftware.ct.service.CausaleTrasportoLocalService causaleTrasportoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.CausaleTrasportoService.class)
+	protected it.bysoftware.ct.service.CausaleTrasportoService causaleTrasportoService;
+	@BeanReference(type = CausaleTrasportoPersistence.class)
+	protected CausaleTrasportoPersistence causaleTrasportoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.CuraTrasportoLocalService.class)
+	protected it.bysoftware.ct.service.CuraTrasportoLocalService curaTrasportoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.CuraTrasportoService.class)
+	protected it.bysoftware.ct.service.CuraTrasportoService curaTrasportoService;
+	@BeanReference(type = CuraTrasportoPersistence.class)
+	protected CuraTrasportoPersistence curaTrasportoPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiLocalService.class)
 	protected it.bysoftware.ct.service.DestinatariDiversiLocalService destinatariDiversiLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiService.class)
 	protected it.bysoftware.ct.service.DestinatariDiversiService destinatariDiversiService;
 	@BeanReference(type = DestinatariDiversiPersistence.class)
 	protected DestinatariDiversiPersistence destinatariDiversiPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.PortoLocalService.class)
+	protected it.bysoftware.ct.service.PortoLocalService portoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.PortoService.class)
+	protected it.bysoftware.ct.service.PortoService portoService;
+	@BeanReference(type = PortoPersistence.class)
+	protected PortoPersistence portoPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.RigoDocumentoLocalService.class)
 	protected it.bysoftware.ct.service.RigoDocumentoLocalService rigoDocumentoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.RigoDocumentoService.class)

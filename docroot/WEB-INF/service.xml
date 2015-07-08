@@ -244,4 +244,40 @@
 		<column name='codiceAzienda' db-name='RavCodiaz' type='String'>
 		</column>
 	</entity>
+	<entity name='CuraTrasporto' table='CuraTrasporto' local-service='true' remote-service='true'>
+		<column name='codiceCuraTrasporto' db-name='RdeCoddes' type='String' primary='true'>
+		</column>
+		<column name='descrizione' db-name='RdeDescri' type='String'>
+		</column>
+		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+		</column>
+	</entity>
+	<entity name='AspettoEsterioreBeni' table='AspettoEsterioreBeni' local-service='true' remote-service='true'>
+		<column name='codiceAspettoEsteriore' db-name='RdeCoddes' type='String' primary='true'>
+		</column>
+		<column name='descrizione' db-name='RdeDescri' type='String'>
+		</column>
+		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+		</column>
+	</entity>
+	<entity name='CausaleTrasporto' table='CausaleTrasporto' local-service='true' remote-service='true'>
+		<column name='codiceCausaleTrasporto' db-name='RdeCoddes' type='String' primary='true'>
+		</column>
+		<column name='descrizione' db-name='RdeDescri' type='String'>
+		</column>
+		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+		</column>
+	</entity>
+	<entity name='Porto' table='Porto' local-service='true' remote-service='true'>
+		<column name='Cdinco' db-name='RdeCdinco' type='String'>
+		</column>
+		<column name='codicePorto' db-name='RdeCoddes' type='String' primary='true'>
+		</column>
+		<column name='descrizione' db-name='RdeDescri' type='String'>
+		</column>
+		<column name='Incoterm' db-name='RdeIncoterm' type='String'>
+		</column>
+		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+		</column>
+	</entity>
 </service-builder>

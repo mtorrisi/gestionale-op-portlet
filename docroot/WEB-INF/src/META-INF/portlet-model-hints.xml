@@ -28,6 +28,21 @@
 		<field name="descrizioneFiscale" type="String" />
 		<field name="tara" type="double" />
 	</model>
+	<model name="it.bysoftware.ct.model.AspettoEsterioreBeni">
+		<field name="codiceAspettoEsteriore" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="codiceAzienda" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.CausaleTrasporto">
+		<field name="codiceCausaleTrasporto" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="codiceAzienda" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.CuraTrasporto">
+		<field name="codiceCuraTrasporto" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="codiceAzienda" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.DestinatariDiversi">
 		<field name="codiceAnagrafica" type="String" />
 		<field name="codiceRiferimento" type="String" />
@@ -37,6 +52,13 @@
 		<field name="provincia" type="String" />
 		<field name="stato" type="String" />
 		<field name="tipoAnagrafica" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.Porto">
+		<field name="Cdinco" type="String" />
+		<field name="codicePorto" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="Incoterm" type="String" />
+		<field name="codiceAzienda" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.RigoDocumento">
 		<field name="anno" type="int" />

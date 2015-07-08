@@ -90,6 +90,54 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.AspettoEsterioreBeniModelImpl">
+		<attributes>
+			<id name="codiceAspettoEsteriore">
+				<column name="RDECODDES" />
+			</id>
+			<basic name="descrizione">
+				<column name="RDEDESCRI" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RDECODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.CausaleTrasportoModelImpl">
+		<attributes>
+			<id name="codiceCausaleTrasporto">
+				<column name="RDECODDES" />
+			</id>
+			<basic name="descrizione">
+				<column name="RDEDESCRI" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RDECODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.CuraTrasportoModelImpl">
+		<attributes>
+			<id name="codiceCuraTrasporto">
+				<column name="RDECODDES" />
+			</id>
+			<basic name="descrizione">
+				<column name="RDEDESCRI" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RDECODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.DestinatariDiversiModelImpl">
 		<attributes>
 			<id name="codiceAnagrafica">
@@ -115,6 +163,28 @@
 			</basic>
 			<basic name="tipoAnagrafica">
 				<column name="RAVTIPANA" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.PortoModelImpl">
+		<attributes>
+			<id name="codicePorto">
+				<column name="RDECODDES" />
+			</id>
+			<basic name="Cdinco">
+				<column name="RDECDINCO" />
+			</basic>
+			<basic name="descrizione">
+				<column name="RDEDESCRI" />
+			</basic>
+			<basic name="Incoterm">
+				<column name="RDEINCOTERM" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RDECODIAZ" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -372,8 +442,24 @@
 		<table name="Articoli" />
 		<attributes />
 	</entity>
+	<entity class="it.bysoftware.ct.model.impl.AspettoEsterioreBeniImpl" name="AspettoEsterioreBeni">
+		<table name="AspettoEsterioreBeni" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" name="CausaleTrasporto">
+		<table name="CausaleTrasporto" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.CuraTrasportoImpl" name="CuraTrasporto">
+		<table name="CuraTrasporto" />
+		<attributes />
+	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">
 		<table name="DestinatariDiversi" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.PortoImpl" name="Porto">
+		<table name="Porto" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.RigoDocumentoImpl" name="RigoDocumento">

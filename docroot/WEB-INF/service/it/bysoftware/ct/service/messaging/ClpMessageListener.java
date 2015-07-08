@@ -21,9 +21,17 @@ import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.AnagraficaServiceUtil;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.ArticoliServiceUtil;
+import it.bysoftware.ct.service.AspettoEsterioreBeniLocalServiceUtil;
+import it.bysoftware.ct.service.AspettoEsterioreBeniServiceUtil;
+import it.bysoftware.ct.service.CausaleTrasportoLocalServiceUtil;
+import it.bysoftware.ct.service.CausaleTrasportoServiceUtil;
 import it.bysoftware.ct.service.ClpSerializer;
+import it.bysoftware.ct.service.CuraTrasportoLocalServiceUtil;
+import it.bysoftware.ct.service.CuraTrasportoServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
+import it.bysoftware.ct.service.PortoLocalServiceUtil;
+import it.bysoftware.ct.service.PortoServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
@@ -52,9 +60,21 @@ public class ClpMessageListener extends BaseMessageListener {
 			ArticoliLocalServiceUtil.clearService();
 
 			ArticoliServiceUtil.clearService();
+			AspettoEsterioreBeniLocalServiceUtil.clearService();
+
+			AspettoEsterioreBeniServiceUtil.clearService();
+			CausaleTrasportoLocalServiceUtil.clearService();
+
+			CausaleTrasportoServiceUtil.clearService();
+			CuraTrasportoLocalServiceUtil.clearService();
+
+			CuraTrasportoServiceUtil.clearService();
 			DestinatariDiversiLocalServiceUtil.clearService();
 
 			DestinatariDiversiServiceUtil.clearService();
+			PortoLocalServiceUtil.clearService();
+
+			PortoServiceUtil.clearService();
 			RigoDocumentoLocalServiceUtil.clearService();
 
 			RigoDocumentoServiceUtil.clearService();

@@ -4,7 +4,11 @@
 <hibernate-mapping default-lazy="false" auto-import="false">
 	<import class="it.bysoftware.ct.model.Anagrafica" />
 	<import class="it.bysoftware.ct.model.Articoli" />
+	<import class="it.bysoftware.ct.model.AspettoEsterioreBeni" />
+	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
+	<import class="it.bysoftware.ct.model.CuraTrasporto" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
+	<import class="it.bysoftware.ct.model.Porto" />
 	<import class="it.bysoftware.ct.model.RigoDocumento" />
 	<import class="it.bysoftware.ct.model.TestataDocumento" />
 	<import class="it.bysoftware.ct.model.Vettori" />
@@ -41,6 +45,30 @@
 		<property name="descrizioneFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDesfis" />
 		<property name="tara" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="RanLibDbl1" />
 	</class>
+	<class name="it.bysoftware.ct.model.impl.AspettoEsterioreBeniImpl" table="AspettoEsterioreBeni">
+		<cache usage="read-write" />
+		<id name="codiceAspettoEsteriore" column="RdeCoddes" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" table="CausaleTrasporto">
+		<cache usage="read-write" />
+		<id name="codiceCausaleTrasporto" column="RdeCoddes" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.CuraTrasportoImpl" table="CuraTrasporto">
+		<cache usage="read-write" />
+		<id name="codiceCuraTrasporto" column="RdeCoddes" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
+	</class>
 	<class name="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" table="DestinatariDiversi">
 		<cache usage="read-write" />
 		<id name="codiceAnagrafica" column="RavCodana" type="java.lang.String">
@@ -53,6 +81,16 @@
 		<property name="provincia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigpro" />
 		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigsta" />
 		<property name="tipoAnagrafica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavTipana" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.PortoImpl" table="Porto">
+		<cache usage="read-write" />
+		<id name="codicePorto" column="RdeCoddes" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="Cdinco" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCdinco" />
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
+		<property name="Incoterm" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeIncoterm" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.RigoDocumentoImpl" table="SSRIGORD">
 		<cache usage="read-write" />
