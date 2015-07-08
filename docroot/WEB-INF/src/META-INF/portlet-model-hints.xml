@@ -70,6 +70,7 @@
 		<field name="dataConsegna" type="String" />
 		<field name="destinazione" type="String" />
 		<field name="codiceDestinazione" type="int" />
+		<field name="ragioneSociale" type="String" />
 		<field name="completo" type="String" />
 		<field name="operatore" type="String" />
 		<field name="visto" type="int" />

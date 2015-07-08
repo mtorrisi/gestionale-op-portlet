@@ -67,6 +67,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			{ "WkDatcon", Types.VARCHAR },
 			{ "WkDesti2", Types.VARCHAR },
 			{ "WkDesdiv", Types.INTEGER },
+			{ "WkRagsoc", Types.VARCHAR },
 			{ "WKCompleto", Types.VARCHAR },
 			{ "WkOperatore", Types.VARCHAR },
 			{ "WKVisto", Types.INTEGER },
@@ -97,7 +98,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			{ "TargaCamion", Types.VARCHAR },
 			{ "TargaRimorchio", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd INTEGER not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv INTEGER,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,primary key (WKAnno, WKNOrd))";
+	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd INTEGER not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv INTEGER,WkRagsoc VARCHAR(75) null,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,primary key (WKAnno, WKNOrd))";
 	public static final String TABLE_SQL_DROP = "drop table SSTESORD";
 	public static final String ORDER_BY_JPQL = " ORDER BY testataDocumento.id.anno ASC, testataDocumento.id.numeroOrdine ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SSTESORD.WKAnno ASC, SSTESORD.WKNOrd ASC";
@@ -132,6 +133,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		model.setDataConsegna(soapModel.getDataConsegna());
 		model.setDestinazione(soapModel.getDestinazione());
 		model.setCodiceDestinazione(soapModel.getCodiceDestinazione());
+		model.setRagioneSociale(soapModel.getRagioneSociale());
 		model.setCompleto(soapModel.getCompleto());
 		model.setOperatore(soapModel.getOperatore());
 		model.setVisto(soapModel.getVisto());
@@ -234,6 +236,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		attributes.put("dataConsegna", getDataConsegna());
 		attributes.put("destinazione", getDestinazione());
 		attributes.put("codiceDestinazione", getCodiceDestinazione());
+		attributes.put("ragioneSociale", getRagioneSociale());
 		attributes.put("completo", getCompleto());
 		attributes.put("operatore", getOperatore());
 		attributes.put("visto", getVisto());
@@ -310,6 +313,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 		if (codiceDestinazione != null) {
 			setCodiceDestinazione(codiceDestinazione);
+		}
+
+		String ragioneSociale = (String)attributes.get("ragioneSociale");
+
+		if (ragioneSociale != null) {
+			setRagioneSociale(ragioneSociale);
 		}
 
 		String completo = (String)attributes.get("completo");
@@ -585,6 +594,22 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	@Override
 	public void setCodiceDestinazione(int codiceDestinazione) {
 		_codiceDestinazione = codiceDestinazione;
+	}
+
+	@JSON
+	@Override
+	public String getRagioneSociale() {
+		if (_ragioneSociale == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _ragioneSociale;
+		}
+	}
+
+	@Override
+	public void setRagioneSociale(String ragioneSociale) {
+		_ragioneSociale = ragioneSociale;
 	}
 
 	@JSON
@@ -1032,6 +1057,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		testataDocumentoImpl.setDataConsegna(getDataConsegna());
 		testataDocumentoImpl.setDestinazione(getDestinazione());
 		testataDocumentoImpl.setCodiceDestinazione(getCodiceDestinazione());
+		testataDocumentoImpl.setRagioneSociale(getRagioneSociale());
 		testataDocumentoImpl.setCompleto(getCompleto());
 		testataDocumentoImpl.setOperatore(getOperatore());
 		testataDocumentoImpl.setVisto(getVisto());
@@ -1146,6 +1172,14 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		}
 
 		testataDocumentoCacheModel.codiceDestinazione = getCodiceDestinazione();
+
+		testataDocumentoCacheModel.ragioneSociale = getRagioneSociale();
+
+		String ragioneSociale = testataDocumentoCacheModel.ragioneSociale;
+
+		if ((ragioneSociale != null) && (ragioneSociale.length() == 0)) {
+			testataDocumentoCacheModel.ragioneSociale = null;
+		}
 
 		testataDocumentoCacheModel.completo = getCompleto();
 
@@ -1337,7 +1371,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(75);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1353,6 +1387,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(getDestinazione());
 		sb.append(", codiceDestinazione=");
 		sb.append(getCodiceDestinazione());
+		sb.append(", ragioneSociale=");
+		sb.append(getRagioneSociale());
 		sb.append(", completo=");
 		sb.append(getCompleto());
 		sb.append(", operatore=");
@@ -1418,7 +1454,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(112);
+		StringBundler sb = new StringBundler(115);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.TestataDocumento");
@@ -1451,6 +1487,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(
 			"<column><column-name>codiceDestinazione</column-name><column-value><![CDATA[");
 		sb.append(getCodiceDestinazione());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>ragioneSociale</column-name><column-value><![CDATA[");
+		sb.append(getRagioneSociale());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>completo</column-name><column-value><![CDATA[");
@@ -1585,6 +1625,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private String _dataConsegna;
 	private String _destinazione;
 	private int _codiceDestinazione;
+	private String _ragioneSociale;
 	private String _completo;
 	private String _operatore;
 	private int _visto;

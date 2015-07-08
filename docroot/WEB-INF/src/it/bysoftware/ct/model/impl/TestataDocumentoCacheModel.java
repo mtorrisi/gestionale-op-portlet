@@ -36,7 +36,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(75);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -52,6 +52,8 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		sb.append(destinazione);
 		sb.append(", codiceDestinazione=");
 		sb.append(codiceDestinazione);
+		sb.append(", ragioneSociale=");
+		sb.append(ragioneSociale);
 		sb.append(", completo=");
 		sb.append(completo);
 		sb.append(", operatore=");
@@ -151,6 +153,13 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		}
 
 		testataDocumentoImpl.setCodiceDestinazione(codiceDestinazione);
+
+		if (ragioneSociale == null) {
+			testataDocumentoImpl.setRagioneSociale(StringPool.BLANK);
+		}
+		else {
+			testataDocumentoImpl.setRagioneSociale(ragioneSociale);
+		}
 
 		if (completo == null) {
 			testataDocumentoImpl.setCompleto(StringPool.BLANK);
@@ -324,6 +333,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		dataConsegna = objectInput.readUTF();
 		destinazione = objectInput.readUTF();
 		codiceDestinazione = objectInput.readInt();
+		ragioneSociale = objectInput.readUTF();
 		completo = objectInput.readUTF();
 		operatore = objectInput.readUTF();
 		visto = objectInput.readInt();
@@ -390,6 +400,13 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		}
 
 		objectOutput.writeInt(codiceDestinazione);
+
+		if (ragioneSociale == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(ragioneSociale);
+		}
 
 		if (completo == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -557,6 +574,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	public String dataConsegna;
 	public String destinazione;
 	public int codiceDestinazione;
+	public String ragioneSociale;
 	public String completo;
 	public String operatore;
 	public int visto;

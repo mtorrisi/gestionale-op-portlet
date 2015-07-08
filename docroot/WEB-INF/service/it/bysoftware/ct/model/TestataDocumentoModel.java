@@ -162,6 +162,21 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	public void setCodiceDestinazione(int codiceDestinazione);
 
 	/**
+	 * Returns the ragione sociale of this testata documento.
+	 *
+	 * @return the ragione sociale of this testata documento
+	 */
+	@AutoEscape
+	public String getRagioneSociale();
+
+	/**
+	 * Sets the ragione sociale of this testata documento.
+	 *
+	 * @param ragioneSociale the ragione sociale of this testata documento
+	 */
+	public void setRagioneSociale(String ragioneSociale);
+
+	/**
 	 * Returns the completo of this testata documento.
 	 *
 	 * @return the completo of this testata documento

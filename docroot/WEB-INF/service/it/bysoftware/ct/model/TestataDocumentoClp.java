@@ -82,6 +82,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		attributes.put("dataConsegna", getDataConsegna());
 		attributes.put("destinazione", getDestinazione());
 		attributes.put("codiceDestinazione", getCodiceDestinazione());
+		attributes.put("ragioneSociale", getRagioneSociale());
 		attributes.put("completo", getCompleto());
 		attributes.put("operatore", getOperatore());
 		attributes.put("visto", getVisto());
@@ -158,6 +159,12 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 		if (codiceDestinazione != null) {
 			setCodiceDestinazione(codiceDestinazione);
+		}
+
+		String ragioneSociale = (String)attributes.get("ragioneSociale");
+
+		if (ragioneSociale != null) {
+			setRagioneSociale(ragioneSociale);
 		}
 
 		String completo = (String)attributes.get("completo");
@@ -494,6 +501,30 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 						int.class);
 
 				method.invoke(_testataDocumentoRemoteModel, codiceDestinazione);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getRagioneSociale() {
+		return _ragioneSociale;
+	}
+
+	@Override
+	public void setRagioneSociale(String ragioneSociale) {
+		_ragioneSociale = ragioneSociale;
+
+		if (_testataDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _testataDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setRagioneSociale",
+						String.class);
+
+				method.invoke(_testataDocumentoRemoteModel, ragioneSociale);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -1254,6 +1285,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		clone.setDataConsegna(getDataConsegna());
 		clone.setDestinazione(getDestinazione());
 		clone.setCodiceDestinazione(getCodiceDestinazione());
+		clone.setRagioneSociale(getRagioneSociale());
 		clone.setCompleto(getCompleto());
 		clone.setOperatore(getOperatore());
 		clone.setVisto(getVisto());
@@ -1327,7 +1359,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(75);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1343,6 +1375,8 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(getDestinazione());
 		sb.append(", codiceDestinazione=");
 		sb.append(getCodiceDestinazione());
+		sb.append(", ragioneSociale=");
+		sb.append(getRagioneSociale());
 		sb.append(", completo=");
 		sb.append(getCompleto());
 		sb.append(", operatore=");
@@ -1408,7 +1442,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(112);
+		StringBundler sb = new StringBundler(115);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.TestataDocumento");
@@ -1441,6 +1475,10 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(
 			"<column><column-name>codiceDestinazione</column-name><column-value><![CDATA[");
 		sb.append(getCodiceDestinazione());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>ragioneSociale</column-name><column-value><![CDATA[");
+		sb.append(getRagioneSociale());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>completo</column-name><column-value><![CDATA[");
@@ -1571,6 +1609,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	private String _dataConsegna;
 	private String _destinazione;
 	private int _codiceDestinazione;
+	private String _ragioneSociale;
 	private String _completo;
 	private String _operatore;
 	private int _visto;

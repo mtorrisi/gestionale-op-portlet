@@ -219,6 +219,9 @@
 			<basic name="codiceDestinazione">
 				<column name="WKDESDIV" />
 			</basic>
+			<basic name="ragioneSociale">
+				<column name="WKRAGSOC" />
+			</basic>
 			<basic name="completo">
 				<column name="WKCOMPLETO" />
 			</basic>

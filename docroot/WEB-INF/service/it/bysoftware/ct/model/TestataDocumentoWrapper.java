@@ -56,6 +56,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 		attributes.put("dataConsegna", getDataConsegna());
 		attributes.put("destinazione", getDestinazione());
 		attributes.put("codiceDestinazione", getCodiceDestinazione());
+		attributes.put("ragioneSociale", getRagioneSociale());
 		attributes.put("completo", getCompleto());
 		attributes.put("operatore", getOperatore());
 		attributes.put("visto", getVisto());
@@ -132,6 +133,12 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 
 		if (codiceDestinazione != null) {
 			setCodiceDestinazione(codiceDestinazione);
+		}
+
+		String ragioneSociale = (String)attributes.get("ragioneSociale");
+
+		if (ragioneSociale != null) {
+			setRagioneSociale(ragioneSociale);
 		}
 
 		String completo = (String)attributes.get("completo");
@@ -471,6 +478,26 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	@Override
 	public void setCodiceDestinazione(int codiceDestinazione) {
 		_testataDocumento.setCodiceDestinazione(codiceDestinazione);
+	}
+
+	/**
+	* Returns the ragione sociale of this testata documento.
+	*
+	* @return the ragione sociale of this testata documento
+	*/
+	@Override
+	public java.lang.String getRagioneSociale() {
+		return _testataDocumento.getRagioneSociale();
+	}
+
+	/**
+	* Sets the ragione sociale of this testata documento.
+	*
+	* @param ragioneSociale the ragione sociale of this testata documento
+	*/
+	@Override
+	public void setRagioneSociale(java.lang.String ragioneSociale) {
+		_testataDocumento.setRagioneSociale(ragioneSociale);
 	}
 
 	/**

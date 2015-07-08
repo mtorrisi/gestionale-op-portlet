@@ -39,6 +39,7 @@ public class TestataDocumentoSoap implements Serializable {
 		soapModel.setDataConsegna(model.getDataConsegna());
 		soapModel.setDestinazione(model.getDestinazione());
 		soapModel.setCodiceDestinazione(model.getCodiceDestinazione());
+		soapModel.setRagioneSociale(model.getRagioneSociale());
 		soapModel.setCompleto(model.getCompleto());
 		soapModel.setOperatore(model.getOperatore());
 		soapModel.setVisto(model.getVisto());
@@ -177,6 +178,14 @@ public class TestataDocumentoSoap implements Serializable {
 
 	public void setCodiceDestinazione(int codiceDestinazione) {
 		_codiceDestinazione = codiceDestinazione;
+	}
+
+	public String getRagioneSociale() {
+		return _ragioneSociale;
+	}
+
+	public void setRagioneSociale(String ragioneSociale) {
+		_ragioneSociale = ragioneSociale;
 	}
 
 	public String getCompleto() {
@@ -418,6 +427,7 @@ public class TestataDocumentoSoap implements Serializable {
 	private String _dataConsegna;
 	private String _destinazione;
 	private int _codiceDestinazione;
+	private String _ragioneSociale;
 	private String _completo;
 	private String _operatore;
 	private int _visto;

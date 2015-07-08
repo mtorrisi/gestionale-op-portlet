@@ -334,6 +334,7 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 		testataDocumentoImpl.setDataConsegna(testataDocumento.getDataConsegna());
 		testataDocumentoImpl.setDestinazione(testataDocumento.getDestinazione());
 		testataDocumentoImpl.setCodiceDestinazione(testataDocumento.getCodiceDestinazione());
+		testataDocumentoImpl.setRagioneSociale(testataDocumento.getRagioneSociale());
 		testataDocumentoImpl.setCompleto(testataDocumento.getCompleto());
 		testataDocumentoImpl.setOperatore(testataDocumento.getOperatore());
 		testataDocumentoImpl.setVisto(testataDocumento.getVisto());
@@ -688,14 +689,15 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	private static Log _log = LogFactoryUtil.getLog(TestataDocumentoPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"anno", "numeroOrdine", "codiceSoggetto", "dataOrdine",
-				"dataConsegna", "destinazione", "codiceDestinazione", "completo",
-				"operatore", "visto", "inviato", "lotto", "tipoDocumeto",
-				"vettore", "autista", "telefono", "centro", "palletCaricati",
-				"palletScaricati", "codiceVettore", "destinazioneVettore",
-				"nota1", "nota2", "rigoDescrittivo", "vettore2", "curaTrasoirto",
-				"aspettoEsteriore", "causaleTrasporto", "origine",
-				"numeroPedaneEuro", "numeroPedaneNormali", "costoTrasporto",
-				"totalePedaneOrdine", "targaCamion", "targaRimorchio"
+				"dataConsegna", "destinazione", "codiceDestinazione",
+				"ragioneSociale", "completo", "operatore", "visto", "inviato",
+				"lotto", "tipoDocumeto", "vettore", "autista", "telefono",
+				"centro", "palletCaricati", "palletScaricati", "codiceVettore",
+				"destinazioneVettore", "nota1", "nota2", "rigoDescrittivo",
+				"vettore2", "curaTrasoirto", "aspettoEsteriore",
+				"causaleTrasporto", "origine", "numeroPedaneEuro",
+				"numeroPedaneNormali", "costoTrasporto", "totalePedaneOrdine",
+				"targaCamion", "targaRimorchio"
 			});
 	private static TestataDocumento _nullTestataDocumento = new TestataDocumentoImpl() {
 			@Override

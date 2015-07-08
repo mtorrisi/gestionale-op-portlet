@@ -52,6 +52,7 @@ create table SSTESORD (
 	WkDatcon VARCHAR(75) null,
 	WkDesti2 VARCHAR(75) null,
 	WkDesdiv INTEGER,
+	WkRagsoc VARCHAR(75) null,
 	WKCompleto VARCHAR(75) null,
 	WkOperatore VARCHAR(75) null,
 	WKVisto INTEGER,

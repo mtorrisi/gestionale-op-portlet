@@ -101,6 +101,8 @@
 		</column>
 		<column name='codiceDestinazione' db-name='WkDesdiv' type='int'>
 		</column>
+                <column name='ragioneSociale' db-name='WkRagsoc' type='String'>
+		</column>
 		<column name='completo' db-name='WKCompleto' type='String'>
 		</column>
 		<column name='operatore' db-name='WkOperatore' type='String'>
@@ -137,7 +139,7 @@
 		</column>
 		<column name='vettore2' db-name='WkVettore2' type='String'>
 		</column>
-		<column name='curaTrasoirto' db-name='TraspCura' type='String'>
+		<column name='curaTrasporto' db-name='TraspCura' type='String'>
 		</column>
 		<column name='aspettoEsteriore' db-name='AspEst' type='String'>
 		</column>

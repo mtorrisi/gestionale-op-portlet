@@ -91,6 +91,7 @@
 		<property name="dataConsegna" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDatcon" />
 		<property name="destinazione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesti2" />
 		<property name="codiceDestinazione" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="WkDesdiv" />
+		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkRagsoc" />
 		<property name="completo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WKCompleto" />
 		<property name="operatore" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkOperatore" />
 		<property name="visto" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="WKVisto" />

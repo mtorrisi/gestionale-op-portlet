@@ -183,10 +183,10 @@ public class DDTPortlet extends MVCPortlet {
                 } catch (SQLException ex) {
                     _log.error(ex.getLocalizedMessage());
                 } catch (PortalException ex) {
-            Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SystemException ex) {
-            Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SystemException ex) {
+                    Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 break;
             default:
                 _log.warn("Uknown operation.");
