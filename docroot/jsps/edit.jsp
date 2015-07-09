@@ -5,6 +5,8 @@
 <%@page import="it.bysoftware.ct.model.Anagrafica"%>
 <%@page import="it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.service.impl.DestinatariDiversiLocalServiceImpl"%>
+<%@page import="it.bysoftware.ct.model.TestataDocumento"%>
+<%@page import="it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.DestinatariDiversi"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@include file="../init.jsp" %>
@@ -12,6 +14,18 @@
 <%
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     //    request.setAttribute("destinazioni", destinazioni);
+
+    int idMax = 0;
+    ArrayList<Integer> idToRecover = new ArrayList<Integer>();
+
+    List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
+            
+    for (TestataDocumento testata : listTestata) {
+        if((testata.getNumeroOrdine() - 1) != idMax)
+            idToRecover.add(testata.getNumeroOrdine() - 1);
+        if(testata.getNumeroOrdine() > idMax)
+            idMax = testata.getNumeroOrdine();
+    }
 %>
 
 <liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
@@ -26,6 +40,23 @@
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="carrier1URL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectcarrier.jsp" />
+    <liferay-portlet:param name="carrier" value="1" />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="carrier2URL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectcarrier.jsp"  />
+    <liferay-portlet:param name="carrier" value="2" />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="transportURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectTrasportCare.jsp"  />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="aspectURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectAspect.jsp"  />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="causalURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectCausal.jsp"  />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="portURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
 <portlet:resourceURL var="printDDT" id="print" />
@@ -57,8 +88,15 @@
                 <aui:input type="radio" name="completoSi" label="Si" inlineLabel="true" checked="true" inlineField="true"/>
                 <aui:input type="radio" name="completoNo" label="No" inlineLabel="true" inlineField="true"/>
             </aui:field-wrapper--%>
-            <aui:input type="text" name="nDoc"    label="N. Documento" style="width: 90%" />
-            <aui:input type="text" name="recProt" label="Rec Protocollo" style="width: 90%"/>
+
+            <aui:input type="text" name="nDoc"    label="N. Documento" style="width: 90%" value="<%= idMax %>" />
+            <aui:select label="Rec Protocollo" name="recProt" style="width: 90%; background-color: #FFFFCC;"> 
+                <c:forEach items="<%= idToRecover %>" var="id">
+                    <aui:option value="${id}">
+                        ${id}
+                    </aui:option>
+                </c:forEach>
+            </aui:select>
         </aui:column>
     </aui:layout>
 </aui:fieldset>
@@ -111,28 +149,28 @@
                 <div class="control-group">
                     <label for="trasporto" class="control-label">Trasporto a cura: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="trasporto" readonly="true" style="display: none;" />
-                        <input type="text" class="input-xxlarge" id="telefonoTXT" placeholder="Seleziona..." />
+                        <input type="text" class="input-small" id="trasporto" readonly="true" />
+                        <input type="text" class="input-xxlarge" id="trasportoTXT" placeholder="Seleziona..." />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="aspetto" class="control-label">Aspetto esteriore: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="aspetto" readonly="true" style="display: none;" />
+                        <input type="text" class="input-small" id="aspetto" readonly="true" />
                         <input type="text" class="input-xxlarge" id="aspettoTXT" placeholder="Seleziona..." />
                     </div>
                 </div>                
                 <div class="control-group">
                     <label for="causale" class="control-label">Causale trsaporto: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="causale" readonly="true" style="display: none;" />
+                        <input type="text" class="input-small" id="causale" readonly="true" />
                         <input type="text" class="input-xxlarge" id="causaleTXT" placeholder="Seleziona..." />
                     </div>
                 </div>
                 <div class="control-group">
                     <label for="porto" class="control-label">Porto: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="porto" readonly="true" style="display: none;" />
+                        <input type="text" class="input-small" id="porto" readonly="true" />
                         <input type="text" class="input-xxlarge" id="portoTXT" placeholder="Seleziona..." />
                     </div>
                 </div>
@@ -297,6 +335,96 @@
         });
     });
 
+    YUI().use('liferay-util-window', function (Y) {
+        Y.one('#vettore2').on('click', function (event) {
+
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false
+//                    height: '600px',
+//                    width: '800px'
+                },
+                id: '<portlet:namespace/>vettore2',
+                title: 'Seleziona Vettore',
+                uri: '<%=carrier2URL %>'
+            });
+        });
+    });
+
+    YUI().use('liferay-util-window', function (Y) {
+        Y.one('#trasportoTXT').on('click', function (event) {
+
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false
+//                    height: '600px',
+//                    width: '800px'
+                },
+                id: '<portlet:namespace/>curaTrasporto',
+                title: 'Seleziona Trasporto',
+                uri: '<%=transportURL %>'
+            });
+        });
+    });
+
+    YUI().use('liferay-util-window', function (Y) {
+        Y.one('#aspettoTXT').on('click', function (event) {
+
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false
+//                    height: '600px',
+//                    width: '800px'
+                },
+                id: '<portlet:namespace/>aspettoEsteriore',
+                title: 'Seleziona Apetto Beni',
+                uri: '<%=aspectURL %>'
+            });
+        });
+    });
+
+    YUI().use('liferay-util-window', function (Y) {
+        Y.one('#causaleTXT').on('click', function (event) {
+
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false
+//                    height: '600px',
+//                    width: '800px'
+                },
+                id: '<portlet:namespace/>causaleTrasporto',
+                title: 'Seleziona Causale Trasporto',
+                uri: '<%=causalURL %>'
+            });
+        });
+    });
+
+    YUI().use('liferay-util-window', function (Y) {
+        Y.one('#portoTXT').on('click', function (event) {
+
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: false
+//                    height: '600px',
+//                    width: '800px'
+                },
+                id: '<portlet:namespace/>porto',
+                title: 'Seleziona Tipologia Porto',
+                uri: '<%=portURL %>'
+            });
+        });
+    });
+
     Liferay.provide(window, 'closePopup', function (data, dialogId) {
         // Closing the dialog
         var dialog = Liferay.Util.Window.getById(dialogId);
@@ -322,11 +450,28 @@
             case '<portlet:namespace/>vettore1':
                 setCarrier(1, data);
                 break;
+            case '<portlet:namespace/>vettore2':
+                setCarrier(2, data);
+                break;
+            case '<portlet:namespace/>curaTrasporto':
+                setTrasportCare(data);
+                break;
+            case '<portlet:namespace/>aspettoEsteriore':
+                setAspect(data);
+                break;
+            case '<portlet:namespace/>causaleTrasporto':
+                setCausal(data);
+                break;
+            case '<portlet:namespace/>porto':
+                setPorto(data);
+                break;
         }
     }, ['liferay-util-window']);
 
     var table;
     var recordSelected;
+    var totale = 0;
+    var pedaneNormali = 0;
     YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
 
         var nameEditor = new Y.TextAreaCellEditor({
@@ -580,6 +725,38 @@
             calcola();
         });
 
+        table.before('*:prezzoChange', function (e) {
+            var record = recordSelected.getAttrs();
+            var prezzo = record.prezzo;
+            var tmp = totale - prezzo;
+            if (!isNaN(tmp))
+                totale = tmp;
+            document.getElementById('costo').value = totale;
+        });
+        table.after('*:prezzoChange', function (e) {
+            var record = recordSelected.getAttrs();
+            var prezzo = record.prezzo;
+            totale = totale + prezzo;
+
+            document.getElementById('costo').value = totale;
+        });
+
+        table.before('*:pedaneChange', function (e) {
+            var record = recordSelected.getAttrs();
+            var pedane = record.pedane;
+            var tmp = pedaneNormali - pedane;
+            if (!isNaN(tmp))
+                pedaneNormali = tmp;
+            document.getElementById('pedane-normali').value = pedaneNormali;
+        });
+        table.after('*:pedaneChange', function (e) {
+            var record = recordSelected.getAttrs();
+            var pedane = record.pedane;
+            pedaneNormali = pedaneNormali + pedane;
+
+            document.getElementById('pedane-normali').value = pedaneNormali;
+        });
+        
         Y.one("#<portlet:namespace />btnAdd").on("click", function () {
             recordSelected = undefined;
             Liferay.Util.openWindow({
@@ -644,15 +821,45 @@
         }
     }
     function setCarrier(i, data) {
-        console.log("*****" + i);
-        console.log("*****" + data);
         var tmp = data.split('|');
-        
-        if(i===1){
+
+        if (i === 1) {
             document.getElementById('codiceVettore1').value = tmp[0];
             document.getElementById('vettore1').value = tmp[1];
+        } else if (i === 2) {
+            document.getElementById('codiceVettore2').value = tmp[0];
+            document.getElementById('vettore2').value = tmp[1];
         }
     }
+
+    function setTrasportCare(data) {
+        var tmp = data.split('|');
+
+        document.getElementById('trasporto').value = tmp[0];
+        document.getElementById('trasportoTXT').value = tmp[1];
+    }
+
+    function setAspect(data) {
+        var tmp = data.split('|');
+
+        document.getElementById('aspetto').value = tmp[0];
+        document.getElementById('aspettoTXT').value = tmp[1];
+    }
+
+    function setCausal(data) {
+        var tmp = data.split('|');
+
+        document.getElementById('causale').value = tmp[0];
+        document.getElementById('causaleTXT').value = tmp[1];
+    }
+
+    function setPorto(data) {
+        var tmp = data.split('|');
+
+        document.getElementById('porto').value = tmp[0];
+        document.getElementById('portoTXT').value = tmp[1];
+    }
+
     function calcola() {
         var record = recordSelected.getAttrs();
         var colli = colli = record.colli;
@@ -687,11 +894,13 @@
             var codiceCliente = Y.one('#<portlet:namespace />codiceClienteTxt').val();
             var clienteTxt = Y.one('#<portlet:namespace />clienteTxt').val();
             var destinazioneTxt = Y.one('#<portlet:namespace />destinazioneTxt').val();
+            var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
             var orderDate = Y.one('#<portlet:namespace />orderDate').val();
             var deliveryDate = Y.one('#<portlet:namespace />deliveryDate').val();
             var queryString = "&codiceCliente=" + codiceCliente +
                     "&clienteTxt=" + clienteTxt + "&destinazioneTxt=" + destinazioneTxt +
-                    "&orderDate=" + orderDate + "&=deliveryDate" + deliveryDate;
+                    "&codiceDestinazione=" + codiceDestinazione + "&orderDate=" + orderDate +
+                    "&=deliveryDate" + deliveryDate;
             //        Y.one('#btnSave').on('click', function () {
             Y.io.request(
                     '${saveDDT}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),

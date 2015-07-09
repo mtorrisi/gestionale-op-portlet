@@ -19,6 +19,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.HtmlUtil;
+import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
@@ -38,13 +40,15 @@ import javax.portlet.PortletPreferences;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.model.RigoDocumento;
+import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
-import it.bysoftware.ct.service.VettoriLocalServiceUtil;
+import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.its.ct.gestionaleOP.report.Report;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,8 +72,27 @@ public class DDTPortlet extends MVCPortlet {
     @Override
     public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         super.doView(renderRequest, renderResponse);
-
+        int idMax = 0;
+        ArrayList<Integer> idToRecover = new ArrayList<Integer>();
         try {
+
+            List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
+
+            for (TestataDocumento testata : listTestata) {
+                _log.info("ID: " + testata.getNumeroOrdine());
+                if ((testata.getNumeroOrdine() - 1) != idMax) {
+                    idToRecover.add(testata.getNumeroOrdine() - 1);
+                }
+                if (testata.getNumeroOrdine() > idMax) {
+                    idMax = testata.getNumeroOrdine();
+                }
+            }
+
+            for (Integer id : idToRecover) {
+                _log.info("IDTORECOVER: " + id);
+            }
+            _log.info("IDMAX: " + idMax);
+            renderRequest.setAttribute("idMax", idMax);
 
 //            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
 //            int countClienti = AnagraficaLocalServiceUtil.countClienti();
@@ -137,31 +160,28 @@ public class DDTPortlet extends MVCPortlet {
                 String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
                 String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
                 _log.info("DATA: " + string + "\nCodiceCliente: " + codiceCliente);
-                 {
+                try {
 
-                    try {
+                    JSONArray rowsJSON = JSONFactoryUtil.createJSONArray(string);
+                    for (int i = 0; i < rowsJSON.length(); i++) {
 
-                        JSONArray JSONArray = JSONFactoryUtil.createJSONArray(string);
-                        JSONObject obj = JSONArray.getJSONObject(0);
-                        obj.getString("gestioneReti");
-                        RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(obj.toString(), RigoDocumentoImpl.class);
+                        JSONObject rowJSON = rowsJSON.getJSONObject(i);
+                        RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
                         rigo.setAnno(2015);
                         rigo.setNumeroOrdine(1000);
                         rigo.setRigoOrdine(1);
-                        rigo.setGestioneReti(obj.getString("reti").equalsIgnoreCase("si"));
+                        rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
                         _log.info("****************** rigo: " + rigo + " *********************");
-//                        RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
-                    } catch (JSONException ex) {
-//                        Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
-                        _log.error("JSONException: " + ex.getLocalizedMessage());
+
+//                            RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
                     }
-//                    catch (SystemException ex) {
-////                        Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
-//                        _log.error("SystemException: " + ex.getLocalizedMessage());
-//                    }
 
+                } catch (JSONException ex) {
+                    _log.error("JSONException: " + ex.getLocalizedMessage());
                 }
-
+//                    catch (SystemException ex) {
+//                        Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
                 break;
             case print:
 
@@ -177,6 +197,9 @@ public class DDTPortlet extends MVCPortlet {
                     ServiceContext serviceContext = ServiceContextFactory.getInstance(DDTPortlet.class.getName(), resourceRequest);
                     User currentUser = PortalUtil.getUser(resourceRequest);
                     DLAppLocalServiceUtil.addFileEntry(currentUser.getUserId(), groupId, folder.getFolderId(), "/home/mario/test/report.pdf", new MimetypesFileTypeMap().getContentType("/home/mario/test/report.pdf"), "DDT.pdf", "DDT PRINTED OUT", "LOG MARIO", new File("/home/mario/test/report.pdf"), serviceContext);
+                    _log.info("TEST");
+                    String fileUrl = themeDisplay.getPortalURL() + themeDisplay.getPathContext() + "/documents/" + themeDisplay.getScopeGroupId() + "//" + folder.getFolderId() + "//" + HttpUtil.encodeURL(HtmlUtil.unescape("DDT.pdf"));
+                    _log.info(fileUrl);
                 } catch (ClassNotFoundException ex) {
                     _log.error(ex.getLocalizedMessage());
                 } catch (JRException ex) {

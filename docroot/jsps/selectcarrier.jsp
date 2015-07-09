@@ -8,6 +8,7 @@
 <%@include file="../init.jsp" %>
 
 <%   
+    String carrierId = ParamUtil.getString(request, "carrier", null);
     String keywords = ParamUtil.getString(request, "keywords", null);
 
     List<Vettori> vettori;
@@ -40,13 +41,13 @@
             pageContext.setAttribute("total", total);
         %>
     </liferay-ui:search-container-results>
-    <div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />vettore1">
+    <div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />vettore'<%= carrierId %>'">
         <liferay-ui:search-container-row className="it.bysoftware.ct.model.Vettori" modelVar="vettore">
             <liferay-ui:search-container-column-text   property="codiceVettore"  name="Codice"/>
             <liferay-ui:search-container-column-text   property="ragioneSociale" name="Ragione Sociale" />
             <liferay-ui:search-container-column-text   property="CAP"       name="CAP"/>
             <liferay-ui:search-container-column-text   property="comune"    name="Comune"/>
-            <liferay-ui:search-container-column-text   property="provincia" name="Provincia"/>-
+            <liferay-ui:search-container-column-text   property="provincia" name="Provincia"/>
             <liferay-ui:search-container-column-button href="set('${vettore.codiceVettore}|${vettore.ragioneSociale}')" name="Seleziona" align="center" />
 
         </liferay-ui:search-container-row>
@@ -63,6 +64,6 @@
     function set(codice) {
 
         console.log("Codice Vettore: " + codice);
-        Liferay.Util.getOpener().closePopup(codice, '<portlet:namespace/>vettore1');
+        Liferay.Util.getOpener().closePopup(codice, "<portlet:namespace/>vettore"+<%= carrierId %>);
     }
 </script>
