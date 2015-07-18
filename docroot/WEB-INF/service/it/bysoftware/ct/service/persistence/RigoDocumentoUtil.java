@@ -118,7 +118,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdine(
-		int numeroOrdine)
+		long numeroOrdine)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().findBynumeroOrdine(numeroOrdine);
 	}
@@ -137,7 +137,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdine(
-		int numeroOrdine, int start, int end)
+		long numeroOrdine, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().findBynumeroOrdine(numeroOrdine, start, end);
 	}
@@ -157,7 +157,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdine(
-		int numeroOrdine, int start, int end,
+		long numeroOrdine, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence()
@@ -175,7 +175,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.RigoDocumento findBynumeroOrdine_First(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchRigoDocumentoException {
@@ -192,7 +192,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.RigoDocumento fetchBynumeroOrdine_First(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence()
@@ -209,7 +209,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.RigoDocumento findBynumeroOrdine_Last(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchRigoDocumentoException {
@@ -226,7 +226,7 @@ public class RigoDocumentoUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.RigoDocumento fetchBynumeroOrdine_Last(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence()
@@ -245,7 +245,7 @@ public class RigoDocumentoUtil {
 	*/
 	public static it.bysoftware.ct.model.RigoDocumento[] findBynumeroOrdine_PrevAndNext(
 		it.bysoftware.ct.service.persistence.RigoDocumentoPK rigoDocumentoPK,
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchRigoDocumentoException {
@@ -260,7 +260,7 @@ public class RigoDocumentoUtil {
 	* @param numeroOrdine the numero ordine
 	* @throws SystemException if a system exception occurred
 	*/
-	public static void removeBynumeroOrdine(int numeroOrdine)
+	public static void removeBynumeroOrdine(long numeroOrdine)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		getPersistence().removeBynumeroOrdine(numeroOrdine);
 	}
@@ -272,7 +272,7 @@ public class RigoDocumentoUtil {
 	* @return the number of matching rigo documentos
 	* @throws SystemException if a system exception occurred
 	*/
-	public static int countBynumeroOrdine(int numeroOrdine)
+	public static int countBynumeroOrdine(long numeroOrdine)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().countBynumeroOrdine(numeroOrdine);
 	}

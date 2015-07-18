@@ -61,12 +61,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public static final String TABLE_NAME = "SSTESORD";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "WKAnno", Types.INTEGER },
-			{ "WKNOrd", Types.INTEGER },
+			{ "WKNOrd", Types.BIGINT },
 			{ "WkCodsog", Types.VARCHAR },
 			{ "WkDatord", Types.VARCHAR },
 			{ "WkDatcon", Types.VARCHAR },
 			{ "WkDesti2", Types.VARCHAR },
-			{ "WkDesdiv", Types.INTEGER },
+			{ "WkDesdiv", Types.VARCHAR },
 			{ "WkRagsoc", Types.VARCHAR },
 			{ "WKCompleto", Types.VARCHAR },
 			{ "WkOperatore", Types.VARCHAR },
@@ -98,7 +98,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			{ "TargaCamion", Types.VARCHAR },
 			{ "TargaRimorchio", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd INTEGER not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv INTEGER,WkRagsoc VARCHAR(75) null,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,primary key (WKAnno, WKNOrd))";
+	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd LONG not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv VARCHAR(75) null,WkRagsoc VARCHAR(75) null,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,primary key (WKAnno, WKNOrd))";
 	public static final String TABLE_SQL_DROP = "drop table SSTESORD";
 	public static final String ORDER_BY_JPQL = " ORDER BY testataDocumento.id.anno ASC, testataDocumento.id.numeroOrdine ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SSTESORD.WKAnno ASC, SSTESORD.WKNOrd ASC";
@@ -278,7 +278,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			setAnno(anno);
 		}
 
-		Integer numeroOrdine = (Integer)attributes.get("numeroOrdine");
+		Long numeroOrdine = (Long)attributes.get("numeroOrdine");
 
 		if (numeroOrdine != null) {
 			setNumeroOrdine(numeroOrdine);
@@ -308,8 +308,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			setDestinazione(destinazione);
 		}
 
-		Integer codiceDestinazione = (Integer)attributes.get(
-				"codiceDestinazione");
+		String codiceDestinazione = (String)attributes.get("codiceDestinazione");
 
 		if (codiceDestinazione != null) {
 			setCodiceDestinazione(codiceDestinazione);
@@ -512,12 +511,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@JSON
 	@Override
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _numeroOrdine;
 	}
 
 	@Override
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_numeroOrdine = numeroOrdine;
 	}
 
@@ -587,12 +586,17 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@JSON
 	@Override
-	public int getCodiceDestinazione() {
-		return _codiceDestinazione;
+	public String getCodiceDestinazione() {
+		if (_codiceDestinazione == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _codiceDestinazione;
+		}
 	}
 
 	@Override
-	public void setCodiceDestinazione(int codiceDestinazione) {
+	public void setCodiceDestinazione(String codiceDestinazione) {
 		_codiceDestinazione = codiceDestinazione;
 	}
 
@@ -1173,6 +1177,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 		testataDocumentoCacheModel.codiceDestinazione = getCodiceDestinazione();
 
+		String codiceDestinazione = testataDocumentoCacheModel.codiceDestinazione;
+
+		if ((codiceDestinazione != null) && (codiceDestinazione.length() == 0)) {
+			testataDocumentoCacheModel.codiceDestinazione = null;
+		}
+
 		testataDocumentoCacheModel.ragioneSociale = getRagioneSociale();
 
 		String ragioneSociale = testataDocumentoCacheModel.ragioneSociale;
@@ -1619,12 +1629,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			TestataDocumento.class
 		};
 	private int _anno;
-	private int _numeroOrdine;
+	private long _numeroOrdine;
 	private String _codiceSoggetto;
 	private String _dataOrdine;
 	private String _dataConsegna;
 	private String _destinazione;
-	private int _codiceDestinazione;
+	private String _codiceDestinazione;
 	private String _ragioneSociale;
 	private String _completo;
 	private String _operatore;

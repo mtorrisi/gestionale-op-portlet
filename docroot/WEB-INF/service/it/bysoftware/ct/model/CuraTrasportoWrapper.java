@@ -222,7 +222,7 @@ public class CuraTrasportoWrapper implements CuraTrasporto,
 	}
 
 	@Override
-	public int compareTo(CuraTrasporto curaTrasporto) {
+	public int compareTo(it.bysoftware.ct.model.CuraTrasporto curaTrasporto) {
 		return _curaTrasporto.compareTo(curaTrasporto);
 	}
 
@@ -232,17 +232,17 @@ public class CuraTrasportoWrapper implements CuraTrasporto,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<CuraTrasporto> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.CuraTrasporto> toCacheModel() {
 		return _curaTrasporto.toCacheModel();
 	}
 
 	@Override
-	public CuraTrasporto toEscapedModel() {
+	public it.bysoftware.ct.model.CuraTrasporto toEscapedModel() {
 		return new CuraTrasportoWrapper(_curaTrasporto.toEscapedModel());
 	}
 
 	@Override
-	public CuraTrasporto toUnescapedModel() {
+	public it.bysoftware.ct.model.CuraTrasporto toUnescapedModel() {
 		return new CuraTrasportoWrapper(_curaTrasporto.toUnescapedModel());
 	}
 

@@ -9,7 +9,7 @@ org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     <bean id="gestionaleOPDataSourceTarget"
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/test" />
+        <property name="url" value="jdbc:mysql://localhost:3306/gestionaleop" />
         <property name="username" value="op_user" />
         <property name="password" value="op_user" />
     </bean>

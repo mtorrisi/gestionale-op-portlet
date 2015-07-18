@@ -45,7 +45,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdine(
-		int numeroOrdine)
+		long numeroOrdine)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -62,7 +62,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdine(
-		int numeroOrdine, int start, int end)
+		long numeroOrdine, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -80,7 +80,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdine(
-		int numeroOrdine, int start, int end,
+		long numeroOrdine, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -94,7 +94,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.RigoDocumento findBynumeroOrdine_First(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchRigoDocumentoException;
@@ -108,7 +108,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.RigoDocumento fetchBynumeroOrdine_First(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -122,7 +122,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.RigoDocumento findBynumeroOrdine_Last(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchRigoDocumentoException;
@@ -136,7 +136,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.RigoDocumento fetchBynumeroOrdine_Last(
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
@@ -152,7 +152,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	*/
 	public it.bysoftware.ct.model.RigoDocumento[] findBynumeroOrdine_PrevAndNext(
 		it.bysoftware.ct.service.persistence.RigoDocumentoPK rigoDocumentoPK,
-		int numeroOrdine,
+		long numeroOrdine,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchRigoDocumentoException;
@@ -163,7 +163,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @param numeroOrdine the numero ordine
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeBynumeroOrdine(int numeroOrdine)
+	public void removeBynumeroOrdine(long numeroOrdine)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
@@ -173,7 +173,7 @@ public interface RigoDocumentoPersistence extends BasePersistence<RigoDocumento>
 	* @return the number of matching rigo documentos
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countBynumeroOrdine(int numeroOrdine)
+	public int countBynumeroOrdine(long numeroOrdine)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

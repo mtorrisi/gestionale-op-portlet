@@ -152,7 +152,12 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			testataDocumentoImpl.setDestinazione(destinazione);
 		}
 
-		testataDocumentoImpl.setCodiceDestinazione(codiceDestinazione);
+		if (codiceDestinazione == null) {
+			testataDocumentoImpl.setCodiceDestinazione(StringPool.BLANK);
+		}
+		else {
+			testataDocumentoImpl.setCodiceDestinazione(codiceDestinazione);
+		}
 
 		if (ragioneSociale == null) {
 			testataDocumentoImpl.setRagioneSociale(StringPool.BLANK);
@@ -327,12 +332,12 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		anno = objectInput.readInt();
-		numeroOrdine = objectInput.readInt();
+		numeroOrdine = objectInput.readLong();
 		codiceSoggetto = objectInput.readUTF();
 		dataOrdine = objectInput.readUTF();
 		dataConsegna = objectInput.readUTF();
 		destinazione = objectInput.readUTF();
-		codiceDestinazione = objectInput.readInt();
+		codiceDestinazione = objectInput.readUTF();
 		ragioneSociale = objectInput.readUTF();
 		completo = objectInput.readUTF();
 		operatore = objectInput.readUTF();
@@ -369,7 +374,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeInt(anno);
-		objectOutput.writeInt(numeroOrdine);
+		objectOutput.writeLong(numeroOrdine);
 
 		if (codiceSoggetto == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -399,7 +404,12 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			objectOutput.writeUTF(destinazione);
 		}
 
-		objectOutput.writeInt(codiceDestinazione);
+		if (codiceDestinazione == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(codiceDestinazione);
+		}
 
 		if (ragioneSociale == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -568,12 +578,12 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	}
 
 	public int anno;
-	public int numeroOrdine;
+	public long numeroOrdine;
 	public String codiceSoggetto;
 	public String dataOrdine;
 	public String dataConsegna;
 	public String destinazione;
-	public int codiceDestinazione;
+	public String codiceDestinazione;
 	public String ragioneSociale;
 	public String completo;
 	public String operatore;

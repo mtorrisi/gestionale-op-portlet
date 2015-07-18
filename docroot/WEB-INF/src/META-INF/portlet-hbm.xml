@@ -96,7 +96,7 @@
 		<cache usage="read-write" />
 		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.RigoDocumentoPK">
 			<key-property name="anno" column="WKAnno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-			<key-property name="numeroOrdine" column="WkNOrd" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="numeroOrdine" column="WkNOrd" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 			<key-property name="rigoOrdine" column="WkRigord" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		</composite-id>
 		<property name="descrizioneVariante" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesvar" />
@@ -123,13 +123,13 @@
 		<cache usage="read-write" />
 		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.TestataDocumentoPK">
 			<key-property name="anno" column="WKAnno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
-			<key-property name="numeroOrdine" column="WKNOrd" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="numeroOrdine" column="WKNOrd" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="codiceSoggetto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkCodsog" />
 		<property name="dataOrdine" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDatord" />
 		<property name="dataConsegna" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDatcon" />
 		<property name="destinazione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesti2" />
-		<property name="codiceDestinazione" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="WkDesdiv" />
+		<property name="codiceDestinazione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesdiv" />
 		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkRagsoc" />
 		<property name="completo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WKCompleto" />
 		<property name="operatore" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkOperatore" />

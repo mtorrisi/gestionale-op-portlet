@@ -26,13 +26,13 @@ import java.io.Serializable;
 public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 	Serializable {
 	public int anno;
-	public int numeroOrdine;
+	public long numeroOrdine;
 	public int rigoOrdine;
 
 	public RigoDocumentoPK() {
 	}
 
-	public RigoDocumentoPK(int anno, int numeroOrdine, int rigoOrdine) {
+	public RigoDocumentoPK(int anno, long numeroOrdine, int rigoOrdine) {
 		this.anno = anno;
 		this.numeroOrdine = numeroOrdine;
 		this.rigoOrdine = rigoOrdine;
@@ -46,11 +46,11 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 		this.anno = anno;
 	}
 
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return numeroOrdine;
 	}
 
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		this.numeroOrdine = numeroOrdine;
 	}
 

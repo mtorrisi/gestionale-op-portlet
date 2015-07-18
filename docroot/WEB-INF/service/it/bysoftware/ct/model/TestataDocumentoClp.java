@@ -124,7 +124,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 			setAnno(anno);
 		}
 
-		Integer numeroOrdine = (Integer)attributes.get("numeroOrdine");
+		Long numeroOrdine = (Long)attributes.get("numeroOrdine");
 
 		if (numeroOrdine != null) {
 			setNumeroOrdine(numeroOrdine);
@@ -154,8 +154,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 			setDestinazione(destinazione);
 		}
 
-		Integer codiceDestinazione = (Integer)attributes.get(
-				"codiceDestinazione");
+		String codiceDestinazione = (String)attributes.get("codiceDestinazione");
 
 		if (codiceDestinazione != null) {
 			setCodiceDestinazione(codiceDestinazione);
@@ -369,19 +368,19 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	}
 
 	@Override
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _numeroOrdine;
 	}
 
 	@Override
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_numeroOrdine = numeroOrdine;
 
 		if (_testataDocumentoRemoteModel != null) {
 			try {
 				Class<?> clazz = _testataDocumentoRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setNumeroOrdine", int.class);
+				Method method = clazz.getMethod("setNumeroOrdine", long.class);
 
 				method.invoke(_testataDocumentoRemoteModel, numeroOrdine);
 			}
@@ -485,12 +484,12 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	}
 
 	@Override
-	public int getCodiceDestinazione() {
+	public String getCodiceDestinazione() {
 		return _codiceDestinazione;
 	}
 
 	@Override
-	public void setCodiceDestinazione(int codiceDestinazione) {
+	public void setCodiceDestinazione(String codiceDestinazione) {
 		_codiceDestinazione = codiceDestinazione;
 
 		if (_testataDocumentoRemoteModel != null) {
@@ -498,7 +497,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 				Class<?> clazz = _testataDocumentoRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setCodiceDestinazione",
-						int.class);
+						String.class);
 
 				method.invoke(_testataDocumentoRemoteModel, codiceDestinazione);
 			}
@@ -1603,12 +1602,12 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	}
 
 	private int _anno;
-	private int _numeroOrdine;
+	private long _numeroOrdine;
 	private String _codiceSoggetto;
 	private String _dataOrdine;
 	private String _dataConsegna;
 	private String _destinazione;
-	private int _codiceDestinazione;
+	private String _codiceDestinazione;
 	private String _ragioneSociale;
 	private String _completo;
 	private String _operatore;

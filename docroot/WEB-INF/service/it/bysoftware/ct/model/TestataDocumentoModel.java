@@ -78,14 +78,14 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	 *
 	 * @return the numero ordine of this testata documento
 	 */
-	public int getNumeroOrdine();
+	public long getNumeroOrdine();
 
 	/**
 	 * Sets the numero ordine of this testata documento.
 	 *
 	 * @param numeroOrdine the numero ordine of this testata documento
 	 */
-	public void setNumeroOrdine(int numeroOrdine);
+	public void setNumeroOrdine(long numeroOrdine);
 
 	/**
 	 * Returns the codice soggetto of this testata documento.
@@ -152,14 +152,15 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	 *
 	 * @return the codice destinazione of this testata documento
 	 */
-	public int getCodiceDestinazione();
+	@AutoEscape
+	public String getCodiceDestinazione();
 
 	/**
 	 * Sets the codice destinazione of this testata documento.
 	 *
 	 * @param codiceDestinazione the codice destinazione of this testata documento
 	 */
-	public void setCodiceDestinazione(int codiceDestinazione);
+	public void setCodiceDestinazione(String codiceDestinazione);
 
 	/**
 	 * Returns the ragione sociale of this testata documento.

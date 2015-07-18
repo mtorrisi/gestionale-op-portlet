@@ -132,11 +132,11 @@ public class TestataDocumentoSoap implements Serializable {
 		_anno = anno;
 	}
 
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _numeroOrdine;
 	}
 
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_numeroOrdine = numeroOrdine;
 	}
 
@@ -172,11 +172,11 @@ public class TestataDocumentoSoap implements Serializable {
 		_destinazione = destinazione;
 	}
 
-	public int getCodiceDestinazione() {
+	public String getCodiceDestinazione() {
 		return _codiceDestinazione;
 	}
 
-	public void setCodiceDestinazione(int codiceDestinazione) {
+	public void setCodiceDestinazione(String codiceDestinazione) {
 		_codiceDestinazione = codiceDestinazione;
 	}
 
@@ -421,12 +421,12 @@ public class TestataDocumentoSoap implements Serializable {
 	}
 
 	private int _anno;
-	private int _numeroOrdine;
+	private long _numeroOrdine;
 	private String _codiceSoggetto;
 	private String _dataOrdine;
 	private String _dataConsegna;
 	private String _destinazione;
-	private int _codiceDestinazione;
+	private String _codiceDestinazione;
 	private String _ragioneSociale;
 	private String _completo;
 	private String _operatore;

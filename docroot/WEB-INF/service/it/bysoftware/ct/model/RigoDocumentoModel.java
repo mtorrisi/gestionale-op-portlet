@@ -78,14 +78,14 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	 *
 	 * @return the numero ordine of this rigo documento
 	 */
-	public int getNumeroOrdine();
+	public long getNumeroOrdine();
 
 	/**
 	 * Sets the numero ordine of this rigo documento.
 	 *
 	 * @param numeroOrdine the numero ordine of this rigo documento
 	 */
-	public void setNumeroOrdine(int numeroOrdine);
+	public void setNumeroOrdine(long numeroOrdine);
 
 	/**
 	 * Returns the rigo ordine of this rigo documento.

@@ -223,7 +223,8 @@ public class CausaleTrasportoWrapper implements CausaleTrasporto,
 	}
 
 	@Override
-	public int compareTo(CausaleTrasporto causaleTrasporto) {
+	public int compareTo(
+		it.bysoftware.ct.model.CausaleTrasporto causaleTrasporto) {
 		return _causaleTrasporto.compareTo(causaleTrasporto);
 	}
 
@@ -233,17 +234,17 @@ public class CausaleTrasportoWrapper implements CausaleTrasporto,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<CausaleTrasporto> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.CausaleTrasporto> toCacheModel() {
 		return _causaleTrasporto.toCacheModel();
 	}
 
 	@Override
-	public CausaleTrasporto toEscapedModel() {
+	public it.bysoftware.ct.model.CausaleTrasporto toEscapedModel() {
 		return new CausaleTrasportoWrapper(_causaleTrasporto.toEscapedModel());
 	}
 
 	@Override
-	public CausaleTrasporto toUnescapedModel() {
+	public it.bysoftware.ct.model.CausaleTrasporto toUnescapedModel() {
 		return new CausaleTrasportoWrapper(_causaleTrasporto.toUnescapedModel());
 	}
 

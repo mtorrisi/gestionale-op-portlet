@@ -83,7 +83,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 			setAnno(anno);
 		}
 
-		Integer numeroOrdine = (Integer)attributes.get("numeroOrdine");
+		Long numeroOrdine = (Long)attributes.get("numeroOrdine");
 
 		if (numeroOrdine != null) {
 			setNumeroOrdine(numeroOrdine);
@@ -258,7 +258,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	* @return the numero ordine of this rigo documento
 	*/
 	@Override
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _rigoDocumento.getNumeroOrdine();
 	}
 
@@ -268,7 +268,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	* @param numeroOrdine the numero ordine of this rigo documento
 	*/
 	@Override
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_rigoDocumento.setNumeroOrdine(numeroOrdine);
 	}
 

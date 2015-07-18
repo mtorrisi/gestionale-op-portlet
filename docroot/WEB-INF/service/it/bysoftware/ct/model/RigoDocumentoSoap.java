@@ -116,11 +116,11 @@ public class RigoDocumentoSoap implements Serializable {
 		_anno = anno;
 	}
 
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _numeroOrdine;
 	}
 
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_numeroOrdine = numeroOrdine;
 	}
 
@@ -289,7 +289,7 @@ public class RigoDocumentoSoap implements Serializable {
 	}
 
 	private int _anno;
-	private int _numeroOrdine;
+	private long _numeroOrdine;
 	private int _rigoOrdine;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;

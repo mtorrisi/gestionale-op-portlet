@@ -9,6 +9,7 @@ package it.its.ct.gestionaleOP;
  *
  * @author mario
  */
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -43,12 +44,16 @@ import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
+import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.TestataDocumentoServiceUtil;
+import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
 import it.its.ct.gestionaleOP.report.Report;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,8 +77,8 @@ public class DDTPortlet extends MVCPortlet {
     @Override
     public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         super.doView(renderRequest, renderResponse);
-        int idMax = 0;
-        ArrayList<Integer> idToRecover = new ArrayList<Integer>();
+        long idMax = 0;
+        ArrayList<Long> idToRecover = new ArrayList<Long>();
         try {
 
             List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
@@ -88,7 +93,7 @@ public class DDTPortlet extends MVCPortlet {
                 }
             }
 
-            for (Integer id : idToRecover) {
+            for (Long id : idToRecover) {
                 _log.info("IDTORECOVER: " + id);
             }
             _log.info("IDMAX: " + idMax);
@@ -159,29 +164,76 @@ public class DDTPortlet extends MVCPortlet {
             case save:
                 String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
                 String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
-                _log.info("DATA: " + string + "\nCodiceCliente: " + codiceCliente);
-                try {
+                String cliente = ParamUtil.getString(resourceRequest, "clienteTxt", null);
+                String destinazioneTxt = ParamUtil.getString(resourceRequest, "destinazioneTxt", null);
+                String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
+                String orderDate = ParamUtil.getString(resourceRequest, "orderDate", null);
+                String deliveryDate = ParamUtil.getString(resourceRequest, "deliveryDate", null);
+                String vettore1 = ParamUtil.getString(resourceRequest, "vettore1", null);
+                String vettore2 = ParamUtil.getString(resourceRequest, "vettore2", null);
+                String autista = ParamUtil.getString(resourceRequest, "autista", null);
+                String trasporto = ParamUtil.getString(resourceRequest, "trasporto", null);
+                String aspetto = ParamUtil.getString(resourceRequest, "aspetto", null);
+                String causale = ParamUtil.getString(resourceRequest, "causale", null);
+                String porto = ParamUtil.getString(resourceRequest, "porto", null);
+                String origine = ParamUtil.getString(resourceRequest, "origine", null);
+                String rigoDescrittivo = ParamUtil.getString(resourceRequest, "rigo", null);
+                double costo = ParamUtil.getDouble(resourceRequest, "costo");
+                int pedaneEuro = ParamUtil.getInteger(resourceRequest, "pedane-euro");
+                int pedaneNormali = ParamUtil.getInteger(resourceRequest, "pedane-normali");
+                String motrice = ParamUtil.getString(resourceRequest, "motrice", null);
+                String rimorchio = ParamUtil.getString(resourceRequest, "rimorchio", null);
 
+                try {
+                    
+                    
+                    TestataDocumento testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(Calendar.getInstance().get(Calendar.YEAR), CounterLocalServiceUtil.increment(TestataDocumento.class.getName())));
+
+                    testataDocumento.setCodiceSoggetto(codiceCliente);
+                    testataDocumento.setRagioneSociale(cliente);
+                    testataDocumento.setCodiceDestinazione(codiceDestinazione);
+                    testataDocumento.setDestinazione(destinazioneTxt);
+                    testataDocumento.setDataOrdine(orderDate);
+                    testataDocumento.setDataConsegna(deliveryDate);
+                    testataDocumento.setCompleto("no");
+                    testataDocumento.setOperatore(resourceRequest.getRemoteUser());
+                    testataDocumento.setVettore(vettore1);
+                    testataDocumento.setVettore2(vettore2);
+                    testataDocumento.setAutista(autista);
+                    testataDocumento.setCuraTrasporto(trasporto);
+                    testataDocumento.setAspettoEsteriore(aspetto);
+                    testataDocumento.setCausaleTrasporto(causale);
+                    testataDocumento.setPorto(porto);
+                    testataDocumento.setOrigine(origine);
+                    testataDocumento.setRigoDescrittivo(rigoDescrittivo);
+                    testataDocumento.setCostoTrasporto(costo);
+                    testataDocumento.setNumeroPedaneEuro(pedaneEuro);
+                    testataDocumento.setNumeroPedaneNormali(pedaneNormali);
+                    testataDocumento.setTargaCamion(motrice);
+                    testataDocumento.setTargaRimorchio(rimorchio);
+
+                    _log.info("Testata Documento: " + testataDocumento);
+
+                    TestataDocumentoLocalServiceUtil.addTestataDocumento(testataDocumento);
                     JSONArray rowsJSON = JSONFactoryUtil.createJSONArray(string);
                     for (int i = 0; i < rowsJSON.length(); i++) {
 
                         JSONObject rowJSON = rowsJSON.getJSONObject(i);
                         RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
-                        rigo.setAnno(2015);
-                        rigo.setNumeroOrdine(1000);
-                        rigo.setRigoOrdine(1);
+                        rigo.setAnno(Calendar.getInstance().get(Calendar.YEAR));
+                        rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
+                        rigo.setRigoOrdine(i+1);
                         rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
-                        _log.info("****************** rigo: " + rigo + " *********************");
 
-//                            RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
+                        _log.info("Rigo Documento: " + rigo);
+//                        RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
                     }
 
                 } catch (JSONException ex) {
                     _log.error("JSONException: " + ex.getLocalizedMessage());
+                } catch (SystemException ex) {
+                     _log.error("ERRORE: " + ex.getLocalizedMessage());
                 }
-//                    catch (SystemException ex) {
-//                        Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
                 break;
             case print:
 

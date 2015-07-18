@@ -89,7 +89,7 @@
 	<entity name='TestataDocumento' table='SSTESORD' local-service='true' remote-service='true'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
-		<column name='numeroOrdine' db-name='WKNOrd' type='int' primary='true'>
+		<column name='numeroOrdine' db-name='WKNOrd' type='long' id-type='sequence' primary='true'>
 		</column>
 		<column name='codiceSoggetto' db-name='WkCodsog' type='String'>
 		</column>
@@ -99,7 +99,7 @@
 		</column>
 		<column name='destinazione' db-name='WkDesti2' type='String'>
 		</column>
-		<column name='codiceDestinazione' db-name='WkDesdiv' type='int'>
+		<column name='codiceDestinazione' db-name='WkDesdiv' type='String'>
 		</column>
 		<column name='ragioneSociale' db-name='WkRagsoc' type='String'>
 		</column>
@@ -165,7 +165,7 @@
 	<entity name='RigoDocumento' table='SSRIGORD' local-service='true' remote-service='true'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
-		<column name='numeroOrdine' db-name='WkNOrd' type='int' primary='true'>
+		<column name='numeroOrdine' db-name='WkNOrd' type='long' primary='true'>
 		</column>
 		<column name='rigoOrdine' db-name='WkRigord' type='int' primary='true'>
 		</column>

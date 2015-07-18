@@ -24,11 +24,11 @@ import net.sf.jasperreports.engine.xml.JRXmlLoader;
  */
 public class Report {
 
-    public static String JASPER_REPORT_FOLDER = "/home/mario/test/";
+    public static String JASPER_REPORT_FOLDER = "/home/mario/Desktop/ITS_PROJECTS/test/";
     public static String JASPER_FILENAME = "report1";
     public static String DRIVER = "com.mysql.jdbc.Driver";
-    public static String DB_URL = "jdbc:mysql://localhost/test";
-    public static String DB_NAME = "test";
+    public static String DB_URL = "jdbc:mysql://localhost/gestionaleop";
+    public static String DB_NAME = "gestionaleop";
     public static String DB_USERNAME = "op_user";
     public static String DB_PASSWORD = "op_user";
 

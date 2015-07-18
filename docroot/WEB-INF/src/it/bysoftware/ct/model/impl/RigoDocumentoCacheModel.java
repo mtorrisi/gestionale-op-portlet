@@ -174,7 +174,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		anno = objectInput.readInt();
-		numeroOrdine = objectInput.readInt();
+		numeroOrdine = objectInput.readLong();
 		rigoOrdine = objectInput.readInt();
 		descrizioneVariante = objectInput.readUTF();
 		codiceArticolo = objectInput.readUTF();
@@ -201,7 +201,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
 		objectOutput.writeInt(anno);
-		objectOutput.writeInt(numeroOrdine);
+		objectOutput.writeLong(numeroOrdine);
 		objectOutput.writeInt(rigoOrdine);
 
 		if (descrizioneVariante == null) {
@@ -277,7 +277,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	}
 
 	public int anno;
-	public int numeroOrdine;
+	public long numeroOrdine;
 	public int rigoOrdine;
 	public String descrizioneVariante;
 	public String codiceArticolo;

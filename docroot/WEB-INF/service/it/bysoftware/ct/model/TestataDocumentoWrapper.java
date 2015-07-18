@@ -98,7 +98,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 			setAnno(anno);
 		}
 
-		Integer numeroOrdine = (Integer)attributes.get("numeroOrdine");
+		Long numeroOrdine = (Long)attributes.get("numeroOrdine");
 
 		if (numeroOrdine != null) {
 			setNumeroOrdine(numeroOrdine);
@@ -128,8 +128,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 			setDestinazione(destinazione);
 		}
 
-		Integer codiceDestinazione = (Integer)attributes.get(
-				"codiceDestinazione");
+		String codiceDestinazione = (String)attributes.get("codiceDestinazione");
 
 		if (codiceDestinazione != null) {
 			setCodiceDestinazione(codiceDestinazione);
@@ -366,7 +365,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	* @return the numero ordine of this testata documento
 	*/
 	@Override
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _testataDocumento.getNumeroOrdine();
 	}
 
@@ -376,7 +375,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	* @param numeroOrdine the numero ordine of this testata documento
 	*/
 	@Override
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_testataDocumento.setNumeroOrdine(numeroOrdine);
 	}
 
@@ -466,7 +465,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	* @return the codice destinazione of this testata documento
 	*/
 	@Override
-	public int getCodiceDestinazione() {
+	public java.lang.String getCodiceDestinazione() {
 		return _testataDocumento.getCodiceDestinazione();
 	}
 
@@ -476,7 +475,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	* @param codiceDestinazione the codice destinazione of this testata documento
 	*/
 	@Override
-	public void setCodiceDestinazione(int codiceDestinazione) {
+	public void setCodiceDestinazione(java.lang.String codiceDestinazione) {
 		_testataDocumento.setCodiceDestinazione(codiceDestinazione);
 	}
 

@@ -224,7 +224,8 @@ public class AspettoEsterioreBeniWrapper implements AspettoEsterioreBeni,
 	}
 
 	@Override
-	public int compareTo(AspettoEsterioreBeni aspettoEsterioreBeni) {
+	public int compareTo(
+		it.bysoftware.ct.model.AspettoEsterioreBeni aspettoEsterioreBeni) {
 		return _aspettoEsterioreBeni.compareTo(aspettoEsterioreBeni);
 	}
 
@@ -234,17 +235,17 @@ public class AspettoEsterioreBeniWrapper implements AspettoEsterioreBeni,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<AspettoEsterioreBeni> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.AspettoEsterioreBeni> toCacheModel() {
 		return _aspettoEsterioreBeni.toCacheModel();
 	}
 
 	@Override
-	public AspettoEsterioreBeni toEscapedModel() {
+	public it.bysoftware.ct.model.AspettoEsterioreBeni toEscapedModel() {
 		return new AspettoEsterioreBeniWrapper(_aspettoEsterioreBeni.toEscapedModel());
 	}
 
 	@Override
-	public AspettoEsterioreBeni toUnescapedModel() {
+	public it.bysoftware.ct.model.AspettoEsterioreBeni toUnescapedModel() {
 		return new AspettoEsterioreBeniWrapper(_aspettoEsterioreBeni.toUnescapedModel());
 	}
 

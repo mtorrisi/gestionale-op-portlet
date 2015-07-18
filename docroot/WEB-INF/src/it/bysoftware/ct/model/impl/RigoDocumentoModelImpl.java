@@ -61,7 +61,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	public static final String TABLE_NAME = "SSRIGORD";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "WKAnno", Types.INTEGER },
-			{ "WkNOrd", Types.INTEGER },
+			{ "WkNOrd", Types.BIGINT },
 			{ "WkRigord", Types.INTEGER },
 			{ "WkDesvar", Types.VARCHAR },
 			{ "WkCodart", Types.VARCHAR },
@@ -83,7 +83,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			{ "CodPassaportoAlfa", Types.VARCHAR },
 			{ "CodPassaportoNum", Types.INTEGER }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd INTEGER not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,primary key (WKAnno, WkNOrd, WkRigord))";
+	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,primary key (WKAnno, WkNOrd, WkRigord))";
 	public static final String TABLE_SQL_DROP = "drop table SSRIGORD";
 	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC";
@@ -238,7 +238,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			setAnno(anno);
 		}
 
-		Integer numeroOrdine = (Integer)attributes.get("numeroOrdine");
+		Long numeroOrdine = (Long)attributes.get("numeroOrdine");
 
 		if (numeroOrdine != null) {
 			setNumeroOrdine(numeroOrdine);
@@ -379,12 +379,12 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@JSON
 	@Override
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _numeroOrdine;
 	}
 
 	@Override
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_columnBitmask |= NUMEROORDINE_COLUMN_BITMASK;
 
 		if (!_setOriginalNumeroOrdine) {
@@ -396,7 +396,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		_numeroOrdine = numeroOrdine;
 	}
 
-	public int getOriginalNumeroOrdine() {
+	public long getOriginalNumeroOrdine() {
 		return _originalNumeroOrdine;
 	}
 
@@ -1016,8 +1016,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			RigoDocumento.class
 		};
 	private int _anno;
-	private int _numeroOrdine;
-	private int _originalNumeroOrdine;
+	private long _numeroOrdine;
+	private long _originalNumeroOrdine;
 	private boolean _setOriginalNumeroOrdine;
 	private int _rigoOrdine;
 	private String _descrizioneVariante;

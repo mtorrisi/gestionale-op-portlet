@@ -274,7 +274,7 @@ public class PortoWrapper implements Porto, ModelWrapper<Porto> {
 	}
 
 	@Override
-	public int compareTo(Porto porto) {
+	public int compareTo(it.bysoftware.ct.model.Porto porto) {
 		return _porto.compareTo(porto);
 	}
 
@@ -284,17 +284,17 @@ public class PortoWrapper implements Porto, ModelWrapper<Porto> {
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<Porto> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.Porto> toCacheModel() {
 		return _porto.toCacheModel();
 	}
 
 	@Override
-	public Porto toEscapedModel() {
+	public it.bysoftware.ct.model.Porto toEscapedModel() {
 		return new PortoWrapper(_porto.toEscapedModel());
 	}
 
 	@Override
-	public Porto toUnescapedModel() {
+	public it.bysoftware.ct.model.Porto toUnescapedModel() {
 		return new PortoWrapper(_porto.toUnescapedModel());
 	}
 

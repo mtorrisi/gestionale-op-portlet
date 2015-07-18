@@ -92,7 +92,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			RigoDocumentoImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"findBynumeroOrdine",
 			new String[] {
-				Integer.class.getName(),
+				Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -101,12 +101,12 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		new FinderPath(RigoDocumentoModelImpl.ENTITY_CACHE_ENABLED,
 			RigoDocumentoModelImpl.FINDER_CACHE_ENABLED,
 			RigoDocumentoImpl.class, FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findBynumeroOrdine", new String[] { Integer.class.getName() },
+			"findBynumeroOrdine", new String[] { Long.class.getName() },
 			RigoDocumentoModelImpl.NUMEROORDINE_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_NUMEROORDINE = new FinderPath(RigoDocumentoModelImpl.ENTITY_CACHE_ENABLED,
 			RigoDocumentoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countBynumeroOrdine",
-			new String[] { Integer.class.getName() });
+			new String[] { Long.class.getName() });
 
 	/**
 	 * Returns all the rigo documentos where numeroOrdine = &#63;.
@@ -116,7 +116,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<RigoDocumento> findBynumeroOrdine(int numeroOrdine)
+	public List<RigoDocumento> findBynumeroOrdine(long numeroOrdine)
 		throws SystemException {
 		return findBynumeroOrdine(numeroOrdine, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
@@ -136,7 +136,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<RigoDocumento> findBynumeroOrdine(int numeroOrdine, int start,
+	public List<RigoDocumento> findBynumeroOrdine(long numeroOrdine, int start,
 		int end) throws SystemException {
 		return findBynumeroOrdine(numeroOrdine, start, end, null);
 	}
@@ -156,7 +156,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<RigoDocumento> findBynumeroOrdine(int numeroOrdine, int start,
+	public List<RigoDocumento> findBynumeroOrdine(long numeroOrdine, int start,
 		int end, OrderByComparator orderByComparator) throws SystemException {
 		boolean pagination = true;
 		FinderPath finderPath = null;
@@ -267,7 +267,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public RigoDocumento findBynumeroOrdine_First(int numeroOrdine,
+	public RigoDocumento findBynumeroOrdine_First(long numeroOrdine,
 		OrderByComparator orderByComparator)
 		throws NoSuchRigoDocumentoException, SystemException {
 		RigoDocumento rigoDocumento = fetchBynumeroOrdine_First(numeroOrdine,
@@ -298,7 +298,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public RigoDocumento fetchBynumeroOrdine_First(int numeroOrdine,
+	public RigoDocumento fetchBynumeroOrdine_First(long numeroOrdine,
 		OrderByComparator orderByComparator) throws SystemException {
 		List<RigoDocumento> list = findBynumeroOrdine(numeroOrdine, 0, 1,
 				orderByComparator);
@@ -320,7 +320,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public RigoDocumento findBynumeroOrdine_Last(int numeroOrdine,
+	public RigoDocumento findBynumeroOrdine_Last(long numeroOrdine,
 		OrderByComparator orderByComparator)
 		throws NoSuchRigoDocumentoException, SystemException {
 		RigoDocumento rigoDocumento = fetchBynumeroOrdine_Last(numeroOrdine,
@@ -351,7 +351,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public RigoDocumento fetchBynumeroOrdine_Last(int numeroOrdine,
+	public RigoDocumento fetchBynumeroOrdine_Last(long numeroOrdine,
 		OrderByComparator orderByComparator) throws SystemException {
 		int count = countBynumeroOrdine(numeroOrdine);
 
@@ -381,7 +381,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 */
 	@Override
 	public RigoDocumento[] findBynumeroOrdine_PrevAndNext(
-		RigoDocumentoPK rigoDocumentoPK, int numeroOrdine,
+		RigoDocumentoPK rigoDocumentoPK, long numeroOrdine,
 		OrderByComparator orderByComparator)
 		throws NoSuchRigoDocumentoException, SystemException {
 		RigoDocumento rigoDocumento = findByPrimaryKey(rigoDocumentoPK);
@@ -412,7 +412,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	}
 
 	protected RigoDocumento getBynumeroOrdine_PrevAndNext(Session session,
-		RigoDocumento rigoDocumento, int numeroOrdine,
+		RigoDocumento rigoDocumento, long numeroOrdine,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -523,7 +523,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public void removeBynumeroOrdine(int numeroOrdine)
+	public void removeBynumeroOrdine(long numeroOrdine)
 		throws SystemException {
 		for (RigoDocumento rigoDocumento : findBynumeroOrdine(numeroOrdine,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
@@ -539,7 +539,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public int countBynumeroOrdine(int numeroOrdine) throws SystemException {
+	public int countBynumeroOrdine(long numeroOrdine) throws SystemException {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_NUMEROORDINE;
 
 		Object[] finderArgs = new Object[] { numeroOrdine };

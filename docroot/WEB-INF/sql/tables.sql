@@ -46,7 +46,7 @@ create table Porto (
 
 create table SSRIGORD (
 	WKAnno INTEGER not null,
-	WkNOrd INTEGER not null,
+	WkNOrd LONG not null,
 	WkRigord INTEGER not null,
 	WkDesvar VARCHAR(75) null,
 	WkCodart VARCHAR(75) null,
@@ -72,12 +72,12 @@ create table SSRIGORD (
 
 create table SSTESORD (
 	WKAnno INTEGER not null,
-	WKNOrd INTEGER not null,
+	WKNOrd LONG not null,
 	WkCodsog VARCHAR(75) null,
 	WkDatord VARCHAR(75) null,
 	WkDatcon VARCHAR(75) null,
 	WkDesti2 VARCHAR(75) null,
-	WkDesdiv INTEGER,
+	WkDesdiv VARCHAR(75) null,
 	WkRagsoc VARCHAR(75) null,
 	WKCompleto VARCHAR(75) null,
 	WkOperatore VARCHAR(75) null,

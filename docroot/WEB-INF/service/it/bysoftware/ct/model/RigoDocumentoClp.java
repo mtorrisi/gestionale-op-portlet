@@ -110,7 +110,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 			setAnno(anno);
 		}
 
-		Integer numeroOrdine = (Integer)attributes.get("numeroOrdine");
+		Long numeroOrdine = (Long)attributes.get("numeroOrdine");
 
 		if (numeroOrdine != null) {
 			setNumeroOrdine(numeroOrdine);
@@ -262,19 +262,19 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	}
 
 	@Override
-	public int getNumeroOrdine() {
+	public long getNumeroOrdine() {
 		return _numeroOrdine;
 	}
 
 	@Override
-	public void setNumeroOrdine(int numeroOrdine) {
+	public void setNumeroOrdine(long numeroOrdine) {
 		_numeroOrdine = numeroOrdine;
 
 		if (_rigoDocumentoRemoteModel != null) {
 			try {
 				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setNumeroOrdine", int.class);
+				Method method = clazz.getMethod("setNumeroOrdine", long.class);
 
 				method.invoke(_rigoDocumentoRemoteModel, numeroOrdine);
 			}
@@ -1041,7 +1041,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	}
 
 	private int _anno;
-	private int _numeroOrdine;
+	private long _numeroOrdine;
 	private int _rigoOrdine;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;
