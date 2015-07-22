@@ -1,0 +1,18 @@
+.test{
+    background: #ddd
+}
+.yui3-skin-sam .yui3-datatable-col-select {
+    text-align: center;
+}
+
+#processed {
+    margin-top: 2em;
+    border: 2px inset;
+    border-radius: 5px;
+    padding: 1em;
+    list-style: none;
+}
+
+yui3-skin-sam .yui3-hide {
+    display:none;
+}

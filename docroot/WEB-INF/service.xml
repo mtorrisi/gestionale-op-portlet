@@ -89,7 +89,7 @@
 	<entity name='TestataDocumento' table='SSTESORD' local-service='true' remote-service='true'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
-		<column name='numeroOrdine' db-name='WKNOrd' type='long' id-type='sequence' primary='true'>
+		<column name='numeroOrdine' db-name='WKNOrd' type='long' id-type='sequence' id-param="id_sequence" primary='true'>
 		</column>
 		<column name='codiceSoggetto' db-name='WkCodsog' type='String'>
 		</column>
@@ -161,6 +161,18 @@
 		</column>
 		<column name='targaRimorchio' db-name='TargaRimorchio' type='String'>
 		</column>
+                <finder name='operatore' return-type='Collection'>
+			<finder-column name='operatore' comparator='='>
+			</finder-column>
+		</finder>
+                <finder name='operatoreCompletoInviato' return-type='Collection'>
+			<finder-column name='operatore' comparator='='>
+			</finder-column>
+                        <finder-column name='completo' comparator='='>
+			</finder-column>
+                        <finder-column name='inviato' comparator='='>
+			</finder-column>
+		</finder>
 	</entity>
 	<entity name='RigoDocumento' table='SSRIGORD' local-service='true' remote-service='true'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>

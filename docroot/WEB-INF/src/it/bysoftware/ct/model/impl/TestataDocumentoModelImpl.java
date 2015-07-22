@@ -111,7 +111,14 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public static final boolean FINDER_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.finder.cache.enabled.it.bysoftware.ct.model.TestataDocumento"),
 			true);
-	public static final boolean COLUMN_BITMASK_ENABLED = false;
+	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
+				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.TestataDocumento"),
+			true);
+	public static long COMPLETO_COLUMN_BITMASK = 1L;
+	public static long INVIATO_COLUMN_BITMASK = 2L;
+	public static long OPERATORE_COLUMN_BITMASK = 4L;
+	public static long ANNO_COLUMN_BITMASK = 8L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -629,7 +636,17 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setCompleto(String completo) {
+		_columnBitmask |= COMPLETO_COLUMN_BITMASK;
+
+		if (_originalCompleto == null) {
+			_originalCompleto = _completo;
+		}
+
 		_completo = completo;
+	}
+
+	public String getOriginalCompleto() {
+		return GetterUtil.getString(_originalCompleto);
 	}
 
 	@JSON
@@ -645,7 +662,17 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setOperatore(String operatore) {
+		_columnBitmask |= OPERATORE_COLUMN_BITMASK;
+
+		if (_originalOperatore == null) {
+			_originalOperatore = _operatore;
+		}
+
 		_operatore = operatore;
+	}
+
+	public String getOriginalOperatore() {
+		return GetterUtil.getString(_originalOperatore);
 	}
 
 	@JSON
@@ -667,7 +694,19 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setInviato(int inviato) {
+		_columnBitmask |= INVIATO_COLUMN_BITMASK;
+
+		if (!_setOriginalInviato) {
+			_setOriginalInviato = true;
+
+			_originalInviato = _inviato;
+		}
+
 		_inviato = inviato;
+	}
+
+	public int getOriginalInviato() {
+		return _originalInviato;
 	}
 
 	@JSON
@@ -1040,6 +1079,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		_targaRimorchio = targaRimorchio;
 	}
 
+	public long getColumnBitmask() {
+		return _columnBitmask;
+	}
+
 	@Override
 	public TestataDocumento toEscapedModel() {
 		if (_escapedModel == null) {
@@ -1133,6 +1176,17 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void resetOriginalValues() {
+		TestataDocumentoModelImpl testataDocumentoModelImpl = this;
+
+		testataDocumentoModelImpl._originalCompleto = testataDocumentoModelImpl._completo;
+
+		testataDocumentoModelImpl._originalOperatore = testataDocumentoModelImpl._operatore;
+
+		testataDocumentoModelImpl._originalInviato = testataDocumentoModelImpl._inviato;
+
+		testataDocumentoModelImpl._setOriginalInviato = false;
+
+		testataDocumentoModelImpl._columnBitmask = 0;
 	}
 
 	@Override
@@ -1637,9 +1691,13 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private String _codiceDestinazione;
 	private String _ragioneSociale;
 	private String _completo;
+	private String _originalCompleto;
 	private String _operatore;
+	private String _originalOperatore;
 	private int _visto;
 	private int _inviato;
+	private int _originalInviato;
+	private boolean _setOriginalInviato;
 	private String _lotto;
 	private String _tipoDocumeto;
 	private String _vettore;
@@ -1665,5 +1723,6 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private int _totalePedaneOrdine;
 	private String _targaCamion;
 	private String _targaRimorchio;
+	private long _columnBitmask;
 	private TestataDocumento _escapedModel;
 }

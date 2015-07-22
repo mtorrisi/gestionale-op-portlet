@@ -78,7 +78,7 @@
     <div class="btn-toolbar">
         <div class="btn-group">
             <button id="btnSave" class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
-            <button id="btnPrint" class="btn" ><i class="icon-print"></i>Stampa</button>
+            <button id="btnPrint" class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -103,7 +103,7 @@
                 <aui:input type="radio" name="completoNo" label="No" inlineLabel="true" inlineField="true"/>
             </aui:field-wrapper--%>
 
-            <aui:input type="text" name="nDoc"    label="N. Documento" style="width: 90%" value="<%= idMax %>" />
+            <aui:input type="text" name="nDoc" label="N. Documento" style="width: 90%" />
             <aui:select label="Rec Protocollo" name="recProt" style="width: 90%; background-color: #FFFFCC;"> 
                 <c:forEach items="<%= idToRecover %>" var="id">
                     <aui:option value="${id}">
@@ -232,7 +232,7 @@
 //        window.onbeforeunload = function () {
 //            return "";
 //        };
-        
+
         YUI().use(
                 'aui-tabview',
                 function (Y) {
@@ -949,7 +949,8 @@
                 var pedane_normali = Y.one('#pedane-normali').val();
                 var motrice = Y.one('#motrice').val();
                 var rimorchio = Y.one('#rimorchio').val();
-                console.log("******" + costo);
+                var numeroOrdine = Y.one('#<portlet:namespace/>recProt').val();
+
                 var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
                         "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
                         "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>orderDate=" + orderDate +
@@ -960,33 +961,31 @@
                         "&<portlet:namespace/>origine=" + origine + "&<portlet:namespace/>rigo=" + rigo +
                         "&<portlet:namespace/>costo=" + costo + "&<portlet:namespace/>pedane-euro=" + pedane_euro +
                         "&<portlet:namespace/>pedane-normali=" + pedane_normali + "&<portlet:namespace/>motrice=" + motrice +
-                        "&<portlet:namespace/>rimorchio=" + rimorchio;
+                        "&<portlet:namespace/>rimorchio=" + rimorchio + "&<portlet:namespace/>numeroOrdine=" + numeroOrdine;
                 //        Y.one('#btnSave').on('click', function () {
                 Y.io.request(
                         '${saveDDT}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
                         {
                             on: {
                                 success: function () {
-                                    var data = this.get('responseData');
-                                    alert("SUCCESS: " + data);
+                                    var data = JSON.parse(this.get('responseData'));
+                                    if (data.code === 0) {
+                                        alert("Salvataggio effettuato con successo.");
+                                        Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+                                        document.getElementById("btnPrint").disabled = false;
+                                        document.getElementById("btnSave").disabled = true;
+                                        if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
+//                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
+                                            document.getElementById('<portlet:namespace/>recProt').value = "";                                          
+                                        }
+                                    } else {
+                                        alert("Errore durante il salvataggio dei dati: " + data);
+                                    }
                                 }
                             }
                         }
                 );
-                //        });
-                //        Y.one('#btnPrint').on('click', function () {
-                //            Y.io.request(
-                //                    '${printDDT}',
-                //                    {
-                //                        on: {
-                //                            success: function () {
-                //                                var data = this.get('responseData');
-                //                                alert("SUCCESS: " + data);
-                //                            }
-                //                        }
-                //                    }
-                //            );
-                //        });
+
             });
         }
 
@@ -1005,16 +1004,11 @@
                         '${printDDT}',
                         {
                             on: {
-                                
-                                start: function (){
-                                    loadingMask.show();
-                                },                                
                                 success: function () {
-                                    loadingMask.hide();
                                     var data = this.get('responseData');
                                     alert("SUCCESS: " + data);
                                 }
-                                
+
                             }
                         }
                 );

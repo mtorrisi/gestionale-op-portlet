@@ -289,6 +289,21 @@ public class TestataDocumentoLocalServiceWrapper
 			arguments);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
+		java.lang.String codiceOperatore)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.getByCodiceOperatore(codiceOperatore);
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.getByCodiceOperatore(codiceOperatore,
+			completo, inviato);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

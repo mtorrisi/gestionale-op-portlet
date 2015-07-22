@@ -275,6 +275,19 @@ public class TestataDocumentoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
+		java.lang.String codiceOperatore)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByCodiceOperatore(codiceOperatore);
+	}
+
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByCodiceOperatore(codiceOperatore, completo, inviato);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

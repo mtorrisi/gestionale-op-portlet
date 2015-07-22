@@ -36,9 +36,9 @@ public class Report {
         Map parametersMap = new HashMap();
         parametersMap.put("WkNOrd", 5);
         //caricamento file JRXML
-        JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + JASPER_FILENAME + ".jrxml");
+//        JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + JASPER_FILENAME + ".jrxml");
         //compilazione del file e generazione del file JASPER
-        JasperCompileManager.compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + JASPER_FILENAME + ".jasper");
+//        JasperCompileManager.compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + JASPER_FILENAME + ".jasper");
         //inizializzazione connessione al database
         Class.forName(DRIVER);
         Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);

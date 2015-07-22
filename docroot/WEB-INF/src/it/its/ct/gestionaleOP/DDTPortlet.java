@@ -9,7 +9,7 @@ package it.its.ct.gestionaleOP;
  *
  * @author mario
  */
-import com.liferay.counter.service.CounterLocalServiceUtil;
+import com.google.gson.Gson;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -46,13 +46,14 @@ import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.TestataDocumentoServiceUtil;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
+import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
 import java.io.File;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -98,6 +99,14 @@ public class DDTPortlet extends MVCPortlet {
             }
             _log.info("IDMAX: " + idMax);
             renderRequest.setAttribute("idMax", idMax);
+            String[] pippo = "mario|torrisi".split("|");
+            ArrayList<String> tmp = new ArrayList<String>(Arrays.asList(pippo));
+            
+            tmp.add("String1");
+            tmp.add("String2");
+            
+            
+            renderRequest.setAttribute("test", tmp);
 
 //            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
 //            int countClienti = AnagraficaLocalServiceUtil.countClienti();
@@ -155,13 +164,16 @@ public class DDTPortlet extends MVCPortlet {
             PortletException {
 //        System.out.println("#############AJAX CALL####################");
 
+        Gson gson = new Gson();
+        Response response = new Response();
         String resourceID = resourceRequest.getResourceID();
 
-        resourceResponse.setContentType(MediaType.APPLICATION_JSON);
         PrintWriter writer = resourceResponse.getWriter();
 
         switch (CommandID.valueOf(resourceID)) {
             case save:
+                resourceResponse.setContentType(MediaType.APPLICATION_JSON);
+
                 String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
                 String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
                 String cliente = ParamUtil.getString(resourceRequest, "clienteTxt", null);
@@ -183,19 +195,32 @@ public class DDTPortlet extends MVCPortlet {
                 int pedaneNormali = ParamUtil.getInteger(resourceRequest, "pedane-normali");
                 String motrice = ParamUtil.getString(resourceRequest, "motrice", null);
                 String rimorchio = ParamUtil.getString(resourceRequest, "rimorchio", null);
+                String numeroOrdineStr = ParamUtil.getString(resourceRequest, "numeroOrdine", null);
+
+                int numeroOrdine = 0;
+                if (!numeroOrdineStr.equals("")) {
+                    numeroOrdine = Integer.parseInt(numeroOrdineStr);
+                } else {
+                    try {
+                        numeroOrdine = TestataDocumentoLocalServiceUtil.getTestataDocumentosCount() + 1;
+                    } catch (SystemException ex) {
+                        _log.error("ERRORE: " + ex.getLocalizedMessage());
+                        response = new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+                    }
+                }
 
                 try {
-                    
-                    
-                    TestataDocumento testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(Calendar.getInstance().get(Calendar.YEAR), CounterLocalServiceUtil.increment(TestataDocumento.class.getName())));
+                    int anno = Calendar.getInstance().get(Calendar.YEAR);
 
+                    TestataDocumento testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine));
+                    testataDocumento.setAnno(anno);
                     testataDocumento.setCodiceSoggetto(codiceCliente);
                     testataDocumento.setRagioneSociale(cliente);
                     testataDocumento.setCodiceDestinazione(codiceDestinazione);
                     testataDocumento.setDestinazione(destinazioneTxt);
                     testataDocumento.setDataOrdine(orderDate);
                     testataDocumento.setDataConsegna(deliveryDate);
-                    testataDocumento.setCompleto("no");
+//                    testataDocumento.setCompleto("no");
                     testataDocumento.setOperatore(resourceRequest.getRemoteUser());
                     testataDocumento.setVettore(vettore1);
                     testataDocumento.setVettore2(vettore2);
@@ -220,20 +245,26 @@ public class DDTPortlet extends MVCPortlet {
 
                         JSONObject rowJSON = rowsJSON.getJSONObject(i);
                         RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
-                        rigo.setAnno(Calendar.getInstance().get(Calendar.YEAR));
+
+                        rigo.setAnno(anno);
                         rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
-                        rigo.setRigoOrdine(i+1);
+                        rigo.setRigoOrdine(i + 1);
                         rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
 
                         _log.info("Rigo Documento: " + rigo);
-//                        RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
+                        RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
+                        response = new Response(Response.Code.OK, numeroOrdine);
                     }
 
                 } catch (JSONException ex) {
                     _log.error("JSONException: " + ex.getLocalizedMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
                 } catch (SystemException ex) {
-                     _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
                 }
+                writer.print(gson.toJson(response));
                 break;
             case print:
 
@@ -263,11 +294,11 @@ public class DDTPortlet extends MVCPortlet {
                 } catch (SystemException ex) {
                     Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                writer.print("ID: " + resourceID);
                 break;
             default:
                 _log.warn("Uknown operation.");
         }
-        writer.print("ID: " + resourceID);
 
         writer.flush();
         writer.close();
