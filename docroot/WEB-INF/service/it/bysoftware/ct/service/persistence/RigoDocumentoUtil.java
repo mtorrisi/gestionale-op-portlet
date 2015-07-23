@@ -278,6 +278,188 @@ public class RigoDocumentoUtil {
 	}
 
 	/**
+	* Returns all the rigo documentos where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @return the matching rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdineAnno(
+		long numeroOrdine, int anno)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findBynumeroOrdineAnno(numeroOrdine, anno);
+	}
+
+	/**
+	* Returns a range of all the rigo documentos where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.RigoDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param start the lower bound of the range of rigo documentos
+	* @param end the upper bound of the range of rigo documentos (not inclusive)
+	* @return the range of matching rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdineAnno(
+		long numeroOrdine, int anno, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findBynumeroOrdineAnno(numeroOrdine, anno, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the rigo documentos where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.RigoDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param start the lower bound of the range of rigo documentos
+	* @param end the upper bound of the range of rigo documentos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> findBynumeroOrdineAnno(
+		long numeroOrdine, int anno, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findBynumeroOrdineAnno(numeroOrdine, anno, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching rigo documento
+	* @throws it.bysoftware.ct.NoSuchRigoDocumentoException if a matching rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.RigoDocumento findBynumeroOrdineAnno_First(
+		long numeroOrdine, int anno,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchRigoDocumentoException {
+		return getPersistence()
+				   .findBynumeroOrdineAnno_First(numeroOrdine, anno,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching rigo documento, or <code>null</code> if a matching rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.RigoDocumento fetchBynumeroOrdineAnno_First(
+		long numeroOrdine, int anno,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBynumeroOrdineAnno_First(numeroOrdine, anno,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching rigo documento
+	* @throws it.bysoftware.ct.NoSuchRigoDocumentoException if a matching rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.RigoDocumento findBynumeroOrdineAnno_Last(
+		long numeroOrdine, int anno,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchRigoDocumentoException {
+		return getPersistence()
+				   .findBynumeroOrdineAnno_Last(numeroOrdine, anno,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching rigo documento, or <code>null</code> if a matching rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.RigoDocumento fetchBynumeroOrdineAnno_Last(
+		long numeroOrdine, int anno,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBynumeroOrdineAnno_Last(numeroOrdine, anno,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the rigo documentos before and after the current rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param rigoDocumentoPK the primary key of the current rigo documento
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next rigo documento
+	* @throws it.bysoftware.ct.NoSuchRigoDocumentoException if a rigo documento with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.RigoDocumento[] findBynumeroOrdineAnno_PrevAndNext(
+		it.bysoftware.ct.service.persistence.RigoDocumentoPK rigoDocumentoPK,
+		long numeroOrdine, int anno,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchRigoDocumentoException {
+		return getPersistence()
+				   .findBynumeroOrdineAnno_PrevAndNext(rigoDocumentoPK,
+			numeroOrdine, anno, orderByComparator);
+	}
+
+	/**
+	* Removes all the rigo documentos where numeroOrdine = &#63; and anno = &#63; from the database.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeBynumeroOrdineAnno(long numeroOrdine, int anno)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeBynumeroOrdineAnno(numeroOrdine, anno);
+	}
+
+	/**
+	* Returns the number of rigo documentos where numeroOrdine = &#63; and anno = &#63;.
+	*
+	* @param numeroOrdine the numero ordine
+	* @param anno the anno
+	* @return the number of matching rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countBynumeroOrdineAnno(long numeroOrdine, int anno)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countBynumeroOrdineAnno(numeroOrdine, anno);
+	}
+
+	/**
 	* Caches the rigo documento in the entity cache if it is enabled.
 	*
 	* @param rigoDocumento the rigo documento

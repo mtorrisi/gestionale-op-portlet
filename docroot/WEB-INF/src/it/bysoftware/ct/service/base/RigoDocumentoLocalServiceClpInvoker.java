@@ -121,6 +121,10 @@ public class RigoDocumentoLocalServiceClpInvoker {
 		_methodName89 = "setBeanIdentifier";
 
 		_methodParameterTypes89 = new String[] { "java.lang.String" };
+
+		_methodName94 = "getByNumeroOrdineAnno";
+
+		_methodParameterTypes94 = new String[] { "long", "int" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -224,6 +228,12 @@ public class RigoDocumentoLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName94.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes94, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -263,4 +273,6 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes88;
 	private String _methodName89;
 	private String[] _methodParameterTypes89;
+	private String _methodName94;
+	private String[] _methodParameterTypes94;
 }

@@ -33,43 +33,45 @@
     ArrayList<Long> idToRecover = new ArrayList<Long>();
 
     List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
-            
+
     for (TestataDocumento testata : listTestata) {
-        if((testata.getNumeroOrdine() - 1) != idMax)
+        if ((testata.getNumeroOrdine() - 1) != idMax) {
             idToRecover.add(testata.getNumeroOrdine() - 1);
-        if(testata.getNumeroOrdine() > idMax)
+        }
+        if (testata.getNumeroOrdine() > idMax) {
             idMax = testata.getNumeroOrdine();
+        }
     }
 %>
 
-<liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/destinations.jsp" />
-    <liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />
+    <liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica()%>" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="carrier1URL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="carrier1URL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectcarrier.jsp" />
     <liferay-portlet:param name="carrier" value="1" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="carrier2URL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="carrier2URL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectcarrier.jsp"  />
     <liferay-portlet:param name="carrier" value="2" />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="transportURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="transportURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectTrasportCare.jsp"  />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="aspectURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="aspectURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectAspect.jsp"  />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="causalURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="causalURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectCausal.jsp"  />
 </liferay-portlet:renderURL>
-<liferay-portlet:renderURL var="portURL" windowState="<%=LiferayWindowState.POP_UP.toString() %>">
+<liferay-portlet:renderURL var="portURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
@@ -77,8 +79,9 @@
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button id="btnSave" class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
-            <button id="btnPrint" class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
+            <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
+            <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
+            <button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -91,8 +94,8 @@
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=cliente.getIndirizzo()%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none"/>
             <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
-            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Ordine"     inlineField="true" />
-            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Consegna"   inlineField="true" />
+            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" />
+            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" />
 
             <%--aui:input type="text" name="totPedane"    label="Tot. Pedane"     inlineField="true" cssClass="input-small"/>
             <aui:input type="text" name="Tot. Pesate"  label="Tot. Pesate"     inlineField="true" cssClass="input-small" /--%>
@@ -105,7 +108,7 @@
 
             <aui:input type="text" name="nDoc" label="N. Documento" style="width: 90%" />
             <aui:select label="Rec Protocollo" name="recProt" style="width: 90%; background-color: #FFFFCC;"> 
-                <c:forEach items="<%= idToRecover %>" var="id">
+                <c:forEach items="<%= idToRecover%>" var="id">
                     <aui:option value="${id}">
                         ${id}
                     </aui:option>
@@ -163,32 +166,32 @@
                 <div class="control-group">
                     <label for="trasporto" class="control-label">Trasporto a cura: </label>
                     <div class="controls form-inline">
-                        <input type="text" class="input-small" id="trasporto" readonly="true" value="<%= curaTrasportoDefault.getCodiceCuraTrasporto() %>"/>
-                        <input type="text" class="input-xxlarge" id="trasportoTXT" placeholder="Seleziona..." value="<%= curaTrasportoDefault.getDescrizione() %>" />
+                        <input type="text" class="input-small" id="trasporto" readonly="true" value="<%= curaTrasportoDefault.getCodiceCuraTrasporto()%>"/>
+                        <input type="text" class="input-xxlarge" id="trasportoTXT" placeholder="Seleziona..." value="<%= curaTrasportoDefault.getDescrizione()%>" />
                         <aui:a href="#trasporto" onClick="restore('cura')">Ripristina</aui:a><br/>
                         </div>
                     </div>
                     <div class="control-group">
                         <label for="aspetto" class="control-label">Aspetto esteriore: </label>
                         <div class="controls form-inline">
-                            <input type="text" class="input-small" id="aspetto" readonly="true" value="<%= aspettoDefault.getCodiceAspettoEsteriore() %>"/>
-                        <input type="text" class="input-xxlarge" id="aspettoTXT" placeholder="Seleziona..." value="<%= aspettoDefault.getDescrizione() %>" />
+                            <input type="text" class="input-small" id="aspetto" readonly="true" value="<%= aspettoDefault.getCodiceAspettoEsteriore()%>"/>
+                        <input type="text" class="input-xxlarge" id="aspettoTXT" placeholder="Seleziona..." value="<%= aspettoDefault.getDescrizione()%>" />
                         <aui:a href="#aspetto" onClick="restore('aspetto')">Ripristina</aui:a><br/>
                         </div>
                     </div>                
                     <div class="control-group">
                         <label for="causale" class="control-label">Causale trasporto: </label>
                         <div class="controls form-inline">
-                            <input type="text" class="input-small" id="causale" readonly="true" value="<%= causaleDefault.getCodiceCausaleTrasporto() %>"/>
-                        <input type="text" class="input-xxlarge" id="causaleTXT" placeholder="Seleziona..." value="<%= causaleDefault.getDescrizione() %>" />
+                            <input type="text" class="input-small" id="causale" readonly="true" value="<%= causaleDefault.getCodiceCausaleTrasporto()%>"/>
+                        <input type="text" class="input-xxlarge" id="causaleTXT" placeholder="Seleziona..." value="<%= causaleDefault.getDescrizione()%>" />
                         <aui:a href="#causale" onClick="restore('causale')">Ripristina</aui:a><br/>
                         </div>
                     </div>
                     <div class="control-group">
                         <label for="porto" class="control-label">Porto: </label>
                         <div class="controls form-inline">
-                            <input type="text" class="input-small" id="porto" readonly="true" value="<%= portoDefault.getCodicePorto() %>" />
-                        <input type="text" class="input-xxlarge" id="portoTXT" placeholder="Seleziona..." value="<%= portoDefault.getDescrizione() %>"/>
+                            <input type="text" class="input-small" id="porto" readonly="true" value="<%= portoDefault.getCodicePorto()%>" />
+                        <input type="text" class="input-xxlarge" id="portoTXT" placeholder="Seleziona..." value="<%= portoDefault.getDescrizione()%>"/>
                         <aui:a href="#porto" onClick="restore('porto')">Ripristina</aui:a><br/>
                         </div>
                     </div>
@@ -257,20 +260,20 @@
         function restore(field) {
             switch (field) {
                 case 'cura':
-                    document.getElementById('trasporto').value = "<%= curaTrasportoDefault.getCodiceCuraTrasporto() %>";
-                    document.getElementById('trasportoTXT').value = "<%= curaTrasportoDefault.getDescrizione() %>";
+                    document.getElementById('trasporto').value = "<%= curaTrasportoDefault.getCodiceCuraTrasporto()%>";
+                    document.getElementById('trasportoTXT').value = "<%= curaTrasportoDefault.getDescrizione()%>";
                     break;
                 case 'aspetto':
-                    document.getElementById('aspetto').value = "<%= aspettoDefault.getCodiceAspettoEsteriore() %>";
-                    document.getElementById('aspettoTXT').value = "<%= aspettoDefault.getDescrizione() %>";
+                    document.getElementById('aspetto').value = "<%= aspettoDefault.getCodiceAspettoEsteriore()%>";
+                    document.getElementById('aspettoTXT').value = "<%= aspettoDefault.getDescrizione()%>";
                     break;
                 case 'causale':
-                    document.getElementById('causale').value = "<%= causaleDefault.getCodiceCausaleTrasporto() %>";
-                    document.getElementById('causaleTXT').value = "<%= causaleDefault.getDescrizione() %>";
+                    document.getElementById('causale').value = "<%= causaleDefault.getCodiceCausaleTrasporto()%>";
+                    document.getElementById('causaleTXT').value = "<%= causaleDefault.getDescrizione()%>";
                     break;
                 case 'porto':
-                    document.getElementById('porto').value = "<%= portoDefault.getCodicePorto() %>";
-                    document.getElementById('portoTXT').value = "<%= portoDefault.getDescrizione() %>";
+                    document.getElementById('porto').value = "<%= portoDefault.getCodicePorto()%>";
+                    document.getElementById('portoTXT').value = "<%= portoDefault.getDescrizione()%>";
                     break;
             }
         }
@@ -345,7 +348,7 @@
                     },
                     id: '<portlet:namespace/>dialog',
                     title: 'Seleziona Destinazione',
-                    uri: '<%=popupURL %>'
+                    uri: '<%=popupURL%>'
                 });
             });
         });
@@ -363,7 +366,7 @@
                     },
                     id: '<portlet:namespace/>vettore1',
                     title: 'Seleziona Vettore',
-                    uri: '<%=carrier1URL %>'
+                    uri: '<%=carrier1URL%>'
                 });
             });
         });
@@ -381,7 +384,7 @@
                     },
                     id: '<portlet:namespace/>vettore2',
                     title: 'Seleziona Vettore',
-                    uri: '<%=carrier2URL %>'
+                    uri: '<%=carrier2URL%>'
                 });
             });
         });
@@ -399,7 +402,7 @@
                     },
                     id: '<portlet:namespace/>curaTrasporto',
                     title: 'Seleziona Trasporto',
-                    uri: '<%=transportURL %>'
+                    uri: '<%=transportURL%>'
                 });
             });
         });
@@ -417,7 +420,7 @@
                     },
                     id: '<portlet:namespace/>aspettoEsteriore',
                     title: 'Seleziona Apetto Beni',
-                    uri: '<%=aspectURL %>'
+                    uri: '<%=aspectURL%>'
                 });
             });
         });
@@ -435,7 +438,7 @@
                     },
                     id: '<portlet:namespace/>causaleTrasporto',
                     title: 'Seleziona Causale Trasporto',
-                    uri: '<%=causalURL %>'
+                    uri: '<%=causalURL%>'
                 });
             });
         });
@@ -453,7 +456,7 @@
                     },
                     id: '<portlet:namespace/>porto',
                     title: 'Seleziona Tipologia Porto',
-                    uri: '<%=portURL %>'
+                    uri: '<%=portURL%>'
                 });
             });
         });
@@ -505,7 +508,7 @@
         var recordSelected;
         var totale = 0;
         var pedaneNormali = 0;
-        YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
+        YUI({lang: 'it'}).use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
 
             var nameEditor = new Y.TextAreaCellEditor({
                 validator: {
@@ -708,7 +711,7 @@
                     },
                     id: '<portlet:namespace/>itemDialog',
                     title: 'Seleziona Articolo',
-                    uri: '<%=itemURL %>'
+                    uri: '<%=itemURL%>'
                 });
 
             }, 'tr', table);
@@ -730,7 +733,7 @@
                     },
                     id: '<portlet:namespace/>packDialog',
                     title: 'Seleziona Imballaggio',
-                    uri: '<%=packingURL %>'
+                    uri: '<%=packingURL%>'
                 });
             }, '#selectPack', table);
 
@@ -803,7 +806,7 @@
                     },
                     id: '<portlet:namespace/>itemDialog',
                     title: 'Seleziona Articolo',
-                    uri: '<%=itemURL %>'
+                    uri: '<%=itemURL%>'
                 });
             });
 
@@ -973,10 +976,11 @@
                                         alert("Salvataggio effettuato con successo.");
                                         Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                         document.getElementById("btnPrint").disabled = false;
+                                        document.getElementById("btnInvoice").disabled = false;
                                         document.getElementById("btnSave").disabled = true;
                                         if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
 //                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-                                            document.getElementById('<portlet:namespace/>recProt').value = "";                                          
+                                            document.getElementById('<portlet:namespace/>recProt').value = "";
                                         }
                                     } else {
                                         alert("Errore durante il salvataggio dei dati: " + data);
@@ -995,23 +999,37 @@
                 rows[i] = table.data.item(i).toJSON();
             }
             console.log(rows);
-            sendData(rows);
+            if (rows.length !== 0)
+                sendData(rows);
+            else
+                alert("Attenzione inserire almeno un rigo nel documento.");
         }
 
         YUI().use('aui-io-request', 'node', function (Y) {
             Y.one('#btnPrint').on('click', function () {
-                Y.io.request(
-                        '${printDDT}',
-                        {
-                            on: {
-                                success: function () {
-                                    var data = this.get('responseData');
-                                    alert("SUCCESS: " + data);
-                                }
+                var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
 
-                            }
-                        }
-                );
+                var win = window.open('${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
+                win.focus();
+
+//                Y.io.request(
+//                        '${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc,
+//                        {
+//                            on: {
+//                                success: function () {
+//                                    var data = this.get('responseData');
+//                                    alert("SUCCESS: " + data);
+//                                }
+//
+//                            }
+//                        }
+//                );
+            });
+        });
+
+        YUI().use('node', function (Y) {
+            Y.one('#btnInvoice').on('click', function () {
+                alert("Fattura generata con successo.");
             });
         });
 

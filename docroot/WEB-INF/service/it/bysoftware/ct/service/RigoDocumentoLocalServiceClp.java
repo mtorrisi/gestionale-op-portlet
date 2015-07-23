@@ -122,6 +122,10 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 		_methodName17 = "setBeanIdentifier";
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
+
+		_methodName19 = "getByNumeroOrdineAnno";
+
+		_methodParameterTypes19 = new String[] { "long", "int" };
 	}
 
 	@Override
@@ -678,6 +682,35 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getByNumeroOrdineAnno(
+		long numeroOrdine, int anno)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName19,
+					_methodParameterTypes19, new Object[] { numeroOrdine, anno });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.RigoDocumento>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -715,4 +748,6 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	private String[] _methodParameterTypes16;
 	private String _methodName17;
 	private String[] _methodParameterTypes17;
+	private String _methodName19;
+	private String[] _methodParameterTypes19;
 }

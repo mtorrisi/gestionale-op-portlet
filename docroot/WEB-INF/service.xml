@@ -223,6 +223,12 @@
 			<finder-column name='numeroOrdine'>
 			</finder-column>
 		</finder>
+                <finder name='numeroOrdineAnno' return-type='Collection'>
+                        <finder-column name='numeroOrdine' comparator='='>
+			</finder-column>
+                        <finder-column name='anno' comparator='='>
+			</finder-column>
+		</finder>
 	</entity>
 	<entity name='Vettori' table='Vettori' local-service='true' remote-service='true'>
 		<column name='albo' db-name='RavAlbo' type='String'>

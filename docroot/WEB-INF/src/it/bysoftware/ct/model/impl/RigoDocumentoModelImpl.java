@@ -99,8 +99,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.RigoDocumento"),
 			true);
-	public static long NUMEROORDINE_COLUMN_BITMASK = 1L;
-	public static long ANNO_COLUMN_BITMASK = 2L;
+	public static long ANNO_COLUMN_BITMASK = 1L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 2L;
 	public static long RIGOORDINE_COLUMN_BITMASK = 4L;
 
 	/**
@@ -374,7 +374,19 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public void setAnno(int anno) {
+		_columnBitmask |= ANNO_COLUMN_BITMASK;
+
+		if (!_setOriginalAnno) {
+			_setOriginalAnno = true;
+
+			_originalAnno = _anno;
+		}
+
 		_anno = anno;
+	}
+
+	public int getOriginalAnno() {
+		return _originalAnno;
 	}
 
 	@JSON
@@ -749,6 +761,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	public void resetOriginalValues() {
 		RigoDocumentoModelImpl rigoDocumentoModelImpl = this;
 
+		rigoDocumentoModelImpl._originalAnno = rigoDocumentoModelImpl._anno;
+
+		rigoDocumentoModelImpl._setOriginalAnno = false;
+
 		rigoDocumentoModelImpl._originalNumeroOrdine = rigoDocumentoModelImpl._numeroOrdine;
 
 		rigoDocumentoModelImpl._setOriginalNumeroOrdine = false;
@@ -1016,6 +1032,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			RigoDocumento.class
 		};
 	private int _anno;
+	private int _originalAnno;
+	private boolean _setOriginalAnno;
 	private long _numeroOrdine;
 	private long _originalNumeroOrdine;
 	private boolean _setOriginalNumeroOrdine;

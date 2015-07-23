@@ -14,7 +14,10 @@
 
 package it.bysoftware.ct.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.service.base.RigoDocumentoLocalServiceBaseImpl;
+import java.util.List;
 
 /**
  * The implementation of the rigo documento local service.
@@ -37,4 +40,8 @@ public class RigoDocumentoLocalServiceImpl
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
 	 */
+    
+    public List<RigoDocumento> getByNumeroOrdineAnno(long numeroOrdine, int anno) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnno(numeroOrdine, anno);
+    }
 }

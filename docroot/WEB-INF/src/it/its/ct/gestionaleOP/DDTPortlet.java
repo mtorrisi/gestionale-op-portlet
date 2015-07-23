@@ -18,6 +18,7 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.HtmlUtil;
@@ -50,6 +51,8 @@ import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
 import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -63,6 +66,8 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 import net.sf.jasperreports.engine.JRException;
 
@@ -101,11 +106,10 @@ public class DDTPortlet extends MVCPortlet {
             renderRequest.setAttribute("idMax", idMax);
             String[] pippo = "mario|torrisi".split("|");
             ArrayList<String> tmp = new ArrayList<String>(Arrays.asList(pippo));
-            
+
             tmp.add("String1");
             tmp.add("String2");
-            
-            
+
             renderRequest.setAttribute("test", tmp);
 
 //            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
@@ -164,14 +168,14 @@ public class DDTPortlet extends MVCPortlet {
             PortletException {
 //        System.out.println("#############AJAX CALL####################");
 
-        Gson gson = new Gson();
-        Response response = new Response();
         String resourceID = resourceRequest.getResourceID();
-
-        PrintWriter writer = resourceResponse.getWriter();
 
         switch (CommandID.valueOf(resourceID)) {
             case save:
+                Gson gson = new Gson();
+                Response response = new Response();
+                PrintWriter writer = resourceResponse.getWriter();
+
                 resourceResponse.setContentType(MediaType.APPLICATION_JSON);
 
                 String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
@@ -220,7 +224,7 @@ public class DDTPortlet extends MVCPortlet {
                     testataDocumento.setDestinazione(destinazioneTxt);
                     testataDocumento.setDataOrdine(orderDate);
                     testataDocumento.setDataConsegna(deliveryDate);
-//                    testataDocumento.setCompleto("no");
+                    testataDocumento.setCompleto("completo");
                     testataDocumento.setOperatore(resourceRequest.getRemoteUser());
                     testataDocumento.setVettore(vettore1);
                     testataDocumento.setVettore2(vettore2);
@@ -265,43 +269,37 @@ public class DDTPortlet extends MVCPortlet {
                     writer.print(response);
                 }
                 writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
                 break;
             case print:
 
                 Report r = new Report();
 
-                try {
-                    r.print();
+                int nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                if (nDoc != 0) {
+                    try {
+                        String ddt = r.print(nDoc);
 
-                    ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
-                    Long groupId = themeDisplay.getLayout().getGroupId();
-                    DLFolder folder = DLFolderLocalServiceUtil.getFolder(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, "test");
-
-                    ServiceContext serviceContext = ServiceContextFactory.getInstance(DDTPortlet.class.getName(), resourceRequest);
-                    User currentUser = PortalUtil.getUser(resourceRequest);
-                    DLAppLocalServiceUtil.addFileEntry(currentUser.getUserId(), groupId, folder.getFolderId(), "/home/mario/test/report.pdf", new MimetypesFileTypeMap().getContentType("/home/mario/test/report.pdf"), "DDT.pdf", "DDT PRINTED OUT", "LOG MARIO", new File("/home/mario/test/report.pdf"), serviceContext);
-                    _log.info("TEST");
-                    String fileUrl = themeDisplay.getPortalURL() + themeDisplay.getPathContext() + "/documents/" + themeDisplay.getScopeGroupId() + "//" + folder.getFolderId() + "//" + HttpUtil.encodeURL(HtmlUtil.unescape("DDT.pdf"));
-                    _log.info(fileUrl);
-                } catch (ClassNotFoundException ex) {
-                    _log.error(ex.getLocalizedMessage());
-                } catch (JRException ex) {
-                    _log.error(ex.getLocalizedMessage());
-                } catch (SQLException ex) {
-                    _log.error(ex.getLocalizedMessage());
-                } catch (PortalException ex) {
-                    Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SystemException ex) {
-                    Logger.getLogger(DDTPortlet.class.getName()).log(Level.SEVERE, null, ex);
+                        File file = new File(ddt);
+                        InputStream in = new FileInputStream(file);
+                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+                        ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                    } catch (JRException ex) {
+                        _log.error(ex.getLocalizedMessage());
+                    } catch (ClassNotFoundException ex) {
+                        _log.error(ex.getLocalizedMessage());
+                    } catch (SQLException ex) {
+                        _log.error(ex.getLocalizedMessage());
+                    }
                 }
-                writer.print("ID: " + resourceID);
+
                 break;
             default:
                 _log.warn("Uknown operation.");
         }
 
-        writer.flush();
-        writer.close();
 //        super.serveResource(resourceRequest, resourceResponse);
     }
 }

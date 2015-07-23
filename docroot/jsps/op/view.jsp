@@ -11,14 +11,20 @@
 
     String keywords = ParamUtil.getString(request, "keywords", null);
 
-    List<User> utenti;
-
 //    if(keywords != null){
 //        int end = UserLocalServiceUtil.UserLocalServiceUtil.getUsersCount();
 //        articoli = ArticoliLocalServiceUtil.searchArticoli(keywords, true, 0, end, null);
 //    } else {
-    utenti = UserLocalServiceUtil.getUsers(0, UserLocalServiceUtil.getUsersCount());
+    List<User> tmp = UserLocalServiceUtil.getUsers(0, UserLocalServiceUtil.getUsersCount());
 //    }
+
+    List<User> utenti = new ArrayList<User>();
+    for (User u : tmp) {
+        long id = u.getUserId();
+        if (id != user.getUserId() && id != 10159 && id != 10199) {
+            utenti.add(u);
+        }
+    }
 
     PortletURL renderURL = renderResponse.createRenderURL();
     renderURL.setWindowState(LiferayWindowState.NORMAL);
@@ -61,7 +67,21 @@
         win.focus();
 //        YUI().use('aui-io-request', 'node', function (Y) {
 //            Y.io.request(
-//                    '${download}' + queryString
+//                    '${download}' + queryString,
+//                    {
+//                        on: {
+//                            success: function () {
+//                                var data = this.get('responseData');
+//                                if (data !== "-1") {
+//                                    var win = window.open(data, '_blank');
+//                                    win.focus();
+//                                } else {
+//                                    alert("ERRORE");
+//                                }
+//                            }
+//
+//                        }
+//                    }
 //            );
 //
 //        });

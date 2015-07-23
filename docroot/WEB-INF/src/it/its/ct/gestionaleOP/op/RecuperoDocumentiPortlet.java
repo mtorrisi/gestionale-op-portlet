@@ -19,12 +19,13 @@ import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,13 +77,13 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 //            String userId = ParamUtil.getString(resourceRequest, "userId", null);
 //            resourceResponse.setContentType(MediaType.APPLICATION_JSON);
 //            writer.write(userId);
-            File file = new File(tracciato);
-            InputStream in = new FileInputStream(file);
-            HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
-            HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
-            ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/download");
+        File file = new File(tracciato);
+        InputStream in = new FileInputStream(file);
+        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+        ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/download");
 //
-//            in.close();
+        in.close();
 //
 //        } else {
 //            _log.warn("Unknown resource id.");
@@ -94,16 +95,17 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 
     private String creaFileTracciato(String utente) {
 
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-
-        File file = new File("/tmp/" + utente + "_" + sdf.format(new Timestamp(date.getTime())) + ".txt");
+        File file = new File("/tmp/documenti.txt");
         // if file doesnt exists, then create it
 
         FileWriter fw;
         try {
             if (!file.exists()) {
                 file.createNewFile();
+            } else {
+                Path path = FileSystems.getDefault().getPath("/tmp/", "documenti.txt");
+                boolean success = Files.deleteIfExists(path);
+                _log.info("Deleted documenti.txt");
             }
             fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
@@ -112,13 +114,11 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             for (TestataDocumento testata : list) {
                 _log.info(testata);
 
-                
                 String stringTestata = "WorkTestataDocumento;Tipdoc;Datreg;Codsog;Codspe;Codpor;Codase;Codve1;Codve2;Numdoc;Protoc;Datdoc\n";
                 bw.write(stringTestata);
                 //DDT;03/07/2015;F0009;;;;;;0;24;03/07/2015
-                String valoriTestata ="DDT;";
-                sdf = new SimpleDateFormat("dd/MM/yyyy");
-                String dataReg = sdf.format(new Timestamp(date.getTime())) + SEPARATOR;
+                String valoriTestata = "FAV" + SEPARATOR;
+                String dataReg = testata.getDataOrdine() + SEPARATOR;//sdf.format(new Timestamp(date.getTime())) + SEPARATOR;
                 String codSog = testata.getCodiceSoggetto() + SEPARATOR;
                 String codSpe = SEPARATOR;
                 String codPor = testata.getPorto() + SEPARATOR;
@@ -126,17 +126,73 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 String codVe1 = testata.getCodiceVettore() + SEPARATOR;
                 String codVe2 = testata.getVettore2() + SEPARATOR;
                 String numDoc = testata.getNumeroOrdine() + SEPARATOR;
-                String protoc= SEPARATOR;
-                String dataDoc = sdf.format(new Timestamp(date.getTime()));
-                
-                valoriTestata += dataReg + codSog + codSpe +codPor + codAse + codVe1 +codVe2 + numDoc + protoc + dataDoc + "\n";
-                
+                String protoc = SEPARATOR;
+                String dataDoc = testata.getDataOrdine();//sdf.format(new Timestamp(date.getTime()));
+
+                valoriTestata += dataReg + codSog + codSpe + codPor + codAse + codVe1 + codVe2 + numDoc + protoc + dataDoc + "\n";
+
                 bw.write(valoriTestata);
-                
-//                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.
+
+//              CodlottoGR
+                String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Quanet;Qm2net;Prezzo;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR\n";
+                bw.write(stringRigo);
+                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno());
+                for (RigoDocumento rigo : righe) {
+//                    _log.info(rigo);
+                    String valoriRigo = "";
+                    //VALORI RIGO ARTICOLO
+                    String Tiprig = "0" + SEPARATOR;
+                    String Codart = rigo.getCodiceArticolo() + SEPARATOR;
+                    String Codvar = SEPARATOR;
+                    String Quanet = rigo.getPesoNetto() + SEPARATOR;
+                    String Qm2net = rigo.getTara() + SEPARATOR;
+                    String Prezzo = rigo.getPrezzo() + SEPARATOR;
+                    String Libstr1 = SEPARATOR;
+                    String Libstr2 = SEPARATOR;
+                    String Libstr3 = SEPARATOR;
+                    String Libdbl1 = rigo.getPesoLordo() + SEPARATOR;
+                    String Libdbl2 = "1" + SEPARATOR;
+                    String Libdbl3 = "0" + SEPARATOR;
+                    String Liblng1 = "0" + SEPARATOR;
+                    String Liblng2 = "0" + SEPARATOR;
+                    String Liblng3 = "0" + SEPARATOR;
+                    String Libdat1 = testata.getDataOrdine() + SEPARATOR;
+                    String Libdat2 = "00:00:00" + SEPARATOR;
+                    String Libdat3 = rigo.getLotto() + SEPARATOR;
+                    String CodlottoGR = SEPARATOR;
+
+                    valoriRigo = Tiprig + Codart + Codvar + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + CodlottoGR + "\n";
+
+                    //VALORI RIGO IMBALLO
+                    Tiprig = "0" + SEPARATOR;
+                    Codart = rigo.getImballo() + SEPARATOR;
+                    Codvar = SEPARATOR;
+                    Quanet = "40" + SEPARATOR;
+                    Qm2net = "40" + SEPARATOR;
+                    Prezzo = "0" + SEPARATOR;
+                    Libstr1 = SEPARATOR;
+                    Libstr2 = SEPARATOR;
+                    Libstr3 = SEPARATOR;
+                    Libdbl1 = "0" + SEPARATOR;
+                    Libdbl2 = "0" + SEPARATOR;
+                    Libdbl3 = "0" + SEPARATOR;
+                    Liblng1 = "0" + SEPARATOR;
+                    Liblng2 = "0" + SEPARATOR;
+                    Liblng3 = "0" + SEPARATOR;
+                    Libdat1 = testata.getDataOrdine() + SEPARATOR;
+                    Libdat2 = "00:00:00" + SEPARATOR;
+                    Libdat3 = SEPARATOR;
+                    CodlottoGR = SEPARATOR;
+
+                    valoriRigo += Tiprig + Codart + Codvar + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + CodlottoGR + "\n";
+                    bw.write(valoriRigo);
+                }
+                testata.setInviato(1); // SETTO INVIATO A 1
+                TestataDocumentoLocalServiceUtil.updateTestataDocumento(testata);
             }
 
             bw.close();
+
         } catch (IOException ex) {
             _log.error("Error creating file: " + file.getName() + "\n" + ex.getLocalizedMessage());
         } catch (SystemException ex) {

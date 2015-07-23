@@ -275,6 +275,12 @@ public class RigoDocumentoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> getByNumeroOrdineAnno(
+		long numeroOrdine, int anno)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByNumeroOrdineAnno(numeroOrdine, anno);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}
