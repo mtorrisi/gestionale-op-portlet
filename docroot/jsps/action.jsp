@@ -40,6 +40,6 @@
     <liferay-ui:icon 
         image="edit" 
         url="${editDDT}"
-        label="Compila"/>
+        label="true" message="Seleziona"/>
 
 </liferay-ui:icon-menu>

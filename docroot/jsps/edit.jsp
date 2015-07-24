@@ -744,6 +744,10 @@
             //            console.log(e.newVal);
             //        });
 
+            table.after('*:pedaneChange', function (e) {
+                calcola();
+            });
+            
             table.after('*:rtxclChange', function (e) {
                 calcola();
             });
@@ -812,8 +816,8 @@
 
             Y.one("#<portlet:namespace />btnRemove").on("click", function () {
                 console.log(recordSelected);
-                //            table.removeRow(recordSelected);
-                //            recordSelected = undefined;
+                table.removeRow(recordSelected);
+//                recordSelected = undefined;
             });
 
 
@@ -838,6 +842,21 @@
             }
         });
 
+        Date.prototype.getDOY = function () {
+            var onejan = new Date(this.getFullYear(), 0, 1);
+            return Math.ceil((this - onejan) / 86400000);
+        };
+        
+        function calcolaLotto() {
+            var d = new Date();
+
+            var anno = d.getFullYear().toString().substr(2, 2);
+            var juldate = String(d.getDOY());
+
+            console.log("PROVA: " + anno + ": " + juldate);
+            return "L-" + anno + juldate;
+        }
+
         function setItem(data) {
             var tmp = data.split('|');
 
@@ -846,7 +865,7 @@
                 recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
                 recordSelected = undefined;
             } else {
-                table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]}, {sync: true});
+                table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: calcolaLotto(), pedane: 1}, {sync: true});
             }
         }
 
@@ -907,7 +926,7 @@
             if (!record.reti || record.reti === 'no') {
                 console.log("GESTIONE RETI NO");
                 pesoLordo = record.pesoLordo;
-                pesoNetto = pesoLordo - ((tara * colli) - (taraPedana * pedane));
+                pesoNetto = pesoLordo - (tara * colli) - (taraPedana * pedane);
                 console.log(pesoNetto);
                 recordSelected.setAttrs({pesoNetto: pesoNetto});
             } else if (record.reti === 'si') {

@@ -46,7 +46,7 @@
         <liferay-ui:search-container-row className="com.liferay.portal.model.User" modelVar="user">
             <liferay-ui:search-container-column-text   property="userId"    name="Codice"/>
             <liferay-ui:search-container-column-text   property="firstName" name="Ragione Sociale" />
-            <liferay-ui:search-container-column-button href="scarica('${user.userId}')" name="Scarica tracciato" align="center" />
+            <liferay-ui:search-container-column-button href="scarica('${user.userId}')" name="Acquisisci documento" align="center" />
 
         </liferay-ui:search-container-row>
 
