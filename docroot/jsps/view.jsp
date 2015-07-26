@@ -24,10 +24,10 @@
     <liferay-ui:search-container-results results="<%= AnagraficaLocalServiceUtil.getClienti() %>" 
         total="<%= AnagraficaLocalServiceUtil.countClienti() %>"/>
     <liferay-ui:search-container-row className="it.bysoftware.ct.model.Anagrafica" modelVar="clienti">
-        <liferay-ui:search-container-column-text name="ragioneSociale" />
-        <liferay-ui:search-container-column-text name="indirizzo" />
-        <liferay-ui:search-container-column-text name="comune" />
-        <liferay-ui:search-container-column-text name="partitaIVA" />
+        <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+        <liferay-ui:search-container-column-text property="indirizzo" name="Indirizzo"/>
+        <liferay-ui:search-container-column-text property="comune" name="Comune" />
+        <liferay-ui:search-container-column-text property="partitaIVA"  name="Parita IVA"/>
         <liferay-ui:search-container-column-jsp align="right" path="/jsps/action.jsp"/>
     </liferay-ui:search-container-row>
     

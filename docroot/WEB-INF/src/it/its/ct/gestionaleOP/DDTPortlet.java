@@ -10,7 +10,6 @@ package it.its.ct.gestionaleOP;
  * @author mario
  */
 import com.google.gson.Gson;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -21,19 +20,8 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Base64;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.HttpUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.portal.model.User;
-import com.liferay.portal.service.ServiceContext;
-import com.liferay.portal.service.ServiceContextFactory;
-import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
-import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
-import com.liferay.portlet.documentlibrary.service.DLAppLocalServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -59,9 +47,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.activation.MimetypesFileTypeMap;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -104,14 +89,7 @@ public class DDTPortlet extends MVCPortlet {
             }
             _log.info("IDMAX: " + idMax);
             renderRequest.setAttribute("idMax", idMax);
-            String[] pippo = "mario|torrisi".split("|");
-            ArrayList<String> tmp = new ArrayList<String>(Arrays.asList(pippo));
-
-            tmp.add("String1");
-            tmp.add("String2");
-
-            renderRequest.setAttribute("test", tmp);
-
+            
 //            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
 //            int countClienti = AnagraficaLocalServiceUtil.countClienti();
 //            for (Anagrafica cliente : listClienti) {
@@ -130,11 +108,11 @@ public class DDTPortlet extends MVCPortlet {
 //            for (Articoli articoli1 : articoli) {
 //                _log.info("ARTICOLO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
 //            }
-            List<Articoli> imballaggi = ArticoliLocalServiceUtil.getImballaggi();
-            _log.info(imballaggi.size());
-            for (Articoli articoli1 : imballaggi) {
-                _log.info("IMBALLAGGIO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
-            }
+//            List<Articoli> imballaggi = ArticoliLocalServiceUtil.getImballaggi();
+//            _log.info(imballaggi.size());
+//            for (Articoli articoli1 : imballaggi) {
+//                _log.info("IMBALLAGGIO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
+//            }
 
 //            List<Articoli> searchArticoli = ArticoliLocalServiceUtil.searchArticoli("ARMO", true, 0, 105, null);
 //            _log.info(searchArticoli.size());

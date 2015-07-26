@@ -622,11 +622,11 @@
                     key: 'prezzo',
                     label: 'Prezzo'
                 },
-                {
-                    editor: nameEditor,
-                    key: 'codArtFornitore',
-                    label: 'Art. For.'
-                },
+//                {
+//                    editor: nameEditor,
+//                    key: 'codArtFornitore',
+//                    label: 'Art. For.'
+//                },
                 {
                     editor: nameEditor,
                     key: 'passaporto',
@@ -710,7 +710,7 @@
                         //                    width: '1024px'
                     },
                     id: '<portlet:namespace/>itemDialog',
-                    title: 'Seleziona Articolo',
+                    title: 'Seleziona Prodotto',
                     uri: '<%=itemURL%>'
                 });
 
@@ -809,7 +809,7 @@
                                 //                    width: '1024px'
                     },
                     id: '<portlet:namespace/>itemDialog',
-                    title: 'Seleziona Articolo',
+                    title: 'Seleziona Prodotto',
                     uri: '<%=itemURL%>'
                 });
             });
