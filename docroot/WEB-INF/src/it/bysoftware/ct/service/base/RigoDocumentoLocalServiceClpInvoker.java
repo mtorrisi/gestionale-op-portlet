@@ -114,17 +114,17 @@ public class RigoDocumentoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.RigoDocumento"
 			};
 
-		_methodName88 = "getBeanIdentifier";
+		_methodName94 = "getBeanIdentifier";
 
-		_methodParameterTypes88 = new String[] {  };
+		_methodParameterTypes94 = new String[] {  };
 
-		_methodName89 = "setBeanIdentifier";
+		_methodName95 = "setBeanIdentifier";
 
-		_methodParameterTypes89 = new String[] { "java.lang.String" };
+		_methodParameterTypes95 = new String[] { "java.lang.String" };
 
-		_methodName94 = "getByNumeroOrdineAnno";
+		_methodName100 = "getByNumeroOrdineAnno";
 
-		_methodParameterTypes94 = new String[] { "long", "int" };
+		_methodParameterTypes100 = new String[] { "long", "int" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -216,20 +216,20 @@ public class RigoDocumentoLocalServiceClpInvoker {
 			return RigoDocumentoLocalServiceUtil.updateRigoDocumento((it.bysoftware.ct.model.RigoDocumento)arguments[0]);
 		}
 
-		if (_methodName88.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes88, parameterTypes)) {
+		if (_methodName94.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes94, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName89.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes89, parameterTypes)) {
+		if (_methodName95.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes95, parameterTypes)) {
 			RigoDocumentoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName94.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes94, parameterTypes)) {
+		if (_methodName100.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes100, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue());
 		}
@@ -269,10 +269,10 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName88;
-	private String[] _methodParameterTypes88;
-	private String _methodName89;
-	private String[] _methodParameterTypes89;
 	private String _methodName94;
 	private String[] _methodParameterTypes94;
+	private String _methodName95;
+	private String[] _methodParameterTypes95;
+	private String _methodName100;
+	private String[] _methodParameterTypes100;
 }

@@ -1,301 +1,333 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 6.0.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_6_0_0.dtd">
 <service-builder package-path='it.bysoftware.ct'>
-	<namespace>gestionaleOP</namespace>
-	<entity name='Anagrafica' table='AnagraficheClientiFornitori' local-service='true' remote-service='true' data-source='gestionaleOPDataSource' session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
-		<column name='attivoEC' db-name='RacAttivoEC' type='int'>
-		</column>
-		<column name='cap' db-name='RacCap' type='String'>
-		</column>
-		<column name='codiceAnagrafica' db-name='RacCodana' type='String' primary='true'>
-		</column>
-		<column name='codiceFiscale' db-name='RacCodfis' type='String'>
-		</column>
-		<column name='codiceMne' db-name='RacCodmne' type='String'>
-		</column>
-		<column name='comune' db-name='RacComune' type='String'>
-		</column>
-		<column name='Indirizzo' db-name='RacIndiri' type='String'>
-		</column>
-		<column name='note' db-name='RacNote' type='String'>
-		</column>
-		<column name='partitaIVA' db-name='RacPariva' type='String'>
-		</column>
-		<column name='ragioneSociale' db-name='RacRagso1' type='String'>
-		</column>
-		<column name='ragioneSocialeAlternativa' db-name='RacRagso2' type='String'>
-		</column>
-		<column name='provincia' db-name='RacSigpro' type='String'>
-		</column>
-		<column name='stato' db-name='RacSigsta' type='String'>
-		</column>
-		<column name='tepefi' db-name='RacTepefi' type='int'>
-		</column>
-		<column name='tipoSoggetto' db-name='RacTipoSoggetto' type='String'>
-		</column>
-		<column name='tipsol' db-name='RacTipsol' type='int'>
-		</column>
-		<column name='codiceAzienda' db-name='RacCodiaz' type='String'>
-		</column>
-		<finder name='tipoSoggetto' return-type='Collection'>
-			<finder-column name='tipoSoggetto'>
-			</finder-column>
-		</finder>
-	</entity>
-	<entity name='DestinatariDiversi' table='DestinatariDiversi' local-service='true' remote-service='true'>
-		<column name='codiceAnagrafica' db-name='RavCodana' type='String' primary='true'>
-		</column>
-		<column name='codiceRiferimento' db-name='RavCodrif' type='String'>
-		</column>
-		<column name='CAP' db-name='RavCap' type='String'>
-		</column>
-		<column name='comune' db-name='RavComune' type='String'>
-		</column>
-		<column name='indirizzo' db-name='RavIndiri' type='String'>
-		</column>
-		<column name='provincia' db-name='RavSigpro' type='String'>
-		</column>
-		<column name='stato' db-name='RavSigsta' type='String'>
-		</column>
-		<column name='tipoAnagrafica' db-name='RavTipana' type='String'>
-		</column>
-		<finder name='codiceRiferimento' return-type='Collection'>
-			<finder-column name='codiceRiferimento'>
-			</finder-column>
-		</finder>
-	</entity>
-	<entity name='Articoli' table='Articoli' local-service='true' remote-service='true'>
-		<column name='codiceArticolo' db-name='RanCodart' type='String' primary='true'>
-		</column>
-		<column name='categoriaMerceologica' db-name='RanCatmer' type='String'>
-		</column>
-		<column name='descrizione' db-name='RanDescri' type='String'>
-		</column>
-		<column name='descrizioneDocumento' db-name='RanDesdoc' type='String'>
-		</column>
-		<column name='descrizioneFiscale' db-name='RanDesfis' type='String'>
-		</column>
-		<column name='tara' db-name='RanLibDbl1' type='double'>
-		</column>
-		<finder name='categoriaMerceologica' return-type='Collection'>
-			<finder-column name='categoriaMerceologica'>
-			</finder-column>
-		</finder>
-		<finder name='categoriaArticoli' return-type='Collection'>
-			<finder-column name='categoriaMerceologica' comparator='!='>
-			</finder-column>
-		</finder>
-	</entity>
-	<entity name='TestataDocumento' table='SSTESORD' local-service='true' remote-service='true'>
-		<column name='anno' db-name='WKAnno' type='int' primary='true'>
-		</column>
-		<column name='numeroOrdine' db-name='WKNOrd' type='long' id-type='sequence' id-param="id_sequence" primary='true'>
-		</column>
-		<column name='codiceSoggetto' db-name='WkCodsog' type='String'>
-		</column>
-		<column name='dataOrdine' db-name='WkDatord' type='String'>
-		</column>
-		<column name='dataConsegna' db-name='WkDatcon' type='String'>
-		</column>
-		<column name='destinazione' db-name='WkDesti2' type='String'>
-		</column>
-		<column name='codiceDestinazione' db-name='WkDesdiv' type='String'>
-		</column>
-		<column name='ragioneSociale' db-name='WkRagsoc' type='String'>
-		</column>
-		<column name='completo' db-name='WKCompleto' type='String'>
-		</column>
-		<column name='operatore' db-name='WkOperatore' type='String'>
-		</column>
-		<column name='visto' db-name='WKVisto' type='int'>
-		</column>
-		<column name='inviato' db-name='WKInviato' type='int'>
-		</column>
-		<column name='lotto' db-name='WKLotto' type='String'>
-		</column>
-		<column name='tipoDocumeto' db-name='WKTipdoc' type='String'>
-		</column>
-		<column name='vettore' db-name='WkVettore' type='String'>
-		</column>
-		<column name='autista' db-name='WkAutista' type='String'>
-		</column>
-		<column name='telefono' db-name='WkTelefono' type='String'>
-		</column>
-		<column name='centro' db-name='WKCentro' type='String'>
-		</column>
-		<column name='palletCaricati' db-name='EpalCaricati' type='int'>
-		</column>
-		<column name='palletScaricati' db-name='EpalScaricati' type='int'>
-		</column>
-		<column name='codiceVettore' db-name='CodDestiVett1' type='String'>
-		</column>
-		<column name='destinazioneVettore' db-name='DestiVett1' type='String'>
-		</column>
-		<column name='nota1' db-name='Nota1' type='String'>
-		</column>
-		<column name='nota2' db-name='Nota2' type='String'>
-		</column>
-		<column name='rigoDescrittivo' db-name='Rigodescrittivo' type='String'>
-		</column>
-		<column name='vettore2' db-name='WkVettore2' type='String'>
-		</column>
-		<column name='curaTrasporto' db-name='TraspCura' type='String'>
-		</column>
-		<column name='aspettoEsteriore' db-name='AspEst' type='String'>
-		</column>
-		<column name='causaleTrasporto' db-name='CauTrasp' type='String'>
-		</column>
-		<column name='porto' db-name='porto' type='String'>
-		</column>
-		<column name='origine' db-name='Origine' type='String'>
-		</column>
-		<column name='numeroPedaneEuro' db-name='NpedEpal' type='int'>
-		</column>
-		<column name='numeroPedaneNormali' db-name='NpedNormali' type='int'>
-		</column>
-		<column name='costoTrasporto' db-name='CostoTrasp' type='double'>
-		</column>
-		<column name='totalePedaneOrdine' db-name='TotPedOrd' type='int'>
-		</column>
-		<column name='targaCamion' db-name='TargaCamion' type='String'>
-		</column>
-		<column name='targaRimorchio' db-name='TargaRimorchio' type='String'>
-		</column>
-                <finder name='operatore' return-type='Collection'>
-			<finder-column name='operatore' comparator='='>
-			</finder-column>
-		</finder>
-                <finder name='operatoreCompletoInviato' return-type='Collection'>
-			<finder-column name='operatore' comparator='='>
-			</finder-column>
-                        <finder-column name='completo' comparator='='>
-			</finder-column>
-                        <finder-column name='inviato' comparator='='>
-			</finder-column>
-		</finder>
-	</entity>
-	<entity name='RigoDocumento' table='SSRIGORD' local-service='true' remote-service='true'>
-		<column name='anno' db-name='WKAnno' type='int' primary='true'>
-		</column>
-		<column name='numeroOrdine' db-name='WkNOrd' type='long' primary='true'>
-		</column>
-		<column name='rigoOrdine' db-name='WkRigord' type='int' primary='true'>
-		</column>
-		<column name='descrizioneVariante' db-name='WkDesvar' type='String'>
-		</column>
-		<column name='codiceArticolo' db-name='WkCodart' type='String'>
-		</column>
-		<column name='descrizione' db-name='WkDescri' type='String'>
-		</column>
-		<column name='unitaMisura' db-name='WkUnimis' type='String'>
-		</column>
-		<column name='colli' db-name='WkColli' type='int'>
-		</column>
-		<column name='pesoLordo' db-name='WkPeslor' type='double'>
-		</column>
-		<column name='tara' db-name='WkTara' type='double'>
-		</column>
-		<column name='pesoNetto' db-name='WkPesnet' type='double'>
-		</column>
-		<column name='prezzo' db-name='WkPrezzo' type='double'>
-		</column>
-		<column name='pedane' db-name='WkPedane' type='double'>
-		</column>
-		<column name='note' db-name='WkNote' type='String'>
-		</column>
-		<column name='totalePesata' db-name='WkTotpes' type='double'>
-		</column>
-		<column name='imballo' db-name='WKImballo' type='String'>
-		</column>
-		<column name='gestioneReti' db-name='WkGesRetine' type='boolean'>
-		</column>
-		<column name='RtxCl' db-name='WkRtxCl' type='double'>
-		</column>
-		<column name='kgRete' db-name='WkKgRetine' type='double'>
-		</column>
-		<column name='lotto' db-name='WkLotto' type='String'>
-		</column>
-		<column name='passaporto' db-name='CodPassaportoAlfa' type='String'>
-		</column>
-		<column name='progressivo' db-name='CodPassaportoNum' type='int'>
-		</column>
-		<finder name='numeroOrdine' return-type='Collection'>
-			<finder-column name='numeroOrdine'>
-			</finder-column>
-		</finder>
-                <finder name='numeroOrdineAnno' return-type='Collection'>
-                        <finder-column name='numeroOrdine' comparator='='>
-			</finder-column>
-                        <finder-column name='anno' comparator='='>
-			</finder-column>
-		</finder>
-	</entity>
-	<entity name='Vettori' table='Vettori' local-service='true' remote-service='true'>
-		<column name='albo' db-name='RavAlbo' type='String'>
-		</column>
-		<column name='CAP' db-name='RavCap' type='String'>
-		</column>
-		<column name='codiceVettore' db-name='RavCodana' type='String' primary='true'>
-		</column>
-		<column name='codiceFiscale' db-name='RavCodfis' type='String'>
-		</column>
-		<column name='codiceRiferimento' db-name='RavCodrif' type='String'>
-		</column>
-		<column name='comune' db-name='RavComune' type='String'>
-		</column>
-		<column name='indirizzo' db-name='RavIndiri' type='String'>
-		</column>
-		<column name='note' db-name='RavNote' type='String'>
-		</column>
-		<column name='partitaIVA' db-name='RavPariva' type='String'>
-		</column>
-		<column name='ragioneSociale' db-name='RavRagso1' type='String'>
-		</column>
-		<column name='ragioneSociale2' db-name='RavRagso2' type='String'>
-		</column>
-		<column name='provincia' db-name='RavSigpro' type='String'>
-		</column>
-		<column name='stato' db-name='RavSigsta' type='String'>
-		</column>
-		<column name='tipoAnagrafica' db-name='RavTipana' type='String'>
-		</column>
-		<column name='codiceAzienda' db-name='RavCodiaz' type='String'>
-		</column>
-	</entity>
-	<entity name='CuraTrasporto' table='CuraTrasporto' local-service='true' remote-service='true'>
-		<column name='codiceCuraTrasporto' db-name='RdeCoddes' type='String' primary='true'>
-		</column>
-		<column name='descrizione' db-name='RdeDescri' type='String'>
-		</column>
-		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
-		</column>
-	</entity>
-	<entity name='AspettoEsterioreBeni' table='AspettoEsterioreBeni' local-service='true' remote-service='true'>
-		<column name='codiceAspettoEsteriore' db-name='RdeCoddes' type='String' primary='true'>
-		</column>
-		<column name='descrizione' db-name='RdeDescri' type='String'>
-		</column>
-		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
-		</column>
-	</entity>
-	<entity name='CausaleTrasporto' table='CausaleTrasporto' local-service='true' remote-service='true'>
-		<column name='codiceCausaleTrasporto' db-name='RdeCoddes' type='String' primary='true'>
-		</column>
-		<column name='descrizione' db-name='RdeDescri' type='String'>
-		</column>
-		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
-		</column>
-	</entity>
-	<entity name='Porto' table='Porto' local-service='true' remote-service='true'>
-		<column name='Cdinco' db-name='RdeCdinco' type='String'>
-		</column>
-		<column name='codicePorto' db-name='RdeCoddes' type='String' primary='true'>
-		</column>
-		<column name='descrizione' db-name='RdeDescri' type='String'>
-		</column>
-		<column name='Incoterm' db-name='RdeIncoterm' type='String'>
-		</column>
-		<column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
-		</column>
-	</entity>
+    <namespace>gestionaleOP</namespace>
+    <entity name='Anagrafica' table='AnagraficheClientiFornitori' local-service='true' remote-service='true' data-source='gestionaleOPDataSource' session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
+        <column name='attivoEC' db-name='RacAttivoEC' type='int'>
+        </column>
+        <column name='cap' db-name='RacCap' type='String'>
+        </column>
+        <column name='codiceAnagrafica' db-name='RacCodana' type='String' primary='true'>
+        </column>
+        <column name='codiceFiscale' db-name='RacCodfis' type='String'>
+        </column>
+        <column name='codiceMne' db-name='RacCodmne' type='String'>
+        </column>
+        <column name='comune' db-name='RacComune' type='String'>
+        </column>
+        <column name='Indirizzo' db-name='RacIndiri' type='String'>
+        </column>
+        <column name='note' db-name='RacNote' type='String'>
+        </column>
+        <column name='partitaIVA' db-name='RacPariva' type='String'>
+        </column>
+        <column name='ragioneSociale' db-name='RacRagso1' type='String'>
+        </column>
+        <column name='ragioneSocialeAlternativa' db-name='RacRagso2' type='String'>
+        </column>
+        <column name='provincia' db-name='RacSigpro' type='String'>
+        </column>
+        <column name='stato' db-name='RacSigsta' type='String'>
+        </column>
+        <column name='tepefi' db-name='RacTepefi' type='int'>
+        </column>
+        <column name='tipoSoggetto' db-name='RacTipoSoggetto' type='String'>
+        </column>
+        <column name='tipsol' db-name='RacTipsol' type='int'>
+        </column>
+        <column name='codiceAzienda' db-name='RacCodiaz' type='String'>
+        </column>
+        <finder name='tipoSoggetto' return-type='Collection'>
+            <finder-column name='tipoSoggetto'>
+            </finder-column>
+        </finder>
+    </entity>
+    <entity name='DestinatariDiversi' table='DestinatariDiversi' local-service='true' remote-service='true'>
+        <column name='codiceAnagrafica' db-name='RavCodana' type='String' primary='true'>
+        </column>
+        <column name='codiceRiferimento' db-name='RavCodrif' type='String'>
+        </column>
+        <column name='CAP' db-name='RavCap' type='String'>
+        </column>
+        <column name='comune' db-name='RavComune' type='String'>
+        </column>
+        <column name='indirizzo' db-name='RavIndiri' type='String'>
+        </column>
+        <column name='provincia' db-name='RavSigpro' type='String'>
+        </column>
+        <column name='stato' db-name='RavSigsta' type='String'>
+        </column>
+        <column name='tipoAnagrafica' db-name='RavTipana' type='String'>
+        </column>
+        <finder name='codiceRiferimento' return-type='Collection'>
+            <finder-column name='codiceRiferimento'>
+            </finder-column>
+        </finder>
+    </entity>
+    <entity name='Articoli' table='Articoli' local-service='true' remote-service='true'>
+        <column name='codiceArticolo' db-name='RanCodart' type='String' primary='true'>
+        </column>
+        <column name='categoriaMerceologica' db-name='RanCatmer' type='String'>
+        </column>
+        <column name='descrizione' db-name='RanDescri' type='String'>
+        </column>
+        <column name='descrizioneDocumento' db-name='RanDesdoc' type='String'>
+        </column>
+        <column name='descrizioneFiscale' db-name='RanDesfis' type='String'>
+        </column>
+        <column name='tara' db-name='RanLibDbl1' type='double'>
+        </column>
+        <finder name='categoriaMerceologica' return-type='Collection'>
+            <finder-column name='categoriaMerceologica'>
+            </finder-column>
+        </finder>
+        <finder name='categoriaArticoli' return-type='Collection'>
+            <finder-column name='categoriaMerceologica' comparator='!='>
+            </finder-column>
+        </finder>
+    </entity>
+    <entity name='TestataDocumento' table='SSTESORD' local-service='true' remote-service='true'>
+        <column name='anno' db-name='WKAnno' type='int' primary='true'>
+        </column>
+        <column name='numeroOrdine' db-name='WKNOrd' type='long' id-type='sequence' id-param="id_sequence" primary='true'>
+        </column>
+        <column name='codiceSoggetto' db-name='WkCodsog' type='String'>
+        </column>
+        <column name='dataOrdine' db-name='WkDatord' type='String'>
+        </column>
+        <column name='dataConsegna' db-name='WkDatcon' type='String'>
+        </column>
+        <column name='destinazione' db-name='WkDesti2' type='String'>
+        </column>
+        <column name='codiceDestinazione' db-name='WkDesdiv' type='String'>
+        </column>
+        <column name='ragioneSociale' db-name='WkRagsoc' type='String'>
+        </column>
+        <column name='completo' db-name='WKCompleto' type='String'>
+        </column>
+        <column name='operatore' db-name='WkOperatore' type='String'>
+        </column>
+        <column name='visto' db-name='WKVisto' type='int'>
+        </column>
+        <column name='inviato' db-name='WKInviato' type='int'>
+        </column>
+        <column name='lotto' db-name='WKLotto' type='String'>
+        </column>
+        <column name='tipoDocumeto' db-name='WKTipdoc' type='String'>
+        </column>
+        <column name='vettore' db-name='WkVettore' type='String'>
+        </column>
+        <column name='autista' db-name='WkAutista' type='String'>
+        </column>
+        <column name='telefono' db-name='WkTelefono' type='String'>
+        </column>
+        <column name='centro' db-name='WKCentro' type='String'>
+        </column>
+        <column name='palletCaricati' db-name='EpalCaricati' type='int'>
+        </column>
+        <column name='palletScaricati' db-name='EpalScaricati' type='int'>
+        </column>
+        <column name='codiceVettore' db-name='CodDestiVett1' type='String'>
+        </column>
+        <column name='destinazioneVettore' db-name='DestiVett1' type='String'>
+        </column>
+        <column name='nota1' db-name='Nota1' type='String'>
+        </column>
+        <column name='nota2' db-name='Nota2' type='String'>
+        </column>
+        <column name='rigoDescrittivo' db-name='Rigodescrittivo' type='String'>
+        </column>
+        <column name='vettore2' db-name='WkVettore2' type='String'>
+        </column>
+        <column name='curaTrasporto' db-name='TraspCura' type='String'>
+        </column>
+        <column name='aspettoEsteriore' db-name='AspEst' type='String'>
+        </column>
+        <column name='causaleTrasporto' db-name='CauTrasp' type='String'>
+        </column>
+        <column name='porto' db-name='porto' type='String'>
+        </column>
+        <column name='origine' db-name='Origine' type='String'>
+        </column>
+        <column name='numeroPedaneEuro' db-name='NpedEpal' type='int'>
+        </column>
+        <column name='numeroPedaneNormali' db-name='NpedNormali' type='int'>
+        </column>
+        <column name='costoTrasporto' db-name='CostoTrasp' type='double'>
+        </column>
+        <column name='totalePedaneOrdine' db-name='TotPedOrd' type='int'>
+        </column>
+        <column name='targaCamion' db-name='TargaCamion' type='String'>
+        </column>
+        <column name='targaRimorchio' db-name='TargaRimorchio' type='String'>
+        </column>
+        <finder name='operatore' return-type='Collection'>
+            <finder-column name='operatore' comparator='='>
+            </finder-column>
+        </finder>
+        <finder name='operatoreCompletoInviato' return-type='Collection'>
+            <finder-column name='operatore' comparator='='>
+            </finder-column>
+            <finder-column name='completo' comparator='='>
+            </finder-column>
+            <finder-column name='inviato' comparator='='>
+            </finder-column>
+        </finder>
+    </entity>
+    <entity name='RigoDocumento' table='SSRIGORD' local-service='true' remote-service='true'>
+        <column name='anno' db-name='WKAnno' type='int' primary='true'>
+        </column>
+        <column name='numeroOrdine' db-name='WkNOrd' type='long' primary='true'>
+        </column>
+        <column name='rigoOrdine' db-name='WkRigord' type='int' primary='true'>
+        </column>
+        <column name='descrizioneVariante' db-name='WkDesvar' type='String'>
+        </column>
+        <column name='codiceArticolo' db-name='WkCodart' type='String'>
+        </column>
+        <column name='descrizione' db-name='WkDescri' type='String'>
+        </column>
+        <column name='unitaMisura' db-name='WkUnimis' type='String'>
+        </column>
+        <column name='colli' db-name='WkColli' type='int'>
+        </column>
+        <column name='pesoLordo' db-name='WkPeslor' type='double'>
+        </column>
+        <column name='tara' db-name='WkTara' type='double'>
+        </column>
+        <column name='pesoNetto' db-name='WkPesnet' type='double'>
+        </column>
+        <column name='prezzo' db-name='WkPrezzo' type='double'>
+        </column>
+        <column name='pedane' db-name='WkPedane' type='double'>
+        </column>
+        <column name='note' db-name='WkNote' type='String'>
+        </column>
+        <column name='totalePesata' db-name='WkTotpes' type='double'>
+        </column>
+        <column name='imballo' db-name='WKImballo' type='String'>
+        </column>
+        <column name='gestioneReti' db-name='WkGesRetine' type='boolean'>
+        </column>
+        <column name='RtxCl' db-name='WkRtxCl' type='double'>
+        </column>
+        <column name='kgRete' db-name='WkKgRetine' type='double'>
+        </column>
+        <column name='lotto' db-name='WkLotto' type='String'>
+        </column>
+        <column name='passaporto' db-name='CodPassaportoAlfa' type='String'>
+        </column>
+        <column name='progressivo' db-name='CodPassaportoNum' type='int'>
+        </column>
+        <finder name='numeroOrdine' return-type='Collection'>
+            <finder-column name='numeroOrdine'>
+            </finder-column>
+        </finder>
+        <finder name='numeroOrdineAnno' return-type='Collection'>
+            <finder-column name='numeroOrdine' comparator='='>
+            </finder-column>
+            <finder-column name='anno' comparator='='>
+            </finder-column>
+        </finder>
+    </entity>
+    <entity name='Vettori' table='Vettori' local-service='true' remote-service='true'>
+        <column name='albo' db-name='RavAlbo' type='String'>
+        </column>
+        <column name='CAP' db-name='RavCap' type='String'>
+        </column>
+        <column name='codiceVettore' db-name='RavCodana' type='String' primary='true'>
+        </column>
+        <column name='codiceFiscale' db-name='RavCodfis' type='String'>
+        </column>
+        <column name='codiceRiferimento' db-name='RavCodrif' type='String'>
+        </column>
+        <column name='comune' db-name='RavComune' type='String'>
+        </column>
+        <column name='indirizzo' db-name='RavIndiri' type='String'>
+        </column>
+        <column name='note' db-name='RavNote' type='String'>
+        </column>
+        <column name='partitaIVA' db-name='RavPariva' type='String'>
+        </column>
+        <column name='ragioneSociale' db-name='RavRagso1' type='String'>
+        </column>
+        <column name='ragioneSociale2' db-name='RavRagso2' type='String'>
+        </column>
+        <column name='provincia' db-name='RavSigpro' type='String'>
+        </column>
+        <column name='stato' db-name='RavSigsta' type='String'>
+        </column>
+        <column name='tipoAnagrafica' db-name='RavTipana' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='RavCodiaz' type='String'>
+        </column>
+    </entity>
+    <entity name='CuraTrasporto' table='CuraTrasporto' local-service='true' remote-service='true'>
+        <column name='codiceCuraTrasporto' db-name='RdeCoddes' type='String' primary='true'>
+        </column>
+        <column name='descrizione' db-name='RdeDescri' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+        </column>
+    </entity>
+    <entity name='AspettoEsterioreBeni' table='AspettoEsterioreBeni' local-service='true' remote-service='true'>
+        <column name='codiceAspettoEsteriore' db-name='RdeCoddes' type='String' primary='true'>
+        </column>
+        <column name='descrizione' db-name='RdeDescri' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+        </column>
+    </entity>
+    <entity name='CausaleTrasporto' table='CausaleTrasporto' local-service='true' remote-service='true'>
+        <column name='codiceCausaleTrasporto' db-name='RdeCoddes' type='String' primary='true'>
+        </column>
+        <column name='descrizione' db-name='RdeDescri' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+        </column>
+    </entity>
+    <entity name='Porto' table='Porto' local-service='true' remote-service='true'>
+        <column name='Cdinco' db-name='RdeCdinco' type='String'>
+        </column>
+        <column name='codicePorto' db-name='RdeCoddes' type='String' primary='true'>
+        </column>
+        <column name='descrizione' db-name='RdeDescri' type='String'>
+        </column>
+        <column name='Incoterm' db-name='RdeIncoterm' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='RdeCodiaz' type='String'>
+        </column>
+    </entity>
+    <entity name='Associato' table='associato' local-service='true' remote-service='true' >
+        <column name='id' db-name='id' type='long' primary='true'>
+        </column>
+        <column name='centro' db-name='centro' type='String'>
+        </column>
+        <column name='ragioneSociale' db-name='ragione_sociale' type='String'>
+        </column>
+        <column name='partitaIVA' db-name='partita_iva' type='String'>
+        </column>
+        <column name='indirizzo' db-name='indirizzo' type='String'>
+        </column>
+        <column name='telefono' db-name='telefono' type='String'>
+        </column>
+        <column name='fax' db-name='fax' type='String'>
+        </column>
+        <column name='email' db-name='email' type='String'>
+        </column>
+        <column name='password' db-name='password' type='String'>
+        </column>
+        <column name='idLiferay' db-name='id_liferay' type='long'>
+        </column>
+        <column name='idOp' db-name='id_op' type='long'>
+        </column>
+        <finder name='RagioneSociale' return-type='Collection'>
+            <finder-column name='ragioneSociale' comparator='LIKE'>
+            </finder-column>
+        </finder>
+        <finder name='PartitaIVA' return-type='Collection'>
+            <finder-column name='partitaIVA' comparator='LIKE'>
+            </finder-column>
+        </finder>
+    </entity>
 </service-builder>

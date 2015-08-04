@@ -33,6 +33,19 @@
 		<field name="descrizione" type="String" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.Associato">
+		<field name="id" type="long" />
+		<field name="centro" type="String" />
+		<field name="ragioneSociale" type="String" />
+		<field name="partitaIVA" type="String" />
+		<field name="indirizzo" type="String" />
+		<field name="telefono" type="String" />
+		<field name="fax" type="String" />
+		<field name="email" type="String" />
+		<field name="password" type="String" />
+		<field name="idLiferay" type="long" />
+		<field name="idOp" type="long" />
+	</model>
 	<model name="it.bysoftware.ct.model.CausaleTrasporto">
 		<field name="codiceCausaleTrasporto" type="String" />
 		<field name="descrizione" type="String" />

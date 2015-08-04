@@ -5,5 +5,6 @@
 	<category name="BySoftware">
 		<portlet id="gestionale-op" />
 		<portlet id="recupero-documenti" />
+                <portlet id="registra-associato" />
 	</category>
 </display>

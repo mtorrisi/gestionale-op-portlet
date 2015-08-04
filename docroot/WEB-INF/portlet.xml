@@ -61,4 +61,34 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
+        <portlet>
+		<portlet-name>registra-associato</portlet-name>
+		<display-name>Registra Associato</display-name>
+		<portlet-class>it.its.ct.gestionaleOP.op.RegistraAssociatoPortlet</portlet-class>
+		<init-param>
+			<name>view-template</name>
+			<value>/jsps/op/registra.jsp</value>
+		</init-param>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>Registra Associato</title>
+			<short-title>Registra Associato</short-title>
+			<keywords>Registra Associato</keywords>
+		</portlet-info>
+		<security-role-ref>
+			<role-name>administrator</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>guest</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>power-user</role-name>
+		</security-role-ref>
+		<security-role-ref>
+			<role-name>user</role-name>
+		</security-role-ref>
+	</portlet>
 </portlet-app>

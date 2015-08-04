@@ -129,6 +129,20 @@ create table Vettori (
 	RavCodiaz VARCHAR(75) null
 );
 
+create table associato (
+	id LONG not null primary key,
+	centro VARCHAR(75) null,
+	ragione_sociale VARCHAR(75) null,
+	partita_iva VARCHAR(75) null,
+	indirizzo VARCHAR(75) null,
+	telefono VARCHAR(75) null,
+	fax VARCHAR(75) null,
+	email VARCHAR(75) null,
+	password VARCHAR(75) null,
+	id_liferay LONG,
+	id_op LONG
+);
+
 create table gestionaleOP_Testata_Righe (
 	WKAnno INTEGER not null,
 	WkNOrd INTEGER not null,

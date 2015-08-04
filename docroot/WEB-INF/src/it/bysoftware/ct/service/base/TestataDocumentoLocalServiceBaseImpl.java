@@ -36,6 +36,7 @@ import it.bysoftware.ct.service.TestataDocumentoLocalService;
 import it.bysoftware.ct.service.persistence.AnagraficaPersistence;
 import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
+import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
@@ -461,6 +462,63 @@ public abstract class TestataDocumentoLocalServiceBaseImpl
 	public void setAspettoEsterioreBeniPersistence(
 		AspettoEsterioreBeniPersistence aspettoEsterioreBeniPersistence) {
 		this.aspettoEsterioreBeniPersistence = aspettoEsterioreBeniPersistence;
+	}
+
+	/**
+	 * Returns the associato local service.
+	 *
+	 * @return the associato local service
+	 */
+	public it.bysoftware.ct.service.AssociatoLocalService getAssociatoLocalService() {
+		return associatoLocalService;
+	}
+
+	/**
+	 * Sets the associato local service.
+	 *
+	 * @param associatoLocalService the associato local service
+	 */
+	public void setAssociatoLocalService(
+		it.bysoftware.ct.service.AssociatoLocalService associatoLocalService) {
+		this.associatoLocalService = associatoLocalService;
+	}
+
+	/**
+	 * Returns the associato remote service.
+	 *
+	 * @return the associato remote service
+	 */
+	public it.bysoftware.ct.service.AssociatoService getAssociatoService() {
+		return associatoService;
+	}
+
+	/**
+	 * Sets the associato remote service.
+	 *
+	 * @param associatoService the associato remote service
+	 */
+	public void setAssociatoService(
+		it.bysoftware.ct.service.AssociatoService associatoService) {
+		this.associatoService = associatoService;
+	}
+
+	/**
+	 * Returns the associato persistence.
+	 *
+	 * @return the associato persistence
+	 */
+	public AssociatoPersistence getAssociatoPersistence() {
+		return associatoPersistence;
+	}
+
+	/**
+	 * Sets the associato persistence.
+	 *
+	 * @param associatoPersistence the associato persistence
+	 */
+	public void setAssociatoPersistence(
+		AssociatoPersistence associatoPersistence) {
+		this.associatoPersistence = associatoPersistence;
 	}
 
 	/**
@@ -1054,6 +1112,12 @@ public abstract class TestataDocumentoLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.AspettoEsterioreBeniService aspettoEsterioreBeniService;
 	@BeanReference(type = AspettoEsterioreBeniPersistence.class)
 	protected AspettoEsterioreBeniPersistence aspettoEsterioreBeniPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.AssociatoLocalService.class)
+	protected it.bysoftware.ct.service.AssociatoLocalService associatoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.AssociatoService.class)
+	protected it.bysoftware.ct.service.AssociatoService associatoService;
+	@BeanReference(type = AssociatoPersistence.class)
+	protected AssociatoPersistence associatoPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.CausaleTrasportoLocalService.class)
 	protected it.bysoftware.ct.service.CausaleTrasportoLocalService causaleTrasportoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.CausaleTrasportoService.class)

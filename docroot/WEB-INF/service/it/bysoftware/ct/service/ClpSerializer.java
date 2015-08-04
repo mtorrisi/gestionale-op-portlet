@@ -28,6 +28,7 @@ import com.liferay.portal.model.BaseModel;
 import it.bysoftware.ct.model.AnagraficaClp;
 import it.bysoftware.ct.model.ArticoliClp;
 import it.bysoftware.ct.model.AspettoEsterioreBeniClp;
+import it.bysoftware.ct.model.AssociatoClp;
 import it.bysoftware.ct.model.CausaleTrasportoClp;
 import it.bysoftware.ct.model.CuraTrasportoClp;
 import it.bysoftware.ct.model.DestinatariDiversiClp;
@@ -123,6 +124,10 @@ public class ClpSerializer {
 			return translateInputAspettoEsterioreBeni(oldModel);
 		}
 
+		if (oldModelClassName.equals(AssociatoClp.class.getName())) {
+			return translateInputAssociato(oldModel);
+		}
+
 		if (oldModelClassName.equals(CausaleTrasportoClp.class.getName())) {
 			return translateInputCausaleTrasporto(oldModel);
 		}
@@ -191,6 +196,16 @@ public class ClpSerializer {
 		AspettoEsterioreBeniClp oldClpModel = (AspettoEsterioreBeniClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getAspettoEsterioreBeniRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputAssociato(BaseModel<?> oldModel) {
+		AssociatoClp oldClpModel = (AssociatoClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getAssociatoRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -360,6 +375,43 @@ public class ClpSerializer {
 		if (oldModelClassName.equals(
 					"it.bysoftware.ct.model.impl.AspettoEsterioreBeniImpl")) {
 			return translateOutputAspettoEsterioreBeni(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.AssociatoImpl")) {
+			return translateOutputAssociato(oldModel);
 		}
 		else if (oldModelClassName.endsWith("Clp")) {
 			try {
@@ -744,6 +796,10 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchAspettoEsterioreBeniException();
 		}
 
+		if (className.equals("it.bysoftware.ct.NoSuchAssociatoException")) {
+			return new it.bysoftware.ct.NoSuchAssociatoException();
+		}
+
 		if (className.equals("it.bysoftware.ct.NoSuchCausaleTrasportoException")) {
 			return new it.bysoftware.ct.NoSuchCausaleTrasportoException();
 		}
@@ -803,6 +859,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setAspettoEsterioreBeniRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputAssociato(BaseModel<?> oldModel) {
+		AssociatoClp newModel = new AssociatoClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setAssociatoRemoteModel(oldModel);
 
 		return newModel;
 	}

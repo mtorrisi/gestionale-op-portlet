@@ -106,6 +106,32 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.AssociatoModelImpl">
+		<attributes>
+			<id name="id" />
+			<basic name="centro" />
+			<basic name="ragioneSociale">
+				<column name="RAGIONE_SOCIALE" />
+			</basic>
+			<basic name="partitaIVA">
+				<column name="PARTITA_IVA" />
+			</basic>
+			<basic name="indirizzo" />
+			<basic name="telefono" />
+			<basic name="fax" />
+			<basic name="email" />
+			<basic name="password" />
+			<basic name="idLiferay">
+				<column name="ID_LIFERAY" />
+			</basic>
+			<basic name="idOp">
+				<column name="ID_OP" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.CausaleTrasportoModelImpl">
 		<attributes>
 			<id name="codiceCausaleTrasporto">
@@ -444,6 +470,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.AspettoEsterioreBeniImpl" name="AspettoEsterioreBeni">
 		<table name="AspettoEsterioreBeni" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.AssociatoImpl" name="Associato">
+		<table name="associato" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" name="CausaleTrasporto">
