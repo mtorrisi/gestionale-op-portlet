@@ -3,29 +3,35 @@
 <%@include file="../../init.jsp" %>
 
 <liferay-portlet:actionURL name="editAssociato" var="editAssociato"/>
-<form id="registra-associato" class="form-horizontal" action="${editAssociato}" method="post">
+
+<%
+    Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(renderRequest, "id"));
+%>
+
+<aui:form action="${editAssociato}" method="post" cssClass="form-horizontal"> 
+<!--<form id="registra-associato" class="form-horizontal" action="${editAssociato}" method="post">-->
     <fieldset>
-    <aui:field-wrapper >
-        <div class="btn-toolbar">
-            <div class="btn-group">
-                <button id="btnSave" class="btn" ><i class="icon-save"></i>Salva</button>
-                <button id="btnReset" class="btn" ><i class="icon-remove"></i>Reset</button>
+        <aui:field-wrapper >
+            <div class="btn-toolbar">
+                <div class="btn-group">
+                    <button id="btnSave" class="btn" ><i class="icon-save"></i>Salva</button>
+                    <button id="btnReset" class="btn" ><i class="icon-remove"></i>Reset</button>
+                </div>
             </div>
-        </div>
-    </aui:field-wrapper>
+        </aui:field-wrapper>
 
         <!-- Form Name -->
-        <legend>Registra Associato</legend>
+        <legend>Modifica Associato</legend>
 
         <aui:layout>
             <aui:column columnWidth="50" first="true" >
-                <input id="id" name="id" type="text" placeholder="" class="form-control input-md"  style="display: none"/>
-                
+                <input id="id" name="id" type="text" placeholder="" class="form-control input-md input-xlarge"  style="display: none"/>
+
                 <!-- Text input-->
                 <div class="control-group">
                     <label class="control-label" for="ragioneSociale">Ragione sociale: </label>  
                     <div class="controls">
-                        <input id="ragioneSociale" name="ragioneSociale" type="text" placeholder="" class="form-control input-md" required=""/>
+                        <input id="ragioneSociale" name="ragioneSociale" type="text" placeholder="" class="form-control input-md input-xlarge" required="" value="<%= a.getRagioneSociale()%>"/>
 
                     </div>
                 </div>
@@ -34,16 +40,16 @@
                 <div class="control-group">
                     <label class="control-label" for="centro">Centro: </label>  
                     <div class="controls">
-                        <input id="centro" name="centro" type="text" placeholder="" class="form-control input-md" required=""/>
+                        <input id="centro" name="centro" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getCentro()%>"/>
 
                     </div>
                 </div>
 
                 <!-- Text input-->
-                <div class="control-group">
+                <div class="control-group" style="display: none;">
                     <label class="control-label" for="pIVA">Partita IVA: </label>  
                     <div class="controls">
-                        <input id="pIVA" name="pIVA" type="text" placeholder="" class="form-control input-md" required=""/>
+                        <input id="pIVA" name="pIVA" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getPartitaIVA()%>"/>
 
                     </div>
                 </div>
@@ -52,8 +58,7 @@
                 <div class="control-group">
                     <label class="control-label" for="indirizzo">Indirizzo: </label>  
                     <div class="controls">
-                        <input id="indirizzo" name="indirizzo" type="text" placeholder="" class="form-control input-md" required=""/>
-                        <!--<textarea id="indirizzo" name="indirizzo" rows="3" placeholder="" class="form-control input-md" required=""/>-->
+                        <input id="indirizzo" name="indirizzo" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getIndirizzo()%>"/>
 
                     </div>
                 </div>
@@ -64,7 +69,7 @@
                 <div class="control-group">
                     <label class="control-label" for="telefono">Telefono: </label>  
                     <div class="controls">
-                        <input id="telefono" name="telefono" type="text" placeholder="" class="form-control input-md"/>
+                        <input id="telefono" name="telefono" type="text" placeholder="" class="form-control input-md input-xlarge"  value="<%= a.getTelefono()%>"/>
 
                     </div>
                 </div>
@@ -73,7 +78,7 @@
                 <div class="control-group">
                     <label class="control-label" for="fax">Fax: </label>  
                     <div class="controls">
-                        <input id="fax" name="fax" type="text" placeholder="" class="form-control input-md"/>
+                        <input id="fax" name="fax" type="text" placeholder="" class="form-control input-md input-xlarge"  value="<%= a.getFax()%>"/>
 
                     </div>
                 </div>
@@ -82,19 +87,19 @@
                 <div class="control-group">
                     <label class="control-label" for="email">Email: </label>  
                     <div class="controls">
-                        <input id="email" name="email" type="text" placeholder="" class="form-control input-md" required=""/>
+                        <input id="email" name="email" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getEmail()%>"/>
 
                     </div>
                 </div>
 
                 <!-- Password input-->
-                <div class="control-group">
-                    <label class="control-label" for="password">Password: </label>
-                    <div class="controls">
-                        <input id="password" name="password" type="password" placeholder="" class="form-control input-md" required=""/>
-
-                    </div>
-                </div>
+                <!--                <div class="control-group" style="display: none;">
+                                    <label class="control-label" for="password">Password: </label>
+                                    <div class="controls">
+                                        <input id="password" name="password" type="password" placeholder="" class="form-control input-md" required="" />
+                
+                                    </div>
+                                </div>-->
             </aui:column>
         </aui:layout>
 
@@ -107,29 +112,9 @@
                     </div>
                 </div>-->
     </fieldset>
-</form>
+</aui:form>
+<!--</form>-->
 
-<fieldset>
-
-    <!-- Form Name -->
-    <legend>Elenco Associati</legend>
-    <liferay-ui:search-container delta="20" >
-
-        <liferay-ui:search-container-results results="<%= AssociatoLocalServiceUtil.getAssociatos(0, AssociatoLocalServiceUtil.getAssociatosCount())%>" 
-        total="<%= AssociatoLocalServiceUtil.getAssociatosCount()%>"/>
-        <liferay-ui:search-container-row className="Associato" modelVar="clienti">
-            <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-            <liferay-ui:search-container-column-text property="indirizzo" name="Indirizzo"/>
-            <%--<liferay-ui:search-container-column-text property="partitaIVA"  name="Partita IVA"/>--%>
-            <liferay-ui:search-container-column-text property="telefono"  name="Telefono"/>
-            <liferay-ui:search-container-column-text property="fax"  name="FAX"/>
-            <%--<liferay-ui:search-container-column-text property="email"  name="Email"/>--%>
-            <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/op/action.jsp"/>
-        </liferay-ui:search-container-row>
-
-        <liferay-ui:search-iterator/>
-    </liferay-ui:search-container>
-</fieldset>
 <script type="text/javascript">
 
     YUI().use(
