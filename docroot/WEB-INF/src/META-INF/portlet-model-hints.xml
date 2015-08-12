@@ -45,6 +45,7 @@
 		<field name="password" type="String" />
 		<field name="idLiferay" type="long" />
 		<field name="idOp" type="long" />
+		<field name="attivo" type="boolean" />
 	</model>
 	<model name="it.bysoftware.ct.model.CausaleTrasporto">
 		<field name="codiceCausaleTrasporto" type="String" />

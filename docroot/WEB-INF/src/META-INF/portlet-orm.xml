@@ -127,6 +127,7 @@
 			<basic name="idOp">
 				<column name="ID_OP" />
 			</basic>
+			<basic name="attivo" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

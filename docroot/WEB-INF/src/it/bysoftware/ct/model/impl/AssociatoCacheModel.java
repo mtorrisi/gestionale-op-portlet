@@ -36,7 +36,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{id=");
 		sb.append(id);
@@ -60,6 +60,8 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		sb.append(idLiferay);
 		sb.append(", idOp=");
 		sb.append(idOp);
+		sb.append(", attivo=");
+		sb.append(attivo);
 		sb.append("}");
 
 		return sb.toString();
@@ -129,6 +131,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 
 		associatoImpl.setIdLiferay(idLiferay);
 		associatoImpl.setIdOp(idOp);
+		associatoImpl.setAttivo(attivo);
 
 		associatoImpl.resetOriginalValues();
 
@@ -148,6 +151,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		password = objectInput.readUTF();
 		idLiferay = objectInput.readLong();
 		idOp = objectInput.readLong();
+		attivo = objectInput.readBoolean();
 	}
 
 	@Override
@@ -213,6 +217,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 
 		objectOutput.writeLong(idLiferay);
 		objectOutput.writeLong(idOp);
+		objectOutput.writeBoolean(attivo);
 	}
 
 	public long id;
@@ -226,4 +231,5 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	public String password;
 	public long idLiferay;
 	public long idOp;
+	public boolean attivo;
 }

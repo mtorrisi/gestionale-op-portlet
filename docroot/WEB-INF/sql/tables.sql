@@ -140,7 +140,8 @@ create table associato (
 	email VARCHAR(75) null,
 	password VARCHAR(75) null,
 	id_liferay LONG,
-	id_op LONG
+	id_op LONG,
+	attivo BOOLEAN
 );
 
 create table gestionaleOP_Testata_Righe (

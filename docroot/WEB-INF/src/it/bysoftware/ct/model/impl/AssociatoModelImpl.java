@@ -73,9 +73,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			{ "email", Types.VARCHAR },
 			{ "password", Types.VARCHAR },
 			{ "id_liferay", Types.BIGINT },
-			{ "id_op", Types.BIGINT }
+			{ "id_op", Types.BIGINT },
+			{ "attivo", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG)";
+	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table associato";
 	public static final String ORDER_BY_JPQL = " ORDER BY associato.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY associato.id ASC";
@@ -119,6 +120,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		model.setPassword(soapModel.getPassword());
 		model.setIdLiferay(soapModel.getIdLiferay());
 		model.setIdOp(soapModel.getIdOp());
+		model.setAttivo(soapModel.getAttivo());
 
 		return model;
 	}
@@ -194,6 +196,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		attributes.put("password", getPassword());
 		attributes.put("idLiferay", getIdLiferay());
 		attributes.put("idOp", getIdOp());
+		attributes.put("attivo", getAttivo());
 
 		return attributes;
 	}
@@ -264,6 +267,12 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 		if (idOp != null) {
 			setIdOp(idOp);
+		}
+
+		Boolean attivo = (Boolean)attributes.get("attivo");
+
+		if (attivo != null) {
+			setAttivo(attivo);
 		}
 	}
 
@@ -448,6 +457,22 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		_idOp = idOp;
 	}
 
+	@JSON
+	@Override
+	public boolean getAttivo() {
+		return _attivo;
+	}
+
+	@Override
+	public boolean isAttivo() {
+		return _attivo;
+	}
+
+	@Override
+	public void setAttivo(boolean attivo) {
+		_attivo = attivo;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -490,6 +515,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoImpl.setPassword(getPassword());
 		associatoImpl.setIdLiferay(getIdLiferay());
 		associatoImpl.setIdOp(getIdOp());
+		associatoImpl.setAttivo(getAttivo());
 
 		associatoImpl.resetOriginalValues();
 
@@ -623,12 +649,14 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 		associatoCacheModel.idOp = getIdOp();
 
+		associatoCacheModel.attivo = getAttivo();
+
 		return associatoCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -652,6 +680,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		sb.append(getIdLiferay());
 		sb.append(", idOp=");
 		sb.append(getIdOp());
+		sb.append(", attivo=");
+		sb.append(getAttivo());
 		sb.append("}");
 
 		return sb.toString();
@@ -659,7 +689,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -709,6 +739,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			"<column><column-name>idOp</column-name><column-value><![CDATA[");
 		sb.append(getIdOp());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>attivo</column-name><column-value><![CDATA[");
+		sb.append(getAttivo());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -732,6 +766,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private String _password;
 	private long _idLiferay;
 	private long _idOp;
+	private boolean _attivo;
 	private long _columnBitmask;
 	private Associato _escapedModel;
 }

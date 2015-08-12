@@ -9,22 +9,22 @@
 
 <liferay-ui:icon-menu>
 
-    <%--liferay-portlet:actionURL var="toggleApp" name="toggleApp">
-        <liferay-portlet:param name="appId" value="<%= String.valueOf(app.getAppId())%>"/>
+    <liferay-portlet:actionURL var="toggleAssociato" name="toggleAssociato">
+        <liferay-portlet:param name="id" value="<%= String.valueOf(associato.getId())%>"/>
     </liferay-portlet:actionURL>
-    <c:if test="<%= app.isEnabled()%>">
+    <c:if test="<%= associato.getAttivo() %>">
         <liferay-ui:icon
             image="deactivate"
-            url="${toggleApp}"
+            url="${toggleAssociato}"
             />
 
     </c:if>
-    <c:if test="<%= !app.isEnabled()%>">
+    <c:if test="<%= !associato.getAttivo() %>">
         <liferay-ui:icon
             image="activate"
-            url="${toggleApp}"
+            url="${toggleAssociato}"
             />
-    </c:if--%>
+    </c:if>
     <liferay-portlet:renderURL var="editAssociato" >
         <liferay-portlet:param name="id"  value="<%= String.valueOf(associato.getId())%>"/>
         <liferay-portlet:param name="jspPage"  value="/jsps/op/edit_associate.jsp"/>
@@ -33,12 +33,12 @@
         image="edit" 
         url="${editAssociato}"
         label="true"/>    
-    <liferay-portlet:actionURL var="deleteAssociato" name="deleteAssociato">
+    <%--<liferay-portlet:actionURL var="deleteAssociato" name="deleteAssociato">
         <liferay-portlet:param name="id" value="<%= String.valueOf(associato.getId())%>"/>
     </liferay-portlet:actionURL>
     <liferay-ui:icon
         image="delete"
         url="${deleteAssociato}"
-        />
+        />--%>
     
 </liferay-ui:icon-menu>

@@ -59,6 +59,7 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 		attributes.put("password", getPassword());
 		attributes.put("idLiferay", getIdLiferay());
 		attributes.put("idOp", getIdOp());
+		attributes.put("attivo", getAttivo());
 
 		return attributes;
 	}
@@ -129,6 +130,12 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 
 		if (idOp != null) {
 			setIdOp(idOp);
+		}
+
+		Boolean attivo = (Boolean)attributes.get("attivo");
+
+		if (attivo != null) {
+			setAttivo(attivo);
 		}
 	}
 
@@ -370,6 +377,36 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 	@Override
 	public void setIdOp(long idOp) {
 		_associato.setIdOp(idOp);
+	}
+
+	/**
+	* Returns the attivo of this associato.
+	*
+	* @return the attivo of this associato
+	*/
+	@Override
+	public boolean getAttivo() {
+		return _associato.getAttivo();
+	}
+
+	/**
+	* Returns <code>true</code> if this associato is attivo.
+	*
+	* @return <code>true</code> if this associato is attivo; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isAttivo() {
+		return _associato.isAttivo();
+	}
+
+	/**
+	* Sets whether this associato is attivo.
+	*
+	* @param attivo the attivo of this associato
+	*/
+	@Override
+	public void setAttivo(boolean attivo) {
+		_associato.setAttivo(attivo);
 	}
 
 	@Override

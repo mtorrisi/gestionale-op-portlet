@@ -219,6 +219,27 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	 */
 	public void setIdOp(long idOp);
 
+	/**
+	 * Returns the attivo of this associato.
+	 *
+	 * @return the attivo of this associato
+	 */
+	public boolean getAttivo();
+
+	/**
+	 * Returns <code>true</code> if this associato is attivo.
+	 *
+	 * @return <code>true</code> if this associato is attivo; <code>false</code> otherwise
+	 */
+	public boolean isAttivo();
+
+	/**
+	 * Sets whether this associato is attivo.
+	 *
+	 * @param attivo the attivo of this associato
+	 */
+	public void setAttivo(boolean attivo);
+
 	@Override
 	public boolean isNew();
 

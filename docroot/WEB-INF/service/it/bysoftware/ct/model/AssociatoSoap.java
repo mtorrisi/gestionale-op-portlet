@@ -41,6 +41,7 @@ public class AssociatoSoap implements Serializable {
 		soapModel.setPassword(model.getPassword());
 		soapModel.setIdLiferay(model.getIdLiferay());
 		soapModel.setIdOp(model.getIdOp());
+		soapModel.setAttivo(model.getAttivo());
 
 		return soapModel;
 	}
@@ -181,6 +182,18 @@ public class AssociatoSoap implements Serializable {
 		_idOp = idOp;
 	}
 
+	public boolean getAttivo() {
+		return _attivo;
+	}
+
+	public boolean isAttivo() {
+		return _attivo;
+	}
+
+	public void setAttivo(boolean attivo) {
+		_attivo = attivo;
+	}
+
 	private long _id;
 	private String _centro;
 	private String _ragioneSociale;
@@ -192,4 +205,5 @@ public class AssociatoSoap implements Serializable {
 	private String _password;
 	private long _idLiferay;
 	private long _idOp;
+	private boolean _attivo;
 }

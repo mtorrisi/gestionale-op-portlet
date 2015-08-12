@@ -1387,6 +1387,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		associatoImpl.setPassword(associato.getPassword());
 		associatoImpl.setIdLiferay(associato.getIdLiferay());
 		associatoImpl.setIdOp(associato.getIdOp());
+		associatoImpl.setAttivo(associato.isAttivo());
 
 		return associatoImpl;
 	}

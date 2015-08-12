@@ -69,6 +69,7 @@
 		<property name="password" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idLiferay" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_liferay" />
 		<property name="idOp" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_op" />
+		<property name="attivo" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" table="CausaleTrasporto">
 		<cache usage="read-write" />
