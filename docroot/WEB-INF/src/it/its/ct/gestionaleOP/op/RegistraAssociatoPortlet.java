@@ -9,6 +9,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
@@ -18,7 +20,9 @@ import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -107,28 +111,36 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
             User creator = PortalUtil.getUser(areq);
             Role role = RoleServiceUtil.getRole(creator.getCompanyId(), "associato");
-            
+            OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(creator.getUserId());
             User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getEmail().substring(0, a.getEmail().indexOf("@")), creator, role.getRoleId());
             _log.info("Inserted Liferay user: " + liferayUser);
-            
+
+            a.setIdOp(op.getId());
             a.setIdLiferay(liferayUser.getUserId());
+            a.setAttivo(true);
             _log.info("Inserting or updating: " + a);
             AssociatoLocalServiceUtil.updateAssociato(a);
-           
+            
         } catch (SystemException ex) {
             _log.error(ex.getLocalizedMessage());
+            SessionErrors.add(areq, "no-registration");
         } catch (NoSuchAlgorithmException ex) {
             _log.error(ex.getLocalizedMessage());
+            SessionErrors.add(areq, "no-registration");
         } catch (PortalException ex) {
             _log.error(ex.getLocalizedMessage());
-        }
+            SessionErrors.add(areq, "no-registration");
+        } 
     }
 
     private User addLiferayUser(String firstName, String lastName, String email, String password, String screenName, User creator, long roleId) throws PortalException, SystemException {
 
         long[] emptyLong = {};
         long[] rolesId = {roleId};
-        User user = UserLocalServiceUtil.addUser(creator.getUserId(), creator.getCompanyId(), false, password, password, false, screenName, email, 0, "", Locale.ITALIAN, firstName, firstName, "", 0, 0, true, 1, 1, 1970, email, emptyLong, emptyLong, rolesId, emptyLong, false, null);
+        User user = UserLocalServiceUtil.addUser(creator.getUserId(), creator.getCompanyId(),
+                false, password, password, false, screenName, email, 0, "",
+                Locale.ITALIAN, firstName, firstName, "", 0, 0, true, 1, 1, 1970,
+                email, emptyLong, emptyLong, rolesId, emptyLong, false, null);
 
         return user;
 

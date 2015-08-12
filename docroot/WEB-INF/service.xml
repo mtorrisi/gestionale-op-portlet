@@ -334,10 +334,46 @@
         <finder name="Centro" return-type="Associato" unique="true">
             <finder-column name="centro" />
         </finder>
-        <finder name="PartitaIVA" return-type="Associato" unique="true">
+<!--        <finder name="PartitaIVA" return-type="Associato" unique="true">
             <finder-column name="partitaIVA" />
-        </finder>
+        </finder>-->
         <finder name="Email" return-type="Associato" unique="true">
+            <finder-column name="email" />
+        </finder>
+    </entity>
+    <entity name='OrganizzazioneProduttori' table='op' local-service='true' remote-service='true' >
+        <column name='id' db-name='id' type='long' primary='true'>
+        </column>
+        <column name='ragioneSociale' db-name='ragione_sociale' type='String'>
+        </column>
+        <column name='partitaIVA' db-name='partita_iva' type='String'>
+        </column>
+        <column name='indirizzo' db-name='indirizzo' type='String'>
+        </column>
+        <column name='telefono' db-name='telefono' type='String'>
+        </column>
+        <column name='fax' db-name='fax' type='String'>
+        </column>
+        <column name='sitoWeb' db-name='sito_web' type='String'>
+        </column>
+        <column name='email' db-name='email' type='String'>
+        </column>
+        <column name='password' db-name='password' type='String'>
+        </column>
+        <column name='idLiferay' db-name='id_liferay' type='long'>
+        </column>
+        <finder name='RagioneSociale' return-type='Collection'>
+            <finder-column name='ragioneSociale' comparator='LIKE'>
+            </finder-column>
+        </finder>
+        <finder name='PartitaIVA' return-type='Collection'>
+            <finder-column name='partitaIVA' comparator='LIKE'>
+            </finder-column>
+        </finder>
+        <finder name="IdLiferay" return-type="OrganizzazioneProduttori" unique="true">
+            <finder-column name="idLiferay" />
+        </finder>
+        <finder name="Email" return-type="OrganizzazioneProduttori" unique="true">
             <finder-column name="email" />
         </finder>
     </entity>

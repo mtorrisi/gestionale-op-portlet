@@ -31,6 +31,7 @@ import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
+import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
 import it.bysoftware.ct.service.persistence.PortoPersistence;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
@@ -454,6 +455,63 @@ public abstract class VettoriServiceBaseImpl extends BaseServiceImpl
 	public void setDestinatariDiversiPersistence(
 		DestinatariDiversiPersistence destinatariDiversiPersistence) {
 		this.destinatariDiversiPersistence = destinatariDiversiPersistence;
+	}
+
+	/**
+	 * Returns the organizzazione produttori local service.
+	 *
+	 * @return the organizzazione produttori local service
+	 */
+	public it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService getOrganizzazioneProduttoriLocalService() {
+		return organizzazioneProduttoriLocalService;
+	}
+
+	/**
+	 * Sets the organizzazione produttori local service.
+	 *
+	 * @param organizzazioneProduttoriLocalService the organizzazione produttori local service
+	 */
+	public void setOrganizzazioneProduttoriLocalService(
+		it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService organizzazioneProduttoriLocalService) {
+		this.organizzazioneProduttoriLocalService = organizzazioneProduttoriLocalService;
+	}
+
+	/**
+	 * Returns the organizzazione produttori remote service.
+	 *
+	 * @return the organizzazione produttori remote service
+	 */
+	public it.bysoftware.ct.service.OrganizzazioneProduttoriService getOrganizzazioneProduttoriService() {
+		return organizzazioneProduttoriService;
+	}
+
+	/**
+	 * Sets the organizzazione produttori remote service.
+	 *
+	 * @param organizzazioneProduttoriService the organizzazione produttori remote service
+	 */
+	public void setOrganizzazioneProduttoriService(
+		it.bysoftware.ct.service.OrganizzazioneProduttoriService organizzazioneProduttoriService) {
+		this.organizzazioneProduttoriService = organizzazioneProduttoriService;
+	}
+
+	/**
+	 * Returns the organizzazione produttori persistence.
+	 *
+	 * @return the organizzazione produttori persistence
+	 */
+	public OrganizzazioneProduttoriPersistence getOrganizzazioneProduttoriPersistence() {
+		return organizzazioneProduttoriPersistence;
+	}
+
+	/**
+	 * Sets the organizzazione produttori persistence.
+	 *
+	 * @param organizzazioneProduttoriPersistence the organizzazione produttori persistence
+	 */
+	public void setOrganizzazioneProduttoriPersistence(
+		OrganizzazioneProduttoriPersistence organizzazioneProduttoriPersistence) {
+		this.organizzazioneProduttoriPersistence = organizzazioneProduttoriPersistence;
 	}
 
 	/**
@@ -895,6 +953,12 @@ public abstract class VettoriServiceBaseImpl extends BaseServiceImpl
 	protected it.bysoftware.ct.service.DestinatariDiversiService destinatariDiversiService;
 	@BeanReference(type = DestinatariDiversiPersistence.class)
 	protected DestinatariDiversiPersistence destinatariDiversiPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService.class)
+	protected it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService organizzazioneProduttoriLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.OrganizzazioneProduttoriService.class)
+	protected it.bysoftware.ct.service.OrganizzazioneProduttoriService organizzazioneProduttoriService;
+	@BeanReference(type = OrganizzazioneProduttoriPersistence.class)
+	protected OrganizzazioneProduttoriPersistence organizzazioneProduttoriPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.PortoLocalService.class)
 	protected it.bysoftware.ct.service.PortoLocalService portoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.PortoService.class)

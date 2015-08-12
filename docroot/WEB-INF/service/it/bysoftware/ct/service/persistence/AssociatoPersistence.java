@@ -314,6 +314,120 @@ public interface AssociatoPersistence extends BasePersistence<Associato> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
+	* Returns the associato where centro = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
+	*
+	* @param centro the centro
+	* @return the matching associato
+	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato findByCentro(
+		java.lang.String centro)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException;
+
+	/**
+	* Returns the associato where centro = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param centro the centro
+	* @return the matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato fetchByCentro(
+		java.lang.String centro)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the associato where centro = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param centro the centro
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato fetchByCentro(
+		java.lang.String centro, boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes the associato where centro = &#63; from the database.
+	*
+	* @param centro the centro
+	* @return the associato that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato removeByCentro(
+		java.lang.String centro)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException;
+
+	/**
+	* Returns the number of associatos where centro = &#63;.
+	*
+	* @param centro the centro
+	* @return the number of matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByCentro(java.lang.String centro)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the associato where email = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
+	*
+	* @param email the email
+	* @return the matching associato
+	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato findByEmail(java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException;
+
+	/**
+	* Returns the associato where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param email the email
+	* @return the matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato fetchByEmail(java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Returns the associato where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param email the email
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato fetchByEmail(
+		java.lang.String email, boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
+	* Removes the associato where email = &#63; from the database.
+	*
+	* @param email the email
+	* @return the associato that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public it.bysoftware.ct.model.Associato removeByEmail(
+		java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException;
+
+	/**
+	* Returns the number of associatos where email = &#63;.
+	*
+	* @param email the email
+	* @return the number of matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public int countByEmail(java.lang.String email)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	/**
 	* Caches the associato in the entity cache if it is enabled.
 	*
 	* @param associato the associato

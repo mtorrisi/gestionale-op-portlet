@@ -152,3 +152,16 @@ create table gestionaleOP_Testata_Righe (
 	WKNOrd INTEGER not null,
 	primary key (WKAnno, WkNOrd, WkRigord, WKAnno, WKNOrd)
 );
+
+create table op (
+	id LONG not null primary key,
+	ragione_sociale VARCHAR(75) null,
+	partita_iva VARCHAR(75) null,
+	indirizzo VARCHAR(75) null,
+	telefono VARCHAR(75) null,
+	fax VARCHAR(75) null,
+	sito_web VARCHAR(75) null,
+	email VARCHAR(75) null,
+	password VARCHAR(75) null,
+	id_liferay LONG
+);

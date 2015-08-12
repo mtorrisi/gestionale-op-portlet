@@ -32,6 +32,8 @@ import it.bysoftware.ct.service.CuraTrasportoLocalServiceUtil;
 import it.bysoftware.ct.service.CuraTrasportoServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriServiceUtil;
 import it.bysoftware.ct.service.PortoLocalServiceUtil;
 import it.bysoftware.ct.service.PortoServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
@@ -77,6 +79,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			DestinatariDiversiLocalServiceUtil.clearService();
 
 			DestinatariDiversiServiceUtil.clearService();
+			OrganizzazioneProduttoriLocalServiceUtil.clearService();
+
+			OrganizzazioneProduttoriServiceUtil.clearService();
 			PortoLocalServiceUtil.clearService();
 
 			PortoServiceUtil.clearService();

@@ -32,6 +32,7 @@ import it.bysoftware.ct.model.AssociatoClp;
 import it.bysoftware.ct.model.CausaleTrasportoClp;
 import it.bysoftware.ct.model.CuraTrasportoClp;
 import it.bysoftware.ct.model.DestinatariDiversiClp;
+import it.bysoftware.ct.model.OrganizzazioneProduttoriClp;
 import it.bysoftware.ct.model.PortoClp;
 import it.bysoftware.ct.model.RigoDocumentoClp;
 import it.bysoftware.ct.model.TestataDocumentoClp;
@@ -140,6 +141,11 @@ public class ClpSerializer {
 			return translateInputDestinatariDiversi(oldModel);
 		}
 
+		if (oldModelClassName.equals(
+					OrganizzazioneProduttoriClp.class.getName())) {
+			return translateInputOrganizzazioneProduttori(oldModel);
+		}
+
 		if (oldModelClassName.equals(PortoClp.class.getName())) {
 			return translateInputPorto(oldModel);
 		}
@@ -236,6 +242,17 @@ public class ClpSerializer {
 		DestinatariDiversiClp oldClpModel = (DestinatariDiversiClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getDestinatariDiversiRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputOrganizzazioneProduttori(
+		BaseModel<?> oldModel) {
+		OrganizzazioneProduttoriClp oldClpModel = (OrganizzazioneProduttoriClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getOrganizzazioneProduttoriRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -557,6 +574,43 @@ public class ClpSerializer {
 			}
 		}
 
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl")) {
+			return translateOutputOrganizzazioneProduttori(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
 		if (oldModelClassName.equals("it.bysoftware.ct.model.impl.PortoImpl")) {
 			return translateOutputPorto(oldModel);
 		}
@@ -813,6 +867,11 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchDestinatariDiversiException();
 		}
 
+		if (className.equals(
+					"it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException")) {
+			return new it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException();
+		}
+
 		if (className.equals("it.bysoftware.ct.NoSuchPortoException")) {
 			return new it.bysoftware.ct.NoSuchPortoException();
 		}
@@ -900,6 +959,17 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setDestinatariDiversiRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputOrganizzazioneProduttori(
+		BaseModel<?> oldModel) {
+		OrganizzazioneProduttoriClp newModel = new OrganizzazioneProduttoriClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setOrganizzazioneProduttoriRemoteModel(oldModel);
 
 		return newModel;
 	}

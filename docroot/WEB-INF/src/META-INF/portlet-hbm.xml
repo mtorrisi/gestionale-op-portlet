@@ -9,6 +9,7 @@
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
+	<import class="it.bysoftware.ct.model.OrganizzazioneProduttori" />
 	<import class="it.bysoftware.ct.model.Porto" />
 	<import class="it.bysoftware.ct.model.RigoDocumento" />
 	<import class="it.bysoftware.ct.model.TestataDocumento" />
@@ -99,6 +100,21 @@
 		<property name="provincia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigpro" />
 		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigsta" />
 		<property name="tipoAnagrafica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavTipana" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" table="op">
+		<cache usage="read-write" />
+		<id name="id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ragione_sociale" />
+		<property name="partitaIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="partita_iva" />
+		<property name="indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="telefono" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="fax" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="sitoWeb" type="com.liferay.portal.dao.orm.hibernate.StringType" column="sito_web" />
+		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="password" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="idLiferay" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_liferay" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.PortoImpl" table="Porto">
 		<cache usage="read-write" />

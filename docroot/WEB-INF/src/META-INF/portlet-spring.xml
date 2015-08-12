@@ -67,4 +67,10 @@
         <property name="dataSource" ref="gestionaleOPDataSource" />
         <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
     </bean>
+    <bean id="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService" class="it.bysoftware.ct.service.impl.OrganizzazioneProduttoriLocalServiceImpl" />
+    <bean id="it.bysoftware.ct.service.OrganizzazioneProduttoriService" class="it.bysoftware.ct.service.impl.OrganizzazioneProduttoriServiceImpl" />
+    <bean id="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence" class="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistenceImpl" parent="basePersistence">
+        <property name="dataSource" ref="gestionaleOPDataSource" />
+        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+    </bean>         
 </beans>

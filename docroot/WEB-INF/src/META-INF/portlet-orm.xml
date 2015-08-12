@@ -196,6 +196,31 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriModelImpl">
+		<attributes>
+			<id name="id" />
+			<basic name="ragioneSociale">
+				<column name="RAGIONE_SOCIALE" />
+			</basic>
+			<basic name="partitaIVA">
+				<column name="PARTITA_IVA" />
+			</basic>
+			<basic name="indirizzo" />
+			<basic name="telefono" />
+			<basic name="fax" />
+			<basic name="sitoWeb">
+				<column name="SITO_WEB" />
+			</basic>
+			<basic name="email" />
+			<basic name="password" />
+			<basic name="idLiferay">
+				<column name="ID_LIFERAY" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.PortoModelImpl">
 		<attributes>
 			<id name="codicePorto">
@@ -487,6 +512,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">
 		<table name="DestinatariDiversi" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" name="OrganizzazioneProduttori">
+		<table name="op" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.PortoImpl" name="Porto">

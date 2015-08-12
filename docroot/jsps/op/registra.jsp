@@ -117,6 +117,7 @@
         <liferay-ui:search-container-results results="<%= AssociatoLocalServiceUtil.getAssociatos(0, AssociatoLocalServiceUtil.getAssociatosCount())%>" 
         total="<%= AssociatoLocalServiceUtil.getAssociatosCount()%>"/>
         <liferay-ui:search-container-row className="Associato" modelVar="associati">
+            <liferay-ui:search-container-column-text property="id" name="Codice" />
             <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
             <liferay-ui:search-container-column-text property="indirizzo" name="Indirizzo"/>
             <%--<liferay-ui:search-container-column-text property="partitaIVA"  name="Partita IVA"/>--%>

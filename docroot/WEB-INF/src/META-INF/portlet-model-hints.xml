@@ -67,6 +67,18 @@
 		<field name="stato" type="String" />
 		<field name="tipoAnagrafica" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.OrganizzazioneProduttori">
+		<field name="id" type="long" />
+		<field name="ragioneSociale" type="String" />
+		<field name="partitaIVA" type="String" />
+		<field name="indirizzo" type="String" />
+		<field name="telefono" type="String" />
+		<field name="fax" type="String" />
+		<field name="sitoWeb" type="String" />
+		<field name="email" type="String" />
+		<field name="password" type="String" />
+		<field name="idLiferay" type="long" />
+	</model>
 	<model name="it.bysoftware.ct.model.Porto">
 		<field name="Cdinco" type="String" />
 		<field name="codicePorto" type="String" />

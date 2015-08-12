@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnmodifiableList;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -1138,6 +1139,488 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	private static final String _FINDER_COLUMN_PARTITAIVA_PARTITAIVA_1 = "associato.partitaIVA LIKE NULL";
 	private static final String _FINDER_COLUMN_PARTITAIVA_PARTITAIVA_2 = "associato.partitaIVA LIKE ?";
 	private static final String _FINDER_COLUMN_PARTITAIVA_PARTITAIVA_3 = "(associato.partitaIVA IS NULL OR associato.partitaIVA LIKE '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_CENTRO = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
+			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByCentro",
+			new String[] { String.class.getName() },
+			AssociatoModelImpl.CENTRO_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_CENTRO = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
+			AssociatoModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByCentro",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the associato where centro = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
+	 *
+	 * @param centro the centro
+	 * @return the matching associato
+	 * @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato findByCentro(String centro)
+		throws NoSuchAssociatoException, SystemException {
+		Associato associato = fetchByCentro(centro);
+
+		if (associato == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("centro=");
+			msg.append(centro);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchAssociatoException(msg.toString());
+		}
+
+		return associato;
+	}
+
+	/**
+	 * Returns the associato where centro = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param centro the centro
+	 * @return the matching associato, or <code>null</code> if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato fetchByCentro(String centro) throws SystemException {
+		return fetchByCentro(centro, true);
+	}
+
+	/**
+	 * Returns the associato where centro = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param centro the centro
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching associato, or <code>null</code> if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato fetchByCentro(String centro, boolean retrieveFromCache)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { centro };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_CENTRO,
+					finderArgs, this);
+		}
+
+		if (result instanceof Associato) {
+			Associato associato = (Associato)result;
+
+			if (!Validator.equals(centro, associato.getCentro())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_ASSOCIATO_WHERE);
+
+			boolean bindCentro = false;
+
+			if (centro == null) {
+				query.append(_FINDER_COLUMN_CENTRO_CENTRO_1);
+			}
+			else if (centro.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_CENTRO_CENTRO_3);
+			}
+			else {
+				bindCentro = true;
+
+				query.append(_FINDER_COLUMN_CENTRO_CENTRO_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCentro) {
+					qPos.add(centro);
+				}
+
+				List<Associato> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CENTRO,
+						finderArgs, list);
+				}
+				else {
+					Associato associato = list.get(0);
+
+					result = associato;
+
+					cacheResult(associato);
+
+					if ((associato.getCentro() == null) ||
+							!associato.getCentro().equals(centro)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CENTRO,
+							finderArgs, associato);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CENTRO,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Associato)result;
+		}
+	}
+
+	/**
+	 * Removes the associato where centro = &#63; from the database.
+	 *
+	 * @param centro the centro
+	 * @return the associato that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato removeByCentro(String centro)
+		throws NoSuchAssociatoException, SystemException {
+		Associato associato = findByCentro(centro);
+
+		return remove(associato);
+	}
+
+	/**
+	 * Returns the number of associatos where centro = &#63;.
+	 *
+	 * @param centro the centro
+	 * @return the number of matching associatos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByCentro(String centro) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_CENTRO;
+
+		Object[] finderArgs = new Object[] { centro };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ASSOCIATO_WHERE);
+
+			boolean bindCentro = false;
+
+			if (centro == null) {
+				query.append(_FINDER_COLUMN_CENTRO_CENTRO_1);
+			}
+			else if (centro.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_CENTRO_CENTRO_3);
+			}
+			else {
+				bindCentro = true;
+
+				query.append(_FINDER_COLUMN_CENTRO_CENTRO_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCentro) {
+					qPos.add(centro);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_CENTRO_CENTRO_1 = "associato.centro IS NULL";
+	private static final String _FINDER_COLUMN_CENTRO_CENTRO_2 = "associato.centro = ?";
+	private static final String _FINDER_COLUMN_CENTRO_CENTRO_3 = "(associato.centro IS NULL OR associato.centro = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
+			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
+			new String[] { String.class.getName() },
+			AssociatoModelImpl.EMAIL_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_EMAIL = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
+			AssociatoModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByEmail",
+			new String[] { String.class.getName() });
+
+	/**
+	 * Returns the associato where email = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
+	 *
+	 * @param email the email
+	 * @return the matching associato
+	 * @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato findByEmail(String email)
+		throws NoSuchAssociatoException, SystemException {
+		Associato associato = fetchByEmail(email);
+
+		if (associato == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("email=");
+			msg.append(email);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchAssociatoException(msg.toString());
+		}
+
+		return associato;
+	}
+
+	/**
+	 * Returns the associato where email = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param email the email
+	 * @return the matching associato, or <code>null</code> if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato fetchByEmail(String email) throws SystemException {
+		return fetchByEmail(email, true);
+	}
+
+	/**
+	 * Returns the associato where email = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param email the email
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching associato, or <code>null</code> if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato fetchByEmail(String email, boolean retrieveFromCache)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { email };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_EMAIL,
+					finderArgs, this);
+		}
+
+		if (result instanceof Associato) {
+			Associato associato = (Associato)result;
+
+			if (!Validator.equals(email, associato.getEmail())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_ASSOCIATO_WHERE);
+
+			boolean bindEmail = false;
+
+			if (email == null) {
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
+			}
+			else if (email.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
+			}
+			else {
+				bindEmail = true;
+
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindEmail) {
+					qPos.add(email);
+				}
+
+				List<Associato> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+						finderArgs, list);
+				}
+				else {
+					Associato associato = list.get(0);
+
+					result = associato;
+
+					cacheResult(associato);
+
+					if ((associato.getEmail() == null) ||
+							!associato.getEmail().equals(email)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+							finderArgs, associato);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Associato)result;
+		}
+	}
+
+	/**
+	 * Removes the associato where email = &#63; from the database.
+	 *
+	 * @param email the email
+	 * @return the associato that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato removeByEmail(String email)
+		throws NoSuchAssociatoException, SystemException {
+		Associato associato = findByEmail(email);
+
+		return remove(associato);
+	}
+
+	/**
+	 * Returns the number of associatos where email = &#63;.
+	 *
+	 * @param email the email
+	 * @return the number of matching associatos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByEmail(String email) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_EMAIL;
+
+		Object[] finderArgs = new Object[] { email };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ASSOCIATO_WHERE);
+
+			boolean bindEmail = false;
+
+			if (email == null) {
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_1);
+			}
+			else if (email.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_3);
+			}
+			else {
+				bindEmail = true;
+
+				query.append(_FINDER_COLUMN_EMAIL_EMAIL_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindEmail) {
+					qPos.add(email);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_1 = "associato.email IS NULL";
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_2 = "associato.email = ?";
+	private static final String _FINDER_COLUMN_EMAIL_EMAIL_3 = "(associato.email IS NULL OR associato.email = '')";
 
 	public AssociatoPersistenceImpl() {
 		setModelClass(Associato.class);
@@ -1152,6 +1635,12 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	public void cacheResult(Associato associato) {
 		EntityCacheUtil.putResult(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoImpl.class, associato.getPrimaryKey(), associato);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CENTRO,
+			new Object[] { associato.getCentro() }, associato);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL,
+			new Object[] { associato.getEmail() }, associato);
 
 		associato.resetOriginalValues();
 	}
@@ -1209,6 +1698,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache(associato);
 	}
 
 	@Override
@@ -1219,6 +1710,79 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		for (Associato associato : associatos) {
 			EntityCacheUtil.removeResult(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 				AssociatoImpl.class, associato.getPrimaryKey());
+
+			clearUniqueFindersCache(associato);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(Associato associato) {
+		if (associato.isNew()) {
+			Object[] args = new Object[] { associato.getCentro() };
+
+			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CENTRO, args,
+				Long.valueOf(1));
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CENTRO, args,
+				associato);
+
+			args = new Object[] { associato.getEmail() };
+
+			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_EMAIL, args,
+				Long.valueOf(1));
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL, args,
+				associato);
+		}
+		else {
+			AssociatoModelImpl associatoModelImpl = (AssociatoModelImpl)associato;
+
+			if ((associatoModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_CENTRO.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { associato.getCentro() };
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CENTRO, args,
+					Long.valueOf(1));
+				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CENTRO, args,
+					associato);
+			}
+
+			if ((associatoModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_EMAIL.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { associato.getEmail() };
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_EMAIL, args,
+					Long.valueOf(1));
+				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_EMAIL, args,
+					associato);
+			}
+		}
+	}
+
+	protected void clearUniqueFindersCache(Associato associato) {
+		AssociatoModelImpl associatoModelImpl = (AssociatoModelImpl)associato;
+
+		Object[] args = new Object[] { associato.getCentro() };
+
+		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CENTRO, args);
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CENTRO, args);
+
+		if ((associatoModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_CENTRO.getColumnBitmask()) != 0) {
+			args = new Object[] { associatoModelImpl.getOriginalCentro() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CENTRO, args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CENTRO, args);
+		}
+
+		args = new Object[] { associato.getEmail() };
+
+		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
+
+		if ((associatoModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_EMAIL.getColumnBitmask()) != 0) {
+			args = new Object[] { associatoModelImpl.getOriginalEmail() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_EMAIL, args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_EMAIL, args);
 		}
 	}
 
@@ -1362,6 +1926,9 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 
 		EntityCacheUtil.putResult(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoImpl.class, associato.getPrimaryKey(), associato);
+
+		clearUniqueFindersCache(associato);
+		cacheUniqueFindersCache(associato);
 
 		return associato;
 	}

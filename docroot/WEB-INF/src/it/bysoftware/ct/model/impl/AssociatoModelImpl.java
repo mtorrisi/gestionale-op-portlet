@@ -92,9 +92,11 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.Associato"),
 			true);
-	public static long PARTITAIVA_COLUMN_BITMASK = 1L;
-	public static long RAGIONESOCIALE_COLUMN_BITMASK = 2L;
-	public static long ID_COLUMN_BITMASK = 4L;
+	public static long CENTRO_COLUMN_BITMASK = 1L;
+	public static long EMAIL_COLUMN_BITMASK = 2L;
+	public static long PARTITAIVA_COLUMN_BITMASK = 4L;
+	public static long RAGIONESOCIALE_COLUMN_BITMASK = 8L;
+	public static long ID_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -300,7 +302,17 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public void setCentro(String centro) {
+		_columnBitmask |= CENTRO_COLUMN_BITMASK;
+
+		if (_originalCentro == null) {
+			_originalCentro = _centro;
+		}
+
 		_centro = centro;
+	}
+
+	public String getOriginalCentro() {
+		return GetterUtil.getString(_originalCentro);
 	}
 
 	@JSON
@@ -416,7 +428,17 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public void setEmail(String email) {
+		_columnBitmask |= EMAIL_COLUMN_BITMASK;
+
+		if (_originalEmail == null) {
+			_originalEmail = _email;
+		}
+
 		_email = email;
+	}
+
+	public String getOriginalEmail() {
+		return GetterUtil.getString(_originalEmail);
 	}
 
 	@JSON
@@ -568,9 +590,13 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	public void resetOriginalValues() {
 		AssociatoModelImpl associatoModelImpl = this;
 
+		associatoModelImpl._originalCentro = associatoModelImpl._centro;
+
 		associatoModelImpl._originalRagioneSociale = associatoModelImpl._ragioneSociale;
 
 		associatoModelImpl._originalPartitaIVA = associatoModelImpl._partitaIVA;
+
+		associatoModelImpl._originalEmail = associatoModelImpl._email;
 
 		associatoModelImpl._columnBitmask = 0;
 	}
@@ -755,6 +781,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		};
 	private long _id;
 	private String _centro;
+	private String _originalCentro;
 	private String _ragioneSociale;
 	private String _originalRagioneSociale;
 	private String _partitaIVA;
@@ -763,6 +790,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private String _telefono;
 	private String _fax;
 	private String _email;
+	private String _originalEmail;
 	private String _password;
 	private long _idLiferay;
 	private long _idOp;
