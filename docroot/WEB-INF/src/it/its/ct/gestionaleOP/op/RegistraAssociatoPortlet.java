@@ -10,14 +10,23 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.model.ResourceConstants;
 import com.liferay.portal.model.Role;
 import com.liferay.portal.model.User;
+import com.liferay.portal.security.permission.ActionKeys;
+import com.liferay.portal.service.ResourcePermissionLocalServiceUtil;
+import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.RoleServiceUtil;
-import com.liferay.portal.service.UserGroupLocalServiceUtil;
+import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portlet.documentlibrary.model.DLFolder;
+import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
+import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
@@ -26,11 +35,7 @@ import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -50,14 +55,14 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
         _log.info("doView()");
         super.doView(renderRequest, renderResponse); //To change body of generated methods, choose Tools | Templates.
-        try {
-            List<Associato> list = AssociatoLocalServiceUtil.getAssociatos(0, AssociatoLocalServiceUtil.getAssociatosCount());
-            for (Associato list1 : list) {
-                _log.info("ASSOCIATO: " + list1.getEmail());
-            }
-        } catch (SystemException ex) {
-            _log.warn(ex.getLocalizedMessage());
-        }
+//        try {
+//            List<Associato> list = AssociatoLocalServiceUtil.getAssociatos(0, AssociatoLocalServiceUtil.getAssociatosCount());
+//            for (Associato list1 : list) {
+//                _log.info("ASSOCIATO: " + list1.getEmail());
+//            }
+//        } catch (SystemException ex) {
+//            _log.warn(ex.getMessage());
+//        }
 
     }
 
@@ -67,21 +72,28 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             Associato associato = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
             associato.setAttivo(!associato.getAttivo());
             AssociatoLocalServiceUtil.updateAssociato(associato);
+            if (associato.getAttivo()) {
+                UserLocalServiceUtil.updateStatus(associato.getIdLiferay(), WorkflowConstants.STATUS_APPROVED, new ServiceContext());
+            } else {
+                UserLocalServiceUtil.updateStatus(associato.getIdLiferay(), WorkflowConstants.STATUS_INACTIVE, new ServiceContext());
+            }
         } catch (PortalException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
         } catch (SystemException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
         }
     }
 
     public void deleteAssociato(ActionRequest areq, ActionResponse ares) {
 
         try {
-            AssociatoLocalServiceUtil.deleteAssociato(ParamUtil.getLong(areq, "id"));
+            Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
+            UserLocalServiceUtil.deleteUser(a.getIdLiferay());
+            AssociatoLocalServiceUtil.deleteAssociato(a);
         } catch (PortalException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
         } catch (SystemException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
         }
     }
 
@@ -120,17 +132,22 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setAttivo(true);
             _log.info("Inserting or updating: " + a);
             AssociatoLocalServiceUtil.updateAssociato(a);
-            
+
+            ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
+            DLFolder opFolder = getOpFolder(creator, themeDisplay);
+            DLFolder folder = createAssociateFolder(liferayUser, opFolder, themeDisplay);
+            _log.info("Created folder: " + folder);
+
         } catch (SystemException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
             SessionErrors.add(areq, "no-registration");
         } catch (NoSuchAlgorithmException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
             SessionErrors.add(areq, "no-registration");
         } catch (PortalException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
             SessionErrors.add(areq, "no-registration");
-        } 
+        }
     }
 
     private User addLiferayUser(String firstName, String lastName, String email, String password, String screenName, User creator, long roleId) throws PortalException, SystemException {
@@ -145,4 +162,72 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
         return user;
 
     }
+
+    private DLFolder getOpFolder(User op, ThemeDisplay themeDisplay) {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        long repositoryId = themeDisplay.getScopeGroupId();
+        DLFolder folder = null;
+        try {
+            _log.info("Loading OP folder");
+            folder = DLFolderLocalServiceUtil.getFolder(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, op.getScreenName());
+        } catch (PortalException ex) {
+            _log.warn("Cannot find OP root folder. Creating... ");
+            try {
+
+                folder = DLFolderLocalServiceUtil.addFolder(op.getUserId(),
+                        groupId,
+                        repositoryId,
+                        false,
+                        DLFolderConstants.DEFAULT_PARENT_FOLDER_ID,
+                        op.getScreenName(),
+                        "Directory di" + op.getFirstName(),
+                        false,
+                        new ServiceContext());
+            } catch (PortalException ex1) {
+                _log.error(ex.getMessage());
+            } catch (SystemException ex1) {
+                _log.error(ex.getMessage());
+            }
+        } catch (SystemException ex) {
+            _log.error(ex.getMessage());
+        }
+        return folder;
+    }
+
+    private DLFolder createAssociateFolder(User associate, DLFolder parentFolder, ThemeDisplay themeDisplay) {
+        long groupId = themeDisplay.getLayout().getGroupId();
+        long repositoryId = themeDisplay.getScopeGroupId();
+        DLFolder folder = null;
+
+        try {
+
+            folder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
+                    groupId,
+                    repositoryId,
+                    false,
+                    parentFolder.getFolderId(),
+                    associate.getScreenName(),
+                    "Folder " + associate.getFirstName(),
+                    false,
+                    new ServiceContext());
+
+            Role associateRole = RoleLocalServiceUtil.getRole(associate.getCompanyId(), "OP");
+            String[] actionsRW = new String[]{ActionKeys.VIEW};
+//            String[] actionsRW = new String[]{ActionKeys.ACCESS, ActionKeys.ADD_DOCUMENT, ActionKeys.ADD_SUBFOLDER, ActionKeys.DELETE, ActionKeys.UPDATE, ActionKeys.VIEW};
+
+            ResourcePermissionLocalServiceUtil.setResourcePermissions(associate.getCompanyId(),
+                    "com.liferay.portlet.documentlibrary.model.DLFolder",
+                    ResourceConstants.SCOPE_INDIVIDUAL,
+                    "" + folder.getFolderId(),
+                    associateRole.getRoleId(),
+                    actionsRW);
+
+        } catch (PortalException ex) {
+            _log.error(ex.getMessage());
+        } catch (SystemException ex) {
+            _log.error(ex.getMessage());
+        }
+        return folder;
+    }
+
 }

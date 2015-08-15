@@ -282,6 +282,30 @@ public class AssociatoLocalServiceWrapper implements AssociatoLocalService,
 			arguments);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.getAssociatiAttivi();
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.getAssociatiDisattivati();
+	}
+
+	@Override
+	public int countAssociatiAttivi()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.countAssociatiAttivi();
+	}
+
+	@Override
+	public int countAssociatiDisattivati()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.countAssociatiDisattivati();
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

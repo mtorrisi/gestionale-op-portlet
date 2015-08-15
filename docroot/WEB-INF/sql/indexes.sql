@@ -8,6 +8,7 @@ create index IX_88FCE1A8 on SSRIGORD (WkNOrd, WKAnno);
 create index IX_8C00B6D8 on SSTESORD (WkOperatore);
 create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);
 
+create index IX_E93AA8C3 on associato (attivo);
 create unique index IX_95DBA707 on associato (centro);
 create unique index IX_DEA53A9E on associato (email);
 create index IX_D8824E5A on associato (partita_iva);

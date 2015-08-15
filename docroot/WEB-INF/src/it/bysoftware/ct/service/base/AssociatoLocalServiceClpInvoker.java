@@ -109,6 +109,22 @@ public class AssociatoLocalServiceClpInvoker {
 		_methodName101 = "setBeanIdentifier";
 
 		_methodParameterTypes101 = new String[] { "java.lang.String" };
+
+		_methodName106 = "getAssociatiAttivi";
+
+		_methodParameterTypes106 = new String[] {  };
+
+		_methodName107 = "getAssociatiDisattivati";
+
+		_methodParameterTypes107 = new String[] {  };
+
+		_methodName108 = "countAssociatiAttivi";
+
+		_methodParameterTypes108 = new String[] {  };
+
+		_methodName109 = "countAssociatiDisattivati";
+
+		_methodParameterTypes109 = new String[] {  };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -212,6 +228,26 @@ public class AssociatoLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName106.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes106, parameterTypes)) {
+			return AssociatoLocalServiceUtil.getAssociatiAttivi();
+		}
+
+		if (_methodName107.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes107, parameterTypes)) {
+			return AssociatoLocalServiceUtil.getAssociatiDisattivati();
+		}
+
+		if (_methodName108.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes108, parameterTypes)) {
+			return AssociatoLocalServiceUtil.countAssociatiAttivi();
+		}
+
+		if (_methodName109.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes109, parameterTypes)) {
+			return AssociatoLocalServiceUtil.countAssociatiDisattivati();
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -251,4 +287,12 @@ public class AssociatoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes100;
 	private String _methodName101;
 	private String[] _methodParameterTypes101;
+	private String _methodName106;
+	private String[] _methodParameterTypes106;
+	private String _methodName107;
+	private String[] _methodParameterTypes107;
+	private String _methodName108;
+	private String[] _methodParameterTypes108;
+	private String _methodName109;
+	private String[] _methodParameterTypes109;
 }

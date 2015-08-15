@@ -271,6 +271,26 @@ public class AssociatoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAssociatiAttivi();
+	}
+
+	public static java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getAssociatiDisattivati();
+	}
+
+	public static int countAssociatiAttivi()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countAssociatiAttivi();
+	}
+
+	public static int countAssociatiDisattivati()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().countAssociatiDisattivati();
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

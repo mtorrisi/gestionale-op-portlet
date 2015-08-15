@@ -14,7 +14,10 @@
 
 package it.bysoftware.ct.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.service.base.AssociatoLocalServiceBaseImpl;
+import java.util.List;
 
 /**
  * The implementation of the associato local service.
@@ -36,4 +39,20 @@ public class AssociatoLocalServiceImpl extends AssociatoLocalServiceBaseImpl {
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AssociatoLocalServiceUtil} to access the associato local service.
 	 */
+    
+    public List<Associato> getAssociatiAttivi() throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(true);
+    }
+    
+    public List<Associato> getAssociatiDisattivati() throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(false);
+    }
+    
+    public int countAssociatiAttivi() throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(true).size();
+    }
+    
+    public int countAssociatiDisattivati() throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(false).size();
+    }
 }

@@ -511,6 +511,171 @@ public class AssociatoUtil {
 	}
 
 	/**
+	* Returns all the associatos where attivo = &#63;.
+	*
+	* @param attivo the attivo
+	* @return the matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.Associato> findByAssociatiAttivi(
+		boolean attivo)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByAssociatiAttivi(attivo);
+	}
+
+	/**
+	* Returns a range of all the associatos where attivo = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.AssociatoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param attivo the attivo
+	* @param start the lower bound of the range of associatos
+	* @param end the upper bound of the range of associatos (not inclusive)
+	* @return the range of matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.Associato> findByAssociatiAttivi(
+		boolean attivo, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByAssociatiAttivi(attivo, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the associatos where attivo = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.AssociatoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param attivo the attivo
+	* @param start the lower bound of the range of associatos
+	* @param end the upper bound of the range of associatos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.Associato> findByAssociatiAttivi(
+		boolean attivo, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByAssociatiAttivi(attivo, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns the first associato in the ordered set where attivo = &#63;.
+	*
+	* @param attivo the attivo
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching associato
+	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato findByAssociatiAttivi_First(
+		boolean attivo,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return getPersistence()
+				   .findByAssociatiAttivi_First(attivo, orderByComparator);
+	}
+
+	/**
+	* Returns the first associato in the ordered set where attivo = &#63;.
+	*
+	* @param attivo the attivo
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato fetchByAssociatiAttivi_First(
+		boolean attivo,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByAssociatiAttivi_First(attivo, orderByComparator);
+	}
+
+	/**
+	* Returns the last associato in the ordered set where attivo = &#63;.
+	*
+	* @param attivo the attivo
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching associato
+	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato findByAssociatiAttivi_Last(
+		boolean attivo,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return getPersistence()
+				   .findByAssociatiAttivi_Last(attivo, orderByComparator);
+	}
+
+	/**
+	* Returns the last associato in the ordered set where attivo = &#63;.
+	*
+	* @param attivo the attivo
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato fetchByAssociatiAttivi_Last(
+		boolean attivo,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByAssociatiAttivi_Last(attivo, orderByComparator);
+	}
+
+	/**
+	* Returns the associatos before and after the current associato in the ordered set where attivo = &#63;.
+	*
+	* @param id the primary key of the current associato
+	* @param attivo the attivo
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next associato
+	* @throws it.bysoftware.ct.NoSuchAssociatoException if a associato with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato[] findByAssociatiAttivi_PrevAndNext(
+		long id, boolean attivo,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return getPersistence()
+				   .findByAssociatiAttivi_PrevAndNext(id, attivo,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the associatos where attivo = &#63; from the database.
+	*
+	* @param attivo the attivo
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeByAssociatiAttivi(boolean attivo)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeByAssociatiAttivi(attivo);
+	}
+
+	/**
+	* Returns the number of associatos where attivo = &#63;.
+	*
+	* @param attivo the attivo
+	* @return the number of matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countByAssociatiAttivi(boolean attivo)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countByAssociatiAttivi(attivo);
+	}
+
+	/**
 	* Returns the associato where email = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
 	*
 	* @param email the email

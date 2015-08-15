@@ -249,4 +249,18 @@ public interface AssociatoLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countAssociatiAttivi()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countAssociatiDisattivati()
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

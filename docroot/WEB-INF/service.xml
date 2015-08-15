@@ -334,9 +334,9 @@
         <finder name="Centro" return-type="Associato" unique="true">
             <finder-column name="centro" />
         </finder>
-<!--        <finder name="PartitaIVA" return-type="Associato" unique="true">
-            <finder-column name="partitaIVA" />
-        </finder>-->
+        <finder name="AssociatiAttivi" return-type="Collection">
+            <finder-column name="attivo"/>
+        </finder>
         <finder name="Email" return-type="Associato" unique="true">
             <finder-column name="email" />
         </finder>

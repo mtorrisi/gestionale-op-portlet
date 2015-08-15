@@ -92,11 +92,12 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.Associato"),
 			true);
-	public static long CENTRO_COLUMN_BITMASK = 1L;
-	public static long EMAIL_COLUMN_BITMASK = 2L;
-	public static long PARTITAIVA_COLUMN_BITMASK = 4L;
-	public static long RAGIONESOCIALE_COLUMN_BITMASK = 8L;
-	public static long ID_COLUMN_BITMASK = 16L;
+	public static long ATTIVO_COLUMN_BITMASK = 1L;
+	public static long CENTRO_COLUMN_BITMASK = 2L;
+	public static long EMAIL_COLUMN_BITMASK = 4L;
+	public static long PARTITAIVA_COLUMN_BITMASK = 8L;
+	public static long RAGIONESOCIALE_COLUMN_BITMASK = 16L;
+	public static long ID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -492,7 +493,19 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public void setAttivo(boolean attivo) {
+		_columnBitmask |= ATTIVO_COLUMN_BITMASK;
+
+		if (!_setOriginalAttivo) {
+			_setOriginalAttivo = true;
+
+			_originalAttivo = _attivo;
+		}
+
 		_attivo = attivo;
+	}
+
+	public boolean getOriginalAttivo() {
+		return _originalAttivo;
 	}
 
 	public long getColumnBitmask() {
@@ -597,6 +610,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoModelImpl._originalPartitaIVA = associatoModelImpl._partitaIVA;
 
 		associatoModelImpl._originalEmail = associatoModelImpl._email;
+
+		associatoModelImpl._originalAttivo = associatoModelImpl._attivo;
+
+		associatoModelImpl._setOriginalAttivo = false;
 
 		associatoModelImpl._columnBitmask = 0;
 	}
@@ -795,6 +812,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private long _idLiferay;
 	private long _idOp;
 	private boolean _attivo;
+	private boolean _originalAttivo;
+	private boolean _setOriginalAttivo;
 	private long _columnBitmask;
 	private Associato _escapedModel;
 }
