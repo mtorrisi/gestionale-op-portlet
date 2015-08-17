@@ -36,6 +36,8 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -47,12 +49,12 @@ import javax.portlet.RenderResponse;
  * @author mario
  */
 public class RegistraAssociatoPortlet extends MVCPortlet {
-
+    
     private final Log _log = LogFactoryUtil.getLog(RegistraAssociatoPortlet.class);
-
+    
     @Override
     public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-
+        
         _log.info("doView()");
         super.doView(renderRequest, renderResponse); //To change body of generated methods, choose Tools | Templates.
 //        try {
@@ -65,9 +67,9 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 //        }
 
     }
-
+    
     public void toggleAssociato(ActionRequest areq, ActionResponse ares) {
-
+        
         try {
             Associato associato = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
             associato.setAttivo(!associato.getAttivo());
@@ -83,25 +85,25 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             _log.error(ex.getMessage());
         }
     }
-
+    
     public void deleteAssociato(ActionRequest areq, ActionResponse ares) {
-
+        
         try {
             Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
-            UserLocalServiceUtil.deleteUser(a.getIdLiferay());
             AssociatoLocalServiceUtil.deleteAssociato(a);
+            UserLocalServiceUtil.deleteUser(a.getIdLiferay());
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
         }
     }
-
-    public void editAssociato(ActionRequest areq, ActionResponse ares) {
-
+    
+    public void addAssociato(ActionRequest areq, ActionResponse ares) {
+        
         try {
             Associato a = AssociatoLocalServiceUtil.createAssociato(0);
-
+            
             a.setRagioneSociale(ParamUtil.getString(areq, "ragioneSociale"));
             a.setPartitaIVA(ParamUtil.getString(areq, "pIVA"));
             a.setCentro(ParamUtil.getString(areq, "centro"));
@@ -120,24 +122,24 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
             }
             a.setPassword(sb.toString());
-
+            
             User creator = PortalUtil.getUser(areq);
             Role role = RoleServiceUtil.getRole(creator.getCompanyId(), "associato");
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(creator.getUserId());
             User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getEmail().substring(0, a.getEmail().indexOf("@")), creator, role.getRoleId());
             _log.info("Inserted Liferay user: " + liferayUser);
-
+            
             a.setIdOp(op.getId());
             a.setIdLiferay(liferayUser.getUserId());
             a.setAttivo(true);
             _log.info("Inserting or updating: " + a);
             AssociatoLocalServiceUtil.updateAssociato(a);
-
+            
             ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
             DLFolder opFolder = getOpFolder(creator, themeDisplay);
             DLFolder folder = createAssociateFolder(liferayUser, opFolder, themeDisplay);
             _log.info("Created folder: " + folder);
-
+            
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
             SessionErrors.add(areq, "no-registration");
@@ -149,20 +151,52 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             SessionErrors.add(areq, "no-registration");
         }
     }
-
+    
+    public void editAssociato(ActionRequest areq, ActionResponse ares) {
+        
+        try {
+            Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
+            
+            a.setRagioneSociale(ParamUtil.getString(areq, "ragioneSociale"));
+            a.setPartitaIVA(ParamUtil.getString(areq, "pIVA"));
+            a.setCentro(ParamUtil.getString(areq, "centro"));
+            a.setIndirizzo(ParamUtil.getString(areq, "indirizzo"));
+            a.setTelefono(ParamUtil.getString(areq, "telefono"));
+            a.setFax(ParamUtil.getString(areq, "fax"));
+            String newEmail = ParamUtil.getString(areq, "email");
+            if(newEmail != null && !newEmail.equals("") && !newEmail.equals(a.getEmail())){
+                a.setEmail(ParamUtil.getString(areq, "email"));
+                
+                User liferayUser = UserLocalServiceUtil.getUser(a.getIdLiferay());
+                liferayUser.setEmailAddress(newEmail);
+                
+                UserLocalServiceUtil.updateUser(liferayUser);
+            }
+            
+            AssociatoLocalServiceUtil.updateAssociato(a);
+        } catch (PortalException ex) {
+            _log.error(ex.getMessage());
+            SessionErrors.add(areq, "edit-error");
+        } catch (SystemException ex) {
+            _log.error(ex.getMessage());
+            SessionErrors.add(areq, "edit-error");
+        }
+        
+    }
+    
     private User addLiferayUser(String firstName, String lastName, String email, String password, String screenName, User creator, long roleId) throws PortalException, SystemException {
-
+        
         long[] emptyLong = {};
         long[] rolesId = {roleId};
         User user = UserLocalServiceUtil.addUser(creator.getUserId(), creator.getCompanyId(),
                 false, password, password, false, screenName, email, 0, "",
                 Locale.ITALIAN, firstName, firstName, "", 0, 0, true, 1, 1, 1970,
                 email, emptyLong, emptyLong, rolesId, emptyLong, false, null);
-
+        
         return user;
-
+        
     }
-
+    
     private DLFolder getOpFolder(User op, ThemeDisplay themeDisplay) {
         long groupId = themeDisplay.getLayout().getGroupId();
         long repositoryId = themeDisplay.getScopeGroupId();
@@ -173,7 +207,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
         } catch (PortalException ex) {
             _log.warn("Cannot find OP root folder. Creating... ");
             try {
-
+                
                 folder = DLFolderLocalServiceUtil.addFolder(op.getUserId(),
                         groupId,
                         repositoryId,
@@ -193,14 +227,14 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
         }
         return folder;
     }
-
+    
     private DLFolder createAssociateFolder(User associate, DLFolder parentFolder, ThemeDisplay themeDisplay) {
         long groupId = themeDisplay.getLayout().getGroupId();
         long repositoryId = themeDisplay.getScopeGroupId();
         DLFolder folder = null;
-
+        
         try {
-
+            
             folder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
                     groupId,
                     repositoryId,
@@ -210,7 +244,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
                     "Folder " + associate.getFirstName(),
                     false,
                     new ServiceContext());
-
+            
             Role associateRole = RoleLocalServiceUtil.getRole(associate.getCompanyId(), "OP");
             String[] actionsRW = new String[]{ActionKeys.VIEW};
 //            String[] actionsRW = new String[]{ActionKeys.ACCESS, ActionKeys.ADD_DOCUMENT, ActionKeys.ADD_SUBFOLDER, ActionKeys.DELETE, ActionKeys.UPDATE, ActionKeys.VIEW};
@@ -221,7 +255,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
                     "" + folder.getFolderId(),
                     associateRole.getRoleId(),
                     actionsRW);
-
+            
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
         } catch (SystemException ex) {
@@ -229,5 +263,5 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
         }
         return folder;
     }
-
+    
 }

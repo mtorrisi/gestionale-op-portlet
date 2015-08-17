@@ -3,13 +3,13 @@
 <%@include file="../../init.jsp" %>
 
 <liferay-portlet:actionURL name="editAssociato" var="editAssociato"/>
-<form id="registra-associato" class="form-horizontal" action="${editAssociato}" method="post">
+<form id="registra-associato" class="form-horizontal" action="${addAssociato}" method="post">
     <fieldset>
         <aui:field-wrapper >
             <div class="btn-toolbar">
                 <div class="btn-group">
                     <button id="btnSave" class="btn" ><i class="icon-save"></i>Salva</button>
-                    <button id="btnReset" class="btn" ><i class="icon-remove"></i>Reset</button>
+                    <button id="btnReset" class="btn" onclick="this.form.reset()"><i class="icon-remove"></i>Reset</button>
                 </div>
             </div>
         </aui:field-wrapper>

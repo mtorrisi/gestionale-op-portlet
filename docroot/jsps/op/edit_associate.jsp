@@ -8,14 +8,14 @@
     Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(renderRequest, "id"));
 %>
 
-<aui:form action="${editAssociato}" method="post" cssClass="form-horizontal"> 
-<!--<form id="registra-associato" class="form-horizontal" action="${editAssociato}" method="post">-->
+<liferay-portlet:actionURL name="editAssociato" var="editAssociato"/>
+<form id="registra-associato" class="form-horizontal" action="${editAssociato}" method="post">
     <fieldset>
         <aui:field-wrapper >
             <div class="btn-toolbar">
                 <div class="btn-group">
                     <button id="btnSave" class="btn" ><i class="icon-save"></i>Salva</button>
-                    <button id="btnReset" class="btn" ><i class="icon-remove"></i>Reset</button>
+                    <!--<button id="btnReset" class="btn" onclick="this.form.reset()"><i class="icon-remove"></i>Reset</button>-->
                 </div>
             </div>
         </aui:field-wrapper>
@@ -25,7 +25,7 @@
 
         <aui:layout>
             <aui:column columnWidth="50" first="true" >
-                <input id="id" name="<portlet:namespace />id" type="text" placeholder="" class="form-control input-md input-xlarge"  style="display: none"/>
+                <input id="id" name="<portlet:namespace />id" type="text" placeholder="" class="form-control input-md input-xlarge"  style="display: none" value="<%= a.getId()%>"/>
 
                 <!-- Text input-->
                 <div class="control-group">
@@ -58,8 +58,8 @@
                 <div class="control-group">
                     <label class="control-label" for="indirizzo">Indirizzo: </label>  
                     <div class="controls">
-                        <input id="indirizzo" name="<portlet:namespace />indirizzo" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getIndirizzo()%>"/>
-
+                        <!--<input id="indirizzo" name="<portlet:namespace />indirizzo" type="text" placeholder="" class="form-control input-md" required=""/>-->
+                        <textarea id="indirizzo" name="<portlet:namespace />indirizzo" class="form-control" required=""><%= a.getIndirizzo()%></textarea>
                     </div>
                 </div>
 
@@ -93,27 +93,12 @@
                 </div>
 
                 <!-- Password input-->
-                <!--                <div class="control-group" style="display: none;">
-                                    <label class="control-label" for="password">Password: </label>
-                                    <div class="controls">
-                                        <input id="password" name="<portlet:namespace />password" type="password" placeholder="" class="form-control input-md" required="" />
-                
-                                    </div>
-                                </div>-->
+                <!--<input id="password" name="<portlet:namespace />password" type="password" placeholder="" class="form-control input-md" value="<%= a.getPassword()%>"/>-->
             </aui:column>
         </aui:layout>
 
-        <!-- Button (Double) -->
-        <!--        <div class="control-group">
-                    <label class="control-label" for="salva"></label>
-                    <div class="btn-group">
-                        <button id="btnSave" class="btn" ><i class="icon-save"></i>Salva</button>
-                        <button id="btnReset" class="btn" ><i class="icon-remove"></i>Reset</button>
-                    </div>
-                </div>-->
     </fieldset>
-</aui:form>
-<!--</form>-->
+</form>
 
 <script type="text/javascript">
 
@@ -121,80 +106,80 @@
             'aui-form-validator',
             function (Y) {
                 var rules = {
-                    ragioneSociale: {
-                        required: true
-                    },
-                    centro: {
-                        required: true,
-                        maxLength: 3
-                    },
-                    pIVA: {
-                        required: true,
-                        digits: true,
-                        minLength: 11,
-                        maxLength: 11
-                    },
-                    indirizzo: {
-                        required: true
-                    },
-                    telefono: {
-                        digits: true
-                    },
-                    fax: {
-                        digits: true
-                    },
-                    email: {
-                        email: true,
-                        required: true
-                    },
-                    password: {
-                        required: true,
-                        rangeLength: [4, 8]
-                    }
-                };
-
-                var fieldStrings = {
-                    ragioneSociale: {
-                        required: 'Campo obbligatorio.'
-                    },
-                    indirizzo: {
-                        required: 'Campo obbligatorio.'
-                    },
-                    centro: {
-                        required: 'Campo obbligatorio.',
-                        maxLength: 'Specificare al massimo tre caratteri per il centro.'
-                    },
-                    pIVA: {
-                        digits: 'Inserire solo caratteri numerici.',
-                        required: "Campo obbligatorio.",
-                        maxLength: 'Partita IVA non valida (11 cifre).',
-                        minLength: 'Partita IVA non valida (11 cifre).'
-                    },
-                    email: {
-                        required: 'Campo obbligatorio.',
-                        email: 'Specificare un indirizzo email valido.'
-                    },
-                    telefono: {
-                        digits: 'Inserire solo caratteri numerici.'
-                    },
-                    fax: {
-                        digits: 'Inserire solo caratteri numerici.'
-                    },
-                    password: {
-                        required: 'Campo obbligatorio.',
-                        rangeLength: 'La password deve essere compresa tra 4 e 8 caratteri.'
-                    }
-                };
-
-                new Y.FormValidator(
-                        {
-                            boundingBox: '#registra-associato',
-                            fieldStrings: fieldStrings,
-                            rules: rules
-//                            showAllMessages: true
+    <portlet:namespace />ragioneSociale: {
+                            required: true
+                        },
+    <portlet:namespace />centro: {
+                            required: true,
+                            maxLength: 3
+                        },
+    <portlet:namespace />pIVA: {
+                            required: true,
+                            digits: true,
+                            minLength: 11,
+                            maxLength: 11
+                        },
+    <portlet:namespace />indirizzo: {
+                            required: true
+                        },
+    <portlet:namespace />telefono: {
+                            digits: true
+                        },
+    <portlet:namespace />fax: {
+                            digits: true
+                        },
+    <portlet:namespace />email: {
+                            email: true,
+                            required: true
+                        },
+    <portlet:namespace />password: {
+                            required: true,
+                            rangeLength: [4, 8]
                         }
-                );
-            }
-    );
+                    };
+
+                    var fieldStrings = {
+    <portlet:namespace />ragioneSociale: {
+                            required: 'Campo obbligatorio.'
+                        },
+    <portlet:namespace />indirizzo: {
+                            required: 'Campo obbligatorio.'
+                        },
+    <portlet:namespace />centro: {
+                            required: 'Campo obbligatorio.',
+                            maxLength: 'Specificare al massimo tre caratteri per il centro.'
+                        },
+    <portlet:namespace />pIVA: {
+                            digits: 'Inserire solo caratteri numerici.',
+                            required: "Campo obbligatorio.",
+                            maxLength: 'Partita IVA non valida (11 cifre).',
+                            minLength: 'Partita IVA non valida (11 cifre).'
+                        },
+    <portlet:namespace />email: {
+                            required: 'Campo obbligatorio.',
+                            email: 'Specificare un indirizzo email valido.'
+                        },
+    <portlet:namespace />telefono: {
+                            digits: 'Inserire solo caratteri numerici.'
+                        },
+    <portlet:namespace />fax: {
+                            digits: 'Inserire solo caratteri numerici.'
+                        },
+    <portlet:namespace />password: {
+                            required: 'Campo obbligatorio.',
+                            rangeLength: 'La password deve essere compresa tra 4 e 8 caratteri.'
+                        }
+                    };
+
+                    new Y.FormValidator(
+                            {
+                                boundingBox: '#registra-associato',
+                                fieldStrings: fieldStrings,
+                                rules: rules
+//                            showAllMessages: true
+                            }
+                    );
+                }
+        );
 
 </script>
