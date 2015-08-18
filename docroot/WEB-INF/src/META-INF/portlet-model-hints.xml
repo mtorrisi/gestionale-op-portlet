@@ -52,6 +52,10 @@
 		<field name="descrizione" type="String" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.ClientiDatiAgg">
+		<field name="codiceAnagrafica" type="String" />
+		<field name="associati" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.CuraTrasporto">
 		<field name="codiceCuraTrasporto" type="String" />
 		<field name="descrizione" type="String" />

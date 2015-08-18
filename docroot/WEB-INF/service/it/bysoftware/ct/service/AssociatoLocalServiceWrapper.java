@@ -306,6 +306,13 @@ public class AssociatoLocalServiceWrapper implements AssociatoLocalService,
 		return _associatoLocalService.countAssociatiDisattivati();
 	}
 
+	@Override
+	public it.bysoftware.ct.model.Associato findByLiferayId(long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return _associatoLocalService.findByLiferayId(idLiferay);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

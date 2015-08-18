@@ -263,4 +263,8 @@ public interface AssociatoLocalService extends BaseLocalService,
 
 	public int countAssociatiDisattivati()
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	public it.bysoftware.ct.model.Associato findByLiferayId(long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException;
 }

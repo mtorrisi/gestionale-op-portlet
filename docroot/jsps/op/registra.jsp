@@ -2,7 +2,7 @@
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@include file="../../init.jsp" %>
 
-<liferay-portlet:actionURL name="editAssociato" var="editAssociato"/>
+<liferay-portlet:actionURL name="addAssociato" var="addAssociato"/>
 <form id="registra-associato" class="form-horizontal" action="${addAssociato}" method="post">
     <fieldset>
         <aui:field-wrapper >

@@ -291,6 +291,13 @@ public class AssociatoLocalServiceUtil {
 		return getService().countAssociatiDisattivati();
 	}
 
+	public static it.bysoftware.ct.model.Associato findByLiferayId(
+		long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return getService().findByLiferayId(idLiferay);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

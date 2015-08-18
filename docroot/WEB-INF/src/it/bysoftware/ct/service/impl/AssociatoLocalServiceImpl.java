@@ -15,6 +15,7 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+import it.bysoftware.ct.NoSuchAssociatoException;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.service.base.AssociatoLocalServiceBaseImpl;
 import java.util.List;
@@ -54,5 +55,9 @@ public class AssociatoLocalServiceImpl extends AssociatoLocalServiceBaseImpl {
     
     public int countAssociatiDisattivati() throws SystemException{
         return this.associatoPersistence.findByAssociatiAttivi(false).size();
+    }
+    
+    public Associato findByLiferayId(long idLiferay) throws SystemException, NoSuchAssociatoException{
+        return this.associatoPersistence.findByIdLiferay(idLiferay);
     }
 }

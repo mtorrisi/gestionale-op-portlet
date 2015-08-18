@@ -29,6 +29,7 @@ import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
 import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
@@ -341,6 +342,63 @@ public abstract class PortoServiceBaseImpl extends BaseServiceImpl
 	public void setCausaleTrasportoPersistence(
 		CausaleTrasportoPersistence causaleTrasportoPersistence) {
 		this.causaleTrasportoPersistence = causaleTrasportoPersistence;
+	}
+
+	/**
+	 * Returns the clienti dati agg local service.
+	 *
+	 * @return the clienti dati agg local service
+	 */
+	public it.bysoftware.ct.service.ClientiDatiAggLocalService getClientiDatiAggLocalService() {
+		return clientiDatiAggLocalService;
+	}
+
+	/**
+	 * Sets the clienti dati agg local service.
+	 *
+	 * @param clientiDatiAggLocalService the clienti dati agg local service
+	 */
+	public void setClientiDatiAggLocalService(
+		it.bysoftware.ct.service.ClientiDatiAggLocalService clientiDatiAggLocalService) {
+		this.clientiDatiAggLocalService = clientiDatiAggLocalService;
+	}
+
+	/**
+	 * Returns the clienti dati agg remote service.
+	 *
+	 * @return the clienti dati agg remote service
+	 */
+	public it.bysoftware.ct.service.ClientiDatiAggService getClientiDatiAggService() {
+		return clientiDatiAggService;
+	}
+
+	/**
+	 * Sets the clienti dati agg remote service.
+	 *
+	 * @param clientiDatiAggService the clienti dati agg remote service
+	 */
+	public void setClientiDatiAggService(
+		it.bysoftware.ct.service.ClientiDatiAggService clientiDatiAggService) {
+		this.clientiDatiAggService = clientiDatiAggService;
+	}
+
+	/**
+	 * Returns the clienti dati agg persistence.
+	 *
+	 * @return the clienti dati agg persistence
+	 */
+	public ClientiDatiAggPersistence getClientiDatiAggPersistence() {
+		return clientiDatiAggPersistence;
+	}
+
+	/**
+	 * Sets the clienti dati agg persistence.
+	 *
+	 * @param clientiDatiAggPersistence the clienti dati agg persistence
+	 */
+	public void setClientiDatiAggPersistence(
+		ClientiDatiAggPersistence clientiDatiAggPersistence) {
+		this.clientiDatiAggPersistence = clientiDatiAggPersistence;
 	}
 
 	/**
@@ -941,6 +999,12 @@ public abstract class PortoServiceBaseImpl extends BaseServiceImpl
 	protected it.bysoftware.ct.service.CausaleTrasportoService causaleTrasportoService;
 	@BeanReference(type = CausaleTrasportoPersistence.class)
 	protected CausaleTrasportoPersistence causaleTrasportoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.ClientiDatiAggLocalService.class)
+	protected it.bysoftware.ct.service.ClientiDatiAggLocalService clientiDatiAggLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.ClientiDatiAggService.class)
+	protected it.bysoftware.ct.service.ClientiDatiAggService clientiDatiAggService;
+	@BeanReference(type = ClientiDatiAggPersistence.class)
+	protected ClientiDatiAggPersistence clientiDatiAggPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.CuraTrasportoLocalService.class)
 	protected it.bysoftware.ct.service.CuraTrasportoLocalService curaTrasportoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.CuraTrasportoService.class)

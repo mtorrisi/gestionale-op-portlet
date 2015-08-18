@@ -111,6 +111,74 @@ public class AssociatoUtil {
 	}
 
 	/**
+	* Returns the associato where idLiferay = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
+	*
+	* @param idLiferay the id liferay
+	* @return the matching associato
+	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato findByIdLiferay(
+		long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return getPersistence().findByIdLiferay(idLiferay);
+	}
+
+	/**
+	* Returns the associato where idLiferay = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param idLiferay the id liferay
+	* @return the matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato fetchByIdLiferay(
+		long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchByIdLiferay(idLiferay);
+	}
+
+	/**
+	* Returns the associato where idLiferay = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param idLiferay the id liferay
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching associato, or <code>null</code> if a matching associato could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato fetchByIdLiferay(
+		long idLiferay, boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().fetchByIdLiferay(idLiferay, retrieveFromCache);
+	}
+
+	/**
+	* Removes the associato where idLiferay = &#63; from the database.
+	*
+	* @param idLiferay the id liferay
+	* @return the associato that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.Associato removeByIdLiferay(
+		long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		return getPersistence().removeByIdLiferay(idLiferay);
+	}
+
+	/**
+	* Returns the number of associatos where idLiferay = &#63;.
+	*
+	* @param idLiferay the id liferay
+	* @return the number of matching associatos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countByIdLiferay(long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countByIdLiferay(idLiferay);
+	}
+
+	/**
 	* Returns all the associatos where ragioneSociale LIKE &#63;.
 	*
 	* @param ragioneSociale the ragione sociale

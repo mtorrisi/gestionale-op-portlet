@@ -125,6 +125,10 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 		_methodName22 = "countAssociatiDisattivati";
 
 		_methodParameterTypes22 = new String[] {  };
+
+		_methodName23 = "findByLiferayId";
+
+		_methodParameterTypes23 = new String[] { "long" };
 	}
 
 	@Override
@@ -785,6 +789,39 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 		return ((Integer)returnObj).intValue();
 	}
 
+	@Override
+	public it.bysoftware.ct.model.Associato findByLiferayId(long idLiferay)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchAssociatoException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23, new Object[] { idLiferay });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof it.bysoftware.ct.NoSuchAssociatoException) {
+				throw (it.bysoftware.ct.NoSuchAssociatoException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (it.bysoftware.ct.model.Associato)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -830,4 +867,6 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 	private String[] _methodParameterTypes21;
 	private String _methodName22;
 	private String[] _methodParameterTypes22;
+	private String _methodName23;
+	private String[] _methodParameterTypes23;
 }

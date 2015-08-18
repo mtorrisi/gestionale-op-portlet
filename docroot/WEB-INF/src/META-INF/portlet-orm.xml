@@ -149,6 +149,19 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.ClientiDatiAggModelImpl">
+		<attributes>
+			<id name="codiceAnagrafica">
+				<column name="RVECODCLF" />
+			</id>
+			<basic name="associati">
+				<column name="RVELIBSTR1" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.CuraTrasportoModelImpl">
 		<attributes>
 			<id name="codiceCuraTrasporto">
@@ -504,6 +517,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" name="CausaleTrasporto">
 		<table name="CausaleTrasporto" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.ClientiDatiAggImpl" name="ClientiDatiAgg">
+		<table name="ClientiFornitoriDatiAgg" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CuraTrasportoImpl" name="CuraTrasporto">

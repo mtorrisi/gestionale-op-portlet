@@ -323,6 +323,9 @@
         </column>
         <column name='attivo' db-name='attivo' type='boolean'>
         </column>
+        <finder name="IdLiferay" return-type="Associato" unique="true">
+            <finder-column name="idLiferay" />
+        </finder>
         <finder name='RagioneSociale' return-type='Collection'>
             <finder-column name='ragioneSociale' comparator='LIKE'>
             </finder-column>
@@ -375,6 +378,15 @@
         </finder>
         <finder name="Email" return-type="OrganizzazioneProduttori" unique="true">
             <finder-column name="email" />
+        </finder>
+    </entity>
+    <entity name='ClientiDatiAgg' table='ClientiFornitoriDatiAgg' local-service='true' remote-service='true' >
+        <column name='codiceAnagrafica' db-name='RveCodclf' type='String' primary='true'>
+        </column>
+        <column name='associati' db-name='RveLibStr1' type='String'>
+        </column>
+        <finder name='CodiceAnagrafica' return-type='ClientiDatiAgg'>
+            <finder-column name='codiceAnagrafica' />
         </finder>
     </entity>
 </service-builder>

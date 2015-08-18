@@ -1,5 +1,5 @@
-<%@page import="com.liferay.portal.model.User"%>
-<%@page import="com.liferay.portal.service.UserLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Associato"%>
+<%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
@@ -7,46 +7,30 @@
 <%@include file="../../init.jsp" %>
 
 <%
-//String cliente = ParamUtil.getString(request, "codiceCliente", null);
 
-    String keywords = ParamUtil.getString(request, "keywords", null);
-
-//    if(keywords != null){
-//        int end = UserLocalServiceUtil.UserLocalServiceUtil.getUsersCount();
-//        articoli = ArticoliLocalServiceUtil.searchArticoli(keywords, true, 0, end, null);
-//    } else {
-    List<User> tmp = UserLocalServiceUtil.getUsers(0, UserLocalServiceUtil.getUsersCount());
-//    }
-
-    List<User> utenti = new ArrayList<User>();
-    for (User u : tmp) {
-        long id = u.getUserId();
-        if (id != user.getUserId() && id != 10159 && id != 10199) {
-            utenti.add(u);
-        }
-    }
-
+    List<Associato> associati =AssociatoLocalServiceUtil.getAssociatiAttivi();
+  
     PortletURL renderURL = renderResponse.createRenderURL();
     renderURL.setWindowState(LiferayWindowState.NORMAL);
     renderURL.setParameter("jspPage", "/jsps/op/view.jsp"); //current page path
-//    renderURL.setParameter("files",tmp);
+
 %>
 <portlet:resourceURL var="download" id="download" />
-<liferay-ui:search-container delta="10" emptyResultsMessage="Nessuna utente trovato." iteratorURL="<%= renderURL%>">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna utente trovato." iteratorURL="<%= renderURL%>">
 
     <liferay-ui:search-container-results >
         <%
-            results = ListUtil.subList(utenti, searchContainer.getStart(), searchContainer.getEnd());
-            total = UserLocalServiceUtil.getUsersCount();
+            results = ListUtil.subList(associati, searchContainer.getStart(), searchContainer.getEnd());
+            total = AssociatoLocalServiceUtil.countAssociatiAttivi();
             pageContext.setAttribute("results", results);
             pageContext.setAttribute("total", total);
         %>
     </liferay-ui:search-container-results>
-    <div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />utenti">
-        <liferay-ui:search-container-row className="com.liferay.portal.model.User" modelVar="user">
-            <liferay-ui:search-container-column-text   property="userId"    name="Codice"/>
-            <liferay-ui:search-container-column-text   property="firstName" name="Ragione Sociale" />
-            <liferay-ui:search-container-column-button href="scarica('${user.userId}')" name="Acquisisci documento" align="center" />
+    <div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />associati">
+        <liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
+            <liferay-ui:search-container-column-text   property="id"    name="Codice"/>
+            <liferay-ui:search-container-column-text   property="ragioneSociale" name="Ragione Sociale" />
+            <liferay-ui:search-container-column-button href="scarica('${associato.id}')" name="Acquisisci documento" align="center" />
 
         </liferay-ui:search-container-row>
 

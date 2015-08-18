@@ -28,9 +28,16 @@ import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import it.bysoftware.ct.model.Anagrafica;
+import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
+import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
+import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.ClientiDatiAggLocalService;
+import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
@@ -86,7 +93,22 @@ public class DDTPortlet extends MVCPortlet {
             }
             _log.info("IDMAX: " + idMax);
             renderRequest.setAttribute("idMax", idMax);
+
+            List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
+            List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
+            for (Anagrafica cliente : clienti) {
+                ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+                String[] idAssociati = datiAgg.getAssociati().split(",");
+                for (String idAssociato : idAssociati) {
+                    if(idAssociato.equals(renderRequest.getRemoteUser())){
+                        clientiAssociato.add(cliente);
+                        break;
+                    }
+                }
+            }
             
+            _log.info("Associato: " + renderRequest.getRemoteUser() + " has " + clientiAssociato.size() + " clients.");
+            renderRequest.setAttribute("clientiAssociato", clientiAssociato);
 //            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
 //            int countClienti = AnagraficaLocalServiceUtil.countClienti();
 //            for (Anagrafica cliente : listClienti) {
@@ -110,7 +132,6 @@ public class DDTPortlet extends MVCPortlet {
 //            for (Articoli articoli1 : imballaggi) {
 //                _log.info("IMBALLAGGIO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
 //            }
-
 //            List<Articoli> searchArticoli = ArticoliLocalServiceUtil.searchArticoli("ARMO", true, 0, 105, null);
 //            _log.info(searchArticoli.size());
 //            for (Articoli searchArticoli1 : searchArticoli) {

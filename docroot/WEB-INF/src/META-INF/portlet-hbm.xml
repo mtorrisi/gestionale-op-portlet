@@ -7,6 +7,7 @@
 	<import class="it.bysoftware.ct.model.AspettoEsterioreBeni" />
 	<import class="it.bysoftware.ct.model.Associato" />
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
+	<import class="it.bysoftware.ct.model.ClientiDatiAgg" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
 	<import class="it.bysoftware.ct.model.OrganizzazioneProduttori" />
@@ -79,6 +80,13 @@
 		</id>
 		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
 		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.ClientiDatiAggImpl" table="ClientiFornitoriDatiAgg">
+		<cache usage="read-write" />
+		<id name="codiceAnagrafica" column="RveCodclf" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="associati" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveLibStr1" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.CuraTrasportoImpl" table="CuraTrasporto">
 		<cache usage="read-write" />

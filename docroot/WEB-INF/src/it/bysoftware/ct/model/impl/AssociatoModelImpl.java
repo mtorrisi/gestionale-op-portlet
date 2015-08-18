@@ -95,9 +95,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	public static long ATTIVO_COLUMN_BITMASK = 1L;
 	public static long CENTRO_COLUMN_BITMASK = 2L;
 	public static long EMAIL_COLUMN_BITMASK = 4L;
-	public static long PARTITAIVA_COLUMN_BITMASK = 8L;
-	public static long RAGIONESOCIALE_COLUMN_BITMASK = 16L;
-	public static long ID_COLUMN_BITMASK = 32L;
+	public static long IDLIFERAY_COLUMN_BITMASK = 8L;
+	public static long PARTITAIVA_COLUMN_BITMASK = 16L;
+	public static long RAGIONESOCIALE_COLUMN_BITMASK = 32L;
+	public static long ID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -466,7 +467,19 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public void setIdLiferay(long idLiferay) {
+		_columnBitmask |= IDLIFERAY_COLUMN_BITMASK;
+
+		if (!_setOriginalIdLiferay) {
+			_setOriginalIdLiferay = true;
+
+			_originalIdLiferay = _idLiferay;
+		}
+
 		_idLiferay = idLiferay;
+	}
+
+	public long getOriginalIdLiferay() {
+		return _originalIdLiferay;
 	}
 
 	@JSON
@@ -610,6 +623,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoModelImpl._originalPartitaIVA = associatoModelImpl._partitaIVA;
 
 		associatoModelImpl._originalEmail = associatoModelImpl._email;
+
+		associatoModelImpl._originalIdLiferay = associatoModelImpl._idLiferay;
+
+		associatoModelImpl._setOriginalIdLiferay = false;
 
 		associatoModelImpl._originalAttivo = associatoModelImpl._attivo;
 
@@ -810,6 +827,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private String _originalEmail;
 	private String _password;
 	private long _idLiferay;
+	private long _originalIdLiferay;
+	private boolean _setOriginalIdLiferay;
 	private long _idOp;
 	private boolean _attivo;
 	private boolean _originalAttivo;

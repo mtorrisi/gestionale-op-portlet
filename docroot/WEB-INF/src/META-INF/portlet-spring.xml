@@ -72,5 +72,11 @@
     <bean id="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence" class="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistenceImpl" parent="basePersistence">
         <property name="dataSource" ref="gestionaleOPDataSource" />
         <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>         
+    </bean>
+    <bean id="it.bysoftware.ct.service.ClientiDatiAggLocalService" class="it.bysoftware.ct.service.impl.ClientiDatiAggLocalServiceImpl" />
+    <bean id="it.bysoftware.ct.service.ClientiDatiAggService" class="it.bysoftware.ct.service.impl.ClientiDatiAggServiceImpl" />
+    <bean id="it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence" class="it.bysoftware.ct.service.persistence.ClientiDatiAggPersistenceImpl" parent="basePersistence" >        
+        <property name="dataSource" ref="gestionaleOPDataSource" />
+        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+    </bean>
 </beans>

@@ -39,6 +39,7 @@
     <liferay-ui:icon
         image="delete"
         url="${deleteAssociato}"
+        useDialog="Sei sicuro di voler eliminare l'associato: <%= String.valueOf(associato.getId())%>.\nL'operazione non può essere annulata."
         />
     
 </liferay-ui:icon-menu>

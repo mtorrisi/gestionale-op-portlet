@@ -86,6 +86,216 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	public static final FinderPath FINDER_PATH_COUNT_ALL = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countAll", new String[0]);
+	public static final FinderPath FINDER_PATH_FETCH_BY_IDLIFERAY = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
+			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByIdLiferay",
+			new String[] { Long.class.getName() },
+			AssociatoModelImpl.IDLIFERAY_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_IDLIFERAY = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
+			AssociatoModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByIdLiferay",
+			new String[] { Long.class.getName() });
+
+	/**
+	 * Returns the associato where idLiferay = &#63; or throws a {@link it.bysoftware.ct.NoSuchAssociatoException} if it could not be found.
+	 *
+	 * @param idLiferay the id liferay
+	 * @return the matching associato
+	 * @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato findByIdLiferay(long idLiferay)
+		throws NoSuchAssociatoException, SystemException {
+		Associato associato = fetchByIdLiferay(idLiferay);
+
+		if (associato == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("idLiferay=");
+			msg.append(idLiferay);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchAssociatoException(msg.toString());
+		}
+
+		return associato;
+	}
+
+	/**
+	 * Returns the associato where idLiferay = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param idLiferay the id liferay
+	 * @return the matching associato, or <code>null</code> if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato fetchByIdLiferay(long idLiferay) throws SystemException {
+		return fetchByIdLiferay(idLiferay, true);
+	}
+
+	/**
+	 * Returns the associato where idLiferay = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param idLiferay the id liferay
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching associato, or <code>null</code> if a matching associato could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato fetchByIdLiferay(long idLiferay, boolean retrieveFromCache)
+		throws SystemException {
+		Object[] finderArgs = new Object[] { idLiferay };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_IDLIFERAY,
+					finderArgs, this);
+		}
+
+		if (result instanceof Associato) {
+			Associato associato = (Associato)result;
+
+			if ((idLiferay != associato.getIdLiferay())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_ASSOCIATO_WHERE);
+
+			query.append(_FINDER_COLUMN_IDLIFERAY_IDLIFERAY_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(idLiferay);
+
+				List<Associato> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_IDLIFERAY,
+						finderArgs, list);
+				}
+				else {
+					Associato associato = list.get(0);
+
+					result = associato;
+
+					cacheResult(associato);
+
+					if ((associato.getIdLiferay() != idLiferay)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_IDLIFERAY,
+							finderArgs, associato);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_IDLIFERAY,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Associato)result;
+		}
+	}
+
+	/**
+	 * Removes the associato where idLiferay = &#63; from the database.
+	 *
+	 * @param idLiferay the id liferay
+	 * @return the associato that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public Associato removeByIdLiferay(long idLiferay)
+		throws NoSuchAssociatoException, SystemException {
+		Associato associato = findByIdLiferay(idLiferay);
+
+		return remove(associato);
+	}
+
+	/**
+	 * Returns the number of associatos where idLiferay = &#63;.
+	 *
+	 * @param idLiferay the id liferay
+	 * @return the number of matching associatos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByIdLiferay(long idLiferay) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_IDLIFERAY;
+
+		Object[] finderArgs = new Object[] { idLiferay };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_ASSOCIATO_WHERE);
+
+			query.append(_FINDER_COLUMN_IDLIFERAY_IDLIFERAY_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(idLiferay);
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_IDLIFERAY_IDLIFERAY_2 = "associato.idLiferay = ?";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_RAGIONESOCIALE =
 		new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
@@ -2129,6 +2339,9 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		EntityCacheUtil.putResult(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoImpl.class, associato.getPrimaryKey(), associato);
 
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_IDLIFERAY,
+			new Object[] { associato.getIdLiferay() }, associato);
+
 		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_CENTRO,
 			new Object[] { associato.getCentro() }, associato);
 
@@ -2210,7 +2423,14 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 
 	protected void cacheUniqueFindersCache(Associato associato) {
 		if (associato.isNew()) {
-			Object[] args = new Object[] { associato.getCentro() };
+			Object[] args = new Object[] { associato.getIdLiferay() };
+
+			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_IDLIFERAY, args,
+				Long.valueOf(1));
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_IDLIFERAY, args,
+				associato);
+
+			args = new Object[] { associato.getCentro() };
 
 			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_CENTRO, args,
 				Long.valueOf(1));
@@ -2226,6 +2446,16 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		}
 		else {
 			AssociatoModelImpl associatoModelImpl = (AssociatoModelImpl)associato;
+
+			if ((associatoModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_IDLIFERAY.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] { associato.getIdLiferay() };
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_IDLIFERAY, args,
+					Long.valueOf(1));
+				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_IDLIFERAY, args,
+					associato);
+			}
 
 			if ((associatoModelImpl.getColumnBitmask() &
 					FINDER_PATH_FETCH_BY_CENTRO.getColumnBitmask()) != 0) {
@@ -2252,7 +2482,20 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	protected void clearUniqueFindersCache(Associato associato) {
 		AssociatoModelImpl associatoModelImpl = (AssociatoModelImpl)associato;
 
-		Object[] args = new Object[] { associato.getCentro() };
+		Object[] args = new Object[] { associato.getIdLiferay() };
+
+		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_IDLIFERAY, args);
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_IDLIFERAY, args);
+
+		if ((associatoModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_IDLIFERAY.getColumnBitmask()) != 0) {
+			args = new Object[] { associatoModelImpl.getOriginalIdLiferay() };
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_IDLIFERAY, args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_IDLIFERAY, args);
+		}
+
+		args = new Object[] { associato.getCentro() };
 
 		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CENTRO, args);
 		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_CENTRO, args);

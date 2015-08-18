@@ -19,6 +19,11 @@ create table CausaleTrasporto (
 	RdeCodiaz VARCHAR(75) null
 );
 
+create table ClientiFornitoriDatiAgg (
+	RveCodclf VARCHAR(75) not null primary key,
+	RveLibStr1 VARCHAR(75) null
+);
+
 create table CuraTrasporto (
 	RdeCoddes VARCHAR(75) not null primary key,
 	RdeDescri VARCHAR(75) null,
@@ -142,6 +147,12 @@ create table associato (
 	id_liferay LONG,
 	id_op LONG,
 	attivo BOOLEAN
+);
+
+create table associato_cliente (
+	id_associato LONG not null,
+	id_cliente VARCHAR(75) not null,
+	primary key (id_associato, id_cliente)
 );
 
 create table gestionaleOP_Testata_Righe (

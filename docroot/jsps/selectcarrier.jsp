@@ -13,7 +13,7 @@
 
     List<Vettori> vettori;
 
-    int end = VettoriLocalServiceUtil.getVettorisCount();;
+    int end = VettoriLocalServiceUtil.getVettorisCount();
     //if(keywords != null){
     //    imballaggi = VettoriLocalServiceUtil.searchImballaggi(keywords, true, 0, end, null);
     //} else {
