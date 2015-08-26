@@ -114,11 +114,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.TestataDocumento"),
 			true);
-	public static long COMPLETO_COLUMN_BITMASK = 1L;
-	public static long INVIATO_COLUMN_BITMASK = 2L;
-	public static long OPERATORE_COLUMN_BITMASK = 4L;
-	public static long ANNO_COLUMN_BITMASK = 8L;
-	public static long NUMEROORDINE_COLUMN_BITMASK = 16L;
+	public static long CODICESOGGETTO_COLUMN_BITMASK = 1L;
+	public static long COMPLETO_COLUMN_BITMASK = 2L;
+	public static long INVIATO_COLUMN_BITMASK = 4L;
+	public static long OPERATORE_COLUMN_BITMASK = 8L;
+	public static long ANNO_COLUMN_BITMASK = 16L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -540,7 +541,17 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setCodiceSoggetto(String codiceSoggetto) {
+		_columnBitmask |= CODICESOGGETTO_COLUMN_BITMASK;
+
+		if (_originalCodiceSoggetto == null) {
+			_originalCodiceSoggetto = _codiceSoggetto;
+		}
+
 		_codiceSoggetto = codiceSoggetto;
+	}
+
+	public String getOriginalCodiceSoggetto() {
+		return GetterUtil.getString(_originalCodiceSoggetto);
 	}
 
 	@JSON
@@ -1178,6 +1189,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public void resetOriginalValues() {
 		TestataDocumentoModelImpl testataDocumentoModelImpl = this;
 
+		testataDocumentoModelImpl._originalCodiceSoggetto = testataDocumentoModelImpl._codiceSoggetto;
+
 		testataDocumentoModelImpl._originalCompleto = testataDocumentoModelImpl._completo;
 
 		testataDocumentoModelImpl._originalOperatore = testataDocumentoModelImpl._operatore;
@@ -1685,6 +1698,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private int _anno;
 	private long _numeroOrdine;
 	private String _codiceSoggetto;
+	private String _originalCodiceSoggetto;
 	private String _dataOrdine;
 	private String _dataConsegna;
 	private String _destinazione;

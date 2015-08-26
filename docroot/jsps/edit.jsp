@@ -74,11 +74,17 @@
 <liferay-portlet:renderURL var="portURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="searchDDTURL">
+    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica() %>"/>
+    <liferay-portlet:param name="update" value="true" />
+    <liferay-portlet:param name="jspPage"  value="/jsps/search-ddt.jsp"/>
+</liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
 <portlet:resourceURL var="printDDT" id="print" />
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
+            <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
             <button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>
@@ -96,6 +102,7 @@
             <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
             <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" />
             <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" />
+            <aui:input id="lottoTestata" type="text" name="lottoTestata" label="Lotto" cssClass="input-small" inlineField="true" />
 
             <%--aui:input type="text" name="totPedane"    label="Tot. Pedane"     inlineField="true" cssClass="input-small"/>
             <aui:input type="text" name="Tot. Pesate"  label="Tot. Pesate"     inlineField="true" cssClass="input-small" /--%>
@@ -235,6 +242,10 @@
 //        window.onbeforeunload = function () {
 //            return "";
 //        };
+
+        YUI().use('node', function (Y) {
+            Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto());
+        });
 
         YUI().use(
                 'aui-tabview',
@@ -747,7 +758,7 @@
             table.after('*:pedaneChange', function (e) {
                 calcola();
             });
-            
+
             table.after('*:rtxclChange', function (e) {
                 calcola();
             });
@@ -846,14 +857,14 @@
             var onejan = new Date(this.getFullYear(), 0, 1);
             return Math.ceil((this - onejan) / 86400000);
         };
-        
+
         function calcolaLotto() {
             var d = new Date();
 
             var anno = d.getFullYear().toString().substr(2, 2);
             var juldate = String(d.getDOY());
 
-            console.log("PROVA: " + anno + ": " + juldate);
+//            console.log("PROVA: " + anno + ": " + juldate);
             return "L-" + anno + juldate;
         }
 
@@ -954,6 +965,7 @@
                 var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
                 var orderDate = Y.one('#<portlet:namespace />orderDate').val();
                 var deliveryDate = Y.one('#<portlet:namespace />deliveryDate').val();
+                var lottoTestata = Y.one('#<portlet:namespace />lottoTestata').val();
 
                 /******CAMPI FINE CORPO******/
                 var vettore1 = Y.one('#codiceVettore1').val();
@@ -976,8 +988,9 @@
                 var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
                         "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
                         "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>orderDate=" + orderDate +
-                        "&<portlet:namespace/>deliveryDate=" + deliveryDate + "&<portlet:namespace/>vettore1=" + vettore1 +
-                        "&<portlet:namespace/>vettore2=" + vettore2 + "&<portlet:namespace/>autista=" + autista + "&<portlet:namespace/>telefono=" + telefono +
+                        "&<portlet:namespace/>deliveryDate=" + deliveryDate + "&<portlet:namespace/>lottoTestata=" + lottoTestata +
+                        "&<portlet:namespace/>vettore1=" + vettore1 + "&<portlet:namespace/>vettore2=" + vettore2 +
+                        "&<portlet:namespace/>autista=" + autista + "&<portlet:namespace/>telefono=" + telefono +
                         "&<portlet:namespace/>trasporto=" + trasporto + "&<portlet:namespace/>aspetto=" + aspetto +
                         "&<portlet:namespace/>causale=" + causale + "&<portlet:namespace/>porto=" + porto +
                         "&<portlet:namespace/>origine=" + origine + "&<portlet:namespace/>rigo=" + rigo +
@@ -1049,6 +1062,12 @@
         YUI().use('node', function (Y) {
             Y.one('#btnInvoice').on('click', function () {
                 alert("Fattura generata con successo.");
+            });
+        });
+
+        YUI().use('node', function (Y) {
+            Y.one('#btnSearch').on('click', function () {
+                window.location.href = '<%=searchDDTURL%>'.toString();
             });
         });
 

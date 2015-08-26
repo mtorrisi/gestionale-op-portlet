@@ -131,6 +131,12 @@ public class TestataDocumentoLocalServiceClpInvoker {
 		_methodParameterTypes113 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
 			};
+
+		_methodName114 = "getByCodiceSoggettoCodiceOperatore";
+
+		_methodParameterTypes114 = new String[] {
+				"java.lang.String", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -246,6 +252,12 @@ public class TestataDocumentoLocalServiceClpInvoker {
 				((Integer)arguments[2]).intValue());
 		}
 
+		if (_methodName114.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes114, parameterTypes)) {
+			return TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -289,4 +301,6 @@ public class TestataDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes112;
 	private String _methodName113;
 	private String[] _methodParameterTypes113;
+	private String _methodName114;
+	private String[] _methodParameterTypes114;
 }

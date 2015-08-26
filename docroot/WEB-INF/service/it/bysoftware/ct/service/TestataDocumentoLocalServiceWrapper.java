@@ -304,6 +304,14 @@ public class TestataDocumentoLocalServiceWrapper
 			completo, inviato);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
+		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.getByCodiceSoggettoCodiceOperatore(codiceSoggetto,
+			codiceOperatore);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

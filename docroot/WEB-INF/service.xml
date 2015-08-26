@@ -165,6 +165,12 @@
             <finder-column name='operatore' comparator='='>
             </finder-column>
         </finder>
+        <finder name='CodiceSoggettoCodiceOperatore' return-type='Collection'>
+            <finder-column name='codiceSoggetto' comparator='='>
+            </finder-column>
+            <finder-column name='operatore' comparator='='>
+            </finder-column>
+        </finder>
         <finder name='operatoreCompletoInviato' return-type='Collection'>
             <finder-column name='operatore' comparator='='>
             </finder-column>

@@ -2,8 +2,6 @@
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@include file="../../init.jsp" %>
 
-<liferay-portlet:actionURL name="editAssociato" var="editAssociato"/>
-
 <%
     Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(renderRequest, "id"));
 %>

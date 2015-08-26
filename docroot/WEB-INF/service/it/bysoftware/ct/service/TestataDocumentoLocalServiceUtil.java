@@ -288,6 +288,14 @@ public class TestataDocumentoLocalServiceUtil {
 				   .getByCodiceOperatore(codiceOperatore, completo, inviato);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
+		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByCodiceSoggettoCodiceOperatore(codiceSoggetto,
+			codiceOperatore);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

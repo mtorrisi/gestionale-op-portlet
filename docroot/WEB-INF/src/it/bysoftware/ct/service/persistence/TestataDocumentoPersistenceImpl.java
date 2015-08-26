@@ -626,6 +626,649 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	private static final String _FINDER_COLUMN_OPERATORE_OPERATORE_1 = "testataDocumento.operatore IS NULL";
 	private static final String _FINDER_COLUMN_OPERATORE_OPERATORE_2 = "testataDocumento.operatore = ?";
 	private static final String _FINDER_COLUMN_OPERATORE_OPERATORE_3 = "(testataDocumento.operatore IS NULL OR testataDocumento.operatore = '')";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE =
+		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
+			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
+			TestataDocumentoImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByCodiceSoggettoCodiceOperatore",
+			new String[] {
+				String.class.getName(), String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE =
+		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
+			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
+			TestataDocumentoImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByCodiceSoggettoCodiceOperatore",
+			new String[] { String.class.getName(), String.class.getName() },
+			TestataDocumentoModelImpl.CODICESOGGETTO_COLUMN_BITMASK |
+			TestataDocumentoModelImpl.OPERATORE_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_CODICESOGGETTOCODICEOPERATORE =
+		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
+			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByCodiceSoggettoCodiceOperatore",
+			new String[] { String.class.getName(), String.class.getName() });
+
+	/**
+	 * Returns all the testata documentos where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @return the matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<TestataDocumento> findByCodiceSoggettoCodiceOperatore(
+		String codiceSoggetto, String operatore) throws SystemException {
+		return findByCodiceSoggettoCodiceOperatore(codiceSoggetto, operatore,
+			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the testata documentos where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param start the lower bound of the range of testata documentos
+	 * @param end the upper bound of the range of testata documentos (not inclusive)
+	 * @return the range of matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<TestataDocumento> findByCodiceSoggettoCodiceOperatore(
+		String codiceSoggetto, String operatore, int start, int end)
+		throws SystemException {
+		return findByCodiceSoggettoCodiceOperatore(codiceSoggetto, operatore,
+			start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the testata documentos where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param start the lower bound of the range of testata documentos
+	 * @param end the upper bound of the range of testata documentos (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<TestataDocumento> findByCodiceSoggettoCodiceOperatore(
+		String codiceSoggetto, String operatore, int start, int end,
+		OrderByComparator orderByComparator) throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE;
+			finderArgs = new Object[] { codiceSoggetto, operatore };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE;
+			finderArgs = new Object[] {
+					codiceSoggetto, operatore,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<TestataDocumento> list = (List<TestataDocumento>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (TestataDocumento testataDocumento : list) {
+				if (!Validator.equals(codiceSoggetto,
+							testataDocumento.getCodiceSoggetto()) ||
+						!Validator.equals(operatore,
+							testataDocumento.getOperatore())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(4 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(4);
+			}
+
+			query.append(_SQL_SELECT_TESTATADOCUMENTO_WHERE);
+
+			boolean bindCodiceSoggetto = false;
+
+			if (codiceSoggetto == null) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_1);
+			}
+			else if (codiceSoggetto.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_3);
+			}
+			else {
+				bindCodiceSoggetto = true;
+
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_2);
+			}
+
+			boolean bindOperatore = false;
+
+			if (operatore == null) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_1);
+			}
+			else if (operatore.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_3);
+			}
+			else {
+				bindOperatore = true;
+
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(TestataDocumentoModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCodiceSoggetto) {
+					qPos.add(codiceSoggetto);
+				}
+
+				if (bindOperatore) {
+					qPos.add(operatore);
+				}
+
+				if (!pagination) {
+					list = (List<TestataDocumento>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<TestataDocumento>(list);
+				}
+				else {
+					list = (List<TestataDocumento>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first testata documento in the ordered set where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching testata documento
+	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento findByCodiceSoggettoCodiceOperatore_First(
+		String codiceSoggetto, String operatore,
+		OrderByComparator orderByComparator)
+		throws NoSuchTestataDocumentoException, SystemException {
+		TestataDocumento testataDocumento = fetchByCodiceSoggettoCodiceOperatore_First(codiceSoggetto,
+				operatore, orderByComparator);
+
+		if (testataDocumento != null) {
+			return testataDocumento;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("codiceSoggetto=");
+		msg.append(codiceSoggetto);
+
+		msg.append(", operatore=");
+		msg.append(operatore);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTestataDocumentoException(msg.toString());
+	}
+
+	/**
+	 * Returns the first testata documento in the ordered set where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching testata documento, or <code>null</code> if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento fetchByCodiceSoggettoCodiceOperatore_First(
+		String codiceSoggetto, String operatore,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<TestataDocumento> list = findByCodiceSoggettoCodiceOperatore(codiceSoggetto,
+				operatore, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last testata documento in the ordered set where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching testata documento
+	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento findByCodiceSoggettoCodiceOperatore_Last(
+		String codiceSoggetto, String operatore,
+		OrderByComparator orderByComparator)
+		throws NoSuchTestataDocumentoException, SystemException {
+		TestataDocumento testataDocumento = fetchByCodiceSoggettoCodiceOperatore_Last(codiceSoggetto,
+				operatore, orderByComparator);
+
+		if (testataDocumento != null) {
+			return testataDocumento;
+		}
+
+		StringBundler msg = new StringBundler(6);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("codiceSoggetto=");
+		msg.append(codiceSoggetto);
+
+		msg.append(", operatore=");
+		msg.append(operatore);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTestataDocumentoException(msg.toString());
+	}
+
+	/**
+	 * Returns the last testata documento in the ordered set where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching testata documento, or <code>null</code> if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento fetchByCodiceSoggettoCodiceOperatore_Last(
+		String codiceSoggetto, String operatore,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByCodiceSoggettoCodiceOperatore(codiceSoggetto,
+				operatore);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<TestataDocumento> list = findByCodiceSoggettoCodiceOperatore(codiceSoggetto,
+				operatore, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the testata documentos before and after the current testata documento in the ordered set where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param testataDocumentoPK the primary key of the current testata documento
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next testata documento
+	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a testata documento with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento[] findByCodiceSoggettoCodiceOperatore_PrevAndNext(
+		TestataDocumentoPK testataDocumentoPK, String codiceSoggetto,
+		String operatore, OrderByComparator orderByComparator)
+		throws NoSuchTestataDocumentoException, SystemException {
+		TestataDocumento testataDocumento = findByPrimaryKey(testataDocumentoPK);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			TestataDocumento[] array = new TestataDocumentoImpl[3];
+
+			array[0] = getByCodiceSoggettoCodiceOperatore_PrevAndNext(session,
+					testataDocumento, codiceSoggetto, operatore,
+					orderByComparator, true);
+
+			array[1] = testataDocumento;
+
+			array[2] = getByCodiceSoggettoCodiceOperatore_PrevAndNext(session,
+					testataDocumento, codiceSoggetto, operatore,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected TestataDocumento getByCodiceSoggettoCodiceOperatore_PrevAndNext(
+		Session session, TestataDocumento testataDocumento,
+		String codiceSoggetto, String operatore,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_TESTATADOCUMENTO_WHERE);
+
+		boolean bindCodiceSoggetto = false;
+
+		if (codiceSoggetto == null) {
+			query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_1);
+		}
+		else if (codiceSoggetto.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_3);
+		}
+		else {
+			bindCodiceSoggetto = true;
+
+			query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_2);
+		}
+
+		boolean bindOperatore = false;
+
+		if (operatore == null) {
+			query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_1);
+		}
+		else if (operatore.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_3);
+		}
+		else {
+			bindOperatore = true;
+
+			query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(TestataDocumentoModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		if (bindCodiceSoggetto) {
+			qPos.add(codiceSoggetto);
+		}
+
+		if (bindOperatore) {
+			qPos.add(operatore);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(testataDocumento);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<TestataDocumento> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the testata documentos where codiceSoggetto = &#63; and operatore = &#63; from the database.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByCodiceSoggettoCodiceOperatore(String codiceSoggetto,
+		String operatore) throws SystemException {
+		for (TestataDocumento testataDocumento : findByCodiceSoggettoCodiceOperatore(
+				codiceSoggetto, operatore, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(testataDocumento);
+		}
+	}
+
+	/**
+	 * Returns the number of testata documentos where codiceSoggetto = &#63; and operatore = &#63;.
+	 *
+	 * @param codiceSoggetto the codice soggetto
+	 * @param operatore the operatore
+	 * @return the number of matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByCodiceSoggettoCodiceOperatore(String codiceSoggetto,
+		String operatore) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_CODICESOGGETTOCODICEOPERATORE;
+
+		Object[] finderArgs = new Object[] { codiceSoggetto, operatore };
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_COUNT_TESTATADOCUMENTO_WHERE);
+
+			boolean bindCodiceSoggetto = false;
+
+			if (codiceSoggetto == null) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_1);
+			}
+			else if (codiceSoggetto.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_3);
+			}
+			else {
+				bindCodiceSoggetto = true;
+
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_2);
+			}
+
+			boolean bindOperatore = false;
+
+			if (operatore == null) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_1);
+			}
+			else if (operatore.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_3);
+			}
+			else {
+				bindOperatore = true;
+
+				query.append(_FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				if (bindCodiceSoggetto) {
+					qPos.add(codiceSoggetto);
+				}
+
+				if (bindOperatore) {
+					qPos.add(operatore);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_1 =
+		"testataDocumento.codiceSoggetto IS NULL AND ";
+	private static final String _FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_2 =
+		"testataDocumento.codiceSoggetto = ? AND ";
+	private static final String _FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_CODICESOGGETTO_3 =
+		"(testataDocumento.codiceSoggetto IS NULL OR testataDocumento.codiceSoggetto = '') AND ";
+	private static final String _FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_1 =
+		"testataDocumento.operatore IS NULL";
+	private static final String _FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_2 =
+		"testataDocumento.operatore = ?";
+	private static final String _FINDER_COLUMN_CODICESOGGETTOCODICEOPERATORE_OPERATORE_3 =
+		"(testataDocumento.operatore IS NULL OR testataDocumento.operatore = '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO =
 		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
 			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
@@ -1551,6 +2194,29 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_OPERATORE,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_OPERATORE,
+					args);
+			}
+
+			if ((testataDocumentoModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						testataDocumentoModelImpl.getOriginalCodiceSoggetto(),
+						testataDocumentoModelImpl.getOriginalOperatore()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CODICESOGGETTOCODICEOPERATORE,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE,
+					args);
+
+				args = new Object[] {
+						testataDocumentoModelImpl.getCodiceSoggetto(),
+						testataDocumentoModelImpl.getOperatore()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CODICESOGGETTOCODICEOPERATORE,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE,
 					args);
 			}
 

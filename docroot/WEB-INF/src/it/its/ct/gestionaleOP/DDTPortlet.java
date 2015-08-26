@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.util.PortalUtil;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
@@ -29,14 +30,11 @@ import javax.portlet.PortletException;
 import javax.portlet.PortletPreferences;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Anagrafica;
-import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
-import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
-import it.bysoftware.ct.service.ClientiDatiAggLocalService;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
@@ -142,22 +140,17 @@ public class DDTPortlet extends MVCPortlet {
         }
     }
 
-    @Override
-    public void processAction(
-            ActionRequest actionRequest, ActionResponse actionResponse)
-            throws IOException, PortletException {
-        PortletPreferences prefs = actionRequest.getPreferences();
-        String greeting = actionRequest.getParameter("greeting");
-
-        if (greeting != null) {
-            prefs.setValue("greeting", greeting);
-            prefs.store();
+    public void generateInvoice(ActionRequest areq, ActionResponse ares) {
+        _log.info("Cliente: " +ParamUtil.getString(areq, "clientId"));
+        _log.info("Documents");
+        String[] ids = StringUtil.split(ParamUtil.getString(areq, "documentIds"));
+        for (String id : ids) {
+            _log.info("Document: " + id);
         }
-        SessionMessages.add(actionRequest, "success");
-
-        super.processAction(actionRequest, actionResponse);
+        ares.setRenderParameter("codiceCliente", ParamUtil.getString(areq, "clientId"));
+        ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
     }
-
+    
     @Override
     public void serveResource(ResourceRequest resourceRequest,
             ResourceResponse resourceResponse) throws IOException,
@@ -181,6 +174,7 @@ public class DDTPortlet extends MVCPortlet {
                 String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
                 String orderDate = ParamUtil.getString(resourceRequest, "orderDate", null);
                 String deliveryDate = ParamUtil.getString(resourceRequest, "deliveryDate", null);
+                String lottoTestata = ParamUtil.getString(resourceRequest, "lottoTestata", null);
                 String vettore1 = ParamUtil.getString(resourceRequest, "vettore1", null);
                 String vettore2 = ParamUtil.getString(resourceRequest, "vettore2", null);
                 String autista = ParamUtil.getString(resourceRequest, "autista", null);
@@ -220,6 +214,7 @@ public class DDTPortlet extends MVCPortlet {
                     testataDocumento.setDestinazione(destinazioneTxt);
                     testataDocumento.setDataOrdine(orderDate);
                     testataDocumento.setDataConsegna(deliveryDate);
+                    testataDocumento.setLotto(lottoTestata);
                     testataDocumento.setCompleto("completo");
                     testataDocumento.setOperatore(resourceRequest.getRemoteUser());
                     testataDocumento.setVettore(vettore1);
