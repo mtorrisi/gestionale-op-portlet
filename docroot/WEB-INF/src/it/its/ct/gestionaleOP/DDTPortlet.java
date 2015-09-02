@@ -10,6 +10,8 @@ package it.its.ct.gestionaleOP;
  * @author mario
  */
 import com.google.gson.Gson;
+import com.liferay.mail.service.MailServiceUtil;
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONException;
@@ -17,8 +19,8 @@ import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -27,15 +29,18 @@ import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
-import javax.portlet.PortletPreferences;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Anagrafica;
+import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
+import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
+import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
@@ -49,6 +54,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -64,7 +73,7 @@ public class DDTPortlet extends MVCPortlet {
 
     public enum CommandID {
 
-        save, print;
+        save, print, send;
     }
 
     @Override
@@ -98,13 +107,13 @@ public class DDTPortlet extends MVCPortlet {
                 ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
                 String[] idAssociati = datiAgg.getAssociati().split(",");
                 for (String idAssociato : idAssociati) {
-                    if(idAssociato.equals(renderRequest.getRemoteUser())){
+                    if (idAssociato.equals(renderRequest.getRemoteUser())) {
                         clientiAssociato.add(cliente);
                         break;
                     }
                 }
             }
-            
+
             _log.info("Associato: " + renderRequest.getRemoteUser() + " has " + clientiAssociato.size() + " clients.");
             renderRequest.setAttribute("clientiAssociato", clientiAssociato);
 //            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
@@ -141,7 +150,7 @@ public class DDTPortlet extends MVCPortlet {
     }
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
-        _log.info("Cliente: " +ParamUtil.getString(areq, "clientId"));
+        _log.info("Cliente: " + ParamUtil.getString(areq, "clientId"));
         _log.info("Documents");
         String[] ids = StringUtil.split(ParamUtil.getString(areq, "documentIds"));
         for (String id : ids) {
@@ -150,7 +159,7 @@ public class DDTPortlet extends MVCPortlet {
         ares.setRenderParameter("codiceCliente", ParamUtil.getString(areq, "clientId"));
         ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
     }
-    
+
     @Override
     public void serveResource(ResourceRequest resourceRequest,
             ResourceResponse resourceResponse) throws IOException,
@@ -284,6 +293,33 @@ public class DDTPortlet extends MVCPortlet {
                     } catch (SQLException ex) {
                         _log.error(ex.getLocalizedMessage());
                     }
+                }
+
+                break;
+
+            case send:
+
+                try {
+
+                    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    OrganizzazioneProduttori o = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+                    MailMessage mailMessage = new MailMessage();
+                    mailMessage.setBody("TEST MAIL BODY");
+                    mailMessage.setSubject("TEST MAIL");
+                    mailMessage.setFrom(new InternetAddress(a.getEmail()));
+                    mailMessage.setTo(new InternetAddress(o.getEmail()));
+                    MailServiceUtil.sendEmail(mailMessage);
+                    _log.info(("FROM: " + mailMessage.getFrom().getAddress()));
+                    _log.info(("TO: " + mailMessage.getTo()[0].getAddress()));
+                } catch (PortalException ex) {
+                    ex.printStackTrace();
+                    _log.error(ex.getMessage());
+                } catch (SystemException ex) {
+                    ex.printStackTrace();
+                    _log.error(ex.getMessage());
+                } catch (AddressException ex) {
+                    ex.printStackTrace();
+                    _log.error(ex.getMessage());
                 }
 
                 break;

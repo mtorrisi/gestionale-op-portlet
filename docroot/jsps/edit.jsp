@@ -51,6 +51,9 @@
 <liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectDescription.jsp" />
+</liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
 </liferay-portlet:renderURL>
@@ -75,12 +78,13 @@
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="searchDDTURL">
-    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica() %>"/>
+    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
     <liferay-portlet:param name="update" value="true" />
     <liferay-portlet:param name="jspPage"  value="/jsps/search-ddt.jsp"/>
 </liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
 <portlet:resourceURL var="printDDT" id="print" />
+<portlet:resourceURL var="sendDDT" id="send" />
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
@@ -88,6 +92,7 @@
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
             <button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>
+            <button id="btnEmail" class="btn"><i class="icon-email"></i>Invia Mail</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -138,6 +143,7 @@
                 <div class="btn-toolbar">
                     <div class="btn-group">
                         <aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi</aui:a>
+                        <aui:a id="btnAddDescription" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi Descrizione</aui:a>
                         <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
                         </div>
                     </div>  
@@ -491,6 +497,9 @@
                 case '<portlet:namespace/>itemDialog':
                     setItem(data);
                     break;
+                case '<portlet:namespace/>DescriptionDialog':
+                    setDescription(data);
+                    break;
                 case '<portlet:namespace/>packDialog':
                     setPack(data);
                     break;
@@ -825,6 +834,22 @@
                 });
             });
 
+            Y.one("#<portlet:namespace />btnAddDescription").on("click", function () {
+                recordSelected = undefined;
+                Liferay.Util.openWindow({
+                    dialog: {
+                        centered: true,
+                        modal: true,
+                        draggable: true//,
+                                //                    height: '600px',
+                                //                    width: '1024px'
+                    },
+                    id: '<portlet:namespace/>DescriptionDialog',
+                    title: 'Descrizione',
+                    uri: '<%=descrURL%>'
+                });
+            });
+
             Y.one("#<portlet:namespace />btnRemove").on("click", function () {
                 console.log(recordSelected);
                 table.removeRow(recordSelected);
@@ -880,6 +905,17 @@
             }
         }
 
+        function setDescription(data) {
+
+            console.log(recordSelected);
+            if (recordSelected) {
+                recordSelected.setAttrs({descrizione: data, imballo: " "});
+                recordSelected = undefined;
+            } else {
+                table.addRow({descrizione: data, imballo: " "}, {sync: true});
+            }
+        }
+
         function setPack(data) {
             if (recordSelected) {
                 recordSelected.setAttrs({imballo: data});
@@ -928,7 +964,7 @@
 
         function calcola() {
             var record = recordSelected.getAttrs();
-            var colli = colli = record.colli;
+            var colli = record.colli;
             var pesoLordo;
             var tara = record.tara;
             var taraPedana = record.taraPedana;
@@ -1071,5 +1107,21 @@
             });
         });
 
+        YUI().use('aui-io-request', 'node', function (Y) {
+            Y.one('#btnEmail').on('click', function () {
+                Y.io.request(
+                        '${sendDDT}',
+                        {
+                            on: {
+                                success: function () {
+                                    alert("SUCCESS: ");
+                                }
+
+                            }
+                        }
+                );
+            });
+        });
+        
 </script>
 
