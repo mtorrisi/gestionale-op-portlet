@@ -9,6 +9,7 @@
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
 	<import class="it.bysoftware.ct.model.ClientiDatiAgg" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
+	<import class="it.bysoftware.ct.model.DescrizioniDocumenti" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
 	<import class="it.bysoftware.ct.model.OrganizzazioneProduttori" />
 	<import class="it.bysoftware.ct.model.Porto" />
@@ -95,6 +96,16 @@
 		</id>
 		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
 		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.DescrizioniDocumentiImpl" table="DescrizioniDocumenti">
+		<cache usage="read-write" />
+		<id name="codiceDescrizione" column="Re1Coddes" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="codiceIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re1Codiva" />
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re1Descri" />
+		<property name="descrizioneFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re1Desfis" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re1Codiaz" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" table="DestinatariDiversi">
 		<cache usage="read-write" />

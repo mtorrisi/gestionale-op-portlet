@@ -178,6 +178,28 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.DescrizioniDocumentiModelImpl">
+		<attributes>
+			<id name="codiceDescrizione">
+				<column name="RE1CODDES" />
+			</id>
+			<basic name="codiceIVA">
+				<column name="RE1CODIVA" />
+			</basic>
+			<basic name="descrizione">
+				<column name="RE1DESCRI" />
+			</basic>
+			<basic name="descrizioneFiscale">
+				<column name="RE1DESFIS" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RE1CODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.DestinatariDiversiModelImpl">
 		<attributes>
 			<id name="codiceAnagrafica">
@@ -525,6 +547,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CuraTrasportoImpl" name="CuraTrasporto">
 		<table name="CuraTrasporto" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.DescrizioniDocumentiImpl" name="DescrizioniDocumenti">
+		<table name="DescrizioniDocumenti" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">

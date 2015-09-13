@@ -61,6 +61,13 @@
 		<field name="descrizione" type="String" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.DescrizioniDocumenti">
+		<field name="codiceDescrizione" type="String" />
+		<field name="codiceIVA" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="descrizioneFiscale" type="String" />
+		<field name="codiceAzienda" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.DestinatariDiversi">
 		<field name="codiceAnagrafica" type="String" />
 		<field name="codiceRiferimento" type="String" />

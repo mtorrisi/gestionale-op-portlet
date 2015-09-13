@@ -30,6 +30,14 @@ create table CuraTrasporto (
 	RdeCodiaz VARCHAR(75) null
 );
 
+create table DescrizioniDocumenti (
+	Re1Coddes VARCHAR(75) not null primary key,
+	Re1Codiva VARCHAR(75) null,
+	Re1Descri VARCHAR(75) null,
+	Re1Desfis VARCHAR(75) null,
+	Re1Codiaz VARCHAR(75) null
+);
+
 create table DestinatariDiversi (
 	RavCodana VARCHAR(75) not null primary key,
 	RavCodrif VARCHAR(75) null,

@@ -20,16 +20,28 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.mail.MailMessage;
+import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
+import com.liferay.portal.kernel.util.WebKeys;
+import com.liferay.portal.model.User;
+import com.liferay.portal.service.ServiceContext;
+import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
+import com.liferay.portlet.documentlibrary.model.DLFolder;
+import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
+import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
+import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import it.bysoftware.ct.NoSuchAssociatoException;
 import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
@@ -48,14 +60,13 @@ import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.portlet.RenderRequest;
@@ -150,14 +161,18 @@ public class DDTPortlet extends MVCPortlet {
     }
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
-        _log.info("Cliente: " + ParamUtil.getString(areq, "clientId"));
-        _log.info("Documents");
-        String[] ids = StringUtil.split(ParamUtil.getString(areq, "documentIds"));
-        for (String id : ids) {
-            _log.info("Document: " + id);
-        }
+//        _log.info("Cliente: " + ParamUtil.getString(areq, "clientId"));
+//        _log.info("Documents");
+//        String[] ids = StringUtil.split(ParamUtil.getString(areq, "documentIds"));
+//        for (String id : ids) {
+//            _log.info("Document: " + id);
+//        }
+//        _log.info("*** " + ids.length);
         ares.setRenderParameter("codiceCliente", ParamUtil.getString(areq, "clientId"));
-        ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
+//        ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
+        ares.setRenderParameter("anno", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
+        ares.setRenderParameter("documentIds", ParamUtil.getString(areq, "documentIds"));
+        ares.setRenderParameter("jspPage", "/jsps/edit-invoice.jsp");
     }
 
     @Override
@@ -259,13 +274,28 @@ public class DDTPortlet extends MVCPortlet {
                         RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
                         response = new Response(Response.Code.OK, numeroOrdine);
                     }
+                    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    OrganizzazioneProduttori o = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
 
+                    sendEmail(a, o, numeroOrdine);
                 } catch (JSONException ex) {
                     _log.error("JSONException: " + ex.getLocalizedMessage());
                     response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
                 } catch (SystemException ex) {
                     _log.error("ERRORE: " + ex.getLocalizedMessage());
                     response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (AddressException ex) {
+                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
                     writer.print(response);
                 }
                 writer.print(gson.toJson(response));
@@ -283,50 +313,85 @@ public class DDTPortlet extends MVCPortlet {
 
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
+
+                        addToDL(nDoc, file, resourceRequest);
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
                     } catch (JRException ex) {
-                        _log.error(ex.getLocalizedMessage());
-                    } catch (ClassNotFoundException ex) {
-                        _log.error(ex.getLocalizedMessage());
-                    } catch (SQLException ex) {
-                        _log.error(ex.getLocalizedMessage());
+                     _log.error(ex.getMessage());
+                     } catch (ClassNotFoundException ex) {
+                     _log.error(ex.getMessage());
+                     } catch (SQLException ex) {
+                     _log.error(ex.getMessage());
+                     } catch (SystemException ex) {
+                        _log.error(ex.getMessage());
+                        ex.printStackTrace();
+                    } catch (PortalException ex) {
+                        _log.error(ex.getMessage());
+                        ex.printStackTrace();
                     }
                 }
 
                 break;
 
-            case send:
-
-                try {
-
-                    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    OrganizzazioneProduttori o = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
-                    MailMessage mailMessage = new MailMessage();
-                    mailMessage.setBody("TEST MAIL BODY");
-                    mailMessage.setSubject("TEST MAIL");
-                    mailMessage.setFrom(new InternetAddress(a.getEmail()));
-                    mailMessage.setTo(new InternetAddress(o.getEmail()));
-                    MailServiceUtil.sendEmail(mailMessage);
-                    _log.info(("FROM: " + mailMessage.getFrom().getAddress()));
-                    _log.info(("TO: " + mailMessage.getTo()[0].getAddress()));
-                } catch (PortalException ex) {
-                    ex.printStackTrace();
-                    _log.error(ex.getMessage());
-                } catch (SystemException ex) {
-                    ex.printStackTrace();
-                    _log.error(ex.getMessage());
-                } catch (AddressException ex) {
-                    ex.printStackTrace();
-                    _log.error(ex.getMessage());
-                }
-
-                break;
             default:
                 _log.warn("Uknown operation.");
         }
 
 //        super.serveResource(resourceRequest, resourceResponse);
     }
+
+    private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine) throws AddressException {
+        MailMessage mailMessage = new MailMessage();
+        mailMessage.setBody("Spett. " + o.getRagioneSociale() + 
+                "\n\nLa presente per infromarla che l'associato: " + a.getRagioneSociale() 
+                + "\nha appena creato il documento: " + numeroOrdine +"."
+                + "\nDistinti saluti."
+                + "\n\nP.S. Il presente messagio è stato generato automaticamente per comunicazione all'associato scrivere all'indirizzo: " + a.getEmail());
+        mailMessage.setSubject("["+ o.getRagioneSociale() +"] Notifica creazioen documento.");
+        mailMessage.setFrom(new InternetAddress(a.getEmail()));
+        mailMessage.setTo(new InternetAddress(o.getEmail()));
+        MailServiceUtil.sendEmail(mailMessage);
+        _log.info(("FROM: " + mailMessage.getFrom().getAddress()));
+        _log.info(("TO: " + mailMessage.getTo()[0].getAddress()));
+    }
+
+    private void addToDL(int nDoc, File ddt, ResourceRequest resourceRequest) throws SystemException, PortalException, FileNotFoundException {
+
+        Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+        User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
+        User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+        ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
+        long groupId = themeDisplay.getLayout().getGroupId();
+        long repositoryId = themeDisplay.getScopeGroupId();
+        DLFolder opFolder = DLFolderLocalServiceUtil.getFolder(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, liferayOp.getScreenName());
+//        _log.info("OP FOLDER: " + opFolder);
+        DLFolder associatofolder = DLFolderLocalServiceUtil.getFolder(groupId, opFolder.getFolderId(), liferayAssociato.getScreenName());
+//        _log.info("ASSOCIATO FOLDER: " + associatofolder);
+        String fileName = Calendar.getInstance().get(Calendar.YEAR) + "_" + nDoc + "_" + a.getCentro();
+
+        FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+                repositoryId,
+                associatofolder.getFolderId(),
+                fileName + ".pdf",
+                MimeTypesUtil.getContentType(fileName + ".pdf"),
+                fileName + ".pdf", "", "", ddt, new ServiceContext());
+//
+//        Role associateRole = RoleLocalServiceUtil.getRole(liferayAssociato.getCompanyId(), "OP");
+//            String[] actionsRW = new String[]{ActionKeys.VIEW};
+////            String[] actionsRW = new String[]{ActionKeys.ACCESS, ActionKeys.ADD_DOCUMENT, ActionKeys.ADD_SUBFOLDER, ActionKeys.DELETE, ActionKeys.UPDATE, ActionKeys.VIEW};
+//
+//            ResourcePermissionLocalServiceUtil.setResourcePermissions(liferayAssociato.getCompanyId(),
+//                    FileEntry.class.getName(),
+//                    ResourceConstants.SCOPE_INDIVIDUAL,
+//                    fileEntry.getTitle(),
+//                    associateRole.getRoleId(),
+//                    actionsRW);
+                    
+        _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
+
+    }
+
 }

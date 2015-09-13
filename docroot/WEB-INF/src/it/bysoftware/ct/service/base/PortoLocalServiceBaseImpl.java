@@ -40,6 +40,7 @@ import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
+import it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
 import it.bysoftware.ct.service.persistence.PortoPersistence;
@@ -683,6 +684,63 @@ public abstract class PortoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the descrizioni documenti local service.
+	 *
+	 * @return the descrizioni documenti local service
+	 */
+	public it.bysoftware.ct.service.DescrizioniDocumentiLocalService getDescrizioniDocumentiLocalService() {
+		return descrizioniDocumentiLocalService;
+	}
+
+	/**
+	 * Sets the descrizioni documenti local service.
+	 *
+	 * @param descrizioniDocumentiLocalService the descrizioni documenti local service
+	 */
+	public void setDescrizioniDocumentiLocalService(
+		it.bysoftware.ct.service.DescrizioniDocumentiLocalService descrizioniDocumentiLocalService) {
+		this.descrizioniDocumentiLocalService = descrizioniDocumentiLocalService;
+	}
+
+	/**
+	 * Returns the descrizioni documenti remote service.
+	 *
+	 * @return the descrizioni documenti remote service
+	 */
+	public it.bysoftware.ct.service.DescrizioniDocumentiService getDescrizioniDocumentiService() {
+		return descrizioniDocumentiService;
+	}
+
+	/**
+	 * Sets the descrizioni documenti remote service.
+	 *
+	 * @param descrizioniDocumentiService the descrizioni documenti remote service
+	 */
+	public void setDescrizioniDocumentiService(
+		it.bysoftware.ct.service.DescrizioniDocumentiService descrizioniDocumentiService) {
+		this.descrizioniDocumentiService = descrizioniDocumentiService;
+	}
+
+	/**
+	 * Returns the descrizioni documenti persistence.
+	 *
+	 * @return the descrizioni documenti persistence
+	 */
+	public DescrizioniDocumentiPersistence getDescrizioniDocumentiPersistence() {
+		return descrizioniDocumentiPersistence;
+	}
+
+	/**
+	 * Sets the descrizioni documenti persistence.
+	 *
+	 * @param descrizioniDocumentiPersistence the descrizioni documenti persistence
+	 */
+	public void setDescrizioniDocumentiPersistence(
+		DescrizioniDocumentiPersistence descrizioniDocumentiPersistence) {
+		this.descrizioniDocumentiPersistence = descrizioniDocumentiPersistence;
+	}
+
+	/**
 	 * Returns the destinatari diversi local service.
 	 *
 	 * @return the destinatari diversi local service
@@ -1240,6 +1298,12 @@ public abstract class PortoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected it.bysoftware.ct.service.CuraTrasportoService curaTrasportoService;
 	@BeanReference(type = CuraTrasportoPersistence.class)
 	protected CuraTrasportoPersistence curaTrasportoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.DescrizioniDocumentiLocalService.class)
+	protected it.bysoftware.ct.service.DescrizioniDocumentiLocalService descrizioniDocumentiLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.DescrizioniDocumentiService.class)
+	protected it.bysoftware.ct.service.DescrizioniDocumentiService descrizioniDocumentiService;
+	@BeanReference(type = DescrizioniDocumentiPersistence.class)
+	protected DescrizioniDocumentiPersistence descrizioniDocumentiPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiLocalService.class)
 	protected it.bysoftware.ct.service.DestinatariDiversiLocalService destinatariDiversiLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiService.class)

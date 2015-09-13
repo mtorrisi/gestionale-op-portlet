@@ -12,7 +12,7 @@ package it.its.ct.gestionaleOP.pojos;
 public class Response {
     
     public enum Code{
-        OK, GET_PRIMARY_KEY_ERROR, INSERT_ERROR, PARSING_JSON_ERROR
+        OK, GET_PRIMARY_KEY_ERROR, INSERT_ERROR, PARSING_JSON_ERROR, SENDING_MAIL_ERROR
     }
     
     public int id;

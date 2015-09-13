@@ -1,3 +1,4 @@
+<%@page import="com.liferay.portal.kernel.util.StringUtil"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.liferay.portal.kernel.json.JSONObject"%>
 <%@page import="com.liferay.portal.kernel.json.JSONFactoryUtil"%>
@@ -18,27 +19,62 @@
 <%@include file="../init.jsp" %>
 
 <%
-    TestataDocumento testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento")));
-    Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
-    String indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
-
-    List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno());
-
     JSONArray jsonArr = JSONFactoryUtil.createJSONArray();
-    for (RigoDocumento rigo : righe) {
-        JSONObject json = JSONFactoryUtil.createJSONObject();
-        json.put("codiceArticolo", rigo.getCodiceArticolo());
-        json.put("descrizione", rigo.getDescrizione());
-        json.put("lotto", rigo.getLotto());
-        json.put("unitaMisura", rigo.getUnitaMisura());
-        json.put("colli", rigo.getColli());
-        json.put("quantita", rigo.getPesoNetto());
-        json.put("prezzo", rigo.getPrezzo());
-        json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
+    TestataDocumento testata;
+    Anagrafica cliente;
+    String indirizzoCompleto;
 
-        jsonArr.put(json);
+    if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
+
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento")));
+        cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
+        indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
+
+        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno());
+
+        for (RigoDocumento rigo : righe) {
+            JSONObject json = JSONFactoryUtil.createJSONObject();
+            json.put("codiceArticolo", rigo.getCodiceArticolo());
+            json.put("descrizione", rigo.getDescrizione());
+            json.put("lotto", rigo.getLotto());
+            json.put("unitaMisura", rigo.getUnitaMisura());
+            json.put("colli", rigo.getColli());
+            json.put("quantita", rigo.getPesoNetto());
+            json.put("prezzo", rigo.getPrezzo());
+            json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
+
+            jsonArr.put(json);
+        }
+    } else {
+        String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
+//        String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
+        for (String id : ids) {
+            System.out.println("PIPPO: " + id);
+        }
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0])));
+        cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
+        indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
+        List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
+        for (String id : ids) {
+            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"));
+            righeDocumenti.addAll(righe);
+        }
+
+        for (RigoDocumento rigo : righeDocumenti) {
+            JSONObject json = JSONFactoryUtil.createJSONObject();
+            json.put("codiceArticolo", rigo.getCodiceArticolo());
+            json.put("descrizione", rigo.getDescrizione());
+            json.put("lotto", rigo.getLotto());
+            json.put("unitaMisura", rigo.getUnitaMisura());
+            json.put("colli", rigo.getColli());
+            json.put("quantita", rigo.getPesoNetto());
+            json.put("prezzo", rigo.getPrezzo());
+            json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
+
+            jsonArr.put(json);
+        }
+
     }
-
 
 %>
 
@@ -63,24 +99,52 @@
     <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
     <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= testata.getDataOrdine()%>"/>
 </aui:fieldset>
+<div id="myTab">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab-1">Corpo Fattura</a></li>
+        <li><a href="#tab-2">Totali</a></li>
+    </ul>
 
-<aui:fieldset label="Corpo Fattura">
-    <aui:field-wrapper >
-        <div class="btn-toolbar">
-            <div class="btn-group">
-                <%--<aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi</aui:a>--%>
-                <aui:a id="btnAddDescription" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi Descrizione</aui:a>
-                <%--<aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>--%>
-            </div>
-        </div>  
-    </aui:field-wrapper>
-    <aui:fieldset id="myDataTable" />
-</aui:fieldset>
+    <div class="tab-content">
+        <div id="tab-1" class="tab-pane">
+            <aui:fieldset label="Corpo Fattura">
+                <aui:field-wrapper >
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <aui:a id="btnAddDescription" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi Descrizione</aui:a>
+                            <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
+                            </div>
+                        </div>
+                </aui:field-wrapper>
+                <aui:fieldset id="myDataTable" />
+            </aui:fieldset>
+        </div>
+        <div id="tab-2">
+            <aui:fieldset label="Totali Fattura">
+                <aui:input id="totaleImponibileTxt" type="text" name="totImponibile" label="Totale imponiible" disabled="true" inlineField="true"/>
+                <aui:input id="totaleIVATxt" type="text" name="totIVA" label="Totale IVA" disabled="true" inlineField="true"/>
+                <aui:input id="totaleDocumentoTxt" type="text" name="totDocumento" label="Totale documento" disabled="true" inlineField="true"/>
+            </aui:fieldset>
+        </div>
+    </div>
+</div>
+
 
 <script type="text/javascript">
 //        window.onbeforeunload = function () {
 //            return "";
 //        };
+
+    YUI().use(
+            'aui-tabview',
+            function (Y) {
+                new Y.TabView(
+                        {
+                            srcNode: '#myTab'
+                        }
+                ).render();
+            }
+    );
 
     YUI({lang: 'it'}).use('aui-datepicker', 'aui-modal', function (Y) {
 
@@ -115,6 +179,7 @@
 
     var recordSelected;
     var table;
+
     YUI({lang: 'it'}).use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function (Y) {
 
         var nameEditor = new Y.TextAreaCellEditor({
@@ -221,6 +286,8 @@
             ]
 
         }).render('#<portlet:namespace />myDataTable');
+
+        calcolaImporti();
         //
         //        // To avoid checkbox click causing harmless error in sorting
         //        // Workaround for bug #2532244
@@ -269,14 +336,17 @@
         }, 'tr', table);
 
         table.after('*:sconto1Change', function (e) {
-            calcola(e);
+            calcolaSconto();
         });
         table.after('*:sconto2Change', function (e) {
-            calcola(e);
+            calcolaSconto();
         });
         table.after('*:sconto3Change', function (e) {
+            calcolaSconto();
+        });
 
-            calcola(e);
+        table.after('*:importoChange', function (e) {
+            calcolaImporti();
         });
 
         Y.one("#<portlet:namespace />btnAddDescription").on("click", function () {
@@ -295,6 +365,12 @@
             });
         });
 
+        Y.one("#<portlet:namespace />btnRemove").on("click", function () {
+            console.log(recordSelected);
+            table.removeRow(recordSelected);
+            recordSelected = "";
+        });
+
     });
 
     Liferay.provide(window, 'closePopup', function (data, dialogId) {
@@ -310,40 +386,45 @@
         }
     }, ['liferay-util-window']);
 
-    function calcola(e) {
+
+
+    function calcolaSconto() {
 
         var record = recordSelected.getAttrs();
-        var importo = record.importo;
-        var sconto1 = record.sconto1;
-        var sconto2 = record.sconto2;
-        var sconto3 = record.sconto3;
+        var importo = 0;
+//        var sconto1 = record.sconto1;
+        var sconto1 = (!isNaN(record.sconto1)) ? record.sconto1 : 0;
+        var sconto2 = (!isNaN(record.sconto2)) ? record.sconto2 : 0;
+        var sconto3 = (!isNaN(record.sconto3)) ? record.sconto3 : 0;
         var importo1 = 0;
         var importo2 = 0;
-        var importo3 = 0;
+        var tmpImporto = record.prezzo * record.quantita;
 
-        if (!isNaN(sconto1) && sconto1 !== 0) {
-            importo1 = importo - ((importo * sconto1) / 100);
-        } else {
-            importo = record.prezzo * record.quantita;
-            recordSelected.setAttrs({importo: importo});
-            return;
+        importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
+        importo2 = importo1 - ((importo1 * sconto2) / 100);
+        importo = importo2 - ((importo2 * sconto3) / 100);
+
+        recordSelected.setAttrs({importo: importo.toFixed(2)});
+
+    }
+
+    function calcolaImporti() {
+        var imponibile = 0;
+        var iva = 0;
+        var totaledocumento = 0;
+
+        for (var i = 0; i < table.data.size(); i++) {
+            var importo = table.getRecord(i).getAttrs().importo;
+            if (!isNaN(importo))
+                imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
+            console.log(imponibile);
         }
+        iva = imponibile * 0.04;
+        totaledocumento = imponibile + iva;
 
-        if (!isNaN(sconto2) && sconto2 !== 0) {
-            importo2 = importo1 - ((importo1 * sconto2) / 100);
-        } else {
-            recordSelected.setAttrs({importo: importo1});
-            return;
-        }
-
-        if (!isNaN(sconto3 && sconto3 !== 0)) {
-            importo3 = importo2 - ((importo2 * sconto3) / 100);
-        } else {
-            recordSelected.setAttrs({importo: importo2});
-            return;
-        }
-
-        recordSelected.setAttrs({importo: importo3});
+        document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
+        document.getElementById('<portlet:namespace />totaleIVATxt').value = iva.toFixed(2);
+        document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = totaledocumento.toFixed(2);
     }
 
     function setDescription(data) {

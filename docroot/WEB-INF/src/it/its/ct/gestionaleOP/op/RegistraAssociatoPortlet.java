@@ -29,12 +29,15 @@ import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Locale;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -152,6 +155,8 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
     public void editAssociato(ActionRequest areq, ActionResponse ares) {
 
+        String[] values = ParamUtil.getParameterValues(areq, "values", new String[0]);
+
         try {
             Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
 
@@ -172,6 +177,33 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             }
 
             AssociatoLocalServiceUtil.updateAssociato(a);
+
+            for (String value : values) {
+                boolean flag = false;
+                ClientiDatiAgg clientiDatiAgg = ClientiDatiAggLocalServiceUtil.getClientiDatiAgg(value);
+                String[] idAssociati = clientiDatiAgg.getAssociati().split(",");
+                if (idAssociati.length > 0) {
+                    _log.info("LENGTH: " + idAssociati.length);
+                    for (String idAssociato : idAssociati) {
+                        if (idAssociato.equals(value)) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                    
+                    if(!flag){
+                        clientiDatiAgg.setAssociati(clientiDatiAgg.getAssociati() + "," +value);
+                        
+                    }
+                    
+                } else if (clientiDatiAgg.getAssociati().isEmpty()) {
+                    clientiDatiAgg.setAssociati(value);
+                } else if (!clientiDatiAgg.getAssociati().isEmpty()){
+                    clientiDatiAgg.setAssociati(clientiDatiAgg.getAssociati() + "," +value);
+                }
+                ClientiDatiAggLocalServiceUtil.updateClientiDatiAgg(clientiDatiAgg);
+            }
+
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
             SessionErrors.add(areq, "edit-error");

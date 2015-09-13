@@ -395,4 +395,16 @@
             <finder-column name='codiceAnagrafica' />
         </finder>
     </entity>
+    <entity name='DescrizioniDocumenti' table='DescrizioniDocumenti' local-service='true' remote-service='true' >
+        <column name='codiceDescrizione' db-name='Re1Coddes' type='String' primary='true'>
+        </column>
+        <column name='codiceIVA' db-name='Re1Codiva' type='String'>
+        </column>
+        <column name='descrizione' db-name='Re1Descri' type='String'>
+        </column>
+        <column name='descrizioneFiscale' db-name='Re1Desfis' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='Re1Codiaz' type='String'>
+        </column>
+    </entity>
 </service-builder>

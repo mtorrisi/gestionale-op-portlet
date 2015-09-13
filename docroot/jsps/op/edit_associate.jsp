@@ -1,3 +1,10 @@
+<%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
+<%@page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Anagrafica"%>
+<%@page import="com.liferay.portal.kernel.util.KeyValuePair"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.List"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@include file="../../init.jsp" %>
@@ -96,6 +103,43 @@
         </aui:layout>
 
     </fieldset>
+
+    <%
+
+        List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
+
+        List<KeyValuePair> clientiAssociato = new ArrayList<KeyValuePair>();
+        List<KeyValuePair> noClientiAssociato = new ArrayList<KeyValuePair>();
+
+        for (Anagrafica cliente : clienti) {
+            boolean flag = false;
+            ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+            String[] idAssociati = datiAgg.getAssociati().split(",");
+            for (String idAssociato : idAssociati) {
+                if (idAssociato.equals(String.valueOf(a.getIdLiferay()))) {
+                    clientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                noClientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
+            }
+        }
+
+    %>
+
+    <aui:input name="values" type="hidden" />
+    <liferay-ui:input-move-boxes
+        leftBoxName="selectedValues"
+    leftList="<%=clientiAssociato%>"
+        leftReorder="true"
+        leftTitle="Selezionati"
+        rightBoxName="availableValues"
+    rightList="<%=noClientiAssociato%>"
+        rightTitle="available"
+        />
+
 </form>
 
 <script type="text/javascript">
@@ -179,5 +223,15 @@
                     );
                 }
         );
+
+YUI().use("liferay-util-list-fields", function(Y){
+
+        Y.one('#btnSave').on('click', function (event) {
+
+            var selectedValues = Liferay.Util.listSelect('#<portlet:namespace/>selectedValues');
+            Y.one('#<portlet:namespace/>values').val(selectedValues);
+            submitForm('#<portlet:namespace/>fm');
+        });
+});
 
 </script>

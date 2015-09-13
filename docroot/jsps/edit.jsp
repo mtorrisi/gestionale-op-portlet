@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.DescrizioniDocumenti"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil"%>
@@ -84,7 +86,6 @@
 </liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
 <portlet:resourceURL var="printDDT" id="print" />
-<portlet:resourceURL var="sendDDT" id="send" />
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
@@ -92,7 +93,6 @@
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
             <button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>
-            <button id="btnEmail" class="btn"><i class="icon-email"></i>Invia Mail</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -906,8 +906,7 @@
         }
 
         function setDescription(data) {
-
-            console.log(recordSelected);
+//            console.log(recordSelected);
             if (recordSelected) {
                 recordSelected.setAttrs({descrizione: data, imballo: " "});
                 recordSelected = undefined;
@@ -1106,22 +1105,6 @@
                 window.location.href = '<%=searchDDTURL%>'.toString();
             });
         });
-
-        YUI().use('aui-io-request', 'node', function (Y) {
-            Y.one('#btnEmail').on('click', function () {
-                Y.io.request(
-                        '${sendDDT}',
-                        {
-                            on: {
-                                success: function () {
-                                    alert("SUCCESS: ");
-                                }
-
-                            }
-                        }
-                );
-            });
-        });
-        
+       
 </script>
 
