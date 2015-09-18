@@ -312,6 +312,14 @@ public class TestataDocumentoLocalServiceWrapper
 			codiceOperatore);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.getDocumentiSoggetto(anno,
+			idDocumento, idAssociato);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

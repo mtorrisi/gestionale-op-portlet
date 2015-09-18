@@ -4,9 +4,13 @@ create index IX_39991B9 on ClientiFornitoriDatiAgg (RveCodclf);
 
 create index IX_75890C32 on DestinatariDiversi (RavCodrif);
 
+create index IX_A02FCE4A on ProgAnnFor (Re4Anno, Re4Codatt, Re4Numcon);
+
 create index IX_AC8B1912 on SSRIGORD (WkNOrd);
 create index IX_88FCE1A8 on SSRIGORD (WkNOrd, WKAnno);
+create index IX_BFC9C5A0 on SSRIGORD (WkNOrd, WKAnno, id_associato);
 
+create index IX_2A5D7118 on SSTESORD (WKAnno, WKTipdoc, id_associato);
 create index IX_5EF84E9D on SSTESORD (WkCodsog, WkOperatore);
 create index IX_8C00B6D8 on SSTESORD (WkOperatore);
 create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);

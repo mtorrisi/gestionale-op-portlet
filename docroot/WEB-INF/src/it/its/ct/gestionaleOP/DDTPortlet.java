@@ -22,10 +22,10 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
+import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
@@ -46,6 +46,7 @@ import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
+import it.bysoftware.ct.model.Progressivo;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
@@ -53,8 +54,10 @@ import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
+import it.bysoftware.ct.service.ProgressivoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.persistence.ProgressivoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
 import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
@@ -67,6 +70,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.portlet.RenderRequest;
@@ -81,6 +86,15 @@ import net.sf.jasperreports.engine.JRException;
 public class DDTPortlet extends MVCPortlet {
 
     private final Log _log = LogFactoryUtil.getLog(DDTPortlet.class);
+    public static final String DDT = "DDT";
+    public static final String FAV = "FAV";
+    public static final String FAC = "FAC";
+    public static final String NAC = "NAC";
+    public static final int DDT_ID = 16;
+    public static final int FATTURE_ID = 2;
+    public static final int NOTE_ID = 3;
+
+    private static final int ANNO = Calendar.getInstance().get(Calendar.YEAR);
 
     public enum CommandID {
 
@@ -90,27 +104,8 @@ public class DDTPortlet extends MVCPortlet {
     @Override
     public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
         super.doView(renderRequest, renderResponse);
-        long idMax = 0;
-        ArrayList<Long> idToRecover = new ArrayList<Long>();
+
         try {
-
-            List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
-
-            for (TestataDocumento testata : listTestata) {
-                _log.info("ID: " + testata.getNumeroOrdine());
-                if ((testata.getNumeroOrdine() - 1) != idMax) {
-                    idToRecover.add(testata.getNumeroOrdine() - 1);
-                }
-                if (testata.getNumeroOrdine() > idMax) {
-                    idMax = testata.getNumeroOrdine();
-                }
-            }
-
-            for (Long id : idToRecover) {
-                _log.info("IDTORECOVER: " + id);
-            }
-            _log.info("IDMAX: " + idMax);
-            renderRequest.setAttribute("idMax", idMax);
 
             List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
             List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
@@ -127,37 +122,11 @@ public class DDTPortlet extends MVCPortlet {
 
             _log.info("Associato: " + renderRequest.getRemoteUser() + " has " + clientiAssociato.size() + " clients.");
             renderRequest.setAttribute("clientiAssociato", clientiAssociato);
-//            List<Anagrafica> listClienti = AnagraficaLocalServiceUtil.getClienti();
-//            int countClienti = AnagraficaLocalServiceUtil.countClienti();
-//            for (Anagrafica cliente : listClienti) {
-//                _log.info(cliente.getRagioneSociale());
-//            }
-//            _log.info(countClienti);
-//
-//            List<DestinatariDiversi> destinazioni = DestinatariDiversiLocalServiceUtil.getDestinazioni("00003");
-//            _log.info(destinazioni.size());
-//            for (DestinatariDiversi destinazione : destinazioni) {
-//                _log.info(destinazione.getComune());
-//            }
-//            
-//            List<Articoli> articoli = ArticoliLocalServiceUtil.getArticoli();
-//            _log.info(articoli.size());
-//            for (Articoli articoli1 : articoli) {
-//                _log.info("ARTICOLO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
-//            }
-//            List<Articoli> imballaggi = ArticoliLocalServiceUtil.getImballaggi();
-//            _log.info(imballaggi.size());
-//            for (Articoli articoli1 : imballaggi) {
-//                _log.info("IMBALLAGGIO: " + articoli1.getDescrizione() + " cat: " + articoli1.getCategoriaMerceologica());
-//            }
-//            List<Articoli> searchArticoli = ArticoliLocalServiceUtil.searchArticoli("ARMO", true, 0, 105, null);
-//            _log.info(searchArticoli.size());
-//            for (Articoli searchArticoli1 : searchArticoli) {
-//                _log.info(searchArticoli1.getCodiceArticolo());
-//            }
+
         } catch (SystemException ex) {
             _log.error(ex);
         }
+
     }
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
@@ -173,6 +142,52 @@ public class DDTPortlet extends MVCPortlet {
         ares.setRenderParameter("anno", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
         ares.setRenderParameter("documentIds", ParamUtil.getString(areq, "documentIds"));
         ares.setRenderParameter("jspPage", "/jsps/edit-invoice.jsp");
+    }
+
+    public void deleteDDT(ActionRequest areq, ActionResponse ares) {
+
+        int anno = ParamUtil.getInteger(areq, "anno");
+        int numeroOrdine = ParamUtil.getInteger(areq, "numeroOrdine");
+        Long idAssociato = ParamUtil.getLong(areq, "idAssociato");
+        String codiceCliente = ParamUtil.getString(areq, "codiceCliente");
+
+        _log.info("Deleting DDT: " + anno + " " + numeroOrdine + " " + idAssociato);
+
+        try {
+            Progressivo createProgressivo = ProgressivoLocalServiceUtil.createProgressivo(new ProgressivoPK(anno, idAssociato, DDT_ID, numeroOrdine));
+
+            ProgressivoLocalServiceUtil.addProgressivo(createProgressivo);
+
+            List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(numeroOrdine, anno, idAssociato);
+            for (RigoDocumento rigoDocumento : listRigo) {
+                RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigoDocumento);
+            }
+            TestataDocumentoLocalServiceUtil.deleteTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, DDT, idAssociato));
+
+            ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
+            long groupId = themeDisplay.getLayout().getGroupId();
+            long repositoryId = themeDisplay.getScopeGroupId();
+            
+            Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
+            OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+            User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+            User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
+            DLFolder opFolder = getOpFolder(groupId, liferayOp);
+            DLFolder associatoFolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
+            _log.info("Deleting file: " + ANNO + "_" + numeroOrdine + "_" + a.getCentro() +".pdf");
+            DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, associatoFolder.getFolderId(), ANNO + "_" + numeroOrdine + "_" + a.getCentro() +".pdf");
+
+        } catch (PortalException ex) {
+            _log.error(ex.getMessage());
+            SessionErrors.add(areq, "error-delete");
+        } catch (SystemException ex) {
+            _log.error(ex.getMessage());
+            SessionErrors.add(areq, "error-delete");
+        }
+
+        ares.setRenderParameter("update", "true");
+        ares.setRenderParameter("codiceCliente", codiceCliente);
+        ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
     }
 
     @Override
@@ -215,23 +230,25 @@ public class DDTPortlet extends MVCPortlet {
                 String rimorchio = ParamUtil.getString(resourceRequest, "rimorchio", null);
                 String numeroOrdineStr = ParamUtil.getString(resourceRequest, "numeroOrdine", null);
 
-                int numeroOrdine = 0;
-                if (!numeroOrdineStr.equals("")) {
-                    numeroOrdine = Integer.parseInt(numeroOrdineStr);
-                } else {
-                    try {
-                        numeroOrdine = TestataDocumentoLocalServiceUtil.getTestataDocumentosCount() + 1;
-                    } catch (SystemException ex) {
-                        _log.error("ERRORE: " + ex.getLocalizedMessage());
-                        response = new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
-                    }
-                }
-
                 try {
-                    int anno = Calendar.getInstance().get(Calendar.YEAR);
+                    int numeroOrdine = 0;
+                    Associato associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    if (!numeroOrdineStr.equals("")) {
+                        numeroOrdine = Integer.parseInt(numeroOrdineStr);
+                        ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), DDT_ID, numeroOrdine));
+                    } else {
+                        try {
+//                            numeroOrdine = TestataDocumentoLocalServiceUtil.getTestataDocumentosCount() + 1;
+                            numeroOrdine = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).size() + 1;
+                        } catch (SystemException ex) {
+                            _log.error("ERRORE: " + ex.getLocalizedMessage());
+                            response = new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+                        }
+                    }
 
-                    TestataDocumento testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine));
-                    testataDocumento.setAnno(anno);
+//                    Associato associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    TestataDocumento testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroOrdine, DDT, associato.getId()));
+                    testataDocumento.setAnno(ANNO);
                     testataDocumento.setCodiceSoggetto(codiceCliente);
                     testataDocumento.setRagioneSociale(cliente);
                     testataDocumento.setCodiceDestinazione(codiceDestinazione);
@@ -265,19 +282,19 @@ public class DDTPortlet extends MVCPortlet {
                         JSONObject rowJSON = rowsJSON.getJSONObject(i);
                         RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
-                        rigo.setAnno(anno);
+                        rigo.setAnno(ANNO);
                         rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
                         rigo.setRigoOrdine(i + 1);
                         rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
-
+                        rigo.setIdAssociato(associato.getId());
                         _log.info("Rigo Documento: " + rigo);
                         RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
                         response = new Response(Response.Code.OK, numeroOrdine);
                     }
-                    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    OrganizzazioneProduttori o = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+//                    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    OrganizzazioneProduttori o = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
 
-                    sendEmail(a, o, numeroOrdine);
+                    sendEmail(associato, o, numeroOrdine);
                 } catch (JSONException ex) {
                     _log.error("JSONException: " + ex.getLocalizedMessage());
                     response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
@@ -291,7 +308,7 @@ public class DDTPortlet extends MVCPortlet {
                     writer.print(response);
                 } catch (PortalException ex) {
                     _log.error("ERRORE: " + ex.getLocalizedMessage());
-                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
                     writer.print(response);
                 } catch (AddressException ex) {
                     _log.error("ERRORE: " + ex.getLocalizedMessage());
@@ -309,7 +326,8 @@ public class DDTPortlet extends MVCPortlet {
                 int nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
                 if (nDoc != 0) {
                     try {
-                        String ddt = r.print(nDoc);
+                        Associato a = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+                        String ddt = r.print(nDoc, new Long(a.getId()).intValue());
 
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
@@ -319,12 +337,12 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
                     } catch (JRException ex) {
-                     _log.error(ex.getMessage());
-                     } catch (ClassNotFoundException ex) {
-                     _log.error(ex.getMessage());
-                     } catch (SQLException ex) {
-                     _log.error(ex.getMessage());
-                     } catch (SystemException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (ClassNotFoundException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SQLException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SystemException ex) {
                         _log.error(ex.getMessage());
                         ex.printStackTrace();
                     } catch (PortalException ex) {
@@ -344,12 +362,12 @@ public class DDTPortlet extends MVCPortlet {
 
     private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine) throws AddressException {
         MailMessage mailMessage = new MailMessage();
-        mailMessage.setBody("Spett. " + o.getRagioneSociale() + 
-                "\n\nLa presente per infromarla che l'associato: " + a.getRagioneSociale() 
-                + "\nha appena creato il documento: " + numeroOrdine +"."
+        mailMessage.setBody("Spett. " + o.getRagioneSociale()
+                + "\n\nLa presente per infromarla che l'associato: " + a.getRagioneSociale()
+                + "\nha appena creato il documento: " + numeroOrdine + "."
                 + "\nDistinti saluti."
-                + "\n\nP.S. Il presente messagio è stato generato automaticamente per comunicazione all'associato scrivere all'indirizzo: " + a.getEmail());
-        mailMessage.setSubject("["+ o.getRagioneSociale() +"] Notifica creazioen documento.");
+                + "\n\nP.S. Il presente messagio e' stato generato automaticamente per comunicazione all'associato scrivere all'indirizzo: " + a.getEmail());
+        mailMessage.setSubject("[" + o.getRagioneSociale() + "] Notifica creazione documento.");
         mailMessage.setFrom(new InternetAddress(a.getEmail()));
         mailMessage.setTo(new InternetAddress(o.getEmail()));
         MailServiceUtil.sendEmail(mailMessage);
@@ -366,11 +384,11 @@ public class DDTPortlet extends MVCPortlet {
         ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getLayout().getGroupId();
         long repositoryId = themeDisplay.getScopeGroupId();
-        DLFolder opFolder = DLFolderLocalServiceUtil.getFolder(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, liferayOp.getScreenName());
+        DLFolder opFolder = getOpFolder(groupId, liferayOp);
 //        _log.info("OP FOLDER: " + opFolder);
-        DLFolder associatofolder = DLFolderLocalServiceUtil.getFolder(groupId, opFolder.getFolderId(), liferayAssociato.getScreenName());
+        DLFolder associatofolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
 //        _log.info("ASSOCIATO FOLDER: " + associatofolder);
-        String fileName = Calendar.getInstance().get(Calendar.YEAR) + "_" + nDoc + "_" + a.getCentro();
+        String fileName = DDT + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
 
         FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
                 repositoryId,
@@ -389,9 +407,16 @@ public class DDTPortlet extends MVCPortlet {
 //                    fileEntry.getTitle(),
 //                    associateRole.getRoleId(),
 //                    actionsRW);
-                    
+
         _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
 
     }
 
+    private DLFolder getOpFolder(long groupId, User liferayOp) throws PortalException, SystemException {
+        return DLFolderLocalServiceUtil.getFolder(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, liferayOp.getScreenName());
+    }
+
+    private DLFolder getAssociatoFolder(long groupId, DLFolder opFolder, User liferayAssociato) throws PortalException, SystemException {
+        return DLFolderLocalServiceUtil.getFolder(groupId, opFolder.getFolderId(), liferayAssociato.getScreenName());
+    }
 }

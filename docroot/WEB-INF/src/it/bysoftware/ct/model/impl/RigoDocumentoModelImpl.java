@@ -81,12 +81,13 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			{ "WkKgRetine", Types.DOUBLE },
 			{ "WkLotto", Types.VARCHAR },
 			{ "CodPassaportoAlfa", Types.VARCHAR },
-			{ "CodPassaportoNum", Types.INTEGER }
+			{ "CodPassaportoNum", Types.INTEGER },
+			{ "id_associato", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,primary key (WKAnno, WkNOrd, WkRigord))";
+	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table SSRIGORD";
-	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC, rigoDocumento.id.idAssociato ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC, SSRIGORD.id_associato ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -100,8 +101,9 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.RigoDocumento"),
 			true);
 	public static long ANNO_COLUMN_BITMASK = 1L;
-	public static long NUMEROORDINE_COLUMN_BITMASK = 2L;
-	public static long RIGOORDINE_COLUMN_BITMASK = 4L;
+	public static long IDASSOCIATO_COLUMN_BITMASK = 2L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 4L;
+	public static long RIGOORDINE_COLUMN_BITMASK = 8L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -138,6 +140,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		model.setLotto(soapModel.getLotto());
 		model.setPassaporto(soapModel.getPassaporto());
 		model.setProgressivo(soapModel.getProgressivo());
+		model.setIdAssociato(soapModel.getIdAssociato());
 
 		return model;
 	}
@@ -170,7 +173,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public RigoDocumentoPK getPrimaryKey() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
+			_idAssociato);
 	}
 
 	@Override
@@ -178,11 +182,13 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
 		setRigoOrdine(primaryKey.rigoOrdine);
+		setIdAssociato(primaryKey.idAssociato);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
+			_idAssociato);
 	}
 
 	@Override
@@ -226,6 +232,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
 	}
@@ -363,6 +370,12 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Long idAssociato = (Long)attributes.get("idAssociato");
+
+		if (idAssociato != null) {
+			setIdAssociato(idAssociato);
 		}
 	}
 
@@ -677,6 +690,29 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		_progressivo = progressivo;
 	}
 
+	@JSON
+	@Override
+	public long getIdAssociato() {
+		return _idAssociato;
+	}
+
+	@Override
+	public void setIdAssociato(long idAssociato) {
+		_columnBitmask |= IDASSOCIATO_COLUMN_BITMASK;
+
+		if (!_setOriginalIdAssociato) {
+			_setOriginalIdAssociato = true;
+
+			_originalIdAssociato = _idAssociato;
+		}
+
+		_idAssociato = idAssociato;
+	}
+
+	public long getOriginalIdAssociato() {
+		return _originalIdAssociato;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -717,6 +753,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoImpl.setLotto(getLotto());
 		rigoDocumentoImpl.setPassaporto(getPassaporto());
 		rigoDocumentoImpl.setProgressivo(getProgressivo());
+		rigoDocumentoImpl.setIdAssociato(getIdAssociato());
 
 		rigoDocumentoImpl.resetOriginalValues();
 
@@ -768,6 +805,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoModelImpl._originalNumeroOrdine = rigoDocumentoModelImpl._numeroOrdine;
 
 		rigoDocumentoModelImpl._setOriginalNumeroOrdine = false;
+
+		rigoDocumentoModelImpl._originalIdAssociato = rigoDocumentoModelImpl._idAssociato;
+
+		rigoDocumentoModelImpl._setOriginalIdAssociato = false;
 
 		rigoDocumentoModelImpl._columnBitmask = 0;
 	}
@@ -869,12 +910,14 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		rigoDocumentoCacheModel.progressivo = getProgressivo();
 
+		rigoDocumentoCacheModel.idAssociato = getIdAssociato();
+
 		return rigoDocumentoCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -920,6 +963,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", idAssociato=");
+		sb.append(getIdAssociato());
 		sb.append("}");
 
 		return sb.toString();
@@ -927,7 +972,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(70);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1021,6 +1066,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			"<column><column-name>progressivo</column-name><column-value><![CDATA[");
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
+		sb.append(getIdAssociato());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1057,6 +1106,9 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private long _idAssociato;
+	private long _originalIdAssociato;
+	private boolean _setOriginalIdAssociato;
 	private long _columnBitmask;
 	private RigoDocumento _escapedModel;
 }

@@ -1,3 +1,8 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="it.bysoftware.ct.service.ProgressivoLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Progressivo"%>
+<%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.DescrizioniDocumenti"%>
 <%@page import="java.util.ArrayList"%>
@@ -31,19 +36,26 @@
     CausaleTrasporto causaleDefault = CausaleTrasportoLocalServiceUtil.getCausaleTrasporto("VEN");
     Porto portoDefault = PortoLocalServiceUtil.getPorto("001");
 
-    long idMax = 0;
-    ArrayList<Long> idToRecover = new ArrayList<Long>();
-
-    List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
-
-    for (TestataDocumento testata : listTestata) {
-        if ((testata.getNumeroOrdine() - 1) != idMax) {
-            idToRecover.add(testata.getNumeroOrdine() - 1);
-        }
-        if (testata.getNumeroOrdine() > idMax) {
-            idMax = testata.getNumeroOrdine();
-        }
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), 16);
+    
+//    long idMax = 0;
+    ArrayList<Integer> idToRecover = new ArrayList<Integer>();
+    
+    for(Progressivo p : listProgressivo){
+        idToRecover.add(p.getNumeroProgressivo());
     }
+    
+//    List<TestataDocumento> listTestata = TestataDocumentoLocalServiceUtil.getTestataDocumentos(0, TestataDocumentoLocalServiceUtil.getTestataDocumentosCount());
+//
+//    for (TestataDocumento testata : listTestata) {
+//        if ((testata.getNumeroOrdine() - 1) != idMax) {
+//            idToRecover.add(testata.getNumeroOrdine() - 1);
+//        }
+//        if (testata.getNumeroOrdine() > idMax) {
+//            idMax = testata.getNumeroOrdine();
+//        }
+//    }
 %>
 
 <liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">

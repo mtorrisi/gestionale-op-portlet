@@ -13,6 +13,7 @@
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
 	<import class="it.bysoftware.ct.model.OrganizzazioneProduttori" />
 	<import class="it.bysoftware.ct.model.Porto" />
+	<import class="it.bysoftware.ct.model.Progressivo" />
 	<import class="it.bysoftware.ct.model.RigoDocumento" />
 	<import class="it.bysoftware.ct.model.TestataDocumento" />
 	<import class="it.bysoftware.ct.model.Vettori" />
@@ -145,12 +146,28 @@
 		<property name="Incoterm" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeIncoterm" />
 		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
 	</class>
+	<class name="it.bysoftware.ct.model.impl.ProgressivoImpl" table="ProgAnnFor">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.ProgressivoPK">
+			<key-property name="anno" column="Re4Anno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="idAssociato" column="Re4Codatt" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="tipoDocumento" column="Re4Numcon" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="numeroProgressivo" column="Re4Prgcon" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		</composite-id>
+		<property name="codiceCentro" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re4Codcen" />
+		<property name="codiceDeposito" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re4Coddep" />
+		<property name="dataRegistrazione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re4Datreg" />
+		<property name="numeroBolla" type="com.liferay.portal.dao.orm.hibernate.LongType" column="Re4Nuboll" />
+		<property name="tipoCon" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="Re4Tipcon" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="Re4Codiaz" />
+	</class>
 	<class name="it.bysoftware.ct.model.impl.RigoDocumentoImpl" table="SSRIGORD">
 		<cache usage="read-write" />
 		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.RigoDocumentoPK">
 			<key-property name="anno" column="WKAnno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="numeroOrdine" column="WkNOrd" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 			<key-property name="rigoOrdine" column="WkRigord" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="descrizioneVariante" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesvar" />
 		<property name="codiceArticolo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkCodart" />
@@ -177,6 +194,8 @@
 		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.TestataDocumentoPK">
 			<key-property name="anno" column="WKAnno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="numeroOrdine" column="WKNOrd" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="tipoDocumento" column="WKTipdoc" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="codiceSoggetto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkCodsog" />
 		<property name="dataOrdine" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDatord" />
@@ -189,7 +208,6 @@
 		<property name="visto" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="WKVisto" />
 		<property name="inviato" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="WKInviato" />
 		<property name="lotto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WKLotto" />
-		<property name="tipoDocumeto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WKTipdoc" />
 		<property name="vettore" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkVettore" />
 		<property name="autista" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkAutista" />
 		<property name="telefono" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkTelefono" />

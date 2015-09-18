@@ -27,13 +27,18 @@ public class TestataDocumentoPK implements Comparable<TestataDocumentoPK>,
 	Serializable {
 	public int anno;
 	public long numeroOrdine;
+	public String tipoDocumento;
+	public long idAssociato;
 
 	public TestataDocumentoPK() {
 	}
 
-	public TestataDocumentoPK(int anno, long numeroOrdine) {
+	public TestataDocumentoPK(int anno, long numeroOrdine,
+		String tipoDocumento, long idAssociato) {
 		this.anno = anno;
 		this.numeroOrdine = numeroOrdine;
+		this.tipoDocumento = tipoDocumento;
+		this.idAssociato = idAssociato;
 	}
 
 	public int getAnno() {
@@ -50,6 +55,22 @@ public class TestataDocumentoPK implements Comparable<TestataDocumentoPK>,
 
 	public void setNumeroOrdine(long numeroOrdine) {
 		this.numeroOrdine = numeroOrdine;
+	}
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public long getIdAssociato() {
+		return idAssociato;
+	}
+
+	public void setIdAssociato(long idAssociato) {
+		this.idAssociato = idAssociato;
 	}
 
 	@Override
@@ -88,6 +109,26 @@ public class TestataDocumentoPK implements Comparable<TestataDocumentoPK>,
 			return value;
 		}
 
+		value = tipoDocumento.compareTo(pk.tipoDocumento);
+
+		if (value != 0) {
+			return value;
+		}
+
+		if (idAssociato < pk.idAssociato) {
+			value = -1;
+		}
+		else if (idAssociato > pk.idAssociato) {
+			value = 1;
+		}
+		else {
+			value = 0;
+		}
+
+		if (value != 0) {
+			return value;
+		}
+
 		return 0;
 	}
 
@@ -103,7 +144,9 @@ public class TestataDocumentoPK implements Comparable<TestataDocumentoPK>,
 
 		TestataDocumentoPK pk = (TestataDocumentoPK)obj;
 
-		if ((anno == pk.anno) && (numeroOrdine == pk.numeroOrdine)) {
+		if ((anno == pk.anno) && (numeroOrdine == pk.numeroOrdine) &&
+				(tipoDocumento.equals(pk.tipoDocumento)) &&
+				(idAssociato == pk.idAssociato)) {
 			return true;
 		}
 		else {
@@ -113,12 +156,13 @@ public class TestataDocumentoPK implements Comparable<TestataDocumentoPK>,
 
 	@Override
 	public int hashCode() {
-		return (String.valueOf(anno) + String.valueOf(numeroOrdine)).hashCode();
+		return (String.valueOf(anno) + String.valueOf(numeroOrdine) +
+		String.valueOf(tipoDocumento) + String.valueOf(idAssociato)).hashCode();
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(20);
 
 		sb.append(StringPool.OPEN_CURLY_BRACE);
 
@@ -131,6 +175,18 @@ public class TestataDocumentoPK implements Comparable<TestataDocumentoPK>,
 		sb.append("numeroOrdine");
 		sb.append(StringPool.EQUAL);
 		sb.append(numeroOrdine);
+
+		sb.append(StringPool.COMMA);
+		sb.append(StringPool.SPACE);
+		sb.append("tipoDocumento");
+		sb.append(StringPool.EQUAL);
+		sb.append(tipoDocumento);
+
+		sb.append(StringPool.COMMA);
+		sb.append(StringPool.SPACE);
+		sb.append("idAssociato");
+		sb.append(StringPool.EQUAL);
+		sb.append(idAssociato);
 
 		sb.append(StringPool.CLOSE_CURLY_BRACE);
 

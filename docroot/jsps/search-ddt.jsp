@@ -12,7 +12,7 @@
     List<TestataDocumento> listDDT = TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore(cliente.getCodiceAnagrafica(), codiceOperatore);
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
 %>
-
+<liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
 <liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
 <aui:fieldset label="Elenco DDT">
     <aui:field-wrapper>

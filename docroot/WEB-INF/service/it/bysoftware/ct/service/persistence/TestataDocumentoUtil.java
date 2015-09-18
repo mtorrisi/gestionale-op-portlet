@@ -668,6 +668,208 @@ public class TestataDocumentoUtil {
 	}
 
 	/**
+	* Returns all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @return the matching testata documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> findByannoTipoDocumentoIdAssociato(
+		int anno, java.lang.String tipoDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByannoTipoDocumentoIdAssociato(anno, tipoDocumento,
+			idAssociato);
+	}
+
+	/**
+	* Returns a range of all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param start the lower bound of the range of testata documentos
+	* @param end the upper bound of the range of testata documentos (not inclusive)
+	* @return the range of matching testata documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> findByannoTipoDocumentoIdAssociato(
+		int anno, java.lang.String tipoDocumento, long idAssociato, int start,
+		int end) throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByannoTipoDocumentoIdAssociato(anno, tipoDocumento,
+			idAssociato, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param start the lower bound of the range of testata documentos
+	* @param end the upper bound of the range of testata documentos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching testata documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> findByannoTipoDocumentoIdAssociato(
+		int anno, java.lang.String tipoDocumento, long idAssociato, int start,
+		int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByannoTipoDocumentoIdAssociato(anno, tipoDocumento,
+			idAssociato, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns the first testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching testata documento
+	* @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TestataDocumento findByannoTipoDocumentoIdAssociato_First(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTestataDocumentoException {
+		return getPersistence()
+				   .findByannoTipoDocumentoIdAssociato_First(anno,
+			tipoDocumento, idAssociato, orderByComparator);
+	}
+
+	/**
+	* Returns the first testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching testata documento, or <code>null</code> if a matching testata documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TestataDocumento fetchByannoTipoDocumentoIdAssociato_First(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByannoTipoDocumentoIdAssociato_First(anno,
+			tipoDocumento, idAssociato, orderByComparator);
+	}
+
+	/**
+	* Returns the last testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching testata documento
+	* @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TestataDocumento findByannoTipoDocumentoIdAssociato_Last(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTestataDocumentoException {
+		return getPersistence()
+				   .findByannoTipoDocumentoIdAssociato_Last(anno,
+			tipoDocumento, idAssociato, orderByComparator);
+	}
+
+	/**
+	* Returns the last testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching testata documento, or <code>null</code> if a matching testata documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TestataDocumento fetchByannoTipoDocumentoIdAssociato_Last(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByannoTipoDocumentoIdAssociato_Last(anno,
+			tipoDocumento, idAssociato, orderByComparator);
+	}
+
+	/**
+	* Returns the testata documentos before and after the current testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param testataDocumentoPK the primary key of the current testata documento
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next testata documento
+	* @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a testata documento with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TestataDocumento[] findByannoTipoDocumentoIdAssociato_PrevAndNext(
+		it.bysoftware.ct.service.persistence.TestataDocumentoPK testataDocumentoPK,
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTestataDocumentoException {
+		return getPersistence()
+				   .findByannoTipoDocumentoIdAssociato_PrevAndNext(testataDocumentoPK,
+			anno, tipoDocumento, idAssociato, orderByComparator);
+	}
+
+	/**
+	* Removes all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; from the database.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeByannoTipoDocumentoIdAssociato(int anno,
+		java.lang.String tipoDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence()
+			.removeByannoTipoDocumentoIdAssociato(anno, tipoDocumento,
+			idAssociato);
+	}
+
+	/**
+	* Returns the number of testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param tipoDocumento the tipo documento
+	* @param idAssociato the id associato
+	* @return the number of matching testata documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countByannoTipoDocumentoIdAssociato(int anno,
+		java.lang.String tipoDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .countByannoTipoDocumentoIdAssociato(anno, tipoDocumento,
+			idAssociato);
+	}
+
+	/**
 	* Caches the testata documento in the entity cache if it is enabled.
 	*
 	* @param testataDocumento the testata documento

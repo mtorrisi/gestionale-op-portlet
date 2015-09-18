@@ -19,4 +19,14 @@
         image="edit" 
         url="${editDDT}"
         label="true" message="Modifica documento"/>
+    <liferay-portlet:actionURL var="deleteDDT" name="deleteDDT">
+        <liferay-portlet:param name="anno"  value="<%= String.valueOf(testata.getAnno())%>"/>
+        <liferay-portlet:param name="numeroOrdine" value="<%= String.valueOf(testata.getNumeroOrdine())%>"/>
+        <liferay-portlet:param name="tipoDocumento" value="<%= String.valueOf(testata.getTipoDocumento())%>"/>
+        <liferay-portlet:param name="idAssociato" value="<%= String.valueOf(testata.getIdAssociato())%>"/>
+        <liferay-portlet:param name="codiceCliente"  value="<%= testata.getCodiceSoggetto()%>"/>
+        <liferay-portlet:param name="jspPage"  value="/jsps/edit.jsp"/>
+    </liferay-portlet:actionURL>
+    <liferay-ui:icon-delete 
+        url="${deleteDDT}" />
 </liferay-ui:icon-menu>

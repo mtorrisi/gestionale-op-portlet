@@ -276,7 +276,8 @@ public class DescrizioniDocumentiWrapper implements DescrizioniDocumenti,
 	}
 
 	@Override
-	public int compareTo(DescrizioniDocumenti descrizioniDocumenti) {
+	public int compareTo(
+		it.bysoftware.ct.model.DescrizioniDocumenti descrizioniDocumenti) {
 		return _descrizioniDocumenti.compareTo(descrizioniDocumenti);
 	}
 
@@ -286,17 +287,17 @@ public class DescrizioniDocumentiWrapper implements DescrizioniDocumenti,
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<DescrizioniDocumenti> toCacheModel() {
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.DescrizioniDocumenti> toCacheModel() {
 		return _descrizioniDocumenti.toCacheModel();
 	}
 
 	@Override
-	public DescrizioniDocumenti toEscapedModel() {
+	public it.bysoftware.ct.model.DescrizioniDocumenti toEscapedModel() {
 		return new DescrizioniDocumentiWrapper(_descrizioniDocumenti.toEscapedModel());
 	}
 
 	@Override
-	public DescrizioniDocumenti toUnescapedModel() {
+	public it.bysoftware.ct.model.DescrizioniDocumenti toUnescapedModel() {
 		return new DescrizioniDocumentiWrapper(_descrizioniDocumenti.toUnescapedModel());
 	}
 

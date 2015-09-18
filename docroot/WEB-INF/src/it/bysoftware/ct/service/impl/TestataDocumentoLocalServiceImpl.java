@@ -55,4 +55,8 @@ public class TestataDocumentoLocalServiceImpl
     public List<TestataDocumento> getByCodiceSoggettoCodiceOperatore(String codiceSoggetto, String codiceOperatore) throws SystemException {
         return this.testataDocumentoPersistence.findByCodiceSoggettoCodiceOperatore(codiceSoggetto, codiceOperatore);
     }
+    
+    public List<TestataDocumento> getDocumentiSoggetto(int anno, String idDocumento, long idAssociato) throws SystemException {
+        return this.testataDocumentoPersistence.findByannoTipoDocumentoIdAssociato(anno, idDocumento, idAssociato);
+    }
 }

@@ -382,6 +382,20 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	 */
 	public void setProgressivo(int progressivo);
 
+	/**
+	 * Returns the id associato of this rigo documento.
+	 *
+	 * @return the id associato of this rigo documento
+	 */
+	public long getIdAssociato();
+
+	/**
+	 * Sets the id associato of this rigo documento.
+	 *
+	 * @param idAssociato the id associato of this rigo documento
+	 */
+	public void setIdAssociato(long idAssociato);
+
 	@Override
 	public boolean isNew();
 

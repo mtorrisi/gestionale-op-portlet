@@ -62,7 +62,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 		attributes.put("visto", getVisto());
 		attributes.put("inviato", getInviato());
 		attributes.put("lotto", getLotto());
-		attributes.put("tipoDocumeto", getTipoDocumeto());
+		attributes.put("tipoDocumento", getTipoDocumento());
 		attributes.put("vettore", getVettore());
 		attributes.put("autista", getAutista());
 		attributes.put("telefono", getTelefono());
@@ -86,6 +86,7 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 		attributes.put("totalePedaneOrdine", getTotalePedaneOrdine());
 		attributes.put("targaCamion", getTargaCamion());
 		attributes.put("targaRimorchio", getTargaRimorchio());
+		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
 	}
@@ -170,10 +171,10 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 			setLotto(lotto);
 		}
 
-		String tipoDocumeto = (String)attributes.get("tipoDocumeto");
+		String tipoDocumento = (String)attributes.get("tipoDocumento");
 
-		if (tipoDocumeto != null) {
-			setTipoDocumeto(tipoDocumeto);
+		if (tipoDocumento != null) {
+			setTipoDocumento(tipoDocumento);
 		}
 
 		String vettore = (String)attributes.get("vettore");
@@ -315,6 +316,12 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 
 		if (targaRimorchio != null) {
 			setTargaRimorchio(targaRimorchio);
+		}
+
+		Long idAssociato = (Long)attributes.get("idAssociato");
+
+		if (idAssociato != null) {
+			setIdAssociato(idAssociato);
 		}
 	}
 
@@ -600,23 +607,23 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	}
 
 	/**
-	* Returns the tipo documeto of this testata documento.
+	* Returns the tipo documento of this testata documento.
 	*
-	* @return the tipo documeto of this testata documento
+	* @return the tipo documento of this testata documento
 	*/
 	@Override
-	public java.lang.String getTipoDocumeto() {
-		return _testataDocumento.getTipoDocumeto();
+	public java.lang.String getTipoDocumento() {
+		return _testataDocumento.getTipoDocumento();
 	}
 
 	/**
-	* Sets the tipo documeto of this testata documento.
+	* Sets the tipo documento of this testata documento.
 	*
-	* @param tipoDocumeto the tipo documeto of this testata documento
+	* @param tipoDocumento the tipo documento of this testata documento
 	*/
 	@Override
-	public void setTipoDocumeto(java.lang.String tipoDocumeto) {
-		_testataDocumento.setTipoDocumeto(tipoDocumeto);
+	public void setTipoDocumento(java.lang.String tipoDocumento) {
+		_testataDocumento.setTipoDocumento(tipoDocumento);
 	}
 
 	/**
@@ -1077,6 +1084,26 @@ public class TestataDocumentoWrapper implements TestataDocumento,
 	@Override
 	public void setTargaRimorchio(java.lang.String targaRimorchio) {
 		_testataDocumento.setTargaRimorchio(targaRimorchio);
+	}
+
+	/**
+	* Returns the id associato of this testata documento.
+	*
+	* @return the id associato of this testata documento
+	*/
+	@Override
+	public long getIdAssociato() {
+		return _testataDocumento.getIdAssociato();
+	}
+
+	/**
+	* Sets the id associato of this testata documento.
+	*
+	* @param idAssociato the id associato of this testata documento
+	*/
+	@Override
+	public void setIdAssociato(long idAssociato) {
+		_testataDocumento.setIdAssociato(idAssociato);
 	}
 
 	@Override

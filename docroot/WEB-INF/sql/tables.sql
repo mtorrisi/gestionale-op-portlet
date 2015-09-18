@@ -57,6 +57,20 @@ create table Porto (
 	RdeCodiaz VARCHAR(75) null
 );
 
+create table ProgAnnFor (
+	Re4Anno INTEGER not null,
+	Re4Codatt LONG not null,
+	Re4Codcen VARCHAR(75) null,
+	Re4Coddep VARCHAR(75) null,
+	Re4Datreg VARCHAR(75) null,
+	Re4Nuboll LONG,
+	Re4Numcon INTEGER not null,
+	Re4Prgcon INTEGER not null,
+	Re4Tipcon INTEGER,
+	Re4Codiaz VARCHAR(75) null,
+	primary key (Re4Anno, Re4Codatt, Re4Numcon, Re4Prgcon)
+);
+
 create table SSRIGORD (
 	WKAnno INTEGER not null,
 	WkNOrd LONG not null,
@@ -80,7 +94,8 @@ create table SSRIGORD (
 	WkLotto VARCHAR(75) null,
 	CodPassaportoAlfa VARCHAR(75) null,
 	CodPassaportoNum INTEGER,
-	primary key (WKAnno, WkNOrd, WkRigord)
+	id_associato LONG not null,
+	primary key (WKAnno, WkNOrd, WkRigord, id_associato)
 );
 
 create table SSTESORD (
@@ -97,7 +112,7 @@ create table SSTESORD (
 	WKVisto INTEGER,
 	WKInviato INTEGER,
 	WKLotto VARCHAR(75) null,
-	WKTipdoc VARCHAR(75) null,
+	WKTipdoc VARCHAR(75) not null,
 	WkVettore VARCHAR(75) null,
 	WkAutista VARCHAR(75) null,
 	WkTelefono VARCHAR(75) null,
@@ -121,7 +136,8 @@ create table SSTESORD (
 	TotPedOrd INTEGER,
 	TargaCamion VARCHAR(75) null,
 	TargaRimorchio VARCHAR(75) null,
-	primary key (WKAnno, WKNOrd)
+	id_associato LONG not null,
+	primary key (WKAnno, WKNOrd, WKTipdoc, id_associato)
 );
 
 create table Vettori (

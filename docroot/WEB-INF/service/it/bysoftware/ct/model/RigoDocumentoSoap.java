@@ -54,6 +54,7 @@ public class RigoDocumentoSoap implements Serializable {
 		soapModel.setLotto(model.getLotto());
 		soapModel.setPassaporto(model.getPassaporto());
 		soapModel.setProgressivo(model.getProgressivo());
+		soapModel.setIdAssociato(model.getIdAssociato());
 
 		return soapModel;
 	}
@@ -99,13 +100,15 @@ public class RigoDocumentoSoap implements Serializable {
 	}
 
 	public RigoDocumentoPK getPrimaryKey() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
+			_idAssociato);
 	}
 
 	public void setPrimaryKey(RigoDocumentoPK pk) {
 		setAnno(pk.anno);
 		setNumeroOrdine(pk.numeroOrdine);
 		setRigoOrdine(pk.rigoOrdine);
+		setIdAssociato(pk.idAssociato);
 	}
 
 	public int getAnno() {
@@ -288,6 +291,14 @@ public class RigoDocumentoSoap implements Serializable {
 		_progressivo = progressivo;
 	}
 
+	public long getIdAssociato() {
+		return _idAssociato;
+	}
+
+	public void setIdAssociato(long idAssociato) {
+		_idAssociato = idAssociato;
+	}
+
 	private int _anno;
 	private long _numeroOrdine;
 	private int _rigoOrdine;
@@ -310,4 +321,5 @@ public class RigoDocumentoSoap implements Serializable {
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private long _idAssociato;
 }

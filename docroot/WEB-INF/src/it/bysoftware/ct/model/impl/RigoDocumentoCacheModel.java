@@ -36,7 +36,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -82,6 +82,8 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sb.append(passaporto);
 		sb.append(", progressivo=");
 		sb.append(progressivo);
+		sb.append(", idAssociato=");
+		sb.append(idAssociato);
 		sb.append("}");
 
 		return sb.toString();
@@ -165,6 +167,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		}
 
 		rigoDocumentoImpl.setProgressivo(progressivo);
+		rigoDocumentoImpl.setIdAssociato(idAssociato);
 
 		rigoDocumentoImpl.resetOriginalValues();
 
@@ -195,6 +198,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		lotto = objectInput.readUTF();
 		passaporto = objectInput.readUTF();
 		progressivo = objectInput.readInt();
+		idAssociato = objectInput.readLong();
 	}
 
 	@Override
@@ -274,6 +278,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		}
 
 		objectOutput.writeInt(progressivo);
+		objectOutput.writeLong(idAssociato);
 	}
 
 	public int anno;
@@ -298,4 +303,5 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public String lotto;
 	public String passaporto;
 	public int progressivo;
+	public long idAssociato;
 }

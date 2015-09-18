@@ -12,8 +12,11 @@ import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+import it.bysoftware.ct.NoSuchAssociatoException;
+import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
+import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import java.io.BufferedWriter;
@@ -26,6 +29,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -106,7 +111,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             }
             fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
-
+            
+            Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(utente));
+            
             List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(utente, "completo", 0);
             for (TestataDocumento testata : list) {
                 _log.info(testata);
@@ -133,7 +140,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 //              CodlottoGR
                 String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Quanet;Qm2net;Prezzo;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR\n";
                 bw.write(stringRigo);
-                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno());
+                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno(), a.getId());
                 for (RigoDocumento rigo : righe) {
 //                    _log.info(rigo);
                     String valoriRigo = "";
@@ -193,7 +200,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
         } catch (IOException ex) {
             _log.error("Error creating file: " + file.getName() + "\n" + ex.getLocalizedMessage());
         } catch (SystemException ex) {
-            _log.error(ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
+        } catch (NoSuchAssociatoException ex) {
+            _log.error(ex.getMessage());
         }
 
         return file.getAbsolutePath();

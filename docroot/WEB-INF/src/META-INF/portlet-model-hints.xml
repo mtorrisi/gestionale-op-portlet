@@ -97,6 +97,18 @@
 		<field name="Incoterm" type="String" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.Progressivo">
+		<field name="anno" type="int" />
+		<field name="idAssociato" type="long" />
+		<field name="codiceCentro" type="String" />
+		<field name="codiceDeposito" type="String" />
+		<field name="dataRegistrazione" type="String" />
+		<field name="numeroBolla" type="long" />
+		<field name="tipoDocumento" type="int" />
+		<field name="numeroProgressivo" type="int" />
+		<field name="tipoCon" type="int" />
+		<field name="codiceAzienda" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.RigoDocumento">
 		<field name="anno" type="int" />
 		<field name="numeroOrdine" type="long" />
@@ -120,6 +132,7 @@
 		<field name="lotto" type="String" />
 		<field name="passaporto" type="String" />
 		<field name="progressivo" type="int" />
+		<field name="idAssociato" type="long" />
 	</model>
 	<model name="it.bysoftware.ct.model.TestataDocumento">
 		<field name="anno" type="int" />
@@ -135,7 +148,7 @@
 		<field name="visto" type="int" />
 		<field name="inviato" type="int" />
 		<field name="lotto" type="String" />
-		<field name="tipoDocumeto" type="String" />
+		<field name="tipoDocumento" type="String" />
 		<field name="vettore" type="String" />
 		<field name="autista" type="String" />
 		<field name="telefono" type="String" />
@@ -159,6 +172,7 @@
 		<field name="totalePedaneOrdine" type="int" />
 		<field name="targaCamion" type="String" />
 		<field name="targaRimorchio" type="String" />
+		<field name="idAssociato" type="long" />
 	</model>
 	<model name="it.bysoftware.ct.model.Vettori">
 		<field name="albo" type="String" />

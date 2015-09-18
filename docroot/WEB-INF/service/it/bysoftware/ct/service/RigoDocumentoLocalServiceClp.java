@@ -125,7 +125,7 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 
 		_methodName19 = "getByNumeroOrdineAnno";
 
-		_methodParameterTypes19 = new String[] { "long", "int" };
+		_methodParameterTypes19 = new String[] { "long", "int", "long" };
 	}
 
 	@Override
@@ -684,13 +684,14 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 
 	@Override
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getByNumeroOrdineAnno(
-		long numeroOrdine, int anno)
+		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
-					_methodParameterTypes19, new Object[] { numeroOrdine, anno });
+					_methodParameterTypes19,
+					new Object[] { numeroOrdine, anno, idAssociato });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

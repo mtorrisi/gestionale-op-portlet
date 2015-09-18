@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="com.liferay.portal.kernel.util.StringUtil"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.liferay.portal.kernel.json.JSONObject"%>
@@ -23,14 +25,15 @@
     TestataDocumento testata;
     Anagrafica cliente;
     String indirizzoCompleto;
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
 
     if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
 
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento")));
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento"), "DDT", a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
 
-        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno());
+        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno(), a.getId());
 
         for (RigoDocumento rigo : righe) {
             JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -47,16 +50,13 @@
         }
     } else {
         String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
-//        String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
-        for (String id : ids) {
-            System.out.println("PIPPO: " + id);
-        }
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0])));
+
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), "DDT", a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
         List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
         for (String id : ids) {
-            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"));
+            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
             righeDocumenti.addAll(righe);
         }
 
@@ -245,7 +245,7 @@
                 label: 'Quantità'
             },
             {
-//                editor: numberEditor,
+                editor: numberEditor,
                 key: 'prezzo',
                 label: 'Prezzo'
             },
@@ -334,7 +334,9 @@
         table.delegate('click', function (e) {
             recordSelected = table.getRecord(e.currentTarget);
         }, 'tr', table);
-
+        table.after('*:prezzoChange', function (e) {
+            calcolaSconto();
+        });
         table.after('*:sconto1Change', function (e) {
             calcolaSconto();
         });

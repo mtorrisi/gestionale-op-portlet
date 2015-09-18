@@ -256,6 +256,6 @@ public interface RigoDocumentoLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getByNumeroOrdineAnno(
-		long numeroOrdine, int anno)
+		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

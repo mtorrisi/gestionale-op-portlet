@@ -96,12 +96,13 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			{ "CostoTrasp", Types.DOUBLE },
 			{ "TotPedOrd", Types.INTEGER },
 			{ "TargaCamion", Types.VARCHAR },
-			{ "TargaRimorchio", Types.VARCHAR }
+			{ "TargaRimorchio", Types.VARCHAR },
+			{ "id_associato", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd LONG not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv VARCHAR(75) null,WkRagsoc VARCHAR(75) null,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,primary key (WKAnno, WKNOrd))";
+	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd LONG not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv VARCHAR(75) null,WkRagsoc VARCHAR(75) null,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) not null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,id_associato LONG not null,primary key (WKAnno, WKNOrd, WKTipdoc, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table SSTESORD";
-	public static final String ORDER_BY_JPQL = " ORDER BY testataDocumento.id.anno ASC, testataDocumento.id.numeroOrdine ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY SSTESORD.WKAnno ASC, SSTESORD.WKNOrd ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY testataDocumento.id.anno ASC, testataDocumento.id.numeroOrdine ASC, testataDocumento.id.tipoDocumento ASC, testataDocumento.id.idAssociato ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY SSTESORD.WKAnno ASC, SSTESORD.WKNOrd ASC, SSTESORD.WKTipdoc ASC, SSTESORD.id_associato ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -114,12 +115,14 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public static final boolean COLUMN_BITMASK_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.TestataDocumento"),
 			true);
-	public static long CODICESOGGETTO_COLUMN_BITMASK = 1L;
-	public static long COMPLETO_COLUMN_BITMASK = 2L;
-	public static long INVIATO_COLUMN_BITMASK = 4L;
-	public static long OPERATORE_COLUMN_BITMASK = 8L;
-	public static long ANNO_COLUMN_BITMASK = 16L;
-	public static long NUMEROORDINE_COLUMN_BITMASK = 32L;
+	public static long ANNO_COLUMN_BITMASK = 1L;
+	public static long CODICESOGGETTO_COLUMN_BITMASK = 2L;
+	public static long COMPLETO_COLUMN_BITMASK = 4L;
+	public static long IDASSOCIATO_COLUMN_BITMASK = 8L;
+	public static long INVIATO_COLUMN_BITMASK = 16L;
+	public static long OPERATORE_COLUMN_BITMASK = 32L;
+	public static long TIPODOCUMENTO_COLUMN_BITMASK = 64L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -147,7 +150,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		model.setVisto(soapModel.getVisto());
 		model.setInviato(soapModel.getInviato());
 		model.setLotto(soapModel.getLotto());
-		model.setTipoDocumeto(soapModel.getTipoDocumeto());
+		model.setTipoDocumento(soapModel.getTipoDocumento());
 		model.setVettore(soapModel.getVettore());
 		model.setAutista(soapModel.getAutista());
 		model.setTelefono(soapModel.getTelefono());
@@ -171,6 +174,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		model.setTotalePedaneOrdine(soapModel.getTotalePedaneOrdine());
 		model.setTargaCamion(soapModel.getTargaCamion());
 		model.setTargaRimorchio(soapModel.getTargaRimorchio());
+		model.setIdAssociato(soapModel.getIdAssociato());
 
 		return model;
 	}
@@ -204,18 +208,22 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public TestataDocumentoPK getPrimaryKey() {
-		return new TestataDocumentoPK(_anno, _numeroOrdine);
+		return new TestataDocumentoPK(_anno, _numeroOrdine, _tipoDocumento,
+			_idAssociato);
 	}
 
 	@Override
 	public void setPrimaryKey(TestataDocumentoPK primaryKey) {
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
+		setTipoDocumento(primaryKey.tipoDocumento);
+		setIdAssociato(primaryKey.idAssociato);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new TestataDocumentoPK(_anno, _numeroOrdine);
+		return new TestataDocumentoPK(_anno, _numeroOrdine, _tipoDocumento,
+			_idAssociato);
 	}
 
 	@Override
@@ -250,7 +258,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		attributes.put("visto", getVisto());
 		attributes.put("inviato", getInviato());
 		attributes.put("lotto", getLotto());
-		attributes.put("tipoDocumeto", getTipoDocumeto());
+		attributes.put("tipoDocumento", getTipoDocumento());
 		attributes.put("vettore", getVettore());
 		attributes.put("autista", getAutista());
 		attributes.put("telefono", getTelefono());
@@ -274,6 +282,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		attributes.put("totalePedaneOrdine", getTotalePedaneOrdine());
 		attributes.put("targaCamion", getTargaCamion());
 		attributes.put("targaRimorchio", getTargaRimorchio());
+		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
 	}
@@ -358,10 +367,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			setLotto(lotto);
 		}
 
-		String tipoDocumeto = (String)attributes.get("tipoDocumeto");
+		String tipoDocumento = (String)attributes.get("tipoDocumento");
 
-		if (tipoDocumeto != null) {
-			setTipoDocumeto(tipoDocumeto);
+		if (tipoDocumento != null) {
+			setTipoDocumento(tipoDocumento);
 		}
 
 		String vettore = (String)attributes.get("vettore");
@@ -504,6 +513,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		if (targaRimorchio != null) {
 			setTargaRimorchio(targaRimorchio);
 		}
+
+		Long idAssociato = (Long)attributes.get("idAssociato");
+
+		if (idAssociato != null) {
+			setIdAssociato(idAssociato);
+		}
 	}
 
 	@JSON
@@ -514,7 +529,19 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setAnno(int anno) {
+		_columnBitmask |= ANNO_COLUMN_BITMASK;
+
+		if (!_setOriginalAnno) {
+			_setOriginalAnno = true;
+
+			_originalAnno = _anno;
+		}
+
 		_anno = anno;
+	}
+
+	public int getOriginalAnno() {
+		return _originalAnno;
 	}
 
 	@JSON
@@ -738,18 +765,28 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@JSON
 	@Override
-	public String getTipoDocumeto() {
-		if (_tipoDocumeto == null) {
+	public String getTipoDocumento() {
+		if (_tipoDocumento == null) {
 			return StringPool.BLANK;
 		}
 		else {
-			return _tipoDocumeto;
+			return _tipoDocumento;
 		}
 	}
 
 	@Override
-	public void setTipoDocumeto(String tipoDocumeto) {
-		_tipoDocumeto = tipoDocumeto;
+	public void setTipoDocumento(String tipoDocumento) {
+		_columnBitmask |= TIPODOCUMENTO_COLUMN_BITMASK;
+
+		if (_originalTipoDocumento == null) {
+			_originalTipoDocumento = _tipoDocumento;
+		}
+
+		_tipoDocumento = tipoDocumento;
+	}
+
+	public String getOriginalTipoDocumento() {
+		return GetterUtil.getString(_originalTipoDocumento);
 	}
 
 	@JSON
@@ -1090,6 +1127,29 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		_targaRimorchio = targaRimorchio;
 	}
 
+	@JSON
+	@Override
+	public long getIdAssociato() {
+		return _idAssociato;
+	}
+
+	@Override
+	public void setIdAssociato(long idAssociato) {
+		_columnBitmask |= IDASSOCIATO_COLUMN_BITMASK;
+
+		if (!_setOriginalIdAssociato) {
+			_setOriginalIdAssociato = true;
+
+			_originalIdAssociato = _idAssociato;
+		}
+
+		_idAssociato = idAssociato;
+	}
+
+	public long getOriginalIdAssociato() {
+		return _originalIdAssociato;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -1121,7 +1181,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		testataDocumentoImpl.setVisto(getVisto());
 		testataDocumentoImpl.setInviato(getInviato());
 		testataDocumentoImpl.setLotto(getLotto());
-		testataDocumentoImpl.setTipoDocumeto(getTipoDocumeto());
+		testataDocumentoImpl.setTipoDocumento(getTipoDocumento());
 		testataDocumentoImpl.setVettore(getVettore());
 		testataDocumentoImpl.setAutista(getAutista());
 		testataDocumentoImpl.setTelefono(getTelefono());
@@ -1145,6 +1205,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		testataDocumentoImpl.setTotalePedaneOrdine(getTotalePedaneOrdine());
 		testataDocumentoImpl.setTargaCamion(getTargaCamion());
 		testataDocumentoImpl.setTargaRimorchio(getTargaRimorchio());
+		testataDocumentoImpl.setIdAssociato(getIdAssociato());
 
 		testataDocumentoImpl.resetOriginalValues();
 
@@ -1189,6 +1250,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public void resetOriginalValues() {
 		TestataDocumentoModelImpl testataDocumentoModelImpl = this;
 
+		testataDocumentoModelImpl._originalAnno = testataDocumentoModelImpl._anno;
+
+		testataDocumentoModelImpl._setOriginalAnno = false;
+
 		testataDocumentoModelImpl._originalCodiceSoggetto = testataDocumentoModelImpl._codiceSoggetto;
 
 		testataDocumentoModelImpl._originalCompleto = testataDocumentoModelImpl._completo;
@@ -1198,6 +1263,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		testataDocumentoModelImpl._originalInviato = testataDocumentoModelImpl._inviato;
 
 		testataDocumentoModelImpl._setOriginalInviato = false;
+
+		testataDocumentoModelImpl._originalTipoDocumento = testataDocumentoModelImpl._tipoDocumento;
+
+		testataDocumentoModelImpl._originalIdAssociato = testataDocumentoModelImpl._idAssociato;
+
+		testataDocumentoModelImpl._setOriginalIdAssociato = false;
 
 		testataDocumentoModelImpl._columnBitmask = 0;
 	}
@@ -1286,12 +1357,12 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			testataDocumentoCacheModel.lotto = null;
 		}
 
-		testataDocumentoCacheModel.tipoDocumeto = getTipoDocumeto();
+		testataDocumentoCacheModel.tipoDocumento = getTipoDocumento();
 
-		String tipoDocumeto = testataDocumentoCacheModel.tipoDocumeto;
+		String tipoDocumento = testataDocumentoCacheModel.tipoDocumento;
 
-		if ((tipoDocumeto != null) && (tipoDocumeto.length() == 0)) {
-			testataDocumentoCacheModel.tipoDocumeto = null;
+		if ((tipoDocumento != null) && (tipoDocumento.length() == 0)) {
+			testataDocumentoCacheModel.tipoDocumento = null;
 		}
 
 		testataDocumentoCacheModel.vettore = getVettore();
@@ -1443,12 +1514,14 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			testataDocumentoCacheModel.targaRimorchio = null;
 		}
 
+		testataDocumentoCacheModel.idAssociato = getIdAssociato();
+
 		return testataDocumentoCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1476,8 +1549,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(getInviato());
 		sb.append(", lotto=");
 		sb.append(getLotto());
-		sb.append(", tipoDocumeto=");
-		sb.append(getTipoDocumeto());
+		sb.append(", tipoDocumento=");
+		sb.append(getTipoDocumento());
 		sb.append(", vettore=");
 		sb.append(getVettore());
 		sb.append(", autista=");
@@ -1524,6 +1597,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(getTargaCamion());
 		sb.append(", targaRimorchio=");
 		sb.append(getTargaRimorchio());
+		sb.append(", idAssociato=");
+		sb.append(getIdAssociato());
 		sb.append("}");
 
 		return sb.toString();
@@ -1531,7 +1606,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(118);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.TestataDocumento");
@@ -1590,8 +1665,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		sb.append(getLotto());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>tipoDocumeto</column-name><column-value><![CDATA[");
-		sb.append(getTipoDocumeto());
+			"<column><column-name>tipoDocumento</column-name><column-value><![CDATA[");
+		sb.append(getTipoDocumento());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>vettore</column-name><column-value><![CDATA[");
@@ -1685,6 +1760,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			"<column><column-name>targaRimorchio</column-name><column-value><![CDATA[");
 		sb.append(getTargaRimorchio());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
+		sb.append(getIdAssociato());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1696,6 +1775,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 			TestataDocumento.class
 		};
 	private int _anno;
+	private int _originalAnno;
+	private boolean _setOriginalAnno;
 	private long _numeroOrdine;
 	private String _codiceSoggetto;
 	private String _originalCodiceSoggetto;
@@ -1713,7 +1794,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private int _originalInviato;
 	private boolean _setOriginalInviato;
 	private String _lotto;
-	private String _tipoDocumeto;
+	private String _tipoDocumento;
+	private String _originalTipoDocumento;
 	private String _vettore;
 	private String _autista;
 	private String _telefono;
@@ -1737,6 +1819,9 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private int _totalePedaneOrdine;
 	private String _targaCamion;
 	private String _targaRimorchio;
+	private long _idAssociato;
+	private long _originalIdAssociato;
+	private boolean _setOriginalIdAssociato;
 	private long _columnBitmask;
 	private TestataDocumento _escapedModel;
 }

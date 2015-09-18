@@ -278,6 +278,44 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.ProgressivoModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.ProgressivoPK" />
+		<attributes>
+			<id name="anno">
+				<column name="RE4ANNO" />
+			</id>
+			<id name="idAssociato">
+				<column name="RE4CODATT" />
+			</id>
+			<id name="tipoDocumento">
+				<column name="RE4NUMCON" />
+			</id>
+			<id name="numeroProgressivo">
+				<column name="RE4PRGCON" />
+			</id>
+			<basic name="codiceCentro">
+				<column name="RE4CODCEN" />
+			</basic>
+			<basic name="codiceDeposito">
+				<column name="RE4CODDEP" />
+			</basic>
+			<basic name="dataRegistrazione">
+				<column name="RE4DATREG" />
+			</basic>
+			<basic name="numeroBolla">
+				<column name="RE4NUBOLL" />
+			</basic>
+			<basic name="tipoCon">
+				<column name="RE4TIPCON" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RE4CODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.RigoDocumentoModelImpl">
 		<id-class class="it.bysoftware.ct.service.persistence.RigoDocumentoPK" />
 		<attributes>
@@ -289,6 +327,9 @@
 			</id>
 			<id name="rigoOrdine">
 				<column name="WKRIGORD" />
+			</id>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
 			</id>
 			<basic name="descrizioneVariante">
 				<column name="WKDESVAR" />
@@ -361,6 +402,12 @@
 			<id name="numeroOrdine">
 				<column name="WKNORD" />
 			</id>
+			<id name="tipoDocumento">
+				<column name="WKTIPDOC" />
+			</id>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</id>
 			<basic name="codiceSoggetto">
 				<column name="WKCODSOG" />
 			</basic>
@@ -393,9 +440,6 @@
 			</basic>
 			<basic name="lotto">
 				<column name="WKLOTTO" />
-			</basic>
-			<basic name="tipoDocumeto">
-				<column name="WKTIPDOC" />
 			</basic>
 			<basic name="vettore">
 				<column name="WKVETTORE" />
@@ -563,6 +607,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.PortoImpl" name="Porto">
 		<table name="Porto" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.ProgressivoImpl" name="Progressivo">
+		<table name="ProgAnnFor" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.RigoDocumentoImpl" name="RigoDocumento">

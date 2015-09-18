@@ -36,7 +36,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -64,8 +64,8 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		sb.append(inviato);
 		sb.append(", lotto=");
 		sb.append(lotto);
-		sb.append(", tipoDocumeto=");
-		sb.append(tipoDocumeto);
+		sb.append(", tipoDocumento=");
+		sb.append(tipoDocumento);
 		sb.append(", vettore=");
 		sb.append(vettore);
 		sb.append(", autista=");
@@ -112,6 +112,8 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		sb.append(targaCamion);
 		sb.append(", targaRimorchio=");
 		sb.append(targaRimorchio);
+		sb.append(", idAssociato=");
+		sb.append(idAssociato);
 		sb.append("}");
 
 		return sb.toString();
@@ -190,11 +192,11 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			testataDocumentoImpl.setLotto(lotto);
 		}
 
-		if (tipoDocumeto == null) {
-			testataDocumentoImpl.setTipoDocumeto(StringPool.BLANK);
+		if (tipoDocumento == null) {
+			testataDocumentoImpl.setTipoDocumento(StringPool.BLANK);
 		}
 		else {
-			testataDocumentoImpl.setTipoDocumeto(tipoDocumeto);
+			testataDocumentoImpl.setTipoDocumento(tipoDocumento);
 		}
 
 		if (vettore == null) {
@@ -324,6 +326,8 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			testataDocumentoImpl.setTargaRimorchio(targaRimorchio);
 		}
 
+		testataDocumentoImpl.setIdAssociato(idAssociato);
+
 		testataDocumentoImpl.resetOriginalValues();
 
 		return testataDocumentoImpl;
@@ -344,7 +348,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		visto = objectInput.readInt();
 		inviato = objectInput.readInt();
 		lotto = objectInput.readUTF();
-		tipoDocumeto = objectInput.readUTF();
+		tipoDocumento = objectInput.readUTF();
 		vettore = objectInput.readUTF();
 		autista = objectInput.readUTF();
 		telefono = objectInput.readUTF();
@@ -368,6 +372,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		totalePedaneOrdine = objectInput.readInt();
 		targaCamion = objectInput.readUTF();
 		targaRimorchio = objectInput.readUTF();
+		idAssociato = objectInput.readLong();
 	}
 
 	@Override
@@ -442,11 +447,11 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 			objectOutput.writeUTF(lotto);
 		}
 
-		if (tipoDocumeto == null) {
+		if (tipoDocumento == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
 		else {
-			objectOutput.writeUTF(tipoDocumeto);
+			objectOutput.writeUTF(tipoDocumento);
 		}
 
 		if (vettore == null) {
@@ -575,6 +580,8 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 		else {
 			objectOutput.writeUTF(targaRimorchio);
 		}
+
+		objectOutput.writeLong(idAssociato);
 	}
 
 	public int anno;
@@ -590,7 +597,7 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	public int visto;
 	public int inviato;
 	public String lotto;
-	public String tipoDocumeto;
+	public String tipoDocumento;
 	public String vettore;
 	public String autista;
 	public String telefono;
@@ -614,4 +621,5 @@ public class TestataDocumentoCacheModel implements CacheModel<TestataDocumento>,
 	public int totalePedaneOrdine;
 	public String targaCamion;
 	public String targaRimorchio;
+	public long idAssociato;
 }

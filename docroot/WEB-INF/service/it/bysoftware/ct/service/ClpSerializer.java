@@ -36,6 +36,7 @@ import it.bysoftware.ct.model.DescrizioniDocumentiClp;
 import it.bysoftware.ct.model.DestinatariDiversiClp;
 import it.bysoftware.ct.model.OrganizzazioneProduttoriClp;
 import it.bysoftware.ct.model.PortoClp;
+import it.bysoftware.ct.model.ProgressivoClp;
 import it.bysoftware.ct.model.RigoDocumentoClp;
 import it.bysoftware.ct.model.TestataDocumentoClp;
 import it.bysoftware.ct.model.VettoriClp;
@@ -158,6 +159,10 @@ public class ClpSerializer {
 
 		if (oldModelClassName.equals(PortoClp.class.getName())) {
 			return translateInputPorto(oldModel);
+		}
+
+		if (oldModelClassName.equals(ProgressivoClp.class.getName())) {
+			return translateInputProgressivo(oldModel);
 		}
 
 		if (oldModelClassName.equals(RigoDocumentoClp.class.getName())) {
@@ -294,6 +299,16 @@ public class ClpSerializer {
 		PortoClp oldClpModel = (PortoClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getPortoRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputProgressivo(BaseModel<?> oldModel) {
+		ProgressivoClp oldClpModel = (ProgressivoClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getProgressivoRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -753,6 +768,43 @@ public class ClpSerializer {
 		}
 
 		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.ProgressivoImpl")) {
+			return translateOutputProgressivo(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
 					"it.bysoftware.ct.model.impl.RigoDocumentoImpl")) {
 			return translateOutputRigoDocumento(oldModel);
 		}
@@ -990,6 +1042,10 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchPortoException();
 		}
 
+		if (className.equals("it.bysoftware.ct.NoSuchProgressivoException")) {
+			return new it.bysoftware.ct.NoSuchProgressivoException();
+		}
+
 		if (className.equals("it.bysoftware.ct.NoSuchRigoDocumentoException")) {
 			return new it.bysoftware.ct.NoSuchRigoDocumentoException();
 		}
@@ -1115,6 +1171,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setPortoRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputProgressivo(BaseModel<?> oldModel) {
+		ProgressivoClp newModel = new ProgressivoClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setProgressivoRemoteModel(oldModel);
 
 		return newModel;
 	}

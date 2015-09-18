@@ -71,6 +71,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
 	}
@@ -208,6 +209,12 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Long idAssociato = (Long)attributes.get("idAssociato");
+
+		if (idAssociato != null) {
+			setIdAssociato(idAssociato);
 		}
 	}
 
@@ -680,6 +687,26 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	@Override
 	public void setProgressivo(int progressivo) {
 		_rigoDocumento.setProgressivo(progressivo);
+	}
+
+	/**
+	* Returns the id associato of this rigo documento.
+	*
+	* @return the id associato of this rigo documento
+	*/
+	@Override
+	public long getIdAssociato() {
+		return _rigoDocumento.getIdAssociato();
+	}
+
+	/**
+	* Sets the id associato of this rigo documento.
+	*
+	* @param idAssociato the id associato of this rigo documento
+	*/
+	@Override
+	public void setIdAssociato(long idAssociato) {
+		_rigoDocumento.setIdAssociato(idAssociato);
 	}
 
 	@Override

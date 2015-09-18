@@ -296,6 +296,12 @@ public class TestataDocumentoLocalServiceUtil {
 			codiceOperatore);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDocumentiSoggetto(anno, idDocumento, idAssociato);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

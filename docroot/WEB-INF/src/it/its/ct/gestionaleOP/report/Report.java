@@ -32,9 +32,11 @@ public class Report {
     public static String DB_USERNAME = "op_user";
     public static String DB_PASSWORD = "op_user";
 
-    public String print(int nDoc) throws JRException, ClassNotFoundException, SQLException {
+    public String print(int nDoc, int idAssociato) throws JRException, ClassNotFoundException, SQLException {
         Map parametersMap = new HashMap();
         parametersMap.put("WkNOrd", nDoc);
+        parametersMap.put("idAssociato", idAssociato);
+        
         //caricamento file JRXML
         JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + JASPER_FILENAME + ".jrxml");
         //compilazione del file e generazione del file JASPER

@@ -113,7 +113,7 @@
         </column>
         <column name='lotto' db-name='WKLotto' type='String'>
         </column>
-        <column name='tipoDocumeto' db-name='WKTipdoc' type='String'>
+        <column name='tipoDocumento' db-name='WKTipdoc' type='String' primary='true'>
         </column>
         <column name='vettore' db-name='WkVettore' type='String'>
         </column>
@@ -161,6 +161,8 @@
         </column>
         <column name='targaRimorchio' db-name='TargaRimorchio' type='String'>
         </column>
+        <column name='idAssociato' db-name='id_associato' type='long' primary='true'>
+        </column>
         <finder name='operatore' return-type='Collection'>
             <finder-column name='operatore' comparator='='>
             </finder-column>
@@ -177,6 +179,14 @@
             <finder-column name='completo' comparator='='>
             </finder-column>
             <finder-column name='inviato' comparator='='>
+            </finder-column>
+        </finder>
+        <finder name='annoTipoDocumentoIdAssociato' return-type='Collection'>
+            <finder-column name='anno' comparator='='>
+            </finder-column>
+            <finder-column name='tipoDocumento' comparator='='>
+            </finder-column>
+            <finder-column name='idAssociato' comparator='='>
             </finder-column>
         </finder>
     </entity>
@@ -225,14 +235,14 @@
         </column>
         <column name='progressivo' db-name='CodPassaportoNum' type='int'>
         </column>
-        <finder name='numeroOrdine' return-type='Collection'>
-            <finder-column name='numeroOrdine'>
-            </finder-column>
-        </finder>
-        <finder name='numeroOrdineAnno' return-type='Collection'>
+        <column name='idAssociato' db-name='id_associato' type='long' primary="true">
+        </column>
+        <finder name='numeroOrdineAnnoAssociato' return-type='Collection'>
             <finder-column name='numeroOrdine' comparator='='>
             </finder-column>
             <finder-column name='anno' comparator='='>
+            </finder-column>
+            <finder-column name='idAssociato' comparator='='>
             </finder-column>
         </finder>
     </entity>
@@ -406,5 +416,35 @@
         </column>
         <column name='codiceAzienda' db-name='Re1Codiaz' type='String'>
         </column>
+    </entity>
+    <entity name='Progressivo' table='ProgAnnFor' local-service='true' remote-service='true' >
+        <column name='anno' db-name='Re4Anno' type='int' primary='true'>
+        </column>
+        <column name='idAssociato' db-name='Re4Codatt' type='long' primary='true'>
+        </column>
+        <column name='codiceCentro' db-name='Re4Codcen' type='String' >
+        </column>
+        <column name='codiceDeposito' db-name='Re4Coddep' type='String' >
+        </column>
+        <column name='dataRegistrazione' db-name='Re4Datreg' type='String'>
+        </column>
+        <column name='numeroBolla' db-name='Re4Nuboll' type='long' >
+        </column>
+        <column name='tipoDocumento' db-name='Re4Numcon' type='int' primary="true">
+        </column>
+        <column name='numeroProgressivo' db-name='Re4Prgcon' type='int' primary="true">
+        </column>
+        <column name='tipoCon' db-name='Re4Tipcon' type='int' >
+        </column>
+        <column name='codiceAzienda' db-name='Re4Codiaz' type='String'>
+        </column>
+        <finder name='AnnoIdAssociatoTipoDocumento' return-type='Collection'>
+            <finder-column name='anno' comparator='='>
+            </finder-column>
+            <finder-column name='idAssociato' comparator='='>
+            </finder-column>
+            <finder-column name='tipoDocumento' comparator='='>
+            </finder-column>
+        </finder>
     </entity>
 </service-builder>

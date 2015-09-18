@@ -251,19 +251,19 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	public void setLotto(String lotto);
 
 	/**
-	 * Returns the tipo documeto of this testata documento.
+	 * Returns the tipo documento of this testata documento.
 	 *
-	 * @return the tipo documeto of this testata documento
+	 * @return the tipo documento of this testata documento
 	 */
 	@AutoEscape
-	public String getTipoDocumeto();
+	public String getTipoDocumento();
 
 	/**
-	 * Sets the tipo documeto of this testata documento.
+	 * Sets the tipo documento of this testata documento.
 	 *
-	 * @param tipoDocumeto the tipo documeto of this testata documento
+	 * @param tipoDocumento the tipo documento of this testata documento
 	 */
-	public void setTipoDocumeto(String tipoDocumeto);
+	public void setTipoDocumento(String tipoDocumento);
 
 	/**
 	 * Returns the vettore of this testata documento.
@@ -603,6 +603,20 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	 * @param targaRimorchio the targa rimorchio of this testata documento
 	 */
 	public void setTargaRimorchio(String targaRimorchio);
+
+	/**
+	 * Returns the id associato of this testata documento.
+	 *
+	 * @return the id associato of this testata documento
+	 */
+	public long getIdAssociato();
+
+	/**
+	 * Sets the id associato of this testata documento.
+	 *
+	 * @param idAssociato the id associato of this testata documento
+	 */
+	public void setIdAssociato(long idAssociato);
 
 	@Override
 	public boolean isNew();

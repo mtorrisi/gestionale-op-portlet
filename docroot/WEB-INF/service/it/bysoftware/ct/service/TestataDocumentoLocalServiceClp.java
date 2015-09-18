@@ -139,6 +139,10 @@ public class TestataDocumentoLocalServiceClp
 		_methodParameterTypes21 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
+
+		_methodName22 = "getDocumentiSoggetto";
+
+		_methodParameterTypes22 = new String[] { "int", "java.lang.String", "long" };
 	}
 
 	@Override
@@ -806,6 +810,42 @@ public class TestataDocumentoLocalServiceClp
 		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
+					new Object[] {
+						anno,
+						
+					ClpSerializer.translateInput(idDocumento),
+						
+					idAssociato
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -849,4 +889,6 @@ public class TestataDocumentoLocalServiceClp
 	private String[] _methodParameterTypes20;
 	private String _methodName21;
 	private String[] _methodParameterTypes21;
+	private String _methodName22;
+	private String[] _methodParameterTypes22;
 }

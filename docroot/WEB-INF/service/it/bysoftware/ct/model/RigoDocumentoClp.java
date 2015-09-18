@@ -52,7 +52,8 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public RigoDocumentoPK getPrimaryKey() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
+			_idAssociato);
 	}
 
 	@Override
@@ -60,11 +61,13 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
 		setRigoOrdine(primaryKey.rigoOrdine);
+		setIdAssociato(primaryKey.idAssociato);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine);
+		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
+			_idAssociato);
 	}
 
 	@Override
@@ -98,6 +101,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
 	}
@@ -235,6 +239,12 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Long idAssociato = (Long)attributes.get("idAssociato");
+
+		if (idAssociato != null) {
+			setIdAssociato(idAssociato);
 		}
 	}
 
@@ -751,6 +761,29 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		}
 	}
 
+	@Override
+	public long getIdAssociato() {
+		return _idAssociato;
+	}
+
+	@Override
+	public void setIdAssociato(long idAssociato) {
+		_idAssociato = idAssociato;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setIdAssociato", long.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, idAssociato);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getRigoDocumentoRemoteModel() {
 		return _rigoDocumentoRemoteModel;
 	}
@@ -843,6 +876,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		clone.setLotto(getLotto());
 		clone.setPassaporto(getPassaporto());
 		clone.setProgressivo(getProgressivo());
+		clone.setIdAssociato(getIdAssociato());
 
 		return clone;
 	}
@@ -887,7 +921,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(45);
+		StringBundler sb = new StringBundler(47);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -933,6 +967,8 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", idAssociato=");
+		sb.append(getIdAssociato());
 		sb.append("}");
 
 		return sb.toString();
@@ -940,7 +976,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(70);
+		StringBundler sb = new StringBundler(73);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1034,6 +1070,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 			"<column><column-name>progressivo</column-name><column-value><![CDATA[");
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
+		sb.append(getIdAssociato());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1062,6 +1102,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private long _idAssociato;
 	private BaseModel<?> _rigoDocumentoRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }

@@ -290,10 +290,10 @@ public class RigoDocumentoLocalServiceWrapper
 
 	@Override
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getByNumeroOrdineAnno(
-		long numeroOrdine, int anno)
+		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _rigoDocumentoLocalService.getByNumeroOrdineAnno(numeroOrdine,
-			anno);
+			anno, idAssociato);
 	}
 
 	/**

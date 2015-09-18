@@ -45,7 +45,7 @@ public class TestataDocumentoSoap implements Serializable {
 		soapModel.setVisto(model.getVisto());
 		soapModel.setInviato(model.getInviato());
 		soapModel.setLotto(model.getLotto());
-		soapModel.setTipoDocumeto(model.getTipoDocumeto());
+		soapModel.setTipoDocumento(model.getTipoDocumento());
 		soapModel.setVettore(model.getVettore());
 		soapModel.setAutista(model.getAutista());
 		soapModel.setTelefono(model.getTelefono());
@@ -69,6 +69,7 @@ public class TestataDocumentoSoap implements Serializable {
 		soapModel.setTotalePedaneOrdine(model.getTotalePedaneOrdine());
 		soapModel.setTargaCamion(model.getTargaCamion());
 		soapModel.setTargaRimorchio(model.getTargaRimorchio());
+		soapModel.setIdAssociato(model.getIdAssociato());
 
 		return soapModel;
 	}
@@ -116,12 +117,15 @@ public class TestataDocumentoSoap implements Serializable {
 	}
 
 	public TestataDocumentoPK getPrimaryKey() {
-		return new TestataDocumentoPK(_anno, _numeroOrdine);
+		return new TestataDocumentoPK(_anno, _numeroOrdine, _tipoDocumento,
+			_idAssociato);
 	}
 
 	public void setPrimaryKey(TestataDocumentoPK pk) {
 		setAnno(pk.anno);
 		setNumeroOrdine(pk.numeroOrdine);
+		setTipoDocumento(pk.tipoDocumento);
+		setIdAssociato(pk.idAssociato);
 	}
 
 	public int getAnno() {
@@ -228,12 +232,12 @@ public class TestataDocumentoSoap implements Serializable {
 		_lotto = lotto;
 	}
 
-	public String getTipoDocumeto() {
-		return _tipoDocumeto;
+	public String getTipoDocumento() {
+		return _tipoDocumento;
 	}
 
-	public void setTipoDocumeto(String tipoDocumeto) {
-		_tipoDocumeto = tipoDocumeto;
+	public void setTipoDocumento(String tipoDocumento) {
+		_tipoDocumento = tipoDocumento;
 	}
 
 	public String getVettore() {
@@ -420,6 +424,14 @@ public class TestataDocumentoSoap implements Serializable {
 		_targaRimorchio = targaRimorchio;
 	}
 
+	public long getIdAssociato() {
+		return _idAssociato;
+	}
+
+	public void setIdAssociato(long idAssociato) {
+		_idAssociato = idAssociato;
+	}
+
 	private int _anno;
 	private long _numeroOrdine;
 	private String _codiceSoggetto;
@@ -433,7 +445,7 @@ public class TestataDocumentoSoap implements Serializable {
 	private int _visto;
 	private int _inviato;
 	private String _lotto;
-	private String _tipoDocumeto;
+	private String _tipoDocumento;
 	private String _vettore;
 	private String _autista;
 	private String _telefono;
@@ -457,4 +469,5 @@ public class TestataDocumentoSoap implements Serializable {
 	private int _totalePedaneOrdine;
 	private String _targaCamion;
 	private String _targaRimorchio;
+	private long _idAssociato;
 }

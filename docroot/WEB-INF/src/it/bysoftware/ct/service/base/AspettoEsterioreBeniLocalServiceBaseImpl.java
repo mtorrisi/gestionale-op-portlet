@@ -44,6 +44,7 @@ import it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
 import it.bysoftware.ct.service.persistence.PortoPersistence;
+import it.bysoftware.ct.service.persistence.ProgressivoPersistence;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.VettoriPersistence;
@@ -920,6 +921,63 @@ public abstract class AspettoEsterioreBeniLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the progressivo local service.
+	 *
+	 * @return the progressivo local service
+	 */
+	public it.bysoftware.ct.service.ProgressivoLocalService getProgressivoLocalService() {
+		return progressivoLocalService;
+	}
+
+	/**
+	 * Sets the progressivo local service.
+	 *
+	 * @param progressivoLocalService the progressivo local service
+	 */
+	public void setProgressivoLocalService(
+		it.bysoftware.ct.service.ProgressivoLocalService progressivoLocalService) {
+		this.progressivoLocalService = progressivoLocalService;
+	}
+
+	/**
+	 * Returns the progressivo remote service.
+	 *
+	 * @return the progressivo remote service
+	 */
+	public it.bysoftware.ct.service.ProgressivoService getProgressivoService() {
+		return progressivoService;
+	}
+
+	/**
+	 * Sets the progressivo remote service.
+	 *
+	 * @param progressivoService the progressivo remote service
+	 */
+	public void setProgressivoService(
+		it.bysoftware.ct.service.ProgressivoService progressivoService) {
+		this.progressivoService = progressivoService;
+	}
+
+	/**
+	 * Returns the progressivo persistence.
+	 *
+	 * @return the progressivo persistence
+	 */
+	public ProgressivoPersistence getProgressivoPersistence() {
+		return progressivoPersistence;
+	}
+
+	/**
+	 * Sets the progressivo persistence.
+	 *
+	 * @param progressivoPersistence the progressivo persistence
+	 */
+	public void setProgressivoPersistence(
+		ProgressivoPersistence progressivoPersistence) {
+		this.progressivoPersistence = progressivoPersistence;
+	}
+
+	/**
 	 * Returns the rigo documento local service.
 	 *
 	 * @return the rigo documento local service
@@ -1331,6 +1389,12 @@ public abstract class AspettoEsterioreBeniLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.PortoService portoService;
 	@BeanReference(type = PortoPersistence.class)
 	protected PortoPersistence portoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.ProgressivoLocalService.class)
+	protected it.bysoftware.ct.service.ProgressivoLocalService progressivoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.ProgressivoService.class)
+	protected it.bysoftware.ct.service.ProgressivoService progressivoService;
+	@BeanReference(type = ProgressivoPersistence.class)
+	protected ProgressivoPersistence progressivoPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.RigoDocumentoLocalService.class)
 	protected it.bysoftware.ct.service.RigoDocumentoLocalService rigoDocumentoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.RigoDocumentoService.class)

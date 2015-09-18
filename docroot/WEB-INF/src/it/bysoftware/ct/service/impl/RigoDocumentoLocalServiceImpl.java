@@ -41,7 +41,7 @@ public class RigoDocumentoLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
 	 */
     
-    public List<RigoDocumento> getByNumeroOrdineAnno(long numeroOrdine, int anno) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnno(numeroOrdine, anno);
+    public List<RigoDocumento> getByNumeroOrdineAnno(long numeroOrdine, int anno, long idAssociato) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato);
     }
 }

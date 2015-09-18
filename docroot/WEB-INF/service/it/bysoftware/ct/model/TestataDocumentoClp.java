@@ -52,18 +52,22 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public TestataDocumentoPK getPrimaryKey() {
-		return new TestataDocumentoPK(_anno, _numeroOrdine);
+		return new TestataDocumentoPK(_anno, _numeroOrdine, _tipoDocumento,
+			_idAssociato);
 	}
 
 	@Override
 	public void setPrimaryKey(TestataDocumentoPK primaryKey) {
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
+		setTipoDocumento(primaryKey.tipoDocumento);
+		setIdAssociato(primaryKey.idAssociato);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new TestataDocumentoPK(_anno, _numeroOrdine);
+		return new TestataDocumentoPK(_anno, _numeroOrdine, _tipoDocumento,
+			_idAssociato);
 	}
 
 	@Override
@@ -88,7 +92,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		attributes.put("visto", getVisto());
 		attributes.put("inviato", getInviato());
 		attributes.put("lotto", getLotto());
-		attributes.put("tipoDocumeto", getTipoDocumeto());
+		attributes.put("tipoDocumento", getTipoDocumento());
 		attributes.put("vettore", getVettore());
 		attributes.put("autista", getAutista());
 		attributes.put("telefono", getTelefono());
@@ -112,6 +116,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		attributes.put("totalePedaneOrdine", getTotalePedaneOrdine());
 		attributes.put("targaCamion", getTargaCamion());
 		attributes.put("targaRimorchio", getTargaRimorchio());
+		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
 	}
@@ -196,10 +201,10 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 			setLotto(lotto);
 		}
 
-		String tipoDocumeto = (String)attributes.get("tipoDocumeto");
+		String tipoDocumento = (String)attributes.get("tipoDocumento");
 
-		if (tipoDocumeto != null) {
-			setTipoDocumeto(tipoDocumeto);
+		if (tipoDocumento != null) {
+			setTipoDocumento(tipoDocumento);
 		}
 
 		String vettore = (String)attributes.get("vettore");
@@ -341,6 +346,12 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 		if (targaRimorchio != null) {
 			setTargaRimorchio(targaRimorchio);
+		}
+
+		Long idAssociato = (Long)attributes.get("idAssociato");
+
+		if (idAssociato != null) {
+			setIdAssociato(idAssociato);
 		}
 	}
 
@@ -647,21 +658,21 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	}
 
 	@Override
-	public String getTipoDocumeto() {
-		return _tipoDocumeto;
+	public String getTipoDocumento() {
+		return _tipoDocumento;
 	}
 
 	@Override
-	public void setTipoDocumeto(String tipoDocumeto) {
-		_tipoDocumeto = tipoDocumeto;
+	public void setTipoDocumento(String tipoDocumento) {
+		_tipoDocumento = tipoDocumento;
 
 		if (_testataDocumentoRemoteModel != null) {
 			try {
 				Class<?> clazz = _testataDocumentoRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setTipoDocumeto", String.class);
+				Method method = clazz.getMethod("setTipoDocumento", String.class);
 
-				method.invoke(_testataDocumentoRemoteModel, tipoDocumeto);
+				method.invoke(_testataDocumentoRemoteModel, tipoDocumento);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -1206,6 +1217,29 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		}
 	}
 
+	@Override
+	public long getIdAssociato() {
+		return _idAssociato;
+	}
+
+	@Override
+	public void setIdAssociato(long idAssociato) {
+		_idAssociato = idAssociato;
+
+		if (_testataDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _testataDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setIdAssociato", long.class);
+
+				method.invoke(_testataDocumentoRemoteModel, idAssociato);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getTestataDocumentoRemoteModel() {
 		return _testataDocumentoRemoteModel;
 	}
@@ -1290,7 +1324,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		clone.setVisto(getVisto());
 		clone.setInviato(getInviato());
 		clone.setLotto(getLotto());
-		clone.setTipoDocumeto(getTipoDocumeto());
+		clone.setTipoDocumento(getTipoDocumento());
 		clone.setVettore(getVettore());
 		clone.setAutista(getAutista());
 		clone.setTelefono(getTelefono());
@@ -1314,6 +1348,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		clone.setTotalePedaneOrdine(getTotalePedaneOrdine());
 		clone.setTargaCamion(getTargaCamion());
 		clone.setTargaRimorchio(getTargaRimorchio());
+		clone.setIdAssociato(getIdAssociato());
 
 		return clone;
 	}
@@ -1358,7 +1393,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(75);
+		StringBundler sb = new StringBundler(77);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1386,8 +1421,8 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(getInviato());
 		sb.append(", lotto=");
 		sb.append(getLotto());
-		sb.append(", tipoDocumeto=");
-		sb.append(getTipoDocumeto());
+		sb.append(", tipoDocumento=");
+		sb.append(getTipoDocumento());
 		sb.append(", vettore=");
 		sb.append(getVettore());
 		sb.append(", autista=");
@@ -1434,6 +1469,8 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(getTargaCamion());
 		sb.append(", targaRimorchio=");
 		sb.append(getTargaRimorchio());
+		sb.append(", idAssociato=");
+		sb.append(getIdAssociato());
 		sb.append("}");
 
 		return sb.toString();
@@ -1441,7 +1478,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(115);
+		StringBundler sb = new StringBundler(118);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.TestataDocumento");
@@ -1500,8 +1537,8 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 		sb.append(getLotto());
 		sb.append("]]></column-value></column>");
 		sb.append(
-			"<column><column-name>tipoDocumeto</column-name><column-value><![CDATA[");
-		sb.append(getTipoDocumeto());
+			"<column><column-name>tipoDocumento</column-name><column-value><![CDATA[");
+		sb.append(getTipoDocumento());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>vettore</column-name><column-value><![CDATA[");
@@ -1595,6 +1632,10 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 			"<column><column-name>targaRimorchio</column-name><column-value><![CDATA[");
 		sb.append(getTargaRimorchio());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
+		sb.append(getIdAssociato());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -1614,7 +1655,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	private int _visto;
 	private int _inviato;
 	private String _lotto;
-	private String _tipoDocumeto;
+	private String _tipoDocumento;
 	private String _vettore;
 	private String _autista;
 	private String _telefono;
@@ -1638,6 +1679,7 @@ public class TestataDocumentoClp extends BaseModelImpl<TestataDocumento>
 	private int _totalePedaneOrdine;
 	private String _targaCamion;
 	private String _targaRimorchio;
+	private long _idAssociato;
 	private BaseModel<?> _testataDocumentoRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }
