@@ -1,3 +1,6 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="it.bysoftware.ct.service.ProgressivoLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Progressivo"%>
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="com.liferay.portal.kernel.util.StringUtil"%>
@@ -75,7 +78,14 @@
         }
 
     }
+    
+    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), 2);
 
+    ArrayList<Integer> idToRecover = new ArrayList<Integer>();
+    
+    for(Progressivo p : listProgressivo){
+        idToRecover.add(p.getNumeroProgressivo());
+    }
 %>
 
 <portlet:resourceURL var="saveInvoice"  id="saveInvoice"  />
@@ -86,18 +96,37 @@
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
+            <button id="btnInvoice" class="btn" onclick="saveInvoice()"><i class="icon-list-alt"></i>Genera Fattura</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
-            <button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>
         </div>
     </div>  
 </aui:field-wrapper>
 
 <aui:fieldset label="Testata Fattura">
-    <aui:input id="codiceClienteTxt" type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
-    <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
-    <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
-    <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= testata.getDataOrdine()%>"/>
+    <aui:layout>
+        <aui:column columnWidth="70" cssClass="detail-column detail-column-first">
+            <aui:input id="codiceClienteTxt" type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
+            <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
+            <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
+            <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
+            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= testata.getDataOrdine()%>"/>
+        </aui:column>
+        <aui:column columnWidth="20" cssClass="test" last="true" >
+            <%--aui:field-wrapper label="Ordine Finito"  >
+                <aui:input type="radio" name="completoSi" label="Si" inlineLabel="true" checked="true" inlineField="true"/>
+                <aui:input type="radio" name="completoNo" label="No" inlineLabel="true" inlineField="true"/>
+            </aui:field-wrapper--%>
+
+            <aui:input type="text" name="nDoc" label="N. Documento" style="width: 90%" />
+            <aui:select label="Rec Protocollo" name="recProt" style="width: 90%; background-color: #FFFFCC;"> 
+                <c:forEach items="<%= idToRecover%>" var="id">
+                    <aui:option value="${id}">
+                        ${id}
+                    </aui:option>
+                </c:forEach>
+            </aui:select>
+        </aui:column>
+    </aui:layout>
 </aui:fieldset>
 <div id="myTab">
     <ul class="nav nav-tabs">
@@ -440,5 +469,74 @@
         }
     }
 
+    function saveInvoice() {
+        var rows = [];
+        for (var i = 0; i < table.data.size(); i++) {
+            rows[i] = table.data.item(i).toJSON();
+        }
+        console.log(rows);
+        if (rows.length !== 0)
+            sendData(rows);
+        else
+            alert("Attenzione non è possibile generare la fattura.");
+    }
+
+    function sendData(rows) {
+        YUI().use('aui-io-request', 'node', function (Y) {
+
+            /******CAMPI TESTATA******/
+            var codiceCliente = Y.one('#<portlet:namespace />codiceClienteTxt').val();
+            var clienteTxt = Y.one('#<portlet:namespace />clienteTxt').val();
+            var destinazioneTxt = Y.one('#<portlet:namespace />destinazioneTxt').val();
+            var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
+            var documentDate = Y.one('#<portlet:namespace />documentDate').val();
+
+            /******CAMPI FINE CORPO******/
+//            var vettore1 = Y.one('#codiceVettore1').val();
+//            var vettore2 = Y.one('#codiceVettore1').val();
+//            var autista = Y.one('#autista').val();
+//            var telefono = Y.one('#telefono').val();
+//            var trasporto = Y.one('#trasporto').val();
+//            var aspetto = Y.one('#aspetto').val();
+//            var causale = Y.one('#causale').val();
+//            var porto = Y.one('#porto').val();
+//            var origine = Y.one('#origine').val();
+//            var rigo = Y.one('#rigo').val();
+//            var costo = Y.one('#costo').val();
+//            var pedane_euro = Y.one('#pedane-euro').val();
+//            var pedane_normali = Y.one('#pedane-normali').val();
+//            var motrice = Y.one('#motrice').val();
+//            var rimorchio = Y.one('#rimorchio').val();
+//            var numeroOrdine = Y.one('#<portlet:namespace/>recProt').val();
+
+            var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
+                    "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
+                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate;
+            //        Y.one('#btnSave').on('click', function () {
+            Y.io.request(
+                    '${saveInvoice}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),
+                    {
+                        on: {
+                            success: function () {
+                                var data = JSON.parse(this.get('responseData'));
+                                if (data.code === 0) {
+                                    alert("Salvataggio effettuato con successo.");
+                                    Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+                                    document.getElementById("btnPrint").disabled = false;
+                                    document.getElementById("btnInvoice").disabled = false;
+                                    if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
+//                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
+                                        document.getElementById('<portlet:namespace/>recProt').value = "";
+                                    }
+                                } else {
+                                    alert("Errore durante il salvataggio dei dati: " + data);
+                                }
+                            }
+                        }
+                    }
+            );
+
+        });
+    }
 </script>
 

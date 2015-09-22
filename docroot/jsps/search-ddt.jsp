@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
 <%@page import="java.util.List"%>
 <%@page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil"%>
@@ -10,6 +11,17 @@
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     String codiceOperatore = renderRequest.getRemoteUser();
     List<TestataDocumento> listDDT = TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore(cliente.getCodiceAnagrafica(), codiceOperatore);
+    List<TestataDocumento> completed = new ArrayList<TestataDocumento>();
+    List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
+
+    for (TestataDocumento testata : listDDT) {
+        if (testata.getCompleto().equals("fatturato")) {
+            invoiced.add(testata);
+        } else {
+            completed.add(testata);
+        }
+    }
+
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
 %>
 <liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
@@ -31,8 +43,8 @@
         <aui:input name="clientId" type="hidden" value="<%=cliente.getCodiceAnagrafica()%>"/>
         <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
 
-            <liferay-ui:search-container-results results="<%= listDDT%>" 
-            total="<%= listDDT.size()%>"/>
+            <liferay-ui:search-container-results results="<%= completed%>" 
+            total="<%= completed.size()%>"/>
             <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
                 <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
                 <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
@@ -52,6 +64,27 @@
         </liferay-ui:search-container>
     </aui:form>
 </aui:fieldset>
+<%--liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
+
+            <liferay-ui:search-container-results results="<%= invoiced %>" 
+            total="<%= invoiced.size()%>"/>
+            <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
+                <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
+                <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+                <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
+                <liferay-ui:search-container-column-text property="completo" name="Stato"/>
+                <c:choose>
+                    <c:when test="<%= updateMode%>">
+                        <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
+                    </c:when>
+                    <c:otherwise>
+                        <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
+                    </c:otherwise>
+                </c:choose>
+            </liferay-ui:search-container-row>
+
+            <liferay-ui:search-iterator/>
+        </liferay-ui:search-container--%>
 
 <script type="text/javascript">
 

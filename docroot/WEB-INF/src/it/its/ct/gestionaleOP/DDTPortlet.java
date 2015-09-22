@@ -36,6 +36,7 @@ import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
+import com.liferay.portlet.documentlibrary.util.DLUtil;
 import java.io.IOException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -70,8 +71,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.portlet.RenderRequest;
@@ -98,7 +97,7 @@ public class DDTPortlet extends MVCPortlet {
 
     public enum CommandID {
 
-        save, print, send;
+        save, print, send, modify, saveInvoice;
     }
 
     @Override
@@ -167,15 +166,15 @@ public class DDTPortlet extends MVCPortlet {
             ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
             long groupId = themeDisplay.getLayout().getGroupId();
             long repositoryId = themeDisplay.getScopeGroupId();
-            
+
             Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
             User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
             User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
             DLFolder opFolder = getOpFolder(groupId, liferayOp);
             DLFolder associatoFolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
-            _log.info("Deleting file: " + ANNO + "_" + numeroOrdine + "_" + a.getCentro() +".pdf");
-            DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, associatoFolder.getFolderId(), ANNO + "_" + numeroOrdine + "_" + a.getCentro() +".pdf");
+            _log.info("Deleting file: " + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
+            DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, associatoFolder.getFolderId(), DDT + "_" + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
 
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
@@ -198,127 +197,78 @@ public class DDTPortlet extends MVCPortlet {
 
         String resourceID = resourceRequest.getResourceID();
 
+        Gson gson = new Gson();
+        PrintWriter writer = resourceResponse.getWriter();
+        Response response = new Response();
+        resourceResponse.setContentType(MediaType.APPLICATION_JSON);
+        Associato associato;
+        OrganizzazioneProduttori op;
         switch (CommandID.valueOf(resourceID)) {
-            case save:
-                Gson gson = new Gson();
-                Response response = new Response();
-                PrintWriter writer = resourceResponse.getWriter();
-
-                resourceResponse.setContentType(MediaType.APPLICATION_JSON);
-
-                String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
-                String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
-                String cliente = ParamUtil.getString(resourceRequest, "clienteTxt", null);
-                String destinazioneTxt = ParamUtil.getString(resourceRequest, "destinazioneTxt", null);
-                String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
-                String orderDate = ParamUtil.getString(resourceRequest, "orderDate", null);
-                String deliveryDate = ParamUtil.getString(resourceRequest, "deliveryDate", null);
-                String lottoTestata = ParamUtil.getString(resourceRequest, "lottoTestata", null);
-                String vettore1 = ParamUtil.getString(resourceRequest, "vettore1", null);
-                String vettore2 = ParamUtil.getString(resourceRequest, "vettore2", null);
-                String autista = ParamUtil.getString(resourceRequest, "autista", null);
-                String trasporto = ParamUtil.getString(resourceRequest, "trasporto", null);
-                String aspetto = ParamUtil.getString(resourceRequest, "aspetto", null);
-                String causale = ParamUtil.getString(resourceRequest, "causale", null);
-                String porto = ParamUtil.getString(resourceRequest, "porto", null);
-                String origine = ParamUtil.getString(resourceRequest, "origine", null);
-                String rigoDescrittivo = ParamUtil.getString(resourceRequest, "rigo", null);
-                double costo = ParamUtil.getDouble(resourceRequest, "costo");
-                int pedaneEuro = ParamUtil.getInteger(resourceRequest, "pedane-euro");
-                int pedaneNormali = ParamUtil.getInteger(resourceRequest, "pedane-normali");
-                String motrice = ParamUtil.getString(resourceRequest, "motrice", null);
-                String rimorchio = ParamUtil.getString(resourceRequest, "rimorchio", null);
-                String numeroOrdineStr = ParamUtil.getString(resourceRequest, "numeroOrdine", null);
-
+            case modify: {
                 try {
-                    int numeroOrdine = 0;
-                    Associato associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    if (!numeroOrdineStr.equals("")) {
-                        numeroOrdine = Integer.parseInt(numeroOrdineStr);
-                        ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), DDT_ID, numeroOrdine));
-                    } else {
-                        try {
-//                            numeroOrdine = TestataDocumentoLocalServiceUtil.getTestataDocumentosCount() + 1;
-                            numeroOrdine = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).size() + 1;
-                        } catch (SystemException ex) {
-                            _log.error("ERRORE: " + ex.getLocalizedMessage());
-                            response = new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
-                        }
-                    }
-
-//                    Associato associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    TestataDocumento testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroOrdine, DDT, associato.getId()));
-                    testataDocumento.setAnno(ANNO);
-                    testataDocumento.setCodiceSoggetto(codiceCliente);
-                    testataDocumento.setRagioneSociale(cliente);
-                    testataDocumento.setCodiceDestinazione(codiceDestinazione);
-                    testataDocumento.setDestinazione(destinazioneTxt);
-                    testataDocumento.setDataOrdine(orderDate);
-                    testataDocumento.setDataConsegna(deliveryDate);
-                    testataDocumento.setLotto(lottoTestata);
-                    testataDocumento.setCompleto("completo");
-                    testataDocumento.setOperatore(resourceRequest.getRemoteUser());
-                    testataDocumento.setVettore(vettore1);
-                    testataDocumento.setVettore2(vettore2);
-                    testataDocumento.setAutista(autista);
-                    testataDocumento.setCuraTrasporto(trasporto);
-                    testataDocumento.setAspettoEsteriore(aspetto);
-                    testataDocumento.setCausaleTrasporto(causale);
-                    testataDocumento.setPorto(porto);
-                    testataDocumento.setOrigine(origine);
-                    testataDocumento.setRigoDescrittivo(rigoDescrittivo);
-                    testataDocumento.setCostoTrasporto(costo);
-                    testataDocumento.setNumeroPedaneEuro(pedaneEuro);
-                    testataDocumento.setNumeroPedaneNormali(pedaneNormali);
-                    testataDocumento.setTargaCamion(motrice);
-                    testataDocumento.setTargaRimorchio(rimorchio);
-
-                    _log.info("Testata Documento: " + testataDocumento);
-
-                    TestataDocumentoLocalServiceUtil.addTestataDocumento(testataDocumento);
-                    JSONArray rowsJSON = JSONFactoryUtil.createJSONArray(string);
-                    for (int i = 0; i < rowsJSON.length(); i++) {
-
-                        JSONObject rowJSON = rowsJSON.getJSONObject(i);
-                        RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
-
-                        rigo.setAnno(ANNO);
-                        rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
-                        rigo.setRigoOrdine(i + 1);
-                        rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
-                        rigo.setIdAssociato(associato.getId());
-                        _log.info("Rigo Documento: " + rigo);
-                        RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
-                        response = new Response(Response.Code.OK, numeroOrdine);
-                    }
-//                    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    OrganizzazioneProduttori o = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-
-                    sendEmail(associato, o, numeroOrdine);
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                    response = saveDDT(resourceRequest, associato, true);
+                    sendEmail(associato, op, response.getId(), true);
                 } catch (JSONException ex) {
-                    _log.error("JSONException: " + ex.getLocalizedMessage());
+                    _log.error(ex.getMessage());
                     response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
                 } catch (SystemException ex) {
-                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    _log.error(ex.getMessage());
                     response = new Response(Response.Code.INSERT_ERROR, -1);
                     writer.print(response);
                 } catch (NoSuchAssociatoException ex) {
-                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    _log.error(ex.getMessage());
                     response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
                     writer.print(response);
                 } catch (PortalException ex) {
-                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    _log.error(ex.getMessage());
                     response = new Response(Response.Code.INSERT_ERROR, -1);
                     writer.print(response);
                 } catch (AddressException ex) {
-                    _log.error("ERRORE: " + ex.getLocalizedMessage());
+                    _log.error(ex.getMessage());
                     response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
                     writer.print(response);
                 }
-                writer.print(gson.toJson(response));
-                writer.flush();
-                writer.close();
-                break;
+            }
+
+            writer.print(gson.toJson(response));
+            writer.flush();
+            writer.close();
+            break;
+
+            case save: {
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                    response = saveDDT(resourceRequest, associato, false);
+                    sendEmail(associato, op, response.getId(), false);
+                } catch (JSONException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (AddressException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                }
+            }
+
+            writer.print(gson.toJson(response));
+            writer.flush();
+            writer.close();
+            break;
             case print:
 
                 Report r = new Report();
@@ -344,15 +294,23 @@ public class DDTPortlet extends MVCPortlet {
                         _log.error(ex.getMessage());
                     } catch (SystemException ex) {
                         _log.error(ex.getMessage());
-                        ex.printStackTrace();
+//                        ex.printStackTrace();
                     } catch (PortalException ex) {
                         _log.error(ex.getMessage());
-                        ex.printStackTrace();
+//                        ex.printStackTrace();
                     }
                 }
 
                 break;
 
+            case saveInvoice:
+
+                response =  response = new Response(Response.Code.OK, 100);
+                
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
+                break;
             default:
                 _log.warn("Uknown operation.");
         }
@@ -360,14 +318,16 @@ public class DDTPortlet extends MVCPortlet {
 //        super.serveResource(resourceRequest, resourceResponse);
     }
 
-    private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine) throws AddressException {
+    private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine, boolean update) throws AddressException {
         MailMessage mailMessage = new MailMessage();
+        String action = update ? "\nha appena modificato il documento: " : "\nha appena creato il documento: ";
+        String subject = update ? "Notifica modifica documento." : "Notifica creazione documento.";
         mailMessage.setBody("Spett. " + o.getRagioneSociale()
                 + "\n\nLa presente per infromarla che l'associato: " + a.getRagioneSociale()
-                + "\nha appena creato il documento: " + numeroOrdine + "."
+                + action + numeroOrdine + "."
                 + "\nDistinti saluti."
                 + "\n\nP.S. Il presente messagio e' stato generato automaticamente per comunicazione all'associato scrivere all'indirizzo: " + a.getEmail());
-        mailMessage.setSubject("[" + o.getRagioneSociale() + "] Notifica creazione documento.");
+        mailMessage.setSubject("[" + o.getRagioneSociale() + "] " + subject);
         mailMessage.setFrom(new InternetAddress(a.getEmail()));
         mailMessage.setTo(new InternetAddress(o.getEmail()));
         MailServiceUtil.sendEmail(mailMessage);
@@ -375,7 +335,7 @@ public class DDTPortlet extends MVCPortlet {
         _log.info(("TO: " + mailMessage.getTo()[0].getAddress()));
     }
 
-    private void addToDL(int nDoc, File ddt, ResourceRequest resourceRequest) throws SystemException, PortalException, FileNotFoundException {
+    private String addToDL(int nDoc, File ddt, ResourceRequest resourceRequest) throws SystemException, PortalException, FileNotFoundException {
 
         Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
         OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
@@ -409,6 +369,8 @@ public class DDTPortlet extends MVCPortlet {
 //                    actionsRW);
 
         _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
+        String previewUrl = DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
+        return previewUrl.substring(0, previewUrl.indexOf('?'));
 
     }
 
@@ -418,5 +380,113 @@ public class DDTPortlet extends MVCPortlet {
 
     private DLFolder getAssociatoFolder(long groupId, DLFolder opFolder, User liferayAssociato) throws PortalException, SystemException {
         return DLFolderLocalServiceUtil.getFolder(groupId, opFolder.getFolderId(), liferayAssociato.getScreenName());
+    }
+
+    private Response saveDDT(ResourceRequest resourceRequest, Associato associato, boolean update) throws SystemException, NoSuchAssociatoException, PortalException {
+        Response response = new Response();
+
+        String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
+        String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
+        String cliente = ParamUtil.getString(resourceRequest, "clienteTxt", null);
+        String destinazioneTxt = ParamUtil.getString(resourceRequest, "destinazioneTxt", null);
+        String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
+        String orderDate = ParamUtil.getString(resourceRequest, "orderDate", null);
+        String deliveryDate = ParamUtil.getString(resourceRequest, "deliveryDate", null);
+        String lottoTestata = ParamUtil.getString(resourceRequest, "lottoTestata", null);
+        String vettore1 = ParamUtil.getString(resourceRequest, "vettore1", null);
+        String vettore2 = ParamUtil.getString(resourceRequest, "vettore2", null);
+        String autista = ParamUtil.getString(resourceRequest, "autista", null);
+        String trasporto = ParamUtil.getString(resourceRequest, "trasporto", null);
+        String aspetto = ParamUtil.getString(resourceRequest, "aspetto", null);
+        String causale = ParamUtil.getString(resourceRequest, "causale", null);
+        String porto = ParamUtil.getString(resourceRequest, "porto", null);
+        String origine = ParamUtil.getString(resourceRequest, "origine", null);
+        String rigoDescrittivo = ParamUtil.getString(resourceRequest, "rigo", null);
+        double costo = ParamUtil.getDouble(resourceRequest, "costo");
+        int pedaneEuro = ParamUtil.getInteger(resourceRequest, "pedane-euro");
+        int pedaneNormali = ParamUtil.getInteger(resourceRequest, "pedane-normali");
+        String motrice = ParamUtil.getString(resourceRequest, "motrice", null);
+        String rimorchio = ParamUtil.getString(resourceRequest, "rimorchio", null);
+        String numeroOrdineStr = ParamUtil.getString(resourceRequest, "numeroOrdine", null);
+
+        int numeroOrdine = 0;
+
+        if (!numeroOrdineStr.equals("")) {
+            numeroOrdine = Integer.parseInt(numeroOrdineStr);
+            if (!update) {
+                ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), DDT_ID, numeroOrdine));
+            }
+        } else {
+            try {
+                numeroOrdine = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).size() + 1;
+            } catch (SystemException ex) {
+                _log.error(ex.getMessage());
+                response = new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+            }
+        }
+
+        TestataDocumento testataDocumento = null;
+        if (update) {
+            testataDocumento = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, numeroOrdine, DDT, associato.getId()));
+        } else {
+            testataDocumento = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroOrdine, DDT, associato.getId()));
+        }
+        testataDocumento.setAnno(ANNO);
+        testataDocumento.setCodiceSoggetto(codiceCliente);
+        testataDocumento.setRagioneSociale(cliente);
+        testataDocumento.setCodiceDestinazione(codiceDestinazione);
+        testataDocumento.setDestinazione(destinazioneTxt);
+        testataDocumento.setDataOrdine(orderDate);
+        testataDocumento.setDataConsegna(deliveryDate);
+        testataDocumento.setLotto(lottoTestata);
+        testataDocumento.setCompleto("completo");
+        testataDocumento.setOperatore(resourceRequest.getRemoteUser());
+        testataDocumento.setVettore(vettore1);
+        testataDocumento.setVettore2(vettore2);
+        testataDocumento.setAutista(autista);
+        testataDocumento.setCuraTrasporto(trasporto);
+        testataDocumento.setAspettoEsteriore(aspetto);
+        testataDocumento.setCausaleTrasporto(causale);
+        testataDocumento.setPorto(porto);
+        testataDocumento.setOrigine(origine);
+        testataDocumento.setRigoDescrittivo(rigoDescrittivo);
+        testataDocumento.setCostoTrasporto(costo);
+        testataDocumento.setNumeroPedaneEuro(pedaneEuro);
+        testataDocumento.setNumeroPedaneNormali(pedaneNormali);
+        testataDocumento.setTargaCamion(motrice);
+        testataDocumento.setTargaRimorchio(rimorchio);
+
+        _log.info("Testata Documento: " + testataDocumento);
+
+        List<RigoDocumento> righe;
+        if (update) {
+            TestataDocumentoLocalServiceUtil.updateTestataDocumento(testataDocumento);
+            righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(numeroOrdine, ANNO, associato.getId());
+        } else {
+            TestataDocumentoLocalServiceUtil.addTestataDocumento(testataDocumento);
+        }
+
+        JSONArray rowsJSON = JSONFactoryUtil.createJSONArray(string);
+        for (int i = 0; i < rowsJSON.length(); i++) {
+
+            JSONObject rowJSON = rowsJSON.getJSONObject(i);
+            RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
+
+            rigo.setAnno(ANNO);
+            rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
+            rigo.setRigoOrdine(i + 1);
+            rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
+            rigo.setIdAssociato(associato.getId());
+            if (update) {
+                _log.info("UPDATING Rigo Documento: " + rigo);
+                RigoDocumentoLocalServiceUtil.updateRigoDocumento(rigo);
+            } else {
+                _log.info("SAVING Rigo Documento: " + rigo);
+                RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
+            }
+            response = new Response(Response.Code.OK, numeroOrdine);
+        }
+
+        return response;
     }
 }
