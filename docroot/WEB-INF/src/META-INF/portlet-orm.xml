@@ -328,6 +328,9 @@
 			<id name="rigoOrdine">
 				<column name="WKRIGORD" />
 			</id>
+			<id name="tipoDocumento">
+				<column name="WKTIPDOC" />
+			</id>
 			<id name="idAssociato">
 				<column name="ID_ASSOCIATO" />
 			</id>
@@ -388,6 +391,9 @@
 			<basic name="progressivo">
 				<column name="CODPASSAPORTONUM" />
 			</basic>
+			<basic name="sconto1" />
+			<basic name="sconto2" />
+			<basic name="sconto3" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

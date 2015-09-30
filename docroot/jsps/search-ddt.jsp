@@ -1,3 +1,6 @@
+<%@page import="it.bysoftware.ct.model.Associato"%>
+<%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
+<%@page import="java.util.Calendar"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
 <%@page import="java.util.List"%>
@@ -9,8 +12,9 @@
 
 <%
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
     String codiceOperatore = renderRequest.getRemoteUser();
-    List<TestataDocumento> listDDT = TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore(cliente.getCodiceAnagrafica(), codiceOperatore);
+    List<TestataDocumento> listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), "DDT", a.getId());
     List<TestataDocumento> completed = new ArrayList<TestataDocumento>();
     List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
 
@@ -23,70 +27,96 @@
     }
 
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
+    String label = updateMode ? "Elenco DDT" : "Elenco DDT da fatturare";
 %>
 <liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
 <liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
-<aui:fieldset label="Elenco DDT">
-    <aui:field-wrapper>
-        <div class="btn-toolbar">
-            <div class="btn-group">
-                <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
-                <!--<button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>-->
-                <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
-                <button id="btnInvoice" class="btn" ><i class="icon-list-alt"></i>Genera Fattura</button>
+<aui:fieldset label="<%= label%>">
+    <div id="myTab">
+
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-1">Completi</a></li>
+            <li><a href="#tab-2">Fatturati</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane">
+                <aui:field-wrapper>
+                    <div class="btn-toolbar">
+                        <div class="btn-group">
+                            <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
+                            <!--<button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>-->
+                            <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
+                            <button id="btnInvoice" class="btn" ><i class="icon-list-alt"></i>Genera Fattura</button>
+                        </div>
+                    </div>  
+                </aui:field-wrapper>
+
+                <aui:form method="post" name="fm" action="${generateInvoice}">
+                    <aui:input name="documentIds" type="hidden"/>
+                    <aui:input name="clientId" type="hidden" value="<%=cliente.getCodiceAnagrafica()%>"/>
+                    <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
+
+                        <liferay-ui:search-container-results results="<%= completed%>" 
+                        total="<%= completed.size()%>"/>
+                        <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
+                            <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
+                            <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+                            <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
+                            <liferay-ui:search-container-column-text property="completo" name="Stato"/>
+                            <c:choose>
+                                <c:when test="<%= updateMode%>">
+                                    <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
+                                </c:when>
+                                <c:otherwise>
+                                    <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
+                                </c:otherwise>
+                            </c:choose>
+                        </liferay-ui:search-container-row>
+
+                        <liferay-ui:search-iterator/>
+                    </liferay-ui:search-container>
+                </aui:form>
             </div>
-        </div>  
-    </aui:field-wrapper>
+            
+            <div id="tab-2">
+                <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
 
-    <aui:form method="post" name="fm" action="${generateInvoice}">
-        <aui:input name="documentIds" type="hidden"/>
-        <aui:input name="clientId" type="hidden" value="<%=cliente.getCodiceAnagrafica()%>"/>
-        <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
+                    <liferay-ui:search-container-results results="<%= invoiced%>" 
+                    total="<%= invoiced.size()%>"/>
+                    <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
+                        <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
+                        <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+                        <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
+                        <liferay-ui:search-container-column-text property="completo" name="Stato"/>
+                        <%--c:choose>
+                            <c:when test="<%= updateMode%>">
+                                <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
+                            </c:when>
+                            <c:otherwise>
+                                <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
+                            </c:otherwise>
+                        </c:choose--%>
+                    </liferay-ui:search-container-row>
 
-            <liferay-ui:search-container-results results="<%= completed%>" 
-            total="<%= completed.size()%>"/>
-            <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
-                <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
-                <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-                <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
-                <liferay-ui:search-container-column-text property="completo" name="Stato"/>
-                <c:choose>
-                    <c:when test="<%= updateMode%>">
-                        <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
-                    </c:when>
-                    <c:otherwise>
-                        <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
-                    </c:otherwise>
-                </c:choose>
-            </liferay-ui:search-container-row>
-
-            <liferay-ui:search-iterator/>
-        </liferay-ui:search-container>
-    </aui:form>
+                    <liferay-ui:search-iterator/>
+                </liferay-ui:search-container>
+            </div>
+        </div>
+    </div>
 </aui:fieldset>
-<%--liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
 
-            <liferay-ui:search-container-results results="<%= invoiced %>" 
-            total="<%= invoiced.size()%>"/>
-            <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
-                <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
-                <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-                <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
-                <liferay-ui:search-container-column-text property="completo" name="Stato"/>
-                <c:choose>
-                    <c:when test="<%= updateMode%>">
-                        <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
-                    </c:when>
-                    <c:otherwise>
-                        <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
-                    </c:otherwise>
-                </c:choose>
-            </liferay-ui:search-container-row>
-
-            <liferay-ui:search-iterator/>
-        </liferay-ui:search-container--%>
 
 <script type="text/javascript">
+    YUI().use(
+            'aui-tabview',
+            function (Y) {
+                new Y.TabView(
+                        {
+                            srcNode: '#myTab'
+                        }
+                ).render();
+            }
+    );
 
     YUI().use('liferay-util-list-fields', function (Y) {
         Y.one('#btnInvoice').on('click', function (event) {

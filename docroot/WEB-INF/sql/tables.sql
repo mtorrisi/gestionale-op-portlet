@@ -94,8 +94,12 @@ create table SSRIGORD (
 	WkLotto VARCHAR(75) null,
 	CodPassaportoAlfa VARCHAR(75) null,
 	CodPassaportoNum INTEGER,
+	sconto1 DOUBLE,
+	sconto2 DOUBLE,
+	sconto3 DOUBLE,
+	WKTipdoc VARCHAR(75) not null,
 	id_associato LONG not null,
-	primary key (WKAnno, WkNOrd, WkRigord, id_associato)
+	primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato)
 );
 
 create table SSTESORD (

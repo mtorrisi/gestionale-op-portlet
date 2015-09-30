@@ -122,9 +122,15 @@ public class RigoDocumentoLocalServiceClpInvoker {
 
 		_methodParameterTypes119 = new String[] { "java.lang.String" };
 
-		_methodName124 = "getByNumeroOrdineAnno";
+		_methodName124 = "getDDTByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes124 = new String[] { "long", "int", "long" };
+
+		_methodName125 = "getFatturaByNumeroOrdineAnnoAssociato";
+
+		_methodParameterTypes125 = new String[] {
+				"long", "int", "long", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -230,9 +236,16 @@ public class RigoDocumentoLocalServiceClpInvoker {
 
 		if (_methodName124.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes124, parameterTypes)) {
-			return RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(((Long)arguments[0]).longValue(),
+			return RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue());
+		}
+
+		if (_methodName125.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes125, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 		}
 
 		throw new UnsupportedOperationException();
@@ -276,4 +289,6 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes119;
 	private String _methodName124;
 	private String[] _methodParameterTypes124;
+	private String _methodName125;
+	private String[] _methodParameterTypes125;
 }

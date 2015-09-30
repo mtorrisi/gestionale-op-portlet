@@ -26,26 +26,31 @@
 <%
     JSONArray jsonArr = JSONFactoryUtil.createJSONArray();
     TestataDocumento testata;
+    List<TestataDocumento> listTestata = new ArrayList<TestataDocumento>();
     Anagrafica cliente;
     String indirizzoCompleto;
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
-
+    String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
+    String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
+    
     if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
 
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento"), "DDT", a.getId()));
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "DDT", a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
 
-        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno(), a.getId());
+        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId());
 
         for (RigoDocumento rigo : righe) {
             JSONObject json = JSONFactoryUtil.createJSONObject();
             json.put("codiceArticolo", rigo.getCodiceArticolo());
             json.put("descrizione", rigo.getDescrizione());
+            json.put("imballo", rigo.getImballo());
             json.put("lotto", rigo.getLotto());
             json.put("unitaMisura", rigo.getUnitaMisura());
             json.put("colli", rigo.getColli());
-            json.put("quantita", rigo.getPesoNetto());
+            json.put("pesoLordo", rigo.getPesoLordo());
+            json.put("pesoNetto", rigo.getPesoNetto());
             json.put("prezzo", rigo.getPrezzo());
             json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
 
@@ -53,28 +58,43 @@
         }
     } else {
         String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
-
+        
         testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), "DDT", a.getId()));
-        cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
+        for(int i = 0; i < ids.length; i++){
+            listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), "DDT", a.getId())));
+        }
+
+        cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
         List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
         for (String id : ids) {
-            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
+            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
             righeDocumenti.addAll(righe);
         }
 
+        long oldDocument = -1;
         for (RigoDocumento rigo : righeDocumenti) {
+            int i = 0;
             JSONObject json = JSONFactoryUtil.createJSONObject();
+            if(oldDocument != rigo.getNumeroOrdine()){
+                json.put("descrizione", "Documento di trasporto N. " + rigo.getNumeroOrdine() + "/" + a.getCentro() + " del " + listTestata.get(i).getDataOrdine());
+                jsonArr.put(json);
+                json = json = JSONFactoryUtil.createJSONObject();
+                oldDocument = rigo.getNumeroOrdine();
+            }
             json.put("codiceArticolo", rigo.getCodiceArticolo());
             json.put("descrizione", rigo.getDescrizione());
+            json.put("imballo", rigo.getImballo());
             json.put("lotto", rigo.getLotto());
             json.put("unitaMisura", rigo.getUnitaMisura());
             json.put("colli", rigo.getColli());
-            json.put("quantita", rigo.getPesoNetto());
+            json.put("pesoLordo", rigo.getPesoLordo());
+            json.put("pesoNetto", rigo.getPesoNetto());
             json.put("prezzo", rigo.getPrezzo());
             json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
 
             jsonArr.put(json);
+            i++;
         }
 
     }
@@ -88,7 +108,10 @@
     }
 %>
 
-<portlet:resourceURL var="saveInvoice"  id="saveInvoice"  />
+<liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" >
+    <liferay-portlet:param name="numeroDocumento" value="<%= origDoc %>" />
+    <liferay-portlet:param name="documentIds" value="<%= origDocs %>" />
+</liferay-portlet:resourceURL>
 <portlet:resourceURL var="printInvoice" id="printInvoice" />
 <liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectDescription.jsp" />
@@ -257,6 +280,10 @@
                 label: 'Descrizione Articolo'
             },
             {
+                key: 'imballo',
+                label: 'Imballo '
+            },
+            {
 //                editor: nameEditor,
                 key: 'lotto',
                 label: 'Lotto'
@@ -270,7 +297,11 @@
                 label: 'Colli'
             },
             {
-                key: 'quantita',
+                key: 'pesoLordo',
+                label: 'Peso Lordo'
+            },
+            {
+                key: 'pesoNetto',
                 label: 'Quantità'
             },
             {
@@ -429,7 +460,7 @@
         var sconto3 = (!isNaN(record.sconto3)) ? record.sconto3 : 0;
         var importo1 = 0;
         var importo2 = 0;
-        var tmpImporto = record.prezzo * record.quantita;
+        var tmpImporto = record.prezzo * record.pesoNetto;
 
         importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
         importo2 = importo1 - ((importo1 * sconto2) / 100);
@@ -490,6 +521,7 @@
             var destinazioneTxt = Y.one('#<portlet:namespace />destinazioneTxt').val();
             var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
             var documentDate = Y.one('#<portlet:namespace />documentDate').val();
+            var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
 
             /******CAMPI FINE CORPO******/
 //            var vettore1 = Y.one('#codiceVettore1').val();
@@ -511,7 +543,8 @@
 
             var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
                     "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate;
+                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
+                    "&<portlet:namespace/>numeroFattura=" + numeroFattura;
             //        Y.one('#btnSave').on('click', function () {
             Y.io.request(
                     '${saveInvoice}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),
@@ -523,7 +556,7 @@
                                     alert("Salvataggio effettuato con successo.");
                                     Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                     document.getElementById("btnPrint").disabled = false;
-                                    document.getElementById("btnInvoice").disabled = false;
+                                    document.getElementById("btnInvoice").disabled = true;
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
 //                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
                                         document.getElementById('<portlet:namespace/>recProt').value = "";

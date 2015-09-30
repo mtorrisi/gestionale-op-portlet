@@ -71,6 +71,10 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("sconto1", getSconto1());
+		attributes.put("sconto2", getSconto2());
+		attributes.put("sconto3", getSconto3());
+		attributes.put("tipoDocumento", getTipoDocumento());
 		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
@@ -209,6 +213,30 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Float sconto1 = (Float)attributes.get("sconto1");
+
+		if (sconto1 != null) {
+			setSconto1(sconto1);
+		}
+
+		Float sconto2 = (Float)attributes.get("sconto2");
+
+		if (sconto2 != null) {
+			setSconto2(sconto2);
+		}
+
+		Float sconto3 = (Float)attributes.get("sconto3");
+
+		if (sconto3 != null) {
+			setSconto3(sconto3);
+		}
+
+		String tipoDocumento = (String)attributes.get("tipoDocumento");
+
+		if (tipoDocumento != null) {
+			setTipoDocumento(tipoDocumento);
 		}
 
 		Long idAssociato = (Long)attributes.get("idAssociato");
@@ -687,6 +715,86 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	@Override
 	public void setProgressivo(int progressivo) {
 		_rigoDocumento.setProgressivo(progressivo);
+	}
+
+	/**
+	* Returns the sconto1 of this rigo documento.
+	*
+	* @return the sconto1 of this rigo documento
+	*/
+	@Override
+	public float getSconto1() {
+		return _rigoDocumento.getSconto1();
+	}
+
+	/**
+	* Sets the sconto1 of this rigo documento.
+	*
+	* @param sconto1 the sconto1 of this rigo documento
+	*/
+	@Override
+	public void setSconto1(float sconto1) {
+		_rigoDocumento.setSconto1(sconto1);
+	}
+
+	/**
+	* Returns the sconto2 of this rigo documento.
+	*
+	* @return the sconto2 of this rigo documento
+	*/
+	@Override
+	public float getSconto2() {
+		return _rigoDocumento.getSconto2();
+	}
+
+	/**
+	* Sets the sconto2 of this rigo documento.
+	*
+	* @param sconto2 the sconto2 of this rigo documento
+	*/
+	@Override
+	public void setSconto2(float sconto2) {
+		_rigoDocumento.setSconto2(sconto2);
+	}
+
+	/**
+	* Returns the sconto3 of this rigo documento.
+	*
+	* @return the sconto3 of this rigo documento
+	*/
+	@Override
+	public float getSconto3() {
+		return _rigoDocumento.getSconto3();
+	}
+
+	/**
+	* Sets the sconto3 of this rigo documento.
+	*
+	* @param sconto3 the sconto3 of this rigo documento
+	*/
+	@Override
+	public void setSconto3(float sconto3) {
+		_rigoDocumento.setSconto3(sconto3);
+	}
+
+	/**
+	* Returns the tipo documento of this rigo documento.
+	*
+	* @return the tipo documento of this rigo documento
+	*/
+	@Override
+	public java.lang.String getTipoDocumento() {
+		return _rigoDocumento.getTipoDocumento();
+	}
+
+	/**
+	* Sets the tipo documento of this rigo documento.
+	*
+	* @param tipoDocumento the tipo documento of this rigo documento
+	*/
+	@Override
+	public void setTipoDocumento(java.lang.String tipoDocumento) {
+		_rigoDocumento.setTipoDocumento(tipoDocumento);
 	}
 
 	/**

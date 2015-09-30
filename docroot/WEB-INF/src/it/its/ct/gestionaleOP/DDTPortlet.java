@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.portal.model.User;
 import com.liferay.portal.service.ServiceContext;
@@ -90,14 +91,16 @@ public class DDTPortlet extends MVCPortlet {
     public static final String FAC = "FAC";
     public static final String NAC = "NAC";
     public static final int DDT_ID = 16;
-    public static final int FATTURE_ID = 2;
     public static final int NOTE_ID = 3;
+    private static final int INVOICE_ID = 2;
+    private static final int PROVISION_INVOICE_ID = 4;
 
     private static final int ANNO = Calendar.getInstance().get(Calendar.YEAR);
+    public static final String COMPLETED = "completo";
+    public static final String INVOICED = "fatturato";
 
     public enum CommandID {
-
-        save, print, send, modify, saveInvoice;
+        save, print, send, modify, generateInvoice;
     }
 
     @Override
@@ -157,7 +160,8 @@ public class DDTPortlet extends MVCPortlet {
 
             ProgressivoLocalServiceUtil.addProgressivo(createProgressivo);
 
-            List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(numeroOrdine, anno, idAssociato);
+//            List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(numeroOrdine, anno, idAssociato);
+            List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato);
             for (RigoDocumento rigoDocumento : listRigo) {
                 RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigoDocumento);
             }
@@ -178,7 +182,7 @@ public class DDTPortlet extends MVCPortlet {
 
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
-            SessionErrors.add(areq, "error-delete");
+//            SessionErrors.add(areq, "error-delete");
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
             SessionErrors.add(areq, "error-delete");
@@ -198,13 +202,14 @@ public class DDTPortlet extends MVCPortlet {
         String resourceID = resourceRequest.getResourceID();
 
         Gson gson = new Gson();
-        PrintWriter writer = resourceResponse.getWriter();
+        PrintWriter writer;
         Response response = new Response();
         resourceResponse.setContentType(MediaType.APPLICATION_JSON);
         Associato associato;
         OrganizzazioneProduttori op;
         switch (CommandID.valueOf(resourceID)) {
             case modify: {
+                writer = resourceResponse.getWriter();
                 try {
                     associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
                     op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
@@ -238,6 +243,7 @@ public class DDTPortlet extends MVCPortlet {
             break;
 
             case save: {
+                writer = resourceResponse.getWriter();
                 try {
                     associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
                     op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
@@ -303,10 +309,34 @@ public class DDTPortlet extends MVCPortlet {
 
                 break;
 
-            case saveInvoice:
-
-                response =  response = new Response(Response.Code.OK, 100);
-                
+            case generateInvoice:
+                writer = resourceResponse.getWriter();
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                    response = saveInvoice(resourceRequest, associato);
+//                    sendEmail(associato, op, response.getId(), false);
+                } catch (JSONException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                }
+//                catch (AddressException ex) {
+//                    _log.error(ex.getMessage());
+//                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+//                    writer.print(response);
+//                }
                 writer.print(gson.toJson(response));
                 writer.flush();
                 writer.close();
@@ -461,7 +491,7 @@ public class DDTPortlet extends MVCPortlet {
         List<RigoDocumento> righe;
         if (update) {
             TestataDocumentoLocalServiceUtil.updateTestataDocumento(testataDocumento);
-            righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(numeroOrdine, ANNO, associato.getId());
+            righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine, ANNO, associato.getId());
         } else {
             TestataDocumentoLocalServiceUtil.addTestataDocumento(testataDocumento);
         }
@@ -477,6 +507,7 @@ public class DDTPortlet extends MVCPortlet {
             rigo.setRigoOrdine(i + 1);
             rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
             rigo.setIdAssociato(associato.getId());
+            rigo.setTipoDocumento(DDT);
             if (update) {
                 _log.info("UPDATING Rigo Documento: " + rigo);
                 RigoDocumentoLocalServiceUtil.updateRigoDocumento(rigo);
@@ -489,4 +520,97 @@ public class DDTPortlet extends MVCPortlet {
 
         return response;
     }
+
+    private Response saveInvoice(ResourceRequest resourceRequest, Associato associato) throws PortalException, SystemException {
+
+        String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
+        String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
+        String cliente = ParamUtil.getString(resourceRequest, "clienteTxt", null);
+        String destinazioneTxt = ParamUtil.getString(resourceRequest, "destinazioneTxt", null);
+        String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
+        String documentDate = ParamUtil.getString(resourceRequest, "documentDate", null);
+        String numeroFatturaStr = ParamUtil.getString(resourceRequest, "numeroFattura", null);
+
+        long origDoc = ParamUtil.getLong(resourceRequest, "numeroDocumento", -1);
+        String[] origIds = StringUtil.split(ParamUtil.getString(resourceRequest, "documentIds", ""));
+
+        long[] idsToUpdate = new long[]{};
+
+        if (origDoc != -1) {
+            idsToUpdate = new long[1];
+            idsToUpdate[0] = origDoc;
+        } else if (origIds.length != 0) {
+            idsToUpdate = new long[origIds.length];
+            for (int i = 0; i < origIds.length; i++) {
+                idsToUpdate[i] = Long.parseLong(origIds[i]);
+            }
+        }
+
+        int numeroFattura = 0;
+
+        if (!numeroFatturaStr.equals("")) {
+            numeroFattura = Integer.parseInt(numeroFatturaStr);
+            ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), INVOICE_ID, numeroFattura));
+
+        } else {
+            numeroFattura = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).size() + 1;
+        }
+
+        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+        TestataDocumento sellInvoice = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroFattura, FAV, associato.getId()));
+
+        sellInvoice.setCodiceSoggetto(codiceCliente);
+        sellInvoice.setRagioneSociale(cliente);
+        sellInvoice.setCodiceDestinazione(codiceDestinazione);
+        sellInvoice.setDestinazione(destinazioneTxt);
+        sellInvoice.setDataOrdine(documentDate);
+        sellInvoice.setOperatore(resourceRequest.getRemoteUser());
+        sellInvoice.setCompleto(COMPLETED);
+
+        TestataDocumento purchaseInvoice = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroFattura, FAC, associato.getId()));
+
+        purchaseInvoice.setCodiceSoggetto(String.valueOf(op.getId()));
+        purchaseInvoice.setRagioneSociale(op.getRagioneSociale());
+        purchaseInvoice.setDestinazione(op.getIndirizzo());
+        purchaseInvoice.setDataOrdine(documentDate);
+        purchaseInvoice.setOperatore(resourceRequest.getRemoteUser());
+        purchaseInvoice.setCompleto(COMPLETED);
+
+        List<TestataDocumento> invoices = new ArrayList<TestataDocumento>();
+
+        invoices.add(sellInvoice);
+        invoices.add(purchaseInvoice);
+
+        JSONArray rowsJSON = JSONFactoryUtil.createJSONArray(string);
+        for (TestataDocumento invoice : invoices) {
+            _log.info("Fattura: " + invoice);
+            TestataDocumentoLocalServiceUtil.addTestataDocumento(invoice);
+            for (int i = 0; i < rowsJSON.length(); i++) {
+
+                JSONObject rowJSON = rowsJSON.getJSONObject(i);
+                RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
+
+                rigo.setAnno(ANNO);
+                rigo.setNumeroOrdine(invoice.getNumeroOrdine());
+                rigo.setRigoOrdine(i + 1);
+                rigo.setTipoDocumento(invoice.getTipoDocumento());
+                rigo.setIdAssociato(associato.getId());
+
+                _log.info("Rigo " + i + ": " + rigo);
+                RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
+            }
+
+        }
+
+        for (int j = 0; j < idsToUpdate.length; j++) {
+            TestataDocumento origDDT = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ANNO, idsToUpdate[j], DDT, associato.getId()));
+            origDDT.setCompleto(INVOICED);
+            _log.info("Updating DDT: " + origDDT);
+            TestataDocumentoLocalServiceUtil.updateTestataDocumento(origDDT);
+        }
+
+        return new Response(Response.Code.OK, numeroFattura);
+
+    }
+
 }

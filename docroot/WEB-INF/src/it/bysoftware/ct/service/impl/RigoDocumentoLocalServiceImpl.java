@@ -17,6 +17,7 @@ package it.bysoftware.ct.service.impl;
 import com.liferay.portal.kernel.exception.SystemException;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.service.base.RigoDocumentoLocalServiceBaseImpl;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +42,11 @@ public class RigoDocumentoLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
 	 */
     
-    public List<RigoDocumento> getByNumeroOrdineAnno(long numeroOrdine, int anno, long idAssociato) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato);
+    public List<RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, "DDT");
+    }
+    
+    public List<RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
     }
 }

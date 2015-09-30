@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="it.bysoftware.ct.service.ProgressivoLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.Progressivo"%>
@@ -45,6 +47,8 @@
         idToRecover.add(p.getNumeroProgressivo());
     }
 
+    Date date = Calendar.getInstance().getTime();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 %>
 
 <liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
@@ -106,8 +110,8 @@
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=cliente.getIndirizzo()%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none"/>
             <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
-            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" />
-            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" />
+            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" value="<%= sdf.format(date) %>"/>
+            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" value="<%= sdf.format(date) %>"/>
             <aui:input id="lottoTestata" type="text" name="lottoTestata" label="Lotto" cssClass="input-small" inlineField="true" />
 
             <%--aui:input type="text" name="totPedane"    label="Tot. Pedane"     inlineField="true" cssClass="input-small"/>
@@ -350,7 +354,7 @@
                     }
                 }
             });
-
+            
         });
 
         YUI().use('liferay-util-window', function (Y) {
@@ -613,6 +617,12 @@
                     editor: numberEditor,
                     key: 'kgRete',
                     label: 'KG Rete'
+                },
+                {
+                    editor: nameEditor,
+                    key: 'unitaMisura',
+                    label: 'U.M.', 
+                    emptyCellValue: 'Kg'
                 },
                 {
                     editor: numberEditor,

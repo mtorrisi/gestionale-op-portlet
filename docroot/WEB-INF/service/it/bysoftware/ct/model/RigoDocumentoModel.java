@@ -383,6 +383,63 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	public void setProgressivo(int progressivo);
 
 	/**
+	 * Returns the sconto1 of this rigo documento.
+	 *
+	 * @return the sconto1 of this rigo documento
+	 */
+	public float getSconto1();
+
+	/**
+	 * Sets the sconto1 of this rigo documento.
+	 *
+	 * @param sconto1 the sconto1 of this rigo documento
+	 */
+	public void setSconto1(float sconto1);
+
+	/**
+	 * Returns the sconto2 of this rigo documento.
+	 *
+	 * @return the sconto2 of this rigo documento
+	 */
+	public float getSconto2();
+
+	/**
+	 * Sets the sconto2 of this rigo documento.
+	 *
+	 * @param sconto2 the sconto2 of this rigo documento
+	 */
+	public void setSconto2(float sconto2);
+
+	/**
+	 * Returns the sconto3 of this rigo documento.
+	 *
+	 * @return the sconto3 of this rigo documento
+	 */
+	public float getSconto3();
+
+	/**
+	 * Sets the sconto3 of this rigo documento.
+	 *
+	 * @param sconto3 the sconto3 of this rigo documento
+	 */
+	public void setSconto3(float sconto3);
+
+	/**
+	 * Returns the tipo documento of this rigo documento.
+	 *
+	 * @return the tipo documento of this rigo documento
+	 */
+	@AutoEscape
+	public String getTipoDocumento();
+
+	/**
+	 * Sets the tipo documento of this rigo documento.
+	 *
+	 * @param tipoDocumento the tipo documento of this rigo documento
+	 */
+	public void setTipoDocumento(String tipoDocumento);
+
+	/**
 	 * Returns the id associato of this rigo documento.
 	 *
 	 * @return the id associato of this rigo documento

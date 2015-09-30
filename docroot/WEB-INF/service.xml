@@ -82,7 +82,7 @@
             </finder-column>
         </finder>
         <finder name='categoriaArticoli' return-type='Collection'>
-            <finder-column name='categoriaMerceologica' comparator='!='>
+            <finder-column name='categoriaMerceologica'>
             </finder-column>
         </finder>
     </entity>
@@ -235,6 +235,14 @@
         </column>
         <column name='progressivo' db-name='CodPassaportoNum' type='int'>
         </column>
+        <column name='sconto1' db-name='sconto1' type='float'>
+        </column>
+        <column name='sconto2' db-name='sconto2' type='float'>
+        </column>
+        <column name='sconto3' db-name='sconto3' type='float'>
+        </column>
+        <column name='tipoDocumento' db-name='WKTipdoc' type='String' primary='true'>
+        </column>
         <column name='idAssociato' db-name='id_associato' type='long' primary="true">
         </column>
         <finder name='numeroOrdineAnnoAssociato' return-type='Collection'>
@@ -243,6 +251,8 @@
             <finder-column name='anno' comparator='='>
             </finder-column>
             <finder-column name='idAssociato' comparator='='>
+            </finder-column>
+            <finder-column name='tipoDocumento' comparator='='>
             </finder-column>
         </finder>
     </entity>

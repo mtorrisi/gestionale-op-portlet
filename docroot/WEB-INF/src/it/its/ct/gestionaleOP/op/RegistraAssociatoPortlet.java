@@ -37,6 +37,8 @@ import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import javax.portlet.ActionRequest;
@@ -181,26 +183,20 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             for (String value : values) {
                 boolean flag = false;
                 ClientiDatiAgg clientiDatiAgg = ClientiDatiAggLocalServiceUtil.getClientiDatiAgg(value);
-                String[] idAssociati = clientiDatiAgg.getAssociati().split(",");
-                if (idAssociati.length > 0) {
-                    _log.info("LENGTH: " + idAssociati.length);
-                    for (String idAssociato : idAssociati) {
-                        if (idAssociato.equals(value)) {
-                            flag = true;
-                            break;
-                        }
-                    }
-                    
-                    if(!flag){
-                        clientiDatiAgg.setAssociati(clientiDatiAgg.getAssociati() + "," +value);
-                        
-                    }
-                    
-                } else if (clientiDatiAgg.getAssociati().isEmpty()) {
-                    clientiDatiAgg.setAssociati(value);
-                } else if (!clientiDatiAgg.getAssociati().isEmpty()){
-                    clientiDatiAgg.setAssociati(clientiDatiAgg.getAssociati() + "," +value);
+//                String[] idAssociati = clientiDatiAgg.getAssociati().split(",");
+                List<String> idAssociati = new ArrayList<String>(Arrays.asList(clientiDatiAgg.getAssociati().split(",")));
+                if(!idAssociati.contains(String.valueOf(a.getIdLiferay()))){
+                    idAssociati.add(String.valueOf(a.getIdLiferay()));
                 }
+                String tmp="";
+                for (int i = 0; i < idAssociati.size(); i++) {
+                    if(i == 0){
+                        tmp += idAssociati.get(i);
+                    } else {
+                        tmp += "," + idAssociati.get(i);
+                    }
+                }
+                clientiDatiAgg.setAssociati(tmp);
                 ClientiDatiAggLocalServiceUtil.updateClientiDatiAgg(clientiDatiAgg);
             }
 

@@ -36,7 +36,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -82,6 +82,14 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sb.append(passaporto);
 		sb.append(", progressivo=");
 		sb.append(progressivo);
+		sb.append(", sconto1=");
+		sb.append(sconto1);
+		sb.append(", sconto2=");
+		sb.append(sconto2);
+		sb.append(", sconto3=");
+		sb.append(sconto3);
+		sb.append(", tipoDocumento=");
+		sb.append(tipoDocumento);
 		sb.append(", idAssociato=");
 		sb.append(idAssociato);
 		sb.append("}");
@@ -167,6 +175,17 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		}
 
 		rigoDocumentoImpl.setProgressivo(progressivo);
+		rigoDocumentoImpl.setSconto1(sconto1);
+		rigoDocumentoImpl.setSconto2(sconto2);
+		rigoDocumentoImpl.setSconto3(sconto3);
+
+		if (tipoDocumento == null) {
+			rigoDocumentoImpl.setTipoDocumento(StringPool.BLANK);
+		}
+		else {
+			rigoDocumentoImpl.setTipoDocumento(tipoDocumento);
+		}
+
 		rigoDocumentoImpl.setIdAssociato(idAssociato);
 
 		rigoDocumentoImpl.resetOriginalValues();
@@ -198,6 +217,10 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		lotto = objectInput.readUTF();
 		passaporto = objectInput.readUTF();
 		progressivo = objectInput.readInt();
+		sconto1 = objectInput.readFloat();
+		sconto2 = objectInput.readFloat();
+		sconto3 = objectInput.readFloat();
+		tipoDocumento = objectInput.readUTF();
 		idAssociato = objectInput.readLong();
 	}
 
@@ -278,6 +301,17 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		}
 
 		objectOutput.writeInt(progressivo);
+		objectOutput.writeFloat(sconto1);
+		objectOutput.writeFloat(sconto2);
+		objectOutput.writeFloat(sconto3);
+
+		if (tipoDocumento == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(tipoDocumento);
+		}
+
 		objectOutput.writeLong(idAssociato);
 	}
 
@@ -303,5 +337,9 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public String lotto;
 	public String passaporto;
 	public int progressivo;
+	public float sconto1;
+	public float sconto2;
+	public float sconto3;
+	public String tipoDocumento;
 	public long idAssociato;
 }

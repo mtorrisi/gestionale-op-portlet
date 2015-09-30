@@ -167,6 +167,7 @@
 			<key-property name="anno" column="WKAnno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="numeroOrdine" column="WkNOrd" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 			<key-property name="rigoOrdine" column="WkRigord" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="tipoDocumento" column="WKTipdoc" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="descrizioneVariante" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesvar" />
@@ -188,6 +189,9 @@
 		<property name="lotto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkLotto" />
 		<property name="passaporto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CodPassaportoAlfa" />
 		<property name="progressivo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="CodPassaportoNum" />
+		<property name="sconto1" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
+		<property name="sconto2" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
+		<property name="sconto3" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.TestataDocumentoImpl" table="SSTESORD">
 		<cache usage="read-write" />

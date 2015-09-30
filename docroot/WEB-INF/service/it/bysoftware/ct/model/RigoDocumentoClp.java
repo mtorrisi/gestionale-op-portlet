@@ -53,7 +53,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	@Override
 	public RigoDocumentoPK getPrimaryKey() {
 		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
-			_idAssociato);
+			_tipoDocumento, _idAssociato);
 	}
 
 	@Override
@@ -61,13 +61,14 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
 		setRigoOrdine(primaryKey.rigoOrdine);
+		setTipoDocumento(primaryKey.tipoDocumento);
 		setIdAssociato(primaryKey.idAssociato);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
-			_idAssociato);
+			_tipoDocumento, _idAssociato);
 	}
 
 	@Override
@@ -101,6 +102,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("sconto1", getSconto1());
+		attributes.put("sconto2", getSconto2());
+		attributes.put("sconto3", getSconto3());
+		attributes.put("tipoDocumento", getTipoDocumento());
 		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
@@ -239,6 +244,30 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Float sconto1 = (Float)attributes.get("sconto1");
+
+		if (sconto1 != null) {
+			setSconto1(sconto1);
+		}
+
+		Float sconto2 = (Float)attributes.get("sconto2");
+
+		if (sconto2 != null) {
+			setSconto2(sconto2);
+		}
+
+		Float sconto3 = (Float)attributes.get("sconto3");
+
+		if (sconto3 != null) {
+			setSconto3(sconto3);
+		}
+
+		String tipoDocumento = (String)attributes.get("tipoDocumento");
+
+		if (tipoDocumento != null) {
+			setTipoDocumento(tipoDocumento);
 		}
 
 		Long idAssociato = (Long)attributes.get("idAssociato");
@@ -762,6 +791,98 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	}
 
 	@Override
+	public float getSconto1() {
+		return _sconto1;
+	}
+
+	@Override
+	public void setSconto1(float sconto1) {
+		_sconto1 = sconto1;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSconto1", float.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, sconto1);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public float getSconto2() {
+		return _sconto2;
+	}
+
+	@Override
+	public void setSconto2(float sconto2) {
+		_sconto2 = sconto2;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSconto2", float.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, sconto2);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public float getSconto3() {
+		return _sconto3;
+	}
+
+	@Override
+	public void setSconto3(float sconto3) {
+		_sconto3 = sconto3;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSconto3", float.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, sconto3);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getTipoDocumento() {
+		return _tipoDocumento;
+	}
+
+	@Override
+	public void setTipoDocumento(String tipoDocumento) {
+		_tipoDocumento = tipoDocumento;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setTipoDocumento", String.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, tipoDocumento);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public long getIdAssociato() {
 		return _idAssociato;
 	}
@@ -876,6 +997,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		clone.setLotto(getLotto());
 		clone.setPassaporto(getPassaporto());
 		clone.setProgressivo(getProgressivo());
+		clone.setSconto1(getSconto1());
+		clone.setSconto2(getSconto2());
+		clone.setSconto3(getSconto3());
+		clone.setTipoDocumento(getTipoDocumento());
 		clone.setIdAssociato(getIdAssociato());
 
 		return clone;
@@ -921,7 +1046,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -967,6 +1092,14 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", sconto1=");
+		sb.append(getSconto1());
+		sb.append(", sconto2=");
+		sb.append(getSconto2());
+		sb.append(", sconto3=");
+		sb.append(getSconto3());
+		sb.append(", tipoDocumento=");
+		sb.append(getTipoDocumento());
 		sb.append(", idAssociato=");
 		sb.append(getIdAssociato());
 		sb.append("}");
@@ -976,7 +1109,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1071,6 +1204,22 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>sconto1</column-name><column-value><![CDATA[");
+		sb.append(getSconto1());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sconto2</column-name><column-value><![CDATA[");
+		sb.append(getSconto2());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sconto3</column-name><column-value><![CDATA[");
+		sb.append(getSconto3());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tipoDocumento</column-name><column-value><![CDATA[");
+		sb.append(getTipoDocumento());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
 		sb.append(getIdAssociato());
 		sb.append("]]></column-value></column>");
@@ -1102,6 +1251,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private float _sconto1;
+	private float _sconto2;
+	private float _sconto3;
+	private String _tipoDocumento;
 	private long _idAssociato;
 	private BaseModel<?> _rigoDocumentoRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;

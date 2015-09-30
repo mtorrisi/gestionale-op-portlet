@@ -9,6 +9,7 @@ create index IX_A02FCE4A on ProgAnnFor (Re4Anno, Re4Codatt, Re4Numcon);
 create index IX_AC8B1912 on SSRIGORD (WkNOrd);
 create index IX_88FCE1A8 on SSRIGORD (WkNOrd, WKAnno);
 create index IX_BFC9C5A0 on SSRIGORD (WkNOrd, WKAnno, id_associato);
+create index IX_CA243305 on SSRIGORD (WkNOrd, WKAnno, id_associato, WKTipdoc);
 
 create index IX_2A5D7118 on SSTESORD (WKAnno, WKTipdoc, id_associato);
 create index IX_5EF84E9D on SSTESORD (WkCodsog, WkOperatore);

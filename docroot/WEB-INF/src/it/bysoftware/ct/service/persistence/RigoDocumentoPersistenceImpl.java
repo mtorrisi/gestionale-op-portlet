@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.UnmodifiableList;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.model.CacheModel;
 import com.liferay.portal.model.ModelListener;
 import com.liferay.portal.service.persistence.impl.BasePersistenceImpl;
@@ -93,7 +94,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			"findBynumeroOrdineAnnoAssociato",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
-				Long.class.getName(),
+				Long.class.getName(), String.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -105,11 +106,12 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			"findBynumeroOrdineAnnoAssociato",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
-				Long.class.getName()
+				Long.class.getName(), String.class.getName()
 			},
 			RigoDocumentoModelImpl.NUMEROORDINE_COLUMN_BITMASK |
 			RigoDocumentoModelImpl.ANNO_COLUMN_BITMASK |
-			RigoDocumentoModelImpl.IDASSOCIATO_COLUMN_BITMASK);
+			RigoDocumentoModelImpl.IDASSOCIATO_COLUMN_BITMASK |
+			RigoDocumentoModelImpl.TIPODOCUMENTO_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_NUMEROORDINEANNOASSOCIATO =
 		new FinderPath(RigoDocumentoModelImpl.ENTITY_CACHE_ENABLED,
 			RigoDocumentoModelImpl.FINDER_CACHE_ENABLED, Long.class,
@@ -117,28 +119,29 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			"countBynumeroOrdineAnnoAssociato",
 			new String[] {
 				Long.class.getName(), Integer.class.getName(),
-				Long.class.getName()
+				Long.class.getName(), String.class.getName()
 			});
 
 	/**
-	 * Returns all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @return the matching rigo documentos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public List<RigoDocumento> findBynumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato)
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento)
 		throws SystemException {
 		return findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+			tipoDocumento, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns a range of all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.RigoDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -147,6 +150,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param start the lower bound of the range of rigo documentos
 	 * @param end the upper bound of the range of rigo documentos (not inclusive)
 	 * @return the range of matching rigo documentos
@@ -154,14 +158,14 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 */
 	@Override
 	public List<RigoDocumento> findBynumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato, int start, int end)
-		throws SystemException {
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento,
+		int start, int end) throws SystemException {
 		return findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato,
-			start, end, null);
+			tipoDocumento, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns an ordered range of all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.RigoDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -170,6 +174,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param start the lower bound of the range of rigo documentos
 	 * @param end the upper bound of the range of rigo documentos (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -178,8 +183,9 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 */
 	@Override
 	public List<RigoDocumento> findBynumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato, int start, int end,
-		OrderByComparator orderByComparator) throws SystemException {
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
@@ -188,12 +194,14 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				(orderByComparator == null)) {
 			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_NUMEROORDINEANNOASSOCIATO;
-			finderArgs = new Object[] { numeroOrdine, anno, idAssociato };
+			finderArgs = new Object[] {
+					numeroOrdine, anno, idAssociato, tipoDocumento
+				};
 		}
 		else {
 			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_NUMEROORDINEANNOASSOCIATO;
 			finderArgs = new Object[] {
-					numeroOrdine, anno, idAssociato,
+					numeroOrdine, anno, idAssociato, tipoDocumento,
 					
 					start, end, orderByComparator
 				};
@@ -206,7 +214,9 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			for (RigoDocumento rigoDocumento : list) {
 				if ((numeroOrdine != rigoDocumento.getNumeroOrdine()) ||
 						(anno != rigoDocumento.getAnno()) ||
-						(idAssociato != rigoDocumento.getIdAssociato())) {
+						(idAssociato != rigoDocumento.getIdAssociato()) ||
+						!Validator.equals(tipoDocumento,
+							rigoDocumento.getTipoDocumento())) {
 					list = null;
 
 					break;
@@ -218,11 +228,11 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(5 +
+				query = new StringBundler(6 +
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(5);
+				query = new StringBundler(6);
 			}
 
 			query.append(_SQL_SELECT_RIGODOCUMENTO_WHERE);
@@ -232,6 +242,20 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_ANNO_2);
 
 			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_IDASSOCIATO_2);
+
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_2);
+			}
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -258,6 +282,10 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				qPos.add(anno);
 
 				qPos.add(idAssociato);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
 
 				if (!pagination) {
 					list = (List<RigoDocumento>)QueryUtil.list(q, getDialect(),
@@ -290,11 +318,12 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	}
 
 	/**
-	 * Returns the first rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns the first rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching rigo documento
 	 * @throws it.bysoftware.ct.NoSuchRigoDocumentoException if a matching rigo documento could not be found
@@ -302,17 +331,17 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 */
 	@Override
 	public RigoDocumento findBynumeroOrdineAnnoAssociato_First(
-		long numeroOrdine, int anno, long idAssociato,
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento,
 		OrderByComparator orderByComparator)
 		throws NoSuchRigoDocumentoException, SystemException {
 		RigoDocumento rigoDocumento = fetchBynumeroOrdineAnnoAssociato_First(numeroOrdine,
-				anno, idAssociato, orderByComparator);
+				anno, idAssociato, tipoDocumento, orderByComparator);
 
 		if (rigoDocumento != null) {
 			return rigoDocumento;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler msg = new StringBundler(10);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -325,27 +354,31 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		msg.append(", idAssociato=");
 		msg.append(idAssociato);
 
+		msg.append(", tipoDocumento=");
+		msg.append(tipoDocumento);
+
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchRigoDocumentoException(msg.toString());
 	}
 
 	/**
-	 * Returns the first rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns the first rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching rigo documento, or <code>null</code> if a matching rigo documento could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public RigoDocumento fetchBynumeroOrdineAnnoAssociato_First(
-		long numeroOrdine, int anno, long idAssociato,
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento,
 		OrderByComparator orderByComparator) throws SystemException {
 		List<RigoDocumento> list = findBynumeroOrdineAnnoAssociato(numeroOrdine,
-				anno, idAssociato, 0, 1, orderByComparator);
+				anno, idAssociato, tipoDocumento, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -355,11 +388,12 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	}
 
 	/**
-	 * Returns the last rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns the last rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching rigo documento
 	 * @throws it.bysoftware.ct.NoSuchRigoDocumentoException if a matching rigo documento could not be found
@@ -367,17 +401,17 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	 */
 	@Override
 	public RigoDocumento findBynumeroOrdineAnnoAssociato_Last(
-		long numeroOrdine, int anno, long idAssociato,
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento,
 		OrderByComparator orderByComparator)
 		throws NoSuchRigoDocumentoException, SystemException {
 		RigoDocumento rigoDocumento = fetchBynumeroOrdineAnnoAssociato_Last(numeroOrdine,
-				anno, idAssociato, orderByComparator);
+				anno, idAssociato, tipoDocumento, orderByComparator);
 
 		if (rigoDocumento != null) {
 			return rigoDocumento;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler msg = new StringBundler(10);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -390,34 +424,39 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		msg.append(", idAssociato=");
 		msg.append(idAssociato);
 
+		msg.append(", tipoDocumento=");
+		msg.append(tipoDocumento);
+
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchRigoDocumentoException(msg.toString());
 	}
 
 	/**
-	 * Returns the last rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns the last rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching rigo documento, or <code>null</code> if a matching rigo documento could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public RigoDocumento fetchBynumeroOrdineAnnoAssociato_Last(
-		long numeroOrdine, int anno, long idAssociato,
+		long numeroOrdine, int anno, long idAssociato, String tipoDocumento,
 		OrderByComparator orderByComparator) throws SystemException {
 		int count = countBynumeroOrdineAnnoAssociato(numeroOrdine, anno,
-				idAssociato);
+				idAssociato, tipoDocumento);
 
 		if (count == 0) {
 			return null;
 		}
 
 		List<RigoDocumento> list = findBynumeroOrdineAnnoAssociato(numeroOrdine,
-				anno, idAssociato, count - 1, count, orderByComparator);
+				anno, idAssociato, tipoDocumento, count - 1, count,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -427,12 +466,13 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	}
 
 	/**
-	 * Returns the rigo documentos before and after the current rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns the rigo documentos before and after the current rigo documento in the ordered set where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param rigoDocumentoPK the primary key of the current rigo documento
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next rigo documento
 	 * @throws it.bysoftware.ct.NoSuchRigoDocumentoException if a rigo documento with the primary key could not be found
@@ -441,7 +481,8 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	@Override
 	public RigoDocumento[] findBynumeroOrdineAnnoAssociato_PrevAndNext(
 		RigoDocumentoPK rigoDocumentoPK, long numeroOrdine, int anno,
-		long idAssociato, OrderByComparator orderByComparator)
+		long idAssociato, String tipoDocumento,
+		OrderByComparator orderByComparator)
 		throws NoSuchRigoDocumentoException, SystemException {
 		RigoDocumento rigoDocumento = findByPrimaryKey(rigoDocumentoPK);
 
@@ -454,13 +495,13 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 
 			array[0] = getBynumeroOrdineAnnoAssociato_PrevAndNext(session,
 					rigoDocumento, numeroOrdine, anno, idAssociato,
-					orderByComparator, true);
+					tipoDocumento, orderByComparator, true);
 
 			array[1] = rigoDocumento;
 
 			array[2] = getBynumeroOrdineAnnoAssociato_PrevAndNext(session,
 					rigoDocumento, numeroOrdine, anno, idAssociato,
-					orderByComparator, false);
+					tipoDocumento, orderByComparator, false);
 
 			return array;
 		}
@@ -474,8 +515,8 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 
 	protected RigoDocumento getBynumeroOrdineAnnoAssociato_PrevAndNext(
 		Session session, RigoDocumento rigoDocumento, long numeroOrdine,
-		int anno, long idAssociato, OrderByComparator orderByComparator,
-		boolean previous) {
+		int anno, long idAssociato, String tipoDocumento,
+		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
@@ -493,6 +534,20 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_ANNO_2);
 
 		query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_IDASSOCIATO_2);
+
+		boolean bindTipoDocumento = false;
+
+		if (tipoDocumento == null) {
+			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_1);
+		}
+		else if (tipoDocumento.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_3);
+		}
+		else {
+			bindTipoDocumento = true;
+
+			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -568,6 +623,10 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 
 		qPos.add(idAssociato);
 
+		if (bindTipoDocumento) {
+			qPos.add(tipoDocumento);
+		}
+
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(rigoDocumento);
 
@@ -587,44 +646,48 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 	}
 
 	/**
-	 * Removes all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; from the database.
+	 * Removes all the rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63; from the database.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public void removeBynumeroOrdineAnnoAssociato(long numeroOrdine, int anno,
-		long idAssociato) throws SystemException {
+		long idAssociato, String tipoDocumento) throws SystemException {
 		for (RigoDocumento rigoDocumento : findBynumeroOrdineAnnoAssociato(
-				numeroOrdine, anno, idAssociato, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null)) {
+				numeroOrdine, anno, idAssociato, tipoDocumento,
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(rigoDocumento);
 		}
 	}
 
 	/**
-	 * Returns the number of rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63;.
+	 * Returns the number of rigo documentos where numeroOrdine = &#63; and anno = &#63; and idAssociato = &#63; and tipoDocumento = &#63;.
 	 *
 	 * @param numeroOrdine the numero ordine
 	 * @param anno the anno
 	 * @param idAssociato the id associato
+	 * @param tipoDocumento the tipo documento
 	 * @return the number of matching rigo documentos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public int countBynumeroOrdineAnnoAssociato(long numeroOrdine, int anno,
-		long idAssociato) throws SystemException {
+		long idAssociato, String tipoDocumento) throws SystemException {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_NUMEROORDINEANNOASSOCIATO;
 
-		Object[] finderArgs = new Object[] { numeroOrdine, anno, idAssociato };
+		Object[] finderArgs = new Object[] {
+				numeroOrdine, anno, idAssociato, tipoDocumento
+			};
 
 		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
 				this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler query = new StringBundler(5);
 
 			query.append(_SQL_COUNT_RIGODOCUMENTO_WHERE);
 
@@ -633,6 +696,20 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_ANNO_2);
 
 			query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_IDASSOCIATO_2);
+
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_2);
+			}
 
 			String sql = query.toString();
 
@@ -650,6 +727,10 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				qPos.add(anno);
 
 				qPos.add(idAssociato);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
 
 				count = (Long)q.uniqueResult();
 
@@ -672,7 +753,13 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		"rigoDocumento.id.numeroOrdine = ? AND ";
 	private static final String _FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_ANNO_2 = "rigoDocumento.id.anno = ? AND ";
 	private static final String _FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_IDASSOCIATO_2 =
-		"rigoDocumento.id.idAssociato = ?";
+		"rigoDocumento.id.idAssociato = ? AND ";
+	private static final String _FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_1 =
+		"rigoDocumento.id.tipoDocumento IS NULL";
+	private static final String _FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_2 =
+		"rigoDocumento.id.tipoDocumento = ?";
+	private static final String _FINDER_COLUMN_NUMEROORDINEANNOASSOCIATO_TIPODOCUMENTO_3 =
+		"(rigoDocumento.id.tipoDocumento IS NULL OR rigoDocumento.id.tipoDocumento = '')";
 
 	public RigoDocumentoPersistenceImpl() {
 		setModelClass(RigoDocumento.class);
@@ -905,7 +992,8 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				Object[] args = new Object[] {
 						rigoDocumentoModelImpl.getOriginalNumeroOrdine(),
 						rigoDocumentoModelImpl.getOriginalAnno(),
-						rigoDocumentoModelImpl.getOriginalIdAssociato()
+						rigoDocumentoModelImpl.getOriginalIdAssociato(),
+						rigoDocumentoModelImpl.getOriginalTipoDocumento()
 					};
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NUMEROORDINEANNOASSOCIATO,
@@ -916,7 +1004,8 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				args = new Object[] {
 						rigoDocumentoModelImpl.getNumeroOrdine(),
 						rigoDocumentoModelImpl.getAnno(),
-						rigoDocumentoModelImpl.getIdAssociato()
+						rigoDocumentoModelImpl.getIdAssociato(),
+						rigoDocumentoModelImpl.getTipoDocumento()
 					};
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_NUMEROORDINEANNOASSOCIATO,
@@ -965,6 +1054,10 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		rigoDocumentoImpl.setLotto(rigoDocumento.getLotto());
 		rigoDocumentoImpl.setPassaporto(rigoDocumento.getPassaporto());
 		rigoDocumentoImpl.setProgressivo(rigoDocumento.getProgressivo());
+		rigoDocumentoImpl.setSconto1(rigoDocumento.getSconto1());
+		rigoDocumentoImpl.setSconto2(rigoDocumento.getSconto2());
+		rigoDocumentoImpl.setSconto3(rigoDocumento.getSconto3());
+		rigoDocumentoImpl.setTipoDocumento(rigoDocumento.getTipoDocumento());
 		rigoDocumentoImpl.setIdAssociato(rigoDocumento.getIdAssociato());
 
 		return rigoDocumentoImpl;
@@ -1295,7 +1388,8 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				"codiceArticolo", "descrizione", "unitaMisura", "colli",
 				"pesoLordo", "tara", "pesoNetto", "prezzo", "pedane", "note",
 				"totalePesata", "imballo", "gestioneReti", "RtxCl", "kgRete",
-				"lotto", "passaporto", "progressivo", "idAssociato"
+				"lotto", "passaporto", "progressivo", "tipoDocumento",
+				"idAssociato"
 			});
 	private static RigoDocumento _nullRigoDocumento = new RigoDocumentoImpl() {
 			@Override

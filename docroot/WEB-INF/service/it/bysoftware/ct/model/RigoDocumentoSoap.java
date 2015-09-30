@@ -54,6 +54,10 @@ public class RigoDocumentoSoap implements Serializable {
 		soapModel.setLotto(model.getLotto());
 		soapModel.setPassaporto(model.getPassaporto());
 		soapModel.setProgressivo(model.getProgressivo());
+		soapModel.setSconto1(model.getSconto1());
+		soapModel.setSconto2(model.getSconto2());
+		soapModel.setSconto3(model.getSconto3());
+		soapModel.setTipoDocumento(model.getTipoDocumento());
 		soapModel.setIdAssociato(model.getIdAssociato());
 
 		return soapModel;
@@ -101,13 +105,14 @@ public class RigoDocumentoSoap implements Serializable {
 
 	public RigoDocumentoPK getPrimaryKey() {
 		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
-			_idAssociato);
+			_tipoDocumento, _idAssociato);
 	}
 
 	public void setPrimaryKey(RigoDocumentoPK pk) {
 		setAnno(pk.anno);
 		setNumeroOrdine(pk.numeroOrdine);
 		setRigoOrdine(pk.rigoOrdine);
+		setTipoDocumento(pk.tipoDocumento);
 		setIdAssociato(pk.idAssociato);
 	}
 
@@ -291,6 +296,38 @@ public class RigoDocumentoSoap implements Serializable {
 		_progressivo = progressivo;
 	}
 
+	public float getSconto1() {
+		return _sconto1;
+	}
+
+	public void setSconto1(float sconto1) {
+		_sconto1 = sconto1;
+	}
+
+	public float getSconto2() {
+		return _sconto2;
+	}
+
+	public void setSconto2(float sconto2) {
+		_sconto2 = sconto2;
+	}
+
+	public float getSconto3() {
+		return _sconto3;
+	}
+
+	public void setSconto3(float sconto3) {
+		_sconto3 = sconto3;
+	}
+
+	public String getTipoDocumento() {
+		return _tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		_tipoDocumento = tipoDocumento;
+	}
+
 	public long getIdAssociato() {
 		return _idAssociato;
 	}
@@ -321,5 +358,9 @@ public class RigoDocumentoSoap implements Serializable {
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private float _sconto1;
+	private float _sconto2;
+	private float _sconto3;
+	private String _tipoDocumento;
 	private long _idAssociato;
 }

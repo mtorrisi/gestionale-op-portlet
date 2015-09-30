@@ -28,16 +28,18 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 	public int anno;
 	public long numeroOrdine;
 	public int rigoOrdine;
+	public String tipoDocumento;
 	public long idAssociato;
 
 	public RigoDocumentoPK() {
 	}
 
 	public RigoDocumentoPK(int anno, long numeroOrdine, int rigoOrdine,
-		long idAssociato) {
+		String tipoDocumento, long idAssociato) {
 		this.anno = anno;
 		this.numeroOrdine = numeroOrdine;
 		this.rigoOrdine = rigoOrdine;
+		this.tipoDocumento = tipoDocumento;
 		this.idAssociato = idAssociato;
 	}
 
@@ -63,6 +65,14 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 
 	public void setRigoOrdine(int rigoOrdine) {
 		this.rigoOrdine = rigoOrdine;
+	}
+
+	public String getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(String tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
 	}
 
 	public long getIdAssociato() {
@@ -123,6 +133,12 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 			return value;
 		}
 
+		value = tipoDocumento.compareTo(pk.tipoDocumento);
+
+		if (value != 0) {
+			return value;
+		}
+
 		if (idAssociato < pk.idAssociato) {
 			value = -1;
 		}
@@ -154,6 +170,7 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 
 		if ((anno == pk.anno) && (numeroOrdine == pk.numeroOrdine) &&
 				(rigoOrdine == pk.rigoOrdine) &&
+				(tipoDocumento.equals(pk.tipoDocumento)) &&
 				(idAssociato == pk.idAssociato)) {
 			return true;
 		}
@@ -165,12 +182,13 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 	@Override
 	public int hashCode() {
 		return (String.valueOf(anno) + String.valueOf(numeroOrdine) +
-		String.valueOf(rigoOrdine) + String.valueOf(idAssociato)).hashCode();
+		String.valueOf(rigoOrdine) + String.valueOf(tipoDocumento) +
+		String.valueOf(idAssociato)).hashCode();
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(20);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append(StringPool.OPEN_CURLY_BRACE);
 
@@ -189,6 +207,12 @@ public class RigoDocumentoPK implements Comparable<RigoDocumentoPK>,
 		sb.append("rigoOrdine");
 		sb.append(StringPool.EQUAL);
 		sb.append(rigoOrdine);
+
+		sb.append(StringPool.COMMA);
+		sb.append(StringPool.SPACE);
+		sb.append("tipoDocumento");
+		sb.append(StringPool.EQUAL);
+		sb.append(tipoDocumento);
 
 		sb.append(StringPool.COMMA);
 		sb.append(StringPool.SPACE);

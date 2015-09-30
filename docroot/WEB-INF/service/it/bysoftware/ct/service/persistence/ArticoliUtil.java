@@ -287,7 +287,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns all the articolis where categoriaMerceologica &ne; &#63;.
+	* Returns all the articolis where categoriaMerceologica = &#63;.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @return the matching articolis
@@ -300,7 +300,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns a range of all the articolis where categoriaMerceologica &ne; &#63;.
+	* Returns a range of all the articolis where categoriaMerceologica = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.ArticoliModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -320,7 +320,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns an ordered range of all the articolis where categoriaMerceologica &ne; &#63;.
+	* Returns an ordered range of all the articolis where categoriaMerceologica = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.ArticoliModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -343,7 +343,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns the first articoli in the ordered set where categoriaMerceologica &ne; &#63;.
+	* Returns the first articoli in the ordered set where categoriaMerceologica = &#63;.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -362,7 +362,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns the first articoli in the ordered set where categoriaMerceologica &ne; &#63;.
+	* Returns the first articoli in the ordered set where categoriaMerceologica = &#63;.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -379,7 +379,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns the last articoli in the ordered set where categoriaMerceologica &ne; &#63;.
+	* Returns the last articoli in the ordered set where categoriaMerceologica = &#63;.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -398,7 +398,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns the last articoli in the ordered set where categoriaMerceologica &ne; &#63;.
+	* Returns the last articoli in the ordered set where categoriaMerceologica = &#63;.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
@@ -415,7 +415,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns the articolis before and after the current articoli in the ordered set where categoriaMerceologica &ne; &#63;.
+	* Returns the articolis before and after the current articoli in the ordered set where categoriaMerceologica = &#63;.
 	*
 	* @param codiceArticolo the primary key of the current articoli
 	* @param categoriaMerceologica the categoria merceologica
@@ -436,7 +436,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Removes all the articolis where categoriaMerceologica &ne; &#63; from the database.
+	* Removes all the articolis where categoriaMerceologica = &#63; from the database.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @throws SystemException if a system exception occurred
@@ -448,7 +448,7 @@ public class ArticoliUtil {
 	}
 
 	/**
-	* Returns the number of articolis where categoriaMerceologica &ne; &#63;.
+	* Returns the number of articolis where categoriaMerceologica = &#63;.
 	*
 	* @param categoriaMerceologica the categoria merceologica
 	* @return the number of matching articolis

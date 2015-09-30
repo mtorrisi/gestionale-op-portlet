@@ -5,6 +5,7 @@
  */
 package it.its.ct.gestionaleOP.op;
 
+import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
@@ -29,8 +30,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -112,16 +111,18 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
             
-            Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(utente));
+//            Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(utente));
+            Associato a = AssociatoLocalServiceUtil.getAssociato(Long.parseLong(utente));
             
-            List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(utente, "completo", 0);
+            List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 0);
             for (TestataDocumento testata : list) {
                 _log.info(testata);
 
-                String stringTestata = "WorkTestataDocumento;Tipdoc;Datreg;Codsog;Codspe;Codpor;Codase;Codve1;Codve2;Numdoc;Protoc;Datdoc\n";
+                String stringTestata = "WorkTestataDocumento;Tipdoc;Codcen;Datreg;Codsog;Codspe;Codpor;Codase;Codve1;Codve2;Numdoc;Protoc;Datdoc;Datann\n";
                 bw.write(stringTestata);
                 //DDT;03/07/2015;F0009;;;;;;0;24;03/07/2015
-                String valoriTestata = "FAV" + SEPARATOR;
+                String valoriTestata = testata.getTipoDocumento() + SEPARATOR;
+                String codCen = a.getCentro() + SEPARATOR;
                 String dataReg = testata.getDataOrdine() + SEPARATOR;//sdf.format(new Timestamp(date.getTime())) + SEPARATOR;
                 String codSog = testata.getCodiceSoggetto() + SEPARATOR;
                 String codSpe = SEPARATOR;
@@ -130,26 +131,27 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 String codVe1 = testata.getCodiceVettore() + SEPARATOR;
                 String codVe2 = testata.getVettore2() + SEPARATOR;
                 String numDoc = testata.getNumeroOrdine() + SEPARATOR;
-                String protoc = SEPARATOR;
-                String dataDoc = testata.getDataOrdine();//sdf.format(new Timestamp(date.getTime()));
+                String protoc = testata.getNumeroOrdine() + SEPARATOR; 
+                String dataDoc = testata.getDataOrdine() + SEPARATOR;
+                String Datann = testata.getDataOrdine();
 
-                valoriTestata += dataReg + codSog + codSpe + codPor + codAse + codVe1 + codVe2 + numDoc + protoc + dataDoc + "\n";
+                valoriTestata += codCen + dataReg + codSog + codSpe + codPor + codAse + codVe1 + codVe2 + numDoc + protoc + dataDoc + Datann + "\n";
 
                 bw.write(valoriTestata);
 
 //              CodlottoGR
                 String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Quanet;Qm2net;Prezzo;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR\n";
                 bw.write(stringRigo);
-                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(testata.getNumeroOrdine(), testata.getAnno(), a.getId());
+                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), testata.getTipoDocumento());
                 for (RigoDocumento rigo : righe) {
 //                    _log.info(rigo);
                     String valoriRigo = "";
                     //VALORI RIGO ARTICOLO
                     String Tiprig = "0" + SEPARATOR;
                     String Codart = rigo.getCodiceArticolo() + SEPARATOR;
-                    String Codvar = SEPARATOR;
+                    String Codvar = rigo.getDescrizioneVariante() + SEPARATOR;
                     String Quanet = rigo.getPesoNetto() + SEPARATOR;
-                    String Qm2net = rigo.getTara() + SEPARATOR;
+                    String Qm2net = rigo.getColli() + SEPARATOR;
                     String Prezzo = rigo.getPrezzo() + SEPARATOR;
                     String Libstr1 = SEPARATOR;
                     String Libstr2 = SEPARATOR;
@@ -202,6 +204,8 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
         } catch (NoSuchAssociatoException ex) {
+            _log.error(ex.getMessage());
+        } catch (PortalException ex) {
             _log.error(ex.getMessage());
         }
 

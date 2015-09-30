@@ -61,11 +61,11 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
     }
 
     public List<Articoli> getArticoli() throws SystemException {
-        return this.articoliPersistence.findBycategoriaArticoli("IMB");
+        return this.articoliPersistence.findBycategoriaArticoli("AGR");
     }
 
     public int countArticoli() throws SystemException {
-        return this.articoliPersistence.countBycategoriaArticoli("IMB");
+        return this.articoliPersistence.countBycategoriaArticoli("AGR");
     }
 
     public List searchArticoli(String codiceArticolo, boolean andSearch, int start, int end, OrderByComparator orderByComparator)

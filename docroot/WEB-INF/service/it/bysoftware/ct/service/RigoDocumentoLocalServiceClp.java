@@ -123,9 +123,15 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "getByNumeroOrdineAnno";
+		_methodName19 = "getDDTByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes19 = new String[] { "long", "int", "long" };
+
+		_methodName20 = "getFatturaByNumeroOrdineAnnoAssociato";
+
+		_methodParameterTypes20 = new String[] {
+				"long", "int", "long", "java.lang.String"
+			};
 	}
 
 	@Override
@@ -683,7 +689,7 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getByNumeroOrdineAnno(
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -692,6 +698,45 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
 					_methodParameterTypes19,
 					new Object[] { numeroOrdine, anno, idAssociato });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.RigoDocumento>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
+					new Object[] {
+						numeroOrdine,
+						
+					anno,
+						
+					idAssociato,
+						
+					ClpSerializer.translateInput(tipoDocumento)
+					});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -751,4 +796,6 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
 }

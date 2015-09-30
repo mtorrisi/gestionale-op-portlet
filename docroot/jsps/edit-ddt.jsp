@@ -54,7 +54,7 @@
     }
 
     JSONArray jsonArr = JSONFactoryUtil.createJSONArray();
-    List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getByNumeroOrdineAnno(numeroDocumento, anno, a.getId());
+    List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroDocumento, anno, a.getId());
 
     for (RigoDocumento rigo : listRigo) {
 
@@ -644,7 +644,13 @@
             {
                 editor: numberEditor,
                 key: 'kgRete',
-                label: 'KG Rete'
+                label: 'KG Rete',
+                emptyCellValue: 'Kg'
+            },
+            {
+                editor: nameEditor,
+                key: 'unitaMisura',
+                label: 'Un.Mis.'
             },
             {
                 editor: numberEditor,

@@ -82,12 +82,16 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			{ "WkLotto", Types.VARCHAR },
 			{ "CodPassaportoAlfa", Types.VARCHAR },
 			{ "CodPassaportoNum", Types.INTEGER },
+			{ "sconto1", Types.FLOAT },
+			{ "sconto2", Types.FLOAT },
+			{ "sconto3", Types.FLOAT },
+			{ "WKTipdoc", Types.VARCHAR },
 			{ "id_associato", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, id_associato))";
+	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table SSRIGORD";
-	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC, rigoDocumento.id.idAssociato ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC, SSRIGORD.id_associato ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC, rigoDocumento.id.tipoDocumento ASC, rigoDocumento.id.idAssociato ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC, SSRIGORD.WKTipdoc ASC, SSRIGORD.id_associato ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -103,7 +107,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	public static long ANNO_COLUMN_BITMASK = 1L;
 	public static long IDASSOCIATO_COLUMN_BITMASK = 2L;
 	public static long NUMEROORDINE_COLUMN_BITMASK = 4L;
-	public static long RIGOORDINE_COLUMN_BITMASK = 8L;
+	public static long TIPODOCUMENTO_COLUMN_BITMASK = 8L;
+	public static long RIGOORDINE_COLUMN_BITMASK = 16L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -140,6 +145,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		model.setLotto(soapModel.getLotto());
 		model.setPassaporto(soapModel.getPassaporto());
 		model.setProgressivo(soapModel.getProgressivo());
+		model.setSconto1(soapModel.getSconto1());
+		model.setSconto2(soapModel.getSconto2());
+		model.setSconto3(soapModel.getSconto3());
+		model.setTipoDocumento(soapModel.getTipoDocumento());
 		model.setIdAssociato(soapModel.getIdAssociato());
 
 		return model;
@@ -174,7 +183,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	@Override
 	public RigoDocumentoPK getPrimaryKey() {
 		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
-			_idAssociato);
+			_tipoDocumento, _idAssociato);
 	}
 
 	@Override
@@ -182,13 +191,14 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		setAnno(primaryKey.anno);
 		setNumeroOrdine(primaryKey.numeroOrdine);
 		setRigoOrdine(primaryKey.rigoOrdine);
+		setTipoDocumento(primaryKey.tipoDocumento);
 		setIdAssociato(primaryKey.idAssociato);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
 		return new RigoDocumentoPK(_anno, _numeroOrdine, _rigoOrdine,
-			_idAssociato);
+			_tipoDocumento, _idAssociato);
 	}
 
 	@Override
@@ -232,6 +242,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("sconto1", getSconto1());
+		attributes.put("sconto2", getSconto2());
+		attributes.put("sconto3", getSconto3());
+		attributes.put("tipoDocumento", getTipoDocumento());
 		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
@@ -370,6 +384,30 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Float sconto1 = (Float)attributes.get("sconto1");
+
+		if (sconto1 != null) {
+			setSconto1(sconto1);
+		}
+
+		Float sconto2 = (Float)attributes.get("sconto2");
+
+		if (sconto2 != null) {
+			setSconto2(sconto2);
+		}
+
+		Float sconto3 = (Float)attributes.get("sconto3");
+
+		if (sconto3 != null) {
+			setSconto3(sconto3);
+		}
+
+		String tipoDocumento = (String)attributes.get("tipoDocumento");
+
+		if (tipoDocumento != null) {
+			setTipoDocumento(tipoDocumento);
 		}
 
 		Long idAssociato = (Long)attributes.get("idAssociato");
@@ -692,6 +730,65 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@JSON
 	@Override
+	public float getSconto1() {
+		return _sconto1;
+	}
+
+	@Override
+	public void setSconto1(float sconto1) {
+		_sconto1 = sconto1;
+	}
+
+	@JSON
+	@Override
+	public float getSconto2() {
+		return _sconto2;
+	}
+
+	@Override
+	public void setSconto2(float sconto2) {
+		_sconto2 = sconto2;
+	}
+
+	@JSON
+	@Override
+	public float getSconto3() {
+		return _sconto3;
+	}
+
+	@Override
+	public void setSconto3(float sconto3) {
+		_sconto3 = sconto3;
+	}
+
+	@JSON
+	@Override
+	public String getTipoDocumento() {
+		if (_tipoDocumento == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _tipoDocumento;
+		}
+	}
+
+	@Override
+	public void setTipoDocumento(String tipoDocumento) {
+		_columnBitmask |= TIPODOCUMENTO_COLUMN_BITMASK;
+
+		if (_originalTipoDocumento == null) {
+			_originalTipoDocumento = _tipoDocumento;
+		}
+
+		_tipoDocumento = tipoDocumento;
+	}
+
+	public String getOriginalTipoDocumento() {
+		return GetterUtil.getString(_originalTipoDocumento);
+	}
+
+	@JSON
+	@Override
 	public long getIdAssociato() {
 		return _idAssociato;
 	}
@@ -753,6 +850,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoImpl.setLotto(getLotto());
 		rigoDocumentoImpl.setPassaporto(getPassaporto());
 		rigoDocumentoImpl.setProgressivo(getProgressivo());
+		rigoDocumentoImpl.setSconto1(getSconto1());
+		rigoDocumentoImpl.setSconto2(getSconto2());
+		rigoDocumentoImpl.setSconto3(getSconto3());
+		rigoDocumentoImpl.setTipoDocumento(getTipoDocumento());
 		rigoDocumentoImpl.setIdAssociato(getIdAssociato());
 
 		rigoDocumentoImpl.resetOriginalValues();
@@ -805,6 +906,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoModelImpl._originalNumeroOrdine = rigoDocumentoModelImpl._numeroOrdine;
 
 		rigoDocumentoModelImpl._setOriginalNumeroOrdine = false;
+
+		rigoDocumentoModelImpl._originalTipoDocumento = rigoDocumentoModelImpl._tipoDocumento;
 
 		rigoDocumentoModelImpl._originalIdAssociato = rigoDocumentoModelImpl._idAssociato;
 
@@ -910,6 +1013,20 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		rigoDocumentoCacheModel.progressivo = getProgressivo();
 
+		rigoDocumentoCacheModel.sconto1 = getSconto1();
+
+		rigoDocumentoCacheModel.sconto2 = getSconto2();
+
+		rigoDocumentoCacheModel.sconto3 = getSconto3();
+
+		rigoDocumentoCacheModel.tipoDocumento = getTipoDocumento();
+
+		String tipoDocumento = rigoDocumentoCacheModel.tipoDocumento;
+
+		if ((tipoDocumento != null) && (tipoDocumento.length() == 0)) {
+			rigoDocumentoCacheModel.tipoDocumento = null;
+		}
+
 		rigoDocumentoCacheModel.idAssociato = getIdAssociato();
 
 		return rigoDocumentoCacheModel;
@@ -917,7 +1034,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(47);
+		StringBundler sb = new StringBundler(55);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -963,6 +1080,14 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", sconto1=");
+		sb.append(getSconto1());
+		sb.append(", sconto2=");
+		sb.append(getSconto2());
+		sb.append(", sconto3=");
+		sb.append(getSconto3());
+		sb.append(", tipoDocumento=");
+		sb.append(getTipoDocumento());
 		sb.append(", idAssociato=");
 		sb.append(getIdAssociato());
 		sb.append("}");
@@ -972,7 +1097,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(73);
+		StringBundler sb = new StringBundler(85);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1067,6 +1192,22 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>sconto1</column-name><column-value><![CDATA[");
+		sb.append(getSconto1());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sconto2</column-name><column-value><![CDATA[");
+		sb.append(getSconto2());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sconto3</column-name><column-value><![CDATA[");
+		sb.append(getSconto3());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tipoDocumento</column-name><column-value><![CDATA[");
+		sb.append(getTipoDocumento());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
 		sb.append(getIdAssociato());
 		sb.append("]]></column-value></column>");
@@ -1106,6 +1247,11 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private float _sconto1;
+	private float _sconto2;
+	private float _sconto3;
+	private String _tipoDocumento;
+	private String _originalTipoDocumento;
 	private long _idAssociato;
 	private long _originalIdAssociato;
 	private boolean _setOriginalIdAssociato;

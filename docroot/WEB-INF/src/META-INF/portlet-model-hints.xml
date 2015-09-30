@@ -132,6 +132,10 @@
 		<field name="lotto" type="String" />
 		<field name="passaporto" type="String" />
 		<field name="progressivo" type="int" />
+		<field name="sconto1" type="float" />
+		<field name="sconto2" type="float" />
+		<field name="sconto3" type="float" />
+		<field name="tipoDocumento" type="String" />
 		<field name="idAssociato" type="long" />
 	</model>
 	<model name="it.bysoftware.ct.model.TestataDocumento">
