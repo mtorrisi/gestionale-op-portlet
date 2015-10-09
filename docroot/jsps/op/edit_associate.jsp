@@ -31,7 +31,12 @@
         <aui:layout>
             <aui:column columnWidth="50" first="true" >
                 <input id="id" name="<portlet:namespace />id" type="text" placeholder="" class="form-control input-md input-xlarge"  style="display: none" value="<%= a.getId()%>"/>
-
+                <div class="control-group">
+                    <label class="control-label" for="ragioneSociale">Codice Associato: </label>  
+                    <div class="controls">
+                        <input id="id" name="<portlet:namespace />id" type="text" placeholder="" class="form-control input-md input-small" disabled="true" value="<%= a.getIdLiferay()%>"/>
+                    </div>
+                </div>
                 <!-- Text input-->
                 <div class="control-group">
                     <label class="control-label" for="ragioneSociale">Ragione sociale: </label>  
@@ -224,14 +229,14 @@
                 }
         );
 
-YUI().use("liferay-util-list-fields", function(Y){
+        YUI().use("liferay-util-list-fields", function (Y) {
 
-        Y.one('#btnSave').on('click', function (event) {
+            Y.one('#btnSave').on('click', function (event) {
 
-            var selectedValues = Liferay.Util.listSelect('#<portlet:namespace/>selectedValues');
-            Y.one('#<portlet:namespace/>values').val(selectedValues);
-            submitForm('#<portlet:namespace/>fm');
+                var selectedValues = Liferay.Util.listSelect('#<portlet:namespace/>selectedValues');
+                Y.one('#<portlet:namespace/>values').val(selectedValues);
+                submitForm('#<portlet:namespace/>fm');
+            });
         });
-});
 
 </script>

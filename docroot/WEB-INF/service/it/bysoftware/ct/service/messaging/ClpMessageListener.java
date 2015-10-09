@@ -34,6 +34,8 @@ import it.bysoftware.ct.service.CuraTrasportoLocalServiceUtil;
 import it.bysoftware.ct.service.CuraTrasportoServiceUtil;
 import it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil;
 import it.bysoftware.ct.service.DescrizioniDocumentiServiceUtil;
+import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
+import it.bysoftware.ct.service.DescrizioniVariantiServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
@@ -88,6 +90,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			DescrizioniDocumentiLocalServiceUtil.clearService();
 
 			DescrizioniDocumentiServiceUtil.clearService();
+			DescrizioniVariantiLocalServiceUtil.clearService();
+
+			DescrizioniVariantiServiceUtil.clearService();
 			DestinatariDiversiLocalServiceUtil.clearService();
 
 			DestinatariDiversiServiceUtil.clearService();

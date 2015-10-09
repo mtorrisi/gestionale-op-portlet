@@ -236,7 +236,7 @@ public class DDTPortlet extends MVCPortlet {
                     writer.print(response);
                 }
             }
-
+            
             writer.print(gson.toJson(response));
             writer.flush();
             writer.close();
@@ -502,6 +502,12 @@ public class DDTPortlet extends MVCPortlet {
             JSONObject rowJSON = rowsJSON.getJSONObject(i);
             RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
+            String[] tmp = rigo.getDescrizioneVariante().split("-");
+            
+            if(tmp.length != 0){
+                rigo.setDescrizioneVariante(tmp[0].trim());
+            }
+            
             rigo.setAnno(ANNO);
             rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
             rigo.setRigoOrdine(i + 1);
@@ -569,10 +575,14 @@ public class DDTPortlet extends MVCPortlet {
 
         TestataDocumento purchaseInvoice = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroFattura, FAC, associato.getId()));
 
-        purchaseInvoice.setCodiceSoggetto(String.valueOf(op.getId()));
-        purchaseInvoice.setRagioneSociale(op.getRagioneSociale());
-        purchaseInvoice.setDestinazione(op.getIndirizzo());
+        purchaseInvoice.setCodiceSoggetto(String.valueOf(associato.getIdLiferay()));
+        purchaseInvoice.setRagioneSociale(associato.getRagioneSociale());
+        purchaseInvoice.setDestinazione(associato.getIndirizzo());
         purchaseInvoice.setDataOrdine(documentDate);
+//        purchaseInvoice.setCodiceSoggetto(String.valueOf(op.getId()));
+//        purchaseInvoice.setRagioneSociale(op.getRagioneSociale());
+//        purchaseInvoice.setDestinazione(op.getIndirizzo());
+//        purchaseInvoice.setDataOrdine(documentDate);
         purchaseInvoice.setOperatore(resourceRequest.getRemoteUser());
         purchaseInvoice.setCompleto(COMPLETED);
 

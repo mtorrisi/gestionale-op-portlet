@@ -200,6 +200,28 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.DescrizioniVariantiModelImpl">
+		<attributes>
+			<id name="codiceVariante">
+				<column name="CVDCODVAR" />
+			</id>
+			<basic name="descrizioneVariante">
+				<column name="CVDDESCRI" />
+			</basic>
+			<basic name="ordine">
+				<column name="CVDORDINE" />
+			</basic>
+			<basic name="tipoVariante">
+				<column name="CVDTIPVAR" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="CVDCODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.DestinatariDiversiModelImpl">
 		<attributes>
 			<id name="codiceAnagrafica">
@@ -601,6 +623,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DescrizioniDocumentiImpl" name="DescrizioniDocumenti">
 		<table name="DescrizioniDocumenti" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.DescrizioniVariantiImpl" name="DescrizioniVarianti">
+		<table name="DescrizioniVarianti" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">

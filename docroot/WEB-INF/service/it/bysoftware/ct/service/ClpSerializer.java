@@ -33,6 +33,7 @@ import it.bysoftware.ct.model.CausaleTrasportoClp;
 import it.bysoftware.ct.model.ClientiDatiAggClp;
 import it.bysoftware.ct.model.CuraTrasportoClp;
 import it.bysoftware.ct.model.DescrizioniDocumentiClp;
+import it.bysoftware.ct.model.DescrizioniVariantiClp;
 import it.bysoftware.ct.model.DestinatariDiversiClp;
 import it.bysoftware.ct.model.OrganizzazioneProduttoriClp;
 import it.bysoftware.ct.model.PortoClp;
@@ -146,6 +147,10 @@ public class ClpSerializer {
 
 		if (oldModelClassName.equals(DescrizioniDocumentiClp.class.getName())) {
 			return translateInputDescrizioniDocumenti(oldModel);
+		}
+
+		if (oldModelClassName.equals(DescrizioniVariantiClp.class.getName())) {
+			return translateInputDescrizioniVarianti(oldModel);
 		}
 
 		if (oldModelClassName.equals(DestinatariDiversiClp.class.getName())) {
@@ -268,6 +273,17 @@ public class ClpSerializer {
 		DescrizioniDocumentiClp oldClpModel = (DescrizioniDocumentiClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getDescrizioniDocumentiRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputDescrizioniVarianti(
+		BaseModel<?> oldModel) {
+		DescrizioniVariantiClp oldClpModel = (DescrizioniVariantiClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getDescrizioniVariantiRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -623,6 +639,43 @@ public class ClpSerializer {
 		if (oldModelClassName.equals(
 					"it.bysoftware.ct.model.impl.DescrizioniDocumentiImpl")) {
 			return translateOutputDescrizioniDocumenti(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.DescrizioniVariantiImpl")) {
+			return translateOutputDescrizioniVarianti(oldModel);
 		}
 		else if (oldModelClassName.endsWith("Clp")) {
 			try {
@@ -1029,6 +1082,11 @@ public class ClpSerializer {
 		}
 
 		if (className.equals(
+					"it.bysoftware.ct.NoSuchDescrizioniVariantiException")) {
+			return new it.bysoftware.ct.NoSuchDescrizioniVariantiException();
+		}
+
+		if (className.equals(
 					"it.bysoftware.ct.NoSuchDestinatariDiversiException")) {
 			return new it.bysoftware.ct.NoSuchDestinatariDiversiException();
 		}
@@ -1139,6 +1197,17 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setDescrizioniDocumentiRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputDescrizioniVarianti(
+		BaseModel<?> oldModel) {
+		DescrizioniVariantiClp newModel = new DescrizioniVariantiClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setDescrizioniVariantiRemoteModel(oldModel);
 
 		return newModel;
 	}

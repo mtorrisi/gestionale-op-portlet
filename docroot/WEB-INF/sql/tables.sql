@@ -38,6 +38,14 @@ create table DescrizioniDocumenti (
 	Re1Codiaz VARCHAR(75) null
 );
 
+create table DescrizioniVarianti (
+	CvdCodvar VARCHAR(75) not null primary key,
+	CvdDescri VARCHAR(75) null,
+	CvdOrdine INTEGER,
+	CvdTipvar VARCHAR(75) null,
+	CvdCodiaz VARCHAR(75) null
+);
+
 create table DestinatariDiversi (
 	RavCodana VARCHAR(75) not null primary key,
 	RavCodrif VARCHAR(75) null,

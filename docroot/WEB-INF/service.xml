@@ -197,6 +197,8 @@
         </column>
         <column name='rigoOrdine' db-name='WkRigord' type='int' primary='true'>
         </column>
+        <column name='codiceVariante' db-name='WkVarian' type='String'>
+        </column>
         <column name='descrizioneVariante' db-name='WkDesvar' type='String'>
         </column>
         <column name='codiceArticolo' db-name='WkCodart' type='String'>
@@ -456,5 +458,17 @@
             <finder-column name='tipoDocumento' comparator='='>
             </finder-column>
         </finder>
+    </entity>
+    <entity name='DescrizioniVarianti' table='DescrizioniVarianti' local-service='true' remote-service='true' >
+        <column name='codiceVariante' db-name='CvdCodvar' type='String' primary='true'>
+        </column>
+        <column name='descrizioneVariante' db-name='CvdDescri' type='String' >
+        </column>
+        <column name='ordine' db-name='CvdOrdine' type='int' >
+        </column>
+        <column name='tipoVariante' db-name='CvdTipvar' type='String' >
+        </column>
+        <column name='codiceAzienda' db-name='CvdCodiaz' type='String'>
+        </column>
     </entity>
 </service-builder>

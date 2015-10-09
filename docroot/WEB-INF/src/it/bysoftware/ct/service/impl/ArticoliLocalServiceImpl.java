@@ -94,8 +94,8 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
             junction.add(property.eq(value));
         } else {
             Property property = PropertyFactoryUtil.forName("categoriaMerceologica");
-            String value = "IMB";
-            junction.add(property.ne(value));
+            String value = "AGR";
+            junction.add(property.eq(value));
         }
         
         if (Validator.isNotNull(codiceArticolo)) {

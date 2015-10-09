@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
+<%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
@@ -30,6 +32,17 @@
 <%@include file="../init.jsp" %>
 
 <%
+    List<DescrizioniVarianti> varianti = DescrizioniVariantiLocalServiceUtil.getVarianti();
+    String stringVarianti = "";
+    for(int i = 0; i < varianti.size(); i++){
+        if(i == varianti.size() - 1)
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " +  varianti.get(i).getDescrizioneVariante();
+        else
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " +  varianti.get(i).getDescrizioneVariante() + "|";
+            
+        System.out.println("PIPPO: " + stringVarianti);
+    }
+    
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     //    request.setAttribute("destinazioni", destinazioni);
 
@@ -254,6 +267,7 @@
 //            return "";
 //        };
 
+        var variety = "<%= stringVarianti %>";
         YUI().use('node', function (Y) {
             Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto());
         });
@@ -567,7 +581,8 @@
                         }
                     }
             );
-
+    
+//            var variety = '<%= stringVarianti %>';
             var columns = [
                 //            {
                 //                key: 'select',
@@ -586,6 +601,14 @@
                 {
                     key: 'descrizione',
                     label: 'Descrizione'
+                },
+                {
+                    editor: new Y.DropDownCellEditor({
+//                                editable: true,
+                                options: variety.split("|")
+                            }),
+                    key: 'descrizioneVariante',
+                    label: 'Varietà'
                 },
                 {
                     editor: nameEditor,
@@ -652,22 +675,23 @@
                     editor: numberEditor,
                     key: 'prezzo',
                     label: 'Prezzo'
-                },
+                }
 //                {
 //                    editor: nameEditor,
 //                    key: 'codArtFornitore',
 //                    label: 'Art. For.'
 //                },
-                {
-                    editor: nameEditor,
-                    key: 'passaporto',
-                    label: 'Passaporto'
-                },
-                {
-                    editor: numberEditor,
-                    key: 'progressivo',
-                    label: 'Progr.'
-                }
+//                {
+//                    editor: nameEditor,
+//                    key: 'passaporto',
+//                    label: 'Passaporto'
+//                }
+//                {
+//                    visible: false,
+//                    editor: numberEditor,
+//                    key: 'progressivo',
+//                    label: 'Progr.'
+//                }
             ];
 
             //        var data = [{}];
@@ -794,6 +818,9 @@
             });
             table.after('*:taraPedanaChange', function (e) {
                 calcola();
+            });
+            table.after('*:descrizioneVarianteChange', function (e) {
+                console.log(e.newVal.split("-")[0].trim());
             });
 
 //            table.before('*:prezzoChange', function (e) {

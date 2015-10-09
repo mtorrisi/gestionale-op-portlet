@@ -96,23 +96,21 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 
     private String creaFileTracciato(String utente) {
 
-        File file = new File("/tmp/documenti.txt");
-        // if file doesnt exists, then create it
-
+        File file;
         FileWriter fw;
         try {
+            Associato a = AssociatoLocalServiceUtil.getAssociato(Long.parseLong(utente));            
+            file = new File("/tmp/documenti_" + a.getCentro() +".txt");
             if (!file.exists()) {
                 file.createNewFile();
             } else {
-                Path path = FileSystems.getDefault().getPath("/tmp/", "documenti.txt");
+                Path path = FileSystems.getDefault().getPath("/tmp/","documenti_" + a.getCentro() +".txt");
                 boolean success = Files.deleteIfExists(path);
-                _log.info("Deleted documenti.txt");
+                _log.info("Deleted documenti_" + a.getCentro() +".txt");
             }
             fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
-            
-//            Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(utente));
-            Associato a = AssociatoLocalServiceUtil.getAssociato(Long.parseLong(utente));
+ 
             
             List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 0);
             for (TestataDocumento testata : list) {
@@ -163,9 +161,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                     String Liblng2 = "0" + SEPARATOR;
                     String Liblng3 = "0" + SEPARATOR;
                     String Libdat1 = testata.getDataOrdine() + SEPARATOR;
-                    String Libdat2 = "00:00:00" + SEPARATOR;
-                    String Libdat3 = rigo.getLotto() + SEPARATOR;
-                    String CodlottoGR = SEPARATOR;
+                    String Libdat2 = testata.getDataOrdine() + SEPARATOR;
+                    String Libdat3 = testata.getDataOrdine() + SEPARATOR;
+                    String CodlottoGR = rigo.getLotto() + SEPARATOR;
 
                     valoriRigo = Tiprig + Codart + Codvar + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + CodlottoGR + "\n";
 
@@ -173,8 +171,8 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                     Tiprig = "0" + SEPARATOR;
                     Codart = rigo.getImballo() + SEPARATOR;
                     Codvar = SEPARATOR;
-                    Quanet = "40" + SEPARATOR;
-                    Qm2net = "40" + SEPARATOR;
+                    Quanet = rigo.getColli()+ SEPARATOR;
+                    Qm2net = rigo.getColli()+ SEPARATOR;
                     Prezzo = "0" + SEPARATOR;
                     Libstr1 = SEPARATOR;
                     Libstr2 = SEPARATOR;
@@ -198,9 +196,10 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             }
 
             bw.close();
+            return file.getAbsolutePath();
 
         } catch (IOException ex) {
-            _log.error("Error creating file: " + file.getName() + "\n" + ex.getLocalizedMessage());
+            _log.error(ex.getMessage());
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
         } catch (NoSuchAssociatoException ex) {
@@ -208,7 +207,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
         }
-
-        return file.getAbsolutePath();
+        return null;
+        
     }
 }

@@ -32,6 +32,7 @@ import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence;
+import it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
 import it.bysoftware.ct.service.persistence.PortoPersistence;
@@ -516,6 +517,63 @@ public abstract class DescrizioniDocumentiServiceBaseImpl
 	public void setDescrizioniDocumentiPersistence(
 		DescrizioniDocumentiPersistence descrizioniDocumentiPersistence) {
 		this.descrizioniDocumentiPersistence = descrizioniDocumentiPersistence;
+	}
+
+	/**
+	 * Returns the descrizioni varianti local service.
+	 *
+	 * @return the descrizioni varianti local service
+	 */
+	public it.bysoftware.ct.service.DescrizioniVariantiLocalService getDescrizioniVariantiLocalService() {
+		return descrizioniVariantiLocalService;
+	}
+
+	/**
+	 * Sets the descrizioni varianti local service.
+	 *
+	 * @param descrizioniVariantiLocalService the descrizioni varianti local service
+	 */
+	public void setDescrizioniVariantiLocalService(
+		it.bysoftware.ct.service.DescrizioniVariantiLocalService descrizioniVariantiLocalService) {
+		this.descrizioniVariantiLocalService = descrizioniVariantiLocalService;
+	}
+
+	/**
+	 * Returns the descrizioni varianti remote service.
+	 *
+	 * @return the descrizioni varianti remote service
+	 */
+	public it.bysoftware.ct.service.DescrizioniVariantiService getDescrizioniVariantiService() {
+		return descrizioniVariantiService;
+	}
+
+	/**
+	 * Sets the descrizioni varianti remote service.
+	 *
+	 * @param descrizioniVariantiService the descrizioni varianti remote service
+	 */
+	public void setDescrizioniVariantiService(
+		it.bysoftware.ct.service.DescrizioniVariantiService descrizioniVariantiService) {
+		this.descrizioniVariantiService = descrizioniVariantiService;
+	}
+
+	/**
+	 * Returns the descrizioni varianti persistence.
+	 *
+	 * @return the descrizioni varianti persistence
+	 */
+	public DescrizioniVariantiPersistence getDescrizioniVariantiPersistence() {
+		return descrizioniVariantiPersistence;
+	}
+
+	/**
+	 * Sets the descrizioni varianti persistence.
+	 *
+	 * @param descrizioniVariantiPersistence the descrizioni varianti persistence
+	 */
+	public void setDescrizioniVariantiPersistence(
+		DescrizioniVariantiPersistence descrizioniVariantiPersistence) {
+		this.descrizioniVariantiPersistence = descrizioniVariantiPersistence;
 	}
 
 	/**
@@ -1134,6 +1192,12 @@ public abstract class DescrizioniDocumentiServiceBaseImpl
 	protected it.bysoftware.ct.service.DescrizioniDocumentiService descrizioniDocumentiService;
 	@BeanReference(type = DescrizioniDocumentiPersistence.class)
 	protected DescrizioniDocumentiPersistence descrizioniDocumentiPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.DescrizioniVariantiLocalService.class)
+	protected it.bysoftware.ct.service.DescrizioniVariantiLocalService descrizioniVariantiLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.DescrizioniVariantiService.class)
+	protected it.bysoftware.ct.service.DescrizioniVariantiService descrizioniVariantiService;
+	@BeanReference(type = DescrizioniVariantiPersistence.class)
+	protected DescrizioniVariantiPersistence descrizioniVariantiPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiLocalService.class)
 	protected it.bysoftware.ct.service.DestinatariDiversiLocalService destinatariDiversiLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.DestinatariDiversiService.class)

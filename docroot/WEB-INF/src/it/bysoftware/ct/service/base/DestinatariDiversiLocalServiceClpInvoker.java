@@ -106,29 +106,29 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.DestinatariDiversi"
 			};
 
-		_methodName118 = "getBeanIdentifier";
-
-		_methodParameterTypes118 = new String[] {  };
-
-		_methodName119 = "setBeanIdentifier";
-
-		_methodParameterTypes119 = new String[] { "java.lang.String" };
-
-		_methodName124 = "getDestinazioni";
+		_methodName124 = "getBeanIdentifier";
 
 		_methodParameterTypes124 = new String[] {  };
 
-		_methodName125 = "getDestinazioni";
+		_methodName125 = "setBeanIdentifier";
 
 		_methodParameterTypes125 = new String[] { "java.lang.String" };
 
-		_methodName126 = "getDestinazioni";
+		_methodName130 = "getDestinazioni";
 
-		_methodParameterTypes126 = new String[] { "java.lang.String", "int", "int" };
+		_methodParameterTypes130 = new String[] {  };
 
-		_methodName127 = "countDestinazioniDiverse";
+		_methodName131 = "getDestinazioni";
 
-		_methodParameterTypes127 = new String[] { "java.lang.String" };
+		_methodParameterTypes131 = new String[] { "java.lang.String" };
+
+		_methodName132 = "getDestinazioni";
+
+		_methodParameterTypes132 = new String[] { "java.lang.String", "int", "int" };
+
+		_methodName133 = "countDestinazioniDiverse";
+
+		_methodParameterTypes133 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -220,37 +220,37 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 			return DestinatariDiversiLocalServiceUtil.updateDestinatariDiversi((it.bysoftware.ct.model.DestinatariDiversi)arguments[0]);
 		}
 
-		if (_methodName118.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes118, parameterTypes)) {
+		if (_methodName124.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes124, parameterTypes)) {
 			return DestinatariDiversiLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName119.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes119, parameterTypes)) {
+		if (_methodName125.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes125, parameterTypes)) {
 			DestinatariDiversiLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName124.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes124, parameterTypes)) {
+		if (_methodName130.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes130, parameterTypes)) {
 			return DestinatariDiversiLocalServiceUtil.getDestinazioni();
 		}
 
-		if (_methodName125.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes125, parameterTypes)) {
+		if (_methodName131.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes131, parameterTypes)) {
 			return DestinatariDiversiLocalServiceUtil.getDestinazioni((java.lang.String)arguments[0]);
 		}
 
-		if (_methodName126.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes126, parameterTypes)) {
+		if (_methodName132.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes132, parameterTypes)) {
 			return DestinatariDiversiLocalServiceUtil.getDestinazioni((java.lang.String)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue());
 		}
 
-		if (_methodName127.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes127, parameterTypes)) {
+		if (_methodName133.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes133, parameterTypes)) {
 			return DestinatariDiversiLocalServiceUtil.countDestinazioniDiverse((java.lang.String)arguments[0]);
 		}
 
@@ -289,16 +289,16 @@ public class DestinatariDiversiLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName118;
-	private String[] _methodParameterTypes118;
-	private String _methodName119;
-	private String[] _methodParameterTypes119;
 	private String _methodName124;
 	private String[] _methodParameterTypes124;
 	private String _methodName125;
 	private String[] _methodParameterTypes125;
-	private String _methodName126;
-	private String[] _methodParameterTypes126;
-	private String _methodName127;
-	private String[] _methodParameterTypes127;
+	private String _methodName130;
+	private String[] _methodParameterTypes130;
+	private String _methodName131;
+	private String[] _methodParameterTypes131;
+	private String _methodName132;
+	private String[] _methodParameterTypes132;
+	private String _methodName133;
+	private String[] _methodParameterTypes133;
 }
