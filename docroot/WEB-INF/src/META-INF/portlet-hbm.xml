@@ -181,6 +181,7 @@
 			<key-property name="tipoDocumento" column="WKTipdoc" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
+		<property name="codiceVariante" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkVarian" />
 		<property name="descrizioneVariante" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDesvar" />
 		<property name="codiceArticolo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkCodart" />
 		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkDescri" />

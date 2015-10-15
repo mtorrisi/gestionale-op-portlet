@@ -63,6 +63,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			{ "WKAnno", Types.INTEGER },
 			{ "WkNOrd", Types.BIGINT },
 			{ "WkRigord", Types.INTEGER },
+			{ "WkVarian", Types.VARCHAR },
 			{ "WkDesvar", Types.VARCHAR },
 			{ "WkCodart", Types.VARCHAR },
 			{ "WkDescri", Types.VARCHAR },
@@ -88,7 +89,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			{ "WKTipdoc", Types.VARCHAR },
 			{ "id_associato", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
+	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkVarian VARCHAR(75) null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table SSRIGORD";
 	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC, rigoDocumento.id.tipoDocumento ASC, rigoDocumento.id.idAssociato ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC, SSRIGORD.WKTipdoc ASC, SSRIGORD.id_associato ASC";
@@ -126,6 +127,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		model.setAnno(soapModel.getAnno());
 		model.setNumeroOrdine(soapModel.getNumeroOrdine());
 		model.setRigoOrdine(soapModel.getRigoOrdine());
+		model.setCodiceVariante(soapModel.getCodiceVariante());
 		model.setDescrizioneVariante(soapModel.getDescrizioneVariante());
 		model.setCodiceArticolo(soapModel.getCodiceArticolo());
 		model.setDescrizione(soapModel.getDescrizione());
@@ -223,6 +225,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		attributes.put("anno", getAnno());
 		attributes.put("numeroOrdine", getNumeroOrdine());
 		attributes.put("rigoOrdine", getRigoOrdine());
+		attributes.put("codiceVariante", getCodiceVariante());
 		attributes.put("descrizioneVariante", getDescrizioneVariante());
 		attributes.put("codiceArticolo", getCodiceArticolo());
 		attributes.put("descrizione", getDescrizione());
@@ -269,6 +272,12 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		if (rigoOrdine != null) {
 			setRigoOrdine(rigoOrdine);
+		}
+
+		String codiceVariante = (String)attributes.get("codiceVariante");
+
+		if (codiceVariante != null) {
+			setCodiceVariante(codiceVariante);
 		}
 
 		String descrizioneVariante = (String)attributes.get(
@@ -472,6 +481,22 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	@Override
 	public void setRigoOrdine(int rigoOrdine) {
 		_rigoOrdine = rigoOrdine;
+	}
+
+	@JSON
+	@Override
+	public String getCodiceVariante() {
+		if (_codiceVariante == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _codiceVariante;
+		}
+	}
+
+	@Override
+	public void setCodiceVariante(String codiceVariante) {
+		_codiceVariante = codiceVariante;
 	}
 
 	@JSON
@@ -831,6 +856,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoImpl.setAnno(getAnno());
 		rigoDocumentoImpl.setNumeroOrdine(getNumeroOrdine());
 		rigoDocumentoImpl.setRigoOrdine(getRigoOrdine());
+		rigoDocumentoImpl.setCodiceVariante(getCodiceVariante());
 		rigoDocumentoImpl.setDescrizioneVariante(getDescrizioneVariante());
 		rigoDocumentoImpl.setCodiceArticolo(getCodiceArticolo());
 		rigoDocumentoImpl.setDescrizione(getDescrizione());
@@ -925,6 +951,14 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoCacheModel.numeroOrdine = getNumeroOrdine();
 
 		rigoDocumentoCacheModel.rigoOrdine = getRigoOrdine();
+
+		rigoDocumentoCacheModel.codiceVariante = getCodiceVariante();
+
+		String codiceVariante = rigoDocumentoCacheModel.codiceVariante;
+
+		if ((codiceVariante != null) && (codiceVariante.length() == 0)) {
+			rigoDocumentoCacheModel.codiceVariante = null;
+		}
 
 		rigoDocumentoCacheModel.descrizioneVariante = getDescrizioneVariante();
 
@@ -1034,7 +1068,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1042,6 +1076,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getNumeroOrdine());
 		sb.append(", rigoOrdine=");
 		sb.append(getRigoOrdine());
+		sb.append(", codiceVariante=");
+		sb.append(getCodiceVariante());
 		sb.append(", descrizioneVariante=");
 		sb.append(getDescrizioneVariante());
 		sb.append(", codiceArticolo=");
@@ -1097,7 +1133,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(85);
+		StringBundler sb = new StringBundler(88);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1114,6 +1150,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(
 			"<column><column-name>rigoOrdine</column-name><column-value><![CDATA[");
 		sb.append(getRigoOrdine());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>codiceVariante</column-name><column-value><![CDATA[");
+		sb.append(getCodiceVariante());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>descrizioneVariante</column-name><column-value><![CDATA[");
@@ -1228,6 +1268,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private long _originalNumeroOrdine;
 	private boolean _setOriginalNumeroOrdine;
 	private int _rigoOrdine;
+	private String _codiceVariante;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;
 	private String _descrizione;

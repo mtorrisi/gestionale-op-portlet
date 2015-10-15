@@ -356,6 +356,9 @@
 			<id name="idAssociato">
 				<column name="ID_ASSOCIATO" />
 			</id>
+			<basic name="codiceVariante">
+				<column name="WKVARIAN" />
+			</basic>
 			<basic name="descrizioneVariante">
 				<column name="WKDESVAR" />
 			</basic>

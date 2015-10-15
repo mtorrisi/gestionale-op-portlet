@@ -15,6 +15,7 @@ create index IX_2A5D7118 on SSTESORD (WKAnno, WKTipdoc, id_associato);
 create index IX_5EF84E9D on SSTESORD (WkCodsog, WkOperatore);
 create index IX_8C00B6D8 on SSTESORD (WkOperatore);
 create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);
+create index IX_986314C2 on SSTESORD (WkOperatore, WKCompleto, WKInviato, WKTipdoc);
 
 create index IX_E93AA8C3 on associato (attivo);
 create unique index IX_95DBA707 on associato (centro);

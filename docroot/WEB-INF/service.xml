@@ -180,6 +180,8 @@
             </finder-column>
             <finder-column name='inviato' comparator='='>
             </finder-column>
+            <finder-column name='tipoDocumento' comparator='!='>
+            </finder-column>
         </finder>
         <finder name='annoTipoDocumentoIdAssociato' return-type='Collection'>
             <finder-column name='anno' comparator='='>

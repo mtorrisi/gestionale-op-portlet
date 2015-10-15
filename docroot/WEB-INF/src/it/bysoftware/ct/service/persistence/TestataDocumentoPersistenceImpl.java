@@ -1276,53 +1276,41 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 			"findByoperatoreCompletoInviato",
 			new String[] {
 				String.class.getName(), String.class.getName(),
-				Integer.class.getName(),
+				Integer.class.getName(), String.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
 			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO =
-		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
-			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
-			TestataDocumentoImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"findByoperatoreCompletoInviato",
-			new String[] {
-				String.class.getName(), String.class.getName(),
-				Integer.class.getName()
-			},
-			TestataDocumentoModelImpl.OPERATORE_COLUMN_BITMASK |
-			TestataDocumentoModelImpl.COMPLETO_COLUMN_BITMASK |
-			TestataDocumentoModelImpl.INVIATO_COLUMN_BITMASK);
-	public static final FinderPath FINDER_PATH_COUNT_BY_OPERATORECOMPLETOINVIATO =
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_COUNT_BY_OPERATORECOMPLETOINVIATO =
 		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
 			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED, Long.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
 			"countByoperatoreCompletoInviato",
 			new String[] {
 				String.class.getName(), String.class.getName(),
-				Integer.class.getName()
+				Integer.class.getName(), String.class.getName()
 			});
 
 	/**
-	 * Returns all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @return the matching testata documentos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public List<TestataDocumento> findByoperatoreCompletoInviato(
-		String operatore, String completo, int inviato)
+		String operatore, String completo, int inviato, String tipoDocumento)
 		throws SystemException {
 		return findByoperatoreCompletoInviato(operatore, completo, inviato,
-			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+			tipoDocumento, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns a range of all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -1331,6 +1319,7 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param start the lower bound of the range of testata documentos
 	 * @param end the upper bound of the range of testata documentos (not inclusive)
 	 * @return the range of matching testata documentos
@@ -1338,14 +1327,14 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	 */
 	@Override
 	public List<TestataDocumento> findByoperatoreCompletoInviato(
-		String operatore, String completo, int inviato, int start, int end)
-		throws SystemException {
+		String operatore, String completo, int inviato, String tipoDocumento,
+		int start, int end) throws SystemException {
 		return findByoperatoreCompletoInviato(operatore, completo, inviato,
-			start, end, null);
+			tipoDocumento, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns an ordered range of all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
@@ -1354,6 +1343,7 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param start the lower bound of the range of testata documentos
 	 * @param end the upper bound of the range of testata documentos (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -1362,26 +1352,19 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	 */
 	@Override
 	public List<TestataDocumento> findByoperatoreCompletoInviato(
-		String operatore, String completo, int inviato, int start, int end,
-		OrderByComparator orderByComparator) throws SystemException {
+		String operatore, String completo, int inviato, String tipoDocumento,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO;
-			finderArgs = new Object[] { operatore, completo, inviato };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO;
-			finderArgs = new Object[] {
-					operatore, completo, inviato,
-					
-					start, end, orderByComparator
-				};
-		}
+		finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO;
+		finderArgs = new Object[] {
+				operatore, completo, inviato, tipoDocumento,
+				
+				start, end, orderByComparator
+			};
 
 		List<TestataDocumento> list = (List<TestataDocumento>)FinderCacheUtil.getResult(finderPath,
 				finderArgs, this);
@@ -1391,7 +1374,9 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				if (!Validator.equals(operatore, testataDocumento.getOperatore()) ||
 						!Validator.equals(completo,
 							testataDocumento.getCompleto()) ||
-						(inviato != testataDocumento.getInviato())) {
+						(inviato != testataDocumento.getInviato()) ||
+						Validator.equals(tipoDocumento,
+							testataDocumento.getTipoDocumento())) {
 					list = null;
 
 					break;
@@ -1403,11 +1388,11 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(5 +
+				query = new StringBundler(6 +
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(5);
+				query = new StringBundler(6);
 			}
 
 			query.append(_SQL_SELECT_TESTATADOCUMENTO_WHERE);
@@ -1442,6 +1427,20 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 
 			query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_INVIATO_2);
 
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_2);
+			}
+
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
 					orderByComparator);
@@ -1471,6 +1470,10 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				}
 
 				qPos.add(inviato);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
 
 				if (!pagination) {
 					list = (List<TestataDocumento>)QueryUtil.list(q,
@@ -1503,11 +1506,12 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	}
 
 	/**
-	 * Returns the first testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns the first testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching testata documento
 	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
@@ -1515,17 +1519,17 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	 */
 	@Override
 	public TestataDocumento findByoperatoreCompletoInviato_First(
-		String operatore, String completo, int inviato,
+		String operatore, String completo, int inviato, String tipoDocumento,
 		OrderByComparator orderByComparator)
 		throws NoSuchTestataDocumentoException, SystemException {
 		TestataDocumento testataDocumento = fetchByoperatoreCompletoInviato_First(operatore,
-				completo, inviato, orderByComparator);
+				completo, inviato, tipoDocumento, orderByComparator);
 
 		if (testataDocumento != null) {
 			return testataDocumento;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler msg = new StringBundler(10);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -1538,27 +1542,31 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 		msg.append(", inviato=");
 		msg.append(inviato);
 
+		msg.append(", tipoDocumento=");
+		msg.append(tipoDocumento);
+
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchTestataDocumentoException(msg.toString());
 	}
 
 	/**
-	 * Returns the first testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns the first testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching testata documento, or <code>null</code> if a matching testata documento could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public TestataDocumento fetchByoperatoreCompletoInviato_First(
-		String operatore, String completo, int inviato,
+		String operatore, String completo, int inviato, String tipoDocumento,
 		OrderByComparator orderByComparator) throws SystemException {
 		List<TestataDocumento> list = findByoperatoreCompletoInviato(operatore,
-				completo, inviato, 0, 1, orderByComparator);
+				completo, inviato, tipoDocumento, 0, 1, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1568,11 +1576,12 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	}
 
 	/**
-	 * Returns the last testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns the last testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching testata documento
 	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
@@ -1580,17 +1589,17 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	 */
 	@Override
 	public TestataDocumento findByoperatoreCompletoInviato_Last(
-		String operatore, String completo, int inviato,
+		String operatore, String completo, int inviato, String tipoDocumento,
 		OrderByComparator orderByComparator)
 		throws NoSuchTestataDocumentoException, SystemException {
 		TestataDocumento testataDocumento = fetchByoperatoreCompletoInviato_Last(operatore,
-				completo, inviato, orderByComparator);
+				completo, inviato, tipoDocumento, orderByComparator);
 
 		if (testataDocumento != null) {
 			return testataDocumento;
 		}
 
-		StringBundler msg = new StringBundler(8);
+		StringBundler msg = new StringBundler(10);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
@@ -1603,33 +1612,39 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 		msg.append(", inviato=");
 		msg.append(inviato);
 
+		msg.append(", tipoDocumento=");
+		msg.append(tipoDocumento);
+
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
 		throw new NoSuchTestataDocumentoException(msg.toString());
 	}
 
 	/**
-	 * Returns the last testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns the last testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching testata documento, or <code>null</code> if a matching testata documento could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public TestataDocumento fetchByoperatoreCompletoInviato_Last(
-		String operatore, String completo, int inviato,
+		String operatore, String completo, int inviato, String tipoDocumento,
 		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByoperatoreCompletoInviato(operatore, completo, inviato);
+		int count = countByoperatoreCompletoInviato(operatore, completo,
+				inviato, tipoDocumento);
 
 		if (count == 0) {
 			return null;
 		}
 
 		List<TestataDocumento> list = findByoperatoreCompletoInviato(operatore,
-				completo, inviato, count - 1, count, orderByComparator);
+				completo, inviato, tipoDocumento, count - 1, count,
+				orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1639,12 +1654,13 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	}
 
 	/**
-	 * Returns the testata documentos before and after the current testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns the testata documentos before and after the current testata documento in the ordered set where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param testataDocumentoPK the primary key of the current testata documento
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next testata documento
 	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a testata documento with the primary key could not be found
@@ -1653,7 +1669,8 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	@Override
 	public TestataDocumento[] findByoperatoreCompletoInviato_PrevAndNext(
 		TestataDocumentoPK testataDocumentoPK, String operatore,
-		String completo, int inviato, OrderByComparator orderByComparator)
+		String completo, int inviato, String tipoDocumento,
+		OrderByComparator orderByComparator)
 		throws NoSuchTestataDocumentoException, SystemException {
 		TestataDocumento testataDocumento = findByPrimaryKey(testataDocumentoPK);
 
@@ -1666,13 +1683,13 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 
 			array[0] = getByoperatoreCompletoInviato_PrevAndNext(session,
 					testataDocumento, operatore, completo, inviato,
-					orderByComparator, true);
+					tipoDocumento, orderByComparator, true);
 
 			array[1] = testataDocumento;
 
 			array[2] = getByoperatoreCompletoInviato_PrevAndNext(session,
 					testataDocumento, operatore, completo, inviato,
-					orderByComparator, false);
+					tipoDocumento, orderByComparator, false);
 
 			return array;
 		}
@@ -1686,8 +1703,8 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 
 	protected TestataDocumento getByoperatoreCompletoInviato_PrevAndNext(
 		Session session, TestataDocumento testataDocumento, String operatore,
-		String completo, int inviato, OrderByComparator orderByComparator,
-		boolean previous) {
+		String completo, int inviato, String tipoDocumento,
+		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
 		if (orderByComparator != null) {
@@ -1729,6 +1746,20 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 		}
 
 		query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_INVIATO_2);
+
+		boolean bindTipoDocumento = false;
+
+		if (tipoDocumento == null) {
+			query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_1);
+		}
+		else if (tipoDocumento.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_3);
+		}
+		else {
+			bindTipoDocumento = true;
+
+			query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_2);
+		}
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1808,6 +1839,10 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 
 		qPos.add(inviato);
 
+		if (bindTipoDocumento) {
+			qPos.add(tipoDocumento);
+		}
+
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(testataDocumento);
 
@@ -1827,44 +1862,50 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	}
 
 	/**
-	 * Removes all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63; from the database.
+	 * Removes all the testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63; from the database.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public void removeByoperatoreCompletoInviato(String operatore,
-		String completo, int inviato) throws SystemException {
+		String completo, int inviato, String tipoDocumento)
+		throws SystemException {
 		for (TestataDocumento testataDocumento : findByoperatoreCompletoInviato(
-				operatore, completo, inviato, QueryUtil.ALL_POS,
+				operatore, completo, inviato, tipoDocumento, QueryUtil.ALL_POS,
 				QueryUtil.ALL_POS, null)) {
 			remove(testataDocumento);
 		}
 	}
 
 	/**
-	 * Returns the number of testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63;.
+	 * Returns the number of testata documentos where operatore = &#63; and completo = &#63; and inviato = &#63; and tipoDocumento &ne; &#63;.
 	 *
 	 * @param operatore the operatore
 	 * @param completo the completo
 	 * @param inviato the inviato
+	 * @param tipoDocumento the tipo documento
 	 * @return the number of matching testata documentos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
 	public int countByoperatoreCompletoInviato(String operatore,
-		String completo, int inviato) throws SystemException {
-		FinderPath finderPath = FINDER_PATH_COUNT_BY_OPERATORECOMPLETOINVIATO;
+		String completo, int inviato, String tipoDocumento)
+		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_WITH_PAGINATION_COUNT_BY_OPERATORECOMPLETOINVIATO;
 
-		Object[] finderArgs = new Object[] { operatore, completo, inviato };
+		Object[] finderArgs = new Object[] {
+				operatore, completo, inviato, tipoDocumento
+			};
 
 		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
 				this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(4);
+			StringBundler query = new StringBundler(5);
 
 			query.append(_SQL_COUNT_TESTATADOCUMENTO_WHERE);
 
@@ -1898,6 +1939,20 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 
 			query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_INVIATO_2);
 
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_2);
+			}
+
 			String sql = query.toString();
 
 			Session session = null;
@@ -1918,6 +1973,10 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				}
 
 				qPos.add(inviato);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
 
 				count = (Long)q.uniqueResult();
 
@@ -1949,7 +2008,13 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 	private static final String _FINDER_COLUMN_OPERATORECOMPLETOINVIATO_COMPLETO_3 =
 		"(testataDocumento.completo IS NULL OR testataDocumento.completo = '') AND ";
 	private static final String _FINDER_COLUMN_OPERATORECOMPLETOINVIATO_INVIATO_2 =
-		"testataDocumento.inviato = ?";
+		"testataDocumento.inviato = ? AND ";
+	private static final String _FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_1 =
+		"testataDocumento.id.tipoDocumento IS NOT NULL";
+	private static final String _FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_2 =
+		"testataDocumento.id.tipoDocumento != ?";
+	private static final String _FINDER_COLUMN_OPERATORECOMPLETOINVIATO_TIPODOCUMENTO_3 =
+		"(testataDocumento.id.tipoDocumento IS NULL OR testataDocumento.id.tipoDocumento != '')";
 	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATO =
 		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
 			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
@@ -2852,31 +2917,6 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_CODICESOGGETTOCODICEOPERATORE,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_CODICESOGGETTOCODICEOPERATORE,
-					args);
-			}
-
-			if ((testataDocumentoModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						testataDocumentoModelImpl.getOriginalOperatore(),
-						testataDocumentoModelImpl.getOriginalCompleto(),
-						testataDocumentoModelImpl.getOriginalInviato()
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_OPERATORECOMPLETOINVIATO,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO,
-					args);
-
-				args = new Object[] {
-						testataDocumentoModelImpl.getOperatore(),
-						testataDocumentoModelImpl.getCompleto(),
-						testataDocumentoModelImpl.getInviato()
-					};
-
-				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_OPERATORECOMPLETOINVIATO,
-					args);
-				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_OPERATORECOMPLETOINVIATO,
 					args);
 			}
 

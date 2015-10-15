@@ -30,9 +30,9 @@
     Anagrafica cliente;
     String indirizzoCompleto;
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
-    String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
+    String origDoc  = ParamUtil.getString(renderRequest, "numeroDocumento", "");
     String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
-    
+
     if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
 
         testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "DDT", a.getId()));
@@ -45,6 +45,7 @@
             JSONObject json = JSONFactoryUtil.createJSONObject();
             json.put("codiceArticolo", rigo.getCodiceArticolo());
             json.put("descrizione", rigo.getDescrizione());
+            json.put("descrizioneVariante", rigo.getDescrizioneVariante());
             json.put("imballo", rigo.getImballo());
             json.put("lotto", rigo.getLotto());
             json.put("unitaMisura", rigo.getUnitaMisura());
@@ -58,9 +59,9 @@
         }
     } else {
         String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
-        
+
         testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), "DDT", a.getId()));
-        for(int i = 0; i < ids.length; i++){
+        for (int i = 0; i < ids.length; i++) {
             listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), "DDT", a.getId())));
         }
 
@@ -76,7 +77,7 @@
         for (RigoDocumento rigo : righeDocumenti) {
             int i = 0;
             JSONObject json = JSONFactoryUtil.createJSONObject();
-            if(oldDocument != rigo.getNumeroOrdine()){
+            if (oldDocument != rigo.getNumeroOrdine()) {
                 json.put("descrizione", "Documento di trasporto N. " + rigo.getNumeroOrdine() + "/" + a.getCentro() + " del " + listTestata.get(i).getDataOrdine());
                 jsonArr.put(json);
                 json = json = JSONFactoryUtil.createJSONObject();
@@ -84,6 +85,7 @@
             }
             json.put("codiceArticolo", rigo.getCodiceArticolo());
             json.put("descrizione", rigo.getDescrizione());
+            json.put("descrizioneVariante", rigo.getDescrizioneVariante());
             json.put("imballo", rigo.getImballo());
             json.put("lotto", rigo.getLotto());
             json.put("unitaMisura", rigo.getUnitaMisura());
@@ -98,19 +100,19 @@
         }
 
     }
-    
+
     List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), 2);
 
     ArrayList<Integer> idToRecover = new ArrayList<Integer>();
-    
-    for(Progressivo p : listProgressivo){
+
+    for (Progressivo p : listProgressivo) {
         idToRecover.add(p.getNumeroProgressivo());
     }
 %>
 
 <liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" >
-    <liferay-portlet:param name="numeroDocumento" value="<%= origDoc %>" />
-    <liferay-portlet:param name="documentIds" value="<%= origDocs %>" />
+    <liferay-portlet:param name="numeroDocumento" value="<%= origDoc%>" />
+    <liferay-portlet:param name="documentIds" value="<%= origDocs%>" />
 </liferay-portlet:resourceURL>
 <portlet:resourceURL var="printInvoice" id="printInvoice" />
 <liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
@@ -278,6 +280,10 @@
             {
                 key: 'descrizione',
                 label: 'Descrizione Articolo'
+            },
+            {
+                key: 'descrizioneVariante',
+                label: 'Variante'
             },
             {
                 key: 'imballo',
@@ -502,14 +508,20 @@
 
     function saveInvoice() {
         var rows = [];
+        var ok = true;
         for (var i = 0; i < table.data.size(); i++) {
+            if (table.data.item(i).toJSON().pesoLordo !== 0)
+                if (table.data.item(i).toJSON().importo === 0) {
+                    ok = false;
+                    break;
+                }
             rows[i] = table.data.item(i).toJSON();
         }
         console.log(rows);
-        if (rows.length !== 0)
+        if (rows.length !== 0 && ok)
             sendData(rows);
         else
-            alert("Attenzione non è possibile generare la fattura.");
+            alert("Attenzione non è possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
     }
 
     function sendData(rows) {
@@ -571,5 +583,16 @@
 
         });
     }
+    
+    YUI().use('aui-io-request', 'node', function (Y) {
+            Y.one('#btnPrint').on('click', function () {
+                var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
+
+                var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
+                win.focus();
+
+            });
+        });
+
 </script>
 

@@ -83,6 +83,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		attributes.put("anno", getAnno());
 		attributes.put("numeroOrdine", getNumeroOrdine());
 		attributes.put("rigoOrdine", getRigoOrdine());
+		attributes.put("codiceVariante", getCodiceVariante());
 		attributes.put("descrizioneVariante", getDescrizioneVariante());
 		attributes.put("codiceArticolo", getCodiceArticolo());
 		attributes.put("descrizione", getDescrizione());
@@ -129,6 +130,12 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 		if (rigoOrdine != null) {
 			setRigoOrdine(rigoOrdine);
+		}
+
+		String codiceVariante = (String)attributes.get("codiceVariante");
+
+		if (codiceVariante != null) {
+			setCodiceVariante(codiceVariante);
 		}
 
 		String descrizioneVariante = (String)attributes.get(
@@ -339,6 +346,30 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 				Method method = clazz.getMethod("setRigoOrdine", int.class);
 
 				method.invoke(_rigoDocumentoRemoteModel, rigoOrdine);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getCodiceVariante() {
+		return _codiceVariante;
+	}
+
+	@Override
+	public void setCodiceVariante(String codiceVariante) {
+		_codiceVariante = codiceVariante;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setCodiceVariante",
+						String.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, codiceVariante);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -978,6 +1009,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		clone.setAnno(getAnno());
 		clone.setNumeroOrdine(getNumeroOrdine());
 		clone.setRigoOrdine(getRigoOrdine());
+		clone.setCodiceVariante(getCodiceVariante());
 		clone.setDescrizioneVariante(getDescrizioneVariante());
 		clone.setCodiceArticolo(getCodiceArticolo());
 		clone.setDescrizione(getDescrizione());
@@ -1046,7 +1078,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1054,6 +1086,8 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getNumeroOrdine());
 		sb.append(", rigoOrdine=");
 		sb.append(getRigoOrdine());
+		sb.append(", codiceVariante=");
+		sb.append(getCodiceVariante());
 		sb.append(", descrizioneVariante=");
 		sb.append(getDescrizioneVariante());
 		sb.append(", codiceArticolo=");
@@ -1109,7 +1143,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(85);
+		StringBundler sb = new StringBundler(88);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1126,6 +1160,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(
 			"<column><column-name>rigoOrdine</column-name><column-value><![CDATA[");
 		sb.append(getRigoOrdine());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>codiceVariante</column-name><column-value><![CDATA[");
+		sb.append(getCodiceVariante());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>descrizioneVariante</column-name><column-value><![CDATA[");
@@ -1232,6 +1270,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	private int _anno;
 	private long _numeroOrdine;
 	private int _rigoOrdine;
+	private String _codiceVariante;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;
 	private String _descrizione;

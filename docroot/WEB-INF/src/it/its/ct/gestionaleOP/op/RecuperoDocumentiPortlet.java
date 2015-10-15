@@ -99,19 +99,18 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
         File file;
         FileWriter fw;
         try {
-            Associato a = AssociatoLocalServiceUtil.getAssociato(Long.parseLong(utente));            
-            file = new File("/tmp/documenti_" + a.getCentro() +".txt");
+            Associato a = AssociatoLocalServiceUtil.getAssociato(Long.parseLong(utente));
+            file = new File("/tmp/documenti_" + a.getCentro() + ".txt");
             if (!file.exists()) {
                 file.createNewFile();
             } else {
-                Path path = FileSystems.getDefault().getPath("/tmp/","documenti_" + a.getCentro() +".txt");
+                Path path = FileSystems.getDefault().getPath("/tmp/", "documenti_" + a.getCentro() + ".txt");
                 boolean success = Files.deleteIfExists(path);
-                _log.info("Deleted documenti_" + a.getCentro() +".txt");
+                _log.info("Deleted documenti_" + a.getCentro() + ".txt");
             }
             fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
- 
-            
+
             List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 0);
             for (TestataDocumento testata : list) {
                 _log.info(testata);
@@ -129,7 +128,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 String codVe1 = testata.getCodiceVettore() + SEPARATOR;
                 String codVe2 = testata.getVettore2() + SEPARATOR;
                 String numDoc = testata.getNumeroOrdine() + SEPARATOR;
-                String protoc = testata.getNumeroOrdine() + SEPARATOR; 
+                String protoc = testata.getNumeroOrdine() + SEPARATOR;
                 String dataDoc = testata.getDataOrdine() + SEPARATOR;
                 String Datann = testata.getDataOrdine();
 
@@ -138,57 +137,103 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 bw.write(valoriTestata);
 
 //              CodlottoGR
-                String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Quanet;Qm2net;Prezzo;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR\n";
+                String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR\n";
                 bw.write(stringRigo);
                 List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), testata.getTipoDocumento());
                 for (RigoDocumento rigo : righe) {
-//                    _log.info(rigo);
+                    _log.info(rigo);
                     String valoriRigo = "";
-                    //VALORI RIGO ARTICOLO
-                    String Tiprig = "0" + SEPARATOR;
-                    String Codart = rigo.getCodiceArticolo() + SEPARATOR;
-                    String Codvar = rigo.getDescrizioneVariante() + SEPARATOR;
-                    String Quanet = rigo.getPesoNetto() + SEPARATOR;
-                    String Qm2net = rigo.getColli() + SEPARATOR;
-                    String Prezzo = rigo.getPrezzo() + SEPARATOR;
-                    String Libstr1 = SEPARATOR;
-                    String Libstr2 = SEPARATOR;
-                    String Libstr3 = SEPARATOR;
-                    String Libdbl1 = rigo.getPesoLordo() + SEPARATOR;
-                    String Libdbl2 = "1" + SEPARATOR;
-                    String Libdbl3 = "0" + SEPARATOR;
-                    String Liblng1 = "0" + SEPARATOR;
-                    String Liblng2 = "0" + SEPARATOR;
-                    String Liblng3 = "0" + SEPARATOR;
-                    String Libdat1 = testata.getDataOrdine() + SEPARATOR;
-                    String Libdat2 = testata.getDataOrdine() + SEPARATOR;
-                    String Libdat3 = testata.getDataOrdine() + SEPARATOR;
-                    String CodlottoGR = rigo.getLotto() + SEPARATOR;
+                    String Tiprig,
+                            Codart,
+                            Codvar,
+                            Descri,
+                            Quanet,
+                            Qm2net,
+                            Prezzo,
+                            Libstr1,
+                            Libstr2,
+                            Libstr3,
+                            Libdbl1,
+                            Libdbl2,
+                            Libdbl3,
+                            Liblng1,
+                            Liblng2,
+                            Liblng3,
+                            Libdat1,
+                            Libdat2,
+                            Libdat3,
+                            Codlotto = "";
+                    if (rigo.getPesoNetto() != 0) {
+                        //VALORI RIGO ARTICOLO
+                        Tiprig = "0" + SEPARATOR;
+                        Codart = rigo.getCodiceArticolo() + SEPARATOR;
+                        Codvar = rigo.getDescrizioneVariante() + SEPARATOR;
+                        Descri = SEPARATOR;
+                        Quanet = rigo.getPesoNetto() + SEPARATOR;
+                        Qm2net = rigo.getColli() + SEPARATOR;
+                        Prezzo = rigo.getPrezzo() + SEPARATOR;
+                        Libstr1 = SEPARATOR;
+                        Libstr2 = SEPARATOR;
+                        Libstr3 = SEPARATOR;
+                        Libdbl1 = rigo.getPesoLordo() + SEPARATOR;
+                        Libdbl2 = "1" + SEPARATOR;
+                        Libdbl3 = "0" + SEPARATOR;
+                        Liblng1 = "0" + SEPARATOR;
+                        Liblng2 = "0" + SEPARATOR;
+                        Liblng3 = "0" + SEPARATOR;
+                        Libdat1 = testata.getDataOrdine() + SEPARATOR;
+                        Libdat2 = testata.getDataOrdine() + SEPARATOR;
+                        Libdat3 = testata.getDataOrdine() + SEPARATOR;
+                        Codlotto = rigo.getLotto() + SEPARATOR;
 
-                    valoriRigo = Tiprig + Codart + Codvar + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + CodlottoGR + "\n";
+                        valoriRigo = Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
 
-                    //VALORI RIGO IMBALLO
-                    Tiprig = "0" + SEPARATOR;
-                    Codart = rigo.getImballo() + SEPARATOR;
-                    Codvar = SEPARATOR;
-                    Quanet = rigo.getColli()+ SEPARATOR;
-                    Qm2net = rigo.getColli()+ SEPARATOR;
-                    Prezzo = "0" + SEPARATOR;
-                    Libstr1 = SEPARATOR;
-                    Libstr2 = SEPARATOR;
-                    Libstr3 = SEPARATOR;
-                    Libdbl1 = "0" + SEPARATOR;
-                    Libdbl2 = "0" + SEPARATOR;
-                    Libdbl3 = "0" + SEPARATOR;
-                    Liblng1 = "0" + SEPARATOR;
-                    Liblng2 = "0" + SEPARATOR;
-                    Liblng3 = "0" + SEPARATOR;
-                    Libdat1 = testata.getDataOrdine() + SEPARATOR;
-                    Libdat2 = "00:00:00" + SEPARATOR;
-                    Libdat3 = SEPARATOR;
-                    CodlottoGR = SEPARATOR;
+                        //VALORI RIGO IMBALLO
+                        Tiprig = "0" + SEPARATOR;
+                        Codart = rigo.getImballo() + SEPARATOR;
+                        Codvar = SEPARATOR;
+                        Descri = SEPARATOR;
+                        Quanet = rigo.getColli() + SEPARATOR;
+                        Qm2net = rigo.getColli() + SEPARATOR;
+                        Prezzo = "0" + SEPARATOR;
+                        Libstr1 = SEPARATOR;
+                        Libstr2 = SEPARATOR;
+                        Libstr3 = SEPARATOR;
+                        Libdbl1 = "0" + SEPARATOR;
+                        Libdbl2 = "0" + SEPARATOR;
+                        Libdbl3 = "0" + SEPARATOR;
+                        Liblng1 = "0" + SEPARATOR;
+                        Liblng2 = "0" + SEPARATOR;
+                        Liblng3 = "0" + SEPARATOR;
+                        Libdat1 = testata.getDataOrdine() + SEPARATOR;
+                        Libdat2 = testata.getDataOrdine() + SEPARATOR;
+                        Libdat3 = testata.getDataOrdine() + SEPARATOR;
+                        Codlotto = SEPARATOR;
+                    } else {
+                        Tiprig = "2" + SEPARATOR;
+                        Codart = rigo.getCodiceArticolo() + SEPARATOR;
+                        Codvar = rigo.getDescrizioneVariante() + SEPARATOR;
+                        Descri = rigo.getDescrizione() + SEPARATOR;
+                        Quanet = rigo.getPesoNetto() + SEPARATOR;
+                        Qm2net = rigo.getColli() + SEPARATOR;
+                        Prezzo = rigo.getPrezzo() + SEPARATOR;
+                        Libstr1 = SEPARATOR;
+                        Libstr2 = SEPARATOR;
+                        Libstr3 = SEPARATOR;
+                        Libdbl1 = rigo.getPesoLordo() + SEPARATOR;
+                        Libdbl2 = "1" + SEPARATOR;
+                        Libdbl3 = "0" + SEPARATOR;
+                        Liblng1 = "0" + SEPARATOR;
+                        Liblng2 = "0" + SEPARATOR;
+                        Liblng3 = "0" + SEPARATOR;
+                        Libdat1 = testata.getDataOrdine() + SEPARATOR;
+                        Libdat2 = testata.getDataOrdine() + SEPARATOR;
+                        Libdat3 = testata.getDataOrdine() + SEPARATOR;
+                        Codlotto = rigo.getLotto() + SEPARATOR;
 
-                    valoriRigo += Tiprig + Codart + Codvar + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + CodlottoGR + "\n";
+                    }
+                    valoriRigo += Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
+
                     bw.write(valoriRigo);
                 }
                 testata.setInviato(1); // SETTO INVIATO A 1
@@ -208,6 +253,6 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             _log.error(ex.getMessage());
         }
         return null;
-        
+
     }
 }

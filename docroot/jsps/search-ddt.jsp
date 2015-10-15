@@ -45,7 +45,7 @@
                         <div class="btn-group">
                             <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
                             <!--<button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>-->
-                            <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
+                            <!--<button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>-->
                             <button id="btnInvoice" class="btn" ><i class="icon-list-alt"></i>Genera Fattura</button>
                         </div>
                     </div>  

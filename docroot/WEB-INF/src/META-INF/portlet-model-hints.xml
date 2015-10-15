@@ -120,6 +120,7 @@
 		<field name="anno" type="int" />
 		<field name="numeroOrdine" type="long" />
 		<field name="rigoOrdine" type="int" />
+		<field name="codiceVariante" type="String" />
 		<field name="descrizioneVariante" type="String" />
 		<field name="codiceArticolo" type="String" />
 		<field name="descrizione" type="String" />

@@ -100,7 +100,7 @@ public class DDTPortlet extends MVCPortlet {
     public static final String INVOICED = "fatturato";
 
     public enum CommandID {
-        save, print, send, modify, generateInvoice;
+        save, print, send, modify, generateInvoice, printInvoice;
     }
 
     @Override
@@ -207,6 +207,8 @@ public class DDTPortlet extends MVCPortlet {
         resourceResponse.setContentType(MediaType.APPLICATION_JSON);
         Associato associato;
         OrganizzazioneProduttori op;
+        Report r;
+        int nDoc;
         switch (CommandID.valueOf(resourceID)) {
             case modify: {
                 writer = resourceResponse.getWriter();
@@ -277,9 +279,9 @@ public class DDTPortlet extends MVCPortlet {
             break;
             case print:
 
-                Report r = new Report();
+                r = new Report();
 
-                int nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
                 if (nDoc != 0) {
                     try {
                         Associato a = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
@@ -303,7 +305,7 @@ public class DDTPortlet extends MVCPortlet {
 //                        ex.printStackTrace();
                     } catch (PortalException ex) {
                         _log.error(ex.getMessage());
-//                        ex.printStackTrace();
+                        ex.printStackTrace();
                     }
                 }
 
@@ -340,6 +342,39 @@ public class DDTPortlet extends MVCPortlet {
                 writer.print(gson.toJson(response));
                 writer.flush();
                 writer.close();
+                break;
+            case printInvoice:
+
+                r = new Report();
+
+                nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                if (nDoc != 0) {
+                    try {
+                        Associato a = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+                        String ddt = r.print(nDoc, new Long(a.getId()).intValue(), "fav");
+
+                        File file = new File(ddt);
+                        InputStream in = new FileInputStream(file);
+
+//                        addToDL(nDoc, file, resourceRequest);
+                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+                        ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                    } catch (JRException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (ClassNotFoundException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SQLException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SystemException ex) {
+                        _log.error(ex.getMessage());
+//                        ex.printStackTrace();
+                    } catch (PortalException ex) {
+                        _log.error(ex.getMessage());
+                        ex.printStackTrace();
+                    }
+                }
+
                 break;
             default:
                 _log.warn("Uknown operation.");

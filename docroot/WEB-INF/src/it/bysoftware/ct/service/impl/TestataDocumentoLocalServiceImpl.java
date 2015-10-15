@@ -49,7 +49,7 @@ public class TestataDocumentoLocalServiceImpl
     }
     
     public List<TestataDocumento> getByCodiceOperatore(String codiceOperatore, String completo, int inviato) throws SystemException {
-        return this.testataDocumentoPersistence.findByoperatoreCompletoInviato(codiceOperatore, completo, inviato);
+        return this.testataDocumentoPersistence.findByoperatoreCompletoInviato(codiceOperatore, completo, inviato, "DDT");
     }
     
     public List<TestataDocumento> getByCodiceSoggettoCodiceOperatore(String codiceSoggetto, String codiceOperatore) throws SystemException {

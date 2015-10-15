@@ -52,6 +52,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 		attributes.put("anno", getAnno());
 		attributes.put("numeroOrdine", getNumeroOrdine());
 		attributes.put("rigoOrdine", getRigoOrdine());
+		attributes.put("codiceVariante", getCodiceVariante());
 		attributes.put("descrizioneVariante", getDescrizioneVariante());
 		attributes.put("codiceArticolo", getCodiceArticolo());
 		attributes.put("descrizione", getDescrizione());
@@ -98,6 +99,12 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 
 		if (rigoOrdine != null) {
 			setRigoOrdine(rigoOrdine);
+		}
+
+		String codiceVariante = (String)attributes.get("codiceVariante");
+
+		if (codiceVariante != null) {
+			setCodiceVariante(codiceVariante);
 		}
 
 		String descrizioneVariante = (String)attributes.get(
@@ -325,6 +332,26 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	@Override
 	public void setRigoOrdine(int rigoOrdine) {
 		_rigoDocumento.setRigoOrdine(rigoOrdine);
+	}
+
+	/**
+	* Returns the codice variante of this rigo documento.
+	*
+	* @return the codice variante of this rigo documento
+	*/
+	@Override
+	public java.lang.String getCodiceVariante() {
+		return _rigoDocumento.getCodiceVariante();
+	}
+
+	/**
+	* Sets the codice variante of this rigo documento.
+	*
+	* @param codiceVariante the codice variante of this rigo documento
+	*/
+	@Override
+	public void setCodiceVariante(java.lang.String codiceVariante) {
+		_rigoDocumento.setCodiceVariante(codiceVariante);
 	}
 
 	/**

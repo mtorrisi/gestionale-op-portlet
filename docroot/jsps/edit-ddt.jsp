@@ -64,6 +64,7 @@
         JSONObject json = JSONFactoryUtil.createJSONObject();
         json.put("codiceArticolo", rigo.getCodiceArticolo());
         json.put("descrizione", rigo.getDescrizione());
+        json.put("descrizioneVariante", rigo.getDescrizioneVariante());
         json.put("lotto", rigo.getLotto());
         json.put("descrizione", rigo.getDescrizione());
         json.put("reti", gestioneReti);
@@ -72,6 +73,7 @@
         json.put("rtxCl", rigo.getRtxCl());
         json.put("reti", rigo.getGestioneReti());
         json.put("kgRete", rigo.getKgRete());
+        json.put("unitaMisura", rigo.getUnitaMisura());
         json.put("colli", rigo.getColli());
         json.put("pesoLordo", rigo.getPesoLordo());
         json.put("tara", rigo.getTara());
@@ -616,6 +618,14 @@
                 label: 'Descrizione'
             },
             {
+//                editor: new Y.DropDownCellEditor({
+////                                editable: true,
+//                    options: variety.split("|")
+//                }),
+                key: 'descrizioneVariante',
+                label: 'Varietà'
+            },
+            {
                 editor: nameEditor,
                 key: 'lotto',
                 label: 'Lotto'
@@ -644,8 +654,7 @@
             {
                 editor: numberEditor,
                 key: 'kgRete',
-                label: 'KG Rete',
-                emptyCellValue: 'Kg'
+                label: 'KG Rete'
             },
             {
                 editor: nameEditor,
@@ -680,22 +689,22 @@
                 editor: numberEditor,
                 key: 'prezzo',
                 label: 'Prezzo'
-            },
+            }
 //                {
 //                    editor: nameEditor,
 //                    key: 'codArtFornitore',
 //                    label: 'Art. For.'
 //                },
-            {
-                editor: nameEditor,
-                key: 'passaporto',
-                label: 'Passaporto'
-            },
-            {
-                editor: numberEditor,
-                key: 'progressivo',
-                label: 'Progr.'
-            }
+//            {
+//                editor: nameEditor,
+//                key: 'passaporto',
+//                label: 'Passaporto'
+//            },
+//            {
+//                editor: numberEditor,
+//                key: 'progressivo',
+//                label: 'Progr.'
+//            }
         ];
 
         var data = <%= jsonArr%>;
@@ -1106,4 +1115,18 @@
         document.getElementById('portoTXT').value = tmp[1];
     }
 
+    function calcolaLotto() {
+        var d = new Date();
+
+        var anno = d.getFullYear().toString().substr(2, 2);
+        var juldate = String(d.getDOY());
+
+//            console.log("PROVA: " + anno + ": " + juldate);
+        return "L-" + anno + juldate;
+    }
+
+    Date.prototype.getDOY = function () {
+        var onejan = new Date(this.getFullYear(), 0, 1);
+        return Math.ceil((this - onejan) / 86400000);
+    };
 </script>

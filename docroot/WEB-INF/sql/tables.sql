@@ -83,6 +83,7 @@ create table SSRIGORD (
 	WKAnno INTEGER not null,
 	WkNOrd LONG not null,
 	WkRigord INTEGER not null,
+	WkVarian VARCHAR(75) null,
 	WkDesvar VARCHAR(75) null,
 	WkCodart VARCHAR(75) null,
 	WkDescri VARCHAR(75) null,

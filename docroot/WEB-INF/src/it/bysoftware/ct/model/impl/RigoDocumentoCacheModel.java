@@ -36,7 +36,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(55);
+		StringBundler sb = new StringBundler(57);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -44,6 +44,8 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sb.append(numeroOrdine);
 		sb.append(", rigoOrdine=");
 		sb.append(rigoOrdine);
+		sb.append(", codiceVariante=");
+		sb.append(codiceVariante);
 		sb.append(", descrizioneVariante=");
 		sb.append(descrizioneVariante);
 		sb.append(", codiceArticolo=");
@@ -104,6 +106,13 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		rigoDocumentoImpl.setAnno(anno);
 		rigoDocumentoImpl.setNumeroOrdine(numeroOrdine);
 		rigoDocumentoImpl.setRigoOrdine(rigoOrdine);
+
+		if (codiceVariante == null) {
+			rigoDocumentoImpl.setCodiceVariante(StringPool.BLANK);
+		}
+		else {
+			rigoDocumentoImpl.setCodiceVariante(codiceVariante);
+		}
 
 		if (descrizioneVariante == null) {
 			rigoDocumentoImpl.setDescrizioneVariante(StringPool.BLANK);
@@ -198,6 +207,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		anno = objectInput.readInt();
 		numeroOrdine = objectInput.readLong();
 		rigoOrdine = objectInput.readInt();
+		codiceVariante = objectInput.readUTF();
 		descrizioneVariante = objectInput.readUTF();
 		codiceArticolo = objectInput.readUTF();
 		descrizione = objectInput.readUTF();
@@ -230,6 +240,13 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		objectOutput.writeInt(anno);
 		objectOutput.writeLong(numeroOrdine);
 		objectOutput.writeInt(rigoOrdine);
+
+		if (codiceVariante == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(codiceVariante);
+		}
 
 		if (descrizioneVariante == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -318,6 +335,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public int anno;
 	public long numeroOrdine;
 	public int rigoOrdine;
+	public String codiceVariante;
 	public String descrizioneVariante;
 	public String codiceArticolo;
 	public String descrizione;

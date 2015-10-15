@@ -1035,6 +1035,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		rigoDocumentoImpl.setAnno(rigoDocumento.getAnno());
 		rigoDocumentoImpl.setNumeroOrdine(rigoDocumento.getNumeroOrdine());
 		rigoDocumentoImpl.setRigoOrdine(rigoDocumento.getRigoOrdine());
+		rigoDocumentoImpl.setCodiceVariante(rigoDocumento.getCodiceVariante());
 		rigoDocumentoImpl.setDescrizioneVariante(rigoDocumento.getDescrizioneVariante());
 		rigoDocumentoImpl.setCodiceArticolo(rigoDocumento.getCodiceArticolo());
 		rigoDocumentoImpl.setDescrizione(rigoDocumento.getDescrizione());
@@ -1384,12 +1385,12 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(RigoDocumentoPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"anno", "numeroOrdine", "rigoOrdine", "descrizioneVariante",
-				"codiceArticolo", "descrizione", "unitaMisura", "colli",
-				"pesoLordo", "tara", "pesoNetto", "prezzo", "pedane", "note",
-				"totalePesata", "imballo", "gestioneReti", "RtxCl", "kgRete",
-				"lotto", "passaporto", "progressivo", "tipoDocumento",
-				"idAssociato"
+				"anno", "numeroOrdine", "rigoOrdine", "codiceVariante",
+				"descrizioneVariante", "codiceArticolo", "descrizione",
+				"unitaMisura", "colli", "pesoLordo", "tara", "pesoNetto",
+				"prezzo", "pedane", "note", "totalePesata", "imballo",
+				"gestioneReti", "RtxCl", "kgRete", "lotto", "passaporto",
+				"progressivo", "tipoDocumento", "idAssociato"
 			});
 	private static RigoDocumento _nullRigoDocumento = new RigoDocumentoImpl() {
 			@Override

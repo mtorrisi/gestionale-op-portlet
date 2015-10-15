@@ -102,6 +102,21 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	public void setRigoOrdine(int rigoOrdine);
 
 	/**
+	 * Returns the codice variante of this rigo documento.
+	 *
+	 * @return the codice variante of this rigo documento
+	 */
+	@AutoEscape
+	public String getCodiceVariante();
+
+	/**
+	 * Sets the codice variante of this rigo documento.
+	 *
+	 * @param codiceVariante the codice variante of this rigo documento
+	 */
+	public void setCodiceVariante(String codiceVariante);
+
+	/**
 	 * Returns the descrizione variante of this rigo documento.
 	 *
 	 * @return the descrizione variante of this rigo documento

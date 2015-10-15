@@ -10,7 +10,8 @@
 <liferay-ui:icon-menu>
     <liferay-portlet:renderURL var="editInvoice">
         <liferay-portlet:param name="codiceCliente"  value="<%= testata.getCodiceSoggetto()%>"/>
-        <liferay-portlet:param name="numeroDocumento" value="<%= String.valueOf(testata.getNumeroOrdine())%>"/>
+        <%--<liferay-portlet:param name="numeroDocumento" value="<%= String.valueOf(testata.getNumeroOrdine())%>"/>--%>
+        <liferay-portlet:param name="documentIds" value="<%= String.valueOf(testata.getNumeroOrdine())%>"/>
         <liferay-portlet:param name="anno" value="<%= String.valueOf(testata.getAnno())%>"/>
         <liferay-portlet:param name="jspPage"  value="/jsps/edit-invoice.jsp"/>
     </liferay-portlet:renderURL>

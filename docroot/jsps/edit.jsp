@@ -34,15 +34,16 @@
 <%
     List<DescrizioniVarianti> varianti = DescrizioniVariantiLocalServiceUtil.getVarianti();
     String stringVarianti = "";
-    for(int i = 0; i < varianti.size(); i++){
-        if(i == varianti.size() - 1)
-            stringVarianti += varianti.get(i).getCodiceVariante() + " - " +  varianti.get(i).getDescrizioneVariante();
-        else
-            stringVarianti += varianti.get(i).getCodiceVariante() + " - " +  varianti.get(i).getDescrizioneVariante() + "|";
-            
+    for (int i = 0; i < varianti.size(); i++) {
+        if (i == varianti.size() - 1) {
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " + varianti.get(i).getDescrizioneVariante();
+        } else {
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " + varianti.get(i).getDescrizioneVariante() + "|";
+        }
+
         System.out.println("PIPPO: " + stringVarianti);
     }
-    
+
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     //    request.setAttribute("destinazioni", destinazioni);
 
@@ -53,10 +54,10 @@
 
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
     List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), 16);
-    
+
     ArrayList<Integer> idToRecover = new ArrayList<Integer>();
-    
-    for(Progressivo p : listProgressivo){
+
+    for (Progressivo p : listProgressivo) {
         idToRecover.add(p.getNumeroProgressivo());
     }
 
@@ -123,8 +124,8 @@
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=cliente.getIndirizzo()%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none"/>
             <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
-            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" value="<%= sdf.format(date) %>"/>
-            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" value="<%= sdf.format(date) %>"/>
+            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" value="<%= sdf.format(date)%>"/>
+            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" value="<%= sdf.format(date)%>"/>
             <aui:input id="lottoTestata" type="text" name="lottoTestata" label="Lotto" cssClass="input-small" inlineField="true" />
 
             <%--aui:input type="text" name="totPedane"    label="Tot. Pedane"     inlineField="true" cssClass="input-small"/>
@@ -267,7 +268,14 @@
 //            return "";
 //        };
 
-        var variety = "<%= stringVarianti %>";
+
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        var todayDateInDDMMYYYY = dd + '/' + mm + '/' + yyyy;
+
+        var variety = "<%= stringVarianti%>";
         YUI().use('node', function (Y) {
             Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto());
         });
@@ -319,6 +327,9 @@
             var orderDate = new Y.DatePicker({
                 trigger: '#<portlet:namespace />orderDate',
                 mask: '%d/%m/%Y',
+                calendar: {
+                    minDate: todayDateInDDMMYYYY
+                },
                 popover: {
                     position: 'top',
                     toolbars: {
@@ -368,7 +379,7 @@
                     }
                 }
             });
-            
+
         });
 
         YUI().use('liferay-util-window', function (Y) {
@@ -581,8 +592,8 @@
                         }
                     }
             );
-    
-//            var variety = '<%= stringVarianti %>';
+
+//            var variety = '<%= stringVarianti%>';
             var columns = [
                 //            {
                 //                key: 'select',
@@ -605,8 +616,8 @@
                 {
                     editor: new Y.DropDownCellEditor({
 //                                editable: true,
-                                options: variety.split("|")
-                            }),
+                        options: variety.split("|")
+                    }),
                     key: 'descrizioneVariante',
                     label: 'Varietà'
                 },
@@ -644,7 +655,7 @@
                 {
                     editor: nameEditor,
                     key: 'unitaMisura',
-                    label: 'U.M.', 
+                    label: 'U.M.',
                     emptyCellValue: 'Kg'
                 },
                 {
@@ -1145,6 +1156,6 @@
                 window.location.href = '<%=searchDDTURL%>'.toString();
             });
         });
-       
+
 </script>
 
