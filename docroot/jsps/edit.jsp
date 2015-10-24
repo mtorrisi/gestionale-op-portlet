@@ -277,7 +277,7 @@
 
         var variety = "<%= stringVarianti%>";
         YUI().use('node', function (Y) {
-            Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto());
+            Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto(today));
         });
 
         YUI().use(
@@ -350,6 +350,7 @@
                 on: {
                     selectionChange: function (event) {
                         console.log(event.newSelection);
+                        document.getElementById('<portlet:namespace/>lottoTestata').value = calcolaLotto(event.newSelection[0]);
                     }
                 }
             });
@@ -655,8 +656,7 @@
                 {
                     editor: nameEditor,
                     key: 'unitaMisura',
-                    label: 'U.M.',
-                    emptyCellValue: 'Kg'
+                    label: 'U.M.'
                 },
                 {
                     editor: numberEditor,
@@ -932,13 +932,15 @@
             return Math.ceil((this - onejan) / 86400000);
         };
 
-        function calcolaLotto() {
-            var d = new Date();
-
+        function calcolaLotto(date) {
+            var d;
+            if (date)
+                d = new Date(Date.parse(date));
+            else
+                d = new Date();
             var anno = d.getFullYear().toString().substr(2, 2);
             var juldate = String(d.getDOY());
 
-//            console.log("PROVA: " + anno + ": " + juldate);
             return "L-" + anno + juldate;
         }
 
@@ -950,7 +952,7 @@
                 recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
                 recordSelected = undefined;
             } else {
-                table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: calcolaLotto(), pedane: 1}, {sync: true});
+                table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: document.getElementById('<portlet:namespace/>lottoTestata').value, pedane: 1, unitaMisura: "Kg"}, {sync: true});
             }
         }
 
@@ -1110,15 +1112,29 @@
         }
 
         function SalvaDDT() {
-            var rows = [];
-            for (var i = 0; i < table.data.size(); i++) {
-                rows[i] = table.data.item(i).toJSON();
+            var stringOrderDate = document.getElementById('<portlet:namespace/>orderDate').value;
+            var orderDateSplitted=stringOrderDate.split("/");
+            var orderDate = new Date(orderDateSplitted[2], orderDateSplitted[1], orderDateSplitted[0]);
+            
+            var stringDeliveryDate = document.getElementById('<portlet:namespace/>deliveryDate').value;
+            var deliveryDateSplitted=stringDeliveryDate.split("/");
+            var deliveryDate = new Date(deliveryDateSplitted[2], deliveryDateSplitted[1], deliveryDateSplitted[0]);
+            
+                        
+            if(deliveryDate >= orderDate){
+                var rows = [];
+                for (var i = 0; i < table.data.size(); i++) {
+                    rows[i] = table.data.item(i).toJSON();
+                }
+                console.log(rows);
+
+                if (rows.length !== 0)
+                    sendData(rows);
+                else
+                    alert("Attenzione inserire almeno un rigo nel documento.");
+            } else {
+                alert("Attenzione inserire una data di trasporto almeno uguale alla data del documento.");
             }
-            console.log(rows);
-            if (rows.length !== 0)
-                sendData(rows);
-            else
-                alert("Attenzione inserire almeno un rigo nel documento.");
         }
 
         YUI().use('aui-io-request', 'node', function (Y) {

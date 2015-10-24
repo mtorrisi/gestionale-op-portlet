@@ -142,9 +142,9 @@
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzo%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%=testata.getCodiceDestinazione()%>"/>
             <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br/>
-            <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" value="<%= testata.getDataOrdine()%>"/>
-            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" value="<%= testata.getDataConsegna()%>"/>
-            <aui:input id="lottoTestata" type="text" name="lottoTestata" label="Lotto" cssClass="input-small" inlineField="true" value="<%= testata.getLotto()%>"/>
+            <aui:input id="orderDate"    disabled="true" type="text" name="dataOrdine"   label="Data Documento" inlineField="true" value="<%= testata.getDataOrdine()%>"/>
+            <aui:input id="deliveryDate" disabled="true" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" value="<%= testata.getDataConsegna()%>"/>
+            <aui:input id="lottoTestata" disabled="true" type="text" name="lottoTestata" label="Lotto" cssClass="input-small" inlineField="true" value="<%= testata.getLotto()%>"/>
 
             <%--aui:input type="text" name="totPedane"    label="Tot. Pedane"     inlineField="true" cssClass="input-small"/>
             <aui:input type="text" name="Tot. Pesate"  label="Tot. Pesate"     inlineField="true" cssClass="input-small" /--%>
@@ -626,7 +626,7 @@
                 label: 'Varietà'
             },
             {
-                editor: nameEditor,
+//                editor: nameEditor,
                 key: 'lotto',
                 label: 'Lotto'
             },
@@ -1036,15 +1036,29 @@
     });
 
     function SalvaDDT() {
-        var rows = [];
-        for (var i = 0; i < table.data.size(); i++) {
-            rows[i] = table.data.item(i).toJSON();
+        var stringOrderDate = document.getElementById('<portlet:namespace/>orderDate').value;
+        var orderDateSplitted = stringOrderDate.split("/");
+        var orderDate = new Date(orderDateSplitted[2], orderDateSplitted[1], orderDateSplitted[0]);
+
+        var stringDeliveryDate = document.getElementById('<portlet:namespace/>deliveryDate').value;
+        var deliveryDateSplitted = stringDeliveryDate.split("/");
+        var deliveryDate = new Date(deliveryDateSplitted[2], deliveryDateSplitted[1], deliveryDateSplitted[0]);
+
+
+        if (deliveryDate >= orderDate) {
+            var rows = [];
+            for (var i = 0; i < table.data.size(); i++) {
+                rows[i] = table.data.item(i).toJSON();
+            }
+            console.log(rows);
+
+            if (rows.length !== 0)
+                sendData(rows);
+            else
+                alert("Attenzione inserire almeno un rigo nel documento.");
+        } else {
+            alert("Attenzione inserire una data di trasporto almeno uguale alla data del documento.");
         }
-        console.log(rows);
-        if (rows.length !== 0)
-            sendData(rows);
-        else
-            alert("Attenzione inserire almeno un rigo nel documento.");
     }
 
     function setItem(data) {
@@ -1055,7 +1069,7 @@
             recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
             recordSelected = undefined;
         } else {
-            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: calcolaLotto(), pedane: 1}, {sync: true});
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: document.getElementById('<portlet:namespace/>lottoTestata').value, pedane: 1}, {sync: true});
         }
     }
 
@@ -1116,12 +1130,14 @@
     }
 
     function calcolaLotto() {
-        var d = new Date();
-
+        var d;
+        if (date)
+            d = new Date(Date.parse(date));
+        else
+            d = new Date();
         var anno = d.getFullYear().toString().substr(2, 2);
         var juldate = String(d.getDOY());
 
-//            console.log("PROVA: " + anno + ": " + juldate);
         return "L-" + anno + juldate;
     }
 

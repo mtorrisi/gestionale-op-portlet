@@ -100,6 +100,7 @@ public class DDTPortlet extends MVCPortlet {
     public static final String INVOICED = "fatturato";
 
     public enum CommandID {
+
         save, print, send, modify, generateInvoice, printInvoice;
     }
 
@@ -238,7 +239,7 @@ public class DDTPortlet extends MVCPortlet {
                     writer.print(response);
                 }
             }
-            
+
             writer.print(gson.toJson(response));
             writer.flush();
             writer.close();
@@ -290,7 +291,7 @@ public class DDTPortlet extends MVCPortlet {
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
 
-                        addToDL(nDoc, file, resourceRequest);
+                        addToDL(nDoc, file, resourceRequest, DDT);
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
@@ -356,7 +357,7 @@ public class DDTPortlet extends MVCPortlet {
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
 
-//                        addToDL(nDoc, file, resourceRequest);
+                        addToDL(nDoc, file, resourceRequest, FAV);
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
@@ -400,7 +401,7 @@ public class DDTPortlet extends MVCPortlet {
         _log.info(("TO: " + mailMessage.getTo()[0].getAddress()));
     }
 
-    private String addToDL(int nDoc, File ddt, ResourceRequest resourceRequest) throws SystemException, PortalException, FileNotFoundException {
+    private String addToDL(int nDoc, File ddt, ResourceRequest resourceRequest, String tipoDocumento) throws SystemException, PortalException, FileNotFoundException {
 
         Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
         OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
@@ -413,29 +414,26 @@ public class DDTPortlet extends MVCPortlet {
 //        _log.info("OP FOLDER: " + opFolder);
         DLFolder associatofolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
 //        _log.info("ASSOCIATO FOLDER: " + associatofolder);
-        String fileName = DDT + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
+        String fileName = tipoDocumento + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
 
-        FileEntry fileEntry = DLAppServiceUtil.addFileEntry(
+        FileEntry fileEntry = DLAppServiceUtil.getFileEntry(groupId, associatofolder.getFolderId(), fileName + ".pdf");
+
+        if (fileEntry != null) {
+            DLAppServiceUtil.deleteFileEntry(fileEntry.getFileEntryId());
+        }
+        fileEntry = DLAppServiceUtil.addFileEntry(
                 repositoryId,
                 associatofolder.getFolderId(),
                 fileName + ".pdf",
                 MimeTypesUtil.getContentType(fileName + ".pdf"),
                 fileName + ".pdf", "", "", ddt, new ServiceContext());
-//
-//        Role associateRole = RoleLocalServiceUtil.getRole(liferayAssociato.getCompanyId(), "OP");
-//            String[] actionsRW = new String[]{ActionKeys.VIEW};
-////            String[] actionsRW = new String[]{ActionKeys.ACCESS, ActionKeys.ADD_DOCUMENT, ActionKeys.ADD_SUBFOLDER, ActionKeys.DELETE, ActionKeys.UPDATE, ActionKeys.VIEW};
-//
-//            ResourcePermissionLocalServiceUtil.setResourcePermissions(liferayAssociato.getCompanyId(),
-//                    FileEntry.class.getName(),
-//                    ResourceConstants.SCOPE_INDIVIDUAL,
-//                    fileEntry.getTitle(),
-//                    associateRole.getRoleId(),
-//                    actionsRW);
 
-        _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
+        _log.info(
+                "Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
         String previewUrl = DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
-        return previewUrl.substring(0, previewUrl.indexOf('?'));
+
+        return previewUrl.substring(
+                0, previewUrl.indexOf('?'));
 
     }
 
@@ -538,11 +536,11 @@ public class DDTPortlet extends MVCPortlet {
             RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
             String[] tmp = rigo.getDescrizioneVariante().split("-");
-            
+
             if(tmp.length != 0){
                 rigo.setDescrizioneVariante(tmp[0].trim());
             }
-            
+
             rigo.setAnno(ANNO);
             rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
             rigo.setRigoOrdine(i + 1);
@@ -633,15 +631,19 @@ public class DDTPortlet extends MVCPortlet {
             for (int i = 0; i < rowsJSON.length(); i++) {
 
                 JSONObject rowJSON = rowsJSON.getJSONObject(i);
-                RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
+                RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class
+                );
 
                 rigo.setAnno(ANNO);
+
                 rigo.setNumeroOrdine(invoice.getNumeroOrdine());
-                rigo.setRigoOrdine(i + 1);
+                rigo.setRigoOrdine(i
+                        + 1);
                 rigo.setTipoDocumento(invoice.getTipoDocumento());
                 rigo.setIdAssociato(associato.getId());
 
-                _log.info("Rigo " + i + ": " + rigo);
+                _log.info(
+                        "Rigo " + i + ": " + rigo);
                 RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
             }
 

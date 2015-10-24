@@ -1,3 +1,5 @@
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="it.bysoftware.ct.service.ProgressivoLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.Progressivo"%>
@@ -75,6 +77,7 @@
 
         long oldDocument = -1;
         for (RigoDocumento rigo : righeDocumenti) {
+            System.out.println(rigo);
             int i = 0;
             JSONObject json = JSONFactoryUtil.createJSONObject();
             if (oldDocument != rigo.getNumeroOrdine()) {
@@ -108,6 +111,9 @@
     for (Progressivo p : listProgressivo) {
         idToRecover.add(p.getNumeroProgressivo());
     }
+    
+    Date date = Calendar.getInstance().getTime();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 %>
 
 <liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" >
@@ -134,7 +140,7 @@
             <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
-            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= testata.getDataOrdine()%>"/>
+            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= sdf.format(date)%>"/>
         </aui:column>
         <aui:column columnWidth="20" cssClass="test" last="true" >
             <%--aui:field-wrapper label="Ordine Finito"  >

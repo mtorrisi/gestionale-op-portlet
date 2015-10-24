@@ -103,7 +103,12 @@
                 </div>
 
                 <!-- Password input-->
-                <!--<input id="password" name="<portlet:namespace />password" type="password" placeholder="" class="form-control input-md" value="<%= a.getPassword()%>"/>-->
+                 <div class="control-group">
+                    <label class="control-label" for="password">Password: </label>  
+                    <div class="controls">
+                        <input id="password" name="<portlet:namespace />password" type="password" placeholder="" class="form-control input-md" value="<%= a.getPassword()%>"/>
+                    </div>
+                 </div>
             </aui:column>
         </aui:layout>
 
@@ -180,8 +185,8 @@
                             required: true
                         },
     <portlet:namespace />password: {
-                            required: true,
-                            rangeLength: [4, 8]
+                            required: true
+//                            rangeLength: [4, 8]
                         }
                     };
 

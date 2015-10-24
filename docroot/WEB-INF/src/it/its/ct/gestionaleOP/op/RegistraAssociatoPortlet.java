@@ -22,6 +22,7 @@ import com.liferay.portal.service.RoleLocalServiceUtil;
 import com.liferay.portal.service.RoleServiceUtil;
 import com.liferay.portal.service.ServiceContext;
 import com.liferay.portal.service.UserLocalServiceUtil;
+import com.liferay.portal.service.UserServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
@@ -115,16 +116,16 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setFax(ParamUtil.getString(areq, "fax"));
             a.setEmail(ParamUtil.getString(areq, "email"));
             String plainPwd = ParamUtil.getString(areq, "password");
-            MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(plainPwd.getBytes());
-            byte byteData[] = md.digest();
-
-            //convert the byte to hex format method 1
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < byteData.length; i++) {
-                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-            }
-            a.setPassword(sb.toString());
+//            MessageDigest md = MessageDigest.getInstance("MD5");
+//            md.update(plainPwd.getBytes());
+//            byte byteData[] = md.digest();
+//
+//            //convert the byte to hex format method 1
+//            StringBuilder sb = new StringBuilder();
+//            for (int i = 0; i < byteData.length; i++) {
+//                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+//            }
+            a.setPassword(plainPwd);
 
             User creator = PortalUtil.getUser(areq);
             Role role = RoleServiceUtil.getRole(creator.getCompanyId(), "associato");
@@ -144,9 +145,6 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             _log.info("Created folder: " + folder);
 
         } catch (SystemException ex) {
-            _log.error(ex.getMessage());
-            SessionErrors.add(areq, "no-registration");
-        } catch (NoSuchAlgorithmException ex) {
             _log.error(ex.getMessage());
             SessionErrors.add(areq, "no-registration");
         } catch (PortalException ex) {
@@ -169,13 +167,19 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setTelefono(ParamUtil.getString(areq, "telefono"));
             a.setFax(ParamUtil.getString(areq, "fax"));
             String newEmail = ParamUtil.getString(areq, "email");
+            String newPassword = ParamUtil.getString(areq, "password");
+            User liferayUser = UserLocalServiceUtil.getUser(a.getIdLiferay());
             if (newEmail != null && !newEmail.equals("") && !newEmail.equals(a.getEmail())) {
                 a.setEmail(ParamUtil.getString(areq, "email"));
-
-                User liferayUser = UserLocalServiceUtil.getUser(a.getIdLiferay());
                 liferayUser.setEmailAddress(newEmail);
-
                 UserLocalServiceUtil.updateUser(liferayUser);
+            }
+
+            if (newPassword != null && !newPassword.equals("") && !newPassword.equals(a.getPassword())) {
+
+                a.setPassword(newPassword);
+                UserServiceUtil.updatePassword(a.getIdLiferay(), newPassword, newPassword, false);
+
             }
 
             AssociatoLocalServiceUtil.updateAssociato(a);
@@ -185,12 +189,12 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
                 ClientiDatiAgg clientiDatiAgg = ClientiDatiAggLocalServiceUtil.getClientiDatiAgg(value);
 //                String[] idAssociati = clientiDatiAgg.getAssociati().split(",");
                 List<String> idAssociati = new ArrayList<String>(Arrays.asList(clientiDatiAgg.getAssociati().split(",")));
-                if(!idAssociati.contains(String.valueOf(a.getIdLiferay()))){
+                if (!idAssociati.contains(String.valueOf(a.getIdLiferay()))) {
                     idAssociati.add(String.valueOf(a.getIdLiferay()));
                 }
-                String tmp="";
+                String tmp = "";
                 for (int i = 0; i < idAssociati.size(); i++) {
-                    if(i == 0){
+                    if (i == 0) {
                         tmp += idAssociati.get(i);
                     } else {
                         tmp += "," + idAssociati.get(i);
@@ -202,11 +206,12 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
+            ex.printStackTrace();
             SessionErrors.add(areq, "edit-error");
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
             SessionErrors.add(areq, "edit-error");
-        }
+        } 
 
     }
 
