@@ -441,7 +441,11 @@
 
         Y.one("#<portlet:namespace />btnRemove").on("click", function () {
             console.log(recordSelected);
-            table.removeRow(recordSelected);
+            var row = recordSelected.getAttrs();
+            if(!row.codiceArticolo)
+                table.removeRow(recordSelected);
+            else
+                alert("Attenzione non è possibile rimuovere un rigo con un prodotto.");
             recordSelected = "";
         });
 

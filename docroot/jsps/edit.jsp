@@ -111,7 +111,6 @@
             <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
-            <button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -1094,7 +1093,6 @@
                                         alert("Salvataggio effettuato con successo.");
                                         Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                         document.getElementById("btnPrint").disabled = false;
-                                        document.getElementById("btnInvoice").disabled = false;
                                         document.getElementById("btnSave").disabled = true;
                                         if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
 //                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
@@ -1158,12 +1156,6 @@
 //                            }
 //                        }
 //                );
-            });
-        });
-
-        YUI().use('node', function (Y) {
-            Y.one('#btnInvoice').on('click', function () {
-                alert("Fattura generata con successo.");
             });
         });
 
