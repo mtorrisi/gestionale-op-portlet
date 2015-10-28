@@ -42,10 +42,12 @@ public class RigoDocumentoLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
 	 */
     
+    @Override
     public List<RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
         return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, "DDT");
     }
     
+    @Override
     public List<RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
         return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
     }

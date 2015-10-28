@@ -31,6 +31,11 @@
 %>
 <liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
 <liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
+<liferay-portlet:renderURL var="searchInvoiceURL">
+    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
+    <%--<liferay-portlet:param name="update" value="true" />--%>
+    <liferay-portlet:param name="jspPage"  value="/jsps/search-invoice.jsp"/>
+</liferay-portlet:renderURL>
 <aui:fieldset label="<%= label%>">
     <div id="myTab">
 
@@ -43,7 +48,9 @@
                 <aui:field-wrapper>
                     <div class="btn-toolbar">
                         <div class="btn-group">
-                            <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
+                            <c:if test="<%= !updateMode%>">
+                                <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca fattura</button>
+                            </c:if>
                             <!--<button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>-->
                             <!--<button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>-->
                             <button id="btnInvoice" class="btn" ><i class="icon-list-alt"></i>Genera Fattura</button>
@@ -61,7 +68,7 @@
                         <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
                             <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
                             <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-                            <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
+                            <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documento"/>
                             <liferay-ui:search-container-column-text property="completo" name="Stato"/>
                             <c:choose>
                                 <c:when test="<%= updateMode%>">
@@ -77,7 +84,7 @@
                     </liferay-ui:search-container>
                 </aui:form>
             </div>
-            
+
             <div id="tab-2">
                 <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
 
@@ -107,6 +114,9 @@
 
 
 <script type="text/javascript">
+
+    var searchInvoiceURL = "<%= searchInvoiceURL%>";
+
     YUI().use(
             'aui-tabview',
             function (Y) {
@@ -133,4 +143,9 @@
         });
     });
 
+    YUI().use('node', function (Y) {
+        Y.one('#btnSearch').on('click', function () {
+            window.location.href = searchInvoiceURL;
+        });
+    });
 </script>

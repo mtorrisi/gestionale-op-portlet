@@ -32,16 +32,16 @@
     Anagrafica cliente;
     String indirizzoCompleto;
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
-    String origDoc  = ParamUtil.getString(renderRequest, "numeroDocumento", "");
+    String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
     String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
 
     if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
 
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "DDT", a.getId()));
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "FAV", a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
 
-        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId());
+        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), "FAV");
 
         for (RigoDocumento rigo : righe) {
             JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -111,13 +111,17 @@
     for (Progressivo p : listProgressivo) {
         idToRecover.add(p.getNumeroProgressivo());
     }
-    
+
     Date date = Calendar.getInstance().getTime();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 %>
 
-<liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" >
+<liferay-portlet:resourceURL var="updateInvoice"  id="updateInvoice" >
     <liferay-portlet:param name="numeroDocumento" value="<%= origDoc%>" />
+    <%--<liferay-portlet:param name="documentIds" value="<%= origDocs%>" />--%>
+</liferay-portlet:resourceURL>
+<liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" >
+    <%--<liferay-portlet:param name="numeroDocumento" value="<%= origDoc%>" />--%>
     <liferay-portlet:param name="documentIds" value="<%= origDocs%>" />
 </liferay-portlet:resourceURL>
 <portlet:resourceURL var="printInvoice" id="printInvoice" />
@@ -127,7 +131,14 @@
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button id="btnInvoice" class="btn" onclick="saveInvoice()"><i class="icon-list-alt"></i>Genera Fattura</button>
+            <c:choose>
+                <c:when test="<%= origDoc.equals("")%>">
+                    <button id="btnInvoice" class="btn" onclick="saveInvoice()"><i class="icon-list-alt"></i>Genera Fattura</button>
+                </c:when>
+                <c:when test="<%= !origDoc.equals("")%>">
+                    <button id="btnInvoice" class="btn" onclick="saveInvoice(<%= origDoc%>)"><i class="icon-save"></i>Salva Modifiche</button>
+                </c:when>
+            </c:choose>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
         </div>
     </div>  
@@ -148,7 +159,7 @@
                 <aui:input type="radio" name="completoNo" label="No" inlineLabel="true" inlineField="true"/>
             </aui:field-wrapper--%>
 
-            <aui:input type="text" name="nDoc" label="N. Documento" style="width: 90%" />
+            <aui:input type="text" name="nDoc" label="N. Documento" style="width: 90%" value="<%= origDoc%>"/>
             <aui:select label="Rec Protocollo" name="recProt" style="width: 90%; background-color: #FFFFCC;"> 
                 <c:forEach items="<%= idToRecover%>" var="id">
                     <aui:option value="${id}">
@@ -442,7 +453,7 @@
         Y.one("#<portlet:namespace />btnRemove").on("click", function () {
             console.log(recordSelected);
             var row = recordSelected.getAttrs();
-            if(!row.codiceArticolo)
+            if (!row.codiceArticolo)
                 table.removeRow(recordSelected);
             else
                 alert("Attenzione non è possibile rimuovere un rigo con un prodotto.");
@@ -516,22 +527,26 @@
         }
     }
 
-    function saveInvoice() {
-        var rows = [];
-        var ok = true;
-        for (var i = 0; i < table.data.size(); i++) {
-            if (table.data.item(i).toJSON().pesoLordo !== 0)
-                if (table.data.item(i).toJSON().importo === 0) {
-                    ok = false;
-                    break;
-                }
-            rows[i] = table.data.item(i).toJSON();
+    function saveInvoice(origDoc) {
+        if (origDoc)
+            alert("PIPPO");
+        else {
+            var rows = [];
+            var ok = true;
+            for (var i = 0; i < table.data.size(); i++) {
+                if (table.data.item(i).toJSON().pesoLordo !== 0)
+                    if (table.data.item(i).toJSON().importo === 0) {
+                        ok = false;
+                        break;
+                    }
+                rows[i] = table.data.item(i).toJSON();
+            }
+            console.log(rows);
+            if (rows.length !== 0 && ok)
+                sendData(rows);
+            else
+                alert("Attenzione non è possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
         }
-        console.log(rows);
-        if (rows.length !== 0 && ok)
-            sendData(rows);
-        else
-            alert("Attenzione non è possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
     }
 
     function sendData(rows) {
@@ -593,16 +608,16 @@
 
         });
     }
-    
+
     YUI().use('aui-io-request', 'node', function (Y) {
-            Y.one('#btnPrint').on('click', function () {
-                var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
+        Y.one('#btnPrint').on('click', function () {
+            var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
 
-                var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
-                win.focus();
+            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
+            win.focus();
 
-            });
         });
+    });
 
 </script>
 

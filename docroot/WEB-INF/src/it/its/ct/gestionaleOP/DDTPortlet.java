@@ -194,6 +194,10 @@ public class DDTPortlet extends MVCPortlet {
         ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
     }
 
+    public void deleteInvoice(ActionRequest areq, ActionResponse ares) { 
+        _log.info("*** DELETING INVOICE ***");
+    }
+    
     @Override
     public void serveResource(ResourceRequest resourceRequest,
             ResourceResponse resourceResponse) throws IOException,
