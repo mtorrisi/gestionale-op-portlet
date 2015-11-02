@@ -97,4 +97,10 @@
         <property name="dataSource" ref="gestionaleOPDataSource" />
         <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
     </bean>
+    <bean id="it.bysoftware.ct.service.BancheAppoggioLocalService" class="it.bysoftware.ct.service.impl.BancheAppoggioLocalServiceImpl" />
+    <bean id="it.bysoftware.ct.service.BancheAppoggioService" class="it.bysoftware.ct.service.impl.BancheAppoggioServiceImpl" />
+    <bean id="it.bysoftware.ct.service.persistence.BancheAppoggioPersistence" class="it.bysoftware.ct.service.persistence.BancheAppoggioPersistenceImpl" parent="basePersistence" >
+        <property name="dataSource" ref="gestionaleOPDataSource" />
+        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+    </bean>
 </beans>

@@ -55,7 +55,24 @@
             json.put("pesoLordo", rigo.getPesoLordo());
             json.put("pesoNetto", rigo.getPesoNetto());
             json.put("prezzo", rigo.getPrezzo());
-            json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
+            json.put("sconto1", rigo.getSconto1());
+            json.put("sconto2", rigo.getSconto2());
+            json.put("sconto3", rigo.getSconto3());
+
+            double importo = 0;
+
+            double sconto1 = rigo.getSconto1();
+            double sconto2 = rigo.getSconto2();
+            double sconto3 = rigo.getSconto3();
+
+            double importo1, importo2 = 0;
+            double tmpImporto = rigo.getPrezzo() * rigo.getPesoNetto();
+
+            importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
+            importo2 = importo1 - ((importo1 * sconto2) / 100);
+            importo = importo2 - ((importo2 * sconto3) / 100);
+            importo = Math.round(importo * 100);
+            json.put("importo", importo / 100);
 
             jsonArr.put(json);
         }
@@ -96,7 +113,24 @@
             json.put("pesoLordo", rigo.getPesoLordo());
             json.put("pesoNetto", rigo.getPesoNetto());
             json.put("prezzo", rigo.getPrezzo());
-            json.put("importo", rigo.getPrezzo() * rigo.getPesoNetto());
+            json.put("sconto1", rigo.getSconto1());
+            json.put("sconto2", rigo.getSconto2());
+            json.put("sconto3", rigo.getSconto3());
+
+            double importo = 0;
+
+            double sconto1 = rigo.getSconto1();
+            double sconto2 = rigo.getSconto2();
+            double sconto3 = rigo.getSconto3();
+
+            double importo1, importo2 = 0;
+            double tmpImporto = rigo.getPrezzo() * rigo.getPesoNetto();
+
+            importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
+            importo2 = importo1 - ((importo1 * sconto2) / 100);
+            importo = importo2 - ((importo2 * sconto3) / 100);
+
+            json.put("importo", importo);
 
             jsonArr.put(json);
             i++;
@@ -139,7 +173,7 @@
                     <button id="btnInvoice" class="btn" onclick="saveInvoice(<%= origDoc%>)"><i class="icon-save"></i>Salva Modifiche</button>
                 </c:when>
             </c:choose>
-            <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
+            <button id="btnPrint"   class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : "" %>><i class="icon-print"></i>Stampa</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -151,7 +185,7 @@
             <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
-            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= sdf.format(date)%>"/>
+            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine() %>"/>
         </aui:column>
         <aui:column columnWidth="20" cssClass="test" last="true" >
             <%--aui:field-wrapper label="Ordine Finito"  >
@@ -528,28 +562,25 @@
     }
 
     function saveInvoice(origDoc) {
-        if (origDoc)
-            alert("PIPPO");
-        else {
-            var rows = [];
-            var ok = true;
-            for (var i = 0; i < table.data.size(); i++) {
-                if (table.data.item(i).toJSON().pesoLordo !== 0)
-                    if (table.data.item(i).toJSON().importo === 0) {
-                        ok = false;
-                        break;
-                    }
-                rows[i] = table.data.item(i).toJSON();
-            }
-            console.log(rows);
-            if (rows.length !== 0 && ok)
-                sendData(rows);
-            else
-                alert("Attenzione non è possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
+        var rows = [];
+        var ok = true;
+        for (var i = 0; i < table.data.size(); i++) {
+            if (table.data.item(i).toJSON().pesoLordo !== 0)
+                if (table.data.item(i).toJSON().importo === 0 || table.data.item(i).toJSON().importo === "0.00") {
+                    ok = false;
+                    break;
+                }
+            rows[i] = table.data.item(i).toJSON();
         }
+        console.log(rows);
+        if (rows.length !== 0 && ok)
+            sendData(rows, origDoc);
+        else
+            alert("Attenzione non è possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
+
     }
 
-    function sendData(rows) {
+    function sendData(rows, origDoc) {
         YUI().use('aui-io-request', 'node', function (Y) {
 
             /******CAMPI TESTATA******/
@@ -584,7 +615,7 @@
                     "&<portlet:namespace/>numeroFattura=" + numeroFattura;
             //        Y.one('#btnSave').on('click', function () {
             Y.io.request(
-                    '${saveInvoice}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),
+                    ((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),
                     {
                         on: {
                             success: function () {

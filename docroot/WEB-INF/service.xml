@@ -473,4 +473,23 @@
         <column name='codiceAzienda' db-name='CvdCodiaz' type='String'>
         </column>
     </entity>
+    <entity name='BancheAppoggio' table='BancheAppoggio' local-service='true' remote-service='true' >
+        <column name='cBanca' db-name='`RbaCbanca`' type='String'>
+        </column>
+        <column name='codiceABI' db-name='RbaCodabi' type='int' >
+        </column>
+        <column name='codiceAgenzia' db-name='RbaCodagn' type='String' >
+        </column>
+        <column name='codiceBanca' db-name='RbaCodban' type='String' primary="true" >
+        </column>
+        <column name='codiceCAB' db-name='RbaCodcab' type='int'>
+        </column>
+        <column name='descrizione' db-name='RbaDescri' type='String'>
+        </column>
+        <column name='piazza' db-name='RbaPiazza' type='String'>
+        </column>
+        <column name='codiceAzienda' db-name='RbaCodiaz' type='String'>
+        </column>
+    </entity>
+    
 </service-builder>

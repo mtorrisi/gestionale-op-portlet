@@ -133,6 +133,38 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.BancheAppoggioModelImpl">
+		<attributes>
+			<id name="codiceBanca">
+				<column name="RBACODBAN" />
+			</id>
+			<basic name="cBanca">
+				<column name="`RBACBANCA`" />
+			</basic>
+			<basic name="codiceABI">
+				<column name="RBACODABI" />
+			</basic>
+			<basic name="codiceAgenzia">
+				<column name="RBACODAGN" />
+			</basic>
+			<basic name="codiceCAB">
+				<column name="RBACODCAB" />
+			</basic>
+			<basic name="descrizione">
+				<column name="RBADESCRI" />
+			</basic>
+			<basic name="piazza">
+				<column name="RBAPIAZZA" />
+			</basic>
+			<basic name="codiceAzienda">
+				<column name="RBACODIAZ" />
+			</basic>
+			<transient name="CBanca" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.CausaleTrasportoModelImpl">
 		<attributes>
 			<id name="codiceCausaleTrasporto">
@@ -610,6 +642,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.AssociatoImpl" name="Associato">
 		<table name="associato" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.BancheAppoggioImpl" name="BancheAppoggio">
+		<table name="BancheAppoggio" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" name="CausaleTrasporto">

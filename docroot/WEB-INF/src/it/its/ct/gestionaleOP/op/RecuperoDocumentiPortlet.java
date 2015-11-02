@@ -192,7 +192,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         Libdat3 = testata.getDataOrdine() + SEPARATOR;
                         Codlotto = rigo.getLotto() + SEPARATOR;
 
-                        valoriRigo = Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
+                        valoriRigo = Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Scont1 + Scont2 + Scont3 + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
 
                         //VALORI RIGO IMBALLO
                         Tiprig = "0" + SEPARATOR;
@@ -202,6 +202,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         Quanet = rigo.getColli() + SEPARATOR;
                         Qm2net = rigo.getColli() + SEPARATOR;
                         Prezzo = "0" + SEPARATOR;
+                        Scont1 = SEPARATOR;
+                        Scont2 = SEPARATOR;
+                        Scont3 = SEPARATOR;
                         Libstr1 = SEPARATOR;
                         Libstr2 = SEPARATOR;
                         Libstr3 = SEPARATOR;
@@ -223,6 +226,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         Quanet = rigo.getPesoNetto() + SEPARATOR;
                         Qm2net = rigo.getColli() + SEPARATOR;
                         Prezzo = rigo.getPrezzo() + SEPARATOR;
+                        Scont1 = SEPARATOR;
+                        Scont2 = SEPARATOR;
+                        Scont3 = SEPARATOR;
                         Libstr1 = SEPARATOR;
                         Libstr2 = SEPARATOR;
                         Libstr3 = SEPARATOR;
@@ -238,7 +244,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         Codlotto = rigo.getLotto() + SEPARATOR;
 
                     }
-                    valoriRigo += Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
+                    valoriRigo += Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Scont1 + Scont2 + Scont3 + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
 
                     bw.write(valoriRigo);
                 }

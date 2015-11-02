@@ -37,6 +37,7 @@ import it.bysoftware.ct.service.persistence.AnagraficaPersistence;
 import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
 import it.bysoftware.ct.service.persistence.AssociatoPersistence;
+import it.bysoftware.ct.service.persistence.BancheAppoggioPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
@@ -515,6 +516,63 @@ public abstract class ArticoliLocalServiceBaseImpl extends BaseLocalServiceImpl
 	public void setAssociatoPersistence(
 		AssociatoPersistence associatoPersistence) {
 		this.associatoPersistence = associatoPersistence;
+	}
+
+	/**
+	 * Returns the banche appoggio local service.
+	 *
+	 * @return the banche appoggio local service
+	 */
+	public it.bysoftware.ct.service.BancheAppoggioLocalService getBancheAppoggioLocalService() {
+		return bancheAppoggioLocalService;
+	}
+
+	/**
+	 * Sets the banche appoggio local service.
+	 *
+	 * @param bancheAppoggioLocalService the banche appoggio local service
+	 */
+	public void setBancheAppoggioLocalService(
+		it.bysoftware.ct.service.BancheAppoggioLocalService bancheAppoggioLocalService) {
+		this.bancheAppoggioLocalService = bancheAppoggioLocalService;
+	}
+
+	/**
+	 * Returns the banche appoggio remote service.
+	 *
+	 * @return the banche appoggio remote service
+	 */
+	public it.bysoftware.ct.service.BancheAppoggioService getBancheAppoggioService() {
+		return bancheAppoggioService;
+	}
+
+	/**
+	 * Sets the banche appoggio remote service.
+	 *
+	 * @param bancheAppoggioService the banche appoggio remote service
+	 */
+	public void setBancheAppoggioService(
+		it.bysoftware.ct.service.BancheAppoggioService bancheAppoggioService) {
+		this.bancheAppoggioService = bancheAppoggioService;
+	}
+
+	/**
+	 * Returns the banche appoggio persistence.
+	 *
+	 * @return the banche appoggio persistence
+	 */
+	public BancheAppoggioPersistence getBancheAppoggioPersistence() {
+		return bancheAppoggioPersistence;
+	}
+
+	/**
+	 * Sets the banche appoggio persistence.
+	 *
+	 * @param bancheAppoggioPersistence the banche appoggio persistence
+	 */
+	public void setBancheAppoggioPersistence(
+		BancheAppoggioPersistence bancheAppoggioPersistence) {
+		this.bancheAppoggioPersistence = bancheAppoggioPersistence;
 	}
 
 	/**
@@ -1399,6 +1457,12 @@ public abstract class ArticoliLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected it.bysoftware.ct.service.AssociatoService associatoService;
 	@BeanReference(type = AssociatoPersistence.class)
 	protected AssociatoPersistence associatoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.BancheAppoggioLocalService.class)
+	protected it.bysoftware.ct.service.BancheAppoggioLocalService bancheAppoggioLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.BancheAppoggioService.class)
+	protected it.bysoftware.ct.service.BancheAppoggioService bancheAppoggioService;
+	@BeanReference(type = BancheAppoggioPersistence.class)
+	protected BancheAppoggioPersistence bancheAppoggioPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.CausaleTrasportoLocalService.class)
 	protected it.bysoftware.ct.service.CausaleTrasportoLocalService causaleTrasportoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.CausaleTrasportoService.class)

@@ -183,19 +183,19 @@ public interface ArticoliModel extends BaseModel<Articoli> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Articoli articoli);
+	public int compareTo(it.bysoftware.ct.model.Articoli articoli);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Articoli> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.Articoli> toCacheModel();
 
 	@Override
-	public Articoli toEscapedModel();
+	public it.bysoftware.ct.model.Articoli toEscapedModel();
 
 	@Override
-	public Articoli toUnescapedModel();
+	public it.bysoftware.ct.model.Articoli toUnescapedModel();
 
 	@Override
 	public String toString();

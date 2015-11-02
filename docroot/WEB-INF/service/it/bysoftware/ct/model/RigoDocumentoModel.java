@@ -505,19 +505,19 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	public Object clone();
 
 	@Override
-	public int compareTo(RigoDocumento rigoDocumento);
+	public int compareTo(it.bysoftware.ct.model.RigoDocumento rigoDocumento);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<RigoDocumento> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.RigoDocumento> toCacheModel();
 
 	@Override
-	public RigoDocumento toEscapedModel();
+	public it.bysoftware.ct.model.RigoDocumento toEscapedModel();
 
 	@Override
-	public RigoDocumento toUnescapedModel();
+	public it.bysoftware.ct.model.RigoDocumento toUnescapedModel();
 
 	@Override
 	public String toString();

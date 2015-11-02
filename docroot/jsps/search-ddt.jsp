@@ -48,11 +48,7 @@
                 <aui:field-wrapper>
                     <div class="btn-toolbar">
                         <div class="btn-group">
-                            <c:if test="<%= !updateMode%>">
-                                <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca fattura</button>
-                            </c:if>
-                            <!--<button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>-->
-                            <!--<button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>-->
+                            <button id="btnSearch"  class="btn" <%= ((updateMode) ? "style=\"display: none\"" : "") %>><i class="icon-search"></i>Cerca fattura</button>
                             <button id="btnInvoice" class="btn" ><i class="icon-list-alt"></i>Genera Fattura</button>
                         </div>
                     </div>  

@@ -240,19 +240,19 @@ public interface ProgressivoModel extends BaseModel<Progressivo> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Progressivo progressivo);
+	public int compareTo(it.bysoftware.ct.model.Progressivo progressivo);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Progressivo> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.Progressivo> toCacheModel();
 
 	@Override
-	public Progressivo toEscapedModel();
+	public it.bysoftware.ct.model.Progressivo toEscapedModel();
 
 	@Override
-	public Progressivo toUnescapedModel();
+	public it.bysoftware.ct.model.Progressivo toUnescapedModel();
 
 	@Override
 	public String toString();

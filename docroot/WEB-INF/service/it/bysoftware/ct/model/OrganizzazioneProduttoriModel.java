@@ -242,19 +242,20 @@ public interface OrganizzazioneProduttoriModel extends BaseModel<OrganizzazioneP
 	public Object clone();
 
 	@Override
-	public int compareTo(OrganizzazioneProduttori organizzazioneProduttori);
+	public int compareTo(
+		it.bysoftware.ct.model.OrganizzazioneProduttori organizzazioneProduttori);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<OrganizzazioneProduttori> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.OrganizzazioneProduttori> toCacheModel();
 
 	@Override
-	public OrganizzazioneProduttori toEscapedModel();
+	public it.bysoftware.ct.model.OrganizzazioneProduttori toEscapedModel();
 
 	@Override
-	public OrganizzazioneProduttori toUnescapedModel();
+	public it.bysoftware.ct.model.OrganizzazioneProduttori toUnescapedModel();
 
 	@Override
 	public String toString();

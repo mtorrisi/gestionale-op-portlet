@@ -277,19 +277,19 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Associato associato);
+	public int compareTo(it.bysoftware.ct.model.Associato associato);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Associato> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.Associato> toCacheModel();
 
 	@Override
-	public Associato toEscapedModel();
+	public it.bysoftware.ct.model.Associato toEscapedModel();
 
 	@Override
-	public Associato toUnescapedModel();
+	public it.bysoftware.ct.model.Associato toUnescapedModel();
 
 	@Override
 	public String toString();

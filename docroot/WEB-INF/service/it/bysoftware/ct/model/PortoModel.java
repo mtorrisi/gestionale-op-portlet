@@ -169,19 +169,19 @@ public interface PortoModel extends BaseModel<Porto> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Porto porto);
+	public int compareTo(it.bysoftware.ct.model.Porto porto);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Porto> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.Porto> toCacheModel();
 
 	@Override
-	public Porto toEscapedModel();
+	public it.bysoftware.ct.model.Porto toEscapedModel();
 
 	@Override
-	public Porto toUnescapedModel();
+	public it.bysoftware.ct.model.Porto toUnescapedModel();
 
 	@Override
 	public String toString();

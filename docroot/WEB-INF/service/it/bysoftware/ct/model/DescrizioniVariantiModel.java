@@ -168,19 +168,20 @@ public interface DescrizioniVariantiModel extends BaseModel<DescrizioniVarianti>
 	public Object clone();
 
 	@Override
-	public int compareTo(DescrizioniVarianti descrizioniVarianti);
+	public int compareTo(
+		it.bysoftware.ct.model.DescrizioniVarianti descrizioniVarianti);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<DescrizioniVarianti> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.DescrizioniVarianti> toCacheModel();
 
 	@Override
-	public DescrizioniVarianti toEscapedModel();
+	public it.bysoftware.ct.model.DescrizioniVarianti toEscapedModel();
 
 	@Override
-	public DescrizioniVarianti toUnescapedModel();
+	public it.bysoftware.ct.model.DescrizioniVarianti toUnescapedModel();
 
 	@Override
 	public String toString();

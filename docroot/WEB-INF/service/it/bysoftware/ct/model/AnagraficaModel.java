@@ -346,19 +346,19 @@ public interface AnagraficaModel extends BaseModel<Anagrafica> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Anagrafica anagrafica);
+	public int compareTo(it.bysoftware.ct.model.Anagrafica anagrafica);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Anagrafica> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.Anagrafica> toCacheModel();
 
 	@Override
-	public Anagrafica toEscapedModel();
+	public it.bysoftware.ct.model.Anagrafica toEscapedModel();
 
 	@Override
-	public Anagrafica toUnescapedModel();
+	public it.bysoftware.ct.model.Anagrafica toUnescapedModel();
 
 	@Override
 	public String toString();

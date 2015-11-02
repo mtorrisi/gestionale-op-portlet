@@ -169,19 +169,20 @@ public interface DescrizioniDocumentiModel extends BaseModel<DescrizioniDocument
 	public Object clone();
 
 	@Override
-	public int compareTo(DescrizioniDocumenti descrizioniDocumenti);
+	public int compareTo(
+		it.bysoftware.ct.model.DescrizioniDocumenti descrizioniDocumenti);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<DescrizioniDocumenti> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.DescrizioniDocumenti> toCacheModel();
 
 	@Override
-	public DescrizioniDocumenti toEscapedModel();
+	public it.bysoftware.ct.model.DescrizioniDocumenti toEscapedModel();
 
 	@Override
-	public DescrizioniDocumenti toUnescapedModel();
+	public it.bysoftware.ct.model.DescrizioniDocumenti toUnescapedModel();
 
 	@Override
 	public String toString();

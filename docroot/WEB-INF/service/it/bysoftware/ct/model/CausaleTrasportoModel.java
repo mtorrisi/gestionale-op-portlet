@@ -139,19 +139,20 @@ public interface CausaleTrasportoModel extends BaseModel<CausaleTrasporto> {
 	public Object clone();
 
 	@Override
-	public int compareTo(CausaleTrasporto causaleTrasporto);
+	public int compareTo(
+		it.bysoftware.ct.model.CausaleTrasporto causaleTrasporto);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<CausaleTrasporto> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.CausaleTrasporto> toCacheModel();
 
 	@Override
-	public CausaleTrasporto toEscapedModel();
+	public it.bysoftware.ct.model.CausaleTrasporto toEscapedModel();
 
 	@Override
-	public CausaleTrasporto toUnescapedModel();
+	public it.bysoftware.ct.model.CausaleTrasporto toUnescapedModel();
 
 	@Override
 	public String toString();

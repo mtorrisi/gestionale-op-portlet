@@ -139,19 +139,19 @@ public interface CuraTrasportoModel extends BaseModel<CuraTrasporto> {
 	public Object clone();
 
 	@Override
-	public int compareTo(CuraTrasporto curaTrasporto);
+	public int compareTo(it.bysoftware.ct.model.CuraTrasporto curaTrasporto);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<CuraTrasporto> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.CuraTrasporto> toCacheModel();
 
 	@Override
-	public CuraTrasporto toEscapedModel();
+	public it.bysoftware.ct.model.CuraTrasporto toEscapedModel();
 
 	@Override
-	public CuraTrasporto toUnescapedModel();
+	public it.bysoftware.ct.model.CuraTrasporto toUnescapedModel();
 
 	@Override
 	public String toString();

@@ -47,6 +47,16 @@
 		<field name="idOp" type="long" />
 		<field name="attivo" type="boolean" />
 	</model>
+	<model name="it.bysoftware.ct.model.BancheAppoggio">
+		<field name="cBanca" type="String" />
+		<field name="codiceABI" type="int" />
+		<field name="codiceAgenzia" type="String" />
+		<field name="codiceBanca" type="String" />
+		<field name="codiceCAB" type="int" />
+		<field name="descrizione" type="String" />
+		<field name="piazza" type="String" />
+		<field name="codiceAzienda" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.CausaleTrasporto">
 		<field name="codiceCausaleTrasporto" type="String" />
 		<field name="descrizione" type="String" />

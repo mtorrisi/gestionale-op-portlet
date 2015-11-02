@@ -25,6 +25,8 @@ import it.bysoftware.ct.service.AspettoEsterioreBeniLocalServiceUtil;
 import it.bysoftware.ct.service.AspettoEsterioreBeniServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoServiceUtil;
+import it.bysoftware.ct.service.BancheAppoggioLocalServiceUtil;
+import it.bysoftware.ct.service.BancheAppoggioServiceUtil;
 import it.bysoftware.ct.service.CausaleTrasportoLocalServiceUtil;
 import it.bysoftware.ct.service.CausaleTrasportoServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
@@ -78,6 +80,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			AssociatoLocalServiceUtil.clearService();
 
 			AssociatoServiceUtil.clearService();
+			BancheAppoggioLocalServiceUtil.clearService();
+
+			BancheAppoggioServiceUtil.clearService();
 			CausaleTrasportoLocalServiceUtil.clearService();
 
 			CausaleTrasportoServiceUtil.clearService();

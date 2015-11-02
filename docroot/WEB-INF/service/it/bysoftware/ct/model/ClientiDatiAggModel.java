@@ -124,19 +124,19 @@ public interface ClientiDatiAggModel extends BaseModel<ClientiDatiAgg> {
 	public Object clone();
 
 	@Override
-	public int compareTo(ClientiDatiAgg clientiDatiAgg);
+	public int compareTo(it.bysoftware.ct.model.ClientiDatiAgg clientiDatiAgg);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<ClientiDatiAgg> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.ClientiDatiAgg> toCacheModel();
 
 	@Override
-	public ClientiDatiAgg toEscapedModel();
+	public it.bysoftware.ct.model.ClientiDatiAgg toEscapedModel();
 
 	@Override
-	public ClientiDatiAgg toUnescapedModel();
+	public it.bysoftware.ct.model.ClientiDatiAgg toUnescapedModel();
 
 	@Override
 	public String toString();

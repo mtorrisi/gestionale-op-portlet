@@ -319,19 +319,19 @@ public interface VettoriModel extends BaseModel<Vettori> {
 	public Object clone();
 
 	@Override
-	public int compareTo(Vettori vettori);
+	public int compareTo(it.bysoftware.ct.model.Vettori vettori);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<Vettori> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.Vettori> toCacheModel();
 
 	@Override
-	public Vettori toEscapedModel();
+	public it.bysoftware.ct.model.Vettori toEscapedModel();
 
 	@Override
-	public Vettori toUnescapedModel();
+	public it.bysoftware.ct.model.Vettori toUnescapedModel();
 
 	@Override
 	public String toString();

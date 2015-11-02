@@ -13,6 +13,17 @@ create table AspettoEsterioreBeni (
 	RdeCodiaz VARCHAR(75) null
 );
 
+create table BancheAppoggio (
+	`RbaCbanca` VARCHAR(75) null,
+	RbaCodabi INTEGER,
+	RbaCodagn VARCHAR(75) null,
+	RbaCodban VARCHAR(75) not null primary key,
+	RbaCodcab INTEGER,
+	RbaDescri VARCHAR(75) null,
+	RbaPiazza VARCHAR(75) null,
+	RbaCodiaz VARCHAR(75) null
+);
+
 create table CausaleTrasporto (
 	RdeCoddes VARCHAR(75) not null primary key,
 	RdeDescri VARCHAR(75) null,

@@ -6,6 +6,7 @@
 	<import class="it.bysoftware.ct.model.Articoli" />
 	<import class="it.bysoftware.ct.model.AspettoEsterioreBeni" />
 	<import class="it.bysoftware.ct.model.Associato" />
+	<import class="it.bysoftware.ct.model.BancheAppoggio" />
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
 	<import class="it.bysoftware.ct.model.ClientiDatiAgg" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
@@ -75,6 +76,19 @@
 		<property name="idLiferay" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_liferay" />
 		<property name="idOp" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_op" />
 		<property name="attivo" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.BancheAppoggioImpl" table="BancheAppoggio">
+		<cache usage="read-write" />
+		<id name="codiceBanca" column="RbaCodban" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="cBanca" access="com.liferay.portal.dao.orm.hibernate.CamelCasePropertyAccessor" type="com.liferay.portal.dao.orm.hibernate.StringType" column="`RbaCbanca`" />
+		<property name="codiceABI" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="RbaCodabi" />
+		<property name="codiceAgenzia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RbaCodagn" />
+		<property name="codiceCAB" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="RbaCodcab" />
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RbaDescri" />
+		<property name="piazza" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RbaPiazza" />
+		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RbaCodiaz" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" table="CausaleTrasporto">
 		<cache usage="read-write" />

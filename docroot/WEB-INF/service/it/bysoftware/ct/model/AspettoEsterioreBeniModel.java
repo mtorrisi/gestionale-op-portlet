@@ -139,19 +139,20 @@ public interface AspettoEsterioreBeniModel extends BaseModel<AspettoEsterioreBen
 	public Object clone();
 
 	@Override
-	public int compareTo(AspettoEsterioreBeni aspettoEsterioreBeni);
+	public int compareTo(
+		it.bysoftware.ct.model.AspettoEsterioreBeni aspettoEsterioreBeni);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<AspettoEsterioreBeni> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.AspettoEsterioreBeni> toCacheModel();
 
 	@Override
-	public AspettoEsterioreBeni toEscapedModel();
+	public it.bysoftware.ct.model.AspettoEsterioreBeni toEscapedModel();
 
 	@Override
-	public AspettoEsterioreBeni toUnescapedModel();
+	public it.bysoftware.ct.model.AspettoEsterioreBeni toUnescapedModel();
 
 	@Override
 	public String toString();

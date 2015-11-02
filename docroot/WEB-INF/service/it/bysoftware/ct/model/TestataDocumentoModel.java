@@ -655,19 +655,20 @@ public interface TestataDocumentoModel extends BaseModel<TestataDocumento> {
 	public Object clone();
 
 	@Override
-	public int compareTo(TestataDocumento testataDocumento);
+	public int compareTo(
+		it.bysoftware.ct.model.TestataDocumento testataDocumento);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<TestataDocumento> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.TestataDocumento> toCacheModel();
 
 	@Override
-	public TestataDocumento toEscapedModel();
+	public it.bysoftware.ct.model.TestataDocumento toEscapedModel();
 
 	@Override
-	public TestataDocumento toUnescapedModel();
+	public it.bysoftware.ct.model.TestataDocumento toUnescapedModel();
 
 	@Override
 	public String toString();

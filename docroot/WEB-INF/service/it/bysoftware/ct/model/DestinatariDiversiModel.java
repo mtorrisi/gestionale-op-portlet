@@ -214,19 +214,20 @@ public interface DestinatariDiversiModel extends BaseModel<DestinatariDiversi> {
 	public Object clone();
 
 	@Override
-	public int compareTo(DestinatariDiversi destinatariDiversi);
+	public int compareTo(
+		it.bysoftware.ct.model.DestinatariDiversi destinatariDiversi);
 
 	@Override
 	public int hashCode();
 
 	@Override
-	public CacheModel<DestinatariDiversi> toCacheModel();
+	public CacheModel<it.bysoftware.ct.model.DestinatariDiversi> toCacheModel();
 
 	@Override
-	public DestinatariDiversi toEscapedModel();
+	public it.bysoftware.ct.model.DestinatariDiversi toEscapedModel();
 
 	@Override
-	public DestinatariDiversi toUnescapedModel();
+	public it.bysoftware.ct.model.DestinatariDiversi toUnescapedModel();
 
 	@Override
 	public String toString();
