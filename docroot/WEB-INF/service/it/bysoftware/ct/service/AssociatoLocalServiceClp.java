@@ -112,19 +112,19 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 
 		_methodName19 = "getAssociatiAttivi";
 
-		_methodParameterTypes19 = new String[] {  };
+		_methodParameterTypes19 = new String[] { "long" };
 
 		_methodName20 = "getAssociatiDisattivati";
 
-		_methodParameterTypes20 = new String[] {  };
+		_methodParameterTypes20 = new String[] { "long" };
 
 		_methodName21 = "countAssociatiAttivi";
 
-		_methodParameterTypes21 = new String[] {  };
+		_methodParameterTypes21 = new String[] { "long" };
 
 		_methodName22 = "countAssociatiDisattivati";
 
-		_methodParameterTypes22 = new String[] {  };
+		_methodParameterTypes22 = new String[] { "long" };
 
 		_methodName23 = "findByLiferayId";
 
@@ -678,13 +678,13 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
-					_methodParameterTypes19, new Object[] {  });
+					_methodParameterTypes19, new Object[] { idOp });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -706,13 +706,13 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati()
-		throws com.liferay.portal.kernel.exception.SystemException {
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20, new Object[] {  });
+					_methodParameterTypes20, new Object[] { idOp });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -734,13 +734,13 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 	}
 
 	@Override
-	public int countAssociatiAttivi()
+	public int countAssociatiAttivi(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21, new Object[] {  });
+					_methodParameterTypes21, new Object[] { idOp });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -762,13 +762,13 @@ public class AssociatoLocalServiceClp implements AssociatoLocalService {
 	}
 
 	@Override
-	public int countAssociatiDisattivati()
+	public int countAssociatiDisattivati(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName22,
-					_methodParameterTypes22, new Object[] {  });
+					_methodParameterTypes22, new Object[] { idOp });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

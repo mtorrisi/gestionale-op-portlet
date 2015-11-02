@@ -369,6 +369,7 @@
         </finder>
         <finder name="AssociatiAttivi" return-type="Collection">
             <finder-column name="attivo"/>
+            <finder-column name="idOp"/>
         </finder>
         <finder name="Email" return-type="Associato" unique="true">
             <finder-column name="email" />

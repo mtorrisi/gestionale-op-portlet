@@ -41,20 +41,20 @@ public class AssociatoLocalServiceImpl extends AssociatoLocalServiceBaseImpl {
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AssociatoLocalServiceUtil} to access the associato local service.
 	 */
     
-    public List<Associato> getAssociatiAttivi() throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(true);
+    public List<Associato> getAssociatiAttivi(long idOp) throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(true, idOp);
     }
     
-    public List<Associato> getAssociatiDisattivati() throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(false);
+    public List<Associato> getAssociatiDisattivati(long idOp) throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(false, idOp);
     }
     
-    public int countAssociatiAttivi() throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(true).size();
+    public int countAssociatiAttivi(long idOp) throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(true, idOp).size();
     }
     
-    public int countAssociatiDisattivati() throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(false).size();
+    public int countAssociatiDisattivati(long idOp) throws SystemException{
+        return this.associatoPersistence.findByAssociatiAttivi(false, idOp).size();
     }
     
     public Associato findByLiferayId(long idLiferay) throws SystemException, NoSuchAssociatoException{

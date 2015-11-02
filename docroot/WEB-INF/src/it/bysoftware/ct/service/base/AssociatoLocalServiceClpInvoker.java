@@ -112,19 +112,19 @@ public class AssociatoLocalServiceClpInvoker {
 
 		_methodName136 = "getAssociatiAttivi";
 
-		_methodParameterTypes136 = new String[] {  };
+		_methodParameterTypes136 = new String[] { "long" };
 
 		_methodName137 = "getAssociatiDisattivati";
 
-		_methodParameterTypes137 = new String[] {  };
+		_methodParameterTypes137 = new String[] { "long" };
 
 		_methodName138 = "countAssociatiAttivi";
 
-		_methodParameterTypes138 = new String[] {  };
+		_methodParameterTypes138 = new String[] { "long" };
 
 		_methodName139 = "countAssociatiDisattivati";
 
-		_methodParameterTypes139 = new String[] {  };
+		_methodParameterTypes139 = new String[] { "long" };
 
 		_methodName140 = "findByLiferayId";
 
@@ -234,22 +234,22 @@ public class AssociatoLocalServiceClpInvoker {
 
 		if (_methodName136.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes136, parameterTypes)) {
-			return AssociatoLocalServiceUtil.getAssociatiAttivi();
+			return AssociatoLocalServiceUtil.getAssociatiAttivi(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName137.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes137, parameterTypes)) {
-			return AssociatoLocalServiceUtil.getAssociatiDisattivati();
+			return AssociatoLocalServiceUtil.getAssociatiDisattivati(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName138.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes138, parameterTypes)) {
-			return AssociatoLocalServiceUtil.countAssociatiAttivi();
+			return AssociatoLocalServiceUtil.countAssociatiAttivi(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName139.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes139, parameterTypes)) {
-			return AssociatoLocalServiceUtil.countAssociatiDisattivati();
+			return AssociatoLocalServiceUtil.countAssociatiDisattivati(((Long)arguments[0]).longValue());
 		}
 
 		if (_methodName140.equals(name) &&

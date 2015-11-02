@@ -427,41 +427,44 @@ public interface AssociatoPersistence extends BasePersistence<Associato> {
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns all the associatos where attivo = &#63;.
+	* Returns all the associatos where attivo = &#63; and idOp = &#63;.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @return the matching associatos
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<it.bysoftware.ct.model.Associato> findByAssociatiAttivi(
-		boolean attivo)
+		boolean attivo, long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the associatos where attivo = &#63;.
+	* Returns a range of all the associatos where attivo = &#63; and idOp = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.AssociatoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param start the lower bound of the range of associatos
 	* @param end the upper bound of the range of associatos (not inclusive)
 	* @return the range of matching associatos
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<it.bysoftware.ct.model.Associato> findByAssociatiAttivi(
-		boolean attivo, int start, int end)
+		boolean attivo, long idOp, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns an ordered range of all the associatos where attivo = &#63;.
+	* Returns an ordered range of all the associatos where attivo = &#63; and idOp = &#63;.
 	*
 	* <p>
 	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.AssociatoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param start the lower bound of the range of associatos
 	* @param end the upper bound of the range of associatos (not inclusive)
 	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -469,99 +472,106 @@ public interface AssociatoPersistence extends BasePersistence<Associato> {
 	* @throws SystemException if a system exception occurred
 	*/
 	public java.util.List<it.bysoftware.ct.model.Associato> findByAssociatiAttivi(
-		boolean attivo, int start, int end,
+		boolean attivo, long idOp, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the first associato in the ordered set where attivo = &#63;.
+	* Returns the first associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching associato
 	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.Associato findByAssociatiAttivi_First(
-		boolean attivo,
+		boolean attivo, long idOp,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchAssociatoException;
 
 	/**
-	* Returns the first associato in the ordered set where attivo = &#63;.
+	* Returns the first associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the first matching associato, or <code>null</code> if a matching associato could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.Associato fetchByAssociatiAttivi_First(
-		boolean attivo,
+		boolean attivo, long idOp,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the last associato in the ordered set where attivo = &#63;.
+	* Returns the last associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching associato
 	* @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.Associato findByAssociatiAttivi_Last(
-		boolean attivo,
+		boolean attivo, long idOp,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchAssociatoException;
 
 	/**
-	* Returns the last associato in the ordered set where attivo = &#63;.
+	* Returns the last associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the last matching associato, or <code>null</code> if a matching associato could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.Associato fetchByAssociatiAttivi_Last(
-		boolean attivo,
+		boolean attivo, long idOp,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the associatos before and after the current associato in the ordered set where attivo = &#63;.
+	* Returns the associatos before and after the current associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	*
 	* @param id the primary key of the current associato
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	* @return the previous, current, and next associato
 	* @throws it.bysoftware.ct.NoSuchAssociatoException if a associato with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.Associato[] findByAssociatiAttivi_PrevAndNext(
-		long id, boolean attivo,
+		long id, boolean attivo, long idOp,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchAssociatoException;
 
 	/**
-	* Removes all the associatos where attivo = &#63; from the database.
+	* Removes all the associatos where attivo = &#63; and idOp = &#63; from the database.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @throws SystemException if a system exception occurred
 	*/
-	public void removeByAssociatiAttivi(boolean attivo)
+	public void removeByAssociatiAttivi(boolean attivo, long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of associatos where attivo = &#63;.
+	* Returns the number of associatos where attivo = &#63; and idOp = &#63;.
 	*
 	* @param attivo the attivo
+	* @param idOp the id op
 	* @return the number of matching associatos
 	* @throws SystemException if a system exception occurred
 	*/
-	public int countByAssociatiAttivi(boolean attivo)
+	public int countByAssociatiAttivi(boolean attivo, long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

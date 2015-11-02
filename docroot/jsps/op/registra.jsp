@@ -1,7 +1,12 @@
+<%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@include file="../../init.jsp" %>
 
+<%
+    OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.valueOf(renderRequest.getRemoteUser()));
+%>
 <liferay-portlet:actionURL name="addAssociato" var="addAssociato"/>
 <form id="registra-associato" class="form-horizontal" action="${addAssociato}" method="post">
     <fieldset>
@@ -114,8 +119,8 @@
             <div id="tab-1" class="tab-pane">
                 <liferay-ui:search-container delta="20" >
 
-                    <liferay-ui:search-container-results results="<%= AssociatoLocalServiceUtil.getAssociatiAttivi()%>" 
-                    total="<%= AssociatoLocalServiceUtil.countAssociatiAttivi()%>"/>
+                    <liferay-ui:search-container-results results="<%= AssociatoLocalServiceUtil.getAssociatiAttivi(op.getId())%>" 
+                    total="<%= AssociatoLocalServiceUtil.countAssociatiAttivi(op.getId())%>"/>
                     <liferay-ui:search-container-row className="Associato" modelVar="associati">
                         <liferay-ui:search-container-column-text property="idLiferay" name="Codice" />
                         <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
@@ -133,8 +138,8 @@
             <div id="tab-2" >
                 <liferay-ui:search-container delta="20" >
 
-                    <liferay-ui:search-container-results results="<%= AssociatoLocalServiceUtil.getAssociatiDisattivati()%>" 
-                    total="<%= AssociatoLocalServiceUtil.countAssociatiDisattivati()%>"/>
+                    <liferay-ui:search-container-results results="<%= AssociatoLocalServiceUtil.getAssociatiDisattivati(op.getId())%>" 
+                    total="<%= AssociatoLocalServiceUtil.countAssociatiDisattivati(op.getId())%>"/>
                     <liferay-ui:search-container-row className="Associato" modelVar="associati">
                         <liferay-ui:search-container-column-text property="idLiferay" name="Codice" />
                         <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />

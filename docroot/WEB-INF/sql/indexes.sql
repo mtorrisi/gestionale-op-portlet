@@ -18,6 +18,7 @@ create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);
 create index IX_986314C2 on SSTESORD (WkOperatore, WKCompleto, WKInviato, WKTipdoc);
 
 create index IX_E93AA8C3 on associato (attivo);
+create index IX_320CDAD2 on associato (attivo, id_op);
 create unique index IX_95DBA707 on associato (centro);
 create unique index IX_DEA53A9E on associato (email);
 create unique index IX_EF7BEC6C on associato (id_liferay);

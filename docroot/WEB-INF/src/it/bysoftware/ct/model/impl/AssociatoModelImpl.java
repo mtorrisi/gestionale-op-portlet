@@ -96,9 +96,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	public static long CENTRO_COLUMN_BITMASK = 2L;
 	public static long EMAIL_COLUMN_BITMASK = 4L;
 	public static long IDLIFERAY_COLUMN_BITMASK = 8L;
-	public static long PARTITAIVA_COLUMN_BITMASK = 16L;
-	public static long RAGIONESOCIALE_COLUMN_BITMASK = 32L;
-	public static long ID_COLUMN_BITMASK = 64L;
+	public static long IDOP_COLUMN_BITMASK = 16L;
+	public static long PARTITAIVA_COLUMN_BITMASK = 32L;
+	public static long RAGIONESOCIALE_COLUMN_BITMASK = 64L;
+	public static long ID_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -490,7 +491,19 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public void setIdOp(long idOp) {
+		_columnBitmask |= IDOP_COLUMN_BITMASK;
+
+		if (!_setOriginalIdOp) {
+			_setOriginalIdOp = true;
+
+			_originalIdOp = _idOp;
+		}
+
 		_idOp = idOp;
+	}
+
+	public long getOriginalIdOp() {
+		return _originalIdOp;
 	}
 
 	@JSON
@@ -627,6 +640,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoModelImpl._originalIdLiferay = associatoModelImpl._idLiferay;
 
 		associatoModelImpl._setOriginalIdLiferay = false;
+
+		associatoModelImpl._originalIdOp = associatoModelImpl._idOp;
+
+		associatoModelImpl._setOriginalIdOp = false;
 
 		associatoModelImpl._originalAttivo = associatoModelImpl._attivo;
 
@@ -830,6 +847,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private long _originalIdLiferay;
 	private boolean _setOriginalIdLiferay;
 	private long _idOp;
+	private long _originalIdOp;
+	private boolean _setOriginalIdOp;
 	private boolean _attivo;
 	private boolean _originalAttivo;
 	private boolean _setOriginalAttivo;

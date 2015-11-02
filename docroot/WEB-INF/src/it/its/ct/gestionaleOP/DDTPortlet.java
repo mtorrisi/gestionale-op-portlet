@@ -475,10 +475,10 @@ public class DDTPortlet extends MVCPortlet {
     private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine, boolean update, String tipoDocumento) throws AddressException {
         MailMessage mailMessage = new MailMessage();
         String articolo = tipoDocumento.equals(DDT) ? "il DDT" : "la fattura" ;
-        String action = update ? "\nha appena modificato " + articolo +": " : "\nha appena creato il documento: ";
+        String action = update ? "\nha appena modificato " + articolo +": " : "\nha appena creato " + articolo   + ": ";
         String subject = update ? "Notifica modifica documento." : "Notifica creazione documento.";
         mailMessage.setBody("Spett. " + o.getRagioneSociale()
-                + "\n\nLa presente per infromarla che l'associato: " + a.getRagioneSociale()
+                + "\n\nLa presente per informarla che l'associato: " + a.getRagioneSociale()
                 + action + numeroOrdine + "."
                 + "\nDistinti saluti."
                 + "\n\nP.S. Il presente messagio e' stato generato automaticamente per comunicazione all'associato scrivere all'indirizzo: " + a.getEmail());

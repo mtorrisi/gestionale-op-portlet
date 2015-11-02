@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
@@ -8,7 +10,8 @@
 
 <%
 
-    List<Associato> associati =AssociatoLocalServiceUtil.getAssociatiAttivi();
+    OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.valueOf(renderRequest.getRemoteUser()));
+    List<Associato> associati = AssociatoLocalServiceUtil.getAssociatiAttivi(op.getId());
   
     PortletURL renderURL = renderResponse.createRenderURL();
     renderURL.setWindowState(LiferayWindowState.NORMAL);
@@ -21,7 +24,7 @@
     <liferay-ui:search-container-results >
         <%
             results = ListUtil.subList(associati, searchContainer.getStart(), searchContainer.getEnd());
-            total = AssociatoLocalServiceUtil.countAssociatiAttivi();
+            total = AssociatoLocalServiceUtil.countAssociatiAttivi(op.getId());
             pageContext.setAttribute("results", results);
             pageContext.setAttribute("total", total);
         %>

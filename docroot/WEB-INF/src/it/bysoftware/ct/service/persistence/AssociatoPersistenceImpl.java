@@ -1595,7 +1595,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssociatiAttivi",
 			new String[] {
-				Boolean.class.getName(),
+				Boolean.class.getName(), Long.class.getName(),
 				
 			Integer.class.getName(), Integer.class.getName(),
 				OrderByComparator.class.getName()
@@ -1604,54 +1604,59 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssociatiAttivi",
-			new String[] { Boolean.class.getName() },
-			AssociatoModelImpl.ATTIVO_COLUMN_BITMASK);
+			new String[] { Boolean.class.getName(), Long.class.getName() },
+			AssociatoModelImpl.ATTIVO_COLUMN_BITMASK |
+			AssociatoModelImpl.IDOP_COLUMN_BITMASK);
 	public static final FinderPath FINDER_PATH_COUNT_BY_ASSOCIATIATTIVI = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoModelImpl.FINDER_CACHE_ENABLED, Long.class,
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
-			"countByAssociatiAttivi", new String[] { Boolean.class.getName() });
+			"countByAssociatiAttivi",
+			new String[] { Boolean.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the associatos where attivo = &#63;.
+	 * Returns all the associatos where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @return the matching associatos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<Associato> findByAssociatiAttivi(boolean attivo)
+	public List<Associato> findByAssociatiAttivi(boolean attivo, long idOp)
 		throws SystemException {
-		return findByAssociatiAttivi(attivo, QueryUtil.ALL_POS,
+		return findByAssociatiAttivi(attivo, idOp, QueryUtil.ALL_POS,
 			QueryUtil.ALL_POS, null);
 	}
 
 	/**
-	 * Returns a range of all the associatos where attivo = &#63;.
+	 * Returns a range of all the associatos where attivo = &#63; and idOp = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.AssociatoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param start the lower bound of the range of associatos
 	 * @param end the upper bound of the range of associatos (not inclusive)
 	 * @return the range of matching associatos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<Associato> findByAssociatiAttivi(boolean attivo, int start,
-		int end) throws SystemException {
-		return findByAssociatiAttivi(attivo, start, end, null);
+	public List<Associato> findByAssociatiAttivi(boolean attivo, long idOp,
+		int start, int end) throws SystemException {
+		return findByAssociatiAttivi(attivo, idOp, start, end, null);
 	}
 
 	/**
-	 * Returns an ordered range of all the associatos where attivo = &#63;.
+	 * Returns an ordered range of all the associatos where attivo = &#63; and idOp = &#63;.
 	 *
 	 * <p>
 	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.AssociatoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	 * </p>
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param start the lower bound of the range of associatos
 	 * @param end the upper bound of the range of associatos (not inclusive)
 	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
@@ -1659,8 +1664,9 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public List<Associato> findByAssociatiAttivi(boolean attivo, int start,
-		int end, OrderByComparator orderByComparator) throws SystemException {
+	public List<Associato> findByAssociatiAttivi(boolean attivo, long idOp,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
 		boolean pagination = true;
 		FinderPath finderPath = null;
 		Object[] finderArgs = null;
@@ -1669,11 +1675,15 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 				(orderByComparator == null)) {
 			pagination = false;
 			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ASSOCIATIATTIVI;
-			finderArgs = new Object[] { attivo };
+			finderArgs = new Object[] { attivo, idOp };
 		}
 		else {
 			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ASSOCIATIATTIVI;
-			finderArgs = new Object[] { attivo, start, end, orderByComparator };
+			finderArgs = new Object[] {
+					attivo, idOp,
+					
+					start, end, orderByComparator
+				};
 		}
 
 		List<Associato> list = (List<Associato>)FinderCacheUtil.getResult(finderPath,
@@ -1681,7 +1691,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 
 		if ((list != null) && !list.isEmpty()) {
 			for (Associato associato : list) {
-				if ((attivo != associato.getAttivo())) {
+				if ((attivo != associato.getAttivo()) ||
+						(idOp != associato.getIdOp())) {
 					list = null;
 
 					break;
@@ -1693,16 +1704,18 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 			StringBundler query = null;
 
 			if (orderByComparator != null) {
-				query = new StringBundler(3 +
+				query = new StringBundler(4 +
 						(orderByComparator.getOrderByFields().length * 3));
 			}
 			else {
-				query = new StringBundler(3);
+				query = new StringBundler(4);
 			}
 
 			query.append(_SQL_SELECT_ASSOCIATO_WHERE);
 
 			query.append(_FINDER_COLUMN_ASSOCIATIATTIVI_ATTIVO_2);
+
+			query.append(_FINDER_COLUMN_ASSOCIATIATTIVI_IDOP_2);
 
 			if (orderByComparator != null) {
 				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
@@ -1725,6 +1738,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(attivo);
+
+				qPos.add(idOp);
 
 				if (!pagination) {
 					list = (List<Associato>)QueryUtil.list(q, getDialect(),
@@ -1757,31 +1772,35 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	/**
-	 * Returns the first associato in the ordered set where attivo = &#63;.
+	 * Returns the first associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching associato
 	 * @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public Associato findByAssociatiAttivi_First(boolean attivo,
+	public Associato findByAssociatiAttivi_First(boolean attivo, long idOp,
 		OrderByComparator orderByComparator)
 		throws NoSuchAssociatoException, SystemException {
-		Associato associato = fetchByAssociatiAttivi_First(attivo,
+		Associato associato = fetchByAssociatiAttivi_First(attivo, idOp,
 				orderByComparator);
 
 		if (associato != null) {
 			return associato;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		msg.append("attivo=");
 		msg.append(attivo);
+
+		msg.append(", idOp=");
+		msg.append(idOp);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -1789,17 +1808,18 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	/**
-	 * Returns the first associato in the ordered set where attivo = &#63;.
+	 * Returns the first associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the first matching associato, or <code>null</code> if a matching associato could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public Associato fetchByAssociatiAttivi_First(boolean attivo,
+	public Associato fetchByAssociatiAttivi_First(boolean attivo, long idOp,
 		OrderByComparator orderByComparator) throws SystemException {
-		List<Associato> list = findByAssociatiAttivi(attivo, 0, 1,
+		List<Associato> list = findByAssociatiAttivi(attivo, idOp, 0, 1,
 				orderByComparator);
 
 		if (!list.isEmpty()) {
@@ -1810,31 +1830,35 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	/**
-	 * Returns the last associato in the ordered set where attivo = &#63;.
+	 * Returns the last associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching associato
 	 * @throws it.bysoftware.ct.NoSuchAssociatoException if a matching associato could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public Associato findByAssociatiAttivi_Last(boolean attivo,
+	public Associato findByAssociatiAttivi_Last(boolean attivo, long idOp,
 		OrderByComparator orderByComparator)
 		throws NoSuchAssociatoException, SystemException {
-		Associato associato = fetchByAssociatiAttivi_Last(attivo,
+		Associato associato = fetchByAssociatiAttivi_Last(attivo, idOp,
 				orderByComparator);
 
 		if (associato != null) {
 			return associato;
 		}
 
-		StringBundler msg = new StringBundler(4);
+		StringBundler msg = new StringBundler(6);
 
 		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
 
 		msg.append("attivo=");
 		msg.append(attivo);
+
+		msg.append(", idOp=");
+		msg.append(idOp);
 
 		msg.append(StringPool.CLOSE_CURLY_BRACE);
 
@@ -1842,24 +1866,25 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	/**
-	 * Returns the last associato in the ordered set where attivo = &#63;.
+	 * Returns the last associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the last matching associato, or <code>null</code> if a matching associato could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public Associato fetchByAssociatiAttivi_Last(boolean attivo,
+	public Associato fetchByAssociatiAttivi_Last(boolean attivo, long idOp,
 		OrderByComparator orderByComparator) throws SystemException {
-		int count = countByAssociatiAttivi(attivo);
+		int count = countByAssociatiAttivi(attivo, idOp);
 
 		if (count == 0) {
 			return null;
 		}
 
-		List<Associato> list = findByAssociatiAttivi(attivo, count - 1, count,
-				orderByComparator);
+		List<Associato> list = findByAssociatiAttivi(attivo, idOp, count - 1,
+				count, orderByComparator);
 
 		if (!list.isEmpty()) {
 			return list.get(0);
@@ -1869,10 +1894,11 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	/**
-	 * Returns the associatos before and after the current associato in the ordered set where attivo = &#63;.
+	 * Returns the associatos before and after the current associato in the ordered set where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param id the primary key of the current associato
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
 	 * @return the previous, current, and next associato
 	 * @throws it.bysoftware.ct.NoSuchAssociatoException if a associato with the primary key could not be found
@@ -1880,7 +1906,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	 */
 	@Override
 	public Associato[] findByAssociatiAttivi_PrevAndNext(long id,
-		boolean attivo, OrderByComparator orderByComparator)
+		boolean attivo, long idOp, OrderByComparator orderByComparator)
 		throws NoSuchAssociatoException, SystemException {
 		Associato associato = findByPrimaryKey(id);
 
@@ -1892,12 +1918,12 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 			Associato[] array = new AssociatoImpl[3];
 
 			array[0] = getByAssociatiAttivi_PrevAndNext(session, associato,
-					attivo, orderByComparator, true);
+					attivo, idOp, orderByComparator, true);
 
 			array[1] = associato;
 
 			array[2] = getByAssociatiAttivi_PrevAndNext(session, associato,
-					attivo, orderByComparator, false);
+					attivo, idOp, orderByComparator, false);
 
 			return array;
 		}
@@ -1910,7 +1936,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	protected Associato getByAssociatiAttivi_PrevAndNext(Session session,
-		Associato associato, boolean attivo,
+		Associato associato, boolean attivo, long idOp,
 		OrderByComparator orderByComparator, boolean previous) {
 		StringBundler query = null;
 
@@ -1925,6 +1951,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		query.append(_SQL_SELECT_ASSOCIATO_WHERE);
 
 		query.append(_FINDER_COLUMN_ASSOCIATIATTIVI_ATTIVO_2);
+
+		query.append(_FINDER_COLUMN_ASSOCIATIATTIVI_IDOP_2);
 
 		if (orderByComparator != null) {
 			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
@@ -1996,6 +2024,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 
 		qPos.add(attivo);
 
+		qPos.add(idOp);
+
 		if (orderByComparator != null) {
 			Object[] values = orderByComparator.getOrderByConditionValues(associato);
 
@@ -2015,42 +2045,47 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	}
 
 	/**
-	 * Removes all the associatos where attivo = &#63; from the database.
+	 * Removes all the associatos where attivo = &#63; and idOp = &#63; from the database.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public void removeByAssociatiAttivi(boolean attivo)
+	public void removeByAssociatiAttivi(boolean attivo, long idOp)
 		throws SystemException {
-		for (Associato associato : findByAssociatiAttivi(attivo,
+		for (Associato associato : findByAssociatiAttivi(attivo, idOp,
 				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
 			remove(associato);
 		}
 	}
 
 	/**
-	 * Returns the number of associatos where attivo = &#63;.
+	 * Returns the number of associatos where attivo = &#63; and idOp = &#63;.
 	 *
 	 * @param attivo the attivo
+	 * @param idOp the id op
 	 * @return the number of matching associatos
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public int countByAssociatiAttivi(boolean attivo) throws SystemException {
+	public int countByAssociatiAttivi(boolean attivo, long idOp)
+		throws SystemException {
 		FinderPath finderPath = FINDER_PATH_COUNT_BY_ASSOCIATIATTIVI;
 
-		Object[] finderArgs = new Object[] { attivo };
+		Object[] finderArgs = new Object[] { attivo, idOp };
 
 		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
 				this);
 
 		if (count == null) {
-			StringBundler query = new StringBundler(2);
+			StringBundler query = new StringBundler(3);
 
 			query.append(_SQL_COUNT_ASSOCIATO_WHERE);
 
 			query.append(_FINDER_COLUMN_ASSOCIATIATTIVI_ATTIVO_2);
+
+			query.append(_FINDER_COLUMN_ASSOCIATIATTIVI_IDOP_2);
 
 			String sql = query.toString();
 
@@ -2064,6 +2099,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 				QueryPos qPos = QueryPos.getInstance(q);
 
 				qPos.add(attivo);
+
+				qPos.add(idOp);
 
 				count = (Long)q.uniqueResult();
 
@@ -2082,7 +2119,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		return count.intValue();
 	}
 
-	private static final String _FINDER_COLUMN_ASSOCIATIATTIVI_ATTIVO_2 = "associato.attivo = ?";
+	private static final String _FINDER_COLUMN_ASSOCIATIATTIVI_ATTIVO_2 = "associato.attivo = ? AND ";
+	private static final String _FINDER_COLUMN_ASSOCIATIATTIVI_IDOP_2 = "associato.idOp = ?";
 	public static final FinderPath FINDER_PATH_FETCH_BY_EMAIL = new FinderPath(AssociatoModelImpl.ENTITY_CACHE_ENABLED,
 			AssociatoModelImpl.FINDER_CACHE_ENABLED, AssociatoImpl.class,
 			FINDER_CLASS_NAME_ENTITY, "fetchByEmail",
@@ -2666,7 +2704,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 			if ((associatoModelImpl.getColumnBitmask() &
 					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ASSOCIATIATTIVI.getColumnBitmask()) != 0) {
 				Object[] args = new Object[] {
-						associatoModelImpl.getOriginalAttivo()
+						associatoModelImpl.getOriginalAttivo(),
+						associatoModelImpl.getOriginalIdOp()
 					};
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ASSOCIATIATTIVI,
@@ -2674,7 +2713,10 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ASSOCIATIATTIVI,
 					args);
 
-				args = new Object[] { associatoModelImpl.getAttivo() };
+				args = new Object[] {
+						associatoModelImpl.getAttivo(),
+						associatoModelImpl.getIdOp()
+					};
 
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ASSOCIATIATTIVI,
 					args);

@@ -251,17 +251,17 @@ public interface AssociatoLocalService extends BaseLocalService,
 		throws java.lang.Throwable;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi()
-		throws com.liferay.portal.kernel.exception.SystemException;
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati()
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException;
+
+	public int countAssociatiAttivi(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public int countAssociatiAttivi()
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public int countAssociatiDisattivati()
+	public int countAssociatiDisattivati(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public it.bysoftware.ct.model.Associato findByLiferayId(long idLiferay)

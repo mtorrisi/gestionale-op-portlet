@@ -283,27 +283,27 @@ public class AssociatoLocalServiceWrapper implements AssociatoLocalService,
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _associatoLocalService.getAssociatiAttivi();
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.getAssociatiAttivi(idOp);
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati()
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _associatoLocalService.getAssociatiDisattivati();
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.getAssociatiDisattivati(idOp);
 	}
 
 	@Override
-	public int countAssociatiAttivi()
+	public int countAssociatiAttivi(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _associatoLocalService.countAssociatiAttivi();
+		return _associatoLocalService.countAssociatiAttivi(idOp);
 	}
 
 	@Override
-	public int countAssociatiDisattivati()
+	public int countAssociatiDisattivati(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _associatoLocalService.countAssociatiDisattivati();
+		return _associatoLocalService.countAssociatiDisattivati(idOp);
 	}
 
 	@Override
