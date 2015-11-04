@@ -103,6 +103,11 @@
     <liferay-portlet:param name="update" value="true" />
     <liferay-portlet:param name="jspPage"  value="/jsps/search-ddt.jsp"/>
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="traceabilityURL">
+    <%--<liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>--%>
+    <%--<liferay-portlet:param name="update" value="true" />--%>
+    <liferay-portlet:param name="jspPage"  value="/jsps/traceability.jsp"/>
+</liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
 <portlet:resourceURL var="printDDT" id="print" />
 <aui:field-wrapper >
@@ -111,6 +116,7 @@
             <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
+            <button id="btnTrace"   class="btn"><i class="icon-list-alt"></i>Scheda Tracciabilità</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -1162,6 +1168,12 @@
         YUI().use('node', function (Y) {
             Y.one('#btnSearch').on('click', function () {
                 window.location.href = '<%=searchDDTURL%>'.toString();
+            });
+        });
+        
+        YUI().use('node', function (Y) {
+            Y.one('#btnTrace').on('click', function () {
+                window.location.href = '<%=traceabilityURL%>'.toString();
             });
         });
 

@@ -175,9 +175,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         Quanet = rigo.getPesoNetto() + SEPARATOR;
                         Qm2net = rigo.getColli() + SEPARATOR;
                         Prezzo = rigo.getPrezzo() + SEPARATOR;
-                        Scont1 = rigo.getSconto1()+ SEPARATOR;
-                        Scont2 = rigo.getSconto2() + SEPARATOR;
-                        Scont3 = rigo.getSconto3()+ SEPARATOR;
+                        Scont1 = "-" + rigo.getSconto1()+ SEPARATOR;
+                        Scont2 = "-" + rigo.getSconto2() + SEPARATOR;
+                        Scont3 = "-" + rigo.getSconto3()+ SEPARATOR;
                         Libstr1 = SEPARATOR;
                         Libstr2 = SEPARATOR;
                         Libstr3 = SEPARATOR;
