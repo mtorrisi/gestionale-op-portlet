@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.util.Validator;
 import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.base.ArticoliLocalServiceBaseImpl;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,28 +53,36 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
      * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ArticoliLocalServiceUtil} to access the articoli local service.
      */
 
+    @Override
     public List<Articoli> getImballaggi() throws SystemException {
         return this.articoliPersistence.findBycategoriaMerceologica("IMB");
     }
 
+    @Override
     public int countImballaggi() throws SystemException {
         return this.articoliPersistence.countBycategoriaMerceologica("IMB");
     }
 
+    @Override
     public List<Articoli> getArticoli() throws SystemException {
-        return this.articoliPersistence.findBycategoriaArticoli("AGR");
+        List<Articoli> list = this.articoliPersistence.findAll();
+        return checkArticoli(list);
     }
 
+    @Override
     public int countArticoli() throws SystemException {
-        return this.articoliPersistence.countBycategoriaArticoli("AGR");
+        List<Articoli> list = this.articoliPersistence.findAll();
+        return checkArticoli(list).size();
     }
 
+    @Override
     public List searchArticoli(String codiceArticolo, boolean andSearch, int start, int end, OrderByComparator orderByComparator)
             throws SystemException {
         DynamicQuery dynamicQuery = buildArticoliDynamicQuery(codiceArticolo, andSearch, false);
         return ArticoliLocalServiceUtil.dynamicQuery(dynamicQuery, start, end, orderByComparator);
     }
 
+    @Override
     public List searchImballaggi(String codiceImballaggio, boolean andSearch, int start, int end, OrderByComparator orderByComparator)
             throws SystemException {
         DynamicQuery dynamicQuery = buildArticoliDynamicQuery(codiceImballaggio, andSearch, true);
@@ -95,7 +104,13 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
         } else {
             Property property = PropertyFactoryUtil.forName("categoriaMerceologica");
             String value = "AGR";
-            junction.add(property.eq(value));
+//            junction.add(property.eq(value));
+            junction.add(property.ne(""));
+            junction.add(property.ne("GRE"));
+            junction.add(property.ne("IMB"));
+            junction.add(property.ne("PDG"));
+            junction.add(property.ne("IMG"));
+            
         }
         
         if (Validator.isNotNull(codiceArticolo)) {
@@ -123,5 +138,18 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
 //        }
         DynamicQuery dynamicQuery = DynamicQueryFactoryUtil.forClass(Articoli.class, getClassLoader());
         return dynamicQuery.add(junction);
+    }
+
+    private List<Articoli> checkArticoli(List<Articoli> list) {
+        List<Articoli> listArticoli = new ArrayList<Articoli>();
+        for (Articoli articolo : list) {
+            String categoria = articolo.getCategoriaMerceologica();
+            if(!categoria.isEmpty() || !categoria.equals("GRE") || 
+                    !categoria.equals("PDG") || !categoria.equals("IMG") || 
+                    !categoria.equals("IMB")){
+                listArticoli.add(articolo);
+            }
+        }
+        return listArticoli;
     }
 }
