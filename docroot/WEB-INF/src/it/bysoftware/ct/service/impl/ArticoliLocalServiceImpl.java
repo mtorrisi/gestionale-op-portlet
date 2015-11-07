@@ -103,7 +103,7 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
             junction.add(property.eq(value));
         } else {
             Property property = PropertyFactoryUtil.forName("categoriaMerceologica");
-            String value = "AGR";
+//            String value = "AGR";
 //            junction.add(property.eq(value));
             junction.add(property.ne(""));
             junction.add(property.ne("GRE"));
@@ -144,8 +144,8 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
         List<Articoli> listArticoli = new ArrayList<Articoli>();
         for (Articoli articolo : list) {
             String categoria = articolo.getCategoriaMerceologica();
-            if(!categoria.isEmpty() || !categoria.equals("GRE") || 
-                    !categoria.equals("PDG") || !categoria.equals("IMG") || 
+            if(!categoria.isEmpty() && !categoria.equals("GRE") && 
+                    !categoria.equals("PDG") && !categoria.equals("IMG") && 
                     !categoria.equals("IMB")){
                 listArticoli.add(articolo);
             }
