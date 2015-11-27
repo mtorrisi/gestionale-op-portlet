@@ -20,10 +20,10 @@
 %>
 <aui:fieldset label="Elenco Fatture">
     <aui:form method="post" name="fm" action="${generateInvoice}">
-        <aui:input name="documentIds" />
+        <%--<aui:input name="documentIds" />--%>
         <%--<aui:input name="clientId" value="<%= //cliente.getCodiceAnagrafica()%>"/>--%>
-        <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
-
+        <%--<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">--%>
+        <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna fattura trovata.">
             <liferay-ui:search-container-results results="<%= listInvoice%>" 
             total="<%= listInvoice.size()%>"/>
             <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataFAV" keyProperty="numeroOrdine">

@@ -36,12 +36,14 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(7);
 
 		sb.append("{codiceAnagrafica=");
 		sb.append(codiceAnagrafica);
 		sb.append(", associati=");
 		sb.append(associati);
+		sb.append(", codiceAliquota=");
+		sb.append(codiceAliquota);
 		sb.append("}");
 
 		return sb.toString();
@@ -65,6 +67,13 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 			clientiDatiAggImpl.setAssociati(associati);
 		}
 
+		if (codiceAliquota == null) {
+			clientiDatiAggImpl.setCodiceAliquota(StringPool.BLANK);
+		}
+		else {
+			clientiDatiAggImpl.setCodiceAliquota(codiceAliquota);
+		}
+
 		clientiDatiAggImpl.resetOriginalValues();
 
 		return clientiDatiAggImpl;
@@ -74,6 +83,7 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		codiceAnagrafica = objectInput.readUTF();
 		associati = objectInput.readUTF();
+		codiceAliquota = objectInput.readUTF();
 	}
 
 	@Override
@@ -92,8 +102,16 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 		else {
 			objectOutput.writeUTF(associati);
 		}
+
+		if (codiceAliquota == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(codiceAliquota);
+		}
 	}
 
 	public String codiceAnagrafica;
 	public String associati;
+	public String codiceAliquota;
 }

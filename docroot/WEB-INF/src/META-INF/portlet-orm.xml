@@ -189,6 +189,9 @@
 			<basic name="associati">
 				<column name="RVELIBSTR1" />
 			</basic>
+			<basic name="codiceAliquota">
+				<column name="RVEESENZI" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -576,6 +579,58 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.TracciabilitaGrezziModelImpl">
+		<attributes>
+			<id name="id" />
+			<basic name="lottoGrezzo">
+				<column name="LOTTO_GREZZO" />
+			</basic>
+			<basic name="prodotto" />
+			<basic name="kg" />
+			<basic name="produttore" />
+			<basic name="foglio" />
+			<basic name="particella" />
+			<basic name="idSchedaTracciabilta">
+				<column name="ID_SCHEDA_TRACCIABILITA" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.TracciabilitaSchedaModelImpl">
+		<attributes>
+			<id name="id" />
+			<basic name="codiceProdotto">
+				<column name="CODICE_PRODOTTO" />
+			</basic>
+			<basic name="prodottoVenduto">
+				<column name="PRODOTTO" />
+			</basic>
+			<basic name="kgVenduti">
+				<column name="KG" />
+			</basic>
+			<basic name="lottoVendita">
+				<column name="LOTTO_VENDITA" />
+			</basic>
+			<basic name="anno" />
+			<basic name="numeroDocumento">
+				<column name="NUMERO_DOCUMENTO" />
+			</basic>
+			<basic name="rigoOrdine">
+				<column name="RIGO_ORDINE" />
+			</basic>
+			<basic name="tipoDocumento">
+				<column name="TIPO_DOCUMENTO" />
+			</basic>
+			<basic name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.VettoriModelImpl">
 		<attributes>
 			<id name="codiceVettore">
@@ -622,6 +677,25 @@
 			</basic>
 			<basic name="codiceAzienda">
 				<column name="RAVCODIAZ" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.VociIvaModelImpl">
+		<attributes>
+			<id name="codiceIva">
+				<column name="RIACODIVA" />
+			</id>
+			<basic name="descrizione">
+				<column name="RIADESCRI" />
+			</basic>
+			<basic name="descrizioneDocumento">
+				<column name="RIADESDOC" />
+			</basic>
+			<basic name="aliquota">
+				<column name="RIAALIQUO" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -692,8 +766,20 @@
 		<table name="SSTESORD" />
 		<attributes />
 	</entity>
+	<entity class="it.bysoftware.ct.model.impl.TracciabilitaGrezziImpl" name="TracciabilitaGrezzi">
+		<table name="TracciabilitaGrezzi" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.TracciabilitaSchedaImpl" name="TracciabilitaScheda">
+		<table name="tracciabilitaScheda" />
+		<attributes />
+	</entity>
 	<entity class="it.bysoftware.ct.model.impl.VettoriImpl" name="Vettori">
 		<table name="Vettori" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.VociIvaImpl" name="VociIva">
+		<table name="VociIva" />
 		<attributes />
 	</entity>
 </entity-mappings>

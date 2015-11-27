@@ -17,7 +17,6 @@ package it.bysoftware.ct.service.impl;
 import com.liferay.portal.kernel.exception.SystemException;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.service.base.RigoDocumentoLocalServiceBaseImpl;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

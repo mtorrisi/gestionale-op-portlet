@@ -10,6 +10,7 @@ package it.its.ct.gestionaleOP;
  * @author mario
  */
 import com.google.gson.Gson;
+import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.mail.service.MailServiceUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -51,6 +52,8 @@ import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.model.Progressivo;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
+import it.bysoftware.ct.model.TracciabilitaGrezzi;
+import it.bysoftware.ct.model.TracciabilitaScheda;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
@@ -59,6 +62,8 @@ import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.ProgressivoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.ProgressivoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
 import it.its.ct.gestionaleOP.pojos.Response;
@@ -69,8 +74,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,6 +100,7 @@ public class DDTPortlet extends MVCPortlet {
     public static final String FAV = "FAV";
     public static final String FAC = "FAC";
     public static final String NAC = "NAC";
+    public static final String TRAC = "TRAC";
     public static final int DDT_ID = 16;
     public static final int NOTE_ID = 3;
     private static final int INVOICE_ID = 2;
@@ -103,7 +112,7 @@ public class DDTPortlet extends MVCPortlet {
 
     public enum CommandID {
 
-        save, print, send, modify, generateInvoice, printInvoice, updateInvoice;
+        save, print, send, modify, generateInvoice, printInvoice, updateInvoice, saveTrace, printTrace;
     }
 
     @Override
@@ -265,14 +274,15 @@ public class DDTPortlet extends MVCPortlet {
         OrganizzazioneProduttori op;
         Report r;
         int nDoc;
+        boolean update;
+        boolean send;
+
         switch (CommandID.valueOf(resourceID)) {
             case modify: {
                 writer = resourceResponse.getWriter();
                 try {
                     associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
                     response = saveDDT(resourceRequest, associato, true);
-                    sendEmail(associato, op, response.getId(), true, DDT);
                 } catch (JSONException ex) {
                     _log.error(ex.getMessage());
                     response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
@@ -288,130 +298,143 @@ public class DDTPortlet extends MVCPortlet {
                     _log.error(ex.getMessage());
                     response = new Response(Response.Code.INSERT_ERROR, -1);
                     writer.print(response);
-                } catch (AddressException ex) {
+                } catch (ParseException ex) {
                     _log.error(ex.getMessage());
-                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
-                    writer.print(response);
-                }
-            }
-
-            writer.print(gson.toJson(response));
-            writer.flush();
-            writer.close();
-            break;
-
-            case save: {
-                writer = resourceResponse.getWriter();
-                try {
-                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                    response = saveDDT(resourceRequest, associato, false);
-                    sendEmail(associato, op, response.getId(), false, DDT);
-                } catch (JSONException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
-                } catch (SystemException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.INSERT_ERROR, -1);
-                    writer.print(response);
-                } catch (NoSuchAssociatoException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
-                    writer.print(response);
-                } catch (PortalException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.INSERT_ERROR, -1);
-                    writer.print(response);
-                } catch (AddressException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
-                    writer.print(response);
-                }
-            }
-
-            writer.print(gson.toJson(response));
-            writer.flush();
-            writer.close();
-            break;
-            case print:
-
-                r = new Report();
-
-                nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
-                if (nDoc != 0) {
-                    try {
-                        Associato a = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
-                        String ddt = r.print(nDoc, new Long(a.getId()).intValue());
-
-                        File file = new File(ddt);
-                        InputStream in = new FileInputStream(file);
-
-                        addToDL(nDoc, file, resourceRequest, DDT);
-                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
-                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
-                        ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
-                    } catch (JRException ex) {
-                        _log.error(ex.getMessage());
-                    } catch (ClassNotFoundException ex) {
-                        _log.error(ex.getMessage());
-                    } catch (SQLException ex) {
-                        _log.error(ex.getMessage());
-                    } catch (SystemException ex) {
-                        _log.error(ex.getMessage());
-//                        ex.printStackTrace();
-                    } catch (PortalException ex) {
-                        _log.error(ex.getMessage());
-                        ex.printStackTrace();
-                    }
-                }
-
-                break;
-
-            case generateInvoice:
-                writer = resourceResponse.getWriter();
-                try {
-                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
-                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                    response = saveInvoice(resourceRequest, associato, false);
-                    sendEmail(associato, op, response.getId(), false, FAV);
-                } catch (JSONException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
-                } catch (SystemException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.INSERT_ERROR, -1);
-                    writer.print(response);
-                } catch (NoSuchAssociatoException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
-                    writer.print(response);
-                } catch (PortalException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.INSERT_ERROR, -1);
-                    writer.print(response);
-                } catch (AddressException ex) {
-                    _log.error(ex.getMessage());
-                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    response = new Response(Response.Code.DATE_FORMAT_ERROR, -1);
                     writer.print(response);
                 }
                 writer.print(gson.toJson(response));
                 writer.flush();
                 writer.close();
                 break;
-            case printInvoice:
+            }
+
+            case save: {
+                writer = resourceResponse.getWriter();
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    response = saveDDT(resourceRequest, associato, false);
+                } catch (JSONException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+//                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+//                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+//                    writer.print(response);
+                } catch (ParseException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.DATE_FORMAT_ERROR, -1);
+                }
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
+                break;
+            }
+            case print: {
 
                 r = new Report();
 
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                update = ParamUtil.getBoolean(resourceRequest, "update");
+                send = ParamUtil.getBoolean(resourceRequest, "send");
+
                 if (nDoc != 0) {
                     try {
-                        Associato a = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
-                        String ddt = r.print(nDoc, new Long(a.getId()).intValue(), "fav");
+                        associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+                        op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue());
 
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
 
-                        addToDL(nDoc, file, resourceRequest, FAV);
+                        String fileName = addToDL(nDoc, file, resourceRequest, DDT);
+
+                        if (send) {
+                            sendEmail(associato, op, nDoc, update, DDT, file, fileName + ".pdf");
+                        }
+
+                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+                        ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                    } catch (JRException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (ClassNotFoundException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SQLException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SystemException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (PortalException ex) {
+                        _log.error(ex.getMessage());
+                        ex.printStackTrace();
+                    } catch (AddressException ex) {
+                        _log.error(ex.getMessage());
+//                        response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    }
+                }
+                break;
+            }
+            case generateInvoice: {
+                writer = resourceResponse.getWriter();
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    response = saveInvoice(resourceRequest, associato, false);
+//                    sendEmail(associato, op, response.getId(), false, FAV);
+                } catch (JSONException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (ParseException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.DATE_FORMAT_ERROR, -1);
+                }
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
+                break;
+            }
+            case printInvoice: {
+
+                r = new Report();
+
+                nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                update = ParamUtil.getBoolean(resourceRequest, "update");
+                send = ParamUtil.getBoolean(resourceRequest, "send");
+
+                if (nDoc != 0) {
+                    try {
+                        associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+                        op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue(), "fav");
+
+                        File file = new File(ddt);
+                        InputStream in = new FileInputStream(file);
+
+                        String fileName = addToDL(nDoc, file, resourceRequest, FAV);
+
+                        if (send) {
+                            sendEmail(associato, op, nDoc, update, FAV, file, fileName + ".pdf");
+                        }
+
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
@@ -427,11 +450,14 @@ public class DDTPortlet extends MVCPortlet {
                     } catch (PortalException ex) {
                         _log.error(ex.getMessage());
                         ex.printStackTrace();
+                    } catch (AddressException ex) {
+                        _log.error(ex.getMessage());
+//                        response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
                     }
                 }
                 break;
-
-            case updateInvoice:
+            }
+            case updateInvoice: {
                 writer = resourceResponse.getWriter();
                 try {
                     associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
@@ -457,31 +483,111 @@ public class DDTPortlet extends MVCPortlet {
                     _log.error(ex.getMessage());
                     response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
                     writer.print(response);
+                } catch (ParseException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.DATE_FORMAT_ERROR, -1);
                 }
-
                 writer.print(gson.toJson(response));
                 writer.flush();
                 writer.close();
+                break;
+            }
+            case saveTrace: {
+                writer = resourceResponse.getWriter();
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+//                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                    response = saveTraceability(resourceRequest, associato);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    ex.printStackTrace();
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    ex.printStackTrace();
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    ex.printStackTrace();
+                }
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
+                break;
+            }
+            case printTrace: {
+                r = new Report();
+
+                nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+//                boolean update = ParamUtil.getBoolean(resourceRequest, "update");
+                send = ParamUtil.getBoolean(resourceRequest, "send");
+
+                if (nDoc != 0) {
+                    try {
+                        associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+                        op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                        String trace = r.printTrace(ANNO, nDoc, new Long(associato.getId()).intValue(), TRAC);
+
+                        File file = new File(trace);
+                        InputStream in = new FileInputStream(file);
+
+                        String fileName = addToDL(nDoc, file, resourceRequest, TRAC);
+                        if (send) {
+                            sendEmail(associato, op, nDoc, false, TRAC, file, fileName + ".pdf");
+                        }
+
+                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+                        ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                    } catch (JRException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (ClassNotFoundException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SQLException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SystemException ex) {
+                        _log.error(ex.getMessage());
+//                        ex.printStackTrace();
+                    } catch (PortalException ex) {
+                        _log.error(ex.getMessage());
+                        ex.printStackTrace();
+                    } catch (AddressException ex) {
+                        _log.error(ex.getMessage());
+//                        response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+//                    writer.print(response);
+                    }
+                }
 
                 break;
-
+            }
             default:
                 _log.warn("Uknown operation.");
         }
-
-//        super.serveResource(resourceRequest, resourceResponse);
     }
 
     private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine, boolean update, String tipoDocumento) throws AddressException {
+        sendEmail(a, o, numeroOrdine, update, tipoDocumento, null, "");
+    }
+
+    private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine, boolean update, String tipoDocumento, File f, String fn) throws AddressException {
         MailMessage mailMessage = new MailMessage();
-        String articolo = tipoDocumento.equals(DDT) ? "il DDT" : "la fattura" ;
-        String action = update ? "\nha appena modificato " + articolo +": " : "\nha appena creato " + articolo   + ": ";
+        String articolo = "";
+        if (tipoDocumento.equals(DDT)) {
+            articolo = "il DDT";
+        } else if (tipoDocumento.equals(FAV)) {
+            articolo = "la fattura";
+        } else if (tipoDocumento.equals(TRAC)) {
+            articolo = "l'allegato di tracciabilita' relativo al DDT";
+        }
+        String action = update ? "\nha appena modificato " + articolo + ": " : "\nha appena creato " + articolo + ": ";
         String subject = update ? "Notifica modifica documento." : "Notifica creazione documento.";
         mailMessage.setBody("Spett. " + o.getRagioneSociale()
                 + "\n\nLa presente per informarla che l'associato: " + a.getRagioneSociale()
                 + action + numeroOrdine + "."
                 + "\nDistinti saluti."
                 + "\n\nP.S. Il presente messagio e' stato generato automaticamente per comunicazione all'associato scrivere all'indirizzo: " + a.getEmail());
+        if (f != null) {
+            mailMessage.addFileAttachment(f, fn);
+        }
+
         mailMessage.setSubject("[" + o.getRagioneSociale() + "] " + subject);
         mailMessage.setFrom(new InternetAddress(a.getEmail()));
         mailMessage.setTo(new InternetAddress(o.getEmail()));
@@ -523,12 +629,10 @@ public class DDTPortlet extends MVCPortlet {
                 MimeTypesUtil.getContentType(fileName + ".pdf"),
                 fileName + ".pdf", "", "", ddt, new ServiceContext());
 
-        _log.info(
-                "Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
-        String previewUrl = DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
+        _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
+        DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
 
-        return previewUrl.substring(
-                0, previewUrl.indexOf('?'));
+        return fileName;
 
     }
 
@@ -540,8 +644,7 @@ public class DDTPortlet extends MVCPortlet {
         return DLFolderLocalServiceUtil.getFolder(groupId, opFolder.getFolderId(), liferayAssociato.getScreenName());
     }
 
-    private Response saveDDT(ResourceRequest resourceRequest, Associato associato, boolean update) throws SystemException, NoSuchAssociatoException, PortalException {
-        Response response = new Response();
+    private Response saveDDT(ResourceRequest resourceRequest, Associato associato, boolean update) throws SystemException, NoSuchAssociatoException, PortalException, ParseException {
 
         String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
         String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
@@ -566,24 +669,46 @@ public class DDTPortlet extends MVCPortlet {
         String motrice = ParamUtil.getString(resourceRequest, "motrice", null);
         String rimorchio = ParamUtil.getString(resourceRequest, "rimorchio", null);
         String numeroOrdineStr = ParamUtil.getString(resourceRequest, "numeroOrdine", null);
+        int avanzaProtocollo = ParamUtil.getInteger(resourceRequest, "avanzaProtocollo", -1);
 
-        int numeroOrdine = 0;
+        int numeroOrdine;
 
         if (!numeroOrdineStr.equals("")) {
             numeroOrdine = Integer.parseInt(numeroOrdineStr);
-            if (!update) {
+            if (!update) { //RECUPERO PROTOCOLLO
                 ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), DDT_ID, numeroOrdine));
             }
-        } else {
+        } else if (avanzaProtocollo == -1) { //AVANZAMENTO PROTOCOLLO MANUALE
             try {
-                numeroOrdine = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).size() + 1;
+//                numeroOrdine = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).size() + 1;
+                numeroOrdine = (int) TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).get(0).getNumeroOrdine() + 1;
             } catch (SystemException ex) {
                 _log.error(ex.getMessage());
-                response = new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+                return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
             }
+        } else { //AVANZAMENTO PROTOCOLLO MANUALE
+            List<TestataDocumento> testate = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId());
+            TestataDocumento t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, avanzaProtocollo, DDT, associato.getId()));
+            if (t != null) {
+                _log.warn("Protocol already exists.");
+                return new Response(Response.Code.ALREADY_EXISTS, avanzaProtocollo);
+            }
+            for (TestataDocumento testata : testate) {
+                if (avanzaProtocollo < testata.getNumeroOrdine()) {
+                    String dataTestataStr = testata.getDataOrdine();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    Date dataTestata = sdf.parse(dataTestataStr);
+                    Date dataDocumento = sdf.parse(orderDate);
+                    if (dataDocumento.after(dataTestata) || dataDocumento.equals(dataTestata)) {
+                        return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                    }
+                }
+            }
+            numeroOrdine = avanzaProtocollo;
         }
 
-        TestataDocumento testataDocumento = null;
+        TestataDocumento testataDocumento;
         if (update) {
             testataDocumento = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, numeroOrdine, DDT, associato.getId()));
         } else {
@@ -616,10 +741,10 @@ public class DDTPortlet extends MVCPortlet {
 
         _log.info("Testata Documento: " + testataDocumento);
 
-        List<RigoDocumento> righe;
+//        List<RigoDocumento> righe;
         if (update) {
             TestataDocumentoLocalServiceUtil.updateTestataDocumento(testataDocumento);
-            righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine, ANNO, associato.getId());
+//            righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine, ANNO, associato.getId());
         } else {
             TestataDocumentoLocalServiceUtil.addTestataDocumento(testataDocumento);
         }
@@ -628,21 +753,18 @@ public class DDTPortlet extends MVCPortlet {
         for (int i = 0; i < rowsJSON.length(); i++) {
 
             JSONObject rowJSON = rowsJSON.getJSONObject(i);
-            RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class
-            );
+            RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
             String[] tmp = rigo.getDescrizioneVariante().split("-");
 
-            if (tmp.length
-                    != 0) {
+            if (tmp.length != 0) {
                 rigo.setDescrizioneVariante(tmp[0].trim());
             }
 
             rigo.setAnno(ANNO);
 
             rigo.setNumeroOrdine(testataDocumento.getNumeroOrdine());
-            rigo.setRigoOrdine(i
-                    + 1);
+            rigo.setRigoOrdine(i + 1);
             rigo.setGestioneReti(rowJSON.getString("reti").equalsIgnoreCase("si"));
             rigo.setIdAssociato(associato.getId());
             rigo.setTipoDocumento(DDT);
@@ -653,13 +775,12 @@ public class DDTPortlet extends MVCPortlet {
                 _log.info("SAVING Rigo Documento: " + rigo);
                 RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
             }
-            response = new Response(Response.Code.OK, numeroOrdine);
         }
 
-        return response;
+        return new Response(Response.Code.OK, numeroOrdine);
     }
 
-    private Response saveInvoice(ResourceRequest resourceRequest, Associato associato, boolean update) throws PortalException, SystemException {
+    private Response saveInvoice(ResourceRequest resourceRequest, Associato associato, boolean update) throws PortalException, SystemException, ParseException {
 
         String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
         String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
@@ -668,6 +789,7 @@ public class DDTPortlet extends MVCPortlet {
         String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
         String documentDate = ParamUtil.getString(resourceRequest, "documentDate", null);
         String numeroFatturaStr = ParamUtil.getString(resourceRequest, "numeroFattura", null);
+        int avanzaProtocollo = ParamUtil.getInteger(resourceRequest, "avanzaProtocollo", -1);
 
         long origDoc = ParamUtil.getLong(resourceRequest, "numeroDocumento", -1);
         String[] origIds = StringUtil.split(ParamUtil.getString(resourceRequest, "documentIds", ""));
@@ -684,18 +806,44 @@ public class DDTPortlet extends MVCPortlet {
             }
         }
 
-        int numeroFattura = 0;
+        int numeroFattura;
 
         if (!numeroFatturaStr.equals("")) {
             numeroFattura = Integer.parseInt(numeroFatturaStr);
-            if (!update) {
+            if (!update) { //RECUPERO PROTOCOLLO
                 ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), INVOICE_ID, numeroFattura));
             }
-        } else {
-            numeroFattura = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).size() + 1;
+        } else if (avanzaProtocollo == -1) { //AVANZAMENTO AUTOMATICO PROTOCOLLO
+//            numeroFattura = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).size() + 1;
+            try {
+                numeroFattura = (int) (TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).get(0).getNumeroOrdine() + 1);
+            } catch (SystemException ex) {
+                _log.error(ex.getMessage());
+                return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+            }
+        } else { //AVANZAMENTO PROTOCOLLO MANUALE
+            List<TestataDocumento> testate = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId());
+            TestataDocumento t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, avanzaProtocollo, FAV, associato.getId()));
+            if (t != null) {
+                _log.warn("Protocol already exists.");
+                return new Response(Response.Code.ALREADY_EXISTS, avanzaProtocollo);
+            }
+            for (TestataDocumento testata : testate) {
+                if (avanzaProtocollo < testata.getNumeroOrdine()) {
+                    String dataTestataStr = testata.getDataOrdine();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    Date dataTestata = sdf.parse(dataTestataStr);
+                    Date dataDocumento = sdf.parse(documentDate);
+                    if (dataDocumento.after(dataTestata) || dataDocumento.equals(dataTestata)) {
+                        return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                    }
+                }
+            }
+            numeroFattura = avanzaProtocollo;
         }
 
-        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+//        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
         TestataDocumento sellInvoice = null;
         if (update) {
             sellInvoice = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, origDoc, FAV, associato.getId()));
@@ -711,7 +859,7 @@ public class DDTPortlet extends MVCPortlet {
         sellInvoice.setOperatore(resourceRequest.getRemoteUser());
         sellInvoice.setCompleto(COMPLETED);
 
-        TestataDocumento purchaseInvoice = null;
+        TestataDocumento purchaseInvoice;
 
         if (update) {
             purchaseInvoice = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, origDoc, FAC, associato.getId()));
@@ -723,10 +871,6 @@ public class DDTPortlet extends MVCPortlet {
         purchaseInvoice.setRagioneSociale(associato.getRagioneSociale());
         purchaseInvoice.setDestinazione(associato.getIndirizzo());
         purchaseInvoice.setDataOrdine(documentDate);
-//        purchaseInvoice.setCodiceSoggetto(String.valueOf(op.getId()));
-//        purchaseInvoice.setRagioneSociale(op.getRagioneSociale());
-//        purchaseInvoice.setDestinazione(op.getIndirizzo());
-//        purchaseInvoice.setDataOrdine(documentDate);
         purchaseInvoice.setOperatore(resourceRequest.getRemoteUser());
         purchaseInvoice.setCompleto(COMPLETED);
 
@@ -776,4 +920,55 @@ public class DDTPortlet extends MVCPortlet {
 
     }
 
+    private Response saveTraceability(ResourceRequest resourceRequest, Associato a) throws JSONException, SystemException {
+
+        String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
+
+        JSONObject objectJson = JSONFactoryUtil.createJSONObject(string);
+        _log.info(objectJson);
+        JSONArray schedeJson = objectJson.getJSONArray("scheda");
+
+        for (int i = 0; i < schedeJson.length(); i++) {
+            JSONObject schedaJson = schedeJson.getJSONObject(i);
+
+            long id = CounterLocalServiceUtil.increment(TracciabilitaScheda.class.getName());
+            TracciabilitaScheda scheda = TracciabilitaSchedaLocalServiceUtil.createTracciabilitaScheda((int) id);
+            scheda.setCodiceProdotto(schedaJson.getString("codiceProdotto"));
+            scheda.setProdottoVenduto(schedaJson.getString("prodottoVenduto"));
+            scheda.setKgVenduti(Double.parseDouble(schedaJson.getString("kgVenduti")));
+            scheda.setLottoVendita(schedaJson.getString("lottoVendita"));
+            scheda.setAnno(ANNO);
+            scheda.setNumeroDocumento(Long.parseLong(schedaJson.getString("numeroDocumento")));
+            scheda.setRigoOrdine(Integer.parseInt(schedaJson.getString("rigoOrdine")));
+            scheda.setTipoDocumento(DDT);
+            scheda.setIdAssociato(a.getId());
+
+            JSONArray grezziJson = schedaJson.getJSONArray("grezzi");
+            List<TracciabilitaGrezzi> listGrezzi = new ArrayList<TracciabilitaGrezzi>();
+            for (int j = 0; j < grezziJson.length(); j++) {
+                JSONObject grezzoJson = grezziJson.getJSONObject(j);
+
+                long idGrezzi = CounterLocalServiceUtil.increment(TracciabilitaGrezzi.class.getName());
+                TracciabilitaGrezzi grezzo = TracciabilitaGrezziLocalServiceUtil.createTracciabilitaGrezzi((int) idGrezzi);
+
+                grezzo.setFoglio(Integer.parseInt(grezzoJson.getString("foglio")));
+                grezzo.setKg(Double.parseDouble(grezzoJson.getString("kg")));
+                grezzo.setLottoGrezzo(grezzoJson.getString("lottoGrezzo"));
+                grezzo.setParticella(Integer.parseInt(grezzoJson.getString("particella")));
+                grezzo.setProdotto(grezzoJson.getString("prodotto"));
+                grezzo.setProduttore(grezzoJson.getString("produttore"));
+                grezzo.setIdSchedaTracciabilta((int) id);
+
+                listGrezzi.add(grezzo);
+            }
+            _log.info("SAVING: " + scheda);
+            TracciabilitaSchedaLocalServiceUtil.addTracciabilitaScheda(scheda);
+            for (TracciabilitaGrezzi grezzoToSave : listGrezzi) {
+                _log.info("SAVING: " + grezzoToSave);
+                TracciabilitaGrezziLocalServiceUtil.addTracciabilitaGrezzi(grezzoToSave);
+            }
+        }
+
+        return new Response(Response.Code.OK, 0);
+    }
 }

@@ -104,8 +104,7 @@
     <liferay-portlet:param name="jspPage"  value="/jsps/search-ddt.jsp"/>
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="traceabilityURL">
-    <%--<liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>--%>
-    <%--<liferay-portlet:param name="update" value="true" />--%>
+    <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId())%>"/>
     <liferay-portlet:param name="jspPage"  value="/jsps/traceability.jsp"/>
 </liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="save"  />
@@ -116,7 +115,7 @@
             <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
-            <button id="btnTrace"   class="btn"><i class="icon-list-alt"></i>Scheda Tracciabilità</button>
+            <button id="btnTrace"   class="btn" disabled="true"><i class="icon-list-alt" ></i>Scheda Tracciabilità</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -273,6 +272,8 @@
 //            return "";
 //        };
 
+
+        var ERRORS = ["OK", "GET_PRIMARY_KEY_ERROR", "INSERT_ERROR", "PARSING_JSON_ERROR", "SENDING_MAIL_ERROR", "ALREADY_EXISTS", "NOT_VALID", "DATE_FORMAT_ERROR"];
 
         var today = new Date();
         var dd = today.getDate();
@@ -1057,6 +1058,8 @@
                 var orderDate = Y.one('#<portlet:namespace />orderDate').val();
                 var deliveryDate = Y.one('#<portlet:namespace />deliveryDate').val();
                 var lottoTestata = Y.one('#<portlet:namespace />lottoTestata').val();
+                var numeroOrdine = Y.one('#<portlet:namespace/>recProt').val();
+                var avanzaProtocollo = Y.one('#<portlet:namespace/>nDoc').val();
 
                 /******CAMPI FINE CORPO******/
                 var vettore1 = Y.one('#codiceVettore1').val();
@@ -1074,7 +1077,6 @@
                 var pedane_normali = Y.one('#pedane-normali').val();
                 var motrice = Y.one('#motrice').val();
                 var rimorchio = Y.one('#rimorchio').val();
-                var numeroOrdine = Y.one('#<portlet:namespace/>recProt').val();
 
                 var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
                         "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
@@ -1087,7 +1089,8 @@
                         "&<portlet:namespace/>origine=" + origine + "&<portlet:namespace/>rigo=" + rigo +
                         "&<portlet:namespace/>costo=" + costo + "&<portlet:namespace/>pedane-euro=" + pedane_euro +
                         "&<portlet:namespace/>pedane-normali=" + pedane_normali + "&<portlet:namespace/>motrice=" + motrice +
-                        "&<portlet:namespace/>rimorchio=" + rimorchio + "&<portlet:namespace/>numeroOrdine=" + numeroOrdine;
+                        "&<portlet:namespace/>rimorchio=" + rimorchio + "&<portlet:namespace/>numeroOrdine=" + numeroOrdine +
+                        "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
                 //        Y.one('#btnSave').on('click', function () {
                 Y.io.request(
                         '${saveDDT}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
@@ -1100,12 +1103,39 @@
                                         Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                         document.getElementById("btnPrint").disabled = false;
                                         document.getElementById("btnSave").disabled = true;
+                                        document.getElementById("btnTrace").disabled = false;
                                         if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
 //                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
                                             document.getElementById('<portlet:namespace/>recProt').value = "";
                                         }
                                     } else {
-                                        alert("Errore durante il salvataggio dei dati: " + data);
+                                        console.log(data);
+                                        switch (data.code) {
+                                            case 1:
+                                            case 2:
+                                            case 3:
+                                            case 7:
+                                                alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+                                                break;
+                                            case 4:
+                                                alert("Salvataggio effettuato con successo.");
+                                                Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+                                                document.getElementById("btnPrint").disabled = false;
+                                                document.getElementById("btnSave").disabled = true;
+                                                document.getElementById("btnTrace").disabled = false;
+                                                if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
+//                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
+                                                    document.getElementById('<portlet:namespace/>recProt').value = "";
+                                                }
+                                                alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
+                                                break;
+                                            case 5:
+                                                alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
+                                                break;
+                                            case 6:
+                                                alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
+                                                break;
+                                        }
                                     }
                                 }
                             }
@@ -1117,15 +1147,15 @@
 
         function SalvaDDT() {
             var stringOrderDate = document.getElementById('<portlet:namespace/>orderDate').value;
-            var orderDateSplitted=stringOrderDate.split("/");
+            var orderDateSplitted = stringOrderDate.split("/");
             var orderDate = new Date(orderDateSplitted[2], orderDateSplitted[1], orderDateSplitted[0]);
-            
+
             var stringDeliveryDate = document.getElementById('<portlet:namespace/>deliveryDate').value;
-            var deliveryDateSplitted=stringDeliveryDate.split("/");
+            var deliveryDateSplitted = stringDeliveryDate.split("/");
             var deliveryDate = new Date(deliveryDateSplitted[2], deliveryDateSplitted[1], deliveryDateSplitted[0]);
-            
-                        
-            if(deliveryDate >= orderDate){
+
+
+            if (deliveryDate >= orderDate) {
                 var rows = [];
                 for (var i = 0; i < table.data.size(); i++) {
                     rows[i] = table.data.item(i).toJSON();
@@ -1145,23 +1175,8 @@
             Y.one('#btnPrint').on('click', function () {
                 var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
 
-                var win = window.open('${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
+                var win = window.open('${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true, '_blank');
                 win.focus();
-
-//                Y.io.request(
-//                        '${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc,
-//                        {
-//                            on: {
-//                                success: function () {
-//                                    var data = this.get('responseData');
-//                                    console.log(data);
-//                                    var win = window.open(data, '_blank');
-//                                    win.focus();
-//                                }
-//
-//                            }
-//                        }
-//                );
             });
         });
 
@@ -1170,10 +1185,10 @@
                 window.location.href = '<%=searchDDTURL%>'.toString();
             });
         });
-        
+
         YUI().use('node', function (Y) {
             Y.one('#btnTrace').on('click', function () {
-                window.location.href = '<%=traceabilityURL%>'.toString();
+                window.location.href = '<%=traceabilityURL%>'.toString() + '&<portlet:namespace/>numeroDocumento=' + document.getElementById('<portlet:namespace/>nDoc').value;
             });
         });
 

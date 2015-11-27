@@ -1,3 +1,7 @@
+<%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.VociIva"%>
+<%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.util.Calendar"%>
@@ -148,6 +152,14 @@
 
     Date date = Calendar.getInstance().getTime();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    
+    ClientiDatiAgg datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+    String codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
+    VociIva iva ;
+    if(!codiceAliquotaCliente.equals(""))
+        iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+    else
+        iva = VociIvaLocalServiceUtil.fetchVociIva("04");
 %>
 
 <liferay-portlet:resourceURL var="updateInvoice"  id="updateInvoice" >
@@ -227,6 +239,7 @@
         <div id="tab-2">
             <aui:fieldset label="Totali Fattura">
                 <aui:input id="totaleImponibileTxt" type="text" name="totImponibile" label="Totale imponiible" disabled="true" inlineField="true"/>
+                <aui:input id="aliquotaTxt" type="text" name="aliquota" label="Aliquota" disabled="true" inlineField="true" value="<%= String.valueOf(iva.getAliquota()) + "%"%>"/>
                 <aui:input id="totaleIVATxt" type="text" name="totIVA" label="Totale IVA" disabled="true" inlineField="true"/>
                 <aui:input id="totaleDocumentoTxt" type="text" name="totDocumento" label="Totale documento" disabled="true" inlineField="true"/>
             </aui:fieldset>
@@ -240,6 +253,8 @@
 //            return "";
 //        };
 
+    var aliquotaIVA = <%= iva.getAliquota() %>;
+    
     YUI().use(
             'aui-tabview',
             function (Y) {
@@ -542,7 +557,7 @@
                 imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
             console.log(imponibile);
         }
-        iva = imponibile * 0.04;
+        iva = imponibile * aliquotaIVA / 100;
         totaledocumento = imponibile + iva;
 
         document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
@@ -590,33 +605,14 @@
             var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
             var documentDate = Y.one('#<portlet:namespace />documentDate').val();
             var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
-
-            /******CAMPI FINE CORPO******/
-//            var vettore1 = Y.one('#codiceVettore1').val();
-//            var vettore2 = Y.one('#codiceVettore1').val();
-//            var autista = Y.one('#autista').val();
-//            var telefono = Y.one('#telefono').val();
-//            var trasporto = Y.one('#trasporto').val();
-//            var aspetto = Y.one('#aspetto').val();
-//            var causale = Y.one('#causale').val();
-//            var porto = Y.one('#porto').val();
-//            var origine = Y.one('#origine').val();
-//            var rigo = Y.one('#rigo').val();
-//            var costo = Y.one('#costo').val();
-//            var pedane_euro = Y.one('#pedane-euro').val();
-//            var pedane_normali = Y.one('#pedane-normali').val();
-//            var motrice = Y.one('#motrice').val();
-//            var rimorchio = Y.one('#rimorchio').val();
-//            var numeroOrdine = Y.one('#<portlet:namespace/>recProt').val();
+            var avanzaProtocollo = Y.one('#<portlet:namespace/>nDoc').val();
 
             var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
                     "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
                     "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-                    "&<portlet:namespace/>numeroFattura=" + numeroFattura;
+                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
             //        Y.one('#btnSave').on('click', function () {
-            Y.io.request(
-                    ((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),
-                    {
+            Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),{
                         on: {
                             success: function () {
                                 var data = JSON.parse(this.get('responseData'));
@@ -626,16 +622,38 @@
                                     document.getElementById("btnPrint").disabled = false;
                                     document.getElementById("btnInvoice").disabled = true;
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
-//                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
                                     }
                                 } else {
-                                    alert("Errore durante il salvataggio dei dati: " + data);
+                                    console.log(data);
+                                        switch (data.code) {
+                                            case 1:
+                                            case 2:
+                                            case 3:
+                                            case 7:
+                                                alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+                                                break;
+                                            case 4:
+                                                alert("Salvataggio effettuato con successo.");
+                                                Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+                                                document.getElementById("btnPrint").disabled = false;
+                                                document.getElementById("btnInvoice").disabled = true;
+                                                if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
+                                                    document.getElementById('<portlet:namespace/>recProt').value = "";
+                                                }
+                                                alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
+                                                break;
+                                            case 5:
+                                                alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
+                                                break;
+                                            case 6:
+                                                alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");
+                                                break;
                                 }
                             }
                         }
                     }
-            );
+                    });
 
         });
     }
@@ -644,7 +662,7 @@
         Y.one('#btnPrint').on('click', function () {
             var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
 
-            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
+            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true, '_blank');
             win.focus();
 
         });

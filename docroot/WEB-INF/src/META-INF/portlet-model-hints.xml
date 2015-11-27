@@ -65,6 +65,7 @@
 	<model name="it.bysoftware.ct.model.ClientiDatiAgg">
 		<field name="codiceAnagrafica" type="String" />
 		<field name="associati" type="String" />
+		<field name="codiceAliquota" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.CuraTrasporto">
 		<field name="codiceCuraTrasporto" type="String" />
@@ -196,6 +197,28 @@
 		<field name="targaRimorchio" type="String" />
 		<field name="idAssociato" type="long" />
 	</model>
+	<model name="it.bysoftware.ct.model.TracciabilitaGrezzi">
+		<field name="id" type="long" />
+		<field name="lottoGrezzo" type="String" />
+		<field name="prodotto" type="String" />
+		<field name="kg" type="double" />
+		<field name="produttore" type="String" />
+		<field name="foglio" type="int" />
+		<field name="particella" type="int" />
+		<field name="idSchedaTracciabilta" type="long" />
+	</model>
+	<model name="it.bysoftware.ct.model.TracciabilitaScheda">
+		<field name="id" type="long" />
+		<field name="codiceProdotto" type="String" />
+		<field name="prodottoVenduto" type="String" />
+		<field name="kgVenduti" type="double" />
+		<field name="lottoVendita" type="String" />
+		<field name="anno" type="int" />
+		<field name="numeroDocumento" type="long" />
+		<field name="rigoOrdine" type="int" />
+		<field name="tipoDocumento" type="String" />
+		<field name="idAssociato" type="long" />
+	</model>
 	<model name="it.bysoftware.ct.model.Vettori">
 		<field name="albo" type="String" />
 		<field name="CAP" type="String" />
@@ -212,5 +235,11 @@
 		<field name="stato" type="String" />
 		<field name="tipoAnagrafica" type="String" />
 		<field name="codiceAzienda" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.VociIva">
+		<field name="codiceIva" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="descrizioneDocumento" type="String" />
+		<field name="aliquota" type="double" />
 	</model>
 </model-hints>

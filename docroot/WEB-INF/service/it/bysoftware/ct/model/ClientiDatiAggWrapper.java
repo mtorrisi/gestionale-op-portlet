@@ -51,6 +51,7 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 
 		attributes.put("codiceAnagrafica", getCodiceAnagrafica());
 		attributes.put("associati", getAssociati());
+		attributes.put("codiceAliquota", getCodiceAliquota());
 
 		return attributes;
 	}
@@ -67,6 +68,12 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 
 		if (associati != null) {
 			setAssociati(associati);
+		}
+
+		String codiceAliquota = (String)attributes.get("codiceAliquota");
+
+		if (codiceAliquota != null) {
+			setCodiceAliquota(codiceAliquota);
 		}
 	}
 
@@ -128,6 +135,26 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 	@Override
 	public void setAssociati(java.lang.String associati) {
 		_clientiDatiAgg.setAssociati(associati);
+	}
+
+	/**
+	* Returns the codice aliquota of this clienti dati agg.
+	*
+	* @return the codice aliquota of this clienti dati agg
+	*/
+	@Override
+	public java.lang.String getCodiceAliquota() {
+		return _clientiDatiAgg.getCodiceAliquota();
+	}
+
+	/**
+	* Sets the codice aliquota of this clienti dati agg.
+	*
+	* @param codiceAliquota the codice aliquota of this clienti dati agg
+	*/
+	@Override
+	public void setCodiceAliquota(java.lang.String codiceAliquota) {
+		_clientiDatiAgg.setCodiceAliquota(codiceAliquota);
 	}
 
 	@Override

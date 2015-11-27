@@ -1,3 +1,4 @@
+<%@page import="it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.liferay.portal.kernel.json.JSONObject"%>
 <%@page import="com.liferay.portal.kernel.json.JSONFactoryUtil"%>
@@ -84,7 +85,11 @@
         json.put("progressivo", rigo.getProgressivo());
 
         jsonArr.put(json);
-    }
+    }   
+    
+    int c = TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociato(anno, numeroDocumento, a.getId()).size();
+
+    String disableTraceBTN = (c != 0) ? "disabled" : "";
 %>
 
 <liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
@@ -120,7 +125,10 @@
 <liferay-portlet:renderURL var="portURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
-
+<liferay-portlet:renderURL var="traceabilityURL">
+    <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId())%>"/>
+    <liferay-portlet:param name="jspPage"  value="/jsps/traceability.jsp"/>
+</liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="modify"  />
 <portlet:resourceURL var="printDDT" id="print" />
 <aui:field-wrapper >
@@ -129,6 +137,7 @@
             <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
+            <button id="btnTrace"   class="btn" <%= disableTraceBTN %>><i class="icon-list-alt" ></i>Scheda Tracciabilità</button>
             <!--<button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>-->
         </div>
     </div>  
@@ -1006,16 +1015,34 @@
                                 var data = JSON.parse(this.get('responseData'));
                                 if (data.code === 0) {
                                     alert("Salvataggio effettuato con successo.");
-//                                    Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                     document.getElementById("btnPrint").disabled = false;
-//                                    document.getElementById("btnInvoice").disabled = false;
                                     document.getElementById("btnSave").disabled = true;
-//                                    if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
+                                    document.getElementById("btnTrace").disabled = false;
                                     console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-//                                        document.getElementById('<portlet:namespace/>recProt').value = "";
-//                                    }
                                 } else {
-                                    alert("Errore durante il salvataggio dei dati: " + data);
+                                    console.log(data)
+                                    switch (data.code) {
+                                        case 1:
+                                        case 2:
+                                        case 3:
+                                        case 7:
+                                            alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+                                            break;
+                                        case 4:
+                                            alert("Salvataggio effettuato con successo.");
+                                            document.getElementById("btnPrint").disabled = false;
+                                            document.getElementById("btnSave").disabled = true;
+                                            document.getElementById("btnTrace").disabled = false;
+                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
+                                            alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
+                                            break;
+                                        case 5:
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
+                                            break;
+                                        case 6:
+                                            alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
+                                            break;
+                                    }
                                 }
                             }
                         }
@@ -1029,7 +1056,7 @@
         Y.one('#btnPrint').on('click', function () {
             var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
 
-            var win = window.open('${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc, '_blank');
+            var win = window.open('${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + true + '&<portlet:namespace />send=' + true, '_blank');
             win.focus();
 
         });
@@ -1145,4 +1172,10 @@
         var onejan = new Date(this.getFullYear(), 0, 1);
         return Math.ceil((this - onejan) / 86400000);
     };
+
+    YUI().use('node', function (Y) {
+        Y.one('#btnTrace').on('click', function () {
+            window.location.href = '<%=traceabilityURL%>'.toString() + '&<portlet:namespace/>numeroDocumento=' + document.getElementById('<portlet:namespace/>nDoc').value;
+        });
+    });
 </script>

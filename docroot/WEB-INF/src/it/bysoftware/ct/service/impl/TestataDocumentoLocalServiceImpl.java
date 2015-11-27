@@ -44,18 +44,22 @@ public class TestataDocumentoLocalServiceImpl
      * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil} to access the testata documento local service.
      */
 
+    @Override
     public List<TestataDocumento> getByCodiceOperatore(String codiceOperatore) throws SystemException {
         return this.testataDocumentoPersistence.findByoperatore(codiceOperatore);
     }
     
+    @Override
     public List<TestataDocumento> getByCodiceOperatore(String codiceOperatore, String completo, int inviato) throws SystemException {
         return this.testataDocumentoPersistence.findByoperatoreCompletoInviato(codiceOperatore, completo, inviato, "DDT");
     }
     
+    @Override
     public List<TestataDocumento> getByCodiceSoggettoCodiceOperatore(String codiceSoggetto, String codiceOperatore) throws SystemException {
         return this.testataDocumentoPersistence.findByCodiceSoggettoCodiceOperatore(codiceSoggetto, codiceOperatore);
     }
     
+    @Override
     public List<TestataDocumento> getDocumentiSoggetto(int anno, String idDocumento, long idAssociato) throws SystemException {
         return this.testataDocumentoPersistence.findByannoTipoDocumentoIdAssociato(anno, idDocumento, idAssociato);
     }

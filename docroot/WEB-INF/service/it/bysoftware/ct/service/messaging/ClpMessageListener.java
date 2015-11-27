@@ -50,8 +50,14 @@ import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaGrezziServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaSchedaServiceUtil;
 import it.bysoftware.ct.service.VettoriLocalServiceUtil;
 import it.bysoftware.ct.service.VettoriServiceUtil;
+import it.bysoftware.ct.service.VociIvaLocalServiceUtil;
+import it.bysoftware.ct.service.VociIvaServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -116,9 +122,18 @@ public class ClpMessageListener extends BaseMessageListener {
 			TestataDocumentoLocalServiceUtil.clearService();
 
 			TestataDocumentoServiceUtil.clearService();
+			TracciabilitaGrezziLocalServiceUtil.clearService();
+
+			TracciabilitaGrezziServiceUtil.clearService();
+			TracciabilitaSchedaLocalServiceUtil.clearService();
+
+			TracciabilitaSchedaServiceUtil.clearService();
 			VettoriLocalServiceUtil.clearService();
 
 			VettoriServiceUtil.clearService();
+			VociIvaLocalServiceUtil.clearService();
+
+			VociIvaServiceUtil.clearService();
 		}
 	}
 }

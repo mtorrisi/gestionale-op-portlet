@@ -87,6 +87,21 @@ public interface ClientiDatiAggModel extends BaseModel<ClientiDatiAgg> {
 	 */
 	public void setAssociati(String associati);
 
+	/**
+	 * Returns the codice aliquota of this clienti dati agg.
+	 *
+	 * @return the codice aliquota of this clienti dati agg
+	 */
+	@AutoEscape
+	public String getCodiceAliquota();
+
+	/**
+	 * Sets the codice aliquota of this clienti dati agg.
+	 *
+	 * @param codiceAliquota the codice aliquota of this clienti dati agg
+	 */
+	public void setCodiceAliquota(String codiceAliquota);
+
 	@Override
 	public boolean isNew();
 

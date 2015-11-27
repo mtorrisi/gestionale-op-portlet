@@ -75,6 +75,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 		attributes.put("codiceAnagrafica", getCodiceAnagrafica());
 		attributes.put("associati", getAssociati());
+		attributes.put("codiceAliquota", getCodiceAliquota());
 
 		return attributes;
 	}
@@ -91,6 +92,12 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 		if (associati != null) {
 			setAssociati(associati);
+		}
+
+		String codiceAliquota = (String)attributes.get("codiceAliquota");
+
+		if (codiceAliquota != null) {
+			setCodiceAliquota(codiceAliquota);
 		}
 	}
 
@@ -134,6 +141,30 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 				Method method = clazz.getMethod("setAssociati", String.class);
 
 				method.invoke(_clientiDatiAggRemoteModel, associati);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getCodiceAliquota() {
+		return _codiceAliquota;
+	}
+
+	@Override
+	public void setCodiceAliquota(String codiceAliquota) {
+		_codiceAliquota = codiceAliquota;
+
+		if (_clientiDatiAggRemoteModel != null) {
+			try {
+				Class<?> clazz = _clientiDatiAggRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setCodiceAliquota",
+						String.class);
+
+				method.invoke(_clientiDatiAggRemoteModel, codiceAliquota);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -214,6 +245,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 		clone.setCodiceAnagrafica(getCodiceAnagrafica());
 		clone.setAssociati(getAssociati());
+		clone.setCodiceAliquota(getCodiceAliquota());
 
 		return clone;
 	}
@@ -258,12 +290,14 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(7);
 
 		sb.append("{codiceAnagrafica=");
 		sb.append(getCodiceAnagrafica());
 		sb.append(", associati=");
 		sb.append(getAssociati());
+		sb.append(", codiceAliquota=");
+		sb.append(getCodiceAliquota());
 		sb.append("}");
 
 		return sb.toString();
@@ -271,7 +305,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.ClientiDatiAgg");
@@ -285,6 +319,10 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 			"<column><column-name>associati</column-name><column-value><![CDATA[");
 		sb.append(getAssociati());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>codiceAliquota</column-name><column-value><![CDATA[");
+		sb.append(getCodiceAliquota());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -293,6 +331,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 	private String _codiceAnagrafica;
 	private String _associati;
+	private String _codiceAliquota;
 	private BaseModel<?> _clientiDatiAggRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }

@@ -41,7 +41,10 @@ import it.bysoftware.ct.model.PortoClp;
 import it.bysoftware.ct.model.ProgressivoClp;
 import it.bysoftware.ct.model.RigoDocumentoClp;
 import it.bysoftware.ct.model.TestataDocumentoClp;
+import it.bysoftware.ct.model.TracciabilitaGrezziClp;
+import it.bysoftware.ct.model.TracciabilitaSchedaClp;
 import it.bysoftware.ct.model.VettoriClp;
+import it.bysoftware.ct.model.VociIvaClp;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -183,8 +186,20 @@ public class ClpSerializer {
 			return translateInputTestataDocumento(oldModel);
 		}
 
+		if (oldModelClassName.equals(TracciabilitaGrezziClp.class.getName())) {
+			return translateInputTracciabilitaGrezzi(oldModel);
+		}
+
+		if (oldModelClassName.equals(TracciabilitaSchedaClp.class.getName())) {
+			return translateInputTracciabilitaScheda(oldModel);
+		}
+
 		if (oldModelClassName.equals(VettoriClp.class.getName())) {
 			return translateInputVettori(oldModel);
+		}
+
+		if (oldModelClassName.equals(VociIvaClp.class.getName())) {
+			return translateInputVociIva(oldModel);
 		}
 
 		return oldModel;
@@ -366,10 +381,42 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateInputTracciabilitaGrezzi(
+		BaseModel<?> oldModel) {
+		TracciabilitaGrezziClp oldClpModel = (TracciabilitaGrezziClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getTracciabilitaGrezziRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputTracciabilitaScheda(
+		BaseModel<?> oldModel) {
+		TracciabilitaSchedaClp oldClpModel = (TracciabilitaSchedaClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getTracciabilitaSchedaRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
 	public static Object translateInputVettori(BaseModel<?> oldModel) {
 		VettoriClp oldClpModel = (VettoriClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getVettoriRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputVociIva(BaseModel<?> oldModel) {
+		VociIvaClp oldClpModel = (VociIvaClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getVociIvaRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -983,8 +1030,118 @@ public class ClpSerializer {
 			}
 		}
 
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.TracciabilitaGrezziImpl")) {
+			return translateOutputTracciabilitaGrezzi(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.TracciabilitaSchedaImpl")) {
+			return translateOutputTracciabilitaScheda(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
 		if (oldModelClassName.equals("it.bysoftware.ct.model.impl.VettoriImpl")) {
 			return translateOutputVettori(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals("it.bysoftware.ct.model.impl.VociIvaImpl")) {
+			return translateOutputVociIva(oldModel);
 		}
 		else if (oldModelClassName.endsWith("Clp")) {
 			try {
@@ -1168,8 +1325,22 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchTestataDocumentoException();
 		}
 
+		if (className.equals(
+					"it.bysoftware.ct.NoSuchTracciabilitaGrezziException")) {
+			return new it.bysoftware.ct.NoSuchTracciabilitaGrezziException();
+		}
+
+		if (className.equals(
+					"it.bysoftware.ct.NoSuchTracciabilitaSchedaException")) {
+			return new it.bysoftware.ct.NoSuchTracciabilitaSchedaException();
+		}
+
 		if (className.equals("it.bysoftware.ct.NoSuchVettoriException")) {
 			return new it.bysoftware.ct.NoSuchVettoriException();
+		}
+
+		if (className.equals("it.bysoftware.ct.NoSuchVociIvaException")) {
+			return new it.bysoftware.ct.NoSuchVociIvaException();
 		}
 
 		return throwable;
@@ -1340,12 +1511,44 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateOutputTracciabilitaGrezzi(
+		BaseModel<?> oldModel) {
+		TracciabilitaGrezziClp newModel = new TracciabilitaGrezziClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setTracciabilitaGrezziRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputTracciabilitaScheda(
+		BaseModel<?> oldModel) {
+		TracciabilitaSchedaClp newModel = new TracciabilitaSchedaClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setTracciabilitaSchedaRemoteModel(oldModel);
+
+		return newModel;
+	}
+
 	public static Object translateOutputVettori(BaseModel<?> oldModel) {
 		VettoriClp newModel = new VettoriClp();
 
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setVettoriRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputVociIva(BaseModel<?> oldModel) {
+		VociIvaClp newModel = new VociIvaClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setVociIvaRemoteModel(oldModel);
 
 		return newModel;
 	}

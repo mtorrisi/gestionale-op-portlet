@@ -37,3 +37,14 @@ create unique index IX_D165BC05 on op (email);
 create unique index IX_85A73365 on op (id_liferay);
 create index IX_7BFE681 on op (partita_iva);
 create index IX_5A2120F7 on op (ragione_sociale);
+
+create index IX_AAF495AE on scheda_tracciabilita (id_scheda_tracciabilita);
+create index IX_C3B3514C on scheda_tracciabilita (numero_ordine, anno, id_associato, tipo_documento);
+
+create index IX_A19DDEBE on scheda_tracciabilita_rigo (id_scheda_tracciabilita);
+
+create index IX_45E15C56 on tracciabilitaScheda (anno, id_associato);
+create index IX_F16F0278 on tracciabilitaScheda (anno, id_associato, numero_documento, tipo_documento);
+create index IX_9A942AF3 on tracciabilitaScheda (anno, id_associato, tipo_documento);
+
+create index IX_2817DB3 on tracciabilita_rigo (id_scheda_tracciabilita);

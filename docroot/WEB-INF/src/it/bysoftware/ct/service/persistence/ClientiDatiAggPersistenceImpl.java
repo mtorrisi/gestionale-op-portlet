@@ -643,6 +643,7 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 
 		clientiDatiAggImpl.setCodiceAnagrafica(clientiDatiAgg.getCodiceAnagrafica());
 		clientiDatiAggImpl.setAssociati(clientiDatiAgg.getAssociati());
+		clientiDatiAggImpl.setCodiceAliquota(clientiDatiAgg.getCodiceAliquota());
 
 		return clientiDatiAggImpl;
 	}
@@ -969,7 +970,7 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(ClientiDatiAggPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"codiceAnagrafica", "associati"
+				"codiceAnagrafica", "associati", "codiceAliquota"
 			});
 	private static ClientiDatiAgg _nullClientiDatiAgg = new ClientiDatiAggImpl() {
 			@Override

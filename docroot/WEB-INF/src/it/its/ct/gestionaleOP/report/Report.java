@@ -48,18 +48,18 @@ public class Report {
         //rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + JASPER_FILENAME + ".jasper", parametersMap, conn);
         JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + "ddt.pdf");
-        
+
         conn.close();
         return "/tmp/ddt.pdf";
 
     }
-    
+
     public String print(int nDoc, int idAssociato, String tipoDocumento) throws JRException, ClassNotFoundException, SQLException {
         Map parametersMap = new HashMap();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
         parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
-        
+
         //caricamento file JRXML
         JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + tipoDocumento + ".jrxml");
         //compilazione del file e generazione del file JASPER
@@ -70,7 +70,35 @@ public class Report {
 
         //rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + tipoDocumento + ".jasper", parametersMap, conn);
-        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento +".pdf");
+        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + ".pdf");
+        conn.close();
+        return "/tmp/" + tipoDocumento + ".pdf";
+
+    }
+
+    public String printTrace(int anno, int nDoc, int idAssociato, String tipoDocumento) throws JRException, ClassNotFoundException, SQLException {
+        Map parametersMap = new HashMap();
+
+        parametersMap.put("ANNO", anno);
+        parametersMap.put("N_DOC", nDoc);
+        parametersMap.put("ID_ASSOCIATO", idAssociato);
+//        parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
+
+        //caricamento file JRXML
+        JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + "tracciabilita.jrxml");
+        //compilazione del file e generazione del file JASPER
+        JasperCompileManager.compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + "tracciabilita.jasper");
+        //caricamento file JRXML subreport
+        jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + "tracciabilita_subreport.jrxml");
+        //compilazione del file e generazione del file JASPER
+        JasperCompileManager.compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + "tracciabilita_subreport.jasper");
+        //inizializzazione connessione al database
+        Class.forName(DRIVER);
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+
+        //rendering e generazione del file PDF
+        JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + "tracciabilita.jasper", parametersMap, conn);
+        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + ".pdf");
         conn.close();
         return "/tmp/" + tipoDocumento + ".pdf";
 

@@ -60,9 +60,10 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 	public static final String TABLE_NAME = "ClientiFornitoriDatiAgg";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "RveCodclf", Types.VARCHAR },
-			{ "RveLibStr1", Types.VARCHAR }
+			{ "RveLibStr1", Types.VARCHAR },
+			{ "RveEsenzi", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table ClientiFornitoriDatiAgg (RveCodclf VARCHAR(75) not null primary key,RveLibStr1 VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table ClientiFornitoriDatiAgg (RveCodclf VARCHAR(75) not null primary key,RveLibStr1 VARCHAR(75) null,RveEsenzi VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table ClientiFornitoriDatiAgg";
 	public static final String ORDER_BY_JPQL = " ORDER BY clientiDatiAgg.codiceAnagrafica ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ClientiFornitoriDatiAgg.RveCodclf ASC";
@@ -95,6 +96,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 		model.setCodiceAnagrafica(soapModel.getCodiceAnagrafica());
 		model.setAssociati(soapModel.getAssociati());
+		model.setCodiceAliquota(soapModel.getCodiceAliquota());
 
 		return model;
 	}
@@ -161,6 +163,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 		attributes.put("codiceAnagrafica", getCodiceAnagrafica());
 		attributes.put("associati", getAssociati());
+		attributes.put("codiceAliquota", getCodiceAliquota());
 
 		return attributes;
 	}
@@ -177,6 +180,12 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 		if (associati != null) {
 			setAssociati(associati);
+		}
+
+		String codiceAliquota = (String)attributes.get("codiceAliquota");
+
+		if (codiceAliquota != null) {
+			setCodiceAliquota(codiceAliquota);
 		}
 	}
 
@@ -222,6 +231,22 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		_associati = associati;
 	}
 
+	@JSON
+	@Override
+	public String getCodiceAliquota() {
+		if (_codiceAliquota == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _codiceAliquota;
+		}
+	}
+
+	@Override
+	public void setCodiceAliquota(String codiceAliquota) {
+		_codiceAliquota = codiceAliquota;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -242,6 +267,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 		clientiDatiAggImpl.setCodiceAnagrafica(getCodiceAnagrafica());
 		clientiDatiAggImpl.setAssociati(getAssociati());
+		clientiDatiAggImpl.setCodiceAliquota(getCodiceAliquota());
 
 		clientiDatiAggImpl.resetOriginalValues();
 
@@ -311,17 +337,27 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 			clientiDatiAggCacheModel.associati = null;
 		}
 
+		clientiDatiAggCacheModel.codiceAliquota = getCodiceAliquota();
+
+		String codiceAliquota = clientiDatiAggCacheModel.codiceAliquota;
+
+		if ((codiceAliquota != null) && (codiceAliquota.length() == 0)) {
+			clientiDatiAggCacheModel.codiceAliquota = null;
+		}
+
 		return clientiDatiAggCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(5);
+		StringBundler sb = new StringBundler(7);
 
 		sb.append("{codiceAnagrafica=");
 		sb.append(getCodiceAnagrafica());
 		sb.append(", associati=");
 		sb.append(getAssociati());
+		sb.append(", codiceAliquota=");
+		sb.append(getCodiceAliquota());
 		sb.append("}");
 
 		return sb.toString();
@@ -329,7 +365,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(10);
+		StringBundler sb = new StringBundler(13);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.ClientiDatiAgg");
@@ -342,6 +378,10 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		sb.append(
 			"<column><column-name>associati</column-name><column-value><![CDATA[");
 		sb.append(getAssociati());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>codiceAliquota</column-name><column-value><![CDATA[");
+		sb.append(getCodiceAliquota());
 		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
@@ -356,6 +396,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 	private String _codiceAnagrafica;
 	private String _originalCodiceAnagrafica;
 	private String _associati;
+	private String _codiceAliquota;
 	private long _columnBitmask;
 	private ClientiDatiAgg _escapedModel;
 }

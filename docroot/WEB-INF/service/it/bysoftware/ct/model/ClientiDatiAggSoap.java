@@ -32,6 +32,7 @@ public class ClientiDatiAggSoap implements Serializable {
 
 		soapModel.setCodiceAnagrafica(model.getCodiceAnagrafica());
 		soapModel.setAssociati(model.getAssociati());
+		soapModel.setCodiceAliquota(model.getCodiceAliquota());
 
 		return soapModel;
 	}
@@ -100,6 +101,15 @@ public class ClientiDatiAggSoap implements Serializable {
 		_associati = associati;
 	}
 
+	public String getCodiceAliquota() {
+		return _codiceAliquota;
+	}
+
+	public void setCodiceAliquota(String codiceAliquota) {
+		_codiceAliquota = codiceAliquota;
+	}
+
 	private String _codiceAnagrafica;
 	private String _associati;
+	private String _codiceAliquota;
 }

@@ -32,7 +32,8 @@ create table CausaleTrasporto (
 
 create table ClientiFornitoriDatiAgg (
 	RveCodclf VARCHAR(75) not null primary key,
-	RveLibStr1 VARCHAR(75) null
+	RveLibStr1 VARCHAR(75) null,
+	RveEsenzi VARCHAR(75) null
 );
 
 create table CuraTrasporto (
@@ -164,6 +165,17 @@ create table SSTESORD (
 	primary key (WKAnno, WKNOrd, WKTipdoc, id_associato)
 );
 
+create table TracciabilitaGrezzi (
+	id LONG not null primary key,
+	lotto_grezzo VARCHAR(75) null,
+	prodotto VARCHAR(75) null,
+	kg DOUBLE,
+	produttore VARCHAR(75) null,
+	foglio INTEGER,
+	particella INTEGER,
+	id_scheda_tracciabilita LONG
+);
+
 create table Vettori (
 	RavAlbo VARCHAR(75) null,
 	RavCap VARCHAR(75) null,
@@ -180,6 +192,13 @@ create table Vettori (
 	RavSigsta VARCHAR(75) null,
 	RavTipana VARCHAR(75) null,
 	RavCodiaz VARCHAR(75) null
+);
+
+create table VociIva (
+	RiaCodiva VARCHAR(75) not null primary key,
+	RiaDescri VARCHAR(75) null,
+	RiaDesdoc VARCHAR(75) null,
+	RiaAliquo DOUBLE
 );
 
 create table associato (
@@ -223,4 +242,17 @@ create table op (
 	email VARCHAR(75) null,
 	password VARCHAR(75) null,
 	id_liferay LONG
+);
+
+create table tracciabilitaScheda (
+	id LONG not null primary key,
+	codice_prodotto VARCHAR(75) null,
+	prodotto VARCHAR(75) null,
+	kg DOUBLE,
+	lotto_vendita VARCHAR(75) null,
+	anno INTEGER,
+	numero_documento LONG,
+	rigo_ordine INTEGER,
+	tipo_documento VARCHAR(75) null,
+	id_associato LONG
 );

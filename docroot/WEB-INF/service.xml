@@ -163,6 +163,9 @@
         </column>
         <column name='idAssociato' db-name='id_associato' type='long' primary='true'>
         </column>
+        <order>
+            <order-column name="numeroOrdine" order-by="desc"/>
+        </order>
         <finder name='operatore' return-type='Collection'>
             <finder-column name='operatore' comparator='='>
             </finder-column>
@@ -416,6 +419,8 @@
         </column>
         <column name='associati' db-name='RveLibStr1' type='String'>
         </column>
+        <column name='codiceAliquota' db-name='RveEsenzi' type='String'>
+        </column>
         <finder name='CodiceAnagrafica' return-type='ClientiDatiAgg'>
             <finder-column name='codiceAnagrafica' />
         </finder>
@@ -492,5 +497,64 @@
         <column name='codiceAzienda' db-name='RbaCodiaz' type='String'>
         </column>
     </entity>
-    
+    <entity name='TracciabilitaScheda' table='tracciabilitaScheda' local-service='true' remote-service='true' >
+        <column name='id' db-name='id' type='long' primary="true">
+        </column>
+        <column name='codiceProdotto' db-name='codice_prodotto' type='String' >
+        </column>
+        <column name='prodottoVenduto' db-name='prodotto' type='String' >
+        </column>
+        <column name='kgVenduti' db-name='kg' type='double' >
+        </column>
+        <column name='lottoVendita' db-name='lotto_vendita' type='String' >
+        </column>
+        <column name='anno' db-name='anno' type='int'>
+        </column>
+        <column name='numeroDocumento' db-name='numero_documento' type='long'>
+        </column>
+        <column name='rigoOrdine' db-name='rigo_ordine' type='int'>
+        </column>
+        <column name='tipoDocumento' db-name='tipo_documento' type='String'>
+        </column>
+        <column name='idAssociato' db-name='id_associato' type='long'>
+        </column>
+        <finder name='AnnoIdAssociatoNDocumento' return-type='Collection'>
+            <finder-column name='anno' comparator='='>
+            </finder-column>
+            <finder-column name='idAssociato' comparator='='>
+            </finder-column>
+            <finder-column name='numeroDocumento' comparator='='>
+            </finder-column>
+            <finder-column name='tipoDocumento' comparator='='>
+            </finder-column>
+        </finder>
+    </entity>
+    <entity name='TracciabilitaGrezzi' table='TracciabilitaGrezzi' local-service='true' remote-service='true' >
+        <column name='id' db-name='id' type='long' primary="true">
+        </column>
+        <column name='lottoGrezzo' db-name='lotto_grezzo' type='String' >
+        </column>
+        <column name='prodotto' db-name='prodotto' type='String'>
+        </column>
+        <column name='kg' db-name='kg' type='double' >
+        </column>
+        <column name='produttore' db-name='produttore' type='String'>
+        </column>
+        <column name='foglio' db-name='foglio' type='int'>
+        </column>
+        <column name='particella' db-name='particella' type='int'>
+        </column>
+        <column name='idSchedaTracciabilta' db-name='id_scheda_tracciabilita' type='long' >
+        </column>
+    </entity>
+    <entity name='VociIva' table='VociIva' local-service='true' remote-service='true' >
+        <column name='codiceIva' db-name='RiaCodiva' type='String' primary="true">
+        </column>
+        <column name='descrizione' db-name='RiaDescri' type='String' >
+        </column>
+        <column name='descrizioneDocumento' db-name='RiaDesdoc' type='String' >
+        </column>
+        <column name='aliquota' db-name='RiaAliquo' type='double' >
+        </column>
+    </entity>
 </service-builder>

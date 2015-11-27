@@ -101,8 +101,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		};
 	public static final String TABLE_SQL_CREATE = "create table SSTESORD (WKAnno INTEGER not null,WKNOrd LONG not null,WkCodsog VARCHAR(75) null,WkDatord VARCHAR(75) null,WkDatcon VARCHAR(75) null,WkDesti2 VARCHAR(75) null,WkDesdiv VARCHAR(75) null,WkRagsoc VARCHAR(75) null,WKCompleto VARCHAR(75) null,WkOperatore VARCHAR(75) null,WKVisto INTEGER,WKInviato INTEGER,WKLotto VARCHAR(75) null,WKTipdoc VARCHAR(75) not null,WkVettore VARCHAR(75) null,WkAutista VARCHAR(75) null,WkTelefono VARCHAR(75) null,WKCentro VARCHAR(75) null,EpalCaricati INTEGER,EpalScaricati INTEGER,CodDestiVett1 VARCHAR(75) null,DestiVett1 VARCHAR(75) null,Nota1 VARCHAR(75) null,Nota2 VARCHAR(75) null,Rigodescrittivo VARCHAR(75) null,WkVettore2 VARCHAR(75) null,TraspCura VARCHAR(75) null,AspEst VARCHAR(75) null,CauTrasp VARCHAR(75) null,porto VARCHAR(75) null,Origine VARCHAR(75) null,NpedEpal INTEGER,NpedNormali INTEGER,CostoTrasp DOUBLE,TotPedOrd INTEGER,TargaCamion VARCHAR(75) null,TargaRimorchio VARCHAR(75) null,id_associato LONG not null,primary key (WKAnno, WKNOrd, WKTipdoc, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table SSTESORD";
-	public static final String ORDER_BY_JPQL = " ORDER BY testataDocumento.id.anno ASC, testataDocumento.id.numeroOrdine ASC, testataDocumento.id.tipoDocumento ASC, testataDocumento.id.idAssociato ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY SSTESORD.WKAnno ASC, SSTESORD.WKNOrd ASC, SSTESORD.WKTipdoc ASC, SSTESORD.id_associato ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY testataDocumento.id.numeroOrdine DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY SSTESORD.WKNOrd DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -552,6 +552,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setNumeroOrdine(long numeroOrdine) {
+		_columnBitmask = -1L;
+
 		_numeroOrdine = numeroOrdine;
 	}
 
@@ -1214,9 +1216,25 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public int compareTo(TestataDocumento testataDocumento) {
-		TestataDocumentoPK primaryKey = testataDocumento.getPrimaryKey();
+		int value = 0;
 
-		return getPrimaryKey().compareTo(primaryKey);
+		if (getNumeroOrdine() < testataDocumento.getNumeroOrdine()) {
+			value = -1;
+		}
+		else if (getNumeroOrdine() > testataDocumento.getNumeroOrdine()) {
+			value = 1;
+		}
+		else {
+			value = 0;
+		}
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
+		}
+
+		return 0;
 	}
 
 	@Override

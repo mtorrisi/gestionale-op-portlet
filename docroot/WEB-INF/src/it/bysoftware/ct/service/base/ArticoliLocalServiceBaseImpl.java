@@ -49,7 +49,10 @@ import it.bysoftware.ct.service.persistence.PortoPersistence;
 import it.bysoftware.ct.service.persistence.ProgressivoPersistence;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
+import it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistence;
+import it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistence;
 import it.bysoftware.ct.service.persistence.VettoriPersistence;
+import it.bysoftware.ct.service.persistence.VociIvaPersistence;
 
 import java.io.Serializable;
 
@@ -1202,6 +1205,120 @@ public abstract class ArticoliLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the tracciabilita grezzi local service.
+	 *
+	 * @return the tracciabilita grezzi local service
+	 */
+	public it.bysoftware.ct.service.TracciabilitaGrezziLocalService getTracciabilitaGrezziLocalService() {
+		return tracciabilitaGrezziLocalService;
+	}
+
+	/**
+	 * Sets the tracciabilita grezzi local service.
+	 *
+	 * @param tracciabilitaGrezziLocalService the tracciabilita grezzi local service
+	 */
+	public void setTracciabilitaGrezziLocalService(
+		it.bysoftware.ct.service.TracciabilitaGrezziLocalService tracciabilitaGrezziLocalService) {
+		this.tracciabilitaGrezziLocalService = tracciabilitaGrezziLocalService;
+	}
+
+	/**
+	 * Returns the tracciabilita grezzi remote service.
+	 *
+	 * @return the tracciabilita grezzi remote service
+	 */
+	public it.bysoftware.ct.service.TracciabilitaGrezziService getTracciabilitaGrezziService() {
+		return tracciabilitaGrezziService;
+	}
+
+	/**
+	 * Sets the tracciabilita grezzi remote service.
+	 *
+	 * @param tracciabilitaGrezziService the tracciabilita grezzi remote service
+	 */
+	public void setTracciabilitaGrezziService(
+		it.bysoftware.ct.service.TracciabilitaGrezziService tracciabilitaGrezziService) {
+		this.tracciabilitaGrezziService = tracciabilitaGrezziService;
+	}
+
+	/**
+	 * Returns the tracciabilita grezzi persistence.
+	 *
+	 * @return the tracciabilita grezzi persistence
+	 */
+	public TracciabilitaGrezziPersistence getTracciabilitaGrezziPersistence() {
+		return tracciabilitaGrezziPersistence;
+	}
+
+	/**
+	 * Sets the tracciabilita grezzi persistence.
+	 *
+	 * @param tracciabilitaGrezziPersistence the tracciabilita grezzi persistence
+	 */
+	public void setTracciabilitaGrezziPersistence(
+		TracciabilitaGrezziPersistence tracciabilitaGrezziPersistence) {
+		this.tracciabilitaGrezziPersistence = tracciabilitaGrezziPersistence;
+	}
+
+	/**
+	 * Returns the tracciabilita scheda local service.
+	 *
+	 * @return the tracciabilita scheda local service
+	 */
+	public it.bysoftware.ct.service.TracciabilitaSchedaLocalService getTracciabilitaSchedaLocalService() {
+		return tracciabilitaSchedaLocalService;
+	}
+
+	/**
+	 * Sets the tracciabilita scheda local service.
+	 *
+	 * @param tracciabilitaSchedaLocalService the tracciabilita scheda local service
+	 */
+	public void setTracciabilitaSchedaLocalService(
+		it.bysoftware.ct.service.TracciabilitaSchedaLocalService tracciabilitaSchedaLocalService) {
+		this.tracciabilitaSchedaLocalService = tracciabilitaSchedaLocalService;
+	}
+
+	/**
+	 * Returns the tracciabilita scheda remote service.
+	 *
+	 * @return the tracciabilita scheda remote service
+	 */
+	public it.bysoftware.ct.service.TracciabilitaSchedaService getTracciabilitaSchedaService() {
+		return tracciabilitaSchedaService;
+	}
+
+	/**
+	 * Sets the tracciabilita scheda remote service.
+	 *
+	 * @param tracciabilitaSchedaService the tracciabilita scheda remote service
+	 */
+	public void setTracciabilitaSchedaService(
+		it.bysoftware.ct.service.TracciabilitaSchedaService tracciabilitaSchedaService) {
+		this.tracciabilitaSchedaService = tracciabilitaSchedaService;
+	}
+
+	/**
+	 * Returns the tracciabilita scheda persistence.
+	 *
+	 * @return the tracciabilita scheda persistence
+	 */
+	public TracciabilitaSchedaPersistence getTracciabilitaSchedaPersistence() {
+		return tracciabilitaSchedaPersistence;
+	}
+
+	/**
+	 * Sets the tracciabilita scheda persistence.
+	 *
+	 * @param tracciabilitaSchedaPersistence the tracciabilita scheda persistence
+	 */
+	public void setTracciabilitaSchedaPersistence(
+		TracciabilitaSchedaPersistence tracciabilitaSchedaPersistence) {
+		this.tracciabilitaSchedaPersistence = tracciabilitaSchedaPersistence;
+	}
+
+	/**
 	 * Returns the vettori local service.
 	 *
 	 * @return the vettori local service
@@ -1255,6 +1372,62 @@ public abstract class ArticoliLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setVettoriPersistence(VettoriPersistence vettoriPersistence) {
 		this.vettoriPersistence = vettoriPersistence;
+	}
+
+	/**
+	 * Returns the voci iva local service.
+	 *
+	 * @return the voci iva local service
+	 */
+	public it.bysoftware.ct.service.VociIvaLocalService getVociIvaLocalService() {
+		return vociIvaLocalService;
+	}
+
+	/**
+	 * Sets the voci iva local service.
+	 *
+	 * @param vociIvaLocalService the voci iva local service
+	 */
+	public void setVociIvaLocalService(
+		it.bysoftware.ct.service.VociIvaLocalService vociIvaLocalService) {
+		this.vociIvaLocalService = vociIvaLocalService;
+	}
+
+	/**
+	 * Returns the voci iva remote service.
+	 *
+	 * @return the voci iva remote service
+	 */
+	public it.bysoftware.ct.service.VociIvaService getVociIvaService() {
+		return vociIvaService;
+	}
+
+	/**
+	 * Sets the voci iva remote service.
+	 *
+	 * @param vociIvaService the voci iva remote service
+	 */
+	public void setVociIvaService(
+		it.bysoftware.ct.service.VociIvaService vociIvaService) {
+		this.vociIvaService = vociIvaService;
+	}
+
+	/**
+	 * Returns the voci iva persistence.
+	 *
+	 * @return the voci iva persistence
+	 */
+	public VociIvaPersistence getVociIvaPersistence() {
+		return vociIvaPersistence;
+	}
+
+	/**
+	 * Sets the voci iva persistence.
+	 *
+	 * @param vociIvaPersistence the voci iva persistence
+	 */
+	public void setVociIvaPersistence(VociIvaPersistence vociIvaPersistence) {
+		this.vociIvaPersistence = vociIvaPersistence;
 	}
 
 	/**
@@ -1529,12 +1702,30 @@ public abstract class ArticoliLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected it.bysoftware.ct.service.TestataDocumentoService testataDocumentoService;
 	@BeanReference(type = TestataDocumentoPersistence.class)
 	protected TestataDocumentoPersistence testataDocumentoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.TracciabilitaGrezziLocalService.class)
+	protected it.bysoftware.ct.service.TracciabilitaGrezziLocalService tracciabilitaGrezziLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.TracciabilitaGrezziService.class)
+	protected it.bysoftware.ct.service.TracciabilitaGrezziService tracciabilitaGrezziService;
+	@BeanReference(type = TracciabilitaGrezziPersistence.class)
+	protected TracciabilitaGrezziPersistence tracciabilitaGrezziPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.TracciabilitaSchedaLocalService.class)
+	protected it.bysoftware.ct.service.TracciabilitaSchedaLocalService tracciabilitaSchedaLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.TracciabilitaSchedaService.class)
+	protected it.bysoftware.ct.service.TracciabilitaSchedaService tracciabilitaSchedaService;
+	@BeanReference(type = TracciabilitaSchedaPersistence.class)
+	protected TracciabilitaSchedaPersistence tracciabilitaSchedaPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.VettoriLocalService.class)
 	protected it.bysoftware.ct.service.VettoriLocalService vettoriLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.VettoriService.class)
 	protected it.bysoftware.ct.service.VettoriService vettoriService;
 	@BeanReference(type = VettoriPersistence.class)
 	protected VettoriPersistence vettoriPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.VociIvaLocalService.class)
+	protected it.bysoftware.ct.service.VociIvaLocalService vociIvaLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.VociIvaService.class)
+	protected it.bysoftware.ct.service.VociIvaService vociIvaService;
+	@BeanReference(type = VociIvaPersistence.class)
+	protected VociIvaPersistence vociIvaPersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)
