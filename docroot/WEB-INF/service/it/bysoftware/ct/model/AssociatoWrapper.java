@@ -55,6 +55,7 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 		attributes.put("indirizzo", getIndirizzo());
 		attributes.put("telefono", getTelefono());
 		attributes.put("fax", getFax());
+		attributes.put("nomeUtente", getNomeUtente());
 		attributes.put("email", getEmail());
 		attributes.put("password", getPassword());
 		attributes.put("idLiferay", getIdLiferay());
@@ -106,6 +107,12 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 
 		if (fax != null) {
 			setFax(fax);
+		}
+
+		String nomeUtente = (String)attributes.get("nomeUtente");
+
+		if (nomeUtente != null) {
+			setNomeUtente(nomeUtente);
 		}
 
 		String email = (String)attributes.get("email");
@@ -297,6 +304,26 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 	@Override
 	public void setFax(java.lang.String fax) {
 		_associato.setFax(fax);
+	}
+
+	/**
+	* Returns the nome utente of this associato.
+	*
+	* @return the nome utente of this associato
+	*/
+	@Override
+	public java.lang.String getNomeUtente() {
+		return _associato.getNomeUtente();
+	}
+
+	/**
+	* Sets the nome utente of this associato.
+	*
+	* @param nomeUtente the nome utente of this associato
+	*/
+	@Override
+	public void setNomeUtente(java.lang.String nomeUtente) {
+		_associato.setNomeUtente(nomeUtente);
 	}
 
 	/**

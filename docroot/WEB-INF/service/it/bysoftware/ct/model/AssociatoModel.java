@@ -162,6 +162,21 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	public void setFax(String fax);
 
 	/**
+	 * Returns the nome utente of this associato.
+	 *
+	 * @return the nome utente of this associato
+	 */
+	@AutoEscape
+	public String getNomeUtente();
+
+	/**
+	 * Sets the nome utente of this associato.
+	 *
+	 * @param nomeUtente the nome utente of this associato
+	 */
+	public void setNomeUtente(String nomeUtente);
+
+	/**
 	 * Returns the email of this associato.
 	 *
 	 * @return the email of this associato

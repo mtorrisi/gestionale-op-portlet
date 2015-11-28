@@ -119,6 +119,9 @@
 			<basic name="indirizzo" />
 			<basic name="telefono" />
 			<basic name="fax" />
+			<basic name="nomeUtente">
+				<column name="NOME_UTENTE" />
+			</basic>
 			<basic name="email" />
 			<basic name="password" />
 			<basic name="idLiferay">

@@ -74,6 +74,7 @@
 		<property name="indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="telefono" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="fax" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="nomeUtente" type="com.liferay.portal.dao.orm.hibernate.StringType" column="nome_utente" />
 		<property name="email" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="password" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="idLiferay" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_liferay" />

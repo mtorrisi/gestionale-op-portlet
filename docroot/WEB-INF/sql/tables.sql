@@ -209,6 +209,7 @@ create table associato (
 	indirizzo VARCHAR(75) null,
 	telefono VARCHAR(75) null,
 	fax VARCHAR(75) null,
+	nome_utente VARCHAR(75) null,
 	email VARCHAR(75) null,
 	password VARCHAR(75) null,
 	id_liferay LONG,

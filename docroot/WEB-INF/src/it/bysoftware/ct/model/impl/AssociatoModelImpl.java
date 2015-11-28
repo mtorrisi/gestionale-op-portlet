@@ -70,13 +70,14 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			{ "indirizzo", Types.VARCHAR },
 			{ "telefono", Types.VARCHAR },
 			{ "fax", Types.VARCHAR },
+			{ "nome_utente", Types.VARCHAR },
 			{ "email", Types.VARCHAR },
 			{ "password", Types.VARCHAR },
 			{ "id_liferay", Types.BIGINT },
 			{ "id_op", Types.BIGINT },
 			{ "attivo", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,nome_utente VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table associato";
 	public static final String ORDER_BY_JPQL = " ORDER BY associato.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY associato.id ASC";
@@ -121,6 +122,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		model.setIndirizzo(soapModel.getIndirizzo());
 		model.setTelefono(soapModel.getTelefono());
 		model.setFax(soapModel.getFax());
+		model.setNomeUtente(soapModel.getNomeUtente());
 		model.setEmail(soapModel.getEmail());
 		model.setPassword(soapModel.getPassword());
 		model.setIdLiferay(soapModel.getIdLiferay());
@@ -197,6 +199,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		attributes.put("indirizzo", getIndirizzo());
 		attributes.put("telefono", getTelefono());
 		attributes.put("fax", getFax());
+		attributes.put("nomeUtente", getNomeUtente());
 		attributes.put("email", getEmail());
 		attributes.put("password", getPassword());
 		attributes.put("idLiferay", getIdLiferay());
@@ -248,6 +251,12 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 		if (fax != null) {
 			setFax(fax);
+		}
+
+		String nomeUtente = (String)attributes.get("nomeUtente");
+
+		if (nomeUtente != null) {
+			setNomeUtente(nomeUtente);
 		}
 
 		String email = (String)attributes.get("email");
@@ -420,6 +429,22 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@JSON
 	@Override
+	public String getNomeUtente() {
+		if (_nomeUtente == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _nomeUtente;
+		}
+	}
+
+	@Override
+	public void setNomeUtente(String nomeUtente) {
+		_nomeUtente = nomeUtente;
+	}
+
+	@JSON
+	@Override
 	public String getEmail() {
 		if (_email == null) {
 			return StringPool.BLANK;
@@ -572,6 +597,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoImpl.setIndirizzo(getIndirizzo());
 		associatoImpl.setTelefono(getTelefono());
 		associatoImpl.setFax(getFax());
+		associatoImpl.setNomeUtente(getNomeUtente());
 		associatoImpl.setEmail(getEmail());
 		associatoImpl.setPassword(getPassword());
 		associatoImpl.setIdLiferay(getIdLiferay());
@@ -706,6 +732,14 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			associatoCacheModel.fax = null;
 		}
 
+		associatoCacheModel.nomeUtente = getNomeUtente();
+
+		String nomeUtente = associatoCacheModel.nomeUtente;
+
+		if ((nomeUtente != null) && (nomeUtente.length() == 0)) {
+			associatoCacheModel.nomeUtente = null;
+		}
+
 		associatoCacheModel.email = getEmail();
 
 		String email = associatoCacheModel.email;
@@ -733,7 +767,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -749,6 +783,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		sb.append(getTelefono());
 		sb.append(", fax=");
 		sb.append(getFax());
+		sb.append(", nomeUtente=");
+		sb.append(getNomeUtente());
 		sb.append(", email=");
 		sb.append(getEmail());
 		sb.append(", password=");
@@ -766,7 +802,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -799,6 +835,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		sb.append(
 			"<column><column-name>fax</column-name><column-value><![CDATA[");
 		sb.append(getFax());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>nomeUtente</column-name><column-value><![CDATA[");
+		sb.append(getNomeUtente());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>email</column-name><column-value><![CDATA[");
@@ -840,6 +880,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private String _indirizzo;
 	private String _telefono;
 	private String _fax;
+	private String _nomeUtente;
 	private String _email;
 	private String _originalEmail;
 	private String _password;

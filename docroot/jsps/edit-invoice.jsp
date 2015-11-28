@@ -152,14 +152,15 @@
 
     Date date = Calendar.getInstance().getTime();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-    
+
     ClientiDatiAgg datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
     String codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-    VociIva iva ;
-    if(!codiceAliquotaCliente.equals(""))
+    VociIva iva;
+    if (!codiceAliquotaCliente.equals("")) {
         iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
-    else
+    } else {
         iva = VociIvaLocalServiceUtil.fetchVociIva("04");
+    }
 %>
 
 <liferay-portlet:resourceURL var="updateInvoice"  id="updateInvoice" >
@@ -174,6 +175,10 @@
 <liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectDescription.jsp" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
+</liferay-portlet:renderURL>
+
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
@@ -185,7 +190,7 @@
                     <button id="btnInvoice" class="btn" onclick="saveInvoice(<%= origDoc%>)"><i class="icon-save"></i>Salva Modifiche</button>
                 </c:when>
             </c:choose>
-            <button id="btnPrint"   class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : "" %>><i class="icon-print"></i>Stampa</button>
+            <button id="btnPrint"   class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : ""%>><i class="icon-print"></i>Stampa</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -197,7 +202,7 @@
             <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
-            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine() %>"/>
+            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>"/>
         </aui:column>
         <aui:column columnWidth="20" cssClass="test" last="true" >
             <%--aui:field-wrapper label="Ordine Finito"  >
@@ -228,6 +233,7 @@
                 <aui:field-wrapper >
                     <div class="btn-toolbar">
                         <div class="btn-group">
+                            <aui:a id="btnAdd" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi Articolo</aui:a>
                             <aui:a id="btnAddDescription" cssClass="btn" href="#a"><i class="icon-plus"></i>Aggiungi Descrizione</aui:a>
                             <aui:a id="btnRemove" cssClass="btn" href="#a"><i class="icon-trash"></i>Rimuovi</aui:a>
                             </div>
@@ -253,8 +259,8 @@
 //            return "";
 //        };
 
-    var aliquotaIVA = <%= iva.getAliquota() %>;
-    
+    var aliquotaIVA = <%= iva.getAliquota()%>;
+
     YUI().use(
             'aui-tabview',
             function (Y) {
@@ -373,6 +379,7 @@
                 label: 'Peso Lordo'
             },
             {
+                editor: nameEditor,
                 key: 'pesoNetto',
                 label: 'Quantità'
             },
@@ -509,6 +516,22 @@
             recordSelected = "";
         });
 
+        Y.one("#<portlet:namespace />btnAdd").on("click", function () {
+            recordSelected = undefined;
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: true,
+                    draggable: true//,
+                            //                    height: '600px',
+                            //                    width: '1024px'
+                },
+                id: '<portlet:namespace/>itemDialog',
+                title: 'Seleziona Prodotto',
+                uri: '<%=itemURL%>'
+            });
+        });
     });
 
     Liferay.provide(window, 'closePopup', function (data, dialogId) {
@@ -520,6 +543,9 @@
         switch (dialogId) {
             case '<portlet:namespace/>DescriptionDialog':
                 setDescription(data);
+                break;
+            case '<portlet:namespace/>itemDialog':
+                setItem(data);
                 break;
         }
     }, ['liferay-util-window']);
@@ -576,6 +602,19 @@
         }
     }
 
+    function setItem(data) {
+        var tmp = data.split('|');
+
+        console.log(recordSelected);
+        if (recordSelected) {
+            recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
+            recordSelected = undefined;
+        } else {
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg"}, {sync: true});
+//            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
+        }
+    }
+
     function saveInvoice(origDoc) {
         var rows = [];
         var ok = true;
@@ -612,11 +651,28 @@
                     "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
                     "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
             //        Y.one('#btnSave').on('click', function () {
-            Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)),{
-                        on: {
-                            success: function () {
-                                var data = JSON.parse(this.get('responseData'));
-                                if (data.code === 0) {
+            Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
+                on: {
+                    success: function () {
+                        var data = JSON.parse(this.get('responseData'));
+                        if (data.code === 0) {
+                            alert("Salvataggio effettuato con successo.");
+                            Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+                            document.getElementById("btnPrint").disabled = false;
+                            document.getElementById("btnInvoice").disabled = true;
+                            if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
+                                document.getElementById('<portlet:namespace/>recProt').value = "";
+                            }
+                        } else {
+                            console.log(data);
+                            switch (data.code) {
+                                case 1:
+                                case 2:
+                                case 3:
+                                case 7:
+                                    alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+                                    break;
+                                case 4:
                                     alert("Salvataggio effettuato con successo.");
                                     Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                     document.getElementById("btnPrint").disabled = false;
@@ -624,36 +680,19 @@
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
                                     }
-                                } else {
-                                    console.log(data);
-                                        switch (data.code) {
-                                            case 1:
-                                            case 2:
-                                            case 3:
-                                            case 7:
-                                                alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
-                                                break;
-                                            case 4:
-                                                alert("Salvataggio effettuato con successo.");
-                                                Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
-                                                document.getElementById("btnPrint").disabled = false;
-                                                document.getElementById("btnInvoice").disabled = true;
-                                                if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
-                                                    document.getElementById('<portlet:namespace/>recProt').value = "";
-                                                }
-                                                alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
-                                                break;
-                                            case 5:
-                                                alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
-                                                break;
-                                            case 6:
-                                                alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");
-                                                break;
-                                }
+                                    alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
+                                    break;
+                                case 5:
+                                    alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
+                                    break;
+                                case 6:
+                                    alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");
+                                    break;
                             }
                         }
                     }
-                    });
+                }
+            });
 
         });
     }

@@ -37,6 +37,7 @@ public class AssociatoSoap implements Serializable {
 		soapModel.setIndirizzo(model.getIndirizzo());
 		soapModel.setTelefono(model.getTelefono());
 		soapModel.setFax(model.getFax());
+		soapModel.setNomeUtente(model.getNomeUtente());
 		soapModel.setEmail(model.getEmail());
 		soapModel.setPassword(model.getPassword());
 		soapModel.setIdLiferay(model.getIdLiferay());
@@ -150,6 +151,14 @@ public class AssociatoSoap implements Serializable {
 		_fax = fax;
 	}
 
+	public String getNomeUtente() {
+		return _nomeUtente;
+	}
+
+	public void setNomeUtente(String nomeUtente) {
+		_nomeUtente = nomeUtente;
+	}
+
 	public String getEmail() {
 		return _email;
 	}
@@ -201,6 +210,7 @@ public class AssociatoSoap implements Serializable {
 	private String _indirizzo;
 	private String _telefono;
 	private String _fax;
+	private String _nomeUtente;
 	private String _email;
 	private String _password;
 	private long _idLiferay;

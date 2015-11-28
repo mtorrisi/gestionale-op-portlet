@@ -84,6 +84,15 @@
 
                 <!-- Text input-->
                 <div class="control-group">
+                    <label class="control-label" for="nome">Nome cartella: </label>  
+                    <div class="controls">
+                        <input id="nome" name="<portlet:namespace />nome" type="text" placeholder="" class="form-control input-md" required=""/>
+
+                    </div>
+                </div>
+
+                <!-- Text input-->
+                <div class="control-group">
                     <label class="control-label" for="email">Email: </label>  
                     <div class="controls">
                         <input id="email" name="<portlet:namespace />email" type="text" placeholder="" class="form-control input-md" required=""/>
@@ -179,6 +188,10 @@
                         },
     <portlet:namespace />indirizzo: {
                             required: true
+                        },
+    <portlet:namespace />nome: {
+                            required: true,
+                            maxLength: 15
                         },
     <portlet:namespace />telefono: {
                             digits: true

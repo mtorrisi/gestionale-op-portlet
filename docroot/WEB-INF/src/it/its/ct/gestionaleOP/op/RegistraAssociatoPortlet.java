@@ -36,8 +36,6 @@ import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -115,6 +113,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setTelefono(ParamUtil.getString(areq, "telefono"));
             a.setFax(ParamUtil.getString(areq, "fax"));
             a.setEmail(ParamUtil.getString(areq, "email"));
+            a.setNomeUtente(ParamUtil.getString(areq, "nome"));
             String plainPwd = ParamUtil.getString(areq, "password");
 //            MessageDigest md = MessageDigest.getInstance("MD5");
 //            md.update(plainPwd.getBytes());
@@ -130,7 +129,8 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             User creator = PortalUtil.getUser(areq);
             Role role = RoleServiceUtil.getRole(creator.getCompanyId(), "associato");
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(creator.getUserId());
-            User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getEmail().substring(0, a.getEmail().indexOf("@")), creator, role.getRoleId());
+//            User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getEmail().substring(0, a.getEmail().indexOf("@")), creator, role.getRoleId());
+            User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getNomeUtente(), creator, role.getRoleId());
             _log.info("Inserted Liferay user: " + liferayUser);
 
             a.setIdOp(op.getId());

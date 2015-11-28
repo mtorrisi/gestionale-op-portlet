@@ -79,6 +79,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		attributes.put("indirizzo", getIndirizzo());
 		attributes.put("telefono", getTelefono());
 		attributes.put("fax", getFax());
+		attributes.put("nomeUtente", getNomeUtente());
 		attributes.put("email", getEmail());
 		attributes.put("password", getPassword());
 		attributes.put("idLiferay", getIdLiferay());
@@ -130,6 +131,12 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 		if (fax != null) {
 			setFax(fax);
+		}
+
+		String nomeUtente = (String)attributes.get("nomeUtente");
+
+		if (nomeUtente != null) {
+			setNomeUtente(nomeUtente);
 		}
 
 		String email = (String)attributes.get("email");
@@ -318,6 +325,29 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 				Method method = clazz.getMethod("setFax", String.class);
 
 				method.invoke(_associatoRemoteModel, fax);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getNomeUtente() {
+		return _nomeUtente;
+	}
+
+	@Override
+	public void setNomeUtente(String nomeUtente) {
+		_nomeUtente = nomeUtente;
+
+		if (_associatoRemoteModel != null) {
+			try {
+				Class<?> clazz = _associatoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setNomeUtente", String.class);
+
+				method.invoke(_associatoRemoteModel, nomeUtente);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -521,6 +551,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		clone.setIndirizzo(getIndirizzo());
 		clone.setTelefono(getTelefono());
 		clone.setFax(getFax());
+		clone.setNomeUtente(getNomeUtente());
 		clone.setEmail(getEmail());
 		clone.setPassword(getPassword());
 		clone.setIdLiferay(getIdLiferay());
@@ -578,7 +609,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -594,6 +625,8 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		sb.append(getTelefono());
 		sb.append(", fax=");
 		sb.append(getFax());
+		sb.append(", nomeUtente=");
+		sb.append(getNomeUtente());
 		sb.append(", email=");
 		sb.append(getEmail());
 		sb.append(", password=");
@@ -611,7 +644,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -646,6 +679,10 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		sb.append(getFax());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>nomeUtente</column-name><column-value><![CDATA[");
+		sb.append(getNomeUtente());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>email</column-name><column-value><![CDATA[");
 		sb.append(getEmail());
 		sb.append("]]></column-value></column>");
@@ -678,6 +715,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 	private String _indirizzo;
 	private String _telefono;
 	private String _fax;
+	private String _nomeUtente;
 	private String _email;
 	private String _password;
 	private long _idLiferay;

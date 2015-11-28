@@ -19,10 +19,12 @@
     List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
 
     for (TestataDocumento testata : listDDT) {
-        if (testata.getCompleto().equals("fatturato")) {
-            invoiced.add(testata);
-        } else {
-            completed.add(testata);
+        if (testata.getCodiceSoggetto().equals(cliente.getCodiceAnagrafica())) {
+            if (testata.getCompleto().equals("fatturato")) {
+                invoiced.add(testata);
+            } else {
+                completed.add(testata);
+            }
         }
     }
 

@@ -41,6 +41,7 @@
 		<field name="indirizzo" type="String" />
 		<field name="telefono" type="String" />
 		<field name="fax" type="String" />
+		<field name="nomeUtente" type="String" />
 		<field name="email" type="String" />
 		<field name="password" type="String" />
 		<field name="idLiferay" type="long" />

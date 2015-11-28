@@ -36,7 +36,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
 		sb.append("{id=");
 		sb.append(id);
@@ -52,6 +52,8 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		sb.append(telefono);
 		sb.append(", fax=");
 		sb.append(fax);
+		sb.append(", nomeUtente=");
+		sb.append(nomeUtente);
 		sb.append(", email=");
 		sb.append(email);
 		sb.append(", password=");
@@ -115,6 +117,13 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 			associatoImpl.setFax(fax);
 		}
 
+		if (nomeUtente == null) {
+			associatoImpl.setNomeUtente(StringPool.BLANK);
+		}
+		else {
+			associatoImpl.setNomeUtente(nomeUtente);
+		}
+
 		if (email == null) {
 			associatoImpl.setEmail(StringPool.BLANK);
 		}
@@ -147,6 +156,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		indirizzo = objectInput.readUTF();
 		telefono = objectInput.readUTF();
 		fax = objectInput.readUTF();
+		nomeUtente = objectInput.readUTF();
 		email = objectInput.readUTF();
 		password = objectInput.readUTF();
 		idLiferay = objectInput.readLong();
@@ -201,6 +211,13 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 			objectOutput.writeUTF(fax);
 		}
 
+		if (nomeUtente == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(nomeUtente);
+		}
+
 		if (email == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
 		}
@@ -227,6 +244,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	public String indirizzo;
 	public String telefono;
 	public String fax;
+	public String nomeUtente;
 	public String email;
 	public String password;
 	public long idLiferay;
