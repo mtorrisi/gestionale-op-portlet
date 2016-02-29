@@ -117,6 +117,12 @@ public class TracciabilitaSchedaLocalServiceClpInvoker {
 		_methodName154 = "getByAnnoIdAssociato";
 
 		_methodParameterTypes154 = new String[] { "int", "long", "long" };
+
+		_methodName155 = "getByAnnoIdAssociatoCodiceProdotto";
+
+		_methodParameterTypes155 = new String[] {
+				"int", "long", "long", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -227,6 +233,13 @@ public class TracciabilitaSchedaLocalServiceClpInvoker {
 				((Long)arguments[2]).longValue());
 		}
 
+		if (_methodName155.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes155, parameterTypes)) {
+			return TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociatoCodiceProdotto(((Integer)arguments[0]).intValue(),
+				((Long)arguments[1]).longValue(),
+				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -268,4 +281,6 @@ public class TracciabilitaSchedaLocalServiceClpInvoker {
 	private String[] _methodParameterTypes149;
 	private String _methodName154;
 	private String[] _methodParameterTypes154;
+	private String _methodName155;
+	private String[] _methodParameterTypes155;
 }

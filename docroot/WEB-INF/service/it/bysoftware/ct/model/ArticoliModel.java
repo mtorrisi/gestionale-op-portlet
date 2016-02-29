@@ -133,6 +133,21 @@ public interface ArticoliModel extends BaseModel<Articoli> {
 	public void setDescrizioneFiscale(String descrizioneFiscale);
 
 	/**
+	 * Returns the unita misura of this articoli.
+	 *
+	 * @return the unita misura of this articoli
+	 */
+	@AutoEscape
+	public String getUnitaMisura();
+
+	/**
+	 * Sets the unita misura of this articoli.
+	 *
+	 * @param unitaMisura the unita misura of this articoli
+	 */
+	public void setUnitaMisura(String unitaMisura);
+
+	/**
 	 * Returns the tara of this articoli.
 	 *
 	 * @return the tara of this articoli

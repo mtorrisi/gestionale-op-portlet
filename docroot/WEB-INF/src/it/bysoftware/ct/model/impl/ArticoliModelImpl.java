@@ -64,9 +64,10 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			{ "RanDescri", Types.VARCHAR },
 			{ "RanDesdoc", Types.VARCHAR },
 			{ "RanDesfis", Types.VARCHAR },
+			{ "RanUnimis", Types.VARCHAR },
 			{ "RanLibDbl1", Types.DOUBLE }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Articoli (RanCodart VARCHAR(75) not null primary key,RanCatmer VARCHAR(75) null,RanDescri VARCHAR(75) null,RanDesdoc VARCHAR(75) null,RanDesfis VARCHAR(75) null,RanLibDbl1 DOUBLE)";
+	public static final String TABLE_SQL_CREATE = "create table Articoli (RanCodart VARCHAR(75) not null primary key,RanCatmer VARCHAR(75) null,RanDescri VARCHAR(75) null,RanDesdoc VARCHAR(75) null,RanDesfis VARCHAR(75) null,RanUnimis VARCHAR(75) null,RanLibDbl1 DOUBLE)";
 	public static final String TABLE_SQL_DROP = "drop table Articoli";
 	public static final String ORDER_BY_JPQL = " ORDER BY articoli.codiceArticolo ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Articoli.RanCodart ASC";
@@ -103,6 +104,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		model.setDescrizione(soapModel.getDescrizione());
 		model.setDescrizioneDocumento(soapModel.getDescrizioneDocumento());
 		model.setDescrizioneFiscale(soapModel.getDescrizioneFiscale());
+		model.setUnitaMisura(soapModel.getUnitaMisura());
 		model.setTara(soapModel.getTara());
 
 		return model;
@@ -173,6 +175,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		attributes.put("descrizione", getDescrizione());
 		attributes.put("descrizioneDocumento", getDescrizioneDocumento());
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
+		attributes.put("unitaMisura", getUnitaMisura());
 		attributes.put("tara", getTara());
 
 		return attributes;
@@ -210,6 +213,12 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 		if (descrizioneFiscale != null) {
 			setDescrizioneFiscale(descrizioneFiscale);
+		}
+
+		String unitaMisura = (String)attributes.get("unitaMisura");
+
+		if (unitaMisura != null) {
+			setUnitaMisura(unitaMisura);
 		}
 
 		Double tara = (Double)attributes.get("tara");
@@ -311,6 +320,22 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 	@JSON
 	@Override
+	public String getUnitaMisura() {
+		if (_unitaMisura == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _unitaMisura;
+		}
+	}
+
+	@Override
+	public void setUnitaMisura(String unitaMisura) {
+		_unitaMisura = unitaMisura;
+	}
+
+	@JSON
+	@Override
 	public double getTara() {
 		return _tara;
 	}
@@ -343,6 +368,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		articoliImpl.setDescrizione(getDescrizione());
 		articoliImpl.setDescrizioneDocumento(getDescrizioneDocumento());
 		articoliImpl.setDescrizioneFiscale(getDescrizioneFiscale());
+		articoliImpl.setUnitaMisura(getUnitaMisura());
 		articoliImpl.setTara(getTara());
 
 		articoliImpl.resetOriginalValues();
@@ -439,6 +465,14 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			articoliCacheModel.descrizioneFiscale = null;
 		}
 
+		articoliCacheModel.unitaMisura = getUnitaMisura();
+
+		String unitaMisura = articoliCacheModel.unitaMisura;
+
+		if ((unitaMisura != null) && (unitaMisura.length() == 0)) {
+			articoliCacheModel.unitaMisura = null;
+		}
+
 		articoliCacheModel.tara = getTara();
 
 		return articoliCacheModel;
@@ -446,7 +480,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{codiceArticolo=");
 		sb.append(getCodiceArticolo());
@@ -458,6 +492,8 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		sb.append(getDescrizioneDocumento());
 		sb.append(", descrizioneFiscale=");
 		sb.append(getDescrizioneFiscale());
+		sb.append(", unitaMisura=");
+		sb.append(getUnitaMisura());
 		sb.append(", tara=");
 		sb.append(getTara());
 		sb.append("}");
@@ -467,7 +503,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(22);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Articoli");
@@ -494,6 +530,10 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		sb.append(getDescrizioneFiscale());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>unitaMisura</column-name><column-value><![CDATA[");
+		sb.append(getUnitaMisura());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>tara</column-name><column-value><![CDATA[");
 		sb.append(getTara());
 		sb.append("]]></column-value></column>");
@@ -513,6 +553,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 	private String _descrizione;
 	private String _descrizioneDocumento;
 	private String _descrizioneFiscale;
+	private String _unitaMisura;
 	private double _tara;
 	private long _columnBitmask;
 	private Articoli _escapedModel;

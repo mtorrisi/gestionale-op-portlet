@@ -35,7 +35,7 @@ import java.io.ObjectOutput;
 public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(15);
 
 		sb.append("{codiceArticolo=");
 		sb.append(codiceArticolo);
@@ -47,6 +47,8 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 		sb.append(descrizioneDocumento);
 		sb.append(", descrizioneFiscale=");
 		sb.append(descrizioneFiscale);
+		sb.append(", unitaMisura=");
+		sb.append(unitaMisura);
 		sb.append(", tara=");
 		sb.append(tara);
 		sb.append("}");
@@ -93,6 +95,13 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 			articoliImpl.setDescrizioneFiscale(descrizioneFiscale);
 		}
 
+		if (unitaMisura == null) {
+			articoliImpl.setUnitaMisura(StringPool.BLANK);
+		}
+		else {
+			articoliImpl.setUnitaMisura(unitaMisura);
+		}
+
 		articoliImpl.setTara(tara);
 
 		articoliImpl.resetOriginalValues();
@@ -107,6 +116,7 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 		descrizione = objectInput.readUTF();
 		descrizioneDocumento = objectInput.readUTF();
 		descrizioneFiscale = objectInput.readUTF();
+		unitaMisura = objectInput.readUTF();
 		tara = objectInput.readDouble();
 	}
 
@@ -148,6 +158,13 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 			objectOutput.writeUTF(descrizioneFiscale);
 		}
 
+		if (unitaMisura == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(unitaMisura);
+		}
+
 		objectOutput.writeDouble(tara);
 	}
 
@@ -156,5 +173,6 @@ public class ArticoliCacheModel implements CacheModel<Articoli>, Externalizable 
 	public String descrizione;
 	public String descrizioneDocumento;
 	public String descrizioneFiscale;
+	public String unitaMisura;
 	public double tara;
 }

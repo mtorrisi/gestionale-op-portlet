@@ -19,13 +19,13 @@
     List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
 
     for (TestataDocumento testata : listDDT) {
-        if (testata.getCodiceSoggetto().equals(cliente.getCodiceAnagrafica())) {
+//        if (testata.getCodiceSoggetto().equals(cliente.getCodiceAnagrafica())) {
             if (testata.getCompleto().equals("fatturato")) {
                 invoiced.add(testata);
             } else {
                 completed.add(testata);
             }
-        }
+//        }
     }
 
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");

@@ -297,6 +297,15 @@ public class TracciabilitaSchedaLocalServiceWrapper
 			numeroDocumento, idAssociato);
 	}
 
+	@Override
+	public it.bysoftware.ct.model.TracciabilitaScheda getByAnnoIdAssociatoCodiceProdotto(
+		int anno, long numeroDocumento, long idAssociato,
+		java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _tracciabilitaSchedaLocalService.getByAnnoIdAssociatoCodiceProdotto(anno,
+			numeroDocumento, idAssociato, codiceProdotto);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

@@ -281,6 +281,15 @@ public class TracciabilitaSchedaLocalServiceUtil {
 				   .getByAnnoIdAssociato(anno, numeroDocumento, idAssociato);
 	}
 
+	public static it.bysoftware.ct.model.TracciabilitaScheda getByAnnoIdAssociatoCodiceProdotto(
+		int anno, long numeroDocumento, long idAssociato,
+		java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByAnnoIdAssociatoCodiceProdotto(anno, numeroDocumento,
+			idAssociato, codiceProdotto);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

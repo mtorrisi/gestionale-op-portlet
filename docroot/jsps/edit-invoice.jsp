@@ -34,6 +34,8 @@
     TestataDocumento testata;
     List<TestataDocumento> listTestata = new ArrayList<TestataDocumento>();
     Anagrafica cliente;
+    ClientiDatiAgg datiAggCliente;
+    String codiceAliquotaCliente;
     String indirizzoCompleto;
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
     String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
@@ -44,7 +46,9 @@
         testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "FAV", a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
-
+        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
+                
         List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), "FAV");
 
         for (RigoDocumento rigo : righe) {
@@ -62,6 +66,7 @@
             json.put("sconto1", rigo.getSconto1());
             json.put("sconto2", rigo.getSconto2());
             json.put("sconto3", rigo.getSconto3());
+            json.put("codiceIva", ((!rigo.getCodiceArticolo().equals("")) ? ((rigo.getPesoNetto() != 0) ? codiceAliquotaCliente : "04") : ""));
 
             double importo = 0;
 
@@ -89,8 +94,11 @@
         }
 
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
+        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
         List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
+        
         for (String id : ids) {
             List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
             righeDocumenti.addAll(righe);
@@ -120,7 +128,8 @@
             json.put("sconto1", rigo.getSconto1());
             json.put("sconto2", rigo.getSconto2());
             json.put("sconto3", rigo.getSconto3());
-
+            json.put("codiceIva", ((!rigo.getCodiceArticolo().equals("")) ? ((rigo.getPesoNetto() != 0) ? codiceAliquotaCliente : "04") : ""));
+            
             double importo = 0;
 
             double sconto1 = rigo.getSconto1();
@@ -153,8 +162,6 @@
     Date date = Calendar.getInstance().getTime();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    ClientiDatiAgg datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
-    String codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
     VociIva iva;
     if (!codiceAliquotaCliente.equals("")) {
         iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
@@ -259,8 +266,9 @@
 //            return "";
 //        };
 
-    var aliquotaIVA = <%= iva.getAliquota()%>;
-
+    var aliquotaIVA     = <%= iva.getAliquota()%>;
+    var codiceAliquota  = <%= iva.getCodiceIva()%>;
+    
     YUI().use(
             'aui-tabview',
             function (Y) {
@@ -407,6 +415,11 @@
 //                editor: numberEditor,
                 key: 'importo',
                 label: 'Importo'
+            },
+            {
+//                editor: numberEditor,
+                key: 'codiceIva',
+                label: 'C.I.' 
             }
         ];
 
@@ -510,6 +523,8 @@
             console.log(recordSelected);
             var row = recordSelected.getAttrs();
             if (!row.codiceArticolo)
+                table.removeRow(recordSelected);
+            else if(row.prezzo !== 0)
                 table.removeRow(recordSelected);
             else
                 alert("Attenzione non è possibile rimuovere un rigo con un prodotto.");

@@ -79,9 +79,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.Map;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.portlet.RenderRequest;
@@ -350,7 +350,7 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue());
+                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue(), op.getIdLiferay());
 
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
@@ -424,7 +424,7 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue(), "fav");
+                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue(), "fav", op.getIdLiferay());
 
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
@@ -524,7 +524,7 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String trace = r.printTrace(ANNO, nDoc, new Long(associato.getId()).intValue(), TRAC);
+                        String trace = r.printTrace(ANNO, nDoc, new Long(associato.getId()).intValue(), TRAC, op.getIdLiferay());
 
                         File file = new File(trace);
                         InputStream in = new FileInputStream(file);
@@ -681,7 +681,13 @@ public class DDTPortlet extends MVCPortlet {
         } else if (avanzaProtocollo == -1) { //AVANZAMENTO PROTOCOLLO MANUALE
             try {
 //                numeroOrdine = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).size() + 1;
-                numeroOrdine = (int) TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).get(0).getNumeroOrdine() + 1;
+//                numeroOrdine = (int) TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId()).get(0).getNumeroOrdine() + 1;
+                List<TestataDocumento> documentiSoggetto = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DDT, associato.getId());
+                if (documentiSoggetto.size() > 0) {
+                    numeroOrdine = (int) documentiSoggetto.get(0).getNumeroOrdine() + 1;
+                } else {
+                    numeroOrdine = 1;
+                }
             } catch (SystemException ex) {
                 _log.error(ex.getMessage());
                 return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
@@ -816,7 +822,12 @@ public class DDTPortlet extends MVCPortlet {
         } else if (avanzaProtocollo == -1) { //AVANZAMENTO AUTOMATICO PROTOCOLLO
 //            numeroFattura = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).size() + 1;
             try {
-                numeroFattura = (int) (TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).get(0).getNumeroOrdine() + 1);
+                List<TestataDocumento> documentiSoggetto = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId());
+                if (documentiSoggetto.size() > 0) {
+                    numeroFattura = (int) documentiSoggetto.get(0).getNumeroOrdine() + 1;
+                } else {
+                    numeroFattura = 1;
+                }
             } catch (SystemException ex) {
                 _log.error(ex.getMessage());
                 return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
@@ -824,7 +835,7 @@ public class DDTPortlet extends MVCPortlet {
         } else { //AVANZAMENTO PROTOCOLLO MANUALE
             List<TestataDocumento> testate = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId());
             TestataDocumento t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, avanzaProtocollo, FAV, associato.getId()));
-            if (t != null) {
+            if (t != null && !update) {
                 _log.warn("Protocol already exists.");
                 return new Response(Response.Code.ALREADY_EXISTS, avanzaProtocollo);
             }
@@ -835,7 +846,8 @@ public class DDTPortlet extends MVCPortlet {
 
                     Date dataTestata = sdf.parse(dataTestataStr);
                     Date dataDocumento = sdf.parse(documentDate);
-                    if (dataDocumento.after(dataTestata) || dataDocumento.equals(dataTestata)) {
+                    if (dataDocumento.after(dataTestata))
+                        if(!update && dataDocumento.equals(dataTestata)) {
                         return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
                     }
                 }
@@ -923,16 +935,28 @@ public class DDTPortlet extends MVCPortlet {
     private Response saveTraceability(ResourceRequest resourceRequest, Associato a) throws JSONException, SystemException {
 
         String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
+        long nDoc = ParamUtil.getLong(resourceRequest, "nDoc", 0);
 
         JSONObject objectJson = JSONFactoryUtil.createJSONObject(string);
         _log.info(objectJson);
         JSONArray schedeJson = objectJson.getJSONArray("scheda");
 
+        Map<Long, TracciabilitaScheda> newSchede = new HashMap<Long, TracciabilitaScheda>();
+        Map<Long, List<TracciabilitaGrezzi>> newGrezzi = new HashMap<Long, List<TracciabilitaGrezzi>>();
+        Map<Long, TracciabilitaScheda> updatingSchede = new HashMap<Long, TracciabilitaScheda>();
+        Map<Long, List<TracciabilitaGrezzi>> updatingGrezzi = new HashMap<Long, List<TracciabilitaGrezzi>>();
+
         for (int i = 0; i < schedeJson.length(); i++) {
             JSONObject schedaJson = schedeJson.getJSONObject(i);
 
-            long id = CounterLocalServiceUtil.increment(TracciabilitaScheda.class.getName());
-            TracciabilitaScheda scheda = TracciabilitaSchedaLocalServiceUtil.createTracciabilitaScheda((int) id);
+            long id = schedaJson.getLong("idScheda");
+            TracciabilitaScheda scheda;
+            if (id > 0) {
+                scheda = TracciabilitaSchedaLocalServiceUtil.fetchTracciabilitaScheda(id);
+            } else {
+                id = 0; //CounterLocalServiceUtil.increment(TracciabilitaScheda.class.getName());
+                scheda = TracciabilitaSchedaLocalServiceUtil.createTracciabilitaScheda((int) id);
+            }
             scheda.setCodiceProdotto(schedaJson.getString("codiceProdotto"));
             scheda.setProdottoVenduto(schedaJson.getString("prodottoVenduto"));
             scheda.setKgVenduti(Double.parseDouble(schedaJson.getString("kgVenduti")));
@@ -948,8 +972,14 @@ public class DDTPortlet extends MVCPortlet {
             for (int j = 0; j < grezziJson.length(); j++) {
                 JSONObject grezzoJson = grezziJson.getJSONObject(j);
 
-                long idGrezzi = CounterLocalServiceUtil.increment(TracciabilitaGrezzi.class.getName());
-                TracciabilitaGrezzi grezzo = TracciabilitaGrezziLocalServiceUtil.createTracciabilitaGrezzi((int) idGrezzi);
+                long idGrezzo = grezzoJson.getLong("idGrezzo");
+                TracciabilitaGrezzi grezzo;
+                if (idGrezzo > 0) {
+                    grezzo = TracciabilitaGrezziLocalServiceUtil.fetchTracciabilitaGrezzi(idGrezzo);
+                } else {
+                    idGrezzo = 0; //CounterLocalServiceUtil.increment(TracciabilitaGrezzi.class.getName());
+                    grezzo = TracciabilitaGrezziLocalServiceUtil.createTracciabilitaGrezzi((int) idGrezzo);
+                }
 
                 grezzo.setFoglio(Integer.parseInt(grezzoJson.getString("foglio")));
                 grezzo.setKg(Double.parseDouble(grezzoJson.getString("kg")));
@@ -961,11 +991,55 @@ public class DDTPortlet extends MVCPortlet {
 
                 listGrezzi.add(grezzo);
             }
-            _log.info("SAVING: " + scheda);
-            TracciabilitaSchedaLocalServiceUtil.addTracciabilitaScheda(scheda);
-            for (TracciabilitaGrezzi grezzoToSave : listGrezzi) {
-                _log.info("SAVING: " + grezzoToSave);
-                TracciabilitaGrezziLocalServiceUtil.addTracciabilitaGrezzi(grezzoToSave);
+
+            if (scheda.getId() == 0) {
+                _log.info("SAVING: " + scheda);
+                long idScheda = CounterLocalServiceUtil.increment(TracciabilitaScheda.class.getName());
+                scheda.setId(idScheda);
+                TracciabilitaSchedaLocalServiceUtil.addTracciabilitaScheda(scheda);
+                for (TracciabilitaGrezzi grezzoToSave : listGrezzi) {
+                    long idGrezzo = CounterLocalServiceUtil.increment(TracciabilitaGrezzi.class.getName());
+                    grezzoToSave.setId(idGrezzo);
+                    grezzoToSave.setIdSchedaTracciabilta(idScheda);
+                    _log.info("SAVING GREZZO: " + grezzoToSave);
+                    TracciabilitaGrezziLocalServiceUtil.addTracciabilitaGrezzi(grezzoToSave);
+                }
+                newSchede.put(scheda.getId(), scheda);
+                newGrezzi.put(scheda.getId(), listGrezzi);
+            } else {
+                updatingSchede.put(scheda.getId(), scheda);
+                updatingGrezzi.put(scheda.getId(), listGrezzi);
+            }
+        }
+
+        if (updatingSchede.size() > 0) {
+            List<TracciabilitaScheda> oldSchede = TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociato(ANNO, nDoc, a.getId());
+            for (TracciabilitaScheda oldScheda : oldSchede) {
+                List<TracciabilitaGrezzi> grezzi = updatingGrezzi.get(oldScheda.getId());
+                if (updatingSchede.containsKey(oldScheda.getId())) { //UPDATE
+                    _log.info("UPDATING: " + oldScheda);
+                    oldScheda = updatingSchede.get(oldScheda.getId());
+                    TracciabilitaSchedaLocalServiceUtil.updateTracciabilitaScheda(oldScheda);
+                    for (TracciabilitaGrezzi grezzo : grezzi) {
+                        if (grezzo.getId() != 0) { //UPDATE
+                            _log.info("UPDATING OLD GREZZO: " + grezzo);
+                            TracciabilitaGrezziLocalServiceUtil.updateTracciabilitaGrezzi(grezzo);
+                        } else {
+                            long idGrezzo = CounterLocalServiceUtil.increment(TracciabilitaGrezzi.class.getName());
+                            grezzo.setId(idGrezzo);
+                            _log.info("INSERTING GREZZO: " + grezzo);
+                            TracciabilitaGrezziLocalServiceUtil.addTracciabilitaGrezzi(grezzo);
+                        }
+                    }
+                } else if(!newSchede.containsKey(oldScheda.getId())) {//DELETE
+                    _log.info("DELETING OLD SCHEDA: " + oldScheda);
+                    List<TracciabilitaGrezzi> oldGrezzi = TracciabilitaGrezziLocalServiceUtil.getIdSchedaTracciabilita(oldScheda.getId());
+                    for (TracciabilitaGrezzi oldGrezzo : oldGrezzi) {
+                        _log.info("DELETING OLD GREZZO: " + oldGrezzo);
+                        TracciabilitaGrezziLocalServiceUtil.deleteTracciabilitaGrezzi(oldGrezzo);
+                    }
+                    TracciabilitaSchedaLocalServiceUtil.deleteTracciabilitaScheda(oldScheda);
+                }
             }
         }
 

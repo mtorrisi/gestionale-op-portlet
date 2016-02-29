@@ -4,6 +4,7 @@ create table Articoli (
 	RanDescri VARCHAR(75) null,
 	RanDesdoc VARCHAR(75) null,
 	RanDesfis VARCHAR(75) null,
+	RanUnimis VARCHAR(75) null,
 	RanLibDbl1 DOUBLE
 );
 

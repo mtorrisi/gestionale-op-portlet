@@ -53,6 +53,7 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 		attributes.put("descrizione", getDescrizione());
 		attributes.put("descrizioneDocumento", getDescrizioneDocumento());
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
+		attributes.put("unitaMisura", getUnitaMisura());
 		attributes.put("tara", getTara());
 
 		return attributes;
@@ -90,6 +91,12 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 
 		if (descrizioneFiscale != null) {
 			setDescrizioneFiscale(descrizioneFiscale);
+		}
+
+		String unitaMisura = (String)attributes.get("unitaMisura");
+
+		if (unitaMisura != null) {
+			setUnitaMisura(unitaMisura);
 		}
 
 		Double tara = (Double)attributes.get("tara");
@@ -217,6 +224,26 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 	@Override
 	public void setDescrizioneFiscale(java.lang.String descrizioneFiscale) {
 		_articoli.setDescrizioneFiscale(descrizioneFiscale);
+	}
+
+	/**
+	* Returns the unita misura of this articoli.
+	*
+	* @return the unita misura of this articoli
+	*/
+	@Override
+	public java.lang.String getUnitaMisura() {
+		return _articoli.getUnitaMisura();
+	}
+
+	/**
+	* Sets the unita misura of this articoli.
+	*
+	* @param unitaMisura the unita misura of this articoli
+	*/
+	@Override
+	public void setUnitaMisura(java.lang.String unitaMisura) {
+		_articoli.setUnitaMisura(unitaMisura);
 	}
 
 	/**

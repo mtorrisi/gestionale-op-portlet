@@ -257,4 +257,10 @@ public interface TracciabilitaSchedaLocalService extends BaseLocalService,
 	public java.util.List<it.bysoftware.ct.model.TracciabilitaScheda> getByAnnoIdAssociato(
 		int anno, long numeroDocumento, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public it.bysoftware.ct.model.TracciabilitaScheda getByAnnoIdAssociatoCodiceProdotto(
+		int anno, long numeroDocumento, long idAssociato,
+		java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -289,6 +289,13 @@ public class TracciabilitaGrezziLocalServiceWrapper
 			parameterTypes, arguments);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TracciabilitaGrezzi> getIdSchedaTracciabilita(
+		long idSchedaTracciabilita)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _tracciabilitaGrezziLocalService.getIdSchedaTracciabilita(idSchedaTracciabilita);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

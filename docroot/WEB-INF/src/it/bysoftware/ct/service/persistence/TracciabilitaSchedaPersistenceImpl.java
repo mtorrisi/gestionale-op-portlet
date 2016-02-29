@@ -763,6 +763,409 @@ public class TracciabilitaSchedaPersistenceImpl extends BasePersistenceImpl<Trac
 		"tracciabilitaScheda.tipoDocumento = ?";
 	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTO_TIPODOCUMENTO_3 =
 		"(tracciabilitaScheda.tipoDocumento IS NULL OR tracciabilitaScheda.tipoDocumento = '')";
+	public static final FinderPath FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO =
+		new FinderPath(TracciabilitaSchedaModelImpl.ENTITY_CACHE_ENABLED,
+			TracciabilitaSchedaModelImpl.FINDER_CACHE_ENABLED,
+			TracciabilitaSchedaImpl.class, FINDER_CLASS_NAME_ENTITY,
+			"fetchByAnnoIdAssociatoNDocumentoCodiceProdotto",
+			new String[] {
+				Integer.class.getName(), Long.class.getName(),
+				Long.class.getName(), String.class.getName(),
+				String.class.getName()
+			},
+			TracciabilitaSchedaModelImpl.ANNO_COLUMN_BITMASK |
+			TracciabilitaSchedaModelImpl.IDASSOCIATO_COLUMN_BITMASK |
+			TracciabilitaSchedaModelImpl.NUMERODOCUMENTO_COLUMN_BITMASK |
+			TracciabilitaSchedaModelImpl.TIPODOCUMENTO_COLUMN_BITMASK |
+			TracciabilitaSchedaModelImpl.CODICEPRODOTTO_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO =
+		new FinderPath(TracciabilitaSchedaModelImpl.ENTITY_CACHE_ENABLED,
+			TracciabilitaSchedaModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAnnoIdAssociatoNDocumentoCodiceProdotto",
+			new String[] {
+				Integer.class.getName(), Long.class.getName(),
+				Long.class.getName(), String.class.getName(),
+				String.class.getName()
+			});
+
+	/**
+	 * Returns the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; or throws a {@link it.bysoftware.ct.NoSuchTracciabilitaSchedaException} if it could not be found.
+	 *
+	 * @param anno the anno
+	 * @param idAssociato the id associato
+	 * @param numeroDocumento the numero documento
+	 * @param tipoDocumento the tipo documento
+	 * @param codiceProdotto the codice prodotto
+	 * @return the matching tracciabilita scheda
+	 * @throws it.bysoftware.ct.NoSuchTracciabilitaSchedaException if a matching tracciabilita scheda could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TracciabilitaScheda findByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento, String tipoDocumento,
+		String codiceProdotto)
+		throws NoSuchTracciabilitaSchedaException, SystemException {
+		TracciabilitaScheda tracciabilitaScheda = fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+				idAssociato, numeroDocumento, tipoDocumento, codiceProdotto);
+
+		if (tracciabilitaScheda == null) {
+			StringBundler msg = new StringBundler(12);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("anno=");
+			msg.append(anno);
+
+			msg.append(", idAssociato=");
+			msg.append(idAssociato);
+
+			msg.append(", numeroDocumento=");
+			msg.append(numeroDocumento);
+
+			msg.append(", tipoDocumento=");
+			msg.append(tipoDocumento);
+
+			msg.append(", codiceProdotto=");
+			msg.append(codiceProdotto);
+
+			msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+			if (_log.isWarnEnabled()) {
+				_log.warn(msg.toString());
+			}
+
+			throw new NoSuchTracciabilitaSchedaException(msg.toString());
+		}
+
+		return tracciabilitaScheda;
+	}
+
+	/**
+	 * Returns the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param anno the anno
+	 * @param idAssociato the id associato
+	 * @param numeroDocumento the numero documento
+	 * @param tipoDocumento the tipo documento
+	 * @param codiceProdotto the codice prodotto
+	 * @return the matching tracciabilita scheda, or <code>null</code> if a matching tracciabilita scheda could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TracciabilitaScheda fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento, String tipoDocumento,
+		String codiceProdotto) throws SystemException {
+		return fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+			idAssociato, numeroDocumento, tipoDocumento, codiceProdotto, true);
+	}
+
+	/**
+	 * Returns the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param anno the anno
+	 * @param idAssociato the id associato
+	 * @param numeroDocumento the numero documento
+	 * @param tipoDocumento the tipo documento
+	 * @param codiceProdotto the codice prodotto
+	 * @param retrieveFromCache whether to use the finder cache
+	 * @return the matching tracciabilita scheda, or <code>null</code> if a matching tracciabilita scheda could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TracciabilitaScheda fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento, String tipoDocumento,
+		String codiceProdotto, boolean retrieveFromCache)
+		throws SystemException {
+		Object[] finderArgs = new Object[] {
+				anno, idAssociato, numeroDocumento, tipoDocumento,
+				codiceProdotto
+			};
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = FinderCacheUtil.getResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+					finderArgs, this);
+		}
+
+		if (result instanceof TracciabilitaScheda) {
+			TracciabilitaScheda tracciabilitaScheda = (TracciabilitaScheda)result;
+
+			if ((anno != tracciabilitaScheda.getAnno()) ||
+					(idAssociato != tracciabilitaScheda.getIdAssociato()) ||
+					(numeroDocumento != tracciabilitaScheda.getNumeroDocumento()) ||
+					!Validator.equals(tipoDocumento,
+						tracciabilitaScheda.getTipoDocumento()) ||
+					!Validator.equals(codiceProdotto,
+						tracciabilitaScheda.getCodiceProdotto())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(7);
+
+			query.append(_SQL_SELECT_TRACCIABILITASCHEDA_WHERE);
+
+			query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_ANNO_2);
+
+			query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_IDASSOCIATO_2);
+
+			query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_NUMERODOCUMENTO_2);
+
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_2);
+			}
+
+			boolean bindCodiceProdotto = false;
+
+			if (codiceProdotto == null) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_1);
+			}
+			else if (codiceProdotto.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_3);
+			}
+			else {
+				bindCodiceProdotto = true;
+
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(anno);
+
+				qPos.add(idAssociato);
+
+				qPos.add(numeroDocumento);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
+
+				if (bindCodiceProdotto) {
+					qPos.add(codiceProdotto);
+				}
+
+				List<TracciabilitaScheda> list = q.list();
+
+				if (list.isEmpty()) {
+					FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+						finderArgs, list);
+				}
+				else {
+					if ((list.size() > 1) && _log.isWarnEnabled()) {
+						_log.warn(
+							"TracciabilitaSchedaPersistenceImpl.fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(int, long, long, String, String, boolean) with parameters (" +
+							StringUtil.merge(finderArgs) +
+							") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+					}
+
+					TracciabilitaScheda tracciabilitaScheda = list.get(0);
+
+					result = tracciabilitaScheda;
+
+					cacheResult(tracciabilitaScheda);
+
+					if ((tracciabilitaScheda.getAnno() != anno) ||
+							(tracciabilitaScheda.getIdAssociato() != idAssociato) ||
+							(tracciabilitaScheda.getNumeroDocumento() != numeroDocumento) ||
+							(tracciabilitaScheda.getTipoDocumento() == null) ||
+							!tracciabilitaScheda.getTipoDocumento()
+													.equals(tipoDocumento) ||
+							(tracciabilitaScheda.getCodiceProdotto() == null) ||
+							!tracciabilitaScheda.getCodiceProdotto()
+													.equals(codiceProdotto)) {
+						FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+							finderArgs, tracciabilitaScheda);
+					}
+				}
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (TracciabilitaScheda)result;
+		}
+	}
+
+	/**
+	 * Removes the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; from the database.
+	 *
+	 * @param anno the anno
+	 * @param idAssociato the id associato
+	 * @param numeroDocumento the numero documento
+	 * @param tipoDocumento the tipo documento
+	 * @param codiceProdotto the codice prodotto
+	 * @return the tracciabilita scheda that was removed
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TracciabilitaScheda removeByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento, String tipoDocumento,
+		String codiceProdotto)
+		throws NoSuchTracciabilitaSchedaException, SystemException {
+		TracciabilitaScheda tracciabilitaScheda = findByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+				idAssociato, numeroDocumento, tipoDocumento, codiceProdotto);
+
+		return remove(tracciabilitaScheda);
+	}
+
+	/**
+	 * Returns the number of tracciabilita schedas where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param idAssociato the id associato
+	 * @param numeroDocumento the numero documento
+	 * @param tipoDocumento the tipo documento
+	 * @param codiceProdotto the codice prodotto
+	 * @return the number of matching tracciabilita schedas
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByAnnoIdAssociatoNDocumentoCodiceProdotto(int anno,
+		long idAssociato, long numeroDocumento, String tipoDocumento,
+		String codiceProdotto) throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO;
+
+		Object[] finderArgs = new Object[] {
+				anno, idAssociato, numeroDocumento, tipoDocumento,
+				codiceProdotto
+			};
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(6);
+
+			query.append(_SQL_COUNT_TRACCIABILITASCHEDA_WHERE);
+
+			query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_ANNO_2);
+
+			query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_IDASSOCIATO_2);
+
+			query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_NUMERODOCUMENTO_2);
+
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_2);
+			}
+
+			boolean bindCodiceProdotto = false;
+
+			if (codiceProdotto == null) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_1);
+			}
+			else if (codiceProdotto.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_3);
+			}
+			else {
+				bindCodiceProdotto = true;
+
+				query.append(_FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(anno);
+
+				qPos.add(idAssociato);
+
+				qPos.add(numeroDocumento);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
+
+				if (bindCodiceProdotto) {
+					qPos.add(codiceProdotto);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_ANNO_2 =
+		"tracciabilitaScheda.anno = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_IDASSOCIATO_2 =
+		"tracciabilitaScheda.idAssociato = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_NUMERODOCUMENTO_2 =
+		"tracciabilitaScheda.numeroDocumento = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_1 =
+		"tracciabilitaScheda.tipoDocumento IS NULL AND ";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_2 =
+		"tracciabilitaScheda.tipoDocumento = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_TIPODOCUMENTO_3 =
+		"(tracciabilitaScheda.tipoDocumento IS NULL OR tracciabilitaScheda.tipoDocumento = '') AND ";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_1 =
+		"tracciabilitaScheda.codiceProdotto IS NULL";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_2 =
+		"tracciabilitaScheda.codiceProdotto = ?";
+	private static final String _FINDER_COLUMN_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO_CODICEPRODOTTO_3 =
+		"(tracciabilitaScheda.codiceProdotto IS NULL OR tracciabilitaScheda.codiceProdotto = '')";
 
 	public TracciabilitaSchedaPersistenceImpl() {
 		setModelClass(TracciabilitaScheda.class);
@@ -778,6 +1181,15 @@ public class TracciabilitaSchedaPersistenceImpl extends BasePersistenceImpl<Trac
 		EntityCacheUtil.putResult(TracciabilitaSchedaModelImpl.ENTITY_CACHE_ENABLED,
 			TracciabilitaSchedaImpl.class, tracciabilitaScheda.getPrimaryKey(),
 			tracciabilitaScheda);
+
+		FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+			new Object[] {
+				tracciabilitaScheda.getAnno(),
+				tracciabilitaScheda.getIdAssociato(),
+				tracciabilitaScheda.getNumeroDocumento(),
+				tracciabilitaScheda.getTipoDocumento(),
+				tracciabilitaScheda.getCodiceProdotto()
+			}, tracciabilitaScheda);
 
 		tracciabilitaScheda.resetOriginalValues();
 	}
@@ -836,6 +1248,8 @@ public class TracciabilitaSchedaPersistenceImpl extends BasePersistenceImpl<Trac
 
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITH_PAGINATION);
 		FinderCacheUtil.clearCache(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION);
+
+		clearUniqueFindersCache(tracciabilitaScheda);
 	}
 
 	@Override
@@ -847,6 +1261,79 @@ public class TracciabilitaSchedaPersistenceImpl extends BasePersistenceImpl<Trac
 			EntityCacheUtil.removeResult(TracciabilitaSchedaModelImpl.ENTITY_CACHE_ENABLED,
 				TracciabilitaSchedaImpl.class,
 				tracciabilitaScheda.getPrimaryKey());
+
+			clearUniqueFindersCache(tracciabilitaScheda);
+		}
+	}
+
+	protected void cacheUniqueFindersCache(
+		TracciabilitaScheda tracciabilitaScheda) {
+		if (tracciabilitaScheda.isNew()) {
+			Object[] args = new Object[] {
+					tracciabilitaScheda.getAnno(),
+					tracciabilitaScheda.getIdAssociato(),
+					tracciabilitaScheda.getNumeroDocumento(),
+					tracciabilitaScheda.getTipoDocumento(),
+					tracciabilitaScheda.getCodiceProdotto()
+				};
+
+			FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+				args, Long.valueOf(1));
+			FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+				args, tracciabilitaScheda);
+		}
+		else {
+			TracciabilitaSchedaModelImpl tracciabilitaSchedaModelImpl = (TracciabilitaSchedaModelImpl)tracciabilitaScheda;
+
+			if ((tracciabilitaSchedaModelImpl.getColumnBitmask() &
+					FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						tracciabilitaScheda.getAnno(),
+						tracciabilitaScheda.getIdAssociato(),
+						tracciabilitaScheda.getNumeroDocumento(),
+						tracciabilitaScheda.getTipoDocumento(),
+						tracciabilitaScheda.getCodiceProdotto()
+					};
+
+				FinderCacheUtil.putResult(FINDER_PATH_COUNT_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+					args, Long.valueOf(1));
+				FinderCacheUtil.putResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+					args, tracciabilitaScheda);
+			}
+		}
+	}
+
+	protected void clearUniqueFindersCache(
+		TracciabilitaScheda tracciabilitaScheda) {
+		TracciabilitaSchedaModelImpl tracciabilitaSchedaModelImpl = (TracciabilitaSchedaModelImpl)tracciabilitaScheda;
+
+		Object[] args = new Object[] {
+				tracciabilitaScheda.getAnno(),
+				tracciabilitaScheda.getIdAssociato(),
+				tracciabilitaScheda.getNumeroDocumento(),
+				tracciabilitaScheda.getTipoDocumento(),
+				tracciabilitaScheda.getCodiceProdotto()
+			};
+
+		FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+			args);
+		FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+			args);
+
+		if ((tracciabilitaSchedaModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO.getColumnBitmask()) != 0) {
+			args = new Object[] {
+					tracciabilitaSchedaModelImpl.getOriginalAnno(),
+					tracciabilitaSchedaModelImpl.getOriginalIdAssociato(),
+					tracciabilitaSchedaModelImpl.getOriginalNumeroDocumento(),
+					tracciabilitaSchedaModelImpl.getOriginalTipoDocumento(),
+					tracciabilitaSchedaModelImpl.getOriginalCodiceProdotto()
+				};
+
+			FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+				args);
+			FinderCacheUtil.removeResult(FINDER_PATH_FETCH_BY_ANNOIDASSOCIATONDOCUMENTOCODICEPRODOTTO,
+				args);
 		}
 	}
 
@@ -1023,6 +1510,9 @@ public class TracciabilitaSchedaPersistenceImpl extends BasePersistenceImpl<Trac
 		EntityCacheUtil.putResult(TracciabilitaSchedaModelImpl.ENTITY_CACHE_ENABLED,
 			TracciabilitaSchedaImpl.class, tracciabilitaScheda.getPrimaryKey(),
 			tracciabilitaScheda);
+
+		clearUniqueFindersCache(tracciabilitaScheda);
+		cacheUniqueFindersCache(tracciabilitaScheda);
 
 		return tracciabilitaScheda;
 	}

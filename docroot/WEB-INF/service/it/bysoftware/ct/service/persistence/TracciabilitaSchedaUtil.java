@@ -330,6 +330,112 @@ public class TracciabilitaSchedaUtil {
 	}
 
 	/**
+	* Returns the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; or throws a {@link it.bysoftware.ct.NoSuchTracciabilitaSchedaException} if it could not be found.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param numeroDocumento the numero documento
+	* @param tipoDocumento the tipo documento
+	* @param codiceProdotto the codice prodotto
+	* @return the matching tracciabilita scheda
+	* @throws it.bysoftware.ct.NoSuchTracciabilitaSchedaException if a matching tracciabilita scheda could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaScheda findByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento,
+		java.lang.String tipoDocumento, java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTracciabilitaSchedaException {
+		return getPersistence()
+				   .findByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+			idAssociato, numeroDocumento, tipoDocumento, codiceProdotto);
+	}
+
+	/**
+	* Returns the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param numeroDocumento the numero documento
+	* @param tipoDocumento the tipo documento
+	* @param codiceProdotto the codice prodotto
+	* @return the matching tracciabilita scheda, or <code>null</code> if a matching tracciabilita scheda could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaScheda fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento,
+		java.lang.String tipoDocumento, java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+			idAssociato, numeroDocumento, tipoDocumento, codiceProdotto);
+	}
+
+	/**
+	* Returns the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param numeroDocumento the numero documento
+	* @param tipoDocumento the tipo documento
+	* @param codiceProdotto the codice prodotto
+	* @param retrieveFromCache whether to use the finder cache
+	* @return the matching tracciabilita scheda, or <code>null</code> if a matching tracciabilita scheda could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaScheda fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento,
+		java.lang.String tipoDocumento, java.lang.String codiceProdotto,
+		boolean retrieveFromCache)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+			idAssociato, numeroDocumento, tipoDocumento, codiceProdotto,
+			retrieveFromCache);
+	}
+
+	/**
+	* Removes the tracciabilita scheda where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63; from the database.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param numeroDocumento the numero documento
+	* @param tipoDocumento the tipo documento
+	* @param codiceProdotto the codice prodotto
+	* @return the tracciabilita scheda that was removed
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaScheda removeByAnnoIdAssociatoNDocumentoCodiceProdotto(
+		int anno, long idAssociato, long numeroDocumento,
+		java.lang.String tipoDocumento, java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTracciabilitaSchedaException {
+		return getPersistence()
+				   .removeByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+			idAssociato, numeroDocumento, tipoDocumento, codiceProdotto);
+	}
+
+	/**
+	* Returns the number of tracciabilita schedas where anno = &#63; and idAssociato = &#63; and numeroDocumento = &#63; and tipoDocumento = &#63; and codiceProdotto = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param numeroDocumento the numero documento
+	* @param tipoDocumento the tipo documento
+	* @param codiceProdotto the codice prodotto
+	* @return the number of matching tracciabilita schedas
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countByAnnoIdAssociatoNDocumentoCodiceProdotto(int anno,
+		long idAssociato, long numeroDocumento, java.lang.String tipoDocumento,
+		java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .countByAnnoIdAssociatoNDocumentoCodiceProdotto(anno,
+			idAssociato, numeroDocumento, tipoDocumento, codiceProdotto);
+	}
+
+	/**
 	* Caches the tracciabilita scheda in the entity cache if it is enabled.
 	*
 	* @param tracciabilitaScheda the tracciabilita scheda

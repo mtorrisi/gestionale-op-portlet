@@ -53,7 +53,7 @@
             <liferay-ui:search-container-column-text   property="descrizione"    name="Descrizione" />
             <%--<liferay-ui:search-container-column-text   property="CAP"       name="CAP"/>--%>
             <%--<liferay-ui:search-container-column-text   property="provincia" name="Provincia"/>--%>
-            <liferay-ui:search-container-column-button href="set('${articolo.codiceArticolo}|${articolo.descrizione}|${articolo.tara}')" name="Seleziona" align="center" />
+            <liferay-ui:search-container-column-button href="set('${articolo.codiceArticolo}|${articolo.descrizione}|${articolo.tara}|${articolo.unitaMisura}')" name="Seleziona" align="center" />
 
         </liferay-ui:search-container-row>
 

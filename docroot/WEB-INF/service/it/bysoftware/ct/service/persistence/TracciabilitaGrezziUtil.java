@@ -112,6 +112,177 @@ public class TracciabilitaGrezziUtil {
 	}
 
 	/**
+	* Returns all the tracciabilita grezzis where idSchedaTracciabilta = &#63;.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @return the matching tracciabilita grezzis
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.TracciabilitaGrezzi> findBySchedaTracciabilita(
+		long idSchedaTracciabilta)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findBySchedaTracciabilita(idSchedaTracciabilta);
+	}
+
+	/**
+	* Returns a range of all the tracciabilita grezzis where idSchedaTracciabilta = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TracciabilitaGrezziModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param start the lower bound of the range of tracciabilita grezzis
+	* @param end the upper bound of the range of tracciabilita grezzis (not inclusive)
+	* @return the range of matching tracciabilita grezzis
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.TracciabilitaGrezzi> findBySchedaTracciabilita(
+		long idSchedaTracciabilta, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findBySchedaTracciabilita(idSchedaTracciabilta, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the tracciabilita grezzis where idSchedaTracciabilta = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TracciabilitaGrezziModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param start the lower bound of the range of tracciabilita grezzis
+	* @param end the upper bound of the range of tracciabilita grezzis (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching tracciabilita grezzis
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.TracciabilitaGrezzi> findBySchedaTracciabilita(
+		long idSchedaTracciabilta, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findBySchedaTracciabilita(idSchedaTracciabilta, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first tracciabilita grezzi in the ordered set where idSchedaTracciabilta = &#63;.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching tracciabilita grezzi
+	* @throws it.bysoftware.ct.NoSuchTracciabilitaGrezziException if a matching tracciabilita grezzi could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaGrezzi findBySchedaTracciabilita_First(
+		long idSchedaTracciabilta,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTracciabilitaGrezziException {
+		return getPersistence()
+				   .findBySchedaTracciabilita_First(idSchedaTracciabilta,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first tracciabilita grezzi in the ordered set where idSchedaTracciabilta = &#63;.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching tracciabilita grezzi, or <code>null</code> if a matching tracciabilita grezzi could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaGrezzi fetchBySchedaTracciabilita_First(
+		long idSchedaTracciabilta,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBySchedaTracciabilita_First(idSchedaTracciabilta,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last tracciabilita grezzi in the ordered set where idSchedaTracciabilta = &#63;.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching tracciabilita grezzi
+	* @throws it.bysoftware.ct.NoSuchTracciabilitaGrezziException if a matching tracciabilita grezzi could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaGrezzi findBySchedaTracciabilita_Last(
+		long idSchedaTracciabilta,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTracciabilitaGrezziException {
+		return getPersistence()
+				   .findBySchedaTracciabilita_Last(idSchedaTracciabilta,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last tracciabilita grezzi in the ordered set where idSchedaTracciabilta = &#63;.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching tracciabilita grezzi, or <code>null</code> if a matching tracciabilita grezzi could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaGrezzi fetchBySchedaTracciabilita_Last(
+		long idSchedaTracciabilta,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchBySchedaTracciabilita_Last(idSchedaTracciabilta,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the tracciabilita grezzis before and after the current tracciabilita grezzi in the ordered set where idSchedaTracciabilta = &#63;.
+	*
+	* @param id the primary key of the current tracciabilita grezzi
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next tracciabilita grezzi
+	* @throws it.bysoftware.ct.NoSuchTracciabilitaGrezziException if a tracciabilita grezzi with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.TracciabilitaGrezzi[] findBySchedaTracciabilita_PrevAndNext(
+		long id, long idSchedaTracciabilta,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchTracciabilitaGrezziException {
+		return getPersistence()
+				   .findBySchedaTracciabilita_PrevAndNext(id,
+			idSchedaTracciabilta, orderByComparator);
+	}
+
+	/**
+	* Removes all the tracciabilita grezzis where idSchedaTracciabilta = &#63; from the database.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeBySchedaTracciabilita(long idSchedaTracciabilta)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeBySchedaTracciabilita(idSchedaTracciabilta);
+	}
+
+	/**
+	* Returns the number of tracciabilita grezzis where idSchedaTracciabilta = &#63;.
+	*
+	* @param idSchedaTracciabilta the id scheda tracciabilta
+	* @return the number of matching tracciabilita grezzis
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countBySchedaTracciabilita(long idSchedaTracciabilta)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countBySchedaTracciabilita(idSchedaTracciabilta);
+	}
+
+	/**
 	* Caches the tracciabilita grezzi in the entity cache if it is enabled.
 	*
 	* @param tracciabilitaGrezzi the tracciabilita grezzi

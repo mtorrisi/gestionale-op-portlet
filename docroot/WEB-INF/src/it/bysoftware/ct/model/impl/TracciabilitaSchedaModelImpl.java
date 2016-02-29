@@ -91,10 +91,11 @@ public class TracciabilitaSchedaModelImpl extends BaseModelImpl<TracciabilitaSch
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.TracciabilitaScheda"),
 			true);
 	public static long ANNO_COLUMN_BITMASK = 1L;
-	public static long IDASSOCIATO_COLUMN_BITMASK = 2L;
-	public static long NUMERODOCUMENTO_COLUMN_BITMASK = 4L;
-	public static long TIPODOCUMENTO_COLUMN_BITMASK = 8L;
-	public static long ID_COLUMN_BITMASK = 16L;
+	public static long CODICEPRODOTTO_COLUMN_BITMASK = 2L;
+	public static long IDASSOCIATO_COLUMN_BITMASK = 4L;
+	public static long NUMERODOCUMENTO_COLUMN_BITMASK = 8L;
+	public static long TIPODOCUMENTO_COLUMN_BITMASK = 16L;
+	public static long ID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -285,7 +286,17 @@ public class TracciabilitaSchedaModelImpl extends BaseModelImpl<TracciabilitaSch
 
 	@Override
 	public void setCodiceProdotto(String codiceProdotto) {
+		_columnBitmask |= CODICEPRODOTTO_COLUMN_BITMASK;
+
+		if (_originalCodiceProdotto == null) {
+			_originalCodiceProdotto = _codiceProdotto;
+		}
+
 		_codiceProdotto = codiceProdotto;
+	}
+
+	public String getOriginalCodiceProdotto() {
+		return GetterUtil.getString(_originalCodiceProdotto);
 	}
 
 	@JSON
@@ -530,6 +541,8 @@ public class TracciabilitaSchedaModelImpl extends BaseModelImpl<TracciabilitaSch
 	public void resetOriginalValues() {
 		TracciabilitaSchedaModelImpl tracciabilitaSchedaModelImpl = this;
 
+		tracciabilitaSchedaModelImpl._originalCodiceProdotto = tracciabilitaSchedaModelImpl._codiceProdotto;
+
 		tracciabilitaSchedaModelImpl._originalAnno = tracciabilitaSchedaModelImpl._anno;
 
 		tracciabilitaSchedaModelImpl._setOriginalAnno = false;
@@ -687,6 +700,7 @@ public class TracciabilitaSchedaModelImpl extends BaseModelImpl<TracciabilitaSch
 		};
 	private long _id;
 	private String _codiceProdotto;
+	private String _originalCodiceProdotto;
 	private String _prodottoVenduto;
 	private double _kgVenduti;
 	private String _lottoVendita;

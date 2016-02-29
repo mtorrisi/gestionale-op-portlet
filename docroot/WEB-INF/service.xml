@@ -75,6 +75,8 @@
         </column>
         <column name='descrizioneFiscale' db-name='RanDesfis' type='String'>
         </column>
+        <column name="unitaMisura" db-name="RanUnimis" type="String">
+        </column>
         <column name='tara' db-name='RanLibDbl1' type='double'>
         </column>
         <finder name='categoriaMerceologica' return-type='Collection'>
@@ -530,6 +532,18 @@
             <finder-column name='tipoDocumento' comparator='='>
             </finder-column>
         </finder>
+        <finder name='AnnoIdAssociatoNDocumentoCodiceProdotto' return-type='TracciabilitaScheda'>
+            <finder-column name='anno' comparator='='>
+            </finder-column>
+            <finder-column name='idAssociato' comparator='='>
+            </finder-column>
+            <finder-column name='numeroDocumento' comparator='='>
+            </finder-column>
+            <finder-column name='tipoDocumento' comparator='='>
+            </finder-column>
+            <finder-column name="codiceProdotto" comparator="=">
+            </finder-column>
+        </finder>
     </entity>
     <entity name='TracciabilitaGrezzi' table='TracciabilitaGrezzi' local-service='true' remote-service='true' >
         <column name='id' db-name='id' type='long' primary="true">
@@ -548,6 +562,9 @@
         </column>
         <column name='idSchedaTracciabilta' db-name='id_scheda_tracciabilita' type='long' >
         </column>
+        <finder name="SchedaTracciabilita" return-type="Collection">
+            <finder-column name="idSchedaTracciabilta" comparator="=" />
+        </finder>
     </entity>
     <entity name='VociIva' table='VociIva' local-service='true' remote-service='true' >
         <column name='codiceIva' db-name='RiaCodiva' type='String' primary="true">

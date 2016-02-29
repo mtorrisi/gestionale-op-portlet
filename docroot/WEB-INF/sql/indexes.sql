@@ -17,6 +17,8 @@ create index IX_8C00B6D8 on SSTESORD (WkOperatore);
 create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);
 create index IX_986314C2 on SSTESORD (WkOperatore, WKCompleto, WKInviato, WKTipdoc);
 
+create index IX_1E6332A on TracciabilitaGrezzi (id_scheda_tracciabilita);
+
 create index IX_E93AA8C3 on associato (attivo);
 create index IX_320CDAD2 on associato (attivo, id_op);
 create unique index IX_95DBA707 on associato (centro);
@@ -44,7 +46,9 @@ create index IX_C3B3514C on scheda_tracciabilita (numero_ordine, anno, id_associ
 create index IX_A19DDEBE on scheda_tracciabilita_rigo (id_scheda_tracciabilita);
 
 create index IX_45E15C56 on tracciabilitaScheda (anno, id_associato);
+create index IX_B3BD5E35 on tracciabilitaScheda (anno, id_associato, numero_documento, codice_prodotto, tipo_documento);
 create index IX_F16F0278 on tracciabilitaScheda (anno, id_associato, numero_documento, tipo_documento);
+create index IX_D3A05C9B on tracciabilitaScheda (anno, id_associato, numero_documento, tipo_documento, codice_prodotto);
 create index IX_9A942AF3 on tracciabilitaScheda (anno, id_associato, tipo_documento);
 
 create index IX_2817DB3 on tracciabilita_rigo (id_scheda_tracciabilita);

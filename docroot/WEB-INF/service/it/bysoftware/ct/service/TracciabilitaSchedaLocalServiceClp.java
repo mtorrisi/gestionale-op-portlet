@@ -119,6 +119,12 @@ public class TracciabilitaSchedaLocalServiceClp
 		_methodName19 = "getByAnnoIdAssociato";
 
 		_methodParameterTypes19 = new String[] { "int", "long", "long" };
+
+		_methodName20 = "getByAnnoIdAssociatoCodiceProdotto";
+
+		_methodParameterTypes20 = new String[] {
+				"int", "long", "long", "java.lang.String"
+			};
 	}
 
 	@Override
@@ -706,6 +712,45 @@ public class TracciabilitaSchedaLocalServiceClp
 		return (java.util.List<it.bysoftware.ct.model.TracciabilitaScheda>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public it.bysoftware.ct.model.TracciabilitaScheda getByAnnoIdAssociatoCodiceProdotto(
+		int anno, long numeroDocumento, long idAssociato,
+		java.lang.String codiceProdotto)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
+					new Object[] {
+						anno,
+						
+					numeroDocumento,
+						
+					idAssociato,
+						
+					ClpSerializer.translateInput(codiceProdotto)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (it.bysoftware.ct.model.TracciabilitaScheda)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -745,4 +790,6 @@ public class TracciabilitaSchedaLocalServiceClp
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
 }

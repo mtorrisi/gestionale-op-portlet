@@ -35,6 +35,7 @@ public class ArticoliSoap implements Serializable {
 		soapModel.setDescrizione(model.getDescrizione());
 		soapModel.setDescrizioneDocumento(model.getDescrizioneDocumento());
 		soapModel.setDescrizioneFiscale(model.getDescrizioneFiscale());
+		soapModel.setUnitaMisura(model.getUnitaMisura());
 		soapModel.setTara(model.getTara());
 
 		return soapModel;
@@ -128,6 +129,14 @@ public class ArticoliSoap implements Serializable {
 		_descrizioneFiscale = descrizioneFiscale;
 	}
 
+	public String getUnitaMisura() {
+		return _unitaMisura;
+	}
+
+	public void setUnitaMisura(String unitaMisura) {
+		_unitaMisura = unitaMisura;
+	}
+
 	public double getTara() {
 		return _tara;
 	}
@@ -141,5 +150,6 @@ public class ArticoliSoap implements Serializable {
 	private String _descrizione;
 	private String _descrizioneDocumento;
 	private String _descrizioneFiscale;
+	private String _unitaMisura;
 	private double _tara;
 }

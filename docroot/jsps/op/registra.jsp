@@ -205,7 +205,7 @@
                         },
     <portlet:namespace />password: {
                             required: true,
-                            rangeLength: [4, 8]
+                            rangeLength: [4, 16]
                         }
                     };
 
@@ -238,7 +238,7 @@
                         },
     <portlet:namespace />password: {
                             required: 'Campo obbligatorio.',
-                            rangeLength: 'La password deve essere compresa tra 4 e 8 caratteri.'
+                            rangeLength: 'La password deve essere compresa tra 4 e 16 caratteri.'
                         }
                     };
 

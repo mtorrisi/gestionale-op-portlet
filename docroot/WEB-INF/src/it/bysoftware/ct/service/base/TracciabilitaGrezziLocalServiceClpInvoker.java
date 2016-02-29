@@ -113,6 +113,10 @@ public class TracciabilitaGrezziLocalServiceClpInvoker {
 		_methodName149 = "setBeanIdentifier";
 
 		_methodParameterTypes149 = new String[] { "java.lang.String" };
+
+		_methodName154 = "getIdSchedaTracciabilita";
+
+		_methodParameterTypes154 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -216,6 +220,11 @@ public class TracciabilitaGrezziLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName154.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes154, parameterTypes)) {
+			return TracciabilitaGrezziLocalServiceUtil.getIdSchedaTracciabilita(((Long)arguments[0]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -255,4 +264,6 @@ public class TracciabilitaGrezziLocalServiceClpInvoker {
 	private String[] _methodParameterTypes148;
 	private String _methodName149;
 	private String[] _methodParameterTypes149;
+	private String _methodName154;
+	private String[] _methodParameterTypes154;
 }

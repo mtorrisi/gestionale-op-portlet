@@ -82,6 +82,9 @@
 			<basic name="descrizioneFiscale">
 				<column name="RANDESFIS" />
 			</basic>
+			<basic name="unitaMisura">
+				<column name="RANUNIMIS" />
+			</basic>
 			<basic name="tara">
 				<column name="RANLIBDBL1" />
 			</basic>

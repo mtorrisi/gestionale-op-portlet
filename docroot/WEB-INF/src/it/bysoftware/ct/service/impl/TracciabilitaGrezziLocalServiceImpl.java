@@ -11,19 +11,25 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
 package it.bysoftware.ct.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+import it.bysoftware.ct.model.TracciabilitaGrezzi;
 import it.bysoftware.ct.service.base.TracciabilitaGrezziLocalServiceBaseImpl;
+import java.util.List;
 
 /**
  * The implementation of the tracciabilita grezzi local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link it.bysoftware.ct.service.TracciabilitaGrezziLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link it.bysoftware.ct.service.TracciabilitaGrezziLocalService} interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
@@ -31,10 +37,15 @@ import it.bysoftware.ct.service.base.TracciabilitaGrezziLocalServiceBaseImpl;
  * @see it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil
  */
 public class TracciabilitaGrezziLocalServiceImpl
-	extends TracciabilitaGrezziLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil} to access the tracciabilita grezzi local service.
-	 */
+        extends TracciabilitaGrezziLocalServiceBaseImpl {
+    /*
+     * NOTE FOR DEVELOPERS:
+     *
+     * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil} to access the tracciabilita grezzi local service.
+     */
+
+    @Override
+    public List<TracciabilitaGrezzi> getIdSchedaTracciabilita(long idSchedaTracciabilita) throws SystemException {
+        return this.tracciabilitaGrezziPersistence.findBySchedaTracciabilita(idSchedaTracciabilita);
+    }
 }

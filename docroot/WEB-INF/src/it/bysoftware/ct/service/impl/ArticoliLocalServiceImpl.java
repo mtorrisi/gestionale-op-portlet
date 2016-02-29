@@ -110,6 +110,7 @@ public class ArticoliLocalServiceImpl extends ArticoliLocalServiceBaseImpl {
             junction.add(property.ne("IMB"));
             junction.add(property.ne("PDG"));
             junction.add(property.ne("IMG"));
+            junction.add(property.ne("IBG"));
             
         }
         

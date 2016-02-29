@@ -274,6 +274,12 @@ public class TracciabilitaGrezziLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.TracciabilitaGrezzi> getIdSchedaTracciabilita(
+		long idSchedaTracciabilita)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getIdSchedaTracciabilita(idSchedaTracciabilita);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

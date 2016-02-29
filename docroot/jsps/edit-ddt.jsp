@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
 <%@page import="it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="com.liferay.portal.kernel.json.JSONObject"%>
@@ -87,9 +89,19 @@
         jsonArr.put(json);
     }   
     
-    int c = TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociato(anno, numeroDocumento, a.getId()).size();
-
-    String disableTraceBTN = (c != 0) ? "disabled" : "";
+//    int c = TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociato(anno, numeroDocumento, a.getId()).size();
+//
+//    String disableTraceBTN = (c != 0) ? "" : "disabled";
+    
+    List<DescrizioniVarianti> varianti = DescrizioniVariantiLocalServiceUtil.getVarianti();
+    String stringVarianti = "";
+    for (int i = 0; i < varianti.size(); i++) {
+        if (i == varianti.size() - 1) {
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " + varianti.get(i).getDescrizioneVariante();
+        } else {
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " + varianti.get(i).getDescrizioneVariante() + "|";
+        }
+    }
 %>
 
 <liferay-portlet:renderURL var="popupURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
@@ -137,7 +149,7 @@
             <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
-            <button id="btnTrace"   class="btn" <%= disableTraceBTN %>><i class="icon-list-alt" ></i>Scheda Tracciabilità</button>
+            <button id="btnTrace"   class="btn" <%--= disableTraceBTN --%>><i class="icon-list-alt" ></i>Scheda Tracciabilità</button>
             <!--<button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>-->
         </div>
     </div>  
@@ -291,6 +303,8 @@
 </div>
 
 <script type="text/javascript">
+
+    var variety = "<%= stringVarianti%>";
 
     YUI().use(
             'aui-tabview',
@@ -627,10 +641,10 @@
                 label: 'Descrizione'
             },
             {
-//                editor: new Y.DropDownCellEditor({
-////                                editable: true,
-//                    options: variety.split("|")
-//                }),
+                editor: new Y.DropDownCellEditor({
+//                                editable: true,
+                        options: variety.split("|")
+                    }),
                 key: 'descrizioneVariante',
                 label: 'Varietà'
             },
@@ -1096,7 +1110,7 @@
             recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
             recordSelected = undefined;
         } else {
-            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: document.getElementById('<portlet:namespace/>lottoTestata').value, pedane: 1}, {sync: true});
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: document.getElementById('<portlet:namespace/>lottoTestata').value, pedane: 1, unitaMisura: tmp[3]}, {sync: true});
         }
     }
 
