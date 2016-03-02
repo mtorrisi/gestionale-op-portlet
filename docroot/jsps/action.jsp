@@ -19,6 +19,7 @@
     <liferay-portlet:renderURL var="editInvoice">
         <liferay-portlet:param name="codiceCliente"  value="<%= String.valueOf(cliente.getCodiceAnagrafica())%>"/>
         <liferay-portlet:param name="update" value="false"/>
+        <liferay-portlet:param name="filter" value="true" />
         <liferay-portlet:param name="jspPage" value="/jsps/search-ddt.jsp"/>
     </liferay-portlet:renderURL>
     <liferay-ui:icon 

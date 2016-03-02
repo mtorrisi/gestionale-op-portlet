@@ -97,6 +97,7 @@
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="searchDDTURL">
+    <liferay-portlet:param name="filter" value="false" />
     <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
     <liferay-portlet:param name="update" value="true" />
     <liferay-portlet:param name="jspPage"  value="/jsps/search-ddt.jsp"/>
@@ -931,11 +932,6 @@
             }
         });
 
-        Date.prototype.getDOY = function () {
-            var onejan = new Date(this.getFullYear(), 0, 1);
-            return Math.ceil((this - onejan) / 86400000);
-        };
-
         function calcolaLotto(date) {
             var d;
             if (date)
@@ -943,7 +939,8 @@
             else
                 d = new Date();
             var anno = d.getFullYear().toString().substr(2, 2);
-            var juldate = String(d.getDOY());
+            var onejan = new Date(d.getFullYear(), 0, 1);
+            var juldate = Math.ceil((d - onejan) / 86400000);
 
             return "L-" + anno + juldate;
         }

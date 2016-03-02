@@ -11,6 +11,7 @@
 <%@include file="../init.jsp" %>
 
 <%
+    boolean filter = ParamUtil.getBoolean(renderRequest, "filter", false);
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
     String codiceOperatore = renderRequest.getRemoteUser();
@@ -19,13 +20,21 @@
     List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
 
     for (TestataDocumento testata : listDDT) {
-//        if (testata.getCodiceSoggetto().equals(cliente.getCodiceAnagrafica())) {
+        if (filter) {
+            if (testata.getCodiceSoggetto().equals(cliente.getCodiceAnagrafica())) {
+                if (testata.getCompleto().equals("fatturato")) {
+                    invoiced.add(testata);
+                } else {
+                    completed.add(testata);
+                }
+            }
+        } else {
             if (testata.getCompleto().equals("fatturato")) {
                 invoiced.add(testata);
             } else {
                 completed.add(testata);
             }
-//        }
+        }
     }
 
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");

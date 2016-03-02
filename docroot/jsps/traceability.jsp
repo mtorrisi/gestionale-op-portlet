@@ -98,7 +98,7 @@
                             %>
                             <c:forEach var="j" begin="1" end="3">
                                 <div style="padding-left: 5%">
-                                    <aui:input id="idGrezzo_${i}_${j}"    type="text" name="idGrezzo_${i}_${j}" label="ID grezzo" cssClass="input-large" style="display: none" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getId() : -1  %>" />
+                                    <aui:input id="idGrezzo_${i}_${j}"    type="text" name="idGrezzo_${i}_${j}" label="" cssClass="input-large" style="display: none" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getId() : -1  %>" />
                                     <aui:input id="lottoGrezzo_${i}_${j}"    type="text" name="lottoGrezzo_${i}_${j}" label="Lotto grezzo" cssClass="input-large" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getLottoGrezzo() : ""  %>" />
                                     <aui:input id="prodotto_${i}_${j}" type="text" name="prodotto_${i}_${j}" label="Prodotto utilizzato" cssClass="input-xxlarge" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getProdotto() : ""  %>" />
                                     <aui:input id="kg_${i}_${j}" type="text" name="kg_${i}_${j}" label="Kg utilizzati" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getKg(): 0  %>">

@@ -200,6 +200,7 @@ public class DDTPortlet extends MVCPortlet {
             SessionErrors.add(areq, "error-delete");
         }
 
+        ares.setRenderParameter("filter", "false");
         ares.setRenderParameter("update", "true");
         ares.setRenderParameter("codiceCliente", codiceCliente);
         ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
