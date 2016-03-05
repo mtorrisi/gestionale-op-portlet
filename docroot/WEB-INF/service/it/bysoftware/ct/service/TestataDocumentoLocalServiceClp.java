@@ -134,15 +134,21 @@ public class TestataDocumentoLocalServiceClp
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName21 = "getByCodiceSoggettoCodiceOperatore";
+		_methodName21 = "countDocumnetByCodiceOperatore";
 
 		_methodParameterTypes21 = new String[] {
+				"java.lang.String", "java.lang.String", "int"
+			};
+
+		_methodName22 = "getByCodiceSoggettoCodiceOperatore";
+
+		_methodParameterTypes22 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName22 = "getDocumentiSoggetto";
+		_methodName23 = "getDocumentiSoggetto";
 
-		_methodParameterTypes22 = new String[] { "int", "java.lang.String", "long" };
+		_methodParameterTypes23 = new String[] { "int", "java.lang.String", "long" };
 	}
 
 	@Override
@@ -777,14 +783,50 @@ public class TestataDocumentoLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
-		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
+	public int countDocumnetByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName21,
 					_methodParameterTypes21,
+					new Object[] {
+						ClpSerializer.translateInput(codiceOperatore),
+						
+					ClpSerializer.translateInput(completo),
+						
+					inviato
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return ((Integer)returnObj).intValue();
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
+		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
 					new Object[] {
 						ClpSerializer.translateInput(codiceSoggetto),
 						
@@ -817,8 +859,8 @@ public class TestataDocumentoLocalServiceClp
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName22,
-					_methodParameterTypes22,
+			returnObj = _invokableLocalService.invokeMethod(_methodName23,
+					_methodParameterTypes23,
 					new Object[] {
 						anno,
 						
@@ -891,4 +933,6 @@ public class TestataDocumentoLocalServiceClp
 	private String[] _methodParameterTypes21;
 	private String _methodName22;
 	private String[] _methodParameterTypes22;
+	private String _methodName23;
+	private String[] _methodParameterTypes23;
 }

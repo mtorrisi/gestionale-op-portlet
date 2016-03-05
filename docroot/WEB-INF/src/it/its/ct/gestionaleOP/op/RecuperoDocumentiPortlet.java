@@ -72,26 +72,14 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
         String tracciato = creaFileTracciato(ParamUtil.getString(resourceRequest, "userId", null));
 //        System.out.println("#############AJAX CALL####################");
 
-//        String resourceID = resourceRequest.getResourceID();
-//        PrintWriter writer = resourceResponse.getWriter();
-//        if (resourceID.equalsIgnoreCase("download")) {
-//            String userId = ParamUtil.getString(resourceRequest, "userId", null);
-//            resourceResponse.setContentType(MediaType.APPLICATION_JSON);
-//            writer.write(userId);
         File file = new File(tracciato);
         InputStream in = new FileInputStream(file);
         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/download");
-//
+
         in.close();
-//
-//        } else {
-//            _log.warn("Unknown resource id.");
-//        }
-//
-//        writer.flush();
-//        writer.close();
+
     }
 
     private String creaFileTracciato(String utente) {

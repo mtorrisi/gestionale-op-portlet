@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.service.impl.TestataDocumentoLocalServiceImpl"%>
 <%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
@@ -12,7 +14,7 @@
 
     OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.valueOf(renderRequest.getRemoteUser()));
     List<Associato> associati = AssociatoLocalServiceUtil.getAssociatiAttivi(op.getId());
-  
+        
     PortletURL renderURL = renderResponse.createRenderURL();
     renderURL.setWindowState(LiferayWindowState.NORMAL);
     renderURL.setParameter("jspPage", "/jsps/op/view.jsp"); //current page path
@@ -31,47 +33,17 @@
     </liferay-ui:search-container-results>
     <div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />associati">
         <liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
-            <liferay-ui:search-container-column-text   property="id"    name="Codice"/>
-            <liferay-ui:search-container-column-text   property="ragioneSociale" name="Ragione Sociale" />
-            <liferay-ui:search-container-column-button href="scarica('${associato.id}')" name="Acquisisci documento" align="center" />
-
+            <liferay-ui:search-container-column-text property="id"    name="Codice"/>
+            <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+            <% int c = TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore(String.valueOf(associato.getIdLiferay()), "completo", 0) / 2; %>
+            <c:if test="<%= c > 0%>">
+                <liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
+            </c:if>
+            <c:if test="<%= c == 0 %>">
+                <liferay-ui:search-container-column-text value="Nessun documento da acquisire" align="center" />
+            </c:if>
         </liferay-ui:search-container-row>
 
         <liferay-ui:search-iterator searchContainer="<%= searchContainer%>" paginate="true"/>
-        <%--<c:if test="<%= results.size() > 0 %>">
-            <liferay-ui:search-paginator searchContainer="<%= searchContainer %>"  type="article"  />
-        </c:if>--%>
     </div>
 </liferay-ui:search-container>
-
-<script type="text/javascript">
-
-
-    function scarica(userID) {
-        var queryString = "&<portlet:namespace/>userId=" + userID;
-
-        var win = window.open('${download}' + queryString, '_blank');
-        win.focus();
-//        YUI().use('aui-io-request', 'node', function (Y) {
-//            Y.io.request(
-//                    '${download}' + queryString,
-//                    {
-//                        on: {
-//                            success: function () {
-//                                var data = this.get('responseData');
-//                                if (data !== "-1") {
-//                                    var win = window.open(data, '_blank');
-//                                    win.focus();
-//                                } else {
-//                                    alert("ERRORE");
-//                                }
-//                            }
-//
-//                        }
-//                    }
-//            );
-//
-//        });
-
-    }
-</script>

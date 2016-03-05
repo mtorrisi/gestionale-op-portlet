@@ -55,6 +55,11 @@ public class TestataDocumentoLocalServiceImpl
     }
     
     @Override
+    public int countDocumnetByCodiceOperatore(String codiceOperatore, String completo, int inviato) throws SystemException {
+        return this.testataDocumentoPersistence.countByoperatoreCompletoInviato(codiceOperatore, completo, inviato, "DDT");
+    }
+    
+    @Override
     public List<TestataDocumento> getByCodiceSoggettoCodiceOperatore(String codiceSoggetto, String codiceOperatore) throws SystemException {
         return this.testataDocumentoPersistence.findByCodiceSoggettoCodiceOperatore(codiceSoggetto, codiceOperatore);
     }

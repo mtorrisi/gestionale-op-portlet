@@ -132,15 +132,21 @@ public class TestataDocumentoLocalServiceClpInvoker {
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName156 = "getByCodiceSoggettoCodiceOperatore";
+		_methodName156 = "countDocumnetByCodiceOperatore";
 
 		_methodParameterTypes156 = new String[] {
+				"java.lang.String", "java.lang.String", "int"
+			};
+
+		_methodName157 = "getByCodiceSoggettoCodiceOperatore";
+
+		_methodParameterTypes157 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName157 = "getDocumentiSoggetto";
+		_methodName158 = "getDocumentiSoggetto";
 
-		_methodParameterTypes157 = new String[] {
+		_methodParameterTypes158 = new String[] {
 				"int", "java.lang.String", "long"
 			};
 	}
@@ -260,12 +266,19 @@ public class TestataDocumentoLocalServiceClpInvoker {
 
 		if (_methodName156.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes156, parameterTypes)) {
-			return TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1]);
+			return TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1],
+				((Integer)arguments[2]).intValue());
 		}
 
 		if (_methodName157.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes157, parameterTypes)) {
+			return TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1]);
+		}
+
+		if (_methodName158.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes158, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(((Integer)arguments[0]).intValue(),
 				(java.lang.String)arguments[1], ((Long)arguments[2]).longValue());
 		}
@@ -317,4 +330,6 @@ public class TestataDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes156;
 	private String _methodName157;
 	private String[] _methodParameterTypes157;
+	private String _methodName158;
+	private String[] _methodParameterTypes158;
 }
