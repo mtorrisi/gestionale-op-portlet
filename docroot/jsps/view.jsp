@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.bysoftware.ct.model.Anagrafica"%>
 <%@page import="java.util.List"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%
     /**
      * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -38,9 +39,25 @@
 
 %>
 
+<liferay-portlet:renderURL var="uploadURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/upload.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL var="validateURL">
+    <liferay-portlet:param name="jspPage" value="/jsps/validate.jsp" />
+</liferay-portlet:renderURL>
+
 <liferay-ui:success key="success" message="Greeting saved successfully!"/>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente Ã¨ stato ancora associato.">
+<aui:field-wrapper >
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <button id="btnUpload" class="btn" ><i class="icon-upload"></i>Importa</button>
+		</div>
+	</div>
+</aui:field-wrapper>
+
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
 
     <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
     total="<%= clientiAssociato.size()%>"/>
@@ -55,3 +72,12 @@
 
     <liferay-ui:search-iterator/>
 </liferay-ui:search-container>
+
+<script type="text/javascript">
+
+YUI().use('node', function (Y) {
+    Y.one('#btnUpload').on('click', function () {
+        window.location.href = '<%=validateURL%>'.toString();
+    });
+});
+</script>

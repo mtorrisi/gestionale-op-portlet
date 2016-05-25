@@ -21,10 +21,13 @@ import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.mail.MailMessage;
+import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -39,11 +42,16 @@ import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.util.DLUtil;
+
+import java.util.StringTokenizer;
 import java.io.IOException;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
+
 import com.liferay.util.bridges.mvc.MVCPortlet;
+
 import it.bysoftware.ct.NoSuchAssociatoException;
 import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.model.Associato;
@@ -66,22 +74,29 @@ import it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil;
 import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.ProgressivoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
+import it.its.ct.gestionaleOP.csvParser.CSVParser;
+import it.its.ct.gestionaleOP.pojos.Documento;
 import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.portlet.RenderRequest;
@@ -91,11 +106,13 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
+
 import net.sf.jasperreports.engine.JRException;
 
 public class DDTPortlet extends MVCPortlet {
 
     private final Log _log = LogFactoryUtil.getLog(DDTPortlet.class);
+    private final static int ONE_GB = 1073741824;
     public static final String DDT = "DDT";
     public static final String FAV = "FAV";
     public static final String FAC = "FAC";
@@ -259,7 +276,105 @@ public class DDTPortlet extends MVCPortlet {
         ares.setRenderParameter("jspPage", "/jsps/search-invoice.jsp");
     }
 
-    @Override
+    public void upload(ActionRequest areq, ActionResponse ares) {
+
+        UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(areq);
+        long idAssociato = Long.parseLong(ParamUtil.getString(uploadRequest, "idAssociato"));
+                
+        File uploadedFile;
+		try {
+			Associato associato = AssociatoLocalServiceUtil.findByLiferayId(idAssociato);
+			uploadedFile = uploadFile(uploadRequest, idAssociato);
+			_log.info("Uploaded file: " + uploadedFile.getName());
+			List<Documento> importedDocs = parseImportedFile(uploadedFile, associato.getId());
+			
+			for (Documento d : importedDocs) {
+				_log.info("***TESTATA: " + d.getTestata().toString());
+				int i=0;
+				for (RigoDocumento r : d.getRighe()) {
+					_log.info("***Rigo[" + i + "]: " + r.toString());
+					i++;
+				}
+			}
+			
+			ares.setRenderParameter("uploadedFile", uploadedFile.getName());
+			ares.setRenderParameter("jspPage", "/jsps/validate.jsp");
+			areq.setAttribute("docs", importedDocs);
+		} catch (Exception e) {
+			SessionErrors.add(areq, e.getMessage());
+			_log.error(e.getMessage());
+		}
+        
+    }
+
+    private List<Documento> parseImportedFile(
+			File uploadedFile, long idAssociato) throws Exception {
+
+//    	List<Map<TestataDocumento, List<RigoDocumento>>> result = new ArrayList<Map<TestataDocumento,List<RigoDocumento>>>();
+
+    	FileReader fileReader = new FileReader(uploadedFile);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		
+		List<Documento> tmpDocs = new ArrayList<Documento>();
+		TestataDocumento testataDocumento = null;
+		List<RigoDocumento> righeDocumento = null;
+		String line = bufferedReader.readLine();
+		while (line != null) {
+			String[] st = line.split(";");
+			if(st.length > 0){
+				switch (st[0]) {
+				case "WorkTestataDocumento":
+					if(testataDocumento != null && righeDocumento != null){
+						_log.info("Adding to tmpDocs ...");
+						tmpDocs.add(new Documento(testataDocumento, righeDocumento));
+					}
+					testataDocumento = null;
+					righeDocumento = null;
+					_log.info("Found document header, read the single line...");					
+					if((line = bufferedReader.readLine()) != null){
+						_log.info("Line: " + line);
+						st = line.split(";");
+						testataDocumento = CSVParser.getTestata(st, idAssociato);
+						line = bufferedReader.readLine();
+					}
+					break;
+				case "WorkRigaDocumento":
+					_log.info("Found row header, loop on rows...");
+					if(testataDocumento != null){
+						righeDocumento = new ArrayList<RigoDocumento>();
+						int i = 1;
+						while((line = bufferedReader.readLine()) != null){
+							_log.info("Line: " + line);
+							st = line.split(";");
+							if(!st[0].equals("WorkTestataDocumento")){
+								righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+							} else {
+								break;
+							}
+							i++;
+						}
+					} else {
+						throw new Exception("Documento non formattato correttamente.");
+					}
+																		
+					break;
+				default:
+					_log.error("Unrecognized string for: " + StringUtil.merge(Arrays.asList(st), ";"));
+					throw new Exception("Documento non formattato correttamente.");
+				}
+			}
+		}
+		fileReader.close();
+		
+		//Add last document
+		if(testataDocumento != null && righeDocumento != null){
+			_log.info("Adding last to tmpDocs ...");
+			tmpDocs.add(new Documento(testataDocumento, righeDocumento));
+		}
+		return tmpDocs;
+	}
+
+	@Override
     public void serveResource(ResourceRequest resourceRequest,
             ResourceResponse resourceResponse) throws IOException,
             PortletException {
@@ -847,9 +962,10 @@ public class DDTPortlet extends MVCPortlet {
 
                     Date dataTestata = sdf.parse(dataTestataStr);
                     Date dataDocumento = sdf.parse(documentDate);
-                    if (dataDocumento.after(dataTestata))
-                        if(!update && dataDocumento.equals(dataTestata)) {
-                        return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                    if (dataDocumento.after(dataTestata)) {
+                        if (!update && dataDocumento.equals(dataTestata)) {
+                            return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                        }
                     }
                 }
             }
@@ -1032,7 +1148,7 @@ public class DDTPortlet extends MVCPortlet {
                             TracciabilitaGrezziLocalServiceUtil.addTracciabilitaGrezzi(grezzo);
                         }
                     }
-                } else if(!newSchede.containsKey(oldScheda.getId())) {//DELETE
+                } else if (!newSchede.containsKey(oldScheda.getId())) {//DELETE
                     _log.info("DELETING OLD SCHEDA: " + oldScheda);
                     List<TracciabilitaGrezzi> oldGrezzi = TracciabilitaGrezziLocalServiceUtil.getIdSchedaTracciabilita(oldScheda.getId());
                     for (TracciabilitaGrezzi oldGrezzo : oldGrezzi) {
@@ -1045,5 +1161,37 @@ public class DDTPortlet extends MVCPortlet {
         }
 
         return new Response(Response.Code.OK, 0);
+    }
+    
+    private File uploadFile(UploadPortletRequest uploadRequest, long idAssociato) throws Exception {
+        long sizeInBytes = uploadRequest.getSize("fileupload");
+
+        if (uploadRequest.getSize("fileupload") == 0) {
+            throw new Exception("empty-file");
+        }
+
+        // Get the uploaded file as a file.
+        File uploadedFile = uploadRequest.getFile("fileupload");
+        
+        String sourceFileName = uploadRequest.getFileName("fileupload");
+
+        // Where should we store this file?
+        File folder = new File("/tmp");
+
+		// Check minimum 1GB storage space to save new files...
+        if (folder.getUsableSpace() < ONE_GB) {
+            throw new Exception("disk-space");
+        }
+
+        //replace all illegal characters
+        sourceFileName = sourceFileName.replaceAll("[^a-zA-Z0-9.-]", "_");
+
+        // This is our final file path.
+        File filePath = new File(folder.getAbsolutePath() + File.separator + idAssociato+ "_" +sourceFileName);
+
+        // Move the existing temporary file to new location.
+        FileUtil.copyFile(uploadedFile, filePath);
+        
+        return filePath;
     }
 }
