@@ -33,7 +33,9 @@ import com.liferay.portal.service.persistence.UserPersistence;
 
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.service.AssociatoLocalService;
+import it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPersistence;
 import it.bysoftware.ct.service.persistence.AnagraficaPersistence;
+import it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPersistence;
 import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
 import it.bysoftware.ct.service.persistence.AssociatoPersistence;
@@ -53,6 +55,8 @@ import it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistence;
 import it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistence;
 import it.bysoftware.ct.service.persistence.VettoriPersistence;
 import it.bysoftware.ct.service.persistence.VociIvaPersistence;
+import it.bysoftware.ct.service.persistence.WKRigoDocumentoPersistence;
+import it.bysoftware.ct.service.persistence.WKTestataDocumentoPersistence;
 
 import java.io.Serializable;
 
@@ -355,6 +359,63 @@ public abstract class AssociatoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the anagrafica associato o p local service.
+	 *
+	 * @return the anagrafica associato o p local service
+	 */
+	public it.bysoftware.ct.service.AnagraficaAssociatoOPLocalService getAnagraficaAssociatoOPLocalService() {
+		return anagraficaAssociatoOPLocalService;
+	}
+
+	/**
+	 * Sets the anagrafica associato o p local service.
+	 *
+	 * @param anagraficaAssociatoOPLocalService the anagrafica associato o p local service
+	 */
+	public void setAnagraficaAssociatoOPLocalService(
+		it.bysoftware.ct.service.AnagraficaAssociatoOPLocalService anagraficaAssociatoOPLocalService) {
+		this.anagraficaAssociatoOPLocalService = anagraficaAssociatoOPLocalService;
+	}
+
+	/**
+	 * Returns the anagrafica associato o p remote service.
+	 *
+	 * @return the anagrafica associato o p remote service
+	 */
+	public it.bysoftware.ct.service.AnagraficaAssociatoOPService getAnagraficaAssociatoOPService() {
+		return anagraficaAssociatoOPService;
+	}
+
+	/**
+	 * Sets the anagrafica associato o p remote service.
+	 *
+	 * @param anagraficaAssociatoOPService the anagrafica associato o p remote service
+	 */
+	public void setAnagraficaAssociatoOPService(
+		it.bysoftware.ct.service.AnagraficaAssociatoOPService anagraficaAssociatoOPService) {
+		this.anagraficaAssociatoOPService = anagraficaAssociatoOPService;
+	}
+
+	/**
+	 * Returns the anagrafica associato o p persistence.
+	 *
+	 * @return the anagrafica associato o p persistence
+	 */
+	public AnagraficaAssociatoOPPersistence getAnagraficaAssociatoOPPersistence() {
+		return anagraficaAssociatoOPPersistence;
+	}
+
+	/**
+	 * Sets the anagrafica associato o p persistence.
+	 *
+	 * @param anagraficaAssociatoOPPersistence the anagrafica associato o p persistence
+	 */
+	public void setAnagraficaAssociatoOPPersistence(
+		AnagraficaAssociatoOPPersistence anagraficaAssociatoOPPersistence) {
+		this.anagraficaAssociatoOPPersistence = anagraficaAssociatoOPPersistence;
+	}
+
+	/**
 	 * Returns the articoli local service.
 	 *
 	 * @return the articoli local service
@@ -408,6 +469,63 @@ public abstract class AssociatoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	 */
 	public void setArticoliPersistence(ArticoliPersistence articoliPersistence) {
 		this.articoliPersistence = articoliPersistence;
+	}
+
+	/**
+	 * Returns the articoli associato o p local service.
+	 *
+	 * @return the articoli associato o p local service
+	 */
+	public it.bysoftware.ct.service.ArticoliAssociatoOPLocalService getArticoliAssociatoOPLocalService() {
+		return articoliAssociatoOPLocalService;
+	}
+
+	/**
+	 * Sets the articoli associato o p local service.
+	 *
+	 * @param articoliAssociatoOPLocalService the articoli associato o p local service
+	 */
+	public void setArticoliAssociatoOPLocalService(
+		it.bysoftware.ct.service.ArticoliAssociatoOPLocalService articoliAssociatoOPLocalService) {
+		this.articoliAssociatoOPLocalService = articoliAssociatoOPLocalService;
+	}
+
+	/**
+	 * Returns the articoli associato o p remote service.
+	 *
+	 * @return the articoli associato o p remote service
+	 */
+	public it.bysoftware.ct.service.ArticoliAssociatoOPService getArticoliAssociatoOPService() {
+		return articoliAssociatoOPService;
+	}
+
+	/**
+	 * Sets the articoli associato o p remote service.
+	 *
+	 * @param articoliAssociatoOPService the articoli associato o p remote service
+	 */
+	public void setArticoliAssociatoOPService(
+		it.bysoftware.ct.service.ArticoliAssociatoOPService articoliAssociatoOPService) {
+		this.articoliAssociatoOPService = articoliAssociatoOPService;
+	}
+
+	/**
+	 * Returns the articoli associato o p persistence.
+	 *
+	 * @return the articoli associato o p persistence
+	 */
+	public ArticoliAssociatoOPPersistence getArticoliAssociatoOPPersistence() {
+		return articoliAssociatoOPPersistence;
+	}
+
+	/**
+	 * Sets the articoli associato o p persistence.
+	 *
+	 * @param articoliAssociatoOPPersistence the articoli associato o p persistence
+	 */
+	public void setArticoliAssociatoOPPersistence(
+		ArticoliAssociatoOPPersistence articoliAssociatoOPPersistence) {
+		this.articoliAssociatoOPPersistence = articoliAssociatoOPPersistence;
 	}
 
 	/**
@@ -1434,6 +1552,120 @@ public abstract class AssociatoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	}
 
 	/**
+	 * Returns the w k rigo documento local service.
+	 *
+	 * @return the w k rigo documento local service
+	 */
+	public it.bysoftware.ct.service.WKRigoDocumentoLocalService getWKRigoDocumentoLocalService() {
+		return wkRigoDocumentoLocalService;
+	}
+
+	/**
+	 * Sets the w k rigo documento local service.
+	 *
+	 * @param wkRigoDocumentoLocalService the w k rigo documento local service
+	 */
+	public void setWKRigoDocumentoLocalService(
+		it.bysoftware.ct.service.WKRigoDocumentoLocalService wkRigoDocumentoLocalService) {
+		this.wkRigoDocumentoLocalService = wkRigoDocumentoLocalService;
+	}
+
+	/**
+	 * Returns the w k rigo documento remote service.
+	 *
+	 * @return the w k rigo documento remote service
+	 */
+	public it.bysoftware.ct.service.WKRigoDocumentoService getWKRigoDocumentoService() {
+		return wkRigoDocumentoService;
+	}
+
+	/**
+	 * Sets the w k rigo documento remote service.
+	 *
+	 * @param wkRigoDocumentoService the w k rigo documento remote service
+	 */
+	public void setWKRigoDocumentoService(
+		it.bysoftware.ct.service.WKRigoDocumentoService wkRigoDocumentoService) {
+		this.wkRigoDocumentoService = wkRigoDocumentoService;
+	}
+
+	/**
+	 * Returns the w k rigo documento persistence.
+	 *
+	 * @return the w k rigo documento persistence
+	 */
+	public WKRigoDocumentoPersistence getWKRigoDocumentoPersistence() {
+		return wkRigoDocumentoPersistence;
+	}
+
+	/**
+	 * Sets the w k rigo documento persistence.
+	 *
+	 * @param wkRigoDocumentoPersistence the w k rigo documento persistence
+	 */
+	public void setWKRigoDocumentoPersistence(
+		WKRigoDocumentoPersistence wkRigoDocumentoPersistence) {
+		this.wkRigoDocumentoPersistence = wkRigoDocumentoPersistence;
+	}
+
+	/**
+	 * Returns the w k testata documento local service.
+	 *
+	 * @return the w k testata documento local service
+	 */
+	public it.bysoftware.ct.service.WKTestataDocumentoLocalService getWKTestataDocumentoLocalService() {
+		return wkTestataDocumentoLocalService;
+	}
+
+	/**
+	 * Sets the w k testata documento local service.
+	 *
+	 * @param wkTestataDocumentoLocalService the w k testata documento local service
+	 */
+	public void setWKTestataDocumentoLocalService(
+		it.bysoftware.ct.service.WKTestataDocumentoLocalService wkTestataDocumentoLocalService) {
+		this.wkTestataDocumentoLocalService = wkTestataDocumentoLocalService;
+	}
+
+	/**
+	 * Returns the w k testata documento remote service.
+	 *
+	 * @return the w k testata documento remote service
+	 */
+	public it.bysoftware.ct.service.WKTestataDocumentoService getWKTestataDocumentoService() {
+		return wkTestataDocumentoService;
+	}
+
+	/**
+	 * Sets the w k testata documento remote service.
+	 *
+	 * @param wkTestataDocumentoService the w k testata documento remote service
+	 */
+	public void setWKTestataDocumentoService(
+		it.bysoftware.ct.service.WKTestataDocumentoService wkTestataDocumentoService) {
+		this.wkTestataDocumentoService = wkTestataDocumentoService;
+	}
+
+	/**
+	 * Returns the w k testata documento persistence.
+	 *
+	 * @return the w k testata documento persistence
+	 */
+	public WKTestataDocumentoPersistence getWKTestataDocumentoPersistence() {
+		return wkTestataDocumentoPersistence;
+	}
+
+	/**
+	 * Sets the w k testata documento persistence.
+	 *
+	 * @param wkTestataDocumentoPersistence the w k testata documento persistence
+	 */
+	public void setWKTestataDocumentoPersistence(
+		WKTestataDocumentoPersistence wkTestataDocumentoPersistence) {
+		this.wkTestataDocumentoPersistence = wkTestataDocumentoPersistence;
+	}
+
+	/**
 	 * Returns the counter local service.
 	 *
 	 * @return the counter local service
@@ -1615,12 +1847,24 @@ public abstract class AssociatoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected it.bysoftware.ct.service.AnagraficaService anagraficaService;
 	@BeanReference(type = AnagraficaPersistence.class)
 	protected AnagraficaPersistence anagraficaPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.AnagraficaAssociatoOPLocalService.class)
+	protected it.bysoftware.ct.service.AnagraficaAssociatoOPLocalService anagraficaAssociatoOPLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.AnagraficaAssociatoOPService.class)
+	protected it.bysoftware.ct.service.AnagraficaAssociatoOPService anagraficaAssociatoOPService;
+	@BeanReference(type = AnagraficaAssociatoOPPersistence.class)
+	protected AnagraficaAssociatoOPPersistence anagraficaAssociatoOPPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.ArticoliLocalService.class)
 	protected it.bysoftware.ct.service.ArticoliLocalService articoliLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.ArticoliService.class)
 	protected it.bysoftware.ct.service.ArticoliService articoliService;
 	@BeanReference(type = ArticoliPersistence.class)
 	protected ArticoliPersistence articoliPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.ArticoliAssociatoOPLocalService.class)
+	protected it.bysoftware.ct.service.ArticoliAssociatoOPLocalService articoliAssociatoOPLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.ArticoliAssociatoOPService.class)
+	protected it.bysoftware.ct.service.ArticoliAssociatoOPService articoliAssociatoOPService;
+	@BeanReference(type = ArticoliAssociatoOPPersistence.class)
+	protected ArticoliAssociatoOPPersistence articoliAssociatoOPPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.AspettoEsterioreBeniLocalService.class)
 	protected it.bysoftware.ct.service.AspettoEsterioreBeniLocalService aspettoEsterioreBeniLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.AspettoEsterioreBeniService.class)
@@ -1729,6 +1973,18 @@ public abstract class AssociatoLocalServiceBaseImpl extends BaseLocalServiceImpl
 	protected it.bysoftware.ct.service.VociIvaService vociIvaService;
 	@BeanReference(type = VociIvaPersistence.class)
 	protected VociIvaPersistence vociIvaPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.WKRigoDocumentoLocalService.class)
+	protected it.bysoftware.ct.service.WKRigoDocumentoLocalService wkRigoDocumentoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.WKRigoDocumentoService.class)
+	protected it.bysoftware.ct.service.WKRigoDocumentoService wkRigoDocumentoService;
+	@BeanReference(type = WKRigoDocumentoPersistence.class)
+	protected WKRigoDocumentoPersistence wkRigoDocumentoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.WKTestataDocumentoLocalService.class)
+	protected it.bysoftware.ct.service.WKTestataDocumentoLocalService wkTestataDocumentoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.WKTestataDocumentoService.class)
+	protected it.bysoftware.ct.service.WKTestataDocumentoService wkTestataDocumentoService;
+	@BeanReference(type = WKTestataDocumentoPersistence.class)
+	protected WKTestataDocumentoPersistence wkTestataDocumentoPersistence;
 	@BeanReference(type = com.liferay.counter.service.CounterLocalService.class)
 	protected com.liferay.counter.service.CounterLocalService counterLocalService;
 	@BeanReference(type = com.liferay.portal.service.ResourceLocalService.class)

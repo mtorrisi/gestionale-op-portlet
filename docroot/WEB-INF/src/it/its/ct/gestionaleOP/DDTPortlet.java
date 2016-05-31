@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.Base64;
 import com.liferay.portal.kernel.util.FileUtil;
@@ -54,6 +55,9 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import it.bysoftware.ct.NoSuchAssociatoException;
 import it.bysoftware.ct.model.Anagrafica;
+import it.bysoftware.ct.model.AnagraficaAssociatoOP;
+import it.bysoftware.ct.model.Articoli;
+import it.bysoftware.ct.model.ArticoliAssociatoOP;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
@@ -62,8 +66,13 @@ import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.model.TracciabilitaGrezzi;
 import it.bysoftware.ct.model.TracciabilitaScheda;
+import it.bysoftware.ct.model.WKRigoDocumento;
+import it.bysoftware.ct.model.WKTestataDocumento;
 import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
+import it.bysoftware.ct.service.AnagraficaAssociatoOPLocalServiceUtil;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
@@ -72,8 +81,13 @@ import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil;
 import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
+import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPK;
+import it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPK;
 import it.bysoftware.ct.service.persistence.ProgressivoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
+import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
 import it.its.ct.gestionaleOP.csvParser.CSVParser;
 import it.its.ct.gestionaleOP.pojos.Documento;
 import it.its.ct.gestionaleOP.pojos.Response;
@@ -288,26 +302,140 @@ public class DDTPortlet extends MVCPortlet {
 			_log.info("Uploaded file: " + uploadedFile.getName());
 			List<Documento> importedDocs = parseImportedFile(uploadedFile, associato.getId());
 			
-			for (Documento d : importedDocs) {
-				_log.info("***TESTATA: " + d.getTestata().toString());
-				int i=0;
-				for (RigoDocumento r : d.getRighe()) {
-					_log.info("***Rigo[" + i + "]: " + r.toString());
-					i++;
-				}
+			List<Documento> docsReady =  new ArrayList<Documento>(); // new ArrayList<Documento>(importedDocs);
+	    	List<Documento> docsToCheck = new ArrayList<Documento>();
+	    	
+	    	for (Documento d : importedDocs) {
+	    		_log.info("TESTATA: " + d.getTestata().toString());
+				WKTestataDocumento t = d.getTestata();
+	    		List<WKRigoDocumento> rows = d.getRighe();
+	    		
+	    		AnagraficaAssociatoOP associatoOP = null;
+	    		try {
+	    			associatoOP = AnagraficaAssociatoOPLocalServiceUtil.getAnagraficaAssociatoOP(new AnagraficaAssociatoOPPK(associato.getId(), t.getCodiceSoggetto()));
+	    		} catch (PortalException ex) {
+	    			_log.info("Cliente non codifiacto: " + t.getCodiceSoggetto());
+	    		}
+	    		if(associatoOP != null){
+	    			_log.info("Cliente codificato, sostituisco: " + t.getCodiceSoggetto() + "<->" + associatoOP.getCodiceSogettoOP());
+	    			//Sostituisco il codice sogetto dell'assocaito con quello della OP
+	    			t.setCodiceSoggetto(associatoOP.getCodiceSogettoOP());
+	    			t.setVerificato(true);
+	    			Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(associatoOP.getCodiceSogettoOP());
+	    			t.setRagioneSociale(cliente.getRagioneSociale());
+	    			boolean addToReady = true;
+					for (WKRigoDocumento rigoDocumento : rows) {
+	    				if(!rigoDocumento.getCodiceArticolo().equals("")){
+	    					ArticoliAssociatoOP articoloAssociato = null;
+	    					try {
+	    						articoloAssociato = ArticoliAssociatoOPLocalServiceUtil.getArticoliAssociatoOP(new ArticoliAssociatoOPPK(associato.getId(), rigoDocumento.getCodiceArticolo()));
+	    					} catch (PortalException ex){
+	    						_log.info("Articolo non trovato: " + rigoDocumento.getCodiceArticolo());
+	    					}
+							if(articoloAssociato == null){
+								_log.info("Articolo: " + rigoDocumento.getCodiceArticolo() + " non ancora codificato.");
+								rigoDocumento.setVerificato(false);
+								addToReady = false;
+							} else {
+								_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
+								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setDescrizione(articolo.getDescrizione());
+								rigoDocumento.setVerificato(true);
+							}
+	    				}
+					}
+	    			if(addToReady) {
+	    				docsReady.add(d);
+	    			} else {
+	    				docsToCheck.add(d);
+	    			}
+	    		} else {
+	    			_log.info("Cliente: " + t.getCodiceSoggetto() + " non codificato.");
+	    			t.setCodiceSoggetto("");
+	    			t.setVerificato(false);
+	    			boolean addToReady = true;
+    				for (WKRigoDocumento rigoDocumento : rows) {
+    					if(!rigoDocumento.getCodiceArticolo().equals("")){
+    						ArticoliAssociatoOP articoloAssociato = null;
+    						try {
+    							articoloAssociato = ArticoliAssociatoOPLocalServiceUtil.getArticoliAssociatoOP(new ArticoliAssociatoOPPK(associato.getId(), rigoDocumento.getCodiceArticolo()));
+    						} catch (PortalException ex){
+    							_log.info("Articolo non trovato: " + rigoDocumento.getCodiceArticolo());
+    						}
+    						if(articoloAssociato == null){
+    							_log.info("Articolo: " + rigoDocumento.getCodiceArticolo() + " non ancora codificato.");
+    							rigoDocumento.setVerificato(false);
+    							addToReady = false;
+//    							break; // stop loop on rows
+    						} else {
+    							_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
+								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setDescrizione(articolo.getDescrizione());
+								rigoDocumento.setVerificato(true);
+    						}
+    					}
+					}
+    				if(addToReady){
+    					docsReady.add(d);
+    				} else {
+    					docsToCheck.add(d);
+    				}
+	    		}
 			}
 			
+	    	storeImportedDocument(docsReady, docsToCheck);
+	    	
 			ares.setRenderParameter("uploadedFile", uploadedFile.getName());
 			ares.setRenderParameter("jspPage", "/jsps/validate.jsp");
-			areq.setAttribute("docs", importedDocs);
+			areq.setAttribute("docsReady", docsReady);
+			areq.setAttribute("docsToCheck", docsToCheck);
+			SessionMessages.add(areq, "imported-docs");
 		} catch (Exception e) {
 			SessionErrors.add(areq, e.getMessage());
 			_log.error(e.getMessage());
 		}
         
     }
+    
+    public void saveWKRigoDocumento(ActionRequest areq, ActionResponse ares) {
+    	
+    	String json = ParamUtil.getString(areq, "WKRigoDocumentoPK");
+    	_log.info("***json: " + json);
+    	ares.setRenderParameter("WKRigoDocumentoPK", json);
+    	ares.setRenderParameter("jspPage", "/jsps/edit-row.jsp");
+    }
+    
+    private void storeImportedDocument(List<Documento> docsReady, List<Documento> docsToCheck) {
+		for (Documento documento : docsReady) {
+			WKTestataDocumento t = documento.getTestata();
+			try {
+				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
+				for (WKRigoDocumento rigo : documento.getRighe()) {
+					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
+				}
+			} catch (SystemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for (Documento documento : docsToCheck) {
+			WKTestataDocumento t = documento.getTestata();
+			try {
+				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
+				for (WKRigoDocumento rigo : documento.getRighe()) {
+					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
+				}
+			} catch (SystemException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
-    private List<Documento> parseImportedFile(
+	private List<Documento> parseImportedFile(
 			File uploadedFile, long idAssociato) throws Exception {
 
 //    	List<Map<TestataDocumento, List<RigoDocumento>>> result = new ArrayList<Map<TestataDocumento,List<RigoDocumento>>>();
@@ -316,8 +444,8 @@ public class DDTPortlet extends MVCPortlet {
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
 		
 		List<Documento> tmpDocs = new ArrayList<Documento>();
-		TestataDocumento testataDocumento = null;
-		List<RigoDocumento> righeDocumento = null;
+		WKTestataDocumento testataDocumento = null;
+		List<WKRigoDocumento> righeDocumento = null;
 		String line = bufferedReader.readLine();
 		while (line != null) {
 			String[] st = line.split(";");
@@ -341,7 +469,7 @@ public class DDTPortlet extends MVCPortlet {
 				case "WorkRigaDocumento":
 					_log.info("Found row header, loop on rows...");
 					if(testataDocumento != null){
-						righeDocumento = new ArrayList<RigoDocumento>();
+						righeDocumento = new ArrayList<WKRigoDocumento>();
 						int i = 1;
 						while((line = bufferedReader.readLine()) != null){
 							_log.info("Line: " + line);

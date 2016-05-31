@@ -1,38 +1,38 @@
 package it.its.ct.gestionaleOP.pojos;
 
-import java.util.List;
+import it.bysoftware.ct.model.WKRigoDocumento;
+import it.bysoftware.ct.model.WKTestataDocumento;
 
-import it.bysoftware.ct.model.RigoDocumento;
-import it.bysoftware.ct.model.TestataDocumento;
+import java.util.List;
 
 public class Documento {
 
-	private TestataDocumento testata;
-	private List<RigoDocumento> righe;
+	private WKTestataDocumento testata;
+	private List<WKRigoDocumento> righe;
 
 	public Documento() {
 		super();
 	}
 
-	public Documento(TestataDocumento testata, List<RigoDocumento> righe) {
+	public Documento(WKTestataDocumento testata, List<WKRigoDocumento> righe) {
 		super();
 		this.testata = testata;
 		this.righe = righe;
 	}
 
-	public TestataDocumento getTestata() {
+	public WKTestataDocumento getTestata() {
 		return testata;
 	}
 
-	public void setTestata(TestataDocumento testata) {
+	public void setTestata(WKTestataDocumento testata) {
 		this.testata = testata;
 	}
 
-	public List<RigoDocumento> getRighe() {
+	public List<WKRigoDocumento> getRighe() {
 		return righe;
 	}
 
-	public void setRighe(List<RigoDocumento> righe) {
+	public void setRighe(List<WKRigoDocumento> righe) {
 		this.righe = righe;
 	}
 

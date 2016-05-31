@@ -19,6 +19,11 @@ create index IX_986314C2 on SSTESORD (WkOperatore, WKCompleto, WKInviato, WKTipd
 
 create index IX_1E6332A on TracciabilitaGrezzi (id_scheda_tracciabilita);
 
+create index IX_482BCA50 on WK_SSRIGORD (WkNOrd, WKAnno, id_associato, WKTipdoc);
+
+create index IX_16C2823E on WK_SSTESORD (WKAnno, id_associato);
+create index IX_7618A674 on WK_SSTESORD (WKAnno, id_associato, verificato);
+
 create index IX_E93AA8C3 on associato (attivo);
 create index IX_320CDAD2 on associato (attivo, id_op);
 create unique index IX_95DBA707 on associato (centro);

@@ -68,7 +68,7 @@
     </aui:field-wrapper>
 
     <fieldset>
-        <legend>Allegato tracciabilità</legend>
+        <legend>Allegato tracciabilita'�</legend>
         <aui:form name="fm2" action="" method="post">
             <aui:input id="nDoc" type="text" name="nDoc" label="N° documento" cssClass="input-small" disabled="true" inlineField="true" value="<%= numeroDocumento%>"/>
             <aui:input id="dataDoc" type="text" name="dataDoc" label="Data documento" cssClass="input-large" disabled="true" inlineField="true" value="<%= testata.getDataOrdine()%>" />
