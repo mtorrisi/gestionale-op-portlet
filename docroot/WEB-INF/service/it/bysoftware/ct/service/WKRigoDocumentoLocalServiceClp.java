@@ -129,6 +129,10 @@ public class WKRigoDocumentoLocalServiceClp
 		_methodParameterTypes19 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
+
+		_methodName20 = "getByAnnoAssociato";
+
+		_methodParameterTypes20 = new String[] { "int", "long" };
 	}
 
 	@Override
@@ -728,6 +732,35 @@ public class WKRigoDocumentoLocalServiceClp
 		return (java.util.List<it.bysoftware.ct.model.WKRigoDocumento>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.WKRigoDocumento> getByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20, new Object[] { anno, idAssociato });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.WKRigoDocumento>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -767,4 +800,6 @@ public class WKRigoDocumentoLocalServiceClp
 	private String[] _methodParameterTypes17;
 	private String _methodName19;
 	private String[] _methodParameterTypes19;
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
 }

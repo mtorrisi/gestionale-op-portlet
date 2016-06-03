@@ -298,6 +298,13 @@ public class WKRigoDocumentoLocalServiceWrapper
 			anno, idAssociato, tipoDocumento);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.WKRigoDocumento> getByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _wkRigoDocumentoLocalService.getByAnnoAssociato(anno, idAssociato);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

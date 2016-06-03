@@ -284,6 +284,12 @@ public class WKRigoDocumentoLocalServiceUtil {
 			anno, idAssociato, tipoDocumento);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.WKRigoDocumento> getByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getByAnnoAssociato(anno, idAssociato);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

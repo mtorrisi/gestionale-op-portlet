@@ -13,13 +13,18 @@ import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+
 import it.bysoftware.ct.NoSuchAssociatoException;
+import it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException;
 import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +35,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -61,7 +67,8 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 //            }
 //        } catch (SystemException ex) {
 //            Logger.getLogger(RecuperoDocumentiPortlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+//        }       
+        
     }
 
     @Override

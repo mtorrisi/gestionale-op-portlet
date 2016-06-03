@@ -127,6 +127,10 @@ public class WKRigoDocumentoLocalServiceClpInvoker {
 		_methodParameterTypes178 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
+
+		_methodName179 = "getByAnnoAssociato";
+
+		_methodParameterTypes179 = new String[] { "int", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -237,6 +241,12 @@ public class WKRigoDocumentoLocalServiceClpInvoker {
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 		}
 
+		if (_methodName179.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
+			return WKRigoDocumentoLocalServiceUtil.getByAnnoAssociato(((Integer)arguments[0]).intValue(),
+				((Long)arguments[1]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -278,4 +288,6 @@ public class WKRigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes173;
 	private String _methodName178;
 	private String[] _methodParameterTypes178;
+	private String _methodName179;
+	private String[] _methodParameterTypes179;
 }

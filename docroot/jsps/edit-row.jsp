@@ -35,7 +35,7 @@
 		<aui:field-wrapper >
    			<div class="btn-toolbar">
        			<div class="btn-group">
-           			<button id="btnSave" class="btn" ><i class="icon-hdd"></i>Salva</button>
+           			<button id="btnSave" class="btn" ><i class="icon-check"></i>Convalida</button>
        			</div>
    			</div>  
 		</aui:field-wrapper>
@@ -43,13 +43,14 @@
 			<!-- Form Name -->
        	<legend>Rigo Documento</legend>
 
+		<liferay-ui:error key="no-valid-code" message="Codice articolo non valido" />
        	<aui:layout>
            	<aui:column columnWidth="50" first="true" >
-<!--                 <input id="id" name="id" type="text" placeholder="" class="form-control input-md"  style="display: none"/> -->
+                <input id="codiceAssociato" name="<portlet:namespace />codiceAssociato" type="text" placeholder="" class="form-control input-md"  style="display: none" value="<%= r.getCodiceArticolo() %>"/>
 
                	<!-- Text input-->
                	<div class="control-group">
-                   	<label class="control-label" for="ragioneSociale">Codice Articolo: </label>  
+                   	<label class="control-label" for="codice">Codice Articolo: </label>  
                    	<div class="controls">
                        	<input id="codice" name="<portlet:namespace />codice" readonly="readonly" type="text" placeholder="" class="form-control input-md" required=""/>
                    	</div>
@@ -57,7 +58,7 @@
 
                	<!-- Text input-->
                	<div class="control-group">
-                   	<label class="control-label" for="centro">Descrizione: </label>  
+                   	<label class="control-label" for="descrizione">Descrizione: </label>  
                    	<div class="controls">
                        	<input id="descrizione" name="<portlet:namespace />descrizione" value="<%=r.getDescrizione() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                     </div>
@@ -65,7 +66,7 @@
 
    	            <!-- Text input-->
        	        <div class="control-group">
-           	        <label class="control-label" for="pIVA">Codice Variante: </label>  
+           	        <label class="control-label" for="variante">Codice Variante: </label>  
                	    <div class="controls">
                    	    <input id="variante" name="<portlet:namespace />variante" readonly="readonly" value="<%=r.getCodiceVariante() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                    	</div>
@@ -73,7 +74,7 @@
 
                	<!-- Text input-->
                	<div class="control-group">
-                   	<label class="control-label" for="indirizzo">Quantita': </label>  
+                   	<label class="control-label" for="quantita">Quantita': </label>  
                    	<div class="controls">
                        	<input id="quantita" name="<portlet:namespace />quantita" readonly="readonly" value="<%=r.getPesoNetto() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                    	</div>
@@ -83,7 +84,7 @@
            	<aui:column columnWidth="50" last="true" >
                	<!-- Text input-->
                	<div class="control-group">
-                   	<label class="control-label" for="telefono">Colli: </label>  
+                   	<label class="control-label" for="colli">Colli: </label>  
                    	<div class="controls">
                        	<input id="colli" name="<portlet:namespace />colli" readonly="readonly" value="<%= r.getColli() %>" type="text" placeholder="" class="form-control input-md"/>
                     </div>
@@ -91,7 +92,7 @@
 
        	        <!-- Text input-->
            	    <div class="control-group">
-               	    <label class="control-label" for="fax">Prezzo: </label>  
+               	    <label class="control-label" for="prezzo">Prezzo: </label>  
                    	<div class="controls">
                        	<input id="prezzo" name="<portlet:namespace />prezzo" readonly="readonly" value="<%=r.getPrezzo() %>" type="text" placeholder="" class="form-control input-md"/>
                     </div>
@@ -99,7 +100,7 @@
 
        	        <!-- Text input-->
            	    <div class="control-group">
-               	    <label class="control-label" for="nome">Peso Lordo: </label>  
+               	    <label class="control-label" for="pesoLordo">Peso Lordo: </label>  
                    	<div class="controls">
                        	<input id="pesoLordo" name="<portlet:namespace />pesoLordo" readonly="readonly" value="<%=r.getPesoLordo() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                     </div>
@@ -107,7 +108,7 @@
 
        	        <!-- Text input-->
            	    <div class="control-group">
-               	    <label class="control-label" for="email">Tara: </label>  
+               	    <label class="control-label" for="tara">Tara: </label>  
                    	<div class="controls">
                        	<input id="tara" name="<portlet:namespace />tara" readonly="readonly" value="<%=r.getTara() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                     </div>
@@ -115,7 +116,7 @@
 
        	        <!-- Text input-->
            	    <div class="control-group">
-               	    <label class="control-label" for="email">Lotto: </label>  
+               	    <label class="control-label" for="lotto">Lotto: </label>  
                    	<div class="controls">
                        	<input id="lotto" name="<portlet:namespace />lotto" readonly="readonly" value="<%=r.getLotto() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                     </div>
@@ -164,7 +165,7 @@
                 var codice = tmp[0];
                 var  descrizione = tmp[1];
                 document.getElementById('codice').value = codice;
-                document.getElementById('descrizione').value = descrizione;
+//                 document.getElementById('descrizione').value = descrizione;
 //             break;
         	
 //         }

@@ -90,45 +90,71 @@
 	</aui:form>
 </c:when>
 <c:otherwise>
-	<aui:fieldset label="Documenti da verificare">
-		<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun documento da verificare" >
-    	<liferay-ui:search-container-results>
-     	<% 
-            results = ListUtil.subList(docsToCheck, searchContainer.getStart(), searchContainer.getEnd());
-            total = docsToCheck.size();
-            pageContext.setAttribute("results", results);
-            pageContext.setAttribute("total", total);
-        %>
-    	</liferay-ui:search-container-results>
-    		<liferay-ui:search-container-row className="it.its.ct.gestionaleOP.pojos.Documento" modelVar="d">
-        		<liferay-ui:search-container-column-text value="<%= d.getTestata().getTipoDocumento() %>" name="Tipo Documento" />
-				<liferay-ui:search-container-column-text value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>" name="Numero Documento" />
-        		<liferay-ui:search-container-column-text value="<%= d.getTestata().getCodiceSoggetto() %>" name="Codice Soggetto" />
-				<liferay-ui:search-container-column-jsp align="right" path="/jsps/action-check-docs.jsp" />
-    		</liferay-ui:search-container-row>
+<aui:layout>
+	<liferay-portlet:actionURL name="saveImported" var="saveImportedURL">
+		<liferay-portlet:param name="idAssociato" value="<%= renderRequest.getRemoteUser()%>"  />
+	</liferay-portlet:actionURL>
+    <aui:column columnWidth="50" first="true" >
+		<aui:fieldset label="Documenti da importare">
+		<aui:field-wrapper >
+		    <div class="btn-toolbar">
+        		<div class="btn-group">
+            		<button id="btnSave" class="btn" ><i class="icon-hdd"></i>Salva</button>
+				</div>
+			</div>
+		</aui:field-wrapper>
+			<aui:form method="post" name="fm" action="<%= saveImportedURL %>">
+				<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun documento pronto per l'importazione" >
+    				<liferay-ui:search-container-results>
+     				<% 
+	            		results = ListUtil.subList(docsReady, searchContainer.getStart(), searchContainer.getEnd());
+        	    		total = docsReady.size();
+	    	        	pageContext.setAttribute("results", results);
+	            		pageContext.setAttribute("total", total);
+	        		%>
+    				</liferay-ui:search-container-results>
+    				<liferay-ui:search-container-row className="it.its.ct.gestionaleOP.pojos.Documento" modelVar="d">
+        				<liferay-ui:search-container-column-text value="<%= d.getTestata().getTipoDocumento() %>" name="Tipo Documento" />
+						<liferay-ui:search-container-column-text value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>" name="Numero Documento" />
+        				<liferay-ui:search-container-column-text value="<%= d.getTestata().getCodiceSoggetto() %>" name="Codice Soggetto" />
+    				</liferay-ui:search-container-row>
 
-    		<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" paginate="true"/>
-		</liferay-ui:search-container>
-	</aui:fieldset>
-	<aui:fieldset label="Documenti da importare">
-	
-			<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun documento pronto per l'importazione" >
+    				<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" paginate="true"/>
+				</liferay-ui:search-container>
+			</aui:form>
+		</aui:fieldset>
+	</aui:column>
+	<aui:column columnWidth="50" last="true" >
+	<aui:fieldset label="Documenti da verificare">
+			<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun documento da verificare" >
     		<liferay-ui:search-container-results>
      		<% 
-            	results = ListUtil.subList(docsReady, searchContainer.getStart(), searchContainer.getEnd());
-        	    total = docsReady.size();
-    	        pageContext.setAttribute("results", results);
-	            pageContext.setAttribute("total", total);
-	        %>
+            	results = ListUtil.subList(docsToCheck, searchContainer.getStart(), searchContainer.getEnd());
+            	total = docsToCheck.size();
+            	pageContext.setAttribute("results", results);
+            	pageContext.setAttribute("total", total);
+        	%>
     		</liferay-ui:search-container-results>
     			<liferay-ui:search-container-row className="it.its.ct.gestionaleOP.pojos.Documento" modelVar="d">
         			<liferay-ui:search-container-column-text value="<%= d.getTestata().getTipoDocumento() %>" name="Tipo Documento" />
 					<liferay-ui:search-container-column-text value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>" name="Numero Documento" />
         			<liferay-ui:search-container-column-text value="<%= d.getTestata().getCodiceSoggetto() %>" name="Codice Soggetto" />
+					<liferay-ui:search-container-column-jsp align="right" path="/jsps/action-check-docs.jsp" />
     			</liferay-ui:search-container-row>
 
     			<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" paginate="true"/>
 			</liferay-ui:search-container>
-	</aui:fieldset>
+		</aui:fieldset>		
+	</aui:column>
+</aui:layout>	
 </c:otherwise>
 </c:choose>
+
+<script type="text/javascript">
+	YUI().use("liferay-util-list-fields", function (Y) {
+
+        Y.one('#btnSave').on('click', function (event) {
+            submitForm(document.<portlet:namespace/>fm);
+        });
+    });
+</script>

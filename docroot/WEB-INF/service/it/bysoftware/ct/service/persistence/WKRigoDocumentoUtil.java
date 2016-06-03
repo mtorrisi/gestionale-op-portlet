@@ -330,6 +330,188 @@ public class WKRigoDocumentoUtil {
 	}
 
 	/**
+	* Returns all the w k rigo documentos where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @return the matching w k rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.WKRigoDocumento> findByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().findByAnnoAssociato(anno, idAssociato);
+	}
+
+	/**
+	* Returns a range of all the w k rigo documentos where anno = &#63; and idAssociato = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.WKRigoDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param start the lower bound of the range of w k rigo documentos
+	* @param end the upper bound of the range of w k rigo documentos (not inclusive)
+	* @return the range of matching w k rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.WKRigoDocumento> findByAnnoAssociato(
+		int anno, long idAssociato, int start, int end)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByAnnoAssociato(anno, idAssociato, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the w k rigo documentos where anno = &#63; and idAssociato = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.WKRigoDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param start the lower bound of the range of w k rigo documentos
+	* @param end the upper bound of the range of w k rigo documentos (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching w k rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static java.util.List<it.bysoftware.ct.model.WKRigoDocumento> findByAnnoAssociato(
+		int anno, long idAssociato, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .findByAnnoAssociato(anno, idAssociato, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first w k rigo documento in the ordered set where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching w k rigo documento
+	* @throws it.bysoftware.ct.NoSuchWKRigoDocumentoException if a matching w k rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.WKRigoDocumento findByAnnoAssociato_First(
+		int anno, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchWKRigoDocumentoException {
+		return getPersistence()
+				   .findByAnnoAssociato_First(anno, idAssociato,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the first w k rigo documento in the ordered set where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching w k rigo documento, or <code>null</code> if a matching w k rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.WKRigoDocumento fetchByAnnoAssociato_First(
+		int anno, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByAnnoAssociato_First(anno, idAssociato,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last w k rigo documento in the ordered set where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching w k rigo documento
+	* @throws it.bysoftware.ct.NoSuchWKRigoDocumentoException if a matching w k rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.WKRigoDocumento findByAnnoAssociato_Last(
+		int anno, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchWKRigoDocumentoException {
+		return getPersistence()
+				   .findByAnnoAssociato_Last(anno, idAssociato,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the last w k rigo documento in the ordered set where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching w k rigo documento, or <code>null</code> if a matching w k rigo documento could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.WKRigoDocumento fetchByAnnoAssociato_Last(
+		int anno, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence()
+				   .fetchByAnnoAssociato_Last(anno, idAssociato,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the w k rigo documentos before and after the current w k rigo documento in the ordered set where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param wkRigoDocumentoPK the primary key of the current w k rigo documento
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next w k rigo documento
+	* @throws it.bysoftware.ct.NoSuchWKRigoDocumentoException if a w k rigo documento with the primary key could not be found
+	* @throws SystemException if a system exception occurred
+	*/
+	public static it.bysoftware.ct.model.WKRigoDocumento[] findByAnnoAssociato_PrevAndNext(
+		it.bysoftware.ct.service.persistence.WKRigoDocumentoPK wkRigoDocumentoPK,
+		int anno, long idAssociato,
+		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
+		throws com.liferay.portal.kernel.exception.SystemException,
+			it.bysoftware.ct.NoSuchWKRigoDocumentoException {
+		return getPersistence()
+				   .findByAnnoAssociato_PrevAndNext(wkRigoDocumentoPK, anno,
+			idAssociato, orderByComparator);
+	}
+
+	/**
+	* Removes all the w k rigo documentos where anno = &#63; and idAssociato = &#63; from the database.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @throws SystemException if a system exception occurred
+	*/
+	public static void removeByAnnoAssociato(int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		getPersistence().removeByAnnoAssociato(anno, idAssociato);
+	}
+
+	/**
+	* Returns the number of w k rigo documentos where anno = &#63; and idAssociato = &#63;.
+	*
+	* @param anno the anno
+	* @param idAssociato the id associato
+	* @return the number of matching w k rigo documentos
+	* @throws SystemException if a system exception occurred
+	*/
+	public static int countByAnnoAssociato(int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getPersistence().countByAnnoAssociato(anno, idAssociato);
+	}
+
+	/**
 	* Caches the w k rigo documento in the entity cache if it is enabled.
 	*
 	* @param wkRigoDocumento the w k rigo documento

@@ -750,5 +750,11 @@
             <finder-column name='tipoDocumento' comparator='='>
             </finder-column>
         </finder>
+        <finder name='AnnoAssociato' return-type='Collection'>
+            <finder-column name='anno' comparator='='>
+            </finder-column>
+            <finder-column name='idAssociato' comparator='='>
+            </finder-column>
+        </finder>
 	</entity>
 </service-builder>

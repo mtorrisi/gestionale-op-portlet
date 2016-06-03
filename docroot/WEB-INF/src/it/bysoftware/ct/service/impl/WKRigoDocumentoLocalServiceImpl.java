@@ -47,4 +47,9 @@ public class WKRigoDocumentoLocalServiceImpl
     public List<WKRigoDocumento> getByNumeroOrdineAnnoAssociatoTipoDocumento(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
         return this.wkRigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
     }
+	
+	@Override
+    public List<WKRigoDocumento> getByAnnoAssociato(int anno, long idAssociato) throws SystemException {
+        return this.wkRigoDocumentoPersistence.findByAnnoAssociato(anno, idAssociato);
+    }
 }

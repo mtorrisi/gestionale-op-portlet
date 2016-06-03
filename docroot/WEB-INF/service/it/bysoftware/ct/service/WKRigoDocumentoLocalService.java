@@ -259,4 +259,9 @@ public interface WKRigoDocumentoLocalService extends BaseLocalService,
 		long numeroOrdine, int anno, long idAssociato,
 		java.lang.String tipoDocumento)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.WKRigoDocumento> getByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -41,7 +41,7 @@ public class CSVParser {
 //		String tipoDocumento = st[0];
 		NumberFormat nf = NumberFormat.getNumberInstance(Locale.ITALY);
 		WKRigoDocumento r = WKRigoDocumentoLocalServiceUtil.createWKRigoDocumento(new WKRigoDocumentoPK(testataDocumento.getAnno(), testataDocumento.getNumeroOrdine(), rigoDocumento, testataDocumento.getTipoDocumento(), idAssociato));
-//		Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;Codlot;Numbol;Numrigbol
+//		Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;Codlot;Numbol;Numrigbol;Unimis
 		r.setCodiceArticolo(st[1]);
 		r.setCodiceVariante(st[2]);
 		r.setDescrizione(st[3]);
@@ -55,6 +55,8 @@ public class CSVParser {
 			r.setPesoLordo(Math.round(nf.parse(st[13]).floatValue() * 100.00)/100.00);
 			r.setTara(Math.round(nf.parse(st[14]).floatValue() * 100.00)/100.00);
 			r.setLotto(st[22]);
+			if(st[1].equals("0"))
+				r.setUnitaMisura(st[25]);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
