@@ -2,7 +2,15 @@ package it.its.ct.gestionaleOP.csvParser;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
@@ -54,15 +62,41 @@ public class CSVParser {
 			r.setSconto3((float) (Math.round(nf.parse(st[9]).floatValue() * 100.00)/100.00));
 			r.setPesoLordo(Math.round(nf.parse(st[13]).floatValue() * 100.00)/100.00);
 			r.setTara(Math.round(nf.parse(st[14]).floatValue() * 100.00)/100.00);
-			r.setLotto(st[22]);
-			if(st[1].equals("0"))
+			
+			if(st[0].equals("0"))
 				r.setUnitaMisura(st[25]);
+			if(!st[23].equals("0") && !st[24].equals("0")){ //FATTURA
+				RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), Integer.parseInt(st[24]), "DDT", idAssociato));
+				r.setLotto(rigoDDT.getLotto());
+			} else //DDT
+				r.setLotto(st[22]);
+			
 		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		return r;
+	}
+	
+	public static Map.Entry<Integer, WKRigoDocumento> getRigoFattura(String[] st, WKTestataDocumento testataDocumento, long idAssociato) {
+		
+		int key = Integer.parseInt(st[26]); // key[0] --> doc index; key[1] --> row index;  
+		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
+		
+		if(r.getCodiceArticolo().equals("") && r.getDescrizione().equals(""))
+			return null;
+		return new AbstractMap.SimpleEntry<Integer, WKRigoDocumento>(key, r);
+		
 	}
 	
 }

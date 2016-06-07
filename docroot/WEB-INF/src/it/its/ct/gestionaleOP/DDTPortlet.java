@@ -533,11 +533,9 @@ public class DDTPortlet extends MVCPortlet {
 	    			TestataDocumento t;
 	    			try {
 	    				Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(wkTestataDocumento.getCodiceSoggetto());
-	    				t = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK());
-	    				t.setAnno(wkTestataDocumento.getAnno());
-	    				t.setNumeroOrdine(wkTestataDocumento.getNumeroOrdine());
-	    				t.setTipoDocumento(wkTestataDocumento.getTipoDocumento());
-	    				t.setIdAssociato(wkTestataDocumento.getIdAssociato());
+	    				t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
+	    				if(t.getAnno() == 0)
+	    					t = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
 	    				t.setCentro(wkTestataDocumento.getCentro());
 	    				t.setCodiceSoggetto(wkTestataDocumento.getCodiceSoggetto());
 	    				t.setRagioneSociale(wkTestataDocumento.getRagioneSociale());
@@ -561,6 +559,7 @@ public class DDTPortlet extends MVCPortlet {
 	    				t.setNumeroPedaneNormali(wkTestataDocumento.getNumeroPedaneNormali());
 	    				t.setTargaCamion(wkTestataDocumento.getTargaCamion());
 	    				t.setTargaRimorchio(wkTestataDocumento.getTargaRimorchio());
+	    				t.setInviato(0);
 	    				
 	    				TestataDocumentoLocalServiceUtil.updateTestataDocumento(t); //Adds o updates
 	    				
@@ -574,14 +573,12 @@ public class DDTPortlet extends MVCPortlet {
 	    				}
 	    				
 	    				List<WKRigoDocumento> rows = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
-	    				for (WKRigoDocumento wkRigoDocumento : rows) {
-	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK());
-	    					
-	    					r.setAnno(wkRigoDocumento.getAnno());
-	    					r.setNumeroOrdine(wkRigoDocumento.getNumeroOrdine());
-	    					r.setRigoOrdine(wkRigoDocumento.getRigoOrdine());
-	    					r.setTipoDocumento(wkRigoDocumento.getTipoDocumento());
-	    					r.setIdAssociato(wkRigoDocumento.getIdAssociato());
+//	    				for (WKRigoDocumento wkRigoDocumento : rows) {
+	    				for (int i = 0; i < rows.size(); i++) {
+	    					WKRigoDocumento wkRigoDocumento = rows.get(i);
+	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.fetchRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
+	    					if(r.getAnno() == 0)
+	    						r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
 	    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
 	    					r.setDescrizione(wkRigoDocumento.getDescrizione());
 	    					r.setCodiceVariante(wkRigoDocumento.getCodiceVariante());
@@ -594,7 +591,6 @@ public class DDTPortlet extends MVCPortlet {
 	    					r.setPedane(wkRigoDocumento.getPedane());
 	    					r.setNote(wkRigoDocumento.getNote());
 	    					r.setTotalePesata(wkRigoDocumento.getTotalePesata());
-	    					r.setImballo(wkRigoDocumento.getImballo());
 	    					r.setGestioneReti(wkRigoDocumento.getGestioneReti());
 	    					r.setRtxCl(wkRigoDocumento.getRtxCl());
 	    					r.setKgRete(wkRigoDocumento.getKgRete());
@@ -603,24 +599,28 @@ public class DDTPortlet extends MVCPortlet {
 	    					r.setSconto1(wkRigoDocumento.getSconto1());
 	    					r.setSconto2(wkRigoDocumento.getSconto2());
 	    					r.setSconto3(wkRigoDocumento.getSconto3());
-	    					
+	    					if(!wkRigoDocumento.getCodiceArticolo().equals("") && !wkRigoDocumento.getDescrizione().equals("")){
+	    						if(i + 1 < rows.size()){
+	    							WKRigoDocumento rigoImballo = rows.get(i + 1);
+	    							if(wkTestataDocumento.getTipoDocumento().equals(DDT))
+	    								r.setRigoOrdine(wkRigoDocumento.getRigoOrdine() + 1);
+	    							r.setImballo(rigoImballo.getCodiceArticolo());
+		    						WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(rigoImballo);
+		    						i++;
+	    						}
+	    					} 
 	    					_log.info("Adding/updating: " + r);
 	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
 	    					
 	    					if(wkRigoDocumento.getTipoDocumento().equals(FAV)){
     	    					r.setTipoDocumento(FAC);
-    	    					
     	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
 	    					}
-	    					
-	    					WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(wkRigoDocumento);
+		    				WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(wkRigoDocumento);
 	    				}
 	    				
-	    				
 	    				WKTestataDocumentoLocalServiceUtil.deleteWKTestataDocumento(wkTestataDocumento);
-	    				
 	    				stampaENotifica(t, a, areq);
-	    				
 	    			} catch (PortalException e) {
 	    				e.printStackTrace();
 	    			} catch (AddressException e) {
@@ -715,30 +715,43 @@ public class DDTPortlet extends MVCPortlet {
 	}
 
 	private void storeImportedDocument(List<Documento> docsReady, List<Documento> docsToCheck) {
-		for (Documento documento : docsReady) {
-			WKTestataDocumento t = documento.getTestata();
-			try {
-				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
-				for (WKRigoDocumento rigo : documento.getRighe()) {
-					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
-				}
-			} catch (SystemException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		try {
 		
-		for (Documento documento : docsToCheck) {
-			WKTestataDocumento t = documento.getTestata();
-			try {
+			for (Documento documento : docsReady) {
+				WKTestataDocumento t = documento.getTestata();
+			
 				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
-				for (WKRigoDocumento rigo : documento.getRighe()) {
+				List<WKRigoDocumento> rows = documento.getRighe();
+//				for (WKRigoDocumento rigo : documento.getRighe()) {
+				for (int i = 0; i < rows.size(); i++) {
+					WKRigoDocumento rigo = rows.get(i);
+					if(rigo.getRigoOrdine() == 0)
+						rigo.setRigoOrdine(rows.size());
+					else
+						rigo.setRigoOrdine(i);
 					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
 				}
-			} catch (SystemException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			
 			}
+			for (Documento documento : docsToCheck) {
+				WKTestataDocumento t = documento.getTestata();
+				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
+				
+				List<WKRigoDocumento> rows = documento.getRighe();
+//				for (WKRigoDocumento rigo : documento.getRighe()) {
+				for (int i = 0; i < rows.size(); i++) {
+					WKRigoDocumento rigo = rows.get(i);
+					if(rigo.getRigoOrdine() == 0)
+						rigo.setRigoOrdine(rows.size());
+					else
+						rigo.setRigoOrdine(i);
+					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
+				}
+				
+			}
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -749,22 +762,36 @@ public class DDTPortlet extends MVCPortlet {
 
     	FileReader fileReader = new FileReader(uploadedFile);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		
+		List<List<WKRigoDocumento>>orderedRows = new ArrayList<List<WKRigoDocumento>>();
 		List<Documento> tmpDocs = new ArrayList<Documento>();
 		WKTestataDocumento testataDocumento = null;
 		List<WKRigoDocumento> righeDocumento = null;
+//		Map<List<Integer>, WKRigoDocumento> righeFAV = null;
 		String line = bufferedReader.readLine();
 		while (line != null) {
 			String[] st = line.split(";");
 			if(st.length > 0){
 				switch (st[0]) {
 				case "WorkTestataDocumento":
-					if(testataDocumento != null && righeDocumento != null){
+					//if(testataDocumento != null && righeDocumento != null){
+					if(righeDocumento != null){
 						_log.info("Adding to tmpDocs ...");
 						tmpDocs.add(new Documento(testataDocumento, righeDocumento));
-					}
+					} 
+//					else if(righeFAV != null) {
+//						_log.info("Adding to tmpDocs ...");
+//						int minDocIndex = Integer.MAX_VALUE;
+//						for (List<Integer> k : righeFAV.keySet()) {
+//							_log.info("INDICI: " + k);
+//							_log.info("RIGO FATTURA: " + righeFAV.get(k));
+//							if(k.get(0) != 0 && k.get(0) < minDocIndex)
+//								minDocIndex = k.get(0);
+//						}
+//					}
+						
 					testataDocumento = null;
 					righeDocumento = null;
+//					righeFAV = null;
 					_log.info("Found document header, read the single line...");					
 					if((line = bufferedReader.readLine()) != null){
 						_log.info("Line: " + line);
@@ -776,13 +803,45 @@ public class DDTPortlet extends MVCPortlet {
 				case "WorkRigaDocumento":
 					_log.info("Found row header, loop on rows...");
 					if(testataDocumento != null){
-						righeDocumento = new ArrayList<WKRigoDocumento>();
+//						if(!testataDocumento.getTipoDocumento().equals(FAV))
+							righeDocumento = new ArrayList<WKRigoDocumento>();
+//						else
+//							righeFAV = new HashMap<List<Integer>, WKRigoDocumento>();
 						int i = 1;
 						while((line = bufferedReader.readLine()) != null){
 							_log.info("Line: " + line);
 							st = line.split(";");
 							if(!st[0].equals("WorkTestataDocumento")){
-								righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+								if(!testataDocumento.getTipoDocumento().equals(FAV))
+									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+								else {
+									Map.Entry<Integer, WKRigoDocumento> entry = CSVParser.getRigoFattura(st, testataDocumento, idAssociato);
+									if(entry != null){
+										
+										if(righeDocumento.isEmpty())
+											righeDocumento.add(entry.getValue());
+										else{
+											for (int j = 0; j < righeDocumento.size(); j++) {
+												if(entry.getKey() < righeDocumento.get(j).getRigoOrdine()){
+													righeDocumento.add(j, entry.getValue());
+													entry = null;
+													break;
+												}
+											}
+											if(entry != null)
+												righeDocumento.add(entry.getValue());
+										}
+									}
+//									if(entry.getKey() < righeDocumento.size())
+//										righeDocumento.add(entry.getKey(), entry.getValue());
+//									else {
+//										List<WKRigoDocumento> tmp = new ArrayList<WKRigoDocumento>(entry.getKey());
+//										tmp.addAll(righeDocumento);
+//										tmp.add(entry.getKey(), entry.getValue());
+//										righeDocumento = new ArrayList<WKRigoDocumento>(tmp);
+//									}
+//									righeFAV.put(entry.getKey(), entry.getValue());
+								}
 							} else {
 								break;
 							}
