@@ -1055,6 +1055,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		rigoDocumentoImpl.setLotto(rigoDocumento.getLotto());
 		rigoDocumentoImpl.setPassaporto(rigoDocumento.getPassaporto());
 		rigoDocumentoImpl.setProgressivo(rigoDocumento.getProgressivo());
+		rigoDocumentoImpl.setRiferimentoBolla(rigoDocumento.getRiferimentoBolla());
 		rigoDocumentoImpl.setSconto1(rigoDocumento.getSconto1());
 		rigoDocumentoImpl.setSconto2(rigoDocumento.getSconto2());
 		rigoDocumentoImpl.setSconto3(rigoDocumento.getSconto3());
@@ -1390,7 +1391,8 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				"unitaMisura", "colli", "pesoLordo", "tara", "pesoNetto",
 				"prezzo", "pedane", "note", "totalePesata", "imballo",
 				"gestioneReti", "RtxCl", "kgRete", "lotto", "passaporto",
-				"progressivo", "tipoDocumento", "idAssociato"
+				"progressivo", "riferimentoBolla", "tipoDocumento",
+				"idAssociato"
 			});
 	private static RigoDocumento _nullRigoDocumento = new RigoDocumentoImpl() {
 			@Override

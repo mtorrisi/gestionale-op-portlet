@@ -241,6 +241,7 @@
 		<property name="lotto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkLotto" />
 		<property name="passaporto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CodPassaportoAlfa" />
 		<property name="progressivo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="CodPassaportoNum" />
+		<property name="riferimentoBolla" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="NRigRiferimento" />
 		<property name="sconto1" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto2" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto3" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
@@ -374,6 +375,7 @@
 		<property name="lotto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="WkLotto" />
 		<property name="passaporto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="CodPassaportoAlfa" />
 		<property name="progressivo" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="CodPassaportoNum" />
+		<property name="riferimentoBolla" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="NRigRiferimento" />
 		<property name="sconto1" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto2" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto3" type="com.liferay.portal.dao.orm.hibernate.FloatType" />

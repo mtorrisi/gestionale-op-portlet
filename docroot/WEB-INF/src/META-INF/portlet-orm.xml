@@ -491,6 +491,9 @@
 			<basic name="progressivo">
 				<column name="CODPASSAPORTONUM" />
 			</basic>
+			<basic name="riferimentoBolla">
+				<column name="NRIGRIFERIMENTO" />
+			</basic>
 			<basic name="sconto1" />
 			<basic name="sconto2" />
 			<basic name="sconto3" />
@@ -819,6 +822,9 @@
 			</basic>
 			<basic name="progressivo">
 				<column name="CODPASSAPORTONUM" />
+			</basic>
+			<basic name="riferimentoBolla">
+				<column name="NRIGRIFERIMENTO" />
 			</basic>
 			<basic name="sconto1" />
 			<basic name="sconto2" />

@@ -5,23 +5,11 @@
  */
 package it.its.ct.gestionaleOP.op;
 
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.servlet.ServletResponseUtil;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.util.PortalUtil;
-import com.liferay.util.bridges.mvc.MVCPortlet;
-
 import it.bysoftware.ct.NoSuchAssociatoException;
-import it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException;
 import it.bysoftware.ct.model.Associato;
-import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
-import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 
@@ -43,6 +31,15 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.servlet.ServletResponseUtil;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.util.PortalUtil;
+import com.liferay.util.bridges.mvc.MVCPortlet;
 
 /**
  *
@@ -76,7 +73,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             ResourceResponse resourceResponse) throws IOException,
             PortletException {
 
-        String tracciato = creaFileTracciato(ParamUtil.getString(resourceRequest, "userId", null));
+        String tracciato = creaFileTracciato(ParamUtil.getString(resourceRequest, "userId", null), ParamUtil.getInteger(resourceRequest, "inviato", 0));
 //        System.out.println("#############AJAX CALL####################");
 
         File file = new File(tracciato);
@@ -89,7 +86,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 
     }
 
-    private String creaFileTracciato(String utente) {
+    private String creaFileTracciato(String utente, int inviato) {
 
         File file;
         FileWriter fw;
@@ -106,7 +103,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             fw = new FileWriter(file.getAbsoluteFile());
             BufferedWriter bw = new BufferedWriter(fw);
 
-            List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 0);
+            List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", inviato);
             for (TestataDocumento testata : list) {
                 _log.info(testata);
 

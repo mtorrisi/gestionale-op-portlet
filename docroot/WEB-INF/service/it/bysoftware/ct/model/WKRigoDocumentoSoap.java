@@ -55,6 +55,7 @@ public class WKRigoDocumentoSoap implements Serializable {
 		soapModel.setLotto(model.getLotto());
 		soapModel.setPassaporto(model.getPassaporto());
 		soapModel.setProgressivo(model.getProgressivo());
+		soapModel.setRiferimentoBolla(model.getRiferimentoBolla());
 		soapModel.setSconto1(model.getSconto1());
 		soapModel.setSconto2(model.getSconto2());
 		soapModel.setSconto3(model.getSconto3());
@@ -308,6 +309,14 @@ public class WKRigoDocumentoSoap implements Serializable {
 		_progressivo = progressivo;
 	}
 
+	public int getRiferimentoBolla() {
+		return _riferimentoBolla;
+	}
+
+	public void setRiferimentoBolla(int riferimentoBolla) {
+		_riferimentoBolla = riferimentoBolla;
+	}
+
 	public float getSconto1() {
 		return _sconto1;
 	}
@@ -383,6 +392,7 @@ public class WKRigoDocumentoSoap implements Serializable {
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private int _riferimentoBolla;
 	private float _sconto1;
 	private float _sconto2;
 	private float _sconto3;

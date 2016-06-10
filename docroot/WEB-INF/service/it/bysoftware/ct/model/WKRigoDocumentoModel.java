@@ -398,6 +398,20 @@ public interface WKRigoDocumentoModel extends BaseModel<WKRigoDocumento> {
 	public void setProgressivo(int progressivo);
 
 	/**
+	 * Returns the riferimento bolla of this w k rigo documento.
+	 *
+	 * @return the riferimento bolla of this w k rigo documento
+	 */
+	public int getRiferimentoBolla();
+
+	/**
+	 * Sets the riferimento bolla of this w k rigo documento.
+	 *
+	 * @param riferimentoBolla the riferimento bolla of this w k rigo documento
+	 */
+	public void setRiferimentoBolla(int riferimentoBolla);
+
+	/**
 	 * Returns the sconto1 of this w k rigo documento.
 	 *
 	 * @return the sconto1 of this w k rigo documento

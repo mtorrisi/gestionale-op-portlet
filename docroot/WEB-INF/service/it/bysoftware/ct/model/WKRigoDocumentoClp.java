@@ -103,6 +103,7 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("riferimentoBolla", getRiferimentoBolla());
 		attributes.put("sconto1", getSconto1());
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
@@ -252,6 +253,12 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Integer riferimentoBolla = (Integer)attributes.get("riferimentoBolla");
+
+		if (riferimentoBolla != null) {
+			setRiferimentoBolla(riferimentoBolla);
 		}
 
 		Float sconto1 = (Float)attributes.get("sconto1");
@@ -829,6 +836,29 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 	}
 
 	@Override
+	public int getRiferimentoBolla() {
+		return _riferimentoBolla;
+	}
+
+	@Override
+	public void setRiferimentoBolla(int riferimentoBolla) {
+		_riferimentoBolla = riferimentoBolla;
+
+		if (_wkRigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _wkRigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setRiferimentoBolla", int.class);
+
+				method.invoke(_wkRigoDocumentoRemoteModel, riferimentoBolla);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public float getSconto1() {
 		return _sconto1;
 	}
@@ -1065,6 +1095,7 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 		clone.setLotto(getLotto());
 		clone.setPassaporto(getPassaporto());
 		clone.setProgressivo(getProgressivo());
+		clone.setRiferimentoBolla(getRiferimentoBolla());
 		clone.setSconto1(getSconto1());
 		clone.setSconto2(getSconto2());
 		clone.setSconto3(getSconto3());
@@ -1143,7 +1174,7 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1191,6 +1222,8 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", riferimentoBolla=");
+		sb.append(getRiferimentoBolla());
 		sb.append(", sconto1=");
 		sb.append(getSconto1());
 		sb.append(", sconto2=");
@@ -1210,7 +1243,7 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.WKRigoDocumento");
@@ -1309,6 +1342,10 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>riferimentoBolla</column-name><column-value><![CDATA[");
+		sb.append(getRiferimentoBolla());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>sconto1</column-name><column-value><![CDATA[");
 		sb.append(getSconto1());
 		sb.append("]]></column-value></column>");
@@ -1361,6 +1398,7 @@ public class WKRigoDocumentoClp extends BaseModelImpl<WKRigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private int _riferimentoBolla;
 	private float _sconto1;
 	private float _sconto2;
 	private float _sconto3;

@@ -36,7 +36,7 @@ public class WKRigoDocumentoCacheModel implements CacheModel<WKRigoDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -84,6 +84,8 @@ public class WKRigoDocumentoCacheModel implements CacheModel<WKRigoDocumento>,
 		sb.append(passaporto);
 		sb.append(", progressivo=");
 		sb.append(progressivo);
+		sb.append(", riferimentoBolla=");
+		sb.append(riferimentoBolla);
 		sb.append(", sconto1=");
 		sb.append(sconto1);
 		sb.append(", sconto2=");
@@ -186,6 +188,7 @@ public class WKRigoDocumentoCacheModel implements CacheModel<WKRigoDocumento>,
 		}
 
 		wkRigoDocumentoImpl.setProgressivo(progressivo);
+		wkRigoDocumentoImpl.setRiferimentoBolla(riferimentoBolla);
 		wkRigoDocumentoImpl.setSconto1(sconto1);
 		wkRigoDocumentoImpl.setSconto2(sconto2);
 		wkRigoDocumentoImpl.setSconto3(sconto3);
@@ -230,6 +233,7 @@ public class WKRigoDocumentoCacheModel implements CacheModel<WKRigoDocumento>,
 		lotto = objectInput.readUTF();
 		passaporto = objectInput.readUTF();
 		progressivo = objectInput.readInt();
+		riferimentoBolla = objectInput.readInt();
 		sconto1 = objectInput.readFloat();
 		sconto2 = objectInput.readFloat();
 		sconto3 = objectInput.readFloat();
@@ -322,6 +326,7 @@ public class WKRigoDocumentoCacheModel implements CacheModel<WKRigoDocumento>,
 		}
 
 		objectOutput.writeInt(progressivo);
+		objectOutput.writeInt(riferimentoBolla);
 		objectOutput.writeFloat(sconto1);
 		objectOutput.writeFloat(sconto2);
 		objectOutput.writeFloat(sconto3);
@@ -360,6 +365,7 @@ public class WKRigoDocumentoCacheModel implements CacheModel<WKRigoDocumento>,
 	public String lotto;
 	public String passaporto;
 	public int progressivo;
+	public int riferimentoBolla;
 	public float sconto1;
 	public float sconto2;
 	public float sconto3;

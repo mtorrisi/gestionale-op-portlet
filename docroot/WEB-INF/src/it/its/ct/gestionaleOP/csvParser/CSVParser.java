@@ -1,29 +1,23 @@
 package it.its.ct.gestionaleOP.csvParser;
 
+import it.bysoftware.ct.model.RigoDocumento;
+import it.bysoftware.ct.model.WKRigoDocumento;
+import it.bysoftware.ct.model.WKTestataDocumento;
+import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
+import it.bysoftware.ct.service.persistence.WKRigoDocumentoPK;
+import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
+
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-
-import it.bysoftware.ct.model.RigoDocumento;
-import it.bysoftware.ct.model.TestataDocumento;
-import it.bysoftware.ct.model.WKRigoDocumento;
-import it.bysoftware.ct.model.WKTestataDocumento;
-import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
-import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
-import it.bysoftware.ct.service.persistence.WKRigoDocumentoPK;
-import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
 
 public class CSVParser {
 	
@@ -40,6 +34,7 @@ public class CSVParser {
 		t.setVettore(st[7]);
 		t.setVettore2(st[8]);
 		t.setDataOrdine(st[11]);
+		t.setDataConsegna(st[11]);
 		
 		return t;
 	}
@@ -68,6 +63,7 @@ public class CSVParser {
 			if(!st[23].equals("0") && !st[24].equals("0")){ //FATTURA
 				RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), Integer.parseInt(st[24]), "DDT", idAssociato));
 				r.setLotto(rigoDDT.getLotto());
+				r.setRiferimentoBolla(Integer.parseInt(st[23]));
 			} else //DDT
 				r.setLotto(st[22]);
 			

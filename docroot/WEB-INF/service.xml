@@ -244,6 +244,8 @@
         </column>
         <column name='progressivo' db-name='CodPassaportoNum' type='int'>
         </column>
+        <column name='riferimentoBolla' db-name='NRigRiferimento' type='int'>
+        </column>
         <column name='sconto1' db-name='sconto1' type='float'>
         </column>
         <column name='sconto2' db-name='sconto2' type='float'>
@@ -723,6 +725,8 @@
         <column name='passaporto' db-name='CodPassaportoAlfa' type='String'>
         </column>
         <column name='progressivo' db-name='CodPassaportoNum' type='int'>
+        </column>
+        <column name='riferimentoBolla' db-name='NRigRiferimento' type='int'>
         </column>
         <column name='sconto1' db-name='sconto1' type='float'>
         </column>

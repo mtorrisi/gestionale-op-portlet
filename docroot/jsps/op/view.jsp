@@ -21,7 +21,7 @@
 
 %>
 <portlet:resourceURL var="download" id="download" />
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna utente trovato." iteratorURL="<%= renderURL%>">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna associato trovato." iteratorURL="<%= renderURL%>">
 
     <liferay-ui:search-container-results >
         <%
@@ -35,13 +35,7 @@
         <liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
             <liferay-ui:search-container-column-text property="id"    name="Codice"/>
             <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-            <% int c = TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore(String.valueOf(associato.getIdLiferay()), "completo", 0) / 2; %>
-            <c:if test="<%= c > 0%>">
-                <liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
-            </c:if>
-            <c:if test="<%= c == 0 %>">
-                <liferay-ui:search-container-column-text value="Nessun documento da acquisire" align="center" />
-            </c:if>
+            <liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
         </liferay-ui:search-container-row>
 
         <liferay-ui:search-iterator searchContainer="<%= searchContainer%>" paginate="true"/>

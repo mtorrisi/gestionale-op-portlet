@@ -72,6 +72,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("riferimentoBolla", getRiferimentoBolla());
 		attributes.put("sconto1", getSconto1());
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
@@ -220,6 +221,12 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Integer riferimentoBolla = (Integer)attributes.get("riferimentoBolla");
+
+		if (riferimentoBolla != null) {
+			setRiferimentoBolla(riferimentoBolla);
 		}
 
 		Float sconto1 = (Float)attributes.get("sconto1");
@@ -742,6 +749,26 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	@Override
 	public void setProgressivo(int progressivo) {
 		_rigoDocumento.setProgressivo(progressivo);
+	}
+
+	/**
+	* Returns the riferimento bolla of this rigo documento.
+	*
+	* @return the riferimento bolla of this rigo documento
+	*/
+	@Override
+	public int getRiferimentoBolla() {
+		return _rigoDocumento.getRiferimentoBolla();
+	}
+
+	/**
+	* Sets the riferimento bolla of this rigo documento.
+	*
+	* @param riferimentoBolla the riferimento bolla of this rigo documento
+	*/
+	@Override
+	public void setRiferimentoBolla(int riferimentoBolla) {
+		_rigoDocumento.setRiferimentoBolla(riferimentoBolla);
 	}
 
 	/**

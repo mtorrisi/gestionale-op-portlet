@@ -13,9 +13,22 @@
  */
 package it.bysoftware.ct.service.impl;
 
+import com.liferay.portal.kernel.dao.orm.Criterion;
+import com.liferay.portal.kernel.dao.orm.DynamicQuery;
+import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.Junction;
+import com.liferay.portal.kernel.dao.orm.Property;
+import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
+import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.OrderByComparator;
+
+import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.model.TestataDocumento;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
+import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.base.TestataDocumentoLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -68,4 +81,5 @@ public class TestataDocumentoLocalServiceImpl
     public List<TestataDocumento> getDocumentiSoggetto(int anno, String idDocumento, long idAssociato) throws SystemException {
         return this.testataDocumentoPersistence.findByannoTipoDocumentoIdAssociato(anno, idDocumento, idAssociato);
     }
+    
 }

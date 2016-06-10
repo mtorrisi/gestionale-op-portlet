@@ -1615,6 +1615,7 @@ public class WKRigoDocumentoPersistenceImpl extends BasePersistenceImpl<WKRigoDo
 		wkRigoDocumentoImpl.setLotto(wkRigoDocumento.getLotto());
 		wkRigoDocumentoImpl.setPassaporto(wkRigoDocumento.getPassaporto());
 		wkRigoDocumentoImpl.setProgressivo(wkRigoDocumento.getProgressivo());
+		wkRigoDocumentoImpl.setRiferimentoBolla(wkRigoDocumento.getRiferimentoBolla());
 		wkRigoDocumentoImpl.setSconto1(wkRigoDocumento.getSconto1());
 		wkRigoDocumentoImpl.setSconto2(wkRigoDocumento.getSconto2());
 		wkRigoDocumentoImpl.setSconto3(wkRigoDocumento.getSconto3());
@@ -1952,7 +1953,8 @@ public class WKRigoDocumentoPersistenceImpl extends BasePersistenceImpl<WKRigoDo
 				"unitaMisura", "colli", "pesoLordo", "tara", "pesoNetto",
 				"prezzo", "pedane", "note", "totalePesata", "imballo",
 				"gestioneReti", "RtxCl", "kgRete", "lotto", "passaporto",
-				"progressivo", "tipoDocumento", "idAssociato"
+				"progressivo", "riferimentoBolla", "tipoDocumento",
+				"idAssociato"
 			});
 	private static WKRigoDocumento _nullWKRigoDocumento = new WKRigoDocumentoImpl() {
 			@Override

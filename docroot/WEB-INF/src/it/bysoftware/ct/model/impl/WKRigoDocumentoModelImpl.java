@@ -83,6 +83,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 			{ "WkLotto", Types.VARCHAR },
 			{ "CodPassaportoAlfa", Types.VARCHAR },
 			{ "CodPassaportoNum", Types.INTEGER },
+			{ "NRigRiferimento", Types.INTEGER },
 			{ "sconto1", Types.FLOAT },
 			{ "sconto2", Types.FLOAT },
 			{ "sconto3", Types.FLOAT },
@@ -90,7 +91,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 			{ "id_associato", Types.BIGINT },
 			{ "verificato", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table WK_SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkVarian VARCHAR(75) null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,id_associato LONG not null,verificato BOOLEAN,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
+	public static final String TABLE_SQL_CREATE = "create table WK_SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkVarian VARCHAR(75) null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,NRigRiferimento INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,id_associato LONG not null,verificato BOOLEAN,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table WK_SSRIGORD";
 	public static final String ORDER_BY_JPQL = " ORDER BY wkRigoDocumento.id.numeroOrdine ASC, wkRigoDocumento.id.rigoOrdine ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY WK_SSRIGORD.WkNOrd ASC, WK_SSRIGORD.WkRigord ASC";
@@ -148,6 +149,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 		model.setLotto(soapModel.getLotto());
 		model.setPassaporto(soapModel.getPassaporto());
 		model.setProgressivo(soapModel.getProgressivo());
+		model.setRiferimentoBolla(soapModel.getRiferimentoBolla());
 		model.setSconto1(soapModel.getSconto1());
 		model.setSconto2(soapModel.getSconto2());
 		model.setSconto3(soapModel.getSconto3());
@@ -248,6 +250,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("riferimentoBolla", getRiferimentoBolla());
 		attributes.put("sconto1", getSconto1());
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
@@ -397,6 +400,12 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Integer riferimentoBolla = (Integer)attributes.get("riferimentoBolla");
+
+		if (riferimentoBolla != null) {
+			setRiferimentoBolla(riferimentoBolla);
 		}
 
 		Float sconto1 = (Float)attributes.get("sconto1");
@@ -767,6 +776,17 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 
 	@JSON
 	@Override
+	public int getRiferimentoBolla() {
+		return _riferimentoBolla;
+	}
+
+	@Override
+	public void setRiferimentoBolla(int riferimentoBolla) {
+		_riferimentoBolla = riferimentoBolla;
+	}
+
+	@JSON
+	@Override
 	public float getSconto1() {
 		return _sconto1;
 	}
@@ -904,6 +924,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 		wkRigoDocumentoImpl.setLotto(getLotto());
 		wkRigoDocumentoImpl.setPassaporto(getPassaporto());
 		wkRigoDocumentoImpl.setProgressivo(getProgressivo());
+		wkRigoDocumentoImpl.setRiferimentoBolla(getRiferimentoBolla());
 		wkRigoDocumentoImpl.setSconto1(getSconto1());
 		wkRigoDocumentoImpl.setSconto2(getSconto2());
 		wkRigoDocumentoImpl.setSconto3(getSconto3());
@@ -1104,6 +1125,8 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 
 		wkRigoDocumentoCacheModel.progressivo = getProgressivo();
 
+		wkRigoDocumentoCacheModel.riferimentoBolla = getRiferimentoBolla();
+
 		wkRigoDocumentoCacheModel.sconto1 = getSconto1();
 
 		wkRigoDocumentoCacheModel.sconto2 = getSconto2();
@@ -1127,7 +1150,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1175,6 +1198,8 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", riferimentoBolla=");
+		sb.append(getRiferimentoBolla());
 		sb.append(", sconto1=");
 		sb.append(getSconto1());
 		sb.append(", sconto2=");
@@ -1194,7 +1219,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.WKRigoDocumento");
@@ -1293,6 +1318,10 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>riferimentoBolla</column-name><column-value><![CDATA[");
+		sb.append(getRiferimentoBolla());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>sconto1</column-name><column-value><![CDATA[");
 		sb.append(getSconto1());
 		sb.append("]]></column-value></column>");
@@ -1353,6 +1382,7 @@ public class WKRigoDocumentoModelImpl extends BaseModelImpl<WKRigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private int _riferimentoBolla;
 	private float _sconto1;
 	private float _sconto2;
 	private float _sconto3;

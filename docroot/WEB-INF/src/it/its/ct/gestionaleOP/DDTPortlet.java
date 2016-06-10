@@ -534,7 +534,7 @@ public class DDTPortlet extends MVCPortlet {
 	    			try {
 	    				Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(wkTestataDocumento.getCodiceSoggetto());
 	    				t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
-	    				if(t.getAnno() == 0)
+	    				if(t == null)
 	    					t = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
 	    				t.setCentro(wkTestataDocumento.getCentro());
 	    				t.setCodiceSoggetto(wkTestataDocumento.getCodiceSoggetto());
@@ -577,7 +577,7 @@ public class DDTPortlet extends MVCPortlet {
 	    				for (int i = 0; i < rows.size(); i++) {
 	    					WKRigoDocumento wkRigoDocumento = rows.get(i);
 	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.fetchRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
-	    					if(r.getAnno() == 0)
+	    					if(r == null)
 	    						r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
 	    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
 	    					r.setDescrizione(wkRigoDocumento.getDescrizione());
@@ -617,6 +617,7 @@ public class DDTPortlet extends MVCPortlet {
     	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
 	    					}
 		    				WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(wkRigoDocumento);
+		    			
 	    				}
 	    				
 	    				WKTestataDocumentoLocalServiceUtil.deleteWKTestataDocumento(wkTestataDocumento);
@@ -729,6 +730,17 @@ public class DDTPortlet extends MVCPortlet {
 						rigo.setRigoOrdine(rows.size());
 					else
 						rigo.setRigoOrdine(i);
+					
+					if(rigo.getTipoDocumento().equals(FAV)){
+						int riferimentoBolla = rigo.getRiferimentoBolla();
+						if(riferimentoBolla != 0){
+							TestataDocumento testataDDT = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(t.getAnno(), riferimentoBolla, DDT, rigo.getIdAssociato()));
+							testataDDT.setCompleto(INVOICED);
+							TestataDocumentoLocalServiceUtil.updateTestataDocumento(testataDDT);
+						}
+						
+					}
+						
 					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
 				}
 			
@@ -750,6 +762,9 @@ public class DDTPortlet extends MVCPortlet {
 				
 			}
 		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PortalException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -974,6 +989,9 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                        
+                        in.close();
+                        
                     } catch (JRException ex) {
                         _log.error(ex.getMessage());
                     } catch (ClassNotFoundException ex) {
@@ -1048,6 +1066,9 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                        
+                        in.close();
+                        
                     } catch (JRException ex) {
                         _log.error(ex.getMessage());
                     } catch (ClassNotFoundException ex) {
@@ -1147,6 +1168,8 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                        
+                        in.close();
                     } catch (JRException ex) {
                         _log.error(ex.getMessage());
                     } catch (ClassNotFoundException ex) {

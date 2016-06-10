@@ -19,13 +19,9 @@
 // 	if(docsReady == null)
 // 		docsReady = new ArrayList<Documento>();
 
-	System.out.println("PIPPO: " + ((docsReady != null) ? docsReady.size() : "null"));
-	
 	List<Documento> docsToCheck  = (List<Documento>) renderRequest.getAttribute("docsToCheck");
 // 	if(docsToCheck == null)
 // 		docsToCheck = new ArrayList<Documento>();
-	
-	System.out.println("PLUTO: " + (docsReady == null) + " " + (docsToCheck == null));	
 
 	boolean viewImport = true;
 	if(docsReady != null || docsToCheck != null){
@@ -37,8 +33,6 @@
 		List<WKTestataDocumento> testateDocumentoReady = WKTestataDocumentoLocalServiceUtil.getReady(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		List<WKTestataDocumento> testateDocumentoToCheck = WKTestataDocumentoLocalServiceUtil.getToCheck(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		if(!testateDocumentoReady.isEmpty() || !testateDocumentoToCheck.isEmpty()){
-			System.out.println("PAPERINO: " + testateDocumentoReady.size());
-			System.out.println("TOPOLINO: " + testateDocumentoToCheck.size());
 			viewImport = false;
 			for(WKTestataDocumento t : testateDocumentoReady){
 				Documento d = new Documento();

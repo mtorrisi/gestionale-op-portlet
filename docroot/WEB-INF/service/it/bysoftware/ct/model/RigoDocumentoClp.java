@@ -103,6 +103,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		attributes.put("lotto", getLotto());
 		attributes.put("passaporto", getPassaporto());
 		attributes.put("progressivo", getProgressivo());
+		attributes.put("riferimentoBolla", getRiferimentoBolla());
 		attributes.put("sconto1", getSconto1());
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
@@ -251,6 +252,12 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 		if (progressivo != null) {
 			setProgressivo(progressivo);
+		}
+
+		Integer riferimentoBolla = (Integer)attributes.get("riferimentoBolla");
+
+		if (riferimentoBolla != null) {
+			setRiferimentoBolla(riferimentoBolla);
 		}
 
 		Float sconto1 = (Float)attributes.get("sconto1");
@@ -822,6 +829,29 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	}
 
 	@Override
+	public int getRiferimentoBolla() {
+		return _riferimentoBolla;
+	}
+
+	@Override
+	public void setRiferimentoBolla(int riferimentoBolla) {
+		_riferimentoBolla = riferimentoBolla;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setRiferimentoBolla", int.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, riferimentoBolla);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public float getSconto1() {
 		return _sconto1;
 	}
@@ -1029,6 +1059,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		clone.setLotto(getLotto());
 		clone.setPassaporto(getPassaporto());
 		clone.setProgressivo(getProgressivo());
+		clone.setRiferimentoBolla(getRiferimentoBolla());
 		clone.setSconto1(getSconto1());
 		clone.setSconto2(getSconto2());
 		clone.setSconto3(getSconto3());
@@ -1078,7 +1109,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1126,6 +1157,8 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getPassaporto());
 		sb.append(", progressivo=");
 		sb.append(getProgressivo());
+		sb.append(", riferimentoBolla=");
+		sb.append(getRiferimentoBolla());
 		sb.append(", sconto1=");
 		sb.append(getSconto1());
 		sb.append(", sconto2=");
@@ -1143,7 +1176,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(88);
+		StringBundler sb = new StringBundler(91);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1242,6 +1275,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getProgressivo());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>riferimentoBolla</column-name><column-value><![CDATA[");
+		sb.append(getRiferimentoBolla());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>sconto1</column-name><column-value><![CDATA[");
 		sb.append(getSconto1());
 		sb.append("]]></column-value></column>");
@@ -1290,6 +1327,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	private String _lotto;
 	private String _passaporto;
 	private int _progressivo;
+	private int _riferimentoBolla;
 	private float _sconto1;
 	private float _sconto2;
 	private float _sconto3;
