@@ -29,10 +29,12 @@ public class CSVParser {
 		//Tipdoc;Codcen;Datreg;Codsog;Codspe;Codpor;Codase;Codve1;Codve2;Numdoc;Protoc;Datdoc;Datann
 		t.setCentro(st[1]);
 		t.setCodiceSoggetto(st[3]);
-		t.setPorto(st[5]);
-		t.setAspettoEsteriore(st[6]);
-		t.setVettore(st[7]);
-		t.setVettore2(st[8]);
+		t.setPorto("001"); // t.setPorto(st[5]);
+		t.setAspettoEsteriore("VIS"); // t.setAspettoEsteriore(st[6]);
+		t.setVettore(""); // vuoto per evitare problemi di codici differenti tra associato e OP
+		t.setVettore2("");
+		t.setCuraTrasporto("VET");
+		t.setCausaleTrasporto("VEN");
 		t.setDataOrdine(st[11]);
 		t.setDataConsegna(st[11]);
 		
@@ -51,19 +53,21 @@ public class CSVParser {
 		try {
 			r.setPesoNetto(nf.parse(st[4]).doubleValue());
 			r.setColli(Integer.parseInt(st[5]));
-			r.setPrezzo(Math.round(nf.parse(st[6]).doubleValue() * 100.00)/100.00);
-			r.setSconto1((float) (Math.round(nf.parse(st[7]).floatValue() * 100.00)/100.00));
-			r.setSconto2((float) (Math.round(nf.parse(st[8]).floatValue() * 100.00)/100.00));
-			r.setSconto3((float) (Math.round(nf.parse(st[9]).floatValue() * 100.00)/100.00));
+			r.setPrezzo(nf.parse(st[6]).doubleValue());
+			r.setSconto1((float) (-1 * Math.round(nf.parse(st[7]).floatValue() * 100.00)/100.00));
+			r.setSconto2((float) (-1 * Math.round(nf.parse(st[8]).floatValue() * 100.00)/100.00));
+			r.setSconto3((float) (-1 * Math.round(nf.parse(st[9]).floatValue() * 100.00)/100.00));
 			r.setPesoLordo(Math.round(nf.parse(st[13]).floatValue() * 100.00)/100.00);
 			r.setTara(Math.round(nf.parse(st[14]).floatValue() * 100.00)/100.00);
 			
 			if(st[0].equals("0"))
 				r.setUnitaMisura(st[25]);
 			if(!st[23].equals("0") && !st[24].equals("0")){ //FATTURA
-				RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), Integer.parseInt(st[24]), "DDT", idAssociato));
-				r.setLotto(rigoDDT.getLotto());
-				r.setRiferimentoBolla(Integer.parseInt(st[23]));
+				if(r.getPesoLordo() != 0.0){
+					RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), Integer.parseInt(st[24]), "DDT", idAssociato));
+					r.setLotto(rigoDDT.getLotto());
+					r.setRiferimentoBolla(Integer.parseInt(st[23]));
+				}
 			} else //DDT
 				r.setLotto(st[22]);
 			

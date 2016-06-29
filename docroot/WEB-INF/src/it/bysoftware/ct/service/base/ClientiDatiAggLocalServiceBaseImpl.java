@@ -46,6 +46,7 @@ import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence;
 import it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
+import it.bysoftware.ct.service.persistence.FileUploaderPersistence;
 import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
 import it.bysoftware.ct.service.persistence.PortoPersistence;
 import it.bysoftware.ct.service.persistence.ProgressivoPersistence;
@@ -1044,6 +1045,63 @@ public abstract class ClientiDatiAggLocalServiceBaseImpl
 	}
 
 	/**
+	 * Returns the file uploader local service.
+	 *
+	 * @return the file uploader local service
+	 */
+	public it.bysoftware.ct.service.FileUploaderLocalService getFileUploaderLocalService() {
+		return fileUploaderLocalService;
+	}
+
+	/**
+	 * Sets the file uploader local service.
+	 *
+	 * @param fileUploaderLocalService the file uploader local service
+	 */
+	public void setFileUploaderLocalService(
+		it.bysoftware.ct.service.FileUploaderLocalService fileUploaderLocalService) {
+		this.fileUploaderLocalService = fileUploaderLocalService;
+	}
+
+	/**
+	 * Returns the file uploader remote service.
+	 *
+	 * @return the file uploader remote service
+	 */
+	public it.bysoftware.ct.service.FileUploaderService getFileUploaderService() {
+		return fileUploaderService;
+	}
+
+	/**
+	 * Sets the file uploader remote service.
+	 *
+	 * @param fileUploaderService the file uploader remote service
+	 */
+	public void setFileUploaderService(
+		it.bysoftware.ct.service.FileUploaderService fileUploaderService) {
+		this.fileUploaderService = fileUploaderService;
+	}
+
+	/**
+	 * Returns the file uploader persistence.
+	 *
+	 * @return the file uploader persistence
+	 */
+	public FileUploaderPersistence getFileUploaderPersistence() {
+		return fileUploaderPersistence;
+	}
+
+	/**
+	 * Sets the file uploader persistence.
+	 *
+	 * @param fileUploaderPersistence the file uploader persistence
+	 */
+	public void setFileUploaderPersistence(
+		FileUploaderPersistence fileUploaderPersistence) {
+		this.fileUploaderPersistence = fileUploaderPersistence;
+	}
+
+	/**
 	 * Returns the organizzazione produttori local service.
 	 *
 	 * @return the organizzazione produttori local service
@@ -1921,6 +1979,12 @@ public abstract class ClientiDatiAggLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.DestinatariDiversiService destinatariDiversiService;
 	@BeanReference(type = DestinatariDiversiPersistence.class)
 	protected DestinatariDiversiPersistence destinatariDiversiPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.FileUploaderLocalService.class)
+	protected it.bysoftware.ct.service.FileUploaderLocalService fileUploaderLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.FileUploaderService.class)
+	protected it.bysoftware.ct.service.FileUploaderService fileUploaderService;
+	@BeanReference(type = FileUploaderPersistence.class)
+	protected FileUploaderPersistence fileUploaderPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService.class)
 	protected it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService organizzazioneProduttoriLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.OrganizzazioneProduttoriService.class)

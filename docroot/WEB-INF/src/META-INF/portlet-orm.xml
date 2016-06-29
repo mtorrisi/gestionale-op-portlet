@@ -328,6 +328,15 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.FileUploaderModelImpl">
+		<attributes>
+			<id name="fid" />
+			<basic name="content" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriModelImpl">
 		<attributes>
 			<id name="id" />
@@ -1006,6 +1015,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.DestinatariDiversiImpl" name="DestinatariDiversi">
 		<table name="DestinatariDiversi" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.FileUploaderImpl" name="FileUploader">
+		<table name="fileuploader" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" name="OrganizzazioneProduttori">

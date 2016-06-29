@@ -31,6 +31,8 @@ import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
+import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
+import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.ProgressivoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
@@ -260,6 +262,9 @@ public class DDTPortlet extends MVCPortlet {
 
             TestataDocumentoLocalServiceUtil.deleteTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, FAV, idAssociato));
             TestataDocumentoLocalServiceUtil.deleteTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, FAC, idAssociato));
+            TestataDocumento origDDT = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, DDT, idAssociato));
+            origDDT.setCompleto(COMPLETED);
+            TestataDocumentoLocalServiceUtil.updateTestataDocumento(origDDT);
 
             ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
             long groupId = themeDisplay.getLayout().getGroupId();
@@ -546,7 +551,7 @@ public class DDTPortlet extends MVCPortlet {
 	    				t.setDataOrdine(wkTestataDocumento.getDataOrdine());
 	    				t.setDataConsegna(wkTestataDocumento.getDataConsegna());
 	    				t.setLotto(wkTestataDocumento.getLotto());
-	    				t.setCompleto("completo");
+	    				t.setCompleto(COMPLETED);
 	    				t.setOperatore(areq.getRemoteUser());
 	    				t.setAutista(wkTestataDocumento.getAutista());
 	    				t.setCuraTrasporto(wkTestataDocumento.getCuraTrasporto());
@@ -582,9 +587,14 @@ public class DDTPortlet extends MVCPortlet {
 	    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
 	    					r.setDescrizione(wkRigoDocumento.getDescrizione());
 	    					r.setCodiceVariante(wkRigoDocumento.getCodiceVariante());
+	    					String variante = "";
+	    					if(!wkRigoDocumento.getCodiceVariante().isEmpty())
+	    						variante = DescrizioniVariantiLocalServiceUtil.getDescrizioniVarianti(wkRigoDocumento.getCodiceVariante()).getDescrizioneVariante();
+	    					r.setDescrizioneVariante(variante);
 	    					r.setUnitaMisura(wkRigoDocumento.getUnitaMisura());
 	    					r.setColli(wkRigoDocumento.getColli());
 	    					r.setPedane(wkRigoDocumento.getPesoLordo());
+	    					r.setPesoLordo(wkRigoDocumento.getPesoLordo());
 	    					r.setTara(wkRigoDocumento.getTara());
 	    					r.setPesoNetto(wkRigoDocumento.getPesoNetto());
 	    					r.setPrezzo(wkRigoDocumento.getPrezzo());
@@ -1195,6 +1205,14 @@ public class DDTPortlet extends MVCPortlet {
                 _log.warn("Uknown operation.");
         }
     }
+	
+	public void addStack(ActionRequest arq,ActionResponse ars)
+    {
+		UploadPortletRequest ureq=PortalUtil.getUploadPortletRequest(arq);
+		File file=(File) ureq.getFile("file");
+		System.out.println("#############"+((java.io.File) file).getName());
+		FileUploaderLocalServiceUtil.add((java.io.File) file);
+    }
 
     private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine, boolean update, String tipoDocumento) throws AddressException {
         sendEmail(a, o, numeroOrdine, update, tipoDocumento, null, "");
@@ -1361,7 +1379,7 @@ public class DDTPortlet extends MVCPortlet {
         testataDocumento.setDataOrdine(orderDate);
         testataDocumento.setDataConsegna(deliveryDate);
         testataDocumento.setLotto(lottoTestata);
-        testataDocumento.setCompleto("completo");
+        testataDocumento.setCompleto(COMPLETED);
         testataDocumento.setOperatore(resourceRequest.getRemoteUser());
         testataDocumento.setVettore(vettore1);
         testataDocumento.setVettore2(vettore2);

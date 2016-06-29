@@ -111,6 +111,7 @@
         				<liferay-ui:search-container-column-text value="<%= d.getTestata().getTipoDocumento() %>" name="Tipo Documento" />
 						<liferay-ui:search-container-column-text value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>" name="Numero Documento" />
         				<liferay-ui:search-container-column-text value="<%= d.getTestata().getCodiceSoggetto() %>" name="Codice Soggetto" />
+        				<liferay-ui:search-container-column-text value="<%= d.getTestata().getRagioneSociale() %>" name="Rag. Sociale" />
     				</liferay-ui:search-container-row>
 
     				<liferay-ui:search-iterator searchContainer="<%= searchContainer %>" paginate="true"/>
@@ -133,6 +134,7 @@
         			<liferay-ui:search-container-column-text value="<%= d.getTestata().getTipoDocumento() %>" name="Tipo Documento" />
 					<liferay-ui:search-container-column-text value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>" name="Numero Documento" />
         			<liferay-ui:search-container-column-text value="<%= d.getTestata().getCodiceSoggetto() %>" name="Codice Soggetto" />
+        			<liferay-ui:search-container-column-text value="<%= d.getTestata().getRagioneSociale() %>" name="Rag. Sociale" />
 					<liferay-ui:search-container-column-jsp align="right" path="/jsps/action-check-docs.jsp" />
     			</liferay-ui:search-container-row>
 

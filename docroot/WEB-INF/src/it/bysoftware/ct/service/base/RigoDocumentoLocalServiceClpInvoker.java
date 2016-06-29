@@ -114,21 +114,21 @@ public class RigoDocumentoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.RigoDocumento"
 			};
 
-		_methodName172 = "getBeanIdentifier";
+		_methodName178 = "getBeanIdentifier";
 
-		_methodParameterTypes172 = new String[] {  };
+		_methodParameterTypes178 = new String[] {  };
 
-		_methodName173 = "setBeanIdentifier";
+		_methodName179 = "setBeanIdentifier";
 
-		_methodParameterTypes173 = new String[] { "java.lang.String" };
+		_methodParameterTypes179 = new String[] { "java.lang.String" };
 
-		_methodName178 = "getDDTByNumeroOrdineAnnoAssociato";
+		_methodName184 = "getDDTByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes178 = new String[] { "long", "int", "long" };
+		_methodParameterTypes184 = new String[] { "long", "int", "long" };
 
-		_methodName179 = "getFatturaByNumeroOrdineAnnoAssociato";
+		_methodName185 = "getFatturaByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes179 = new String[] {
+		_methodParameterTypes185 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
 	}
@@ -222,27 +222,27 @@ public class RigoDocumentoLocalServiceClpInvoker {
 			return RigoDocumentoLocalServiceUtil.updateRigoDocumento((it.bysoftware.ct.model.RigoDocumento)arguments[0]);
 		}
 
-		if (_methodName172.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+		if (_methodName178.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName173.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+		if (_methodName179.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
 			RigoDocumentoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName178.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
+		if (_methodName184.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue());
 		}
 
-		if (_methodName179.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
+		if (_methodName185.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
@@ -283,12 +283,12 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName172;
-	private String[] _methodParameterTypes172;
-	private String _methodName173;
-	private String[] _methodParameterTypes173;
 	private String _methodName178;
 	private String[] _methodParameterTypes178;
 	private String _methodName179;
 	private String[] _methodParameterTypes179;
+	private String _methodName184;
+	private String[] _methodParameterTypes184;
+	private String _methodName185;
+	private String[] _methodParameterTypes185;
 }

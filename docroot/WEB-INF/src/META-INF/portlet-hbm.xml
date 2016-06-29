@@ -15,6 +15,7 @@
 	<import class="it.bysoftware.ct.model.DescrizioniDocumenti" />
 	<import class="it.bysoftware.ct.model.DescrizioniVarianti" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
+	<import class="it.bysoftware.ct.model.FileUploader" />
 	<import class="it.bysoftware.ct.model.OrganizzazioneProduttori" />
 	<import class="it.bysoftware.ct.model.Porto" />
 	<import class="it.bysoftware.ct.model.Progressivo" />
@@ -171,6 +172,13 @@
 		<property name="provincia" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigpro" />
 		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigsta" />
 		<property name="tipoAnagrafica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavTipana" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.FileUploaderImpl" table="fileuploader">
+		<cache usage="read-write" />
+		<id name="fid" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" table="op">
 		<cache usage="read-write" />

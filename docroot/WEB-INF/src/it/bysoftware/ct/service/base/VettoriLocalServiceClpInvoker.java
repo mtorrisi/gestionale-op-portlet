@@ -100,13 +100,13 @@ public class VettoriLocalServiceClpInvoker {
 
 		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.Vettori" };
 
-		_methodName172 = "getBeanIdentifier";
+		_methodName178 = "getBeanIdentifier";
 
-		_methodParameterTypes172 = new String[] {  };
+		_methodParameterTypes178 = new String[] {  };
 
-		_methodName173 = "setBeanIdentifier";
+		_methodName179 = "setBeanIdentifier";
 
-		_methodParameterTypes173 = new String[] { "java.lang.String" };
+		_methodParameterTypes179 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -198,13 +198,13 @@ public class VettoriLocalServiceClpInvoker {
 			return VettoriLocalServiceUtil.updateVettori((it.bysoftware.ct.model.Vettori)arguments[0]);
 		}
 
-		if (_methodName172.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+		if (_methodName178.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
 			return VettoriLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName173.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+		if (_methodName179.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
 			VettoriLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
@@ -245,8 +245,8 @@ public class VettoriLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName172;
-	private String[] _methodParameterTypes172;
-	private String _methodName173;
-	private String[] _methodParameterTypes173;
+	private String _methodName178;
+	private String[] _methodParameterTypes178;
+	private String _methodName179;
+	private String[] _methodParameterTypes179;
 }

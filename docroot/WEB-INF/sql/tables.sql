@@ -316,6 +316,11 @@ create table associato_cliente (
 	primary key (id_associato, id_cliente)
 );
 
+create table fileuploader (
+	fid LONG not null primary key,
+	content VARCHAR(75) null
+);
+
 create table gestionaleOP_Testata_Righe (
 	WKAnno INTEGER not null,
 	WkNOrd INTEGER not null,

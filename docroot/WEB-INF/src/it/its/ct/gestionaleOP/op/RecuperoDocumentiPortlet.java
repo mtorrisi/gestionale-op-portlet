@@ -162,7 +162,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         //VALORI RIGO ARTICOLO
                         Tiprig = "0" + SEPARATOR;
                         Codart = rigo.getCodiceArticolo() + SEPARATOR;
-                        Codvar = rigo.getDescrizioneVariante() + SEPARATOR;
+                        Codvar = rigo.getCodiceVariante() + SEPARATOR;
                         Descri = SEPARATOR;
                         Quanet = rigo.getPesoNetto() + SEPARATOR;
                         Qm2net = rigo.getColli() + SEPARATOR;

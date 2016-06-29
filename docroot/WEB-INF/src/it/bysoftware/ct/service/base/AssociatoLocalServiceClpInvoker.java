@@ -102,33 +102,33 @@ public class AssociatoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.Associato"
 			};
 
-		_methodName172 = "getBeanIdentifier";
+		_methodName178 = "getBeanIdentifier";
 
-		_methodParameterTypes172 = new String[] {  };
+		_methodParameterTypes178 = new String[] {  };
 
-		_methodName173 = "setBeanIdentifier";
+		_methodName179 = "setBeanIdentifier";
 
-		_methodParameterTypes173 = new String[] { "java.lang.String" };
+		_methodParameterTypes179 = new String[] { "java.lang.String" };
 
-		_methodName178 = "getAssociatiAttivi";
+		_methodName184 = "getAssociatiAttivi";
 
-		_methodParameterTypes178 = new String[] { "long" };
+		_methodParameterTypes184 = new String[] { "long" };
 
-		_methodName179 = "getAssociatiDisattivati";
+		_methodName185 = "getAssociatiDisattivati";
 
-		_methodParameterTypes179 = new String[] { "long" };
+		_methodParameterTypes185 = new String[] { "long" };
 
-		_methodName180 = "countAssociatiAttivi";
+		_methodName186 = "countAssociatiAttivi";
 
-		_methodParameterTypes180 = new String[] { "long" };
+		_methodParameterTypes186 = new String[] { "long" };
 
-		_methodName181 = "countAssociatiDisattivati";
+		_methodName187 = "countAssociatiDisattivati";
 
-		_methodParameterTypes181 = new String[] { "long" };
+		_methodParameterTypes187 = new String[] { "long" };
 
-		_methodName182 = "findByLiferayId";
+		_methodName188 = "findByLiferayId";
 
-		_methodParameterTypes182 = new String[] { "long" };
+		_methodParameterTypes188 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -220,40 +220,40 @@ public class AssociatoLocalServiceClpInvoker {
 			return AssociatoLocalServiceUtil.updateAssociato((it.bysoftware.ct.model.Associato)arguments[0]);
 		}
 
-		if (_methodName172.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+		if (_methodName178.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
 			return AssociatoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName173.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+		if (_methodName179.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
 			AssociatoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName178.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
+		if (_methodName184.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
 			return AssociatoLocalServiceUtil.getAssociatiAttivi(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName179.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
+		if (_methodName185.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
 			return AssociatoLocalServiceUtil.getAssociatiDisattivati(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName180.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes180, parameterTypes)) {
+		if (_methodName186.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes186, parameterTypes)) {
 			return AssociatoLocalServiceUtil.countAssociatiAttivi(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName181.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes181, parameterTypes)) {
+		if (_methodName187.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes187, parameterTypes)) {
 			return AssociatoLocalServiceUtil.countAssociatiDisattivati(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName182.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes182, parameterTypes)) {
+		if (_methodName188.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes188, parameterTypes)) {
 			return AssociatoLocalServiceUtil.findByLiferayId(((Long)arguments[0]).longValue());
 		}
 
@@ -292,18 +292,18 @@ public class AssociatoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName172;
-	private String[] _methodParameterTypes172;
-	private String _methodName173;
-	private String[] _methodParameterTypes173;
 	private String _methodName178;
 	private String[] _methodParameterTypes178;
 	private String _methodName179;
 	private String[] _methodParameterTypes179;
-	private String _methodName180;
-	private String[] _methodParameterTypes180;
-	private String _methodName181;
-	private String[] _methodParameterTypes181;
-	private String _methodName182;
-	private String[] _methodParameterTypes182;
+	private String _methodName184;
+	private String[] _methodParameterTypes184;
+	private String _methodName185;
+	private String[] _methodParameterTypes185;
+	private String _methodName186;
+	private String[] _methodParameterTypes186;
+	private String _methodName187;
+	private String[] _methodParameterTypes187;
+	private String _methodName188;
+	private String[] _methodParameterTypes188;
 }

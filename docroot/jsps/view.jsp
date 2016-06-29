@@ -57,7 +57,7 @@
 	</div>
 </aui:field-wrapper>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente Ã¨ stato ancora associato.">
 
     <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
     total="<%= clientiAssociato.size()%>"/>
@@ -72,6 +72,13 @@
 
     <liferay-ui:search-iterator/>
 </liferay-ui:search-container>
+
+<%-- <portlet:actionURL name="addStack" var="actionFoo"></portlet:actionURL> --%>
+<%-- <form action="<%=actionFoo.toString()%>" method="post" enctype="multipart/form-data"> --%>
+<!--  <input type="file" name="file"/> -->
+<!--  <input type="submit" value="Submit" /> -->
+<!-- </form> -->
+
 
 <script type="text/javascript">
 

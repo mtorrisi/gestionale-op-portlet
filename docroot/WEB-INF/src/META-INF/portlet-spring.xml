@@ -145,4 +145,10 @@
         <property name="dataSource" ref="gestionaleOPDataSource" />
         <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
    </bean>
+   <bean id="it.bysoftware.ct.service.FileUploaderLocalService" class="it.bysoftware.ct.service.impl.FileUploaderLocalServiceImpl" />
+   <bean id="it.bysoftware.ct.service.FileUploaderService" class="it.bysoftware.ct.service.impl.FileUploaderServiceImpl" />
+   <bean id="it.bysoftware.ct.service.persistence.FileUploaderPersistence" class="it.bysoftware.ct.service.persistence.FileUploaderPersistenceImpl" parent="basePersistence" >
+	   <property name="dataSource" ref="gestionaleOPDataSource" />
+       <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+   </bean>
 </beans>

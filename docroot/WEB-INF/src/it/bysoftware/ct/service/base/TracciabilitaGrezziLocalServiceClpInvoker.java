@@ -106,17 +106,17 @@ public class TracciabilitaGrezziLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.TracciabilitaGrezzi"
 			};
 
-		_methodName172 = "getBeanIdentifier";
+		_methodName178 = "getBeanIdentifier";
 
-		_methodParameterTypes172 = new String[] {  };
+		_methodParameterTypes178 = new String[] {  };
 
-		_methodName173 = "setBeanIdentifier";
+		_methodName179 = "setBeanIdentifier";
 
-		_methodParameterTypes173 = new String[] { "java.lang.String" };
+		_methodParameterTypes179 = new String[] { "java.lang.String" };
 
-		_methodName178 = "getIdSchedaTracciabilita";
+		_methodName184 = "getIdSchedaTracciabilita";
 
-		_methodParameterTypes178 = new String[] { "long" };
+		_methodParameterTypes184 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -208,20 +208,20 @@ public class TracciabilitaGrezziLocalServiceClpInvoker {
 			return TracciabilitaGrezziLocalServiceUtil.updateTracciabilitaGrezzi((it.bysoftware.ct.model.TracciabilitaGrezzi)arguments[0]);
 		}
 
-		if (_methodName172.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes172, parameterTypes)) {
+		if (_methodName178.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
 			return TracciabilitaGrezziLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName173.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes173, parameterTypes)) {
+		if (_methodName179.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
 			TracciabilitaGrezziLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName178.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
+		if (_methodName184.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
 			return TracciabilitaGrezziLocalServiceUtil.getIdSchedaTracciabilita(((Long)arguments[0]).longValue());
 		}
 
@@ -260,10 +260,10 @@ public class TracciabilitaGrezziLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName172;
-	private String[] _methodParameterTypes172;
-	private String _methodName173;
-	private String[] _methodParameterTypes173;
 	private String _methodName178;
 	private String[] _methodParameterTypes178;
+	private String _methodName179;
+	private String[] _methodParameterTypes179;
+	private String _methodName184;
+	private String[] _methodParameterTypes184;
 }
