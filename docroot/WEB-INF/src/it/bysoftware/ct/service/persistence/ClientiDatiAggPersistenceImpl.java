@@ -337,11 +337,11 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 	}
 
 	private static final String _FINDER_COLUMN_CODICEANAGRAFICA_CODICEANAGRAFICA_1 =
-		"clientiDatiAgg.codiceAnagrafica IS NULL";
+		"clientiDatiAgg.id.codiceAnagrafica IS NULL";
 	private static final String _FINDER_COLUMN_CODICEANAGRAFICA_CODICEANAGRAFICA_2 =
-		"clientiDatiAgg.codiceAnagrafica = ?";
+		"clientiDatiAgg.id.codiceAnagrafica = ?";
 	private static final String _FINDER_COLUMN_CODICEANAGRAFICA_CODICEANAGRAFICA_3 =
-		"(clientiDatiAgg.codiceAnagrafica IS NULL OR clientiDatiAgg.codiceAnagrafica = '')";
+		"(clientiDatiAgg.id.codiceAnagrafica IS NULL OR clientiDatiAgg.id.codiceAnagrafica = '')";
 
 	public ClientiDatiAggPersistenceImpl() {
 		setModelClass(ClientiDatiAgg.class);
@@ -485,15 +485,15 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 	/**
 	 * Creates a new clienti dati agg with the primary key. Does not add the clienti dati agg to the database.
 	 *
-	 * @param codiceAnagrafica the primary key for the new clienti dati agg
+	 * @param clientiDatiAggPK the primary key for the new clienti dati agg
 	 * @return the new clienti dati agg
 	 */
 	@Override
-	public ClientiDatiAgg create(String codiceAnagrafica) {
+	public ClientiDatiAgg create(ClientiDatiAggPK clientiDatiAggPK) {
 		ClientiDatiAgg clientiDatiAgg = new ClientiDatiAggImpl();
 
 		clientiDatiAgg.setNew(true);
-		clientiDatiAgg.setPrimaryKey(codiceAnagrafica);
+		clientiDatiAgg.setPrimaryKey(clientiDatiAggPK);
 
 		return clientiDatiAgg;
 	}
@@ -501,15 +501,15 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 	/**
 	 * Removes the clienti dati agg with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param codiceAnagrafica the primary key of the clienti dati agg
+	 * @param clientiDatiAggPK the primary key of the clienti dati agg
 	 * @return the clienti dati agg that was removed
 	 * @throws it.bysoftware.ct.NoSuchClientiDatiAggException if a clienti dati agg with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ClientiDatiAgg remove(String codiceAnagrafica)
+	public ClientiDatiAgg remove(ClientiDatiAggPK clientiDatiAggPK)
 		throws NoSuchClientiDatiAggException, SystemException {
-		return remove((Serializable)codiceAnagrafica);
+		return remove((Serializable)clientiDatiAggPK);
 	}
 
 	/**
@@ -642,6 +642,7 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 		clientiDatiAggImpl.setPrimaryKey(clientiDatiAgg.getPrimaryKey());
 
 		clientiDatiAggImpl.setCodiceAnagrafica(clientiDatiAgg.getCodiceAnagrafica());
+		clientiDatiAggImpl.setTipo(clientiDatiAgg.isTipo());
 		clientiDatiAggImpl.setAssociati(clientiDatiAgg.getAssociati());
 		clientiDatiAggImpl.setCodiceAliquota(clientiDatiAgg.getCodiceAliquota());
 
@@ -676,15 +677,15 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 	/**
 	 * Returns the clienti dati agg with the primary key or throws a {@link it.bysoftware.ct.NoSuchClientiDatiAggException} if it could not be found.
 	 *
-	 * @param codiceAnagrafica the primary key of the clienti dati agg
+	 * @param clientiDatiAggPK the primary key of the clienti dati agg
 	 * @return the clienti dati agg
 	 * @throws it.bysoftware.ct.NoSuchClientiDatiAggException if a clienti dati agg with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ClientiDatiAgg findByPrimaryKey(String codiceAnagrafica)
+	public ClientiDatiAgg findByPrimaryKey(ClientiDatiAggPK clientiDatiAggPK)
 		throws NoSuchClientiDatiAggException, SystemException {
-		return findByPrimaryKey((Serializable)codiceAnagrafica);
+		return findByPrimaryKey((Serializable)clientiDatiAggPK);
 	}
 
 	/**
@@ -739,14 +740,14 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 	/**
 	 * Returns the clienti dati agg with the primary key or returns <code>null</code> if it could not be found.
 	 *
-	 * @param codiceAnagrafica the primary key of the clienti dati agg
+	 * @param clientiDatiAggPK the primary key of the clienti dati agg
 	 * @return the clienti dati agg, or <code>null</code> if a clienti dati agg with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ClientiDatiAgg fetchByPrimaryKey(String codiceAnagrafica)
+	public ClientiDatiAgg fetchByPrimaryKey(ClientiDatiAggPK clientiDatiAggPK)
 		throws SystemException {
-		return fetchByPrimaryKey((Serializable)codiceAnagrafica);
+		return fetchByPrimaryKey((Serializable)clientiDatiAggPK);
 	}
 
 	/**
@@ -970,7 +971,7 @@ public class ClientiDatiAggPersistenceImpl extends BasePersistenceImpl<ClientiDa
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(ClientiDatiAggPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"codiceAnagrafica", "associati", "codiceAliquota"
+				"codiceAnagrafica", "tipo", "associati", "codiceAliquota"
 			});
 	private static ClientiDatiAgg _nullClientiDatiAgg = new ClientiDatiAggImpl() {
 			@Override

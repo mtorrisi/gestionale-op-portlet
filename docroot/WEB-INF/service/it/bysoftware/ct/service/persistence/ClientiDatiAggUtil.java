@@ -202,27 +202,27 @@ public class ClientiDatiAggUtil {
 	/**
 	* Creates a new clienti dati agg with the primary key. Does not add the clienti dati agg to the database.
 	*
-	* @param codiceAnagrafica the primary key for the new clienti dati agg
+	* @param clientiDatiAggPK the primary key for the new clienti dati agg
 	* @return the new clienti dati agg
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg create(
-		java.lang.String codiceAnagrafica) {
-		return getPersistence().create(codiceAnagrafica);
+		ClientiDatiAggPK clientiDatiAggPK) {
+		return getPersistence().create(clientiDatiAggPK);
 	}
 
 	/**
 	* Removes the clienti dati agg with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg that was removed
 	* @throws it.bysoftware.ct.NoSuchClientiDatiAggException if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg remove(
-		java.lang.String codiceAnagrafica)
+		ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchClientiDatiAggException {
-		return getPersistence().remove(codiceAnagrafica);
+		return getPersistence().remove(clientiDatiAggPK);
 	}
 
 	public static it.bysoftware.ct.model.ClientiDatiAgg updateImpl(
@@ -234,29 +234,29 @@ public class ClientiDatiAggUtil {
 	/**
 	* Returns the clienti dati agg with the primary key or throws a {@link it.bysoftware.ct.NoSuchClientiDatiAggException} if it could not be found.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg
 	* @throws it.bysoftware.ct.NoSuchClientiDatiAggException if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg findByPrimaryKey(
-		java.lang.String codiceAnagrafica)
+		ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchClientiDatiAggException {
-		return getPersistence().findByPrimaryKey(codiceAnagrafica);
+		return getPersistence().findByPrimaryKey(clientiDatiAggPK);
 	}
 
 	/**
 	* Returns the clienti dati agg with the primary key or returns <code>null</code> if it could not be found.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg, or <code>null</code> if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg fetchByPrimaryKey(
-		java.lang.String codiceAnagrafica)
+		ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getPersistence().fetchByPrimaryKey(codiceAnagrafica);
+		return getPersistence().fetchByPrimaryKey(clientiDatiAggPK);
 	}
 
 	/**

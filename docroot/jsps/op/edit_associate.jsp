@@ -1,3 +1,4 @@
+<%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil"%>
@@ -123,7 +124,7 @@
 
         for (Anagrafica cliente : clienti) {
             boolean flag = false;
-            ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+            ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
             String[] idAssociati = datiAgg.getAssociati().split(",");
             for (String idAssociato : idAssociati) {
                 if (idAssociato.equals(String.valueOf(a.getIdLiferay()))) {

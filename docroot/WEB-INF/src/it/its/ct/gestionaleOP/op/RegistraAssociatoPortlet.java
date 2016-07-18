@@ -29,17 +29,21 @@ import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
+
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -186,7 +190,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
             for (String value : values) {
                 boolean flag = false;
-                ClientiDatiAgg clientiDatiAgg = ClientiDatiAggLocalServiceUtil.getClientiDatiAgg(value);
+                ClientiDatiAgg clientiDatiAgg = ClientiDatiAggLocalServiceUtil.getClientiDatiAgg(new ClientiDatiAggPK(value, false));
 //                String[] idAssociati = clientiDatiAgg.getAssociati().split(",");
                 List<String> idAssociati = new ArrayList<String>(Arrays.asList(clientiDatiAgg.getAssociati().split(",")));
                 if (!idAssociati.contains(String.valueOf(a.getIdLiferay()))) {

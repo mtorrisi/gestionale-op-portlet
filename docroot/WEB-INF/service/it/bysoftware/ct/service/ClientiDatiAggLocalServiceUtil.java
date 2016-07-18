@@ -55,27 +55,27 @@ public class ClientiDatiAggLocalServiceUtil {
 	/**
 	* Creates a new clienti dati agg with the primary key. Does not add the clienti dati agg to the database.
 	*
-	* @param codiceAnagrafica the primary key for the new clienti dati agg
+	* @param clientiDatiAggPK the primary key for the new clienti dati agg
 	* @return the new clienti dati agg
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg createClientiDatiAgg(
-		java.lang.String codiceAnagrafica) {
-		return getService().createClientiDatiAgg(codiceAnagrafica);
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK) {
+		return getService().createClientiDatiAgg(clientiDatiAggPK);
 	}
 
 	/**
 	* Deletes the clienti dati agg with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg that was removed
 	* @throws PortalException if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg deleteClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().deleteClientiDatiAgg(codiceAnagrafica);
+		return getService().deleteClientiDatiAgg(clientiDatiAggPK);
 	}
 
 	/**
@@ -182,24 +182,24 @@ public class ClientiDatiAggLocalServiceUtil {
 	}
 
 	public static it.bysoftware.ct.model.ClientiDatiAgg fetchClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().fetchClientiDatiAgg(codiceAnagrafica);
+		return getService().fetchClientiDatiAgg(clientiDatiAggPK);
 	}
 
 	/**
 	* Returns the clienti dati agg with the primary key.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg
 	* @throws PortalException if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg getClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
-		return getService().getClientiDatiAgg(codiceAnagrafica);
+		return getService().getClientiDatiAgg(clientiDatiAggPK);
 	}
 
 	public static com.liferay.portal.model.PersistedModel getPersistedModel(

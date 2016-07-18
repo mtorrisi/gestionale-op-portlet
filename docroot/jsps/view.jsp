@@ -1,3 +1,4 @@
+<%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,7 +28,7 @@
     List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
     List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
     for (Anagrafica cliente : clienti) {
-        ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+        ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         String[] idAssociati = datiAgg.getAssociati().split(",");
         for (String idAssociato : idAssociati) {
             if (idAssociato.equals(renderRequest.getRemoteUser())) {
@@ -57,7 +58,7 @@
 	</div>
 </aui:field-wrapper>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente Ã¨ stato ancora associato.">
 
     <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
     total="<%= clientiAssociato.size()%>"/>

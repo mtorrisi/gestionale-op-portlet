@@ -43,6 +43,7 @@ import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPK;
 import it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPK;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
 import it.bysoftware.ct.service.persistence.ProgressivoPK;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
@@ -154,7 +155,7 @@ public class DDTPortlet extends MVCPortlet {
             List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
             List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
             for (Anagrafica cliente : clienti) {
-                ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+                ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
                 String[] idAssociati = datiAgg.getAssociati().split(",");
                 for (String idAssociato : idAssociati) {
                     if (idAssociato.equals(renderRequest.getRemoteUser())) {

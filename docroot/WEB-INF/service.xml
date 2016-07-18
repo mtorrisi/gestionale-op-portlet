@@ -472,6 +472,9 @@
 		<column name='codiceAnagrafica' db-name='RveCodclf' type='String'
 			primary='true'>
 		</column>
+		<column name='tipo' db-name='RveTipo' type='boolean'
+			primary='true'>
+		</column>
 		<column name='associati' db-name='RveLibStr1' type='String'>
 		</column>
 		<column name='codiceAliquota' db-name='RveEsenzi' type='String'>

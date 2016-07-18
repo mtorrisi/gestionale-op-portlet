@@ -32,9 +32,11 @@ create table CausaleTrasporto (
 );
 
 create table ClientiFornitoriDatiAgg (
-	RveCodclf VARCHAR(75) not null primary key,
+	RveCodclf VARCHAR(75) not null,
+	RveTipo BOOLEAN not null,
 	RveLibStr1 VARCHAR(75) null,
-	RveEsenzi VARCHAR(75) null
+	RveEsenzi VARCHAR(75) null,
+	primary key (RveCodclf, RveTipo)
 );
 
 create table CuraTrasporto (

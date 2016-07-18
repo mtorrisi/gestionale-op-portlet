@@ -1,3 +1,4 @@
+<%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.VociIva"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
@@ -46,7 +47,7 @@
         testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "FAV", a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
-        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
                 
         List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), "FAV");
@@ -95,7 +96,7 @@
         }
 
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
-        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
+        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
         List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
@@ -395,7 +396,7 @@
             {
                 editor: nameEditor,
                 key: 'pesoNetto',
-                label: 'QuantitÃ '
+                label: 'QuantitÃÂ '
             },
             {
                 editor: numberEditor,
@@ -533,7 +534,7 @@
             else if(row.prezzo !== 0)
                 table.removeRow(recordSelected);
             else
-                alert("Attenzione non è possibile rimuovere un rigo con un prodotto.");
+                alert("Attenzione non Ã¨ possibile rimuovere un rigo con un prodotto.");
             recordSelected = "";
         });
 
@@ -651,7 +652,7 @@
         if (rows.length !== 0 && ok)
             sendData(rows, origDoc);
         else
-            alert("Attenzione non è possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
+            alert("Attenzione non Ã¨ possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
 
     }
 
@@ -701,10 +702,10 @@
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
                                     }
-                                    alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
+                                    alert("Attenzione, non Ã¨ stato possibile invare la mail di notifica.\n");
                                     break;
                                 case 5:
-                                    alert("Attenzione, il numero di protocollo: " + data.id + " è già  presente in archivio.\n");
+                                    alert("Attenzione, il numero di protocollo: " + data.id + " Ã¨ giÃ Â  presente in archivio.\n");
                                     break;
                                 case 6:
                                     alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");

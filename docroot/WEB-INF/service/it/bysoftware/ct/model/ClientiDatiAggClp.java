@@ -23,6 +23,7 @@ import com.liferay.portal.model.impl.BaseModelImpl;
 
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.ClpSerializer;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
 
 import java.io.Serializable;
 
@@ -50,23 +51,24 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 	}
 
 	@Override
-	public String getPrimaryKey() {
-		return _codiceAnagrafica;
+	public ClientiDatiAggPK getPrimaryKey() {
+		return new ClientiDatiAggPK(_codiceAnagrafica, _tipo);
 	}
 
 	@Override
-	public void setPrimaryKey(String primaryKey) {
-		setCodiceAnagrafica(primaryKey);
+	public void setPrimaryKey(ClientiDatiAggPK primaryKey) {
+		setCodiceAnagrafica(primaryKey.codiceAnagrafica);
+		setTipo(primaryKey.tipo);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _codiceAnagrafica;
+		return new ClientiDatiAggPK(_codiceAnagrafica, _tipo);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey((String)primaryKeyObj);
+		setPrimaryKey((ClientiDatiAggPK)primaryKeyObj);
 	}
 
 	@Override
@@ -74,6 +76,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("codiceAnagrafica", getCodiceAnagrafica());
+		attributes.put("tipo", getTipo());
 		attributes.put("associati", getAssociati());
 		attributes.put("codiceAliquota", getCodiceAliquota());
 
@@ -86,6 +89,12 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 		if (codiceAnagrafica != null) {
 			setCodiceAnagrafica(codiceAnagrafica);
+		}
+
+		Boolean tipo = (Boolean)attributes.get("tipo");
+
+		if (tipo != null) {
+			setTipo(tipo);
 		}
 
 		String associati = (String)attributes.get("associati");
@@ -118,6 +127,34 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 						String.class);
 
 				method.invoke(_clientiDatiAggRemoteModel, codiceAnagrafica);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public boolean getTipo() {
+		return _tipo;
+	}
+
+	@Override
+	public boolean isTipo() {
+		return _tipo;
+	}
+
+	@Override
+	public void setTipo(boolean tipo) {
+		_tipo = tipo;
+
+		if (_clientiDatiAggRemoteModel != null) {
+			try {
+				Class<?> clazz = _clientiDatiAggRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setTipo", boolean.class);
+
+				method.invoke(_clientiDatiAggRemoteModel, tipo);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -244,6 +281,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 		ClientiDatiAggClp clone = new ClientiDatiAggClp();
 
 		clone.setCodiceAnagrafica(getCodiceAnagrafica());
+		clone.setTipo(getTipo());
 		clone.setAssociati(getAssociati());
 		clone.setCodiceAliquota(getCodiceAliquota());
 
@@ -252,7 +290,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public int compareTo(ClientiDatiAgg clientiDatiAgg) {
-		String primaryKey = clientiDatiAgg.getPrimaryKey();
+		ClientiDatiAggPK primaryKey = clientiDatiAgg.getPrimaryKey();
 
 		return getPrimaryKey().compareTo(primaryKey);
 	}
@@ -269,7 +307,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 		ClientiDatiAggClp clientiDatiAgg = (ClientiDatiAggClp)obj;
 
-		String primaryKey = clientiDatiAgg.getPrimaryKey();
+		ClientiDatiAggPK primaryKey = clientiDatiAgg.getPrimaryKey();
 
 		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
@@ -290,10 +328,12 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{codiceAnagrafica=");
 		sb.append(getCodiceAnagrafica());
+		sb.append(", tipo=");
+		sb.append(getTipo());
 		sb.append(", associati=");
 		sb.append(getAssociati());
 		sb.append(", codiceAliquota=");
@@ -305,7 +345,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.ClientiDatiAgg");
@@ -314,6 +354,10 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 		sb.append(
 			"<column><column-name>codiceAnagrafica</column-name><column-value><![CDATA[");
 		sb.append(getCodiceAnagrafica());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tipo</column-name><column-value><![CDATA[");
+		sb.append(getTipo());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>associati</column-name><column-value><![CDATA[");
@@ -330,6 +374,7 @@ public class ClientiDatiAggClp extends BaseModelImpl<ClientiDatiAgg>
 	}
 
 	private String _codiceAnagrafica;
+	private boolean _tipo;
 	private String _associati;
 	private String _codiceAliquota;
 	private BaseModel<?> _clientiDatiAggRemoteModel;

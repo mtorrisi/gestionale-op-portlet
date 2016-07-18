@@ -61,23 +61,23 @@ public interface ClientiDatiAggLocalService extends BaseLocalService,
 	/**
 	* Creates a new clienti dati agg with the primary key. Does not add the clienti dati agg to the database.
 	*
-	* @param codiceAnagrafica the primary key for the new clienti dati agg
+	* @param clientiDatiAggPK the primary key for the new clienti dati agg
 	* @return the new clienti dati agg
 	*/
 	public it.bysoftware.ct.model.ClientiDatiAgg createClientiDatiAgg(
-		java.lang.String codiceAnagrafica);
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK);
 
 	/**
 	* Deletes the clienti dati agg with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg that was removed
 	* @throws PortalException if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
 	public it.bysoftware.ct.model.ClientiDatiAgg deleteClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -172,20 +172,20 @@ public interface ClientiDatiAggLocalService extends BaseLocalService,
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public it.bysoftware.ct.model.ClientiDatiAgg fetchClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
 	* Returns the clienti dati agg with the primary key.
 	*
-	* @param codiceAnagrafica the primary key of the clienti dati agg
+	* @param clientiDatiAggPK the primary key of the clienti dati agg
 	* @return the clienti dati agg
 	* @throws PortalException if a clienti dati agg with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public it.bysoftware.ct.model.ClientiDatiAgg getClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
