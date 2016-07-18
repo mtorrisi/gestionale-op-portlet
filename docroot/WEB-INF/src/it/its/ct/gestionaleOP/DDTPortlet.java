@@ -579,11 +579,12 @@ public class DDTPortlet extends MVCPortlet {
 	    				
 	    				List<WKRigoDocumento> rows = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
 //	    				for (WKRigoDocumento wkRigoDocumento : rows) {
+	    				RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
 	    				for (int i = 0; i < rows.size(); i++) {
 	    					WKRigoDocumento wkRigoDocumento = rows.get(i);
-	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.fetchRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
-	    					if(r == null)
-	    						r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
+//	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.fetchRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
+//	    					if(r == null)
+	    						RigoDocumento r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
 	    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
 	    					r.setDescrizione(wkRigoDocumento.getDescrizione());
 	    					r.setCodiceVariante(wkRigoDocumento.getCodiceVariante());
@@ -738,8 +739,8 @@ public class DDTPortlet extends MVCPortlet {
 					WKRigoDocumento rigo = rows.get(i);
 					if(rigo.getRigoOrdine() == 0)
 						rigo.setRigoOrdine(rows.size());
-					else
-						rigo.setRigoOrdine(i);
+//					else
+//						rigo.setRigoOrdine(i);
 					
 					if(rigo.getTipoDocumento().equals(FAV)){
 						int riferimentoBolla = rigo.getRiferimentoBolla();
@@ -765,8 +766,8 @@ public class DDTPortlet extends MVCPortlet {
 					WKRigoDocumento rigo = rows.get(i);
 					if(rigo.getRigoOrdine() == 0)
 						rigo.setRigoOrdine(rows.size());
-					else
-						rigo.setRigoOrdine(i);
+//					else
+//						rigo.setRigoOrdine(i);
 					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
 				}
 				
@@ -834,11 +835,12 @@ public class DDTPortlet extends MVCPortlet {
 //							righeFAV = new HashMap<List<Integer>, WKRigoDocumento>();
 						int i = 1;
 						while((line = bufferedReader.readLine()) != null){
-							_log.info("Line: " + line);
+							_log.info("Line: [" + line + "] i: " + i);
 							st = line.split(";");
 							if(!st[0].equals("WorkTestataDocumento")){
 								if(!testataDocumento.getTipoDocumento().equals(FAV))
-									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+//									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, (Integer.parseInt(st[26]) > righeDocumento.size()) ? -1 : righeDocumento.get(righeDocumento.size() - 1).getRigoOrdine() + 1, idAssociato));
 								else {
 									Map.Entry<Integer, WKRigoDocumento> entry = CSVParser.getRigoFattura(st, testataDocumento, idAssociato);
 									if(entry != null){
@@ -1412,10 +1414,14 @@ public class DDTPortlet extends MVCPortlet {
             JSONObject rowJSON = rowsJSON.getJSONObject(i);
             RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
+            _log.info("#######: " + rigo.getDescrizioneVariante());
+            
             String[] tmp = rigo.getDescrizioneVariante().split("-");
-
+                        
             if (tmp.length != 0) {
-                rigo.setDescrizioneVariante(tmp[0].trim());
+            	rigo.setCodiceVariante(tmp[0].trim());
+            	if(tmp.length > 1)
+            		rigo.setDescrizioneVariante(tmp[1].trim());
             }
 
             rigo.setAnno(ANNO);

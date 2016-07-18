@@ -107,10 +107,13 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.RigoDocumento"),
 			true);
 	public static long ANNO_COLUMN_BITMASK = 1L;
-	public static long IDASSOCIATO_COLUMN_BITMASK = 2L;
-	public static long NUMEROORDINE_COLUMN_BITMASK = 4L;
-	public static long TIPODOCUMENTO_COLUMN_BITMASK = 8L;
-	public static long RIGOORDINE_COLUMN_BITMASK = 16L;
+	public static long CODICEARTICOLO_COLUMN_BITMASK = 2L;
+	public static long CODICEVARIANTE_COLUMN_BITMASK = 4L;
+	public static long IDASSOCIATO_COLUMN_BITMASK = 8L;
+	public static long IMBALLO_COLUMN_BITMASK = 16L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 32L;
+	public static long TIPODOCUMENTO_COLUMN_BITMASK = 64L;
+	public static long RIGOORDINE_COLUMN_BITMASK = 128L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -505,7 +508,17 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public void setCodiceVariante(String codiceVariante) {
+		_columnBitmask |= CODICEVARIANTE_COLUMN_BITMASK;
+
+		if (_originalCodiceVariante == null) {
+			_originalCodiceVariante = _codiceVariante;
+		}
+
 		_codiceVariante = codiceVariante;
+	}
+
+	public String getOriginalCodiceVariante() {
+		return GetterUtil.getString(_originalCodiceVariante);
 	}
 
 	@JSON
@@ -537,7 +550,17 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public void setCodiceArticolo(String codiceArticolo) {
+		_columnBitmask |= CODICEARTICOLO_COLUMN_BITMASK;
+
+		if (_originalCodiceArticolo == null) {
+			_originalCodiceArticolo = _codiceArticolo;
+		}
+
 		_codiceArticolo = codiceArticolo;
+	}
+
+	public String getOriginalCodiceArticolo() {
+		return GetterUtil.getString(_originalCodiceArticolo);
 	}
 
 	@JSON
@@ -678,7 +701,17 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public void setImballo(String imballo) {
+		_columnBitmask |= IMBALLO_COLUMN_BITMASK;
+
+		if (_originalImballo == null) {
+			_originalImballo = _imballo;
+		}
+
 		_imballo = imballo;
+	}
+
+	public String getOriginalImballo() {
+		return GetterUtil.getString(_originalImballo);
 	}
 
 	@JSON
@@ -953,6 +986,12 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoModelImpl._originalNumeroOrdine = rigoDocumentoModelImpl._numeroOrdine;
 
 		rigoDocumentoModelImpl._setOriginalNumeroOrdine = false;
+
+		rigoDocumentoModelImpl._originalCodiceVariante = rigoDocumentoModelImpl._codiceVariante;
+
+		rigoDocumentoModelImpl._originalCodiceArticolo = rigoDocumentoModelImpl._codiceArticolo;
+
+		rigoDocumentoModelImpl._originalImballo = rigoDocumentoModelImpl._imballo;
 
 		rigoDocumentoModelImpl._originalTipoDocumento = rigoDocumentoModelImpl._tipoDocumento;
 
@@ -1298,8 +1337,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private boolean _setOriginalNumeroOrdine;
 	private int _rigoOrdine;
 	private String _codiceVariante;
+	private String _originalCodiceVariante;
 	private String _descrizioneVariante;
 	private String _codiceArticolo;
+	private String _originalCodiceArticolo;
 	private String _descrizione;
 	private String _unitaMisura;
 	private int _colli;
@@ -1311,6 +1352,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private String _note;
 	private double _totalePesata;
 	private String _imballo;
+	private String _originalImballo;
 	private boolean _gestioneReti;
 	private double _RtxCl;
 	private double _kgRete;

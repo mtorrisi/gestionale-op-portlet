@@ -15,7 +15,7 @@
 
 	String dateFrom = ParamUtil.getString(request, "dateFrom", "");
 	String dateTo = ParamUtil.getString(request, "dateTo", "");
-	
+	System.out.println("date from: " + dateFrom + " to: " + dateTo);
 	long id = ParamUtil.getLong(renderRequest, "associato", 0);
 	Associato a = AssociatoLocalServiceUtil.getAssociato(id);
     List<TestataDocumento> testateFatture = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 1);
@@ -24,7 +24,8 @@
 		if(t.getTipoDocumento().equals("FAV")){
 			if(!dateFrom.equals("") && !dateTo.equals("")){
 				Date d = formatter.parse(t.getDataOrdine());
-				if(d.after(formatter.parse(dateFrom)) && d.before(formatter.parse(dateTo))){
+// 				if(d.after(formatter.parse(dateFrom)) && d.before(formatter.parse(dateTo))){
+				if(d.compareTo(formatter.parse(dateFrom)) >= 0 && d.compareTo(formatter.parse(dateTo)) <= 0){
 					testate.add(t);
 				}
 			} else

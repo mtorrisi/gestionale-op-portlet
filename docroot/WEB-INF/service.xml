@@ -283,6 +283,22 @@
 			<finder-column name='tipoDocumento' comparator='='>
 			</finder-column>
 		</finder>
+		<finder name='numeroOrdineAnnoAssociatoArticolo' return-type='Collection'>
+			<finder-column name='numeroOrdine' comparator='='>
+			</finder-column>
+			<finder-column name='anno' comparator='='>
+			</finder-column>
+			<finder-column name='tipoDocumento' comparator='='>
+			</finder-column>
+			<finder-column name='codiceArticolo' comparator='='>
+			</finder-column>
+			<finder-column name='codiceVariante' comparator='='>
+			</finder-column>
+			<finder-column name='imballo' comparator='='>
+			</finder-column>
+			<finder-column name='idAssociato' comparator='='>
+			</finder-column>
+		</finder>
 	</entity>
 	<entity name='Vettori' table='Vettori' local-service='true'
 		remote-service='true'>

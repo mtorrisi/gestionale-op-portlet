@@ -26,7 +26,7 @@ public class CSVParser {
 		String numeroDocumento = (st[9].equals("") || st[9].equals("0") ) ? st[10] : st[9];
 		String tipoDocumento = st[0];
 		WKTestataDocumento t = WKTestataDocumentoLocalServiceUtil.createWKTestataDocumento(new WKTestataDocumentoPK(Integer.parseInt(anno), Long.parseLong(numeroDocumento), tipoDocumento, idAssociato));
-		//Tipdoc;Codcen;Datreg;Codsog;Codspe;Codpor;Codase;Codve1;Codve2;Numdoc;Protoc;Datdoc;Datann
+		//Tipdoc;Codcen;Datreg;Codsog;Codspe;Codpor;Codase;Codve1;Codve2;Numdoc;Protoc;Datdoc;Datann;Nudabo
 		t.setCentro(st[1]);
 		t.setCodiceSoggetto(st[3]);
 		t.setPorto("001"); // t.setPorto(st[5]);
@@ -37,6 +37,23 @@ public class CSVParser {
 		t.setCausaleTrasporto("VEN");
 		t.setDataOrdine(st[11]);
 		t.setDataConsegna(st[11]);
+//		if(st[0].equals("FAV")){
+//			if(!st[13].isEmpty()){
+//				String[] tmp = st[13].split(" ");
+//				if(tmp.length > 0){
+//					tmp[0] += " DDT";
+//				}
+//				StringBuilder sbStr = new StringBuilder();
+//			    for (int i = 0, il = tmp.length; i < il; i++) {
+//			        if (i > 0)
+//			            sbStr.append(" ");
+//			        sbStr.append(tmp[i]);
+//			    }
+//				t.setNota1(sbStr.toString());
+//			} else {
+//				t.setNota1(st[13]);
+//			}
+//		} 
 		
 		return t;
 	}
@@ -44,9 +61,10 @@ public class CSVParser {
 
 	public static WKRigoDocumento getRigo(String[] st, WKTestataDocumento testataDocumento, int rigoDocumento, long idAssociato) {
 //		String tipoDocumento = st[0];
+		rigoDocumento = (rigoDocumento !=-1) ? rigoDocumento : Integer.parseInt(st[26]);
 		NumberFormat nf = NumberFormat.getNumberInstance(Locale.ITALY);
 		WKRigoDocumento r = WKRigoDocumentoLocalServiceUtil.createWKRigoDocumento(new WKRigoDocumentoPK(testataDocumento.getAnno(), testataDocumento.getNumeroOrdine(), rigoDocumento, testataDocumento.getTipoDocumento(), idAssociato));
-//		Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;Codlot;Numbol;Numrigbol;Unimis
+//		Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;Codlot;Numbol;Numrigbol;Unimis;Posizione
 		r.setCodiceArticolo(st[1]);
 		r.setCodiceVariante(st[2]);
 		r.setDescrizione(st[3]);
@@ -64,13 +82,14 @@ public class CSVParser {
 				r.setUnitaMisura(st[25]);
 			if(!st[23].equals("0") && !st[24].equals("0")){ //FATTURA
 				if(r.getPesoLordo() != 0.0){
-					RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), Integer.parseInt(st[24]), "DDT", idAssociato));
-					r.setLotto(rigoDDT.getLotto());
 					r.setRiferimentoBolla(Integer.parseInt(st[23]));
+					RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), Integer.parseInt(st[24]) + 1, "DDT", idAssociato));
+//					RigoDocumento rigoDDT = RigoDocumentoLocalServiceUtil.getRigoDocumento(new RigoDocumentoPK(r.getAnno(), Long.parseLong(st[23]), rigoDocumento - 1, "DDT", idAssociato));
+					r.setLotto(rigoDDT.getLotto());
 				}
 			} else //DDT
 				r.setLotto(st[22]);
-			
+		
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

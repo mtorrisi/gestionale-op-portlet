@@ -131,6 +131,19 @@ public class RigoDocumentoLocalServiceClpInvoker {
 		_methodParameterTypes185 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
+
+		_methodName186 = "deleteRigoByNumeroOrdineAnnoAssociato";
+
+		_methodParameterTypes186 = new String[] {
+				"long", "int", "long", "java.lang.String"
+			};
+
+		_methodName187 = "getDocumentoByOrdineAnnoAssociato";
+
+		_methodParameterTypes187 = new String[] {
+				"long", "int", "java.lang.String", "java.lang.String",
+				"java.lang.String", "java.lang.String", "long"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -248,6 +261,22 @@ public class RigoDocumentoLocalServiceClpInvoker {
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 		}
 
+		if (_methodName186.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes186, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
+		}
+
+		if (_methodName187.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes187, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.getDocumentoByOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
+				(java.lang.String)arguments[4], (java.lang.String)arguments[5],
+				((Long)arguments[6]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -291,4 +320,8 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes184;
 	private String _methodName185;
 	private String[] _methodParameterTypes185;
+	private String _methodName186;
+	private String[] _methodParameterTypes186;
+	private String _methodName187;
+	private String[] _methodParameterTypes187;
 }

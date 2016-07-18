@@ -55,6 +55,7 @@
             JSONObject json = JSONFactoryUtil.createJSONObject();
             json.put("codiceArticolo", rigo.getCodiceArticolo());
             json.put("descrizione", rigo.getDescrizione());
+            json.put("codiceVariante", rigo.getCodiceVariante());
             json.put("descrizioneVariante", rigo.getDescrizioneVariante());
             json.put("imballo", rigo.getImballo());
             json.put("lotto", rigo.getLotto());
@@ -117,6 +118,7 @@
             }
             json.put("codiceArticolo", rigo.getCodiceArticolo());
             json.put("descrizione", rigo.getDescrizione());
+            json.put("codiceVariante", rigo.getCodiceVariante());
             json.put("descrizioneVariante", rigo.getDescrizioneVariante());
             json.put("imballo", rigo.getImballo());
             json.put("lotto", rigo.getLotto());
@@ -362,6 +364,10 @@
                 label: 'Descrizione Articolo'
             },
             {
+            	key: 'codiceVariante',
+                label: 'Cod. Var.'
+            },
+            {
                 key: 'descrizioneVariante',
                 label: 'Variante'
             },
@@ -389,7 +395,7 @@
             {
                 editor: nameEditor,
                 key: 'pesoNetto',
-                label: 'Quantità'
+                label: 'QuantitÃ '
             },
             {
                 editor: numberEditor,
@@ -698,7 +704,7 @@
                                     alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
                                     break;
                                 case 5:
-                                    alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
+                                    alert("Attenzione, il numero di protocollo: " + data.id + " è già  presente in archivio.\n");
                                     break;
                                 case 6:
                                     alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");

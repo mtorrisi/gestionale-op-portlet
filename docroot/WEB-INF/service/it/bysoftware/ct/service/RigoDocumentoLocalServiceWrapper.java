@@ -305,6 +305,26 @@ public class RigoDocumentoLocalServiceWrapper
 			anno, idAssociato, tipoDocumento);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _rigoDocumentoLocalService.deleteRigoByNumeroOrdineAnnoAssociato(numeroOrdine,
+			anno, idAssociato, tipoDocumento);
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDocumentoByOrdineAnnoAssociato(
+		long numeroOrdine, int anno, java.lang.String tipoDocumento,
+		java.lang.String codiceArticolo, java.lang.String codiceVariante,
+		java.lang.String imballo, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _rigoDocumentoLocalService.getDocumentoByOrdineAnnoAssociato(numeroOrdine,
+			anno, tipoDocumento, codiceArticolo, codiceVariante, imballo,
+			idAssociato);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

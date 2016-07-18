@@ -114,7 +114,7 @@
             <button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i>Stampa</button>
-            <button id="btnTrace"   class="btn" disabled="true"><i class="icon-list-alt" ></i>Scheda Tracciabilità </button>
+            <button id="btnTrace"   class="btn" disabled="true"><i class="icon-list-alt" ></i>Scheda TracciabilitÃ </button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -246,9 +246,9 @@
                         <label for="costo" class="control-label">Costo Trasporto: </label>
                         <div class="controls form-inline">
                             <input type="text" class="input-small" id="costo">
-                            <label for="pedane-euro">N° Pedane Euro: </label>
+                            <label for="pedane-euro">NÂ° Pedane Euro: </label>
                             <input type="text" class="input-small" id="pedane-euro"/>
-                            <label for="pedane-normali">N° Pedane Normali: </label>
+                            <label for="pedane-normali">NÂ° Pedane Normali: </label>
                             <input type="text" class="input-small" id="pedane-normali"/>
                         </div>
                     </div>
@@ -625,7 +625,7 @@
                         options: variety.split("|")
                     }),
                     key: 'descrizioneVariante',
-                    label: 'VarietÃ '
+                    label: 'VarietÃƒÂ '
                 },
                 {
                     editor: nameEditor,
@@ -1122,10 +1122,10 @@
 //                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
                                                     document.getElementById('<portlet:namespace/>recProt').value = "";
                                                 }
-                                                alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
+                                                alert("Attenzione, non Ã¨ stato possibile invare la mail di notifica.\n");
                                                 break;
                                             case 5:
-                                                alert("Attenzione, il numero di protocollo: " + data.id + " è già  presente in archivio.\n");
+                                                alert("Attenzione, il numero di protocollo: " + data.id + " Ã¨ giÃ Â  presente in archivio.\n");
                                                 break;
                                             case 6:
                                                 alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");

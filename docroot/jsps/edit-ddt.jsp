@@ -67,7 +67,7 @@
         JSONObject json = JSONFactoryUtil.createJSONObject();
         json.put("codiceArticolo", rigo.getCodiceArticolo());
         json.put("descrizione", rigo.getDescrizione());
-        json.put("descrizioneVariante", rigo.getDescrizioneVariante());
+        json.put("descrizioneVariante", rigo.getCodiceVariante() + " - " + rigo.getDescrizioneVariante());
         json.put("lotto", rigo.getLotto());
         json.put("descrizione", rigo.getDescrizione());
         json.put("reti", gestioneReti);
@@ -149,7 +149,7 @@
             <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
-            <button id="btnTrace"   class="btn" <%--= disableTraceBTN --%>><i class="icon-list-alt" ></i>Scheda TracciabilitÃ Â </button>
+            <button id="btnTrace"   class="btn" <%--= disableTraceBTN --%>><i class="icon-list-alt" ></i>Scheda Tracciabilita'</button>
             <!--<button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>-->
         </div>
     </div>  
@@ -282,9 +282,9 @@
                     <label for="costo" class="control-label">Costo Trasporto: </label>
                     <div class="controls form-inline">
                         <input type="text" class="input-small" id="costo" value="<%= testata.getCostoTrasporto()%>">
-                        <label for="pedane-euro">NÃÂ° Pedane Euro: </label>
+                        <label for="pedane-euro">N. Pedane Euro: </label>
                         <input type="text" class="input-small" id="pedane-euro" value="<%= testata.getNumeroPedaneEuro()%>"/>
-                        <label for="pedane-normali">NÃÂ° Pedane Normali: </label>
+                        <label for="pedane-normali">N. Pedane Normali: </label>
                         <input type="text" class="input-small" id="pedane-normali" value="<%= testata.getNumeroPedaneNormali()%>"/>
                     </div>
                 </div>
@@ -646,7 +646,7 @@
                         options: variety.split("|")
                     }),
                 key: 'descrizioneVariante',
-                label: 'Varietà'
+                label: 'Varieta\' '
             },
             {
 //                editor: nameEditor,
@@ -1048,10 +1048,10 @@
                                             document.getElementById("btnSave").disabled = true;
                                             document.getElementById("btnTrace").disabled = false;
                                             console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-                                            alert("Attenzione, non ÃÂ¨ stato possibile invare la mail di notifica.\n");
+                                            alert("Attenzione, non ÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
                                             break;
                                         case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂ¨ giÃÂ  presente in archivio.\n");
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂ¨ giÃÂÃÂ  presente in archivio.\n");
                                             break;
                                         case 6:
                                             alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");

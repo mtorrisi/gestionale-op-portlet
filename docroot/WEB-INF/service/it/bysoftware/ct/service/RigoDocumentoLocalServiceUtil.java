@@ -292,6 +292,25 @@ public class RigoDocumentoLocalServiceUtil {
 			idAssociato, tipoDocumento);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .deleteRigoByNumeroOrdineAnnoAssociato(numeroOrdine, anno,
+			idAssociato, tipoDocumento);
+	}
+
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> getDocumentoByOrdineAnnoAssociato(
+		long numeroOrdine, int anno, java.lang.String tipoDocumento,
+		java.lang.String codiceArticolo, java.lang.String codiceVariante,
+		java.lang.String imballo, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getDocumentoByOrdineAnnoAssociato(numeroOrdine, anno,
+			tipoDocumento, codiceArticolo, codiceVariante, imballo, idAssociato);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}
