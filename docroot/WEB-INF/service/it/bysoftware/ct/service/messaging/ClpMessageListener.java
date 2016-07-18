@@ -17,8 +17,12 @@ package it.bysoftware.ct.service.messaging;
 import com.liferay.portal.kernel.messaging.BaseMessageListener;
 import com.liferay.portal.kernel.messaging.Message;
 
+import it.bysoftware.ct.service.AnagraficaAssociatoOPLocalServiceUtil;
+import it.bysoftware.ct.service.AnagraficaAssociatoOPServiceUtil;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.AnagraficaServiceUtil;
+import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliAssociatoOPServiceUtil;
 import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.ArticoliServiceUtil;
 import it.bysoftware.ct.service.AspettoEsterioreBeniLocalServiceUtil;
@@ -40,6 +44,8 @@ import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
 import it.bysoftware.ct.service.DescrizioniVariantiServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
+import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
+import it.bysoftware.ct.service.FileUploaderServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriServiceUtil;
 import it.bysoftware.ct.service.PortoLocalServiceUtil;
@@ -58,6 +64,10 @@ import it.bysoftware.ct.service.VettoriLocalServiceUtil;
 import it.bysoftware.ct.service.VettoriServiceUtil;
 import it.bysoftware.ct.service.VociIvaLocalServiceUtil;
 import it.bysoftware.ct.service.VociIvaServiceUtil;
+import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.WKRigoDocumentoServiceUtil;
+import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.WKTestataDocumentoServiceUtil;
 
 /**
  * @author Brian Wing Shun Chan
@@ -77,9 +87,15 @@ public class ClpMessageListener extends BaseMessageListener {
 			AnagraficaLocalServiceUtil.clearService();
 
 			AnagraficaServiceUtil.clearService();
+			AnagraficaAssociatoOPLocalServiceUtil.clearService();
+
+			AnagraficaAssociatoOPServiceUtil.clearService();
 			ArticoliLocalServiceUtil.clearService();
 
 			ArticoliServiceUtil.clearService();
+			ArticoliAssociatoOPLocalServiceUtil.clearService();
+
+			ArticoliAssociatoOPServiceUtil.clearService();
 			AspettoEsterioreBeniLocalServiceUtil.clearService();
 
 			AspettoEsterioreBeniServiceUtil.clearService();
@@ -107,6 +123,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			DestinatariDiversiLocalServiceUtil.clearService();
 
 			DestinatariDiversiServiceUtil.clearService();
+			FileUploaderLocalServiceUtil.clearService();
+
+			FileUploaderServiceUtil.clearService();
 			OrganizzazioneProduttoriLocalServiceUtil.clearService();
 
 			OrganizzazioneProduttoriServiceUtil.clearService();
@@ -134,6 +153,12 @@ public class ClpMessageListener extends BaseMessageListener {
 			VociIvaLocalServiceUtil.clearService();
 
 			VociIvaServiceUtil.clearService();
+			WKRigoDocumentoLocalServiceUtil.clearService();
+
+			WKRigoDocumentoServiceUtil.clearService();
+			WKTestataDocumentoLocalServiceUtil.clearService();
+
+			WKTestataDocumentoServiceUtil.clearService();
 		}
 	}
 }

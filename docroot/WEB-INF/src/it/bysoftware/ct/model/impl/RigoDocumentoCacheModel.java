@@ -36,7 +36,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(57);
+		StringBundler sb = new StringBundler(59);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -84,6 +84,8 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sb.append(passaporto);
 		sb.append(", progressivo=");
 		sb.append(progressivo);
+		sb.append(", riferimentoBolla=");
+		sb.append(riferimentoBolla);
 		sb.append(", sconto1=");
 		sb.append(sconto1);
 		sb.append(", sconto2=");
@@ -184,6 +186,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		}
 
 		rigoDocumentoImpl.setProgressivo(progressivo);
+		rigoDocumentoImpl.setRiferimentoBolla(riferimentoBolla);
 		rigoDocumentoImpl.setSconto1(sconto1);
 		rigoDocumentoImpl.setSconto2(sconto2);
 		rigoDocumentoImpl.setSconto3(sconto3);
@@ -227,6 +230,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		lotto = objectInput.readUTF();
 		passaporto = objectInput.readUTF();
 		progressivo = objectInput.readInt();
+		riferimentoBolla = objectInput.readInt();
 		sconto1 = objectInput.readFloat();
 		sconto2 = objectInput.readFloat();
 		sconto3 = objectInput.readFloat();
@@ -318,6 +322,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		}
 
 		objectOutput.writeInt(progressivo);
+		objectOutput.writeInt(riferimentoBolla);
 		objectOutput.writeFloat(sconto1);
 		objectOutput.writeFloat(sconto2);
 		objectOutput.writeFloat(sconto3);
@@ -355,6 +360,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public String lotto;
 	public String passaporto;
 	public int progressivo;
+	public int riferimentoBolla;
 	public float sconto1;
 	public float sconto2;
 	public float sconto3;

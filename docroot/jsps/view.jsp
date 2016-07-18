@@ -3,6 +3,7 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.bysoftware.ct.model.Anagrafica"%>
 <%@page import="java.util.List"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%
     /**
      * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
@@ -38,7 +39,23 @@
 
 %>
 
+<liferay-portlet:renderURL var="uploadURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/upload.jsp" />
+</liferay-portlet:renderURL>
+
+<liferay-portlet:renderURL var="validateURL">
+    <liferay-portlet:param name="jspPage" value="/jsps/validate.jsp" />
+</liferay-portlet:renderURL>
+
 <liferay-ui:success key="success" message="Greeting saved successfully!"/>
+
+<aui:field-wrapper >
+    <div class="btn-toolbar">
+        <div class="btn-group">
+            <button id="btnUpload" class="btn" ><i class="icon-upload"></i>Importa</button>
+		</div>
+	</div>
+</aui:field-wrapper>
 
 <liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
 
@@ -55,3 +72,19 @@
 
     <liferay-ui:search-iterator/>
 </liferay-ui:search-container>
+
+<%-- <portlet:actionURL name="addStack" var="actionFoo"></portlet:actionURL> --%>
+<%-- <form action="<%=actionFoo.toString()%>" method="post" enctype="multipart/form-data"> --%>
+<!--  <input type="file" name="file"/> -->
+<!--  <input type="submit" value="Submit" /> -->
+<!-- </form> -->
+
+
+<script type="text/javascript">
+
+YUI().use('node', function (Y) {
+    Y.one('#btnUpload').on('click', function () {
+        window.location.href = '<%=validateURL%>'.toString();
+    });
+});
+</script>

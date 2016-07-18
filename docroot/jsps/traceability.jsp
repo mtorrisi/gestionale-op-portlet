@@ -68,7 +68,7 @@
     </aui:field-wrapper>
 
     <fieldset>
-        <legend>Allegato tracciabilità</legend>
+        <legend>Allegato tracciabilita'�</legend>
         <aui:form name="fm2" action="" method="post">
             <aui:input id="nDoc" type="text" name="nDoc" label="N° documento" cssClass="input-small" disabled="true" inlineField="true" value="<%= numeroDocumento%>"/>
             <aui:input id="dataDoc" type="text" name="dataDoc" label="Data documento" cssClass="input-large" disabled="true" inlineField="true" value="<%= testata.getDataOrdine()%>" />
@@ -99,9 +99,12 @@
                             <c:forEach var="j" begin="1" end="3">
                                 <div style="padding-left: 5%">
                                     <aui:input id="idGrezzo_${i}_${j}"    type="text" name="idGrezzo_${i}_${j}" label="" cssClass="input-large" style="display: none" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getId() : -1  %>" />
-                                    <aui:input id="lottoGrezzo_${i}_${j}"    type="text" name="lottoGrezzo_${i}_${j}" label="Lotto grezzo" cssClass="input-large" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getLottoGrezzo() : ""  %>" />
+                                    <aui:input id="lottoGrezzo_${i}_${j}"    type="text" name="lottoGrezzo_${i}_${j}" label="Lotto grezzo" cssClass="input-large" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getLottoGrezzo() : ""  %>" >
+                                        <aui:validator name="maxLength">15</aui:validator>
+                                    </aui:input>
                                     <aui:input id="prodotto_${i}_${j}" type="text" name="prodotto_${i}_${j}" label="Prodotto utilizzato" cssClass="input-xxlarge" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getProdotto() : ""  %>" />
                                     <aui:input id="kg_${i}_${j}" type="text" name="kg_${i}_${j}" label="Kg utilizzati" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getKg(): 0  %>">
+                                        <aui:validator name="required"></aui:validator>
                                         <aui:validator name="number"></aui:validator>
                                     </aui:input>
                                     <aui:input id="produttore_${i}_${j}" type="text" name="produttore_${i}_${j}" label="Produttore" cssClass="input-xxlarge" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getProduttore() : ""  %>"/>

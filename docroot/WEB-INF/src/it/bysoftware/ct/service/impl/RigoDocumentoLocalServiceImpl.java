@@ -15,8 +15,11 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.model.RigoDocumento;
+import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.base.RigoDocumentoLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -50,4 +53,21 @@ public class RigoDocumentoLocalServiceImpl
     public List<RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
         return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
     }
+    
+    @Override
+    public List<RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+    	List<RigoDocumento> list = getFatturaByNumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+    	for (RigoDocumento rigoDocumento : list) {
+			RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigoDocumento);
+		}
+    	return list;
+    }
+
+	@Override
+	public List<RigoDocumento> getDocumentoByOrdineAnnoAssociato(long numeroOrdine,
+			int anno, String tipoDocumento, String codiceArticolo,
+			String codiceVariante, String imballo, long idAssociato)
+			throws SystemException {
+		return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociatoArticolo(numeroOrdine, anno, tipoDocumento, codiceArticolo, codiceVariante, imballo, idAssociato);
+	}
 }

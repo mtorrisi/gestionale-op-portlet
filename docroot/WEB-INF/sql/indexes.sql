@@ -8,6 +8,7 @@ create index IX_A02FCE4A on ProgAnnFor (Re4Anno, Re4Codatt, Re4Numcon);
 
 create index IX_AC8B1912 on SSRIGORD (WkNOrd);
 create index IX_88FCE1A8 on SSRIGORD (WkNOrd, WKAnno);
+create index IX_2A84F1A9 on SSRIGORD (WkNOrd, WKAnno, WKTipdoc, WkCodart, WkVarian, WKImballo, id_associato);
 create index IX_BFC9C5A0 on SSRIGORD (WkNOrd, WKAnno, id_associato);
 create index IX_CA243305 on SSRIGORD (WkNOrd, WKAnno, id_associato, WKTipdoc);
 
@@ -18,6 +19,12 @@ create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);
 create index IX_986314C2 on SSTESORD (WkOperatore, WKCompleto, WKInviato, WKTipdoc);
 
 create index IX_1E6332A on TracciabilitaGrezzi (id_scheda_tracciabilita);
+
+create index IX_70DC6490 on WK_SSRIGORD (WKAnno, id_associato);
+create index IX_482BCA50 on WK_SSRIGORD (WkNOrd, WKAnno, id_associato, WKTipdoc);
+
+create index IX_16C2823E on WK_SSTESORD (WKAnno, id_associato);
+create index IX_7618A674 on WK_SSTESORD (WKAnno, id_associato, verificato);
 
 create index IX_E93AA8C3 on associato (attivo);
 create index IX_320CDAD2 on associato (attivo, id_op);

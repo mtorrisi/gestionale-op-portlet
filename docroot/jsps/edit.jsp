@@ -625,7 +625,7 @@
                         options: variety.split("|")
                     }),
                     key: 'descrizioneVariante',
-                    label: 'Varietà'
+                    label: 'VarietÃ '
                 },
                 {
                     editor: nameEditor,
@@ -1125,7 +1125,7 @@
                                                 alert("Attenzione, non è stato possibile invare la mail di notifica.\n");
                                                 break;
                                             case 5:
-                                                alert("Attenzione, il numero di protocollo: " + data.id + " è già presente in archivio.\n");
+                                                alert("Attenzione, il numero di protocollo: " + data.id + " è già  presente in archivio.\n");
                                                 break;
                                             case 6:
                                                 alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
@@ -1186,6 +1186,6 @@
                 window.location.href = '<%=traceabilityURL%>'.toString() + '&<portlet:namespace/>numeroDocumento=' + document.getElementById('<portlet:namespace/>nDoc').value;
             });
         });
-
+        
 </script>
 

@@ -65,6 +65,23 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.AnagraficaAssociatoOPModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPK" />
+		<attributes>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</id>
+			<id name="codiceSogettoAssociato">
+				<column name="CODICE_SOGETTO_ASSOCIATO" />
+			</id>
+			<basic name="codiceSogettoOP">
+				<column name="CODICE_SOGETTO_OP" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.ArticoliModelImpl">
 		<attributes>
 			<id name="codiceArticolo">
@@ -87,6 +104,23 @@
 			</basic>
 			<basic name="tara">
 				<column name="RANLIBDBL1" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.ArticoliAssociatoOPModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPK" />
+		<attributes>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</id>
+			<id name="codiceArticoloAssociato">
+				<column name="CODICE_ARTICOLO_ASSOCIATO" />
+			</id>
+			<basic name="codiceArticoloOP">
+				<column name="CODICE_ARTICOLO_OP" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -294,6 +328,15 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.FileUploaderModelImpl">
+		<attributes>
+			<id name="fid" />
+			<basic name="content" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriModelImpl">
 		<attributes>
 			<id name="id" />
@@ -456,6 +499,9 @@
 			</basic>
 			<basic name="progressivo">
 				<column name="CODPASSAPORTONUM" />
+			</basic>
+			<basic name="riferimentoBolla">
+				<column name="NRIGRIFERIMENTO" />
 			</basic>
 			<basic name="sconto1" />
 			<basic name="sconto2" />
@@ -708,12 +754,231 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.WKRigoDocumentoModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.WKRigoDocumentoPK" />
+		<attributes>
+			<id name="anno">
+				<column name="WKANNO" />
+			</id>
+			<id name="numeroOrdine">
+				<column name="WKNORD" />
+			</id>
+			<id name="rigoOrdine">
+				<column name="WKRIGORD" />
+			</id>
+			<id name="tipoDocumento">
+				<column name="WKTIPDOC" />
+			</id>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</id>
+			<basic name="codiceVariante">
+				<column name="WKVARIAN" />
+			</basic>
+			<basic name="descrizioneVariante">
+				<column name="WKDESVAR" />
+			</basic>
+			<basic name="codiceArticolo">
+				<column name="WKCODART" />
+			</basic>
+			<basic name="descrizione">
+				<column name="WKDESCRI" />
+			</basic>
+			<basic name="unitaMisura">
+				<column name="WKUNIMIS" />
+			</basic>
+			<basic name="colli">
+				<column name="WKCOLLI" />
+			</basic>
+			<basic name="pesoLordo">
+				<column name="WKPESLOR" />
+			</basic>
+			<basic name="tara">
+				<column name="WKTARA" />
+			</basic>
+			<basic name="pesoNetto">
+				<column name="WKPESNET" />
+			</basic>
+			<basic name="prezzo">
+				<column name="WKPREZZO" />
+			</basic>
+			<basic name="pedane">
+				<column name="WKPEDANE" />
+			</basic>
+			<basic name="note">
+				<column name="WKNOTE" />
+			</basic>
+			<basic name="totalePesata">
+				<column name="WKTOTPES" />
+			</basic>
+			<basic name="imballo">
+				<column name="WKIMBALLO" />
+			</basic>
+			<basic name="gestioneReti">
+				<column name="WKGESRETINE" />
+			</basic>
+			<basic name="RtxCl">
+				<column name="WKRTXCL" />
+			</basic>
+			<basic name="kgRete">
+				<column name="WKKGRETINE" />
+			</basic>
+			<basic name="lotto">
+				<column name="WKLOTTO" />
+			</basic>
+			<basic name="passaporto">
+				<column name="CODPASSAPORTOALFA" />
+			</basic>
+			<basic name="progressivo">
+				<column name="CODPASSAPORTONUM" />
+			</basic>
+			<basic name="riferimentoBolla">
+				<column name="NRIGRIFERIMENTO" />
+			</basic>
+			<basic name="sconto1" />
+			<basic name="sconto2" />
+			<basic name="sconto3" />
+			<basic name="verificato" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.WKTestataDocumentoModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.WKTestataDocumentoPK" />
+		<attributes>
+			<id name="anno">
+				<column name="WKANNO" />
+			</id>
+			<id name="numeroOrdine">
+				<column name="WKNORD" />
+			</id>
+			<id name="tipoDocumento">
+				<column name="WKTIPDOC" />
+			</id>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</id>
+			<basic name="codiceSoggetto">
+				<column name="WKCODSOG" />
+			</basic>
+			<basic name="dataOrdine">
+				<column name="WKDATORD" />
+			</basic>
+			<basic name="dataConsegna">
+				<column name="WKDATCON" />
+			</basic>
+			<basic name="destinazione">
+				<column name="WKDESTI2" />
+			</basic>
+			<basic name="codiceDestinazione">
+				<column name="WKDESDIV" />
+			</basic>
+			<basic name="ragioneSociale">
+				<column name="WKRAGSOC" />
+			</basic>
+			<basic name="completo">
+				<column name="WKCOMPLETO" />
+			</basic>
+			<basic name="operatore">
+				<column name="WKOPERATORE" />
+			</basic>
+			<basic name="visto">
+				<column name="WKVISTO" />
+			</basic>
+			<basic name="inviato">
+				<column name="WKINVIATO" />
+			</basic>
+			<basic name="lotto">
+				<column name="WKLOTTO" />
+			</basic>
+			<basic name="vettore">
+				<column name="WKVETTORE" />
+			</basic>
+			<basic name="autista">
+				<column name="WKAUTISTA" />
+			</basic>
+			<basic name="telefono">
+				<column name="WKTELEFONO" />
+			</basic>
+			<basic name="centro">
+				<column name="WKCENTRO" />
+			</basic>
+			<basic name="palletCaricati">
+				<column name="EPALCARICATI" />
+			</basic>
+			<basic name="palletScaricati">
+				<column name="EPALSCARICATI" />
+			</basic>
+			<basic name="codiceVettore">
+				<column name="CODDESTIVETT1" />
+			</basic>
+			<basic name="destinazioneVettore">
+				<column name="DESTIVETT1" />
+			</basic>
+			<basic name="nota1">
+				<column name="NOTA1" />
+			</basic>
+			<basic name="nota2">
+				<column name="NOTA2" />
+			</basic>
+			<basic name="rigoDescrittivo">
+				<column name="RIGODESCRITTIVO" />
+			</basic>
+			<basic name="vettore2">
+				<column name="WKVETTORE2" />
+			</basic>
+			<basic name="curaTrasporto">
+				<column name="TRASPCURA" />
+			</basic>
+			<basic name="aspettoEsteriore">
+				<column name="ASPEST" />
+			</basic>
+			<basic name="causaleTrasporto">
+				<column name="CAUTRASP" />
+			</basic>
+			<basic name="porto" />
+			<basic name="origine">
+				<column name="ORIGINE" />
+			</basic>
+			<basic name="numeroPedaneEuro">
+				<column name="NPEDEPAL" />
+			</basic>
+			<basic name="numeroPedaneNormali">
+				<column name="NPEDNORMALI" />
+			</basic>
+			<basic name="costoTrasporto">
+				<column name="COSTOTRASP" />
+			</basic>
+			<basic name="totalePedaneOrdine">
+				<column name="TOTPEDORD" />
+			</basic>
+			<basic name="targaCamion">
+				<column name="TARGACAMION" />
+			</basic>
+			<basic name="targaRimorchio">
+				<column name="TARGARIMORCHIO" />
+			</basic>
+			<basic name="verificato" />
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<entity class="it.bysoftware.ct.model.impl.AnagraficaImpl" name="Anagrafica">
 		<table name="AnagraficheClientiFornitori" />
 		<attributes />
 	</entity>
+	<entity class="it.bysoftware.ct.model.impl.AnagraficaAssociatoOPImpl" name="AnagraficaAssociatoOP">
+		<table name="anagrafica_associato_op" />
+		<attributes />
+	</entity>
 	<entity class="it.bysoftware.ct.model.impl.ArticoliImpl" name="Articoli">
 		<table name="Articoli" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.ArticoliAssociatoOPImpl" name="ArticoliAssociatoOP">
+		<table name="articoli_associato_op" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.AspettoEsterioreBeniImpl" name="AspettoEsterioreBeni">
@@ -752,6 +1017,10 @@
 		<table name="DestinatariDiversi" />
 		<attributes />
 	</entity>
+	<entity class="it.bysoftware.ct.model.impl.FileUploaderImpl" name="FileUploader">
+		<table name="fileuploader" />
+		<attributes />
+	</entity>
 	<entity class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" name="OrganizzazioneProduttori">
 		<table name="op" />
 		<attributes />
@@ -786,6 +1055,14 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.VociIvaImpl" name="VociIva">
 		<table name="VociIva" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.WKRigoDocumentoImpl" name="WKRigoDocumento">
+		<table name="WK_SSRIGORD" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.WKTestataDocumentoImpl" name="WKTestataDocumento">
+		<table name="WK_SSTESORD" />
 		<attributes />
 	</entity>
 </entity-mappings>

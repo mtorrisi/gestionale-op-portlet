@@ -15,7 +15,6 @@
 %>
 
 <liferay-ui:icon-menu>
-
     <liferay-portlet:resourceURL var="download" id="download" >
         <liferay-portlet:param name="userId" value="<%=String.valueOf(associato.getId()) %>"/>
     </liferay-portlet:resourceURL>

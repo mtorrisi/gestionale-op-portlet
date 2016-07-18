@@ -40,7 +40,7 @@
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
     String label = updateMode ? "Elenco DDT" : "Elenco DDT da fatturare";
 %>
-<liferay-ui:error key="error-delete" message="Non Ã¨ stato possibile rimuovere il documento." />
+<liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
 <liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
 <liferay-portlet:renderURL var="searchInvoiceURL">
     <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>

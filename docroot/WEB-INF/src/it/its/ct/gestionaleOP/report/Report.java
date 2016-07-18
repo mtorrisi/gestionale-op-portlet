@@ -10,6 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -33,7 +34,7 @@ public class Report {
     public static String DB_PASSWORD = "op_user";
 
     public String print(int nDoc, int idAssociato, long idOp) throws JRException, ClassNotFoundException, SQLException {
-        Map parametersMap = new HashMap();
+        Map<String, Object> parametersMap = new HashMap<String, Object>();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
         parametersMap.put("tipoDocumento", "DDT");
@@ -55,7 +56,7 @@ public class Report {
     }
 
     public String print(int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
-        Map parametersMap = new HashMap();
+        Map<String, Object> parametersMap = new HashMap<String, Object>();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
         parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
@@ -77,7 +78,7 @@ public class Report {
     }
 
     public String printTrace(int anno, int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
-        Map parametersMap = new HashMap();
+        Map<String, Object> parametersMap = new HashMap<String, Object>();
 
         parametersMap.put("ANNO", anno);
         parametersMap.put("N_DOC", nDoc);

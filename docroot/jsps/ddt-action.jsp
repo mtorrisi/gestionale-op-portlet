@@ -19,7 +19,7 @@
         image="edit" 
         url="${editDDT}"
         label="true" message="Modifica documento"/>
-    <portlet:resourceURL var="printDDT" id="print" />
+<%--     <portlet:resourceURL var="printDDT" id="print" /> --%>
     <liferay-portlet:resourceURL var="printDDT" id="print">
         <liferay-portlet:param name="nDoc" value="<%= String.valueOf(testata.getNumeroOrdine())%>" />
     </liferay-portlet:resourceURL>

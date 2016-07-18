@@ -9,6 +9,84 @@ package it.its.ct.gestionaleOP;
  *
  * @author mario
  */
+import it.bysoftware.ct.NoSuchAssociatoException;
+import it.bysoftware.ct.model.Anagrafica;
+import it.bysoftware.ct.model.AnagraficaAssociatoOP;
+import it.bysoftware.ct.model.Articoli;
+import it.bysoftware.ct.model.ArticoliAssociatoOP;
+import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.ClientiDatiAgg;
+import it.bysoftware.ct.model.OrganizzazioneProduttori;
+import it.bysoftware.ct.model.Progressivo;
+import it.bysoftware.ct.model.RigoDocumento;
+import it.bysoftware.ct.model.TestataDocumento;
+import it.bysoftware.ct.model.TracciabilitaGrezzi;
+import it.bysoftware.ct.model.TracciabilitaScheda;
+import it.bysoftware.ct.model.WKRigoDocumento;
+import it.bysoftware.ct.model.WKTestataDocumento;
+import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
+import it.bysoftware.ct.service.AnagraficaAssociatoOPLocalServiceUtil;
+import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
+import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
+import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
+import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
+import it.bysoftware.ct.service.ProgressivoLocalServiceUtil;
+import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil;
+import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
+import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
+import it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPK;
+import it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPK;
+import it.bysoftware.ct.service.persistence.ProgressivoPK;
+import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
+import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
+import it.bysoftware.ct.service.persistence.WKRigoDocumentoPK;
+import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
+import it.its.ct.gestionaleOP.csvParser.CSVParser;
+import it.its.ct.gestionaleOP.pojos.Documento;
+import it.its.ct.gestionaleOP.pojos.Response;
+import it.its.ct.gestionaleOP.report.Report;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.PortletException;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MediaType;
+
+import net.sf.jasperreports.engine.JRException;
+
 import com.google.gson.Gson;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.mail.service.MailServiceUtil;
@@ -24,7 +102,10 @@ import com.liferay.portal.kernel.mail.MailMessage;
 import com.liferay.portal.kernel.repository.model.FileEntry;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.servlet.SessionErrors;
+import com.liferay.portal.kernel.servlet.SessionMessages;
+import com.liferay.portal.kernel.upload.UploadPortletRequest;
 import com.liferay.portal.kernel.util.Base64;
+import com.liferay.portal.kernel.util.FileUtil;
 import com.liferay.portal.kernel.util.MimeTypesUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -39,63 +120,12 @@ import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.util.DLUtil;
-import java.io.IOException;
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-import it.bysoftware.ct.NoSuchAssociatoException;
-import it.bysoftware.ct.model.Anagrafica;
-import it.bysoftware.ct.model.Associato;
-import it.bysoftware.ct.model.ClientiDatiAgg;
-import it.bysoftware.ct.model.OrganizzazioneProduttori;
-import it.bysoftware.ct.model.Progressivo;
-import it.bysoftware.ct.model.RigoDocumento;
-import it.bysoftware.ct.model.TestataDocumento;
-import it.bysoftware.ct.model.TracciabilitaGrezzi;
-import it.bysoftware.ct.model.TracciabilitaScheda;
-import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
-import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
-import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
-import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
-import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
-import it.bysoftware.ct.service.ProgressivoLocalServiceUtil;
-import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
-import it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil;
-import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
-import it.bysoftware.ct.service.persistence.ProgressivoPK;
-import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
-import it.its.ct.gestionaleOP.pojos.Response;
-import it.its.ct.gestionaleOP.report.Report;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MediaType;
-import net.sf.jasperreports.engine.JRException;
 
 public class DDTPortlet extends MVCPortlet {
 
     private final Log _log = LogFactoryUtil.getLog(DDTPortlet.class);
+    private final static int ONE_GB = 1073741824;
     public static final String DDT = "DDT";
     public static final String FAV = "FAV";
     public static final String FAC = "FAC";
@@ -232,6 +262,9 @@ public class DDTPortlet extends MVCPortlet {
 
             TestataDocumentoLocalServiceUtil.deleteTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, FAV, idAssociato));
             TestataDocumentoLocalServiceUtil.deleteTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, FAC, idAssociato));
+            TestataDocumento origDDT = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, DDT, idAssociato));
+            origDDT.setCompleto(COMPLETED);
+            TestataDocumentoLocalServiceUtil.updateTestataDocumento(origDDT);
 
             ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
             long groupId = themeDisplay.getLayout().getGroupId();
@@ -259,7 +292,610 @@ public class DDTPortlet extends MVCPortlet {
         ares.setRenderParameter("jspPage", "/jsps/search-invoice.jsp");
     }
 
-    @Override
+    public void upload(ActionRequest areq, ActionResponse ares) {
+
+        UploadPortletRequest uploadRequest = PortalUtil.getUploadPortletRequest(areq);
+        long idAssociato = Long.parseLong(ParamUtil.getString(uploadRequest, "idAssociato"));
+                
+        File uploadedFile;
+		try {
+			Associato associato = AssociatoLocalServiceUtil.findByLiferayId(idAssociato);
+			uploadedFile = uploadFile(uploadRequest, idAssociato);
+			_log.info("Uploaded file: " + uploadedFile.getName());
+			List<Documento> importedDocs = parseImportedFile(uploadedFile, associato.getId());
+			
+			List<Documento> docsReady =  new ArrayList<Documento>(); // new ArrayList<Documento>(importedDocs);
+	    	List<Documento> docsToCheck = new ArrayList<Documento>();
+	    	
+	    	for (Documento d : importedDocs) {
+	    		_log.info("TESTATA: " + d.getTestata().toString());
+				WKTestataDocumento t = d.getTestata();
+	    		List<WKRigoDocumento> rows = d.getRighe();
+	    		
+	    		AnagraficaAssociatoOP associatoOP = null;
+	    		try {
+	    			associatoOP = AnagraficaAssociatoOPLocalServiceUtil.getAnagraficaAssociatoOP(new AnagraficaAssociatoOPPK(associato.getId(), t.getCodiceSoggetto()));
+	    		} catch (PortalException ex) {
+	    			_log.info("Cliente non codifiacto: " + t.getCodiceSoggetto());
+	    		}
+	    		if(associatoOP != null){
+	    			_log.info("Cliente codificato, sostituisco: " + t.getCodiceSoggetto() + "<->" + associatoOP.getCodiceSogettoOP());
+	    			//Sostituisco il codice sogetto dell'assocaito con quello della OP
+	    			t.setCodiceSoggetto(associatoOP.getCodiceSogettoOP());
+	    			
+	    			Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(associatoOP.getCodiceSogettoOP());
+	    			t.setRagioneSociale(cliente.getRagioneSociale());
+	    			boolean addToReady = true;
+					for (WKRigoDocumento rigoDocumento : rows) {
+	    				if(!rigoDocumento.getCodiceArticolo().equals("")){
+	    					ArticoliAssociatoOP articoloAssociato = null;
+	    					try {
+	    						articoloAssociato = ArticoliAssociatoOPLocalServiceUtil.getArticoliAssociatoOP(new ArticoliAssociatoOPPK(associato.getId(), rigoDocumento.getCodiceArticolo()));
+	    					} catch (PortalException ex){
+	    						_log.info("Articolo non trovato: " + rigoDocumento.getCodiceArticolo());
+	    					}
+							if(articoloAssociato == null){
+								_log.info("Articolo: " + rigoDocumento.getCodiceArticolo() + " non ancora codificato.");
+								rigoDocumento.setVerificato(false);
+								addToReady = false;
+							} else {
+								_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
+								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setDescrizione(articolo.getDescrizione());
+								rigoDocumento.setVerificato(true);
+							}
+	    				} else {
+    						rigoDocumento.setVerificato(true);
+    					}
+					}
+	    			if(addToReady) {
+	    				t.setVerificato(true);
+	    				docsReady.add(d);
+	    			} else {
+	    				t.setVerificato(false);
+	    				docsToCheck.add(d);
+	    			}
+	    		} else {
+	    			_log.info("Cliente: " + t.getCodiceSoggetto() + " non codificato.");
+//	    			t.setCodiceSoggetto("");
+	    			t.setVerificato(false);
+//	    			boolean addToReady = true;
+    				for (WKRigoDocumento rigoDocumento : rows) {
+    					if(!rigoDocumento.getCodiceArticolo().equals("")){
+    						ArticoliAssociatoOP articoloAssociato = null;
+    						try {
+    							articoloAssociato = ArticoliAssociatoOPLocalServiceUtil.getArticoliAssociatoOP(new ArticoliAssociatoOPPK(associato.getId(), rigoDocumento.getCodiceArticolo()));
+    						} catch (PortalException ex){
+    							_log.info("Articolo non trovato: " + rigoDocumento.getCodiceArticolo());
+    						}
+    						if(articoloAssociato == null){
+    							_log.info("Articolo: " + rigoDocumento.getCodiceArticolo() + " non ancora codificato.");
+    							rigoDocumento.setVerificato(false);
+//    							addToReady = false;
+//    							break; // stop loop on rows
+    						} else {
+    							_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
+								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
+								rigoDocumento.setDescrizione(articolo.getDescrizione());
+								rigoDocumento.setVerificato(true);
+    						}
+    					} else {
+    						rigoDocumento.setVerificato(true);
+    					}
+					}
+//    				if(addToReady){
+//    					docsReady.add(d);
+//    				} else {
+    					docsToCheck.add(d);
+//    				}
+	    		}
+			}
+			
+	    	storeImportedDocument(docsReady, docsToCheck);
+	    	
+			ares.setRenderParameter("uploadedFile", uploadedFile.getName());
+			ares.setRenderParameter("jspPage", "/jsps/validate.jsp");
+			areq.setAttribute("docsReady", docsReady);
+			areq.setAttribute("docsToCheck", docsToCheck);
+			SessionMessages.add(areq, "imported-docs");
+		} catch (Exception e) {
+			SessionErrors.add(areq, e.getMessage());
+			_log.error(e.getMessage());
+			e.printStackTrace();
+		}
+        
+    }
+    
+    public void saveWKRigoDocumento(ActionRequest areq, ActionResponse ares) {
+    	
+    	String codiceArticolo = ParamUtil.getString(areq, "codice", null);
+    	String json = ParamUtil.getString(areq, "WKRigoDocumentoPK");
+    	WKRigoDocumentoPK rigoDocumentoPK = JSONFactoryUtil.looseDeserializeSafe(json, WKRigoDocumentoPK.class);
+    	if (codiceArticolo != null && !codiceArticolo.equals("")) {
+    		_log.info("Codice Articolo: " + codiceArticolo);
+    		String codiceAssociato = ParamUtil.getString(areq, "codiceAssociato", null);
+    		if(codiceAssociato != null && !codiceAssociato.equals("")){
+    			ArticoliAssociatoOP articoliAssociatoOP = ArticoliAssociatoOPLocalServiceUtil.createArticoliAssociatoOP(new ArticoliAssociatoOPPK(rigoDocumentoPK.getIdAssociato(), codiceAssociato));
+    			articoliAssociatoOP.setCodiceArticoloOP(codiceArticolo);
+    			try {
+    				_log.info("Adding: " + articoliAssociatoOP);
+					ArticoliAssociatoOPLocalServiceUtil.addArticoliAssociatoOP(articoliAssociatoOP);
+					_log.info("Saved: " + articoliAssociatoOP);
+				} catch (SystemException e) {
+					SessionErrors.add(areq, "error-saving-articoliAssociatoOP");
+					e.printStackTrace();
+				}
+    			try {
+    				List<WKRigoDocumento> rows = WKRigoDocumentoLocalServiceUtil.getByAnnoAssociato(rigoDocumentoPK.getAnno(), rigoDocumentoPK.getIdAssociato());
+    				for (WKRigoDocumento wkRigoDocumento : rows) { // Aggiorno tutti i documenti con quell'articolo
+						if(wkRigoDocumento.getCodiceArticolo().equals(codiceAssociato)){
+							_log.info("Updating: " + wkRigoDocumento);
+							wkRigoDocumento.setCodiceArticolo(codiceArticolo);
+							wkRigoDocumento.setVerificato(true);
+							WKRigoDocumentoLocalServiceUtil.updateWKRigoDocumento(wkRigoDocumento);
+						}
+					}
+					
+				} catch (SystemException e) {
+					SessionErrors.add(areq, "error-updating");
+					e.printStackTrace();
+				}
+    		}
+    		WKTestataDocumentoPK testataDocumentoPK = new WKTestataDocumentoPK(rigoDocumentoPK.getAnno(), rigoDocumentoPK.getNumeroOrdine(), rigoDocumentoPK.getTipoDocumento(), rigoDocumentoPK.getIdAssociato());
+    		ares.setRenderParameter("WKTestataDocumentoPK", JSONFactoryUtil.looseSerialize(testataDocumentoPK));
+        	ares.setRenderParameter("jspPage", "/jsps/edit-document.jsp");
+    	} else {
+    		SessionErrors.add(areq, "no-valid-code");
+    		
+    		ares.setRenderParameter("WKRigoDocumentoPK", json);
+        	ares.setRenderParameter("jspPage", "/jsps/edit-row.jsp");
+    	}
+    	
+    }
+    
+    public void validateDocument(ActionRequest areq, ActionResponse ares) {
+    	
+    	String json = ParamUtil.getString(areq, "WKTestataDocumentoPK", null);
+    	String codClienteAssociato = ParamUtil.getString(areq, "codClienteAssociato", "");
+    	String codCliente = ParamUtil.getString(areq, "codCliente", "");
+    	String ragioneSociale = ParamUtil.getString(areq, "cliente", "");
+    	
+    	if(json != null && !json.equals("")){
+    		WKTestataDocumentoPK testataDocumentoPK = JSONFactoryUtil.looseDeserializeSafe(json, WKTestataDocumentoPK.class);
+        	        	
+        	_log.info("codCliente: "  + codCliente);
+        	_log.info("codClienteAssociato: "  + codClienteAssociato);
+        	_log.info("cliente: "  + ragioneSociale);
+        	
+        	if(!codClienteAssociato.equals("") && !codClienteAssociato.equals(codCliente)){ // devo aggiungere alla tabella di associazione dei codici clienti
+        		AnagraficaAssociatoOP anagraficaAssociatoOP = null;
+				try {
+					anagraficaAssociatoOP = AnagraficaAssociatoOPLocalServiceUtil.getAnagraficaAssociatoOP(new AnagraficaAssociatoOPPK(testataDocumentoPK.getIdAssociato(), codClienteAssociato));
+					
+				} catch (PortalException e) {
+					_log.warn(e.getMessage());
+				} catch (SystemException e) {
+					_log.warn(e.getMessage());
+				}
+				
+				if (anagraficaAssociatoOP == null){
+					anagraficaAssociatoOP = AnagraficaAssociatoOPLocalServiceUtil.createAnagraficaAssociatoOP(new AnagraficaAssociatoOPPK(testataDocumentoPK.getIdAssociato(), codClienteAssociato));
+					anagraficaAssociatoOP.setCodiceSogettoOP(codCliente);
+	        		_log.info("Adding: "  + anagraficaAssociatoOP + " to anagrafica_associato_op");
+	        		try {
+						AnagraficaAssociatoOPLocalServiceUtil.addAnagraficaAssociatoOP(anagraficaAssociatoOP);
+					} catch (SystemException e) {
+						_log.error(e.getMessage());
+						SessionErrors.add(areq, "error-updating");
+					}
+				}
+        	}
+    		try {
+				WKTestataDocumento t = WKTestataDocumentoLocalServiceUtil.getWKTestataDocumento(testataDocumentoPK);
+				List<WKRigoDocumento> rows = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(t.getNumeroOrdine(), t.getAnno(), t.getIdAssociato(), t.getTipoDocumento());
+				boolean isReady = true;
+				for (WKRigoDocumento wkRigoDocumento : rows) {
+					
+					if(!wkRigoDocumento.getVerificato())
+						isReady = false;
+				}
+				
+				_log.info("Updating: " + t);
+				t.setVerificato(isReady);
+				t.setCodiceSoggetto(codCliente);
+				t.setRagioneSociale(ragioneSociale);
+				WKTestataDocumentoLocalServiceUtil.updateWKTestataDocumento(t);
+				
+				if(isReady){
+					SessionMessages.add(areq, "correctly-updated");
+				} else {
+					ares.setRenderParameter("message", "Attenzione non tutte le righe del documento sono state convalidate.");
+				}
+			} catch (PortalException e) {
+				SessionErrors.add(areq, "error-updating");
+				e.printStackTrace();
+			} catch (SystemException e) {
+				SessionErrors.add(areq, "error-updating");
+				e.printStackTrace();
+			}    		
+    		ares.setRenderParameter("WKTestataDocumentoPK", JSONFactoryUtil.looseSerialize(testataDocumentoPK));
+        	
+    	}
+    	
+    	ares.setRenderParameter("jspPage", "/jsps/edit-document.jsp");
+    }
+    
+    public void saveImported(ActionRequest areq, ActionResponse ares) {
+    	Associato a;
+		try {
+			a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(areq.getRemoteUser()));
+	    	List<WKTestataDocumento> list = WKTestataDocumentoLocalServiceUtil.getReady(Calendar.getInstance().get(Calendar.YEAR), a.getId());
+	    	
+	    	for (WKTestataDocumento wkTestataDocumento : list) {
+	    		if(wkTestataDocumento.getVerificato()) {
+	    			TestataDocumento t;
+	    			try {
+	    				Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(wkTestataDocumento.getCodiceSoggetto());
+	    				t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
+	    				if(t == null)
+	    					t = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
+	    				t.setCentro(wkTestataDocumento.getCentro());
+	    				t.setCodiceSoggetto(wkTestataDocumento.getCodiceSoggetto());
+	    				t.setRagioneSociale(wkTestataDocumento.getRagioneSociale());
+	    				t.setDestinazione(cliente.getIndirizzo());
+	    				t.setAspettoEsteriore(wkTestataDocumento.getAspettoEsteriore());
+	    				t.setVettore(wkTestataDocumento.getVettore());
+	    				t.setVettore2(wkTestataDocumento.getVettore());
+	    				t.setDataOrdine(wkTestataDocumento.getDataOrdine());
+	    				t.setDataConsegna(wkTestataDocumento.getDataConsegna());
+	    				t.setLotto(wkTestataDocumento.getLotto());
+	    				t.setCompleto(COMPLETED);
+	    				t.setOperatore(areq.getRemoteUser());
+	    				t.setAutista(wkTestataDocumento.getAutista());
+	    				t.setCuraTrasporto(wkTestataDocumento.getCuraTrasporto());
+	    				t.setCausaleTrasporto(wkTestataDocumento.getCausaleTrasporto());
+	    				t.setPorto(wkTestataDocumento.getPorto());
+	    				t.setOrigine(wkTestataDocumento.getOrigine());
+	    				t.setRigoDescrittivo(wkTestataDocumento.getRigoDescrittivo());
+	    				t.setCostoTrasporto(wkTestataDocumento.getCostoTrasporto());
+	    				t.setNumeroPedaneEuro(wkTestataDocumento.getNumeroPedaneEuro());
+	    				t.setNumeroPedaneNormali(wkTestataDocumento.getNumeroPedaneNormali());
+	    				t.setTargaCamion(wkTestataDocumento.getTargaCamion());
+	    				t.setTargaRimorchio(wkTestataDocumento.getTargaRimorchio());
+	    				t.setInviato(0);
+	    				
+	    				TestataDocumentoLocalServiceUtil.updateTestataDocumento(t); //Adds o updates
+	    				
+	    				if(wkTestataDocumento.getTipoDocumento().equals(FAV)){
+	    					t.setTipoDocumento(FAC);
+	    					t.setCodiceSoggetto(areq.getRemoteUser());
+	    					t.setRagioneSociale(a.getRagioneSociale());
+	    					t.setDestinazione(a.getIndirizzo());
+	    					
+	    					TestataDocumentoLocalServiceUtil.updateTestataDocumento(t); // adds or update FAC
+	    				}
+	    				
+	    				List<WKRigoDocumento> rows = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
+//	    				for (WKRigoDocumento wkRigoDocumento : rows) {
+	    				RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
+	    				for (int i = 0; i < rows.size(); i++) {
+	    					WKRigoDocumento wkRigoDocumento = rows.get(i);
+//	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.fetchRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
+//	    					if(r == null)
+	    						RigoDocumento r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
+	    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
+	    					r.setDescrizione(wkRigoDocumento.getDescrizione());
+	    					r.setCodiceVariante(wkRigoDocumento.getCodiceVariante());
+	    					String variante = "";
+	    					if(!wkRigoDocumento.getCodiceVariante().isEmpty())
+	    						variante = DescrizioniVariantiLocalServiceUtil.getDescrizioniVarianti(wkRigoDocumento.getCodiceVariante()).getDescrizioneVariante();
+	    					r.setDescrizioneVariante(variante);
+	    					r.setUnitaMisura(wkRigoDocumento.getUnitaMisura());
+	    					r.setColli(wkRigoDocumento.getColli());
+	    					r.setPedane(wkRigoDocumento.getPesoLordo());
+	    					r.setPesoLordo(wkRigoDocumento.getPesoLordo());
+	    					r.setTara(wkRigoDocumento.getTara());
+	    					r.setPesoNetto(wkRigoDocumento.getPesoNetto());
+	    					r.setPrezzo(wkRigoDocumento.getPrezzo());
+	    					r.setPedane(wkRigoDocumento.getPedane());
+	    					r.setNote(wkRigoDocumento.getNote());
+	    					r.setTotalePesata(wkRigoDocumento.getTotalePesata());
+	    					r.setGestioneReti(wkRigoDocumento.getGestioneReti());
+	    					r.setRtxCl(wkRigoDocumento.getRtxCl());
+	    					r.setKgRete(wkRigoDocumento.getKgRete());
+	    					r.setLotto(wkRigoDocumento.getLotto());
+	    					r.setPassaporto(wkRigoDocumento.getPassaporto());
+	    					r.setSconto1(wkRigoDocumento.getSconto1());
+	    					r.setSconto2(wkRigoDocumento.getSconto2());
+	    					r.setSconto3(wkRigoDocumento.getSconto3());
+	    					if(!wkRigoDocumento.getCodiceArticolo().equals("") && !wkRigoDocumento.getDescrizione().equals("")){
+	    						if(i + 1 < rows.size()){
+	    							WKRigoDocumento rigoImballo = rows.get(i + 1);
+	    							if(wkTestataDocumento.getTipoDocumento().equals(DDT))
+	    								r.setRigoOrdine(wkRigoDocumento.getRigoOrdine() + 1);
+	    							r.setImballo(rigoImballo.getCodiceArticolo());
+		    						WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(rigoImballo);
+		    						i++;
+	    						}
+	    					} 
+	    					_log.info("Adding/updating: " + r);
+	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
+	    					
+	    					if(wkRigoDocumento.getTipoDocumento().equals(FAV)){
+    	    					r.setTipoDocumento(FAC);
+    	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
+	    					}
+		    				WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(wkRigoDocumento);
+		    			
+	    				}
+	    				
+	    				WKTestataDocumentoLocalServiceUtil.deleteWKTestataDocumento(wkTestataDocumento);
+	    				stampaENotifica(t, a, areq);
+	    			} catch (PortalException e) {
+	    				e.printStackTrace();
+	    			} catch (AddressException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (ClassNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (JRException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	    			
+	    		}
+	    		
+			}
+	    	
+		} catch (NoSuchAssociatoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	ares.setRenderParameter("jspPage", "/jsps/validate.jsp");
+    }
+    
+    private void stampaENotifica(TestataDocumento t, Associato a,
+			ActionRequest areq) throws PortalException, SystemException, ClassNotFoundException, JRException, SQLException, FileNotFoundException, AddressException {
+
+
+		Report r = new Report();
+        
+        OrganizzazioneProduttori  op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+        String ddt = r.print((int) t.getNumeroOrdine(), new Long(a.getId()).intValue(), (t.getTipoDocumento().equals(FAC)) ? FAV.toLowerCase() : t.getTipoDocumento().toLowerCase(), op.getIdLiferay());
+
+        File file = new File(ddt);
+
+        String fileName = addToDL((int)t.getNumeroOrdine(), file, areq, (t.getTipoDocumento().equals(FAC)) ? FAV : t.getTipoDocumento());
+
+        sendEmail(a, op, (int) t.getNumeroOrdine(), false, (t.getTipoDocumento().equals(FAC)) ? FAV.toLowerCase() : t.getTipoDocumento().toLowerCase(), file, fileName + ".pdf");
+		
+	}
+
+	private String addToDL(int nDoc, File ddt, ActionRequest areq,
+			String tipoDocumento) throws NumberFormatException, SystemException, PortalException {
+		Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(areq.getRemoteUser()));
+        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+        User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
+        User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+        ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
+        long groupId = themeDisplay.getLayout().getGroupId();
+        long repositoryId = themeDisplay.getScopeGroupId();
+        DLFolder opFolder = getOpFolder(groupId, liferayOp);
+//        _log.info("OP FOLDER: " + opFolder);
+        DLFolder associatofolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
+//        _log.info("ASSOCIATO FOLDER: " + associatofolder);
+        String fileName = tipoDocumento + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
+
+        FileEntry fileEntry = null;
+        try {
+            fileEntry = DLAppServiceUtil.getFileEntry(groupId, associatofolder.getFolderId(), fileName + ".pdf");
+            _log.info("Entry found, the file will be replaced.");
+        } catch (PortalException e) {
+            _log.info("File Entry not found, a new file will be created.");
+        }
+
+        if (fileEntry != null) {
+            DLAppServiceUtil.deleteFileEntry(fileEntry.getFileEntryId());
+        }
+        fileEntry = DLAppServiceUtil.addFileEntry(
+                repositoryId,
+                associatofolder.getFolderId(),
+                fileName + ".pdf",
+                MimeTypesUtil.getContentType(fileName + ".pdf"),
+                fileName + ".pdf", "", "", ddt, new ServiceContext());
+
+        _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
+        DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
+        
+        return fileName;
+	}
+
+	private void storeImportedDocument(List<Documento> docsReady, List<Documento> docsToCheck) {
+		try {
+		
+			for (Documento documento : docsReady) {
+				WKTestataDocumento t = documento.getTestata();
+			
+				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
+				List<WKRigoDocumento> rows = documento.getRighe();
+//				for (WKRigoDocumento rigo : documento.getRighe()) {
+				for (int i = 0; i < rows.size(); i++) {
+					WKRigoDocumento rigo = rows.get(i);
+					if(rigo.getRigoOrdine() == 0)
+						rigo.setRigoOrdine(rows.size());
+//					else
+//						rigo.setRigoOrdine(i);
+					
+					if(rigo.getTipoDocumento().equals(FAV)){
+						int riferimentoBolla = rigo.getRiferimentoBolla();
+						if(riferimentoBolla != 0){
+							TestataDocumento testataDDT = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(t.getAnno(), riferimentoBolla, DDT, rigo.getIdAssociato()));
+							testataDDT.setCompleto(INVOICED);
+							TestataDocumentoLocalServiceUtil.updateTestataDocumento(testataDDT);
+						}
+						
+					}
+						
+					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
+				}
+			
+			}
+			for (Documento documento : docsToCheck) {
+				WKTestataDocumento t = documento.getTestata();
+				WKTestataDocumentoLocalServiceUtil.addWKTestataDocumento(t);
+				
+				List<WKRigoDocumento> rows = documento.getRighe();
+//				for (WKRigoDocumento rigo : documento.getRighe()) {
+				for (int i = 0; i < rows.size(); i++) {
+					WKRigoDocumento rigo = rows.get(i);
+					if(rigo.getRigoOrdine() == 0)
+						rigo.setRigoOrdine(rows.size());
+//					else
+//						rigo.setRigoOrdine(i);
+					WKRigoDocumentoLocalServiceUtil.addWKRigoDocumento(rigo);
+				}
+				
+			}
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (PortalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private List<Documento> parseImportedFile(
+			File uploadedFile, long idAssociato) throws Exception {
+
+//    	List<Map<TestataDocumento, List<RigoDocumento>>> result = new ArrayList<Map<TestataDocumento,List<RigoDocumento>>>();
+
+    	FileReader fileReader = new FileReader(uploadedFile);
+		BufferedReader bufferedReader = new BufferedReader(fileReader);
+		List<List<WKRigoDocumento>>orderedRows = new ArrayList<List<WKRigoDocumento>>();
+		List<Documento> tmpDocs = new ArrayList<Documento>();
+		WKTestataDocumento testataDocumento = null;
+		List<WKRigoDocumento> righeDocumento = null;
+//		Map<List<Integer>, WKRigoDocumento> righeFAV = null;
+		String line = bufferedReader.readLine();
+		while (line != null) {
+			String[] st = line.split(";");
+			if(st.length > 0){
+				switch (st[0]) {
+				case "WorkTestataDocumento":
+					//if(testataDocumento != null && righeDocumento != null){
+					if(righeDocumento != null){
+						_log.info("Adding to tmpDocs ...");
+						tmpDocs.add(new Documento(testataDocumento, righeDocumento));
+					} 
+//					else if(righeFAV != null) {
+//						_log.info("Adding to tmpDocs ...");
+//						int minDocIndex = Integer.MAX_VALUE;
+//						for (List<Integer> k : righeFAV.keySet()) {
+//							_log.info("INDICI: " + k);
+//							_log.info("RIGO FATTURA: " + righeFAV.get(k));
+//							if(k.get(0) != 0 && k.get(0) < minDocIndex)
+//								minDocIndex = k.get(0);
+//						}
+//					}
+						
+					testataDocumento = null;
+					righeDocumento = null;
+//					righeFAV = null;
+					_log.info("Found document header, read the single line...");					
+					if((line = bufferedReader.readLine()) != null){
+						_log.info("Line: " + line);
+						st = line.split(";");
+						testataDocumento = CSVParser.getTestata(st, idAssociato);
+						line = bufferedReader.readLine();
+					}
+					break;
+				case "WorkRigaDocumento":
+					_log.info("Found row header, loop on rows...");
+					if(testataDocumento != null){
+//						if(!testataDocumento.getTipoDocumento().equals(FAV))
+							righeDocumento = new ArrayList<WKRigoDocumento>();
+//						else
+//							righeFAV = new HashMap<List<Integer>, WKRigoDocumento>();
+						int i = 1;
+						while((line = bufferedReader.readLine()) != null){
+							_log.info("Line: [" + line + "] i: " + i);
+							st = line.split(";");
+							if(!st[0].equals("WorkTestataDocumento")){
+								if(!testataDocumento.getTipoDocumento().equals(FAV))
+//									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, (Integer.parseInt(st[26]) > righeDocumento.size()) ? -1 : righeDocumento.get(righeDocumento.size() - 1).getRigoOrdine() + 1, idAssociato));
+								else {
+									Map.Entry<Integer, WKRigoDocumento> entry = CSVParser.getRigoFattura(st, testataDocumento, idAssociato);
+									if(entry != null){
+										
+										if(righeDocumento.isEmpty())
+											righeDocumento.add(entry.getValue());
+										else{
+											for (int j = 0; j < righeDocumento.size(); j++) {
+												if(entry.getKey() < righeDocumento.get(j).getRigoOrdine()){
+													righeDocumento.add(j, entry.getValue());
+													entry = null;
+													break;
+												}
+											}
+											if(entry != null)
+												righeDocumento.add(entry.getValue());
+										}
+									}
+//									if(entry.getKey() < righeDocumento.size())
+//										righeDocumento.add(entry.getKey(), entry.getValue());
+//									else {
+//										List<WKRigoDocumento> tmp = new ArrayList<WKRigoDocumento>(entry.getKey());
+//										tmp.addAll(righeDocumento);
+//										tmp.add(entry.getKey(), entry.getValue());
+//										righeDocumento = new ArrayList<WKRigoDocumento>(tmp);
+//									}
+//									righeFAV.put(entry.getKey(), entry.getValue());
+								}
+							} else {
+								break;
+							}
+							i++;
+						}
+					} else {
+						throw new Exception("Documento non formattato correttamente.");
+					}
+																		
+					break;
+				default:
+					_log.error("Unrecognized string for: " + StringUtil.merge(Arrays.asList(st), ";"));
+					throw new Exception("Documento non formattato correttamente.");
+				}
+			}
+		}
+		fileReader.close();
+		
+		//Add last document
+		if(testataDocumento != null && righeDocumento != null){
+			_log.info("Adding last to tmpDocs ...");
+			tmpDocs.add(new Documento(testataDocumento, righeDocumento));
+		}
+		return tmpDocs;
+	}
+
+	@Override
     public void serveResource(ResourceRequest resourceRequest,
             ResourceResponse resourceResponse) throws IOException,
             PortletException {
@@ -365,6 +1001,9 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                        
+                        in.close();
+                        
                     } catch (JRException ex) {
                         _log.error(ex.getMessage());
                     } catch (ClassNotFoundException ex) {
@@ -439,6 +1078,9 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                        
+                        in.close();
+                        
                     } catch (JRException ex) {
                         _log.error(ex.getMessage());
                     } catch (ClassNotFoundException ex) {
@@ -538,6 +1180,8 @@ public class DDTPortlet extends MVCPortlet {
                         HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
                         HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
                         ServletResponseUtil.sendFile(httpReq, httpRes, file.getName(), in, "application/pdf");
+                        
+                        in.close();
                     } catch (JRException ex) {
                         _log.error(ex.getMessage());
                     } catch (ClassNotFoundException ex) {
@@ -562,6 +1206,14 @@ public class DDTPortlet extends MVCPortlet {
             default:
                 _log.warn("Uknown operation.");
         }
+    }
+	
+	public void addStack(ActionRequest arq,ActionResponse ars)
+    {
+		UploadPortletRequest ureq=PortalUtil.getUploadPortletRequest(arq);
+		File file=(File) ureq.getFile("file");
+		System.out.println("#############"+((java.io.File) file).getName());
+		FileUploaderLocalServiceUtil.add((java.io.File) file);
     }
 
     private void sendEmail(Associato a, OrganizzazioneProduttori o, int numeroOrdine, boolean update, String tipoDocumento) throws AddressException {
@@ -729,7 +1381,7 @@ public class DDTPortlet extends MVCPortlet {
         testataDocumento.setDataOrdine(orderDate);
         testataDocumento.setDataConsegna(deliveryDate);
         testataDocumento.setLotto(lottoTestata);
-        testataDocumento.setCompleto("completo");
+        testataDocumento.setCompleto(COMPLETED);
         testataDocumento.setOperatore(resourceRequest.getRemoteUser());
         testataDocumento.setVettore(vettore1);
         testataDocumento.setVettore2(vettore2);
@@ -762,10 +1414,14 @@ public class DDTPortlet extends MVCPortlet {
             JSONObject rowJSON = rowsJSON.getJSONObject(i);
             RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
+            _log.info("#######: " + rigo.getDescrizioneVariante());
+            
             String[] tmp = rigo.getDescrizioneVariante().split("-");
-
+                        
             if (tmp.length != 0) {
-                rigo.setDescrizioneVariante(tmp[0].trim());
+            	rigo.setCodiceVariante(tmp[0].trim());
+            	if(tmp.length > 1)
+            		rigo.setDescrizioneVariante(tmp[1].trim());
             }
 
             rigo.setAnno(ANNO);
@@ -847,9 +1503,10 @@ public class DDTPortlet extends MVCPortlet {
 
                     Date dataTestata = sdf.parse(dataTestataStr);
                     Date dataDocumento = sdf.parse(documentDate);
-                    if (dataDocumento.after(dataTestata))
-                        if(!update && dataDocumento.equals(dataTestata)) {
-                        return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                    if (dataDocumento.after(dataTestata)) {
+                        if (!update && dataDocumento.equals(dataTestata)) {
+                            return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                        }
                     }
                 }
             }
@@ -1032,7 +1689,7 @@ public class DDTPortlet extends MVCPortlet {
                             TracciabilitaGrezziLocalServiceUtil.addTracciabilitaGrezzi(grezzo);
                         }
                     }
-                } else if(!newSchede.containsKey(oldScheda.getId())) {//DELETE
+                } else if (!newSchede.containsKey(oldScheda.getId())) {//DELETE
                     _log.info("DELETING OLD SCHEDA: " + oldScheda);
                     List<TracciabilitaGrezzi> oldGrezzi = TracciabilitaGrezziLocalServiceUtil.getIdSchedaTracciabilita(oldScheda.getId());
                     for (TracciabilitaGrezzi oldGrezzo : oldGrezzi) {
@@ -1045,5 +1702,37 @@ public class DDTPortlet extends MVCPortlet {
         }
 
         return new Response(Response.Code.OK, 0);
+    }
+    
+    private File uploadFile(UploadPortletRequest uploadRequest, long idAssociato) throws Exception {
+        long sizeInBytes = uploadRequest.getSize("fileupload");
+
+        if (uploadRequest.getSize("fileupload") == 0) {
+            throw new Exception("empty-file");
+        }
+
+        // Get the uploaded file as a file.
+        File uploadedFile = uploadRequest.getFile("fileupload");
+        
+        String sourceFileName = uploadRequest.getFileName("fileupload");
+
+        // Where should we store this file?
+        File folder = new File("/tmp");
+
+		// Check minimum 1GB storage space to save new files...
+        if (folder.getUsableSpace() < ONE_GB) {
+            throw new Exception("disk-space");
+        }
+
+        //replace all illegal characters
+        sourceFileName = sourceFileName.replaceAll("[^a-zA-Z0-9.-]", "_");
+
+        // This is our final file path.
+        File filePath = new File(folder.getAbsolutePath() + File.separator + idAssociato+ "_" +sourceFileName);
+
+        // Move the existing temporary file to new location.
+        FileUtil.copyFile(uploadedFile, filePath);
+        
+        return filePath;
     }
 }

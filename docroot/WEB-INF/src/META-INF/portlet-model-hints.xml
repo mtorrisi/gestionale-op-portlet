@@ -20,6 +20,11 @@
 		<field name="tipsol" type="int" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.AnagraficaAssociatoOP">
+		<field name="idAssociato" type="long" />
+		<field name="codiceSogettoAssociato" type="String" />
+		<field name="codiceSogettoOP" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.Articoli">
 		<field name="codiceArticolo" type="String" />
 		<field name="categoriaMerceologica" type="String" />
@@ -28,6 +33,11 @@
 		<field name="descrizioneFiscale" type="String" />
 		<field name="unitaMisura" type="String" />
 		<field name="tara" type="double" />
+	</model>
+	<model name="it.bysoftware.ct.model.ArticoliAssociatoOP">
+		<field name="idAssociato" type="long" />
+		<field name="codiceArticoloAssociato" type="String" />
+		<field name="codiceArticoloOP" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.AspettoEsterioreBeni">
 		<field name="codiceAspettoEsteriore" type="String" />
@@ -98,6 +108,10 @@
 		<field name="stato" type="String" />
 		<field name="tipoAnagrafica" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.FileUploader">
+		<field name="fid" type="long" />
+		<field name="content" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.OrganizzazioneProduttori">
 		<field name="id" type="long" />
 		<field name="ragioneSociale" type="String" />
@@ -153,6 +167,7 @@
 		<field name="lotto" type="String" />
 		<field name="passaporto" type="String" />
 		<field name="progressivo" type="int" />
+		<field name="riferimentoBolla" type="int" />
 		<field name="sconto1" type="float" />
 		<field name="sconto2" type="float" />
 		<field name="sconto3" type="float" />
@@ -243,5 +258,78 @@
 		<field name="descrizione" type="String" />
 		<field name="descrizioneDocumento" type="String" />
 		<field name="aliquota" type="double" />
+	</model>
+	<model name="it.bysoftware.ct.model.WKRigoDocumento">
+		<field name="anno" type="int" />
+		<field name="numeroOrdine" type="long" />
+		<field name="rigoOrdine" type="int" />
+		<field name="codiceVariante" type="String" />
+		<field name="descrizioneVariante" type="String" />
+		<field name="codiceArticolo" type="String" />
+		<field name="descrizione" type="String" />
+		<field name="unitaMisura" type="String" />
+		<field name="colli" type="int" />
+		<field name="pesoLordo" type="double" />
+		<field name="tara" type="double" />
+		<field name="pesoNetto" type="double" />
+		<field name="prezzo" type="double" />
+		<field name="pedane" type="double" />
+		<field name="note" type="String" />
+		<field name="totalePesata" type="double" />
+		<field name="imballo" type="String" />
+		<field name="gestioneReti" type="boolean" />
+		<field name="RtxCl" type="double" />
+		<field name="kgRete" type="double" />
+		<field name="lotto" type="String" />
+		<field name="passaporto" type="String" />
+		<field name="progressivo" type="int" />
+		<field name="riferimentoBolla" type="int" />
+		<field name="sconto1" type="float" />
+		<field name="sconto2" type="float" />
+		<field name="sconto3" type="float" />
+		<field name="tipoDocumento" type="String" />
+		<field name="idAssociato" type="long" />
+		<field name="verificato" type="boolean" />
+	</model>
+	<model name="it.bysoftware.ct.model.WKTestataDocumento">
+		<field name="anno" type="int" />
+		<field name="numeroOrdine" type="long" />
+		<field name="codiceSoggetto" type="String" />
+		<field name="dataOrdine" type="String" />
+		<field name="dataConsegna" type="String" />
+		<field name="destinazione" type="String" />
+		<field name="codiceDestinazione" type="String" />
+		<field name="ragioneSociale" type="String" />
+		<field name="completo" type="String" />
+		<field name="operatore" type="String" />
+		<field name="visto" type="int" />
+		<field name="inviato" type="int" />
+		<field name="lotto" type="String" />
+		<field name="tipoDocumento" type="String" />
+		<field name="vettore" type="String" />
+		<field name="autista" type="String" />
+		<field name="telefono" type="String" />
+		<field name="centro" type="String" />
+		<field name="palletCaricati" type="int" />
+		<field name="palletScaricati" type="int" />
+		<field name="codiceVettore" type="String" />
+		<field name="destinazioneVettore" type="String" />
+		<field name="nota1" type="String" />
+		<field name="nota2" type="String" />
+		<field name="rigoDescrittivo" type="String" />
+		<field name="vettore2" type="String" />
+		<field name="curaTrasporto" type="String" />
+		<field name="aspettoEsteriore" type="String" />
+		<field name="causaleTrasporto" type="String" />
+		<field name="porto" type="String" />
+		<field name="origine" type="String" />
+		<field name="numeroPedaneEuro" type="int" />
+		<field name="numeroPedaneNormali" type="int" />
+		<field name="costoTrasporto" type="double" />
+		<field name="totalePedaneOrdine" type="int" />
+		<field name="targaCamion" type="String" />
+		<field name="targaRimorchio" type="String" />
+		<field name="idAssociato" type="long" />
+		<field name="verificato" type="boolean" />
 	</model>
 </model-hints>

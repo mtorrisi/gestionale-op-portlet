@@ -398,6 +398,20 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	public void setProgressivo(int progressivo);
 
 	/**
+	 * Returns the riferimento bolla of this rigo documento.
+	 *
+	 * @return the riferimento bolla of this rigo documento
+	 */
+	public int getRiferimentoBolla();
+
+	/**
+	 * Sets the riferimento bolla of this rigo documento.
+	 *
+	 * @param riferimentoBolla the riferimento bolla of this rigo documento
+	 */
+	public void setRiferimentoBolla(int riferimentoBolla);
+
+	/**
 	 * Returns the sconto1 of this rigo documento.
 	 *
 	 * @return the sconto1 of this rigo documento
