@@ -146,42 +146,8 @@ public class DDTPortlet extends MVCPortlet {
         save, print, send, modify, generateInvoice, printInvoice, updateInvoice, saveTrace, printTrace;
     }
 
-    @Override
-    public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-        super.doView(renderRequest, renderResponse);
-
-        try {
-
-            List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
-            List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
-            for (Anagrafica cliente : clienti) {
-                ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
-                String[] idAssociati = datiAgg.getAssociati().split(",");
-                for (String idAssociato : idAssociati) {
-                    if (idAssociato.equals(renderRequest.getRemoteUser())) {
-                        clientiAssociato.add(cliente);
-                        break;
-                    }
-                }
-            }
-
-            _log.info("Associato: " + renderRequest.getRemoteUser() + " has " + clientiAssociato.size() + " clients.");
-            renderRequest.setAttribute("clientiAssociato", clientiAssociato);
-
-        } catch (SystemException ex) {
-            _log.error(ex);
-        }
-
-    }
-
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
-//        _log.info("Cliente: " + ParamUtil.getString(areq, "clientId"));
-//        _log.info("Documents");
-//        String[] ids = StringUtil.split(ParamUtil.getString(areq, "documentIds"));
-//        for (String id : ids) {
-//            _log.info("Document: " + id);
-//        }
-//        _log.info("*** " + ids.length);
+
         ares.setRenderParameter("codiceCliente", ParamUtil.getString(areq, "clientId"));
 //        ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
         ares.setRenderParameter("anno", String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
@@ -1376,6 +1342,7 @@ public class DDTPortlet extends MVCPortlet {
         }
         testataDocumento.setAnno(ANNO);
         testataDocumento.setCodiceSoggetto(codiceCliente);
+        testataDocumento.setCentro(associato.getCentro());
         testataDocumento.setRagioneSociale(cliente);
         testataDocumento.setCodiceDestinazione(codiceDestinazione);
         testataDocumento.setDestinazione(destinazioneTxt);
@@ -1415,7 +1382,7 @@ public class DDTPortlet extends MVCPortlet {
             JSONObject rowJSON = rowsJSON.getJSONObject(i);
             RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
 
-            _log.info("#######: " + rigo.getDescrizioneVariante());
+            _log.info("Variante: " + rigo.getDescrizioneVariante());
             
             String[] tmp = rigo.getDescrizioneVariante().split("-");
                         
@@ -1523,6 +1490,7 @@ public class DDTPortlet extends MVCPortlet {
         }
 
         sellInvoice.setCodiceSoggetto(codiceCliente);
+        sellInvoice.setCentro(associato.getCentro());
         sellInvoice.setRagioneSociale(cliente);
         sellInvoice.setCodiceDestinazione(codiceDestinazione);
         sellInvoice.setDestinazione(destinazioneTxt);
@@ -1539,6 +1507,7 @@ public class DDTPortlet extends MVCPortlet {
         }
 
         purchaseInvoice.setCodiceSoggetto(String.valueOf(associato.getIdLiferay()));
+        purchaseInvoice.setCentro(associato.getCentro());
         purchaseInvoice.setRagioneSociale(associato.getRagioneSociale());
         purchaseInvoice.setDestinazione(associato.getIndirizzo());
         purchaseInvoice.setDataOrdine(documentDate);
