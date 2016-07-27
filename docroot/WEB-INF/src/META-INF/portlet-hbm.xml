@@ -126,9 +126,10 @@
 	</class>
 	<class name="it.bysoftware.ct.model.impl.ClientiDatiAggImpl" table="ClientiFornitoriDatiAgg">
 		<cache usage="read-write" />
-		<id name="codiceAnagrafica" column="RveCodclf" type="java.lang.String">
-			<generator class="assigned" />
-		</id>
+		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.ClientiDatiAggPK">
+			<key-property name="codiceAnagrafica" column="RveCodclf" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+			<key-property name="tipo" column="RveTipo" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		</composite-id>
 		<property name="associati" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveLibStr1" />
 		<property name="codiceAliquota" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveEsenzi" />
 	</class>

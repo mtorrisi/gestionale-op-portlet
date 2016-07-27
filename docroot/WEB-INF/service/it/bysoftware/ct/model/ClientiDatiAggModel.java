@@ -21,6 +21,8 @@ import com.liferay.portal.service.ServiceContext;
 
 import com.liferay.portlet.expando.model.ExpandoBridge;
 
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
+
 import java.io.Serializable;
 
 /**
@@ -48,14 +50,14 @@ public interface ClientiDatiAggModel extends BaseModel<ClientiDatiAgg> {
 	 *
 	 * @return the primary key of this clienti dati agg
 	 */
-	public String getPrimaryKey();
+	public ClientiDatiAggPK getPrimaryKey();
 
 	/**
 	 * Sets the primary key of this clienti dati agg.
 	 *
 	 * @param primaryKey the primary key of this clienti dati agg
 	 */
-	public void setPrimaryKey(String primaryKey);
+	public void setPrimaryKey(ClientiDatiAggPK primaryKey);
 
 	/**
 	 * Returns the codice anagrafica of this clienti dati agg.
@@ -71,6 +73,27 @@ public interface ClientiDatiAggModel extends BaseModel<ClientiDatiAgg> {
 	 * @param codiceAnagrafica the codice anagrafica of this clienti dati agg
 	 */
 	public void setCodiceAnagrafica(String codiceAnagrafica);
+
+	/**
+	 * Returns the tipo of this clienti dati agg.
+	 *
+	 * @return the tipo of this clienti dati agg
+	 */
+	public boolean getTipo();
+
+	/**
+	 * Returns <code>true</code> if this clienti dati agg is tipo.
+	 *
+	 * @return <code>true</code> if this clienti dati agg is tipo; <code>false</code> otherwise
+	 */
+	public boolean isTipo();
+
+	/**
+	 * Sets whether this clienti dati agg is tipo.
+	 *
+	 * @param tipo the tipo of this clienti dati agg
+	 */
+	public void setTipo(boolean tipo);
 
 	/**
 	 * Returns the associati of this clienti dati agg.

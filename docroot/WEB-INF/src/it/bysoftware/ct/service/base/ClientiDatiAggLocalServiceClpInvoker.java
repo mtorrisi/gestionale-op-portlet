@@ -32,11 +32,15 @@ public class ClientiDatiAggLocalServiceClpInvoker {
 
 		_methodName1 = "createClientiDatiAgg";
 
-		_methodParameterTypes1 = new String[] { "java.lang.String" };
+		_methodParameterTypes1 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName2 = "deleteClientiDatiAgg";
 
-		_methodParameterTypes2 = new String[] { "java.lang.String" };
+		_methodParameterTypes2 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName3 = "deleteClientiDatiAgg";
 
@@ -82,11 +86,15 @@ public class ClientiDatiAggLocalServiceClpInvoker {
 
 		_methodName10 = "fetchClientiDatiAgg";
 
-		_methodParameterTypes10 = new String[] { "java.lang.String" };
+		_methodParameterTypes10 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName11 = "getClientiDatiAgg";
 
-		_methodParameterTypes11 = new String[] { "java.lang.String" };
+		_methodParameterTypes11 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName12 = "getPersistedModel";
 
@@ -128,12 +136,12 @@ public class ClientiDatiAggLocalServiceClpInvoker {
 
 		if (_methodName1.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-			return ClientiDatiAggLocalServiceUtil.createClientiDatiAgg((java.lang.String)arguments[0]);
+			return ClientiDatiAggLocalServiceUtil.createClientiDatiAgg((it.bysoftware.ct.service.persistence.ClientiDatiAggPK)arguments[0]);
 		}
 
 		if (_methodName2.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-			return ClientiDatiAggLocalServiceUtil.deleteClientiDatiAgg((java.lang.String)arguments[0]);
+			return ClientiDatiAggLocalServiceUtil.deleteClientiDatiAgg((it.bysoftware.ct.service.persistence.ClientiDatiAggPK)arguments[0]);
 		}
 
 		if (_methodName3.equals(name) &&
@@ -179,12 +187,12 @@ public class ClientiDatiAggLocalServiceClpInvoker {
 
 		if (_methodName10.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-			return ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg((java.lang.String)arguments[0]);
+			return ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg((it.bysoftware.ct.service.persistence.ClientiDatiAggPK)arguments[0]);
 		}
 
 		if (_methodName11.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-			return ClientiDatiAggLocalServiceUtil.getClientiDatiAgg((java.lang.String)arguments[0]);
+			return ClientiDatiAggLocalServiceUtil.getClientiDatiAgg((it.bysoftware.ct.service.persistence.ClientiDatiAggPK)arguments[0]);
 		}
 
 		if (_methodName12.equals(name) &&

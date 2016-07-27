@@ -50,6 +50,7 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("codiceAnagrafica", getCodiceAnagrafica());
+		attributes.put("tipo", getTipo());
 		attributes.put("associati", getAssociati());
 		attributes.put("codiceAliquota", getCodiceAliquota());
 
@@ -62,6 +63,12 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 
 		if (codiceAnagrafica != null) {
 			setCodiceAnagrafica(codiceAnagrafica);
+		}
+
+		Boolean tipo = (Boolean)attributes.get("tipo");
+
+		if (tipo != null) {
+			setTipo(tipo);
 		}
 
 		String associati = (String)attributes.get("associati");
@@ -83,7 +90,7 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 	* @return the primary key of this clienti dati agg
 	*/
 	@Override
-	public java.lang.String getPrimaryKey() {
+	public it.bysoftware.ct.service.persistence.ClientiDatiAggPK getPrimaryKey() {
 		return _clientiDatiAgg.getPrimaryKey();
 	}
 
@@ -93,7 +100,8 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 	* @param primaryKey the primary key of this clienti dati agg
 	*/
 	@Override
-	public void setPrimaryKey(java.lang.String primaryKey) {
+	public void setPrimaryKey(
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK primaryKey) {
 		_clientiDatiAgg.setPrimaryKey(primaryKey);
 	}
 
@@ -115,6 +123,36 @@ public class ClientiDatiAggWrapper implements ClientiDatiAgg,
 	@Override
 	public void setCodiceAnagrafica(java.lang.String codiceAnagrafica) {
 		_clientiDatiAgg.setCodiceAnagrafica(codiceAnagrafica);
+	}
+
+	/**
+	* Returns the tipo of this clienti dati agg.
+	*
+	* @return the tipo of this clienti dati agg
+	*/
+	@Override
+	public boolean getTipo() {
+		return _clientiDatiAgg.getTipo();
+	}
+
+	/**
+	* Returns <code>true</code> if this clienti dati agg is tipo.
+	*
+	* @return <code>true</code> if this clienti dati agg is tipo; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isTipo() {
+		return _clientiDatiAgg.isTipo();
+	}
+
+	/**
+	* Sets whether this clienti dati agg is tipo.
+	*
+	* @param tipo the tipo of this clienti dati agg
+	*/
+	@Override
+	public void setTipo(boolean tipo) {
+		_clientiDatiAgg.setTipo(tipo);
 	}
 
 	/**

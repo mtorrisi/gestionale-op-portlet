@@ -26,6 +26,7 @@ import com.liferay.portal.model.impl.BaseModelImpl;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.ClientiDatiAggModel;
 import it.bysoftware.ct.model.ClientiDatiAggSoap;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
 
 import java.io.Serializable;
 
@@ -60,13 +61,14 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 	public static final String TABLE_NAME = "ClientiFornitoriDatiAgg";
 	public static final Object[][] TABLE_COLUMNS = {
 			{ "RveCodclf", Types.VARCHAR },
+			{ "RveTipo", Types.BOOLEAN },
 			{ "RveLibStr1", Types.VARCHAR },
 			{ "RveEsenzi", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table ClientiFornitoriDatiAgg (RveCodclf VARCHAR(75) not null primary key,RveLibStr1 VARCHAR(75) null,RveEsenzi VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table ClientiFornitoriDatiAgg (RveCodclf VARCHAR(75) not null,RveTipo BOOLEAN not null,RveLibStr1 VARCHAR(75) null,RveEsenzi VARCHAR(75) null,primary key (RveCodclf, RveTipo))";
 	public static final String TABLE_SQL_DROP = "drop table ClientiFornitoriDatiAgg";
-	public static final String ORDER_BY_JPQL = " ORDER BY clientiDatiAgg.codiceAnagrafica ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY ClientiFornitoriDatiAgg.RveCodclf ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY clientiDatiAgg.id.codiceAnagrafica ASC, clientiDatiAgg.id.tipo ASC";
+	public static final String ORDER_BY_SQL = " ORDER BY ClientiFornitoriDatiAgg.RveCodclf ASC, ClientiFornitoriDatiAgg.RveTipo ASC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -80,6 +82,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 				"value.object.column.bitmask.enabled.it.bysoftware.ct.model.ClientiDatiAgg"),
 			true);
 	public static long CODICEANAGRAFICA_COLUMN_BITMASK = 1L;
+	public static long TIPO_COLUMN_BITMASK = 2L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -95,6 +98,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		ClientiDatiAgg model = new ClientiDatiAggImpl();
 
 		model.setCodiceAnagrafica(soapModel.getCodiceAnagrafica());
+		model.setTipo(soapModel.getTipo());
 		model.setAssociati(soapModel.getAssociati());
 		model.setCodiceAliquota(soapModel.getCodiceAliquota());
 
@@ -128,23 +132,24 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 	}
 
 	@Override
-	public String getPrimaryKey() {
-		return _codiceAnagrafica;
+	public ClientiDatiAggPK getPrimaryKey() {
+		return new ClientiDatiAggPK(_codiceAnagrafica, _tipo);
 	}
 
 	@Override
-	public void setPrimaryKey(String primaryKey) {
-		setCodiceAnagrafica(primaryKey);
+	public void setPrimaryKey(ClientiDatiAggPK primaryKey) {
+		setCodiceAnagrafica(primaryKey.codiceAnagrafica);
+		setTipo(primaryKey.tipo);
 	}
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return _codiceAnagrafica;
+		return new ClientiDatiAggPK(_codiceAnagrafica, _tipo);
 	}
 
 	@Override
 	public void setPrimaryKeyObj(Serializable primaryKeyObj) {
-		setPrimaryKey((String)primaryKeyObj);
+		setPrimaryKey((ClientiDatiAggPK)primaryKeyObj);
 	}
 
 	@Override
@@ -162,6 +167,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
 		attributes.put("codiceAnagrafica", getCodiceAnagrafica());
+		attributes.put("tipo", getTipo());
 		attributes.put("associati", getAssociati());
 		attributes.put("codiceAliquota", getCodiceAliquota());
 
@@ -174,6 +180,12 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 		if (codiceAnagrafica != null) {
 			setCodiceAnagrafica(codiceAnagrafica);
+		}
+
+		Boolean tipo = (Boolean)attributes.get("tipo");
+
+		if (tipo != null) {
+			setTipo(tipo);
 		}
 
 		String associati = (String)attributes.get("associati");
@@ -213,6 +225,22 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 	public String getOriginalCodiceAnagrafica() {
 		return GetterUtil.getString(_originalCodiceAnagrafica);
+	}
+
+	@JSON
+	@Override
+	public boolean getTipo() {
+		return _tipo;
+	}
+
+	@Override
+	public boolean isTipo() {
+		return _tipo;
+	}
+
+	@Override
+	public void setTipo(boolean tipo) {
+		_tipo = tipo;
 	}
 
 	@JSON
@@ -266,6 +294,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		ClientiDatiAggImpl clientiDatiAggImpl = new ClientiDatiAggImpl();
 
 		clientiDatiAggImpl.setCodiceAnagrafica(getCodiceAnagrafica());
+		clientiDatiAggImpl.setTipo(getTipo());
 		clientiDatiAggImpl.setAssociati(getAssociati());
 		clientiDatiAggImpl.setCodiceAliquota(getCodiceAliquota());
 
@@ -276,7 +305,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public int compareTo(ClientiDatiAgg clientiDatiAgg) {
-		String primaryKey = clientiDatiAgg.getPrimaryKey();
+		ClientiDatiAggPK primaryKey = clientiDatiAgg.getPrimaryKey();
 
 		return getPrimaryKey().compareTo(primaryKey);
 	}
@@ -293,7 +322,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 		ClientiDatiAgg clientiDatiAgg = (ClientiDatiAgg)obj;
 
-		String primaryKey = clientiDatiAgg.getPrimaryKey();
+		ClientiDatiAggPK primaryKey = clientiDatiAgg.getPrimaryKey();
 
 		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
@@ -329,6 +358,8 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 			clientiDatiAggCacheModel.codiceAnagrafica = null;
 		}
 
+		clientiDatiAggCacheModel.tipo = getTipo();
+
 		clientiDatiAggCacheModel.associati = getAssociati();
 
 		String associati = clientiDatiAggCacheModel.associati;
@@ -350,10 +381,12 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{codiceAnagrafica=");
 		sb.append(getCodiceAnagrafica());
+		sb.append(", tipo=");
+		sb.append(getTipo());
 		sb.append(", associati=");
 		sb.append(getAssociati());
 		sb.append(", codiceAliquota=");
@@ -365,7 +398,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(13);
+		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.ClientiDatiAgg");
@@ -374,6 +407,10 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		sb.append(
 			"<column><column-name>codiceAnagrafica</column-name><column-value><![CDATA[");
 		sb.append(getCodiceAnagrafica());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>tipo</column-name><column-value><![CDATA[");
+		sb.append(getTipo());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>associati</column-name><column-value><![CDATA[");
@@ -395,6 +432,7 @@ public class ClientiDatiAggModelImpl extends BaseModelImpl<ClientiDatiAgg>
 		};
 	private String _codiceAnagrafica;
 	private String _originalCodiceAnagrafica;
+	private boolean _tipo;
 	private String _associati;
 	private String _codiceAliquota;
 	private long _columnBitmask;

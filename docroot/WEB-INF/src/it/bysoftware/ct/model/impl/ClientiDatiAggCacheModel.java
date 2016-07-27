@@ -36,10 +36,12 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(7);
+		StringBundler sb = new StringBundler(9);
 
 		sb.append("{codiceAnagrafica=");
 		sb.append(codiceAnagrafica);
+		sb.append(", tipo=");
+		sb.append(tipo);
 		sb.append(", associati=");
 		sb.append(associati);
 		sb.append(", codiceAliquota=");
@@ -59,6 +61,8 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 		else {
 			clientiDatiAggImpl.setCodiceAnagrafica(codiceAnagrafica);
 		}
+
+		clientiDatiAggImpl.setTipo(tipo);
 
 		if (associati == null) {
 			clientiDatiAggImpl.setAssociati(StringPool.BLANK);
@@ -82,6 +86,7 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
 		codiceAnagrafica = objectInput.readUTF();
+		tipo = objectInput.readBoolean();
 		associati = objectInput.readUTF();
 		codiceAliquota = objectInput.readUTF();
 	}
@@ -95,6 +100,8 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 		else {
 			objectOutput.writeUTF(codiceAnagrafica);
 		}
+
+		objectOutput.writeBoolean(tipo);
 
 		if (associati == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -112,6 +119,7 @@ public class ClientiDatiAggCacheModel implements CacheModel<ClientiDatiAgg>,
 	}
 
 	public String codiceAnagrafica;
+	public boolean tipo;
 	public String associati;
 	public String codiceAliquota;
 }

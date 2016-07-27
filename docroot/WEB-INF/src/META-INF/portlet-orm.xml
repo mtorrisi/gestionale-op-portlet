@@ -222,9 +222,13 @@
 		</attributes>
 	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.ClientiDatiAggModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.ClientiDatiAggPK" />
 		<attributes>
 			<id name="codiceAnagrafica">
 				<column name="RVECODCLF" />
+			</id>
+			<id name="tipo">
+				<column name="RVETIPO" />
 			</id>
 			<basic name="associati">
 				<column name="RVELIBSTR1" />

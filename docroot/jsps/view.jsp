@@ -1,3 +1,4 @@
+<%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="java.util.ArrayList"%>
@@ -27,13 +28,15 @@
     List<Anagrafica> clienti = AnagraficaLocalServiceUtil.getClienti();
     List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
     for (Anagrafica cliente : clienti) {
-        ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(cliente.getCodiceAnagrafica());
-        String[] idAssociati = datiAgg.getAssociati().split(",");
-        for (String idAssociato : idAssociati) {
-            if (idAssociato.equals(renderRequest.getRemoteUser())) {
-                clientiAssociato.add(cliente);
-                break;
-            }
+        ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
+        if (datiAgg != null){
+	        String[] idAssociati = datiAgg.getAssociati().split(",");
+	        for (String idAssociato : idAssociati) {
+	            if (idAssociato.equals(renderRequest.getRemoteUser())) {
+	                clientiAssociato.add(cliente);
+	                break;
+	            }
+	        }
         }
     }
 

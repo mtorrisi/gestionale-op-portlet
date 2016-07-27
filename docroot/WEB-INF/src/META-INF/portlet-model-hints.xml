@@ -76,6 +76,7 @@
 	</model>
 	<model name="it.bysoftware.ct.model.ClientiDatiAgg">
 		<field name="codiceAnagrafica" type="String" />
+		<field name="tipo" type="boolean" />
 		<field name="associati" type="String" />
 		<field name="codiceAliquota" type="String" />
 	</model>

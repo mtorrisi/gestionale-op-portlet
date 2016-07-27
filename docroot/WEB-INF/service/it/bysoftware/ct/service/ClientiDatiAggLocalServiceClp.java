@@ -33,11 +33,15 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 
 		_methodName1 = "createClientiDatiAgg";
 
-		_methodParameterTypes1 = new String[] { "java.lang.String" };
+		_methodParameterTypes1 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName2 = "deleteClientiDatiAgg";
 
-		_methodParameterTypes2 = new String[] { "java.lang.String" };
+		_methodParameterTypes2 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName3 = "deleteClientiDatiAgg";
 
@@ -83,11 +87,15 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 
 		_methodName10 = "fetchClientiDatiAgg";
 
-		_methodParameterTypes10 = new String[] { "java.lang.String" };
+		_methodParameterTypes10 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName11 = "getClientiDatiAgg";
 
-		_methodParameterTypes11 = new String[] { "java.lang.String" };
+		_methodParameterTypes11 = new String[] {
+				"it.bysoftware.ct.service.persistence.ClientiDatiAggPK"
+			};
 
 		_methodName12 = "getPersistedModel";
 
@@ -152,14 +160,14 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 
 	@Override
 	public it.bysoftware.ct.model.ClientiDatiAgg createClientiDatiAgg(
-		java.lang.String codiceAnagrafica) {
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK) {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName1,
 					_methodParameterTypes1,
 					new Object[] { ClpSerializer.translateInput(
-							codiceAnagrafica) });
+							clientiDatiAggPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -178,7 +186,7 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 
 	@Override
 	public it.bysoftware.ct.model.ClientiDatiAgg deleteClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -187,7 +195,7 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 			returnObj = _invokableLocalService.invokeMethod(_methodName2,
 					_methodParameterTypes2,
 					new Object[] { ClpSerializer.translateInput(
-							codiceAnagrafica) });
+							clientiDatiAggPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -441,7 +449,7 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 
 	@Override
 	public it.bysoftware.ct.model.ClientiDatiAgg fetchClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -449,7 +457,7 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 			returnObj = _invokableLocalService.invokeMethod(_methodName10,
 					_methodParameterTypes10,
 					new Object[] { ClpSerializer.translateInput(
-							codiceAnagrafica) });
+							clientiDatiAggPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -472,7 +480,7 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 
 	@Override
 	public it.bysoftware.ct.model.ClientiDatiAgg getClientiDatiAgg(
-		java.lang.String codiceAnagrafica)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -481,7 +489,7 @@ public class ClientiDatiAggLocalServiceClp implements ClientiDatiAggLocalService
 			returnObj = _invokableLocalService.invokeMethod(_methodName11,
 					_methodParameterTypes11,
 					new Object[] { ClpSerializer.translateInput(
-							codiceAnagrafica) });
+							clientiDatiAggPK) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);

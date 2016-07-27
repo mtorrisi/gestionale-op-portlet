@@ -41,6 +41,7 @@ import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
 import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.BancheAppoggioPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence;
@@ -105,27 +106,29 @@ public abstract class ClientiDatiAggLocalServiceBaseImpl
 	/**
 	 * Creates a new clienti dati agg with the primary key. Does not add the clienti dati agg to the database.
 	 *
-	 * @param codiceAnagrafica the primary key for the new clienti dati agg
+	 * @param clientiDatiAggPK the primary key for the new clienti dati agg
 	 * @return the new clienti dati agg
 	 */
 	@Override
-	public ClientiDatiAgg createClientiDatiAgg(String codiceAnagrafica) {
-		return clientiDatiAggPersistence.create(codiceAnagrafica);
+	public ClientiDatiAgg createClientiDatiAgg(
+		ClientiDatiAggPK clientiDatiAggPK) {
+		return clientiDatiAggPersistence.create(clientiDatiAggPK);
 	}
 
 	/**
 	 * Deletes the clienti dati agg with the primary key from the database. Also notifies the appropriate model listeners.
 	 *
-	 * @param codiceAnagrafica the primary key of the clienti dati agg
+	 * @param clientiDatiAggPK the primary key of the clienti dati agg
 	 * @return the clienti dati agg that was removed
 	 * @throws PortalException if a clienti dati agg with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Indexable(type = IndexableType.DELETE)
 	@Override
-	public ClientiDatiAgg deleteClientiDatiAgg(String codiceAnagrafica)
+	public ClientiDatiAgg deleteClientiDatiAgg(
+		ClientiDatiAggPK clientiDatiAggPK)
 		throws PortalException, SystemException {
-		return clientiDatiAggPersistence.remove(codiceAnagrafica);
+		return clientiDatiAggPersistence.remove(clientiDatiAggPK);
 	}
 
 	/**
@@ -236,23 +239,23 @@ public abstract class ClientiDatiAggLocalServiceBaseImpl
 	}
 
 	@Override
-	public ClientiDatiAgg fetchClientiDatiAgg(String codiceAnagrafica)
+	public ClientiDatiAgg fetchClientiDatiAgg(ClientiDatiAggPK clientiDatiAggPK)
 		throws SystemException {
-		return clientiDatiAggPersistence.fetchByPrimaryKey(codiceAnagrafica);
+		return clientiDatiAggPersistence.fetchByPrimaryKey(clientiDatiAggPK);
 	}
 
 	/**
 	 * Returns the clienti dati agg with the primary key.
 	 *
-	 * @param codiceAnagrafica the primary key of the clienti dati agg
+	 * @param clientiDatiAggPK the primary key of the clienti dati agg
 	 * @return the clienti dati agg
 	 * @throws PortalException if a clienti dati agg with the primary key could not be found
 	 * @throws SystemException if a system exception occurred
 	 */
 	@Override
-	public ClientiDatiAgg getClientiDatiAgg(String codiceAnagrafica)
+	public ClientiDatiAgg getClientiDatiAgg(ClientiDatiAggPK clientiDatiAggPK)
 		throws PortalException, SystemException {
-		return clientiDatiAggPersistence.findByPrimaryKey(codiceAnagrafica);
+		return clientiDatiAggPersistence.findByPrimaryKey(clientiDatiAggPK);
 	}
 
 	@Override

@@ -14,6 +14,8 @@
 
 package it.bysoftware.ct.model;
 
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
+
 import java.io.Serializable;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ public class ClientiDatiAggSoap implements Serializable {
 		ClientiDatiAggSoap soapModel = new ClientiDatiAggSoap();
 
 		soapModel.setCodiceAnagrafica(model.getCodiceAnagrafica());
+		soapModel.setTipo(model.getTipo());
 		soapModel.setAssociati(model.getAssociati());
 		soapModel.setCodiceAliquota(model.getCodiceAliquota());
 
@@ -77,12 +80,13 @@ public class ClientiDatiAggSoap implements Serializable {
 	public ClientiDatiAggSoap() {
 	}
 
-	public String getPrimaryKey() {
-		return _codiceAnagrafica;
+	public ClientiDatiAggPK getPrimaryKey() {
+		return new ClientiDatiAggPK(_codiceAnagrafica, _tipo);
 	}
 
-	public void setPrimaryKey(String pk) {
-		setCodiceAnagrafica(pk);
+	public void setPrimaryKey(ClientiDatiAggPK pk) {
+		setCodiceAnagrafica(pk.codiceAnagrafica);
+		setTipo(pk.tipo);
 	}
 
 	public String getCodiceAnagrafica() {
@@ -91,6 +95,18 @@ public class ClientiDatiAggSoap implements Serializable {
 
 	public void setCodiceAnagrafica(String codiceAnagrafica) {
 		_codiceAnagrafica = codiceAnagrafica;
+	}
+
+	public boolean getTipo() {
+		return _tipo;
+	}
+
+	public boolean isTipo() {
+		return _tipo;
+	}
+
+	public void setTipo(boolean tipo) {
+		_tipo = tipo;
 	}
 
 	public String getAssociati() {
@@ -110,6 +126,7 @@ public class ClientiDatiAggSoap implements Serializable {
 	}
 
 	private String _codiceAnagrafica;
+	private boolean _tipo;
 	private String _associati;
 	private String _codiceAliquota;
 }
