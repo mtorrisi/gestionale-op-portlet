@@ -49,7 +49,7 @@
 
                 <!-- Text input-->
                 <div class="control-group">
-                    <label class="control-label" for="centro">Centro: </label>  
+                    <label class="control-label" for="centro">Sezionale IVA: </label>  
                     <div class="controls">
                         <input id="centro" name="<portlet:namespace />centro" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getCentro()%>"/>
 
