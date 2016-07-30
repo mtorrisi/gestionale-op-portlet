@@ -5,6 +5,8 @@
  */
 package it.its.ct.gestionaleOP.report;
 
+import it.its.ct.gestionaleOP.utils.DocumentType;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -33,11 +35,12 @@ public class Report {
     public static String DB_USERNAME = "op_user";
     public static String DB_PASSWORD = "op_user";
 
-    public String print(int nDoc, int idAssociato, long idOp) throws JRException, ClassNotFoundException, SQLException {
+    public String print(int year, int nDoc, int idAssociato, long idOp) throws JRException, ClassNotFoundException, SQLException {
         Map<String, Object> parametersMap = new HashMap<String, Object>();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
-        parametersMap.put("tipoDocumento", "DDT");
+        parametersMap.put("tipoDocumento", DocumentType.DDT.name());
+        parametersMap.put("year", year);
         //caricamento file JRXML
         JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + idOp + "/" + JASPER_FILENAME + ".jrxml");
         //compilazione del file e generazione del file JASPER

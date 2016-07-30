@@ -5,6 +5,24 @@
  */
 package it.its.ct.gestionaleOP.op;
 
+import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.ClientiDatiAgg;
+import it.bysoftware.ct.model.OrganizzazioneProduttori;
+import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
+import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
+import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
+import it.its.ct.gestionaleOP.utils.DocumentType;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.log.Log;
@@ -29,26 +47,7 @@ import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-
-import it.bysoftware.ct.model.Associato;
-import it.bysoftware.ct.model.ClientiDatiAgg;
-import it.bysoftware.ct.model.OrganizzazioneProduttori;
-import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
-import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
-import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
-import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import com.sun.org.apache.bcel.internal.generic.DCONST;
 
 /**
  *
@@ -57,22 +56,6 @@ import javax.portlet.RenderResponse;
 public class RegistraAssociatoPortlet extends MVCPortlet {
 
     private final Log _log = LogFactoryUtil.getLog(RegistraAssociatoPortlet.class);
-
-    @Override
-    public void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws IOException, PortletException {
-
-        _log.info("doView()");
-        super.doView(renderRequest, renderResponse); //To change body of generated methods, choose Tools | Templates.
-//        try {
-//            List<Associato> list = AssociatoLocalServiceUtil.getAssociatos(0, AssociatoLocalServiceUtil.getAssociatosCount());
-//            for (Associato list1 : list) {
-//                _log.info("ASSOCIATO: " + list1.getEmail());
-//            }
-//        } catch (SystemException ex) {
-//            _log.warn(ex.getMessage());
-//        }
-
-    }
 
     public void toggleAssociato(ActionRequest areq, ActionResponse ares) {
 
@@ -119,21 +102,13 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setEmail(ParamUtil.getString(areq, "email"));
             a.setNomeUtente(ParamUtil.getString(areq, "nome"));
             String plainPwd = ParamUtil.getString(areq, "password");
-//            MessageDigest md = MessageDigest.getInstance("MD5");
-//            md.update(plainPwd.getBytes());
-//            byte byteData[] = md.digest();
-//
-//            //convert the byte to hex format method 1
-//            StringBuilder sb = new StringBuilder();
-//            for (int i = 0; i < byteData.length; i++) {
-//                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
-//            }
+
             a.setPassword(plainPwd);
 
             User creator = PortalUtil.getUser(areq);
             Role role = RoleServiceUtil.getRole(creator.getCompanyId(), "associato");
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(creator.getUserId());
-//            User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getEmail().substring(0, a.getEmail().indexOf("@")), creator, role.getRoleId());
+
             User liferayUser = addLiferayUser(a.getRagioneSociale(), "", a.getEmail(), plainPwd, a.getNomeUtente(), creator, role.getRoleId());
             _log.info("Inserted Liferay user: " + liferayUser);
 
@@ -266,11 +241,11 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
     private DLFolder createAssociateFolder(User associate, DLFolder parentFolder, ThemeDisplay themeDisplay) {
         long groupId = themeDisplay.getLayout().getGroupId();
         long repositoryId = themeDisplay.getScopeGroupId();
-        DLFolder folder = null;
+        DLFolder associatoFolder = null;
 
         try {
 
-            folder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
+            associatoFolder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
                     groupId,
                     repositoryId,
                     false,
@@ -282,21 +257,57 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
             Role associateRole = RoleLocalServiceUtil.getRole(associate.getCompanyId(), "OP");
             String[] actionsRW = new String[]{ActionKeys.VIEW};
-//            String[] actionsRW = new String[]{ActionKeys.ACCESS, ActionKeys.ADD_DOCUMENT, ActionKeys.ADD_SUBFOLDER, ActionKeys.DELETE, ActionKeys.UPDATE, ActionKeys.VIEW};
 
             ResourcePermissionLocalServiceUtil.setResourcePermissions(associate.getCompanyId(),
                     "com.liferay.portlet.documentlibrary.model.DLFolder",
                     ResourceConstants.SCOPE_INDIVIDUAL,
-                    "" + folder.getFolderId(),
+                    "" + associatoFolder.getFolderId(),
                     associateRole.getRoleId(),
                     actionsRW);
-
+            
+            //Create document subfolders...
+            
+            DLFolder yearFolder =DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
+                    groupId,
+                    repositoryId,
+                    false,
+                    associatoFolder.getFolderId(),
+                    String.valueOf(Calendar.getInstance().get(Calendar.YEAR)),
+                    "Directory di " + associate.getFirstName(),
+                    false,
+                    new ServiceContext());
+            ResourcePermissionLocalServiceUtil.setResourcePermissions(associate.getCompanyId(),
+                    "com.liferay.portlet.documentlibrary.model.DLFolder",
+                    ResourceConstants.SCOPE_INDIVIDUAL,
+                    "" + yearFolder.getFolderId(),
+                    associateRole.getRoleId(),
+                    actionsRW);
+            _log.debug("Created yearFolder: " + yearFolder);
+            for(DocumentType type : DocumentType.values()){
+            	DLFolder docFolder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
+                        groupId,
+                        repositoryId,
+                        false,
+                        yearFolder.getFolderId(),
+                        type.name(),
+                        "Directory di " + associate.getFirstName(),
+                        false,
+                        new ServiceContext());
+            	ResourcePermissionLocalServiceUtil.setResourcePermissions(associate.getCompanyId(),
+                        "com.liferay.portlet.documentlibrary.model.DLFolder",
+                        ResourceConstants.SCOPE_INDIVIDUAL,
+                        "" + docFolder.getFolderId(),
+                        associateRole.getRoleId(),
+                        actionsRW);
+            	_log.debug("Created docFolder: " + docFolder);
+            }
+            
         } catch (PortalException ex) {
             _log.error(ex.getMessage());
         } catch (SystemException ex) {
             _log.error(ex.getMessage());
         }
-        return folder;
+        return associatoFolder;
     }
 
 }

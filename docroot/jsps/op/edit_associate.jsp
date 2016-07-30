@@ -125,16 +125,18 @@
         for (Anagrafica cliente : clienti) {
             boolean flag = false;
             ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
-            String[] idAssociati = datiAgg.getAssociati().split(",");
-            for (String idAssociato : idAssociati) {
-                if (idAssociato.equals(String.valueOf(a.getIdLiferay()))) {
-                    clientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
-                    flag = true;
-                    break;
-                }
-            }
-            if (!flag) {
-                noClientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
+            if(datiAgg != null){
+	            String[] idAssociati = datiAgg.getAssociati().split(",");
+	            for (String idAssociato : idAssociati) {
+	                if (idAssociato.equals(String.valueOf(a.getIdLiferay()))) {
+	                    clientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
+	                    flag = true;
+	                    break;
+	                }
+	            }
+	            if (!flag) {
+	                noClientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
+	            }
             }
         }
 

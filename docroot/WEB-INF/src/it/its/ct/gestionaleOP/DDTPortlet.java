@@ -50,6 +50,8 @@ import it.its.ct.gestionaleOP.csvParser.CSVParser;
 import it.its.ct.gestionaleOP.pojos.Documento;
 import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
+import it.its.ct.gestionaleOP.utils.DocumentType;
+import it.its.ct.gestionaleOP.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -112,9 +114,7 @@ import com.liferay.portal.service.UserLocalServiceUtil;
 import com.liferay.portal.theme.ThemeDisplay;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.portlet.documentlibrary.model.DLFolder;
-import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLAppServiceUtil;
-import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.portlet.documentlibrary.util.DLUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -122,11 +122,11 @@ public class DDTPortlet extends MVCPortlet {
 
     private final Log _log = LogFactoryUtil.getLog(DDTPortlet.class);
     private final static int ONE_GB = 1073741824;
-    public static final String DDT = "DDT";
-    public static final String FAV = "FAV";
-    public static final String FAC = "FAC";
-    public static final String NAC = "NAC";
-    public static final String TRAC = "TRAC";
+    public static final String DDT = DocumentType.DDT.name();
+    public static final String FAV = DocumentType.FAV.name();
+    public static final String FAC = DocumentType.FAC.name();
+    public static final String NAC = DocumentType.NAC.name();
+    public static final String TRAC = DocumentType.NAC.name();
     public static final int DDT_ID = 16;
     public static final int NOTE_ID = 3;
     private static final int INVOICE_ID = 2;
@@ -179,8 +179,8 @@ public class DDTPortlet extends MVCPortlet {
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
             User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
             User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
-            DLFolder opFolder = getOpFolder(groupId, liferayOp);
-            DLFolder associatoFolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
+            DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
+            DLFolder associatoFolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
             _log.info("Deleting file: " + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
             DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, associatoFolder.getFolderId(), DDT + "_" + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
 
@@ -236,8 +236,8 @@ public class DDTPortlet extends MVCPortlet {
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
             User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
             User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
-            DLFolder opFolder = getOpFolder(groupId, liferayOp);
-            DLFolder associatoFolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
+            DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
+            DLFolder associatoFolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
             _log.info("Deleting file: " + FAV + "_" + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
             DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, associatoFolder.getFolderId(), FAV + "_" + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
 
@@ -658,9 +658,9 @@ public class DDTPortlet extends MVCPortlet {
         ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getLayout().getGroupId();
         long repositoryId = themeDisplay.getScopeGroupId();
-        DLFolder opFolder = getOpFolder(groupId, liferayOp);
+        DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
 //        _log.info("OP FOLDER: " + opFolder);
-        DLFolder associatofolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
+        DLFolder associatofolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
 //        _log.info("ASSOCIATO FOLDER: " + associatofolder);
         String fileName = tipoDocumento + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
 
@@ -872,7 +872,7 @@ public class DDTPortlet extends MVCPortlet {
         Associato associato;
         OrganizzazioneProduttori op;
         Report r;
-        int nDoc;
+        int nDoc, year;
         boolean update;
         boolean send;
 
@@ -940,7 +940,8 @@ public class DDTPortlet extends MVCPortlet {
             case print: {
 
                 r = new Report();
-
+                _log.debug("######ANNO: " + ParamUtil.getInteger(resourceRequest, "year"));
+                year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
                 update = ParamUtil.getBoolean(resourceRequest, "update");
                 send = ParamUtil.getBoolean(resourceRequest, "send");
@@ -949,12 +950,12 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String ddt = r.print(nDoc, new Long(associato.getId()).intValue(), op.getIdLiferay());
+                        String ddt = r.print(year, nDoc, new Long(associato.getId()).intValue(), op.getIdLiferay());
 
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
 
-                        String fileName = addToDL(nDoc, file, resourceRequest, DDT);
+                        String fileName = addToDL(year, nDoc, file, resourceRequest, DDT);
 
                         if (send) {
                             sendEmail(associato, op, nDoc, update, DDT, file, fileName + ".pdf");
@@ -1017,7 +1018,7 @@ public class DDTPortlet extends MVCPortlet {
             case printInvoice: {
 
                 r = new Report();
-
+                year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
                 update = ParamUtil.getBoolean(resourceRequest, "update");
                 send = ParamUtil.getBoolean(resourceRequest, "send");
@@ -1031,7 +1032,7 @@ public class DDTPortlet extends MVCPortlet {
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
 
-                        String fileName = addToDL(nDoc, file, resourceRequest, FAV);
+                        String fileName = addToDL(year, nDoc, file, resourceRequest, FAV);
 
                         if (send) {
                             sendEmail(associato, op, nDoc, update, FAV, file, fileName + ".pdf");
@@ -1121,6 +1122,7 @@ public class DDTPortlet extends MVCPortlet {
             case printTrace: {
                 r = new Report();
 
+                year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
 //                boolean update = ParamUtil.getBoolean(resourceRequest, "update");
                 send = ParamUtil.getBoolean(resourceRequest, "send");
@@ -1134,7 +1136,7 @@ public class DDTPortlet extends MVCPortlet {
                         File file = new File(trace);
                         InputStream in = new FileInputStream(file);
 
-                        String fileName = addToDL(nDoc, file, resourceRequest, TRAC);
+                        String fileName = addToDL(year, nDoc, file, resourceRequest, TRAC);
                         if (send) {
                             sendEmail(associato, op, nDoc, false, TRAC, file, fileName + ".pdf");
                         }
@@ -1211,7 +1213,7 @@ public class DDTPortlet extends MVCPortlet {
         _log.info(("TO: " + mailMessage.getTo()[0].getAddress()));
     }
 
-    private String addToDL(int nDoc, File ddt, ResourceRequest resourceRequest, String tipoDocumento) throws SystemException, PortalException, FileNotFoundException {
+    private String addToDL(int year, int nDoc, File ddt, ResourceRequest resourceRequest, String tipoDocumento) throws SystemException, PortalException, FileNotFoundException {
 
         Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
         OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
@@ -1220,15 +1222,17 @@ public class DDTPortlet extends MVCPortlet {
         ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest.getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getLayout().getGroupId();
         long repositoryId = themeDisplay.getScopeGroupId();
-        DLFolder opFolder = getOpFolder(groupId, liferayOp);
+        DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
 //        _log.info("OP FOLDER: " + opFolder);
-        DLFolder associatofolder = getAssociatoFolder(groupId, opFolder, liferayAssociato);
+        DLFolder associatofolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
 //        _log.info("ASSOCIATO FOLDER: " + associatofolder);
-        String fileName = tipoDocumento + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
+        DLFolder yearFolder = Utils.getAssociatoYearFolder(groupId, associatofolder, year);
+        DLFolder documentFolder = Utils.getAssociatoDocumentFolder(groupId, yearFolder, tipoDocumento);
+        String fileName = tipoDocumento + "_" + year + "_" + nDoc + "_" + a.getCentro();
 
         FileEntry fileEntry = null;
         try {
-            fileEntry = DLAppServiceUtil.getFileEntry(groupId, associatofolder.getFolderId(), fileName + ".pdf");
+            fileEntry = DLAppServiceUtil.getFileEntry(groupId, documentFolder.getFolderId(), fileName + ".pdf");
             _log.info("Entry found, the file will be replaced.");
         } catch (PortalException e) {
             _log.info("File Entry not found, a new file will be created.");
@@ -1239,24 +1243,16 @@ public class DDTPortlet extends MVCPortlet {
         }
         fileEntry = DLAppServiceUtil.addFileEntry(
                 repositoryId,
-                associatofolder.getFolderId(),
+                documentFolder.getFolderId(),
                 fileName + ".pdf",
                 MimeTypesUtil.getContentType(fileName + ".pdf"),
                 fileName + ".pdf", "", "", ddt, new ServiceContext());
 
-        _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
+        _log.info("Added: " + fileEntry.getTitle() + " to: /" + opFolder.getName() + "/" + associatofolder.getName() + "/" + yearFolder.getName()  + "/" + documentFolder.getName());
         DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
 
         return fileName;
 
-    }
-
-    private DLFolder getOpFolder(long groupId, User liferayOp) throws PortalException, SystemException {
-        return DLFolderLocalServiceUtil.getFolder(groupId, DLFolderConstants.DEFAULT_PARENT_FOLDER_ID, liferayOp.getScreenName());
-    }
-
-    private DLFolder getAssociatoFolder(long groupId, DLFolder opFolder, User liferayAssociato) throws PortalException, SystemException {
-        return DLFolderLocalServiceUtil.getFolder(groupId, opFolder.getFolderId(), liferayAssociato.getScreenName());
     }
 
     private Response saveDDT(ResourceRequest resourceRequest, Associato associato, boolean update) throws SystemException, NoSuchAssociatoException, PortalException, ParseException {

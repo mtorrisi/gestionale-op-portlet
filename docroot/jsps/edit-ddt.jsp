@@ -149,7 +149,7 @@
             <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
             <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
             <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
-            <button id="btnTrace"   class="btn" <%--= disableTraceBTN --%>><i class="icon-list-alt" ></i>Scheda Tracciabilita'</button>
+            <button id="btnTrace"   class="btn" <%--= disableTraceBTN --%>><i class="icon-list-alt" ></i>Scheda Tracciabilità</button>
             <!--<button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>-->
         </div>
     </div>  
@@ -646,7 +646,7 @@
                         options: variety.split("|")
                     }),
                 key: 'descrizioneVariante',
-                label: 'Varieta\' '
+                label: 'Varieta\''
             },
             {
 //                editor: nameEditor,
@@ -1048,10 +1048,10 @@
                                             document.getElementById("btnSave").disabled = true;
                                             document.getElementById("btnTrace").disabled = false;
                                             console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-                                            alert("Attenzione, non ÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
+                                            alert("Attenzione, non ÃÂÃÂÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
                                             break;
                                         case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂ¨ giÃÂÃÂ  presente in archivio.\n");
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂÃÂÃÂ¨ giÃÂÃÂÃÂÃÂ  presente in archivio.\n");
                                             break;
                                         case 6:
                                             alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
@@ -1069,8 +1069,13 @@
     YUI().use('aui-io-request', 'node', function (Y) {
         Y.one('#btnPrint').on('click', function () {
             var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
-
-            var win = window.open('${printDDT}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + true + '&<portlet:namespace />send=' + true, '_blank');
+            var orderDate = Y.one('#<portlet:namespace/>orderDate').val();
+            var tmp = orderDate.split("/");
+            var year;
+            if(tmp.length == 3){
+            	year = tmp[2];
+            }
+            var win = window.open('${printDDT}' + '&<portlet:namespace />year=' + year + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + true + '&<portlet:namespace />send=' + true, '_blank');
             win.focus();
 
         });
