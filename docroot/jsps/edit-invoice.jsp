@@ -1,3 +1,4 @@
+<%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.VociIva"%>
@@ -41,16 +42,19 @@
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
     String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
     String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
-
+    TestataDocumento fac = null;
     if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
 
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), "FAV", a.getId()));
+        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.FAV.name(), a.getId()));
         cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
         datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-                
-        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), "FAV");
+        
+        if(testata.getNota2()!=null && !testata.getNota2().isEmpty())
+        	fac = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(testata.getNota2()), DocumentType.FAC.name(), a.getId())); 
+        
+        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.FAV.name());
 
         for (RigoDocumento rigo : righe) {
             JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -114,7 +118,7 @@
             if (oldDocument != rigo.getNumeroOrdine()) {
                 json.put("descrizione", "Documento di trasporto N. " + rigo.getNumeroOrdine() + "/" + a.getCentro() + " del " + listTestata.get(i).getDataOrdine());
                 jsonArr.put(json);
-                json = json = JSONFactoryUtil.createJSONObject();
+                json = JSONFactoryUtil.createJSONObject();
                 oldDocument = rigo.getNumeroOrdine();
             }
             json.put("codiceArticolo", rigo.getCodiceArticolo());
@@ -207,27 +211,36 @@
 
 <aui:fieldset label="Testata Fattura">
     <aui:layout>
-        <aui:column columnWidth="70" cssClass="detail-column detail-column-first">
+        <aui:column columnWidth="60" cssClass="detail-column detail-column-first">
             <aui:input id="codiceClienteTxt" type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
             <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
-            <aui:input id="documentDate"    type="text" name="documentDate"   label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>"/>
+            <aui:input id="documentDate" type="text" name="documentDate" label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>"/>
+        </aui:column>
+        <aui:column columnWidth="20" cssClass="test" >
+        	<aui:fieldset label="Fattura vendita">
+	            <aui:input type="text" name="nDoc" label="N. Documento" value="<%= origDoc%>">
+	            	<aui:validator name="digits"></aui:validator>
+	            </aui:input>
+	            <aui:select label="Rec Protocollo" name="recProt" style="background-color: #FFFFCC;"> 
+	                <c:forEach items="<%= idToRecover%>" var="id">
+	                    <aui:option value="${id}">
+	                        ${id}
+	                    </aui:option>
+	                </c:forEach>
+	            </aui:select>
+            </aui:fieldset>
         </aui:column>
         <aui:column columnWidth="20" cssClass="test" last="true" >
-            <%--aui:field-wrapper label="Ordine Finito"  >
-                <aui:input type="radio" name="completoSi" label="Si" inlineLabel="true" checked="true" inlineField="true"/>
-                <aui:input type="radio" name="completoNo" label="No" inlineLabel="true" inlineField="true"/>
-            </aui:field-wrapper--%>
-
-            <aui:input type="text" name="nDoc" label="N. Documento" style="width: 90%" value="<%= origDoc%>"/>
-            <aui:select label="Rec Protocollo" name="recProt" style="width: 90%; background-color: #FFFFCC;"> 
-                <c:forEach items="<%= idToRecover%>" var="id">
-                    <aui:option value="${id}">
-                        ${id}
-                    </aui:option>
-                </c:forEach>
-            </aui:select>
+            <aui:fieldset label="Fattura conferimento">
+	            <aui:input type="text" name="nDocConf" label="N. Documento" value="<%= testata.getNota2()%>">
+	            	<aui:validator name="digits"></aui:validator>
+	            </aui:input>
+	            <aui:input type="text" name="dateDocConf" label="Data Documento" value="<%= (fac != null) ? fac.getDataOrdine() : sdf.format(date)%>">
+	            	<aui:validator name="date" ></aui:validator>
+	            </aui:input>
+            </aui:fieldset>
         </aui:column>
     </aui:layout>
 </aui:fieldset>
@@ -297,7 +310,34 @@
                                 label: 'Cancella',
                                 on: {
                                     click: function () {
-                                        deliveryDate.clearSelection();
+                                    	documentDate.clearSelection();
+                                    }
+                                }
+                            }
+                        ]]
+                },
+                zIndex: 1
+            },
+            on: {
+                selectionChange: function (event) {
+                    console.log(event.newSelection);
+                }
+            }
+        });
+        
+        var confDate = new Y.DatePicker({
+            trigger: '#<portlet:namespace />dateDocConf',
+            mask: '%d/%m/%Y',
+            popover: {
+                position: 'top',
+                toolbars: {
+                    header: [[
+                            {
+                                icon: 'icon-trash',
+                                label: 'Cancella',
+                                on: {
+                                    click: function () {
+                                    	confDate.clearSelection();
                                     }
                                 }
                             }
@@ -370,7 +410,7 @@
             },
             {
                 key: 'descrizioneVariante',
-                label: 'Variante'
+                label: 'Varieta\''
             },
             {
                 key: 'imballo',
@@ -396,7 +436,7 @@
             {
                 editor: nameEditor,
                 key: 'pesoNetto',
-                label: 'QuantitÃÂ '
+                label: 'Quantita\''
             },
             {
                 editor: numberEditor,
@@ -493,6 +533,9 @@
         table.delegate('click', function (e) {
             recordSelected = table.getRecord(e.currentTarget);
         }, 'tr', table);
+        table.after('*:pesoNettoChange', function (e) {
+            calcolaSconto();
+        });
         table.after('*:prezzoChange', function (e) {
             calcolaSconto();
         });
@@ -534,7 +577,7 @@
             else if(row.prezzo !== 0)
                 table.removeRow(recordSelected);
             else
-                alert("Attenzione non Ã¨ possibile rimuovere un rigo con un prodotto.");
+                alert("Attenzione non ÃÂ¨ possibile rimuovere un rigo con un prodotto.");
             recordSelected = "";
         });
 
@@ -649,13 +692,28 @@
             rows[i] = table.data.item(i).toJSON();
         }
         console.log(rows);
-        if (rows.length !== 0 && ok)
+        var msg = checkInfoDocs();
+        if (rows.length !== 0 && ok && msg === '')
             sendData(rows, origDoc);
         else
-            alert("Attenzione non Ã¨ possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
+            alert("Attenzione non e' possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.\n" + msg);
 
     }
-
+    
+    function checkInfoDocs() {
+    	var msg = '';
+    	YUI().use('aui-io-request', 'node', function (Y) {
+    		var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
+    		var timestamp=Date.parse(Y.one('#<portlet:namespace/>dateDocConf').val());
+    		if(nDocConf !== '' && isNaN(nDocConf)){
+    			msg = 'Inserire un valore numerico per il numedo di fattura di conferimento.';
+    		} else if (isNaN(timestamp)){
+    			msg = 'La data del documento di conferimento non ÃÂ¨ valida';
+    		} 
+    	});
+    	return msg;
+	}
+    
     function sendData(rows, origDoc) {
         YUI().use('aui-io-request', 'node', function (Y) {
 
@@ -667,11 +725,17 @@
             var documentDate = Y.one('#<portlet:namespace />documentDate').val();
             var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
             var avanzaProtocollo = Y.one('#<portlet:namespace/>nDoc').val();
-
+            var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
+            var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
+            var datiDocConf = '';
+            if(nDocConf !== ''){
+            	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
+            }
+            
             var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
                     "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
                     "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
+                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo + datiDocConf;
             //        Y.one('#btnSave').on('click', function () {
             Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
                 on: {
@@ -722,8 +786,13 @@
     YUI().use('aui-io-request', 'node', function (Y) {
         Y.one('#btnPrint').on('click', function () {
             var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
-
-            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true, '_blank');
+            var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
+            var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
+            var datiDocConf = '';
+            if(nDocConf !== ''){
+            	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
+            }
+            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true + datiDocConf, '_blank');
             win.focus();
 
         });

@@ -51,19 +51,20 @@ public class Report {
 
         //rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + idOp + "/" + JASPER_FILENAME + ".jasper", parametersMap, conn);
-        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + "ddt.pdf");
+        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + "ddt_"+ idAssociato + ".pdf");
 
         conn.close();
-        return "/tmp/ddt.pdf";
+        return "/tmp/ddt_"+ idAssociato + ".pdf";
 
     }
 
-    public String print(int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
-        Map<String, Object> parametersMap = new HashMap<String, Object>();
+    public String print(int nDoc, int idAssociato, String tipoDocumento, long idOp, String logo) throws JRException, ClassNotFoundException, SQLException {
+    	Map<String, Object> parametersMap = new HashMap<String, Object>();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
         parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
-
+        if(!logo.equals(""))
+        	parametersMap.put("logo", logo);
         //caricamento file JRXML
         JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + idOp + "/" + tipoDocumento + ".jrxml");
         //compilazione del file e generazione del file JASPER
@@ -74,9 +75,14 @@ public class Report {
 
         //rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + idOp + "/" + tipoDocumento + ".jasper", parametersMap, conn);
-        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + ".pdf");
+        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf");
         conn.close();
-        return "/tmp/" + tipoDocumento + ".pdf";
+        return "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf";
+    }
+    
+    public String print(int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
+        
+        return print(nDoc, idAssociato, tipoDocumento, idOp, "");
 
     }
 
@@ -102,9 +108,9 @@ public class Report {
 
         //rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + idOp + "/" + "tracciabilita.jasper", parametersMap, conn);
-        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + ".pdf");
+        JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf");
         conn.close();
-        return "/tmp/" + tipoDocumento + ".pdf";
+        return "/tmp/" + tipoDocumento+ "_" + idAssociato + ".pdf";
 
     }
 }

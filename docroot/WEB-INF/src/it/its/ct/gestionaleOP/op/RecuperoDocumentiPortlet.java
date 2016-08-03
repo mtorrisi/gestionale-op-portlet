@@ -13,6 +13,7 @@ import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
+import it.its.ct.gestionaleOP.utils.DocumentType;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -58,17 +59,6 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 
         _log.info("doView()");
         super.doView(renderRequest, renderResponse); //To change body of generated methods, choose Tools | Templates.
-//        try {
-//
-//            List<User> users = UserLocalServiceUtil.getUsers(0, UserLocalServiceUtil.getUsersCount());
-//
-//            for (User user : users) {
-//                _log.info(user.getUserId());
-//            }
-//        } catch (SystemException ex) {
-//            Logger.getLogger(RecuperoDocumentiPortlet.class.getName()).log(Level.SEVERE, null, ex);
-//        }       
-        
     }
 
     @Override
@@ -77,7 +67,6 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             PortletException {
 
         String tracciato = creaFileTracciato(ParamUtil.getString(resourceRequest, "userId", null), ParamUtil.getInteger(resourceRequest, "inviato", 0), ParamUtil.getString(resourceRequest, "testata", null));
-//        System.out.println("#############AJAX CALL####################");
 
         File file = new File(tracciato);
         InputStream in = new FileInputStream(file);
@@ -100,7 +89,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 file.createNewFile();
             } else {
                 Path path = FileSystems.getDefault().getPath("/tmp/", "documenti_" + a.getCentro() + ".txt");
-                boolean success = Files.deleteIfExists(path);
+                Files.deleteIfExists(path);
                 _log.info("Deleted documenti_" + a.getCentro() + ".txt");
             }
             fw = new FileWriter(file.getAbsoluteFile());
@@ -110,12 +99,12 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             if(jsonTestata != null){
             	TestataDocumentoPK testataDocumentoPK = JSONFactoryUtil.looseDeserializeSafe(jsonTestata, TestataDocumentoPK.class);
             	list.add(TestataDocumentoLocalServiceUtil.fetchTestataDocumento(testataDocumentoPK));
-            	testataDocumentoPK.setTipoDocumento("FAC");
-            	list.add(TestataDocumentoLocalServiceUtil.fetchTestataDocumento(testataDocumentoPK));
-            	
-            }
-            else
+//            	testataDocumentoPK.setTipoDocumento(DocumentType.FAC.name());
+//            	list.add(TestataDocumentoLocalServiceUtil.fetchTestataDocumento(testataDocumentoPK));
+//            	list.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(testataDocumentoPK));
+            } else
             	list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", inviato);
+            
             for (TestataDocumento testata : list) {
                 _log.info(testata);
 
@@ -123,7 +112,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 bw.write(stringTestata);
                 //DDT;03/07/2015;F0009;;;;;;0;24;03/07/2015
                 String valoriTestata = testata.getTipoDocumento() + SEPARATOR;
-                String codCen = a.getCentro() + SEPARATOR;
+                String codCen = testata.getCentro() + SEPARATOR;
                 String dataReg = testata.getDataOrdine() + SEPARATOR;//sdf.format(new Timestamp(date.getTime())) + SEPARATOR;
                 String codSog = testata.getCodiceSoggetto() + SEPARATOR;
                 String codSpe = SEPARATOR;
@@ -132,7 +121,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                 String codVe1 = testata.getCodiceVettore() + SEPARATOR;
                 String codVe2 = testata.getVettore2() + SEPARATOR;
                 String numDoc = testata.getNumeroOrdine() + SEPARATOR;
-                String protoc = testata.getNumeroOrdine() + SEPARATOR;
+                String protoc = ((testata.getTipoDocumento().equals(DocumentType.FAV.name())) ? testata.getNumeroOrdine() : 0) + SEPARATOR;
                 String dataDoc = testata.getDataOrdine() + SEPARATOR;
                 String Datann = testata.getDataOrdine();
 

@@ -21,23 +21,71 @@
 
 %>
 <portlet:resourceURL var="download" id="download" />
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna associato trovato." iteratorURL="<%= renderURL%>">
+<div id="myTab">
 
-    <liferay-ui:search-container-results >
-        <%
-            results = ListUtil.subList(associati, searchContainer.getStart(), searchContainer.getEnd());
-            total = AssociatoLocalServiceUtil.countAssociatiAttivi(op.getId());
-            pageContext.setAttribute("results", results);
-            pageContext.setAttribute("total", total);
-        %>
-    </liferay-ui:search-container-results>
-    <div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />associati">
-        <liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
-            <liferay-ui:search-container-column-text property="id"    name="Codice"/>
-            <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-            <liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
-        </liferay-ui:search-container-row>
+       <ul class="nav nav-tabs">
+           <li class="active"><a href="#tab-1">Fatture vendita</a></li>
+           <li><a href="#tab-2">Fatture conferimento</a></li>
+       </ul>
+       <div class="tab-content">
+           <div id="tab-1" class="tab-pane">
+			<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna associato trovato." iteratorURL="<%= renderURL%>">
 
-        <liferay-ui:search-iterator searchContainer="<%= searchContainer%>" paginate="true"/>
-    </div>
-</liferay-ui:search-container>
+    			<liferay-ui:search-container-results >
+        			<%
+            			results = ListUtil.subList(associati, searchContainer.getStart(), searchContainer.getEnd());
+            			total = AssociatoLocalServiceUtil.countAssociatiAttivi(op.getId());
+            			pageContext.setAttribute("results", results);
+			            pageContext.setAttribute("total", total);
+        			%>
+    			</liferay-ui:search-container-results>
+    			<div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />associati">
+        			<liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
+            			<liferay-ui:search-container-column-text property="id"    name="Codice"/>
+            			<liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+            			<liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
+        			</liferay-ui:search-container-row>
+
+        			<liferay-ui:search-iterator searchContainer="<%= searchContainer%>" paginate="true"/>
+    			</div>
+			</liferay-ui:search-container>
+		</div>
+	
+		<div id="tab-2">
+			<liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna associato trovato." iteratorURL="<%= renderURL%>">
+
+    			<liferay-ui:search-container-results >
+        			<%
+            			results = ListUtil.subList(associati, searchContainer.getStart(), searchContainer.getEnd());
+            			total = AssociatoLocalServiceUtil.countAssociatiAttivi(op.getId());
+            			pageContext.setAttribute("results", results);
+			            pageContext.setAttribute("total", total);
+        			%>
+    			</liferay-ui:search-container-results>
+    			<div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />associati">
+        			<liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
+            			<liferay-ui:search-container-column-text property="id"    name="Codice"/>
+            			<liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
+            			<liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
+        			</liferay-ui:search-container-row>
+
+        			<liferay-ui:search-iterator searchContainer="<%= searchContainer%>" paginate="true"/>
+    			</div>
+			</liferay-ui:search-container>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+    YUI().use(
+            'aui-tabview',
+            function (Y) {
+                new Y.TabView(
+                        {
+                            srcNode: '#myTab'
+                        }
+                ).render();
+            }
+    );
+</script>
