@@ -11,7 +11,7 @@
     ResultRow row = (ResultRow) request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
     Associato associato = (Associato) row.getObject();
         
-    int c = TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore(String.valueOf(associato.getIdLiferay()), "completo", 0) / 2;
+    int c = TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore(String.valueOf(associato.getIdLiferay()), "completo", 0);
 %>
 
 <liferay-ui:icon-menu>

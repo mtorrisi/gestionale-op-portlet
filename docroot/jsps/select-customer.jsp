@@ -13,18 +13,20 @@
     List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
     for (Anagrafica cliente : clienti) {
         ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
-        String[] idAssociati = datiAgg.getAssociati().split(",");
-        for (String idAssociato : idAssociati) {
-            if (idAssociato.equals(renderRequest.getRemoteUser())) {
-                clientiAssociato.add(cliente);
-                break;
-            }
+	        if(datiAgg != null){
+	        String[] idAssociati = datiAgg.getAssociati().split(",");
+	        for (String idAssociato : idAssociati) {
+	            if (idAssociato.equals(renderRequest.getRemoteUser())) {
+	                clientiAssociato.add(cliente);
+	                break;
+	            }
+	        }
         }
     }
 
 %>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente Ã¨ stato ancora associato.">
 
     <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
     total="<%= clientiAssociato.size()%>"/>

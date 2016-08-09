@@ -1,7 +1,8 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@page import="java.util.Calendar"%>
-<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.LinkedList"%>
 <%@page import="com.liferay.portal.kernel.dao.search.RowChecker"%>
 <%@page import="java.util.List"%>
 <%@page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil"%>
@@ -15,9 +16,19 @@
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
     String codiceOperatore = renderRequest.getRemoteUser();
     List<TestataDocumento> listInvoice = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), "FAV", a.getId());
-
-
+    LinkedList<TestataDocumento> listToDo = new LinkedList<TestataDocumento>();
+    LinkedList<TestataDocumento> listDid = new LinkedList<TestataDocumento>();
+    for(TestataDocumento t : listInvoice){
+    	if(t.getNota2() != null && t.getNota2().isEmpty()){
+    		listToDo.addLast(t);
+    	} else {
+    		listDid.addLast(t);
+    	}
+    }
+    listInvoice = new ArrayList<TestataDocumento>(listToDo);
+    listInvoice.addAll(listDid);
 %>
+
 <aui:fieldset label="Elenco Fatture">
     <aui:form method="post" name="fm" action="${generateInvoice}">
         <%--<aui:input name="documentIds" />--%>
@@ -27,9 +38,10 @@
             <liferay-ui:search-container-results results="<%= listInvoice%>" 
             total="<%= listInvoice.size()%>"/>
             <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataFAV" keyProperty="numeroOrdine">
-                <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
+                <liferay-ui:search-container-column-text property="numeroOrdine" name="N."/>
                 <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
                 <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documento"/>
+                <liferay-ui:search-container-column-text property="nota2" name="Fatt. conf."/>
                 <%--<liferay-ui:search-container-column-text property="completo" name="Stato"/>--%>
                 <c:choose>
                     <c:when test="${testataFAV.inviato == 1}">

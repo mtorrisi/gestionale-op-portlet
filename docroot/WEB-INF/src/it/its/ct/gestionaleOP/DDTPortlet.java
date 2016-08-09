@@ -83,6 +83,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import net.sf.jasperreports.engine.JRException;
 
 import com.google.gson.Gson;
@@ -123,15 +124,16 @@ public class DDTPortlet extends MVCPortlet {
     private final Log _log = LogFactoryUtil.getLog(DDTPortlet.class);
     private final static int ONE_GB = 1073741824;
     public static final String DDT = DocumentType.DDT.name();
-    public static final String FAV = DocumentType.FAV.name();
     public static final String FAC = DocumentType.FAC.name();
+    public static final String FAT = DocumentType.FAT.name();
+    public static final String FAV = DocumentType.FAV.name();
     public static final String NAC = DocumentType.NAC.name();
-    public static final String TRAC = DocumentType.NAC.name();
+    public static final String TRAC = DocumentType.TRAC.name();
     public static final String OP_VAT_CENTER = "1";
     public static final int DDT_ID = 16;
     public static final int NOTE_ID = 3;
     private static final int INVOICE_ID = 2;
-    private static final int PROVISION_INVOICE_ID = 4;
+//    private static final int PROVISION_INVOICE_ID = 4;
 
     private static final int ANNO = Calendar.getInstance().get(Calendar.YEAR);
     public static final String COMPLETED = "completo";
@@ -295,7 +297,7 @@ public class DDTPortlet extends MVCPortlet {
 	    		try {
 	    			associatoOP = AnagraficaAssociatoOPLocalServiceUtil.getAnagraficaAssociatoOP(new AnagraficaAssociatoOPPK(associato.getId(), t.getCodiceSoggetto()));
 	    		} catch (PortalException ex) {
-	    			_log.info("Cliente non codifiacto: " + t.getCodiceSoggetto());
+	    			_log.info("Cliente non codificato: " + t.getCodiceSoggetto());
 	    		}
 	    		if(associatoOP != null){
 	    			_log.info("Cliente codificato, sostituisco: " + t.getCodiceSoggetto() + "<->" + associatoOP.getCodiceSogettoOP());
@@ -320,8 +322,8 @@ public class DDTPortlet extends MVCPortlet {
 							} else {
 								_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
 								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
-								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
-								rigoDocumento.setDescrizione(articolo.getDescrizione());
+//								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
+//								rigoDocumento.setDescrizione(articolo.getDescrizione());
 								rigoDocumento.setVerificato(true);
 							}
 	    				} else {
@@ -356,8 +358,8 @@ public class DDTPortlet extends MVCPortlet {
     						} else {
     							_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
 								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
-								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
-								rigoDocumento.setDescrizione(articolo.getDescrizione());
+//								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
+//								rigoDocumento.setDescrizione(articolo.getDescrizione());
 								rigoDocumento.setVerificato(true);
     						}
     					} else {
@@ -514,14 +516,17 @@ public class DDTPortlet extends MVCPortlet {
 	    	
 	    	for (WKTestataDocumento wkTestataDocumento : list) {
 	    		if(wkTestataDocumento.getVerificato()) {
+	    			String tTipoDocumento = wkTestataDocumento.getTipoDocumento();
+	    			if(tTipoDocumento.equals(FAT))
+	    				tTipoDocumento = FAC;
 	    			TestataDocumento t;
 	    			try {
 	    				Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(wkTestataDocumento.getCodiceSoggetto());
-	    				t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
+	    				t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), tTipoDocumento /*wkTestataDocumento.getTipoDocumento()*/, wkTestataDocumento.getIdAssociato()));
 	    				if(t == null)
-	    					t = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getTipoDocumento(), wkTestataDocumento.getIdAssociato()));
-	    				t.setCentro(wkTestataDocumento.getCentro());
-	    				t.setCodiceSoggetto(wkTestataDocumento.getCodiceSoggetto());
+	    					t = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(wkTestataDocumento.getAnno(), wkTestataDocumento.getNumeroOrdine(), tTipoDocumento /*wkTestataDocumento.getTipoDocumento()*/, wkTestataDocumento.getIdAssociato()));
+	    				t.setCentro((tTipoDocumento.equals(FAC)) ? "1" : wkTestataDocumento.getCentro());
+	    				t.setCodiceSoggetto((tTipoDocumento.equals(FAC)) ? areq.getRemoteUser() : wkTestataDocumento.getCodiceSoggetto());
 	    				t.setRagioneSociale(wkTestataDocumento.getRagioneSociale());
 	    				t.setDestinazione(cliente.getIndirizzo());
 	    				t.setAspettoEsteriore(wkTestataDocumento.getAspettoEsteriore());
@@ -547,65 +552,69 @@ public class DDTPortlet extends MVCPortlet {
 	    				
 	    				TestataDocumentoLocalServiceUtil.updateTestataDocumento(t); //Adds o updates
 	    				
-	    				if(wkTestataDocumento.getTipoDocumento().equals(FAV)){
-	    					t.setTipoDocumento(FAC);
-	    					t.setCodiceSoggetto(areq.getRemoteUser());
-	    					t.setRagioneSociale(a.getRagioneSociale());
-	    					t.setDestinazione(a.getIndirizzo());
-	    					
-	    					TestataDocumentoLocalServiceUtil.updateTestataDocumento(t); // adds or update FAC
-	    				}
+	    				/** NON PIU' NECESSARIO NELLE NUOVE SPECIFICHE **/
+//	    				if(wkTestataDocumento.getTipoDocumento().equals(FAV)){
+//	    					t.setTipoDocumento(FAC);
+//	    					t.setCodiceSoggetto(areq.getRemoteUser());
+//	    					t.setRagioneSociale(a.getRagioneSociale());
+//	    					t.setDestinazione(a.getIndirizzo());
+//	    					
+//	    					TestataDocumentoLocalServiceUtil.updateTestataDocumento(t); // adds or update FAC
+//	    				}
 	    				
 	    				List<WKRigoDocumento> rows = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
 //	    				for (WKRigoDocumento wkRigoDocumento : rows) {
-	    				RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), wkTestataDocumento.getTipoDocumento());
+	    				RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(wkTestataDocumento.getNumeroOrdine(), wkTestataDocumento.getAnno(), wkTestataDocumento.getIdAssociato(), tTipoDocumento /*wkTestataDocumento.getTipoDocumento()*/);
 	    				for (int i = 0; i < rows.size(); i++) {
 	    					WKRigoDocumento wkRigoDocumento = rows.get(i);
 //	    					RigoDocumento r = RigoDocumentoLocalServiceUtil.fetchRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
 //	    					if(r == null)
-	    						RigoDocumento r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), wkRigoDocumento.getTipoDocumento(), wkRigoDocumento.getIdAssociato()));
-	    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
-	    					r.setDescrizione(wkRigoDocumento.getDescrizione());
-	    					r.setCodiceVariante(wkRigoDocumento.getCodiceVariante());
-	    					String variante = "";
-	    					if(!wkRigoDocumento.getCodiceVariante().isEmpty())
-	    						variante = DescrizioniVariantiLocalServiceUtil.getDescrizioniVarianti(wkRigoDocumento.getCodiceVariante()).getDescrizioneVariante();
-	    					r.setDescrizioneVariante(variante);
-	    					r.setUnitaMisura(wkRigoDocumento.getUnitaMisura());
-	    					r.setColli(wkRigoDocumento.getColli());
-	    					r.setPedane(wkRigoDocumento.getPesoLordo());
-	    					r.setPesoLordo(wkRigoDocumento.getPesoLordo());
-	    					r.setTara(wkRigoDocumento.getTara());
-	    					r.setPesoNetto(wkRigoDocumento.getPesoNetto());
-	    					r.setPrezzo(wkRigoDocumento.getPrezzo());
-	    					r.setPedane(wkRigoDocumento.getPedane());
-	    					r.setNote(wkRigoDocumento.getNote());
-	    					r.setTotalePesata(wkRigoDocumento.getTotalePesata());
-	    					r.setGestioneReti(wkRigoDocumento.getGestioneReti());
-	    					r.setRtxCl(wkRigoDocumento.getRtxCl());
-	    					r.setKgRete(wkRigoDocumento.getKgRete());
-	    					r.setLotto(wkRigoDocumento.getLotto());
-	    					r.setPassaporto(wkRigoDocumento.getPassaporto());
-	    					r.setSconto1(wkRigoDocumento.getSconto1());
-	    					r.setSconto2(wkRigoDocumento.getSconto2());
-	    					r.setSconto3(wkRigoDocumento.getSconto3());
-	    					if(!wkRigoDocumento.getCodiceArticolo().equals("") && !wkRigoDocumento.getDescrizione().equals("")){
-	    						if(i + 1 < rows.size()){
-	    							WKRigoDocumento rigoImballo = rows.get(i + 1);
-	    							if(wkTestataDocumento.getTipoDocumento().equals(DDT))
-	    								r.setRigoOrdine(wkRigoDocumento.getRigoOrdine() + 1);
-	    							r.setImballo(rigoImballo.getCodiceArticolo());
-		    						WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(rigoImballo);
-		    						i++;
-	    						}
-	    					} 
-	    					_log.info("Adding/updating: " + r);
-	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
-	    					
-	    					if(wkRigoDocumento.getTipoDocumento().equals(FAV)){
-    	    					r.setTipoDocumento(FAC);
-    	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
+	    					if(!wkRigoDocumento.getDescrizione().contains("Documento di trasporto") || 
+	    							wkRigoDocumento.getTipoDocumento().equals(FAV)){
+	    						RigoDocumento r = RigoDocumentoLocalServiceUtil.createRigoDocumento(new RigoDocumentoPK(wkRigoDocumento.getAnno(), wkRigoDocumento.getNumeroOrdine(), wkRigoDocumento.getRigoOrdine(), tTipoDocumento /*wkRigoDocumento.getTipoDocumento()*/, wkRigoDocumento.getIdAssociato()));
+		    					r.setCodiceArticolo(wkRigoDocumento.getCodiceArticolo());
+		    					r.setDescrizione(wkRigoDocumento.getDescrizione());
+		    					r.setCodiceVariante(wkRigoDocumento.getCodiceVariante());
+		    					String variante = "";
+		    					if(!wkRigoDocumento.getCodiceVariante().isEmpty())
+		    						variante = DescrizioniVariantiLocalServiceUtil.getDescrizioniVarianti(wkRigoDocumento.getCodiceVariante()).getDescrizioneVariante();
+		    					r.setDescrizioneVariante(variante);
+		    					r.setUnitaMisura(wkRigoDocumento.getUnitaMisura());
+		    					r.setColli(wkRigoDocumento.getColli());
+		    					r.setPedane(wkRigoDocumento.getPesoLordo());
+		    					r.setPesoLordo(wkRigoDocumento.getPesoLordo());
+		    					r.setTara(wkRigoDocumento.getTara());
+		    					r.setPesoNetto(wkRigoDocumento.getPesoNetto());
+		    					r.setPrezzo(wkRigoDocumento.getPrezzo());
+		    					r.setPedane(wkRigoDocumento.getPedane());
+		    					r.setNote(wkRigoDocumento.getNote());
+		    					r.setTotalePesata(wkRigoDocumento.getTotalePesata());
+		    					r.setGestioneReti(wkRigoDocumento.getGestioneReti());
+		    					r.setRtxCl(wkRigoDocumento.getRtxCl());
+		    					r.setKgRete(wkRigoDocumento.getKgRete());
+		    					r.setLotto(wkRigoDocumento.getLotto());
+		    					r.setPassaporto(wkRigoDocumento.getPassaporto());
+		    					r.setSconto1(wkRigoDocumento.getSconto1());
+		    					r.setSconto2(wkRigoDocumento.getSconto2());
+		    					r.setSconto3(wkRigoDocumento.getSconto3());
+		    					if(!wkRigoDocumento.getCodiceArticolo().equals("") && !wkRigoDocumento.getDescrizione().equals("")){
+		    						if(i + 1 < rows.size()){
+		    							WKRigoDocumento rigoImballo = rows.get(i + 1);
+		    							if(wkTestataDocumento.getTipoDocumento().equals(DDT))
+		    								r.setRigoOrdine(wkRigoDocumento.getRigoOrdine() + 1);
+		    							r.setImballo(rigoImballo.getCodiceArticolo());
+			    						WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(rigoImballo);
+			    						i++;
+		    						}
+		    					} 
+		    					_log.info("Adding/updating: " + r);
+		    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
 	    					}
+	    					/** NON PIU' NECESSARIO NELLE NUOVE SPECIFICHE **/
+//	    					if(wkRigoDocumento.getTipoDocumento().equals(FAV)){
+//    	    					r.setTipoDocumento(FAC);
+//    	    					RigoDocumentoLocalServiceUtil.updateRigoDocumento(r);
+//	    					}
 		    				WKRigoDocumentoLocalServiceUtil.deleteWKRigoDocumento(wkRigoDocumento);
 		    			
 	    				}
@@ -629,6 +638,9 @@ public class DDTPortlet extends MVCPortlet {
 					} catch (SQLException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 	    			
 	    		}
@@ -650,62 +662,23 @@ public class DDTPortlet extends MVCPortlet {
     }
     
     private void stampaENotifica(TestataDocumento t, Associato a,
-			ActionRequest areq) throws PortalException, SystemException, ClassNotFoundException, JRException, SQLException, FileNotFoundException, AddressException {
+			ActionRequest areq) throws PortalException, SystemException, ClassNotFoundException, JRException, SQLException, AddressException, IOException {
 
 
 		Report r = new Report();
         
         OrganizzazioneProduttori  op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
-        String ddt = r.print((int) t.getNumeroOrdine(), new Long(a.getId()).intValue(), (t.getTipoDocumento().equals(FAC)) ? FAV.toLowerCase() : t.getTipoDocumento().toLowerCase(), op.getIdLiferay());
+        String ddt = r.print(t.getAnno(), (int) t.getNumeroOrdine(), new Long(a.getId()).intValue(), t.getTipoDocumento().toLowerCase(), op.getIdLiferay(), getLogoAssociato(areq, a, op));
 
         File file = new File(ddt);
 
-        String fileName = addToDL((int)t.getNumeroOrdine(), file, areq, (t.getTipoDocumento().equals(FAC)) ? FAV : t.getTipoDocumento());
+        addToDL(t.getAnno(), (int)t.getNumeroOrdine(), file, areq, t.getTipoDocumento());
 
-        sendEmail(a, op, (int) t.getNumeroOrdine(), false, (t.getTipoDocumento().equals(FAC)) ? FAV.toLowerCase() : t.getTipoDocumento().toLowerCase(), file, fileName + ".pdf");
+//        sendEmail(a, op, (int) t.getNumeroOrdine(), false, (t.getTipoDocumento().equals(FAC)) ? FAV.toLowerCase() : t.getTipoDocumento().toLowerCase(), file, fileName + ".pdf");
 		
 	}
 
-	private String addToDL(int nDoc, File ddt, ActionRequest areq,
-			String tipoDocumento) throws NumberFormatException, SystemException, PortalException {
-		Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(areq.getRemoteUser()));
-        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
-        User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
-        User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
-        ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
-        long groupId = themeDisplay.getLayout().getGroupId();
-        long repositoryId = themeDisplay.getScopeGroupId();
-        DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
-//        _log.info("OP FOLDER: " + opFolder);
-        DLFolder associatofolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
-//        _log.info("ASSOCIATO FOLDER: " + associatofolder);
-        String fileName = tipoDocumento + "_" + ANNO + "_" + nDoc + "_" + a.getCentro();
-
-        FileEntry fileEntry = null;
-        try {
-            fileEntry = DLAppServiceUtil.getFileEntry(groupId, associatofolder.getFolderId(), fileName + ".pdf");
-            _log.info("Entry found, the file will be replaced.");
-        } catch (PortalException e) {
-            _log.info("File Entry not found, a new file will be created.");
-        }
-
-        if (fileEntry != null) {
-            DLAppServiceUtil.deleteFileEntry(fileEntry.getFileEntryId());
-        }
-        fileEntry = DLAppServiceUtil.addFileEntry(
-                repositoryId,
-                associatofolder.getFolderId(),
-                fileName + ".pdf",
-                MimeTypesUtil.getContentType(fileName + ".pdf"),
-                fileName + ".pdf", "", "", ddt, new ServiceContext());
-
-        _log.info("Added: " + fileEntry.getTitle() + " to: /" + associatofolder.getName());
-        DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
-        
-        return fileName;
-	}
-
-	private void storeImportedDocument(List<Documento> docsReady, List<Documento> docsToCheck) {
+	private void storeImportedDocument(List<Documento> docsReady, List<Documento> docsToCheck) throws PortalException {
 		try {
 		
 			for (Documento documento : docsReady) {
@@ -754,24 +727,18 @@ public class DDTPortlet extends MVCPortlet {
 		} catch (SystemException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (PortalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 	}
 
 	private List<Documento> parseImportedFile(
 			File uploadedFile, long idAssociato) throws Exception {
 
-//    	List<Map<TestataDocumento, List<RigoDocumento>>> result = new ArrayList<Map<TestataDocumento,List<RigoDocumento>>>();
-
     	FileReader fileReader = new FileReader(uploadedFile);
 		BufferedReader bufferedReader = new BufferedReader(fileReader);
-		List<List<WKRigoDocumento>>orderedRows = new ArrayList<List<WKRigoDocumento>>();
 		List<Documento> tmpDocs = new ArrayList<Documento>();
 		WKTestataDocumento testataDocumento = null;
 		List<WKRigoDocumento> righeDocumento = null;
-//		Map<List<Integer>, WKRigoDocumento> righeFAV = null;
+
 		String line = bufferedReader.readLine();
 		while (line != null) {
 			String[] st = line.split(";");
@@ -783,20 +750,10 @@ public class DDTPortlet extends MVCPortlet {
 						_log.info("Adding to tmpDocs ...");
 						tmpDocs.add(new Documento(testataDocumento, righeDocumento));
 					} 
-//					else if(righeFAV != null) {
-//						_log.info("Adding to tmpDocs ...");
-//						int minDocIndex = Integer.MAX_VALUE;
-//						for (List<Integer> k : righeFAV.keySet()) {
-//							_log.info("INDICI: " + k);
-//							_log.info("RIGO FATTURA: " + righeFAV.get(k));
-//							if(k.get(0) != 0 && k.get(0) < minDocIndex)
-//								minDocIndex = k.get(0);
-//						}
-//					}
 						
 					testataDocumento = null;
 					righeDocumento = null;
-//					righeFAV = null;
+
 					_log.info("Found document header, read the single line...");					
 					if((line = bufferedReader.readLine()) != null){
 						_log.info("Line: " + line);
@@ -808,19 +765,16 @@ public class DDTPortlet extends MVCPortlet {
 				case "WorkRigaDocumento":
 					_log.info("Found row header, loop on rows...");
 					if(testataDocumento != null){
-//						if(!testataDocumento.getTipoDocumento().equals(FAV))
-							righeDocumento = new ArrayList<WKRigoDocumento>();
-//						else
-//							righeFAV = new HashMap<List<Integer>, WKRigoDocumento>();
+						righeDocumento = new ArrayList<WKRigoDocumento>();
+
 						int i = 1;
 						while((line = bufferedReader.readLine()) != null){
 							_log.info("Line: [" + line + "] i: " + i);
 							st = line.split(";");
 							if(!st[0].equals("WorkTestataDocumento")){
-								if(!testataDocumento.getTipoDocumento().equals(FAV))
-//									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, i, idAssociato));
+								if (testataDocumento.getTipoDocumento().equals(DDT))
 									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, (Integer.parseInt(st[26]) > righeDocumento.size()) ? -1 : righeDocumento.get(righeDocumento.size() - 1).getRigoOrdine() + 1, idAssociato));
-								else {
+								else if(testataDocumento.getTipoDocumento().contains("FA")){ 
 									Map.Entry<Integer, WKRigoDocumento> entry = CSVParser.getRigoFattura(st, testataDocumento, idAssociato);
 									if(entry != null){
 										
@@ -838,16 +792,30 @@ public class DDTPortlet extends MVCPortlet {
 												righeDocumento.add(entry.getValue());
 										}
 									}
-//									if(entry.getKey() < righeDocumento.size())
-//										righeDocumento.add(entry.getKey(), entry.getValue());
-//									else {
-//										List<WKRigoDocumento> tmp = new ArrayList<WKRigoDocumento>(entry.getKey());
-//										tmp.addAll(righeDocumento);
-//										tmp.add(entry.getKey(), entry.getValue());
-//										righeDocumento = new ArrayList<WKRigoDocumento>(tmp);
+								} else if (testataDocumento.getTipoDocumento().equals(NAC)){
+									throw new NotImplementedException();
+								} 
+//								else if (testataDocumento.getTipoDocumento().equals(FAT)) { 
+//									testataDocumento.setTipoDocumento(DDTPortlet.FAC);
+//									testataDocumento.setCentro(DDTPortlet.OP_VAT_CENTER);
+//									Map.Entry<Integer, WKRigoDocumento> entry = CSVParser.getRigoFattura(st, testataDocumento, idAssociato);
+//									if(entry != null){
+//										
+//										if(righeDocumento.isEmpty())
+//											righeDocumento.add(entry.getValue());
+//										else{
+//											for (int j = 0; j < righeDocumento.size(); j++) {
+//												if(entry.getKey() < righeDocumento.get(j).getRigoOrdine()){
+//													righeDocumento.add(j, entry.getValue());
+//													entry = null;
+//													break;
+//												}
+//											}
+//											if(entry != null)
+//												righeDocumento.add(entry.getValue());
+//										}
 //									}
-//									righeFAV.put(entry.getKey(), entry.getValue());
-								}
+//								} 
 							} else {
 								break;
 							}
@@ -957,7 +925,7 @@ public class DDTPortlet extends MVCPortlet {
             case print: {
 
                 r = new Report();
-                _log.debug("######ANNO: " + ParamUtil.getInteger(resourceRequest, "year"));
+
                 year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
                 update = ParamUtil.getBoolean(resourceRequest, "update");
@@ -1046,9 +1014,8 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String fav = r.print(nDoc, new Long(associato.getId()).intValue(), FAV.toLowerCase(), op.getIdLiferay());
-                        _log.info(getLogoAssociato(resourceRequest, associato, op));
-                        String fac = r.print(nDocConf, new Long(associato.getId()).intValue(), FAC.toLowerCase(), op.getIdLiferay(), getLogoAssociato(resourceRequest, associato, op));
+                        String fav = r.print(year, nDoc, new Long(associato.getId()).intValue(), FAV.toLowerCase(), op.getIdLiferay());
+                        String fac = r.print(year, nDocConf, new Long(associato.getId()).intValue(), FAC.toLowerCase(), op.getIdLiferay(), getLogoAssociato(resourceRequest, associato, op));
 
                         File fileFac = new File(fac);
                         addToDL(year, nDocConf, fileFac, resourceRequest, FAC);
@@ -1250,7 +1217,7 @@ public class DDTPortlet extends MVCPortlet {
         DLFolder associatofolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
 //        _log.info("ASSOCIATO FOLDER: " + associatofolder);
         DLFolder yearFolder = Utils.getAssociatoYearFolder(groupId, associatofolder, year);
-        DLFolder documentFolder = Utils.getAssociatoDocumentFolder(groupId, yearFolder, tipoDocumento);
+        DLFolder documentFolder = Utils.getAssociatoDocumentFolder(groupId, yearFolder, tipoDocumento.equals(TRAC) ? DDT : tipoDocumento);
         String fileName = tipoDocumento + "_" + year + "_" + nDoc + "_" + (tipoDocumento.equals(FAC) ? OP_VAT_CENTER : a.getCentro());
 
         FileEntry fileEntry = null;
@@ -1277,7 +1244,77 @@ public class DDTPortlet extends MVCPortlet {
         return fileName;
 
     }
+    
+    private String addToDL(int year, int nDoc, File ddt, ActionRequest areq,
+			String tipoDocumento) throws NumberFormatException, SystemException, PortalException {
+		Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(areq.getRemoteUser()));
+        OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+        User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
+        User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+        ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
+        long groupId = themeDisplay.getLayout().getGroupId();
+        long repositoryId = themeDisplay.getScopeGroupId();
+        DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
+//        _log.info("OP FOLDER: " + opFolder);
+        DLFolder associatofolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
+//        _log.info("ASSOCIATO FOLDER: " + associatofolder);
+        DLFolder yearFolder = Utils.getAssociatoYearFolder(groupId, associatofolder, year);
+        DLFolder documentFolder = Utils.getAssociatoDocumentFolder(groupId, yearFolder, tipoDocumento);
+        String fileName = tipoDocumento + "_" + year + "_" + nDoc + "_" + (tipoDocumento.equals(FAC) ? OP_VAT_CENTER : a.getCentro());
+
+        FileEntry fileEntry = null;
+        try {
+            fileEntry = DLAppServiceUtil.getFileEntry(groupId, documentFolder.getFolderId(), fileName + ".pdf");
+            _log.info("Entry found, the file will be replaced.");
+        } catch (PortalException e) {
+            _log.info("File Entry not found, a new file will be created.");
+        }
+
+        if (fileEntry != null) {
+            DLAppServiceUtil.deleteFileEntry(fileEntry.getFileEntryId());
+        }
+        fileEntry = DLAppServiceUtil.addFileEntry(
+                repositoryId,
+                documentFolder.getFolderId(),
+                fileName + ".pdf",
+                MimeTypesUtil.getContentType(fileName + ".pdf"),
+                fileName + ".pdf", "", "", ddt, new ServiceContext());
+
+        _log.info("Added: " + fileEntry.getTitle() + " to: /" + documentFolder.getName());
+        DLUtil.getPreviewURL(fileEntry, fileEntry.getFileVersion(), themeDisplay, fileName);
+        
+        return fileName;
+	}
 	
+    private String getLogoAssociato(ActionRequest actionRequest, Associato a,
+			OrganizzazioneProduttori op) throws PortalException, SystemException, IOException {
+		
+		User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
+        User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+		ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
+        long groupId = themeDisplay.getLayout().getGroupId();
+		DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
+//      _log.info("OP FOLDER: " + opFolder);
+		DLFolder associatofolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
+		
+		FileEntry fileEntry = null;
+        try {
+            fileEntry = DLAppServiceUtil.getFileEntry(groupId, associatofolder.getFolderId(), "logo.jpg");
+            _log.info("Entry found, the file will be replaced.");
+        } catch (PortalException e) {
+            _log.info("File Entry not found, a new file will be created.");
+        }
+		if(fileEntry != null){
+			File f = new File("/tmp/logo_" + a.getId() + ".jpg");
+			if(!f.exists())
+				f.createNewFile();
+			FileUtil.write(f, fileEntry.getContentStream());
+			return "/tmp/logo_" + a.getId() + ".jpg";
+		}
+		else
+			return "";
+	}
+    
 	private String getLogoAssociato(ResourceRequest resourceRequest, Associato a,
 			OrganizzazioneProduttori op) throws PortalException, SystemException, IOException {
 		
@@ -1732,8 +1769,6 @@ public class DDTPortlet extends MVCPortlet {
     }
     
     private File uploadFile(UploadPortletRequest uploadRequest, long idAssociato) throws Exception {
-        long sizeInBytes = uploadRequest.getSize("fileupload");
-
         if (uploadRequest.getSize("fileupload") == 0) {
             throw new Exception("empty-file");
         }

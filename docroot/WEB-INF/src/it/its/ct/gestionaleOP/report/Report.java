@@ -58,11 +58,12 @@ public class Report {
 
     }
 
-    public String print(int nDoc, int idAssociato, String tipoDocumento, long idOp, String logo) throws JRException, ClassNotFoundException, SQLException {
+    public String print(int year, int nDoc, int idAssociato, String tipoDocumento, long idOp, String logo) throws JRException, ClassNotFoundException, SQLException {
     	Map<String, Object> parametersMap = new HashMap<String, Object>();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
         parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
+        parametersMap.put("year", year);
         if(!logo.equals(""))
         	parametersMap.put("logo", logo);
         //caricamento file JRXML
@@ -80,9 +81,9 @@ public class Report {
         return "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf";
     }
     
-    public String print(int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
+    public String print(int year, int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
         
-        return print(nDoc, idAssociato, tipoDocumento, idOp, "");
+        return print(year, nDoc, idAssociato, tipoDocumento, idOp, "");
 
     }
 

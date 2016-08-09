@@ -37,30 +37,12 @@ public class CSVParser {
 		t.setCausaleTrasporto("VEN");
 		t.setDataOrdine(st[11]);
 		t.setDataConsegna(st[11]);
-//		if(st[0].equals("FAV")){
-//			if(!st[13].isEmpty()){
-//				String[] tmp = st[13].split(" ");
-//				if(tmp.length > 0){
-//					tmp[0] += " DDT";
-//				}
-//				StringBuilder sbStr = new StringBuilder();
-//			    for (int i = 0, il = tmp.length; i < il; i++) {
-//			        if (i > 0)
-//			            sbStr.append(" ");
-//			        sbStr.append(tmp[i]);
-//			    }
-//				t.setNota1(sbStr.toString());
-//			} else {
-//				t.setNota1(st[13]);
-//			}
-//		} 
 		
 		return t;
 	}
-
-
+	
 	public static WKRigoDocumento getRigo(String[] st, WKTestataDocumento testataDocumento, int rigoDocumento, long idAssociato) {
-//		String tipoDocumento = st[0];
+
 		rigoDocumento = (rigoDocumento !=-1) ? rigoDocumento : Integer.parseInt(st[26]);
 		NumberFormat nf = NumberFormat.getNumberInstance(Locale.ITALY);
 		WKRigoDocumento r = WKRigoDocumentoLocalServiceUtil.createWKRigoDocumento(new WKRigoDocumentoPK(testataDocumento.getAnno(), testataDocumento.getNumeroOrdine(), rigoDocumento, testataDocumento.getTipoDocumento(), idAssociato));
@@ -107,15 +89,16 @@ public class CSVParser {
 		return r;
 	}
 	
-	public static Map.Entry<Integer, WKRigoDocumento> getRigoFattura(String[] st, WKTestataDocumento testataDocumento, long idAssociato) {
+	public static Map.Entry<Integer, WKRigoDocumento> getRigoFattura(String[] st, WKTestataDocumento testataDocumento, long idAssociato) throws SystemException {
 		
 		int key = Integer.parseInt(st[26]); // key[0] --> doc index; key[1] --> row index;  
-		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
 		
+		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
+		System.out.println(r.toString());
 		if(r.getCodiceArticolo().equals("") && r.getDescrizione().equals(""))
 			return null;
 		return new AbstractMap.SimpleEntry<Integer, WKRigoDocumento>(key, r);
 		
 	}
-	
+
 }

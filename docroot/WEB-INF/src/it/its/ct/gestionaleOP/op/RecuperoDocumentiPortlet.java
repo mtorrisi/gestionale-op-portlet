@@ -164,7 +164,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                         Tiprig = "0" + SEPARATOR;
                         Codart = rigo.getCodiceArticolo() + SEPARATOR;
                         Codvar = rigo.getCodiceVariante() + SEPARATOR;
-                        Descri = SEPARATOR;
+                        Descri = rigo.getDescrizione() + SEPARATOR;
                         Quanet = rigo.getPesoNetto() + SEPARATOR;
                         Qm2net = rigo.getColli() + SEPARATOR;
                         Prezzo = rigo.getPrezzo() + SEPARATOR;

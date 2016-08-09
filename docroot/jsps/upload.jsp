@@ -19,7 +19,6 @@
         </aui:script>
     </c:when>
     <c:otherwise>
- 
 		<liferay-portlet:actionURL name="upload" var="uploadFileURL">
     		<liferay-portlet:param name="idAssociato" value="<%= renderRequest.getRemoteUser()%>"  />
 		</liferay-portlet:actionURL>
@@ -33,7 +32,7 @@
             		<aui:input type="file" name="fileupload" inlineField="true" label="File">
 						<aui:validator name="required" />
 					</aui:input>
-					<aui:button name="Save" value="Importa" type="submit" />
+					<aui:button name="Save" value="Importa" type="submit"/>
         		</aui:column>
     		</aui:layout>
  

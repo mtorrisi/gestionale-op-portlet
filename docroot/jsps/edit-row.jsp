@@ -52,7 +52,7 @@
                	<div class="control-group">
                    	<label class="control-label" for="codice">Codice Articolo: </label>  
                    	<div class="controls">
-                       	<input id="codice" name="<portlet:namespace />codice" readonly="readonly" type="text" placeholder="" class="form-control input-md" required=""/>
+                       	<input id="codice" name="<portlet:namespace />codice" type="text" placeholder="" class="form-control input-md" required=""/>
                    	</div>
                	</div>
 
@@ -60,7 +60,7 @@
                	<div class="control-group">
                    	<label class="control-label" for="descrizione">Descrizione: </label>  
                    	<div class="controls">
-                       	<input id="descrizione" name="<portlet:namespace />descrizione" value="<%=r.getDescrizione() %>" type="text" placeholder="" class="form-control input-md" required=""/>
+                       	<input id="descrizione" name="<portlet:namespace />descrizione" readonly="readonly" value="<%=r.getDescrizione() %>" type="text" placeholder="" class="form-control input-md" required=""/>
                     </div>
                 </div>
 
@@ -128,7 +128,7 @@
         
 <script type="text/javascript">
 	YUI().use('liferay-util-window', function (Y) {
-    	Y.one('#descrizione').on('click', function (event) {
+    	Y.one('#codice').on('click', function (event) {
 
     		var prezzo = document.getElementById('prezzo').value;
    			var pesoLordo = document.getElementById('pesoLordo').value;
