@@ -58,7 +58,8 @@ public class Report {
 
     }
 
-    public String print(int year, int nDoc, int idAssociato, String tipoDocumento, long idOp, String logo) throws JRException, ClassNotFoundException, SQLException {
+    public String print(int year, int nDoc, int idAssociato, String tipoDocumento, long idOp, boolean toOp, String logo) throws JRException, ClassNotFoundException, SQLException {
+    	String reportFile = !toOp ? tipoDocumento : tipoDocumento + "2op";
     	Map<String, Object> parametersMap = new HashMap<String, Object>();
         parametersMap.put("WkNOrd", nDoc);
         parametersMap.put("idAssociato", idAssociato);
@@ -67,15 +68,15 @@ public class Report {
         if(!logo.equals(""))
         	parametersMap.put("logo", logo);
         //caricamento file JRXML
-        JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + idOp + "/" + tipoDocumento + ".jrxml");
+        JasperDesign jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + idOp + "/" + reportFile + ".jrxml");
         //compilazione del file e generazione del file JASPER
-        JasperCompileManager.compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + idOp + "/" + tipoDocumento + ".jasper");
+        JasperCompileManager.compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + idOp + "/" + reportFile + ".jasper");
         //inizializzazione connessione al database
         Class.forName(DRIVER);
         Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
 
         //rendering e generazione del file PDF
-        JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + idOp + "/" + tipoDocumento + ".jasper", parametersMap, conn);
+        JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER + idOp + "/" + reportFile + ".jasper", parametersMap, conn);
         JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf");
         conn.close();
         return "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf";
@@ -83,7 +84,7 @@ public class Report {
     
     public String print(int year, int nDoc, int idAssociato, String tipoDocumento, long idOp) throws JRException, ClassNotFoundException, SQLException {
         
-        return print(year, nDoc, idAssociato, tipoDocumento, idOp, "");
+        return print(year, nDoc, idAssociato, tipoDocumento, idOp, false, "");
 
     }
 

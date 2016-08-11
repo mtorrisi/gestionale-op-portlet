@@ -55,6 +55,11 @@ public class RigoDocumentoLocalServiceImpl
     }
     
     @Override
+    public List<RigoDocumento> getNACByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+    }
+    
+    @Override
     public List<RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
     	List<RigoDocumento> list = getFatturaByNumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
     	for (RigoDocumento rigoDocumento : list) {

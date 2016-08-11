@@ -292,6 +292,15 @@ public class RigoDocumentoLocalServiceUtil {
 			idAssociato, tipoDocumento);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> getNACByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getNACByNumeroOrdineAnnoAssociato(numeroOrdine, anno,
+			idAssociato, tipoDocumento);
+	}
+
 	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato,
 		java.lang.String tipoDocumento)

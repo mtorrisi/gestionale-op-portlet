@@ -42,10 +42,6 @@
 
 %>
 
-<liferay-portlet:renderURL var="uploadURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
-    <liferay-portlet:param name="mvcPath" value="/jsps/upload.jsp" />
-</liferay-portlet:renderURL>
-
 <liferay-portlet:renderURL var="validateURL">
     <liferay-portlet:param name="jspPage" value="/jsps/validate.jsp" />
 </liferay-portlet:renderURL>
@@ -60,7 +56,7 @@
 	</div>
 </aui:field-wrapper>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente e' stato ancora associato.">
 
     <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
     total="<%= clientiAssociato.size()%>"/>

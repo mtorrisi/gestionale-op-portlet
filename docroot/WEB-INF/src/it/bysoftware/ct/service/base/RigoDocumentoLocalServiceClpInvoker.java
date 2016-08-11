@@ -132,15 +132,21 @@ public class RigoDocumentoLocalServiceClpInvoker {
 				"long", "int", "long", "java.lang.String"
 			};
 
-		_methodName186 = "deleteRigoByNumeroOrdineAnnoAssociato";
+		_methodName186 = "getNACByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes186 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
 
-		_methodName187 = "getDocumentoByOrdineAnnoAssociato";
+		_methodName187 = "deleteRigoByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes187 = new String[] {
+				"long", "int", "long", "java.lang.String"
+			};
+
+		_methodName188 = "getDocumentoByOrdineAnnoAssociato";
+
+		_methodParameterTypes188 = new String[] {
 				"long", "int", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String", "long"
 			};
@@ -263,13 +269,20 @@ public class RigoDocumentoLocalServiceClpInvoker {
 
 		if (_methodName186.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes186, parameterTypes)) {
-			return RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+			return RigoDocumentoLocalServiceUtil.getNACByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 		}
 
 		if (_methodName187.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes187, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
+		}
+
+		if (_methodName188.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes188, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getDocumentoByOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
@@ -324,4 +337,6 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes186;
 	private String _methodName187;
 	private String[] _methodParameterTypes187;
+	private String _methodName188;
+	private String[] _methodParameterTypes188;
 }

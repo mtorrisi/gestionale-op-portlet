@@ -12,7 +12,6 @@ package it.its.ct.gestionaleOP;
 import it.bysoftware.ct.NoSuchAssociatoException;
 import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.model.AnagraficaAssociatoOP;
-import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.model.ArticoliAssociatoOP;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
@@ -27,7 +26,6 @@ import it.bysoftware.ct.model.impl.RigoDocumentoImpl;
 import it.bysoftware.ct.service.AnagraficaAssociatoOPLocalServiceUtil;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
-import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
 import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
@@ -50,6 +48,7 @@ import it.its.ct.gestionaleOP.csvParser.CSVParser;
 import it.its.ct.gestionaleOP.pojos.Documento;
 import it.its.ct.gestionaleOP.pojos.Response;
 import it.its.ct.gestionaleOP.report.Report;
+import it.its.ct.gestionaleOP.utils.Constants;
 import it.its.ct.gestionaleOP.utils.DocumentType;
 import it.its.ct.gestionaleOP.utils.Utils;
 
@@ -83,8 +82,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import net.sf.jasperreports.engine.JRException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.google.gson.Gson;
 import com.liferay.counter.service.CounterLocalServiceUtil;
@@ -130,18 +129,24 @@ public class DDTPortlet extends MVCPortlet {
     public static final String NAC = DocumentType.NAC.name();
     public static final String TRAC = DocumentType.TRAC.name();
     public static final String OP_VAT_CENTER = "1";
-    public static final int DDT_ID = 16;
-    public static final int NOTE_ID = 3;
-    private static final int INVOICE_ID = 2;
-//    private static final int PROVISION_INVOICE_ID = 4;
 
     private static final int ANNO = Calendar.getInstance().get(Calendar.YEAR);
     public static final String COMPLETED = "completo";
     public static final String INVOICED = "fatturato";
 
     public enum CommandID {
-
-        save, print, send, modify, generateInvoice, printInvoice, updateInvoice, saveTrace, printTrace;
+        save, 
+        print, 
+        send, 
+        modify,
+        generateInvoice,
+        printInvoice,
+        updateInvoice,
+        saveTrace,
+        printTrace,
+        saveCreditNote,
+        updateCreditNote,
+        printCreditNote;
     }
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
@@ -163,7 +168,7 @@ public class DDTPortlet extends MVCPortlet {
         _log.info("Deleting DDT: " + anno + " " + numeroOrdine + " " + idAssociato);
 
         try {
-            Progressivo createProgressivo = ProgressivoLocalServiceUtil.createProgressivo(new ProgressivoPK(anno, idAssociato, DDT_ID, numeroOrdine));
+            Progressivo createProgressivo = ProgressivoLocalServiceUtil.createProgressivo(new ProgressivoPK(anno, idAssociato, Constants.DDT_ID, numeroOrdine));
 
             ProgressivoLocalServiceUtil.addProgressivo(createProgressivo);
 
@@ -237,7 +242,7 @@ public class DDTPortlet extends MVCPortlet {
             TestataDocumentoLocalServiceUtil.updateTestataDocumento(origDDT);
 
             //Creo il progressivo da reccuperare.
-            Progressivo createProgressivo = ProgressivoLocalServiceUtil.createProgressivo(new ProgressivoPK(anno, idAssociato, INVOICE_ID, numeroOrdine));
+            Progressivo createProgressivo = ProgressivoLocalServiceUtil.createProgressivo(new ProgressivoPK(anno, idAssociato, Constants.INVOICE_ID, numeroOrdine));
             ProgressivoLocalServiceUtil.addProgressivo(createProgressivo);
             
             ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
@@ -271,6 +276,55 @@ public class DDTPortlet extends MVCPortlet {
         ares.setRenderParameter("update", "true");
         ares.setRenderParameter("codiceCliente", codiceCliente);
         ares.setRenderParameter("jspPage", "/jsps/search-invoice.jsp");
+    }
+    
+    public void deleteCreditNote(ActionRequest areq, ActionResponse ares) {
+        int anno = ParamUtil.getInteger(areq, "anno");
+        int numeroOrdine = ParamUtil.getInteger(areq, "numeroOrdine");
+        Long idAssociato = ParamUtil.getLong(areq, "idAssociato");
+        String codiceCliente = ParamUtil.getString(areq, "codiceCliente");
+
+        _log.info("Deleting Credit note: " + anno + " " + numeroOrdine + " " + idAssociato);
+
+        try {
+            TestataDocumento nac = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(anno, numeroOrdine, NAC, idAssociato));
+            //Elimino righe NAC
+            List<RigoDocumento> righeNAC = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(nac.getNumeroOrdine(), nac.getAnno(), nac.getIdAssociato(), NAC);
+            for (RigoDocumento rigoDocumento : righeNAC) {
+                RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigoDocumento);
+            }
+            TestataDocumentoLocalServiceUtil.deleteTestataDocumento(nac);
+            
+            //Creo il progressivo da reccuperare.
+            Progressivo createProgressivo = ProgressivoLocalServiceUtil.createProgressivo(new ProgressivoPK(anno, idAssociato, Constants.NOTE_ID, numeroOrdine));
+            ProgressivoLocalServiceUtil.addProgressivo(createProgressivo);
+            
+            ThemeDisplay themeDisplay = (ThemeDisplay) areq.getAttribute(WebKeys.THEME_DISPLAY);
+            long groupId = themeDisplay.getLayout().getGroupId();
+            long repositoryId = themeDisplay.getScopeGroupId();
+
+            Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
+            OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+            User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+            User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
+            DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
+            DLFolder associatoFolder = Utils.getAssociatoFolder(groupId, opFolder, liferayAssociato);
+            DLFolder yearFolder = Utils.getAssociatoYearFolder(groupId, associatoFolder, anno);
+            DLFolder docFolder = Utils.getAssociatoDocumentFolder(groupId, yearFolder, NAC);
+            _log.info("Deleting file: " + NAC + "_" + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
+            DLAppServiceUtil.deleteFileEntryByTitle(repositoryId, docFolder.getFolderId(), NAC + "_" + ANNO + "_" + numeroOrdine + "_" + a.getCentro() + ".pdf");
+
+        } catch (PortalException ex) {
+            _log.error(ex.getMessage());
+            SessionErrors.add(areq, "error-delete");
+        } catch (SystemException ex) {
+            _log.error(ex.getMessage());
+            SessionErrors.add(areq, "error-delete");
+        }
+
+        ares.setRenderParameter("update", "true");
+        ares.setRenderParameter("codiceCliente", codiceCliente);
+        ares.setRenderParameter("jspPage", "/jsps/search-credit-note.jsp");
     }
 
     public void upload(ActionRequest areq, ActionResponse ares) {
@@ -322,8 +376,6 @@ public class DDTPortlet extends MVCPortlet {
 							} else {
 								_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
 								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
-//								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
-//								rigoDocumento.setDescrizione(articolo.getDescrizione());
 								rigoDocumento.setVerificato(true);
 							}
 	    				} else {
@@ -339,9 +391,7 @@ public class DDTPortlet extends MVCPortlet {
 	    			}
 	    		} else {
 	    			_log.info("Cliente: " + t.getCodiceSoggetto() + " non codificato.");
-//	    			t.setCodiceSoggetto("");
 	    			t.setVerificato(false);
-//	    			boolean addToReady = true;
     				for (WKRigoDocumento rigoDocumento : rows) {
     					if(!rigoDocumento.getCodiceArticolo().equals("")){
     						ArticoliAssociatoOP articoloAssociato = null;
@@ -353,24 +403,16 @@ public class DDTPortlet extends MVCPortlet {
     						if(articoloAssociato == null){
     							_log.info("Articolo: " + rigoDocumento.getCodiceArticolo() + " non ancora codificato.");
     							rigoDocumento.setVerificato(false);
-//    							addToReady = false;
-//    							break; // stop loop on rows
     						} else {
     							_log.info("Articolo codificato, sostituisco: " + rigoDocumento.getCodiceArticolo() + "<->" + articoloAssociato.getCodiceArticoloOP());
 								rigoDocumento.setCodiceArticolo(articoloAssociato.getCodiceArticoloOP());
-//								Articoli articolo = ArticoliLocalServiceUtil.getArticoli(articoloAssociato.getCodiceArticoloOP());
-//								rigoDocumento.setDescrizione(articolo.getDescrizione());
 								rigoDocumento.setVerificato(true);
     						}
     					} else {
     						rigoDocumento.setVerificato(true);
     					}
 					}
-//    				if(addToReady){
-//    					docsReady.add(d);
-//    				} else {
-    					docsToCheck.add(d);
-//    				}
+					docsToCheck.add(d);
 	    		}
 			}
 			
@@ -664,11 +706,10 @@ public class DDTPortlet extends MVCPortlet {
     private void stampaENotifica(TestataDocumento t, Associato a,
 			ActionRequest areq) throws PortalException, SystemException, ClassNotFoundException, JRException, SQLException, AddressException, IOException {
 
-
-		Report r = new Report();
-        
         OrganizzazioneProduttori  op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
-        String ddt = r.print(t.getAnno(), (int) t.getNumeroOrdine(), new Long(a.getId()).intValue(), t.getTipoDocumento().toLowerCase(), op.getIdLiferay(), getLogoAssociato(areq, a, op));
+        boolean toOp = t.getCodiceSoggetto().equals(String.valueOf(op.getIdLiferay()));
+        Report r = new Report();
+        String ddt = r.print(t.getAnno(), (int) t.getNumeroOrdine(), new Long(a.getId()).intValue(), t.getTipoDocumento().toLowerCase(), op.getIdLiferay(), toOp, getLogoAssociato(areq, a, op));
 
         File file = new File(ddt);
 
@@ -774,7 +815,7 @@ public class DDTPortlet extends MVCPortlet {
 							if(!st[0].equals("WorkTestataDocumento")){
 								if (testataDocumento.getTipoDocumento().equals(DDT))
 									righeDocumento.add(CSVParser.getRigo(st, testataDocumento, (Integer.parseInt(st[26]) > righeDocumento.size()) ? -1 : righeDocumento.get(righeDocumento.size() - 1).getRigoOrdine() + 1, idAssociato));
-								else if(testataDocumento.getTipoDocumento().contains("FA")){ 
+								else { //if(testataDocumento.getTipoDocumento().contains("FA")){ 
 									Map.Entry<Integer, WKRigoDocumento> entry = CSVParser.getRigoFattura(st, testataDocumento, idAssociato);
 									if(entry != null){
 										
@@ -792,9 +833,10 @@ public class DDTPortlet extends MVCPortlet {
 												righeDocumento.add(entry.getValue());
 										}
 									}
-								} else if (testataDocumento.getTipoDocumento().equals(NAC)){
-									throw new NotImplementedException();
 								} 
+//								else if (testataDocumento.getTipoDocumento().equals(NAC)){
+//									throw new NotImplementedException();
+//								} 
 //								else if (testataDocumento.getTipoDocumento().equals(FAT)) { 
 //									testataDocumento.setTipoDocumento(DDTPortlet.FAC);
 //									testataDocumento.setCentro(DDTPortlet.OP_VAT_CENTER);
@@ -858,6 +900,7 @@ public class DDTPortlet extends MVCPortlet {
         OrganizzazioneProduttori op;
         Report r;
         int nDocConf, nDoc, year;
+        String codiceCliente;
         boolean update;
         boolean send;
 
@@ -928,6 +971,7 @@ public class DDTPortlet extends MVCPortlet {
 
                 year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente");
                 update = ParamUtil.getBoolean(resourceRequest, "update");
                 send = ParamUtil.getBoolean(resourceRequest, "send");
 
@@ -935,8 +979,12 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String ddt = r.print(year, nDoc, new Long(associato.getId()).intValue(), op.getIdLiferay());
-
+                        String ddt;
+                        if(!codiceCliente.equals(String.valueOf(op.getIdLiferay()))) // DDT to final client
+                        	ddt = r.print(year, nDoc, new Long(associato.getId()).intValue(), op.getIdLiferay());
+                    	else // DDT to OP
+                    		ddt = r.print(year, nDoc, new Long(associato.getId()).intValue(), DDT.toLowerCase(), op.getIdLiferay(), true, getLogoAssociato(resourceRequest, associato, op));
+                    		
                         File file = new File(ddt);
                         InputStream in = new FileInputStream(file);
 
@@ -1007,6 +1055,7 @@ public class DDTPortlet extends MVCPortlet {
                 year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
                 nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
                 nDocConf = ParamUtil.getInteger(resourceRequest, "nDocConf");
+                codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente");
                 update = ParamUtil.getBoolean(resourceRequest, "update");
                 send = ParamUtil.getBoolean(resourceRequest, "send");
 
@@ -1014,11 +1063,19 @@ public class DDTPortlet extends MVCPortlet {
                     try {
                         associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
                         op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
-                        String fav = r.print(year, nDoc, new Long(associato.getId()).intValue(), FAV.toLowerCase(), op.getIdLiferay());
-                        String fac = r.print(year, nDocConf, new Long(associato.getId()).intValue(), FAC.toLowerCase(), op.getIdLiferay(), getLogoAssociato(resourceRequest, associato, op));
+                        String fav;
+                        if (codiceCliente.equals(String.valueOf(op.getIdLiferay())))
+                        	fav = r.print(year, nDoc, new Long(associato.getId()).intValue(), FAV.toLowerCase(), op.getIdLiferay(), true, getLogoAssociato(resourceRequest, associato, op));
+                        else
+                        	fav = r.print(year, nDoc, new Long(associato.getId()).intValue(), FAV.toLowerCase(), op.getIdLiferay());
+                        
+                        if(nDocConf != 0){
+                        	String fac = r.print(year, nDocConf, new Long(associato.getId()).intValue(), FAC.toLowerCase(), op.getIdLiferay(), false, getLogoAssociato(resourceRequest, associato, op));
 
-                        File fileFac = new File(fac);
-                        addToDL(year, nDocConf, fileFac, resourceRequest, FAC);
+                        	File fileFac = new File(fac);
+                        	addToDL(year, nDocConf, fileFac, resourceRequest, FAC);
+                        }
+                        
                         File fileFav = new File(fav);
                         InputStream in = new FileInputStream(fileFav);
 
@@ -1154,7 +1211,127 @@ public class DDTPortlet extends MVCPortlet {
 //                    writer.print(response);
                     }
                 }
+                break;
+            }
+            case saveCreditNote:
+            {
+            	writer = resourceResponse.getWriter();
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                    response = saveCreditNote(resourceRequest, associato, op, false);
+//                    sendEmail(associato, op, response.getId(), false, FAV);
+                } catch (JSONException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (ParseException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.DATE_FORMAT_ERROR, -1);
+                }
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
+                break;
+            }
+            case updateCreditNote: {
+                writer = resourceResponse.getWriter();
+                try {
+                    associato = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(resourceRequest.getRemoteUser()));
+                    op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                    response = saveCreditNote(resourceRequest, associato, op, true);
+                    sendEmail(associato, op, response.getId(), true, NAC);
+                } catch (JSONException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.PARSING_JSON_ERROR, -1);
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (NoSuchAssociatoException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (PortalException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.INSERT_ERROR, -1);
+                    writer.print(response);
+                } catch (AddressException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    writer.print(response);
+                } catch (ParseException ex) {
+                    _log.error(ex.getMessage());
+                    response = new Response(Response.Code.DATE_FORMAT_ERROR, -1);
+                }
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
+                break;
+            }
+            case printCreditNote: {
 
+                r = new Report();
+                year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
+                nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+                codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente");
+                update = ParamUtil.getBoolean(resourceRequest, "update");
+                send = ParamUtil.getBoolean(resourceRequest, "send");
+
+                if (nDoc != 0) {
+                    try {
+                        associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+                        op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+                        String nac;
+                        if (codiceCliente.equals(String.valueOf(op.getIdLiferay())))
+                        	nac = r.print(year, nDoc, new Long(associato.getId()).intValue(), NAC.toLowerCase(), op.getIdLiferay(), true, getLogoAssociato(resourceRequest, associato, op));
+                        else
+                        	nac = r.print(year, nDoc, new Long(associato.getId()).intValue(), NAC.toLowerCase(), op.getIdLiferay());
+                        
+                                                
+                        File fileNac = new File(nac);
+                        InputStream in = new FileInputStream(fileNac);
+
+                        String fileName = addToDL(year, nDoc, fileNac, resourceRequest, NAC);
+
+                        if (send) {
+                            sendEmail(associato, op, nDoc, update, NAC, fileNac, fileName + ".pdf");
+                        }
+
+                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+                        ServletResponseUtil.sendFile(httpReq, httpRes, fileNac.getName(), in, "application/pdf");
+                        
+                        in.close();
+                        
+                    } catch (JRException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (ClassNotFoundException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SQLException ex) {
+                        _log.error(ex.getMessage());
+                    } catch (SystemException ex) {
+                        _log.error(ex.getMessage());
+//                        ex.printStackTrace();
+                    } catch (PortalException ex) {
+                        _log.error(ex.getMessage());
+                        ex.printStackTrace();
+                    } catch (AddressException ex) {
+                        _log.error(ex.getMessage());
+//                        response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
+                    }
+                }
                 break;
             }
             default:
@@ -1166,7 +1343,6 @@ public class DDTPortlet extends MVCPortlet {
     {
 		UploadPortletRequest ureq=PortalUtil.getUploadPortletRequest(arq);
 		File file=(File) ureq.getFile("file");
-		System.out.println("#############"+((java.io.File) file).getName());
 		FileUploaderLocalServiceUtil.add((java.io.File) file);
     }
 
@@ -1183,6 +1359,8 @@ public class DDTPortlet extends MVCPortlet {
             articolo = "la fattura";
         } else if (tipoDocumento.equals(TRAC)) {
             articolo = "l'allegato di tracciabilita' relativo al DDT";
+        } else if (tipoDocumento.equals(NAC)) {
+            articolo = "la nota di credito";
         }
         String action = update ? "\nha appena modificato " + articolo + ": " : "\nha appena creato " + articolo + ": ";
         String subject = update ? "Notifica modifica documento." : "Notifica creazione documento.";
@@ -1376,7 +1554,7 @@ public class DDTPortlet extends MVCPortlet {
         if (!numeroOrdineStr.equals("")) {
             numeroOrdine = Integer.parseInt(numeroOrdineStr);
             if (!update) { //RECUPERO PROTOCOLLO
-                ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), DDT_ID, numeroOrdine));
+                ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), Constants.DDT_ID, numeroOrdine));
             }
         } else if (avanzaProtocollo == -1) { //AVANZAMENTO PROTOCOLLO MANUALE
             try {
@@ -1524,7 +1702,7 @@ public class DDTPortlet extends MVCPortlet {
         if (!numeroFatturaStr.equals("")) {
             numeroFattura = Integer.parseInt(numeroFatturaStr);
             if (!update) { //RECUPERO PROTOCOLLO
-                ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), INVOICE_ID, numeroFattura));
+                ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), Constants.INVOICE_ID, numeroFattura));
             }
         } else if (avanzaProtocollo == -1) { //AVANZAMENTO AUTOMATICO PROTOCOLLO
 //            numeroFattura = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), FAV, associato.getId()).size() + 1;
@@ -1653,6 +1831,104 @@ public class DDTPortlet extends MVCPortlet {
         return new Response(Response.Code.OK, numeroFattura);
 
     }
+    
+    private Response saveCreditNote(ResourceRequest resourceRequest,
+			Associato associato, OrganizzazioneProduttori op, boolean update) throws SystemException, PortalException, ParseException {
+		String string = new String(Base64.decode(ParamUtil.getString(resourceRequest, "data", null)));
+        String codiceCliente = ParamUtil.getString(resourceRequest, "codiceCliente", null);
+        String cliente = ParamUtil.getString(resourceRequest, "clienteTxt", null);
+        String destinazioneTxt = ParamUtil.getString(resourceRequest, "destinazioneTxt", null);
+        String codiceDestinazione = ParamUtil.getString(resourceRequest, "codiceDestinazione", null);
+        String documentDate = ParamUtil.getString(resourceRequest, "documentDate", null);
+        String numeroNotaStr = ParamUtil.getString(resourceRequest, "numeroNota", null);
+        int avanzaProtocollo = ParamUtil.getInteger(resourceRequest, "avanzaProtocollo", -1);
+                
+        long origDoc = ParamUtil.getLong(resourceRequest, "numeroDocumento", -1);
+
+        int numeroNota;
+        if (!numeroNotaStr.equals("")) {
+            numeroNota = Integer.parseInt(numeroNotaStr);
+            if (!update) { //RECUPERO PROTOCOLLO
+                ProgressivoLocalServiceUtil.deleteProgressivo(new ProgressivoPK(Calendar.getInstance().get(Calendar.YEAR), associato.getId(), Constants.NOTE_ID, numeroNota));
+            }
+        } else if (avanzaProtocollo == -1) { //AVANZAMENTO AUTOMATICO PROTOCOLLO
+            try {
+                List<TestataDocumento> documentiSoggetto = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), NAC, associato.getId());
+                if (documentiSoggetto.size() > 0) {
+                    numeroNota = (int) documentiSoggetto.get(0).getNumeroOrdine() + 1;
+                } else {
+                    numeroNota = 1;
+                }
+            } catch (SystemException ex) {
+                _log.error(ex.getMessage());
+                return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+            }
+        } else { //AVANZAMENTO PROTOCOLLO MANUALE
+            List<TestataDocumento> testate = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), NAC, associato.getId());
+            TestataDocumento t = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, avanzaProtocollo, NAC, associato.getId()));
+            if (t != null && !update) {
+                _log.warn("Protocol already exists.");
+                return new Response(Response.Code.ALREADY_EXISTS, avanzaProtocollo);
+            }
+            for (TestataDocumento testata : testate) {
+                if (avanzaProtocollo < testata.getNumeroOrdine()) {
+                    String dataTestataStr = testata.getDataOrdine();
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    Date dataTestata = sdf.parse(dataTestataStr);
+                    Date dataDocumento = sdf.parse(documentDate);
+                    if (dataDocumento.after(dataTestata)) {
+                        if (!update && dataDocumento.equals(dataTestata)) {
+                            return new Response(Response.Code.NOT_VALID, avanzaProtocollo);
+                        }
+                    }
+                }
+            }
+            numeroNota = avanzaProtocollo;
+        }
+
+        TestataDocumento creditnote = null;
+        if (update) {
+            creditnote = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ANNO, origDoc, NAC, associato.getId()));
+        } else {
+            creditnote = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO, numeroNota, NAC, associato.getId()));
+        }
+
+        creditnote.setCodiceSoggetto(codiceCliente);
+        creditnote.setCentro(associato.getCentro());
+        creditnote.setRagioneSociale(cliente);
+        creditnote.setCodiceDestinazione(codiceDestinazione);
+        creditnote.setDestinazione(destinazioneTxt);
+        creditnote.setDataOrdine(documentDate);
+        creditnote.setOperatore(resourceRequest.getRemoteUser());
+        creditnote.setCompleto(COMPLETED);
+        
+        JSONArray rowsJSON = JSONFactoryUtil.createJSONArray(string);
+        if (update) {
+            TestataDocumentoLocalServiceUtil.updateTestataDocumento(creditnote);
+        } else {
+            TestataDocumentoLocalServiceUtil.addTestataDocumento(creditnote);
+        }
+        for (int i = 0; i < rowsJSON.length(); i++) {
+
+            JSONObject rowJSON = rowsJSON.getJSONObject(i);
+            RigoDocumento rigo = JSONFactoryUtil.looseDeserialize(rowJSON.toString(), RigoDocumentoImpl.class);
+
+            rigo.setAnno(ANNO);
+            rigo.setNumeroOrdine(creditnote.getNumeroOrdine());
+            rigo.setRigoOrdine(i + 1);
+            rigo.setTipoDocumento(creditnote.getTipoDocumento());
+            rigo.setIdAssociato(associato.getId());
+
+            if (update) {
+        		RigoDocumentoLocalServiceUtil.updateRigoDocumento(rigo);
+            } else { 
+            	RigoDocumentoLocalServiceUtil.addRigoDocumento(rigo);
+        	}
+        }
+
+        return new Response(Response.Code.OK, numeroNota);
+	}
 
     private Response saveTraceability(ResourceRequest resourceRequest, Associato a) throws JSONException, SystemException {
 

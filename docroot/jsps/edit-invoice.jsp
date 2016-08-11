@@ -1,3 +1,4 @@
+<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
@@ -158,7 +159,7 @@
 
     }
 
-    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), 2);
+    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), Constants.INVOICE_ID);
 
     ArrayList<Integer> idToRecover = new ArrayList<Integer>();
 
@@ -577,7 +578,7 @@
             else if(row.prezzo !== 0)
                 table.removeRow(recordSelected);
             else
-                alert("Attenzione non ÃÂ¨ possibile rimuovere un rigo con un prodotto.");
+                alert("Attenzione non ÃÂÃÂÃÂÃÂ¨ possibile rimuovere un rigo con un prodotto.");
             recordSelected = "";
         });
 
@@ -708,7 +709,7 @@
     		if(nDocConf !== '' && isNaN(nDocConf)){
     			msg = 'Inserire un valore numerico per il numedo di fattura di conferimento.';
     		} else if (isNaN(timestamp)){
-    			msg = 'La data del documento di conferimento non ÃÂ¨ valida';
+    			msg = 'La data del documento di conferimento non ÃÂÃÂÃÂÃÂ¨ valida';
     		} 
     	});
     	return msg;
@@ -766,10 +767,10 @@
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
                                     }
-                                    alert("Attenzione, non Ã¨ stato possibile invare la mail di notifica.\n");
+                                    alert("Attenzione, non ÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
                                     break;
                                 case 5:
-                                    alert("Attenzione, il numero di protocollo: " + data.id + " Ã¨ giÃ Â  presente in archivio.\n");
+                                    alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂ¨ giÃÂÃÂ ÃÂÃÂ  presente in archivio.\n");
                                     break;
                                 case 6:
                                     alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");
@@ -788,11 +789,12 @@
             var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
             var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
             var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
+            var codiceCliente = Y.one('#<portlet:namespace/>codiceClienteTxt').val();
             var datiDocConf = '';
             if(nDocConf !== ''){
             	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
             }
-            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true + datiDocConf, '_blank');
+            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true + datiDocConf, '_blank');
             win.focus();
 
         });

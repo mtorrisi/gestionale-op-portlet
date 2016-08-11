@@ -18,12 +18,8 @@
 
 <%
 	List<Documento> docsReady = (List<Documento>) renderRequest.getAttribute("docsReady");;
-// 	if(docsReady == null)
-// 		docsReady = new ArrayList<Documento>();
 
 	List<Documento> docsToCheck  = (List<Documento>) renderRequest.getAttribute("docsToCheck");
-// 	if(docsToCheck == null)
-// 		docsToCheck = new ArrayList<Documento>();
 
 	boolean viewImport = true;
 	if(docsReady != null || docsToCheck != null){
@@ -205,7 +201,7 @@
 				});
 	
 			});
-		}else if (Y.one('#btnSave')){
+		} else if (Y.one('#btnSave')) {
 
 			Y.one('#btnSave').on('click', function(event) {
 				YUI().use('aui-modal', function(Y) {

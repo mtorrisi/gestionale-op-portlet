@@ -265,6 +265,12 @@ public interface RigoDocumentoLocalService extends BaseLocalService,
 		java.lang.String tipoDocumento)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getNACByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato,
 		java.lang.String tipoDocumento)

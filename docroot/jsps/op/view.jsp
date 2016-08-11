@@ -32,7 +32,7 @@
 	</liferay-ui:search-container-results>
 	<div class="taglib-search-iterator-page-iterator-bottom" id="<portlet:namespace />associati">
   			<liferay-ui:search-container-row className="it.bysoftware.ct.model.Associato" modelVar="associato">
-      			<liferay-ui:search-container-column-text property="id"    name="Codice"/>
+      			<liferay-ui:search-container-column-text property="idLiferay"    name="Codice"/>
       			<liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
       			<liferay-ui:search-container-column-jsp path="/jsps/op/document-action.jsp"/>
   			</liferay-ui:search-container-row>

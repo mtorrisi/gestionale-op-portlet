@@ -3,6 +3,8 @@
     Created on : 5-mar-2016, 10.05.32
     Author     : Aliseo-G
 --%>
+<%@page import="it.bysoftware.ct.model.TestataDocumento"%>
+<%@page import="java.util.List"%>
 <%@page import="it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="com.liferay.portal.kernel.dao.search.ResultRow"%>
@@ -10,8 +12,11 @@
 <%
     ResultRow row = (ResultRow) request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
     Associato associato = (Associato) row.getObject();
-        
-    int c = TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore(String.valueOf(associato.getIdLiferay()), "completo", 0);
+    List<TestataDocumento> list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(associato.getIdLiferay()), "completo", 0);
+    int c = 0;
+    for(TestataDocumento t : list)
+    	if(!t.getCodiceSoggetto().equals(request.getRemoteUser()))
+    		c++;
 %>
 
 <liferay-ui:icon-menu>

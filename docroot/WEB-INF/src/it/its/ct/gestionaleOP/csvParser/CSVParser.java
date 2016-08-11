@@ -9,6 +9,7 @@ import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
 import it.bysoftware.ct.service.persistence.WKRigoDocumentoPK;
 import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
+import it.its.ct.gestionaleOP.utils.DocumentType;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -95,7 +96,8 @@ public class CSVParser {
 		
 		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
 		System.out.println(r.toString());
-		if(r.getCodiceArticolo().equals("") && r.getDescrizione().equals(""))
+		if(!testataDocumento.getTipoDocumento().equals(DocumentType.NAC.name()) && 
+				r.getCodiceArticolo().equals("") && r.getDescrizione().equals(""))
 			return null;
 		return new AbstractMap.SimpleEntry<Integer, WKRigoDocumento>(key, r);
 		

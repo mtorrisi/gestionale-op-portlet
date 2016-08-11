@@ -1,3 +1,4 @@
+<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
 <%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -51,7 +52,7 @@
     Porto portoDefault = PortoLocalServiceUtil.getPorto("001");
 
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
-    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), 16);
+    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), Constants.DDT_ID);
 
     ArrayList<Integer> idToRecover = new ArrayList<Integer>();
 
@@ -246,9 +247,9 @@
                         <label for="costo" class="control-label">Costo Trasporto: </label>
                         <div class="controls form-inline">
                             <input type="text" class="input-small" id="costo">
-                            <label for="pedane-euro">NÃÂÃÂÃÂÃÂ° Pedane Euro: </label>
+                            <label for="pedane-euro">NÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ° Pedane Euro: </label>
                             <input type="text" class="input-small" id="pedane-euro"/>
-                            <label for="pedane-normali">NÃÂÃÂÃÂÃÂ° Pedane Normali: </label>
+                            <label for="pedane-normali">NÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ° Pedane Normali: </label>
                             <input type="text" class="input-small" id="pedane-normali"/>
                         </div>
                     </div>
@@ -1123,10 +1124,10 @@
 //                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
                                                     document.getElementById('<portlet:namespace/>recProt').value = "";
                                                 }
-                                                alert("Attenzione, non ÃÂÃÂÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
+                                                alert("Attenzione, non ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
                                                 break;
                                             case 5:
-                                                alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂÃÂÃÂ¨ giÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂ  presente in archivio.\n");
+                                                alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¨ giÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ  presente in archivio.\n");
                                                 break;
                                             case 6:
                                                 alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
@@ -1171,12 +1172,13 @@
             Y.one('#btnPrint').on('click', function () {
                 var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
                 var orderDate = Y.one('#<portlet:namespace/>orderDate').val();
+                var codiceCliente = Y.one('#<portlet:namespace/>codiceClienteTxt').val(); 
                 var tmp = orderDate.split("/");
                 var year;
                 if(tmp.length == 3){
                 	year = tmp[2];
                 }
-                var win = window.open('${printDDT}' + '&<portlet:namespace />year=' + year + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + false, '_blank');
+                var win = window.open('${printDDT}' + '&<portlet:namespace />year=' + year + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + false, '_blank');
                 win.focus();
             });
         });
