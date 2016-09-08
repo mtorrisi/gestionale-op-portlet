@@ -114,39 +114,39 @@ public class TestataDocumentoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.TestataDocumento"
 			};
 
-		_methodName178 = "getBeanIdentifier";
+		_methodName184 = "getBeanIdentifier";
 
-		_methodParameterTypes178 = new String[] {  };
+		_methodParameterTypes184 = new String[] {  };
 
-		_methodName179 = "setBeanIdentifier";
+		_methodName185 = "setBeanIdentifier";
 
-		_methodParameterTypes179 = new String[] { "java.lang.String" };
+		_methodParameterTypes185 = new String[] { "java.lang.String" };
 
-		_methodName184 = "getByCodiceOperatore";
+		_methodName190 = "getByCodiceOperatore";
 
-		_methodParameterTypes184 = new String[] { "java.lang.String" };
+		_methodParameterTypes190 = new String[] { "java.lang.String" };
 
-		_methodName185 = "getByCodiceOperatore";
+		_methodName191 = "getByCodiceOperatore";
 
-		_methodParameterTypes185 = new String[] {
+		_methodParameterTypes191 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName186 = "countDocumnetByCodiceOperatore";
+		_methodName192 = "countDocumnetByCodiceOperatore";
 
-		_methodParameterTypes186 = new String[] {
+		_methodParameterTypes192 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName187 = "getByCodiceSoggettoCodiceOperatore";
+		_methodName193 = "getByCodiceSoggettoCodiceOperatore";
 
-		_methodParameterTypes187 = new String[] {
+		_methodParameterTypes193 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName188 = "getDocumentiSoggetto";
+		_methodName194 = "getDocumentiSoggetto";
 
-		_methodParameterTypes188 = new String[] {
+		_methodParameterTypes194 = new String[] {
 				"int", "java.lang.String", "long"
 			};
 	}
@@ -240,45 +240,45 @@ public class TestataDocumentoLocalServiceClpInvoker {
 			return TestataDocumentoLocalServiceUtil.updateTestataDocumento((it.bysoftware.ct.model.TestataDocumento)arguments[0]);
 		}
 
-		if (_methodName178.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
+		if (_methodName184.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName179.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
+		if (_methodName185.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
 			TestataDocumentoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getByCodiceOperatore((java.lang.String)arguments[0]);
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getByCodiceOperatore((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1],
 				((Integer)arguments[2]).intValue());
 		}
 
-		if (_methodName186.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes186, parameterTypes)) {
+		if (_methodName192.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1],
 				((Integer)arguments[2]).intValue());
 		}
 
-		if (_methodName187.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes187, parameterTypes)) {
+		if (_methodName193.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1]);
 		}
 
-		if (_methodName188.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes188, parameterTypes)) {
+		if (_methodName194.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes194, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(((Integer)arguments[0]).intValue(),
 				(java.lang.String)arguments[1], ((Long)arguments[2]).longValue());
 		}
@@ -318,18 +318,18 @@ public class TestataDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName178;
-	private String[] _methodParameterTypes178;
-	private String _methodName179;
-	private String[] _methodParameterTypes179;
 	private String _methodName184;
 	private String[] _methodParameterTypes184;
 	private String _methodName185;
 	private String[] _methodParameterTypes185;
-	private String _methodName186;
-	private String[] _methodParameterTypes186;
-	private String _methodName187;
-	private String[] _methodParameterTypes187;
-	private String _methodName188;
-	private String[] _methodParameterTypes188;
+	private String _methodName190;
+	private String[] _methodParameterTypes190;
+	private String _methodName191;
+	private String[] _methodParameterTypes191;
+	private String _methodName192;
+	private String[] _methodParameterTypes192;
+	private String _methodName193;
+	private String[] _methodParameterTypes193;
+	private String _methodName194;
+	private String[] _methodParameterTypes194;
 }

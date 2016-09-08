@@ -47,6 +47,7 @@ import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
 import it.its.ct.gestionaleOP.csvParser.CSVParser;
 import it.its.ct.gestionaleOP.pojos.Documento;
 import it.its.ct.gestionaleOP.pojos.Response;
+import it.its.ct.gestionaleOP.pojos.Response.Code;
 import it.its.ct.gestionaleOP.report.Report;
 import it.its.ct.gestionaleOP.utils.Constants;
 import it.its.ct.gestionaleOP.utils.DocumentType;
@@ -83,7 +84,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.MediaType;
 
 import net.sf.jasperreports.engine.JRException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.google.gson.Gson;
 import com.liferay.counter.service.CounterLocalServiceUtil;
@@ -120,6 +120,12 @@ import com.liferay.util.bridges.mvc.MVCPortlet;
 
 public class DDTPortlet extends MVCPortlet {
 
+	private static final String[][] CMR_HEADER = {{"il mittente", "l'expediteur", "sender"},
+			{"il destinatario", "le destinataire", "consignee"},
+			{"il trasportatore", "le transporteur", "carrier"}, 
+			{"il controllo", "le contrôle", "check"},
+			{"uso interno", "utilisation intérieure", "internal use"}};
+	
     private final Log _log = LogFactoryUtil.getLog(DDTPortlet.class);
     private final static int ONE_GB = 1073741824;
     public static final String DDT = DocumentType.DDT.name();
@@ -128,6 +134,7 @@ public class DDTPortlet extends MVCPortlet {
     public static final String FAV = DocumentType.FAV.name();
     public static final String NAC = DocumentType.NAC.name();
     public static final String TRAC = DocumentType.TRAC.name();
+    public static final String CMR = DocumentType.CMR.name();
     public static final String OP_VAT_CENTER = "1";
 
     private static final int ANNO = Calendar.getInstance().get(Calendar.YEAR);
@@ -146,7 +153,9 @@ public class DDTPortlet extends MVCPortlet {
         printTrace,
         saveCreditNote,
         updateCreditNote,
-        printCreditNote;
+        printCreditNote,
+        printCMR,
+        saveCMR
     }
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
@@ -492,7 +501,7 @@ public class DDTPortlet extends MVCPortlet {
         	_log.info("codClienteAssociato: "  + codClienteAssociato);
         	_log.info("cliente: "  + ragioneSociale);
         	
-        	if(!codClienteAssociato.equals("") && !codClienteAssociato.equals(codCliente)){ // devo aggiungere alla tabella di associazione dei codici clienti
+        	if(!codClienteAssociato.equals("")){ //&& !codClienteAssociato.equals(codCliente)){ // devo aggiungere alla tabella di associazione dei codici clienti
         		AnagraficaAssociatoOP anagraficaAssociatoOP = null;
 				try {
 					anagraficaAssociatoOP = AnagraficaAssociatoOPLocalServiceUtil.getAnagraficaAssociatoOP(new AnagraficaAssociatoOPPK(testataDocumentoPK.getIdAssociato(), codClienteAssociato));
@@ -1332,6 +1341,41 @@ public class DDTPortlet extends MVCPortlet {
 //                        response = new Response(Response.Code.SENDING_MAIL_ERROR, -1);
                     }
                 }
+                break;
+            }
+            case printCMR: {
+            	r = new Report();
+            	nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
+            	if(nDoc > 0){
+            		try {
+						associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+						op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(associato.getIdOp());
+						year = Calendar.getInstance().get(Calendar.YEAR);
+						String cmr = r.printCMR(CMR_HEADER, year, nDoc, new Long(associato.getId()).intValue(), CMR, op.getIdLiferay());
+						
+						File fileCMR = new File(cmr);
+                        InputStream in = new FileInputStream(fileCMR);
+                        HttpServletResponse httpRes = PortalUtil.getHttpServletResponse(resourceResponse);
+                        HttpServletRequest httpReq = PortalUtil.getHttpServletRequest(resourceRequest);
+                        ServletResponseUtil.sendFile(httpReq, httpRes, fileCMR.getName(), in, "application/pdf");
+                        
+                        in.close();
+					} catch (NumberFormatException
+							| SystemException | ClassNotFoundException | JRException | SQLException | PortalException ex) {
+						_log.error(ex.getMessage());
+					}
+            	}
+            	break;
+            }
+            case saveCMR:
+            {
+            	writer = resourceResponse.getWriter();
+               	String s = ParamUtil.getString(resourceRequest, "mittente", null);
+               	_log.info("****: " + s);
+                response = new Response(Code.OK, 0);
+                writer.print(gson.toJson(response));
+                writer.flush();
+                writer.close();
                 break;
             }
             default:

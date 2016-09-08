@@ -97,7 +97,7 @@ public class CSVParser {
 		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
 		System.out.println(r.toString());
 		if(!testataDocumento.getTipoDocumento().equals(DocumentType.NAC.name()) && 
-				r.getCodiceArticolo().equals("") && r.getDescrizione().equals(""))
+				r.getCodiceArticolo().equals("") && r.getDescrizione().equals("") && r.getPrezzo() == 0)
 			return null;
 		return new AbstractMap.SimpleEntry<Integer, WKRigoDocumento>(key, r);
 		

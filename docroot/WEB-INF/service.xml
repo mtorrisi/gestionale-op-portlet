@@ -472,8 +472,7 @@
 		<column name='codiceAnagrafica' db-name='RveCodclf' type='String'
 			primary='true'>
 		</column>
-		<column name='tipo' db-name='RveTipo' type='boolean'
-			primary='true'>
+		<column name='tipo' db-name='RveTipo' type='boolean' primary='true'>
 		</column>
 		<column name='associati' db-name='RveLibStr1' type='String'>
 		</column>
@@ -846,8 +845,42 @@
 			</finder-column>
 		</finder>
 	</entity>
-	<entity name="FileUploader" table="fileuploader" local-service="true" remote-service='true'>
+	<entity name="FileUploader" table="fileuploader" local-service="true"
+		remote-service='true'>
 		<column name="fid" type="long" primary="true" />
 		<column name="content" type="String" />
+	</entity>
+	<entity name='CMR' table='CMR' local-service='true'
+		remote-service='true'>
+		<column name='anno' db-name='anno' type='int' primary="true">
+		</column>
+		<column name='numeroDocumento' db-name='numero_documento' type='long'
+			primary="true">
+		</column>
+		<column name='idAssociato' db-name='id_associato' type='int'
+			primary="true">
+		</column>
+		<column name='riserve' db-name='riserve' type='String'>
+		</column>
+		<column name='allegati' db-name='allegati' type='String'>
+		</column>
+		<column name='classe' db-name='classe' type='String'>
+		</column>
+		<column name='cifra' db-name='cifra' type='String'>
+		</column>
+		<column name='lettera' db-name='lettera' type='String'>
+		</column>
+		<column name='adr' db-name='ADR' type='String'>
+		</column>
+		<column name='istruzioni' db-name='istruzioni' type='String'>
+		</column>
+		<column name='convenzioni' db-name='convenzioni' type='String'>
+		</column>
+		<column name='rimborso' db-name='rimborso' type='String'>
+		</column>
+		<finder name="progressivo" return-type="long">
+			<finder-column name="anno" comparator="=" />
+			<finder-column name="idAssociato" comparator="=" />
+		</finder>
 	</entity>
 </service-builder>

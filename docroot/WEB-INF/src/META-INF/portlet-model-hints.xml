@@ -80,6 +80,20 @@
 		<field name="associati" type="String" />
 		<field name="codiceAliquota" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.CMR">
+		<field name="anno" type="int" />
+		<field name="numeroDocumento" type="long" />
+		<field name="idAssociato" type="int" />
+		<field name="riserve" type="String" />
+		<field name="allegati" type="String" />
+		<field name="classe" type="String" />
+		<field name="cifra" type="String" />
+		<field name="lettera" type="String" />
+		<field name="adr" type="String" />
+		<field name="istruzioni" type="String" />
+		<field name="convenzioni" type="String" />
+		<field name="rimborso" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.CuraTrasporto">
 		<field name="codiceCuraTrasporto" type="String" />
 		<field name="descrizione" type="String" />

@@ -25,6 +25,22 @@ create table BancheAppoggio (
 	RbaCodiaz VARCHAR(75) null
 );
 
+create table CMR (
+	anno INTEGER not null,
+	numero_documento LONG not null,
+	id_associato INTEGER not null,
+	riserve VARCHAR(75) null,
+	allegati VARCHAR(75) null,
+	classe VARCHAR(75) null,
+	cifra VARCHAR(75) null,
+	lettera VARCHAR(75) null,
+	ADR VARCHAR(75) null,
+	istruzioni VARCHAR(75) null,
+	convenzioni VARCHAR(75) null,
+	rimborso VARCHAR(75) null,
+	primary key (anno, numero_documento, id_associato)
+);
+
 create table CausaleTrasporto (
 	RdeCoddes VARCHAR(75) not null primary key,
 	RdeDescri VARCHAR(75) null,

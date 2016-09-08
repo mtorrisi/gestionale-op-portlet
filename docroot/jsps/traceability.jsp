@@ -70,7 +70,7 @@
     <fieldset>
         <legend>Allegato tracciabilita'</legend>
         <aui:form name="fm2" action="" method="post">
-            <aui:input id="nDoc" type="text" name="nDoc" label="NÂ° documento" cssClass="input-small" disabled="true" inlineField="true" value="<%= numeroDocumento%>"/>
+            <aui:input id="nDoc" type="text" name="nDoc" label="N. doc." cssClass="input-small" disabled="true" inlineField="true" value="<%= numeroDocumento%>"/>
             <aui:input id="dataDoc" type="text" name="dataDoc" label="Data documento" cssClass="input-large" disabled="true" inlineField="true" value="<%= testata.getDataOrdine()%>" />
             <aui:input id="cliente" type="text" name="cliete" label="Cliente" cssClass="input-xxlarge" disabled="true" inlineField="true" value="<%= cliente.getRagioneSociale()%>"/>
 
@@ -162,7 +162,7 @@
                 if (sum !== parseFloat(Y.one("#<portlet:namespace/>kgVenduti_" + i).get('value'))) {
                     console.log("i: " + i + " descrizione: " + descrizione);
                     console.log("sum: " + sum + " kgVenduti: " + parseFloat(Y.one("#<portlet:namespace/>kgVenduti_" + i).get('value')));
-                    alert("Verificare le quantitÃ  di prodotto grezzo inserite per il prodotto: '" + descrizione + "'");
+                    alert("Verificare le quantitÃÂ  di prodotto grezzo inserite per il prodotto: '" + descrizione + "'");
                     return;
                 }
                 scheda += ']}';
@@ -219,10 +219,10 @@
 //                                                    console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
 //                                                    document.getElementById('<portlet:namespace/>recProt').value = "";
 //                                                }
-                                            alert("Attenzione, non Ã¨ stato possibile invare la mail di notifica.\n");
+                                            alert("Attenzione, non ÃÂ¨ stato possibile invare la mail di notifica.\n");
                                             break;
                                         case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " Ã¨ giÃ  presente in archivio.\n");
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂ¨ giÃÂ  presente in archivio.\n");
                                             break;
                                         case 6:
                                             alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");

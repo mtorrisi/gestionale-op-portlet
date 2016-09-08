@@ -141,16 +141,21 @@
     <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId())%>"/>
     <liferay-portlet:param name="jspPage"  value="/jsps/traceability.jsp"/>
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="cmrURL">
+	<liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
+    <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId())%>"/>
+    <liferay-portlet:param name="numeroDocumento"  value="<%= String.valueOf(numeroDocumento)%>"/>
+    <liferay-portlet:param name="jspPage"  value="/jsps/edit-cmr.jsp"/>
+</liferay-portlet:renderURL>
 <portlet:resourceURL var="saveDDT"  id="modify"  />
 <portlet:resourceURL var="printDDT" id="print" />
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <!--<button id="btnSearch"  class="btn" ><i class="icon-search"></i>Cerca</button>-->
-            <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>Salva</button>
-            <button id="btnPrint"   class="btn" ><i class="icon-print"></i>Stampa</button>
-            <button id="btnTrace"   class="btn" <%--= disableTraceBTN --%>><i class="icon-list-alt" ></i>Scheda Tracciabilit&agrave</button>
-            <!--<button id="btnInvoice" class="btn" disabled="true"><i class="icon-list-alt"></i>Genera Fattura</button>-->
+            <button id="btnSave"    class="btn" onclick="SalvaDDT()" ><i class="icon-hdd"></i>&nbsp;Salva</button>
+            <button id="btnPrint"   class="btn" ><i class="icon-print"></i>&nbsp;Stampa</button>
+            <button id="btnTrace"   class="btn" ><i class="icon-list-alt" ></i>&nbsp;Scheda Tracciabilit&agrave;</button>
+            <button id="btnCMR"     class="btn" ><i class="icon-list-alt" ></i>&nbsp;CMR</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -1049,10 +1054,10 @@
                                             document.getElementById("btnSave").disabled = true;
                                             document.getElementById("btnTrace").disabled = false;
                                             console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-                                            alert("Attenzione, non ÃÂ¨ stato possibile invare la mail di notifica.\n");
+                                            alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
                                             break;
                                         case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂ¨ giÃÂ ÃÂ  presente in archivio.\n");
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " e'Â¨ gia'Â  presente in archivio.\n");
                                             break;
                                         case 6:
                                             alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
@@ -1197,6 +1202,12 @@
     YUI().use('node', function (Y) {
         Y.one('#btnTrace').on('click', function () {
             window.location.href = '<%=traceabilityURL%>'.toString() + '&<portlet:namespace/>numeroDocumento=' + document.getElementById('<portlet:namespace/>nDoc').value;
+        });
+    });
+    
+    YUI().use('node', function (Y) {
+        Y.one('#btnCMR').on('click', function () {
+            window.location.href = '<%=cmrURL.toString()%>';
         });
     });
 </script>

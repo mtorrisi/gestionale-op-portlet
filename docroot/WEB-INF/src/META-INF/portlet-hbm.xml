@@ -11,6 +11,7 @@
 	<import class="it.bysoftware.ct.model.BancheAppoggio" />
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
 	<import class="it.bysoftware.ct.model.ClientiDatiAgg" />
+	<import class="it.bysoftware.ct.model.CMR" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
 	<import class="it.bysoftware.ct.model.DescrizioniDocumenti" />
 	<import class="it.bysoftware.ct.model.DescrizioniVarianti" />
@@ -132,6 +133,23 @@
 		</composite-id>
 		<property name="associati" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveLibStr1" />
 		<property name="codiceAliquota" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveEsenzi" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.CMRImpl" table="CMR">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.CMRPK">
+			<key-property name="anno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="numeroDocumento" column="numero_documento" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		</composite-id>
+		<property name="riserve" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="allegati" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="classe" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="cifra" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="lettera" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="adr" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ADR" />
+		<property name="istruzioni" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="convenzioni" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="rimborso" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.CuraTrasportoImpl" table="CuraTrasporto">
 		<cache usage="read-write" />

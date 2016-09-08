@@ -1,5 +1,7 @@
 create index IX_B856D87E on Articoli (RanCatmer);
 
+create index IX_2AD67D88 on CMR (anno, id_associato);
+
 create index IX_39991B9 on ClientiFornitoriDatiAgg (RveCodclf);
 
 create index IX_75890C32 on DestinatariDiversi (RavCodrif);

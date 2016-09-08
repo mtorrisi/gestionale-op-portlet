@@ -106,21 +106,21 @@ public class TracciabilitaSchedaLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.TracciabilitaScheda"
 			};
 
-		_methodName178 = "getBeanIdentifier";
+		_methodName184 = "getBeanIdentifier";
 
-		_methodParameterTypes178 = new String[] {  };
+		_methodParameterTypes184 = new String[] {  };
 
-		_methodName179 = "setBeanIdentifier";
+		_methodName185 = "setBeanIdentifier";
 
-		_methodParameterTypes179 = new String[] { "java.lang.String" };
+		_methodParameterTypes185 = new String[] { "java.lang.String" };
 
-		_methodName184 = "getByAnnoIdAssociato";
+		_methodName190 = "getByAnnoIdAssociato";
 
-		_methodParameterTypes184 = new String[] { "int", "long", "long" };
+		_methodParameterTypes190 = new String[] { "int", "long", "long" };
 
-		_methodName185 = "getByAnnoIdAssociatoCodiceProdotto";
+		_methodName191 = "getByAnnoIdAssociatoCodiceProdotto";
 
-		_methodParameterTypes185 = new String[] {
+		_methodParameterTypes191 = new String[] {
 				"int", "long", "long", "java.lang.String"
 			};
 	}
@@ -214,27 +214,27 @@ public class TracciabilitaSchedaLocalServiceClpInvoker {
 			return TracciabilitaSchedaLocalServiceUtil.updateTracciabilitaScheda((it.bysoftware.ct.model.TracciabilitaScheda)arguments[0]);
 		}
 
-		if (_methodName178.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
+		if (_methodName184.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
 			return TracciabilitaSchedaLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName179.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
+		if (_methodName185.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
 			TracciabilitaSchedaLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociato(((Integer)arguments[0]).intValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue());
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			return TracciabilitaSchedaLocalServiceUtil.getByAnnoIdAssociatoCodiceProdotto(((Integer)arguments[0]).intValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
@@ -275,12 +275,12 @@ public class TracciabilitaSchedaLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName178;
-	private String[] _methodParameterTypes178;
-	private String _methodName179;
-	private String[] _methodParameterTypes179;
 	private String _methodName184;
 	private String[] _methodParameterTypes184;
 	private String _methodName185;
 	private String[] _methodParameterTypes185;
+	private String _methodName190;
+	private String[] _methodParameterTypes190;
+	private String _methodName191;
+	private String[] _methodParameterTypes191;
 }
