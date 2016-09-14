@@ -26,9 +26,10 @@ create table BancheAppoggio (
 );
 
 create table CMR (
+	numero_CMR LONG not null,
 	anno INTEGER not null,
 	numero_documento LONG not null,
-	id_associato INTEGER not null,
+	id_associato LONG not null,
 	riserve VARCHAR(75) null,
 	allegati VARCHAR(75) null,
 	classe VARCHAR(75) null,
@@ -38,7 +39,7 @@ create table CMR (
 	istruzioni VARCHAR(75) null,
 	convenzioni VARCHAR(75) null,
 	rimborso VARCHAR(75) null,
-	primary key (anno, numero_documento, id_associato)
+	primary key (numero_CMR, anno, numero_documento, id_associato)
 );
 
 create table CausaleTrasporto (
@@ -318,6 +319,7 @@ create table associato (
 	ragione_sociale VARCHAR(75) null,
 	partita_iva VARCHAR(75) null,
 	indirizzo VARCHAR(75) null,
+	comuneCMR VARCHAR(75) null,
 	telefono VARCHAR(75) null,
 	fax VARCHAR(75) null,
 	nome_utente VARCHAR(75) null,

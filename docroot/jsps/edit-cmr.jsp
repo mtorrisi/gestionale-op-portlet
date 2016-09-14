@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.model.CMR"%>
+<%@page import="it.bysoftware.ct.service.CMRLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.service.PortoLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.Porto"%>
 <%@page import="it.bysoftware.ct.service.VettoriLocalServiceUtil"%>
@@ -32,24 +34,26 @@
 	Vettori vettore2 = null;
 	Porto porto = null;
 	long nDoc = -1;
+	CMR cmr = null;
 	if (tmp != null && !tmp.equals("null")){
 		nDoc = Long.parseLong(tmp);
 		cliente = AnagraficaLocalServiceUtil.getAnagrafica(codiceCliente);
 		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(anno, nDoc, "DDT", idAssociato));
 		vettore = VettoriLocalServiceUtil.fetchVettori(testata.getVettore());
-		vettore2 = VettoriLocalServiceUtil.fetchVettori(testata.getVettore());
+		vettore2 = VettoriLocalServiceUtil.fetchVettori(testata.getVettore2());
 		porto = PortoLocalServiceUtil.fetchPorto(testata.getPorto());
 		List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(nDoc, anno, idAssociato);
 		for(RigoDocumento rigo : righe){
-	if(!rigo.getCodiceArticolo().equals("")){
-		JSONObject rigoJson = JSONFactoryUtil.createJSONObject();
-		rigoJson.put("numeroColli", rigo.getColli());
-		rigoJson.put("denominazione", rigo.getDescrizione());
-		rigoJson.put("pesoLordo", rigo.getPesoLordo());
-		
-		righeJson.put(rigoJson);
-	}
+			if(!rigo.getCodiceArticolo().equals("")){
+				JSONObject rigoJson = JSONFactoryUtil.createJSONObject();
+				rigoJson.put("numeroColli", rigo.getColli());
+				rigoJson.put("denominazione", rigo.getDescrizione());
+				rigoJson.put("pesoLordo", rigo.getPesoLordo());
+				
+				righeJson.put(rigoJson);
+			}
 		}
+		cmr = CMRLocalServiceUtil.getCMRByAnnoAssociatoDDT(anno, idAssociato, nDoc);
 	}
 %>
 
@@ -64,7 +68,9 @@
 <portlet:resourceURL var="printCMR" id="printCMR">
 	<portlet:param name="nDoc" value="<%=String.valueOf(nDoc)%>" />
 </portlet:resourceURL>
-<portlet:resourceURL var="saveCMR" id="saveCMR" />
+<portlet:resourceURL var="saveCMR" id="saveCMR" >
+	<portlet:param name="nDoc" value="<%=String.valueOf(nDoc)%>" />
+</portlet:resourceURL>
 
 <c:choose>
 	<c:when test="<%=nDoc != -1%>">
@@ -74,7 +80,7 @@
 					<button id="btnSave" class="btn">
 						<i class="icon-hdd"></i>&nbsp;Salva
 					</button>
-					<button id="printCMR" class="btn">
+					<button id="printCMR" class="btn" <%= cmr == null ? "disabled=\"true\"" : "" %>>
 						<i class="icon-print"></i>&nbsp;Stampa
 					</button>
 				</div>
@@ -94,8 +100,8 @@
 					<aui:col id="col_1" width="50">
 						<liferay-ui:panel title="Lettera di vettura internazionale"
 							id="panel_0" state="open">
-							<aui:input type="textarea" name="numero" label=""
-								cssClass="input-xxlarge" />
+							<aui:input name="numero" label=""
+								cssClass="input-xxlarge" value="<%=(cmr != null) ? cmr.getNumeroCMR() : "" %>"/>
 						</liferay-ui:panel>
 					</aui:col>
 				</aui:row>
@@ -152,7 +158,7 @@
 							title="18 - Riserve ed osservazioni del trasportatore"
 							id="panel_18" state="open">
 							<aui:input type="textarea" name="riserve-vettore" label=""
-								cssClass="input-xxlarge" resizable="false" />
+								cssClass="input-xxlarge" resizable="false" value="<%= (cmr != null) ? cmr.getRiserve() : "" %>"/>
 						</liferay-ui:panel>
 					</aui:col>
 				</aui:row>
@@ -160,7 +166,7 @@
 					<aui:col width="100">
 						<liferay-ui:panel title="5 - Documenti allegati" id="panel_5"
 							state="open">
-							<aui:input name="allegati" label="" cssClass="input-xxlarge" />
+							<aui:input name="allegati" label="" cssClass="input-xxlarge" value="<%=(cmr != null) ? cmr.getAllegati() : "" %>" />
 						</liferay-ui:panel>
 					</aui:col>
 				</aui:row>
@@ -175,19 +181,19 @@
 				<aui:row id="row_6">
 					<aui:col width="25">
 						<aui:input name="classe" label="Classe " inlineLabel="true"
-							cssClass="input-small" />
+							cssClass="input-small" value="<%= (cmr != null) ? cmr.getClasse() : "" %>" />
 					</aui:col>
 					<aui:col width="25">
 						<aui:input name="cifra" label="Cifra " inlineLabel="true"
-							cssClass="input-small" />
+							cssClass="input-small" value="<%= (cmr != null) ? cmr.getCifra() : "" %>"/>
 					</aui:col>
 					<aui:col width="25">
 						<aui:input name="lettera" label="Lettera " inlineLabel="true"
-							cssClass="input-small" />
+							cssClass="input-small" value="<%= (cmr != null) ? cmr.getLettera() : "" %>"/>
 					</aui:col>
 					<aui:col width="25">
 						<aui:input name="adr" label="(ADR) " inlineLabel="true"
-							cssClass="input-small" />
+							cssClass="input-small" value="<%= (cmr != null) ? cmr.getAdr() : "" %>" />
 					</aui:col>
 				</aui:row>
 				<aui:row id="row_7">
@@ -195,14 +201,14 @@
 						<liferay-ui:panel title="13 - Istruzioni del mittente"
 							id="panel_6" state="open">
 							<aui:input type="textarea" name="istruzioni" label=""
-								cssClass="input-xxlarge" resizable="false" />
+								cssClass="input-xxlarge" resizable="false" value="<%= (cmr != null) ? cmr.getIstruzioni() : "" %>"/>
 						</liferay-ui:panel>
 					</aui:col>
 					<aui:col width="50">
 						<liferay-ui:panel title="19 - Convenzioni particolari"
 							id="panel_7" state="open">
 							<aui:input type="textarea" name="convenzioni" label=""
-								cssClass="input-xxlarge" resizable="false" />
+								cssClass="input-xxlarge" resizable="false" value="<%= (cmr != null) ? cmr.getConvenzioni() : "" %>" />
 						</liferay-ui:panel>
 					</aui:col>
 				</aui:row>
@@ -219,7 +225,7 @@
 					<aui:col width="50">
 						<liferay-ui:panel title="15 - Rimborso" id="panel_9" state="open">
 							<aui:input type="textarea" name="rimborso" label=""
-								cssClass="input-xxlarge" resizable="false" />
+								cssClass="input-xxlarge" resizable="false" value="<%= (cmr != null) ? cmr.getRimborso() : "" %>" />
 						</liferay-ui:panel>
 					</aui:col>
 				</aui:row>
@@ -229,7 +235,7 @@
 							state="open">
 							<aui:input name="compilato-a" label="Compilato a "
 								inlineField="true" cssClass="input-large" resizable="false"
-								disabled="true" value="<%=a.getIndirizzo()%>" />
+								disabled="true" value="<%=a.getComune()%>" />
 							<aui:input name="data-compilazione" label="il "
 								inlineField="true" cssClass="input-large" resizable="false"
 								disabled="true" value="<%=testata.getDataOrdine()%>" />
@@ -318,15 +324,42 @@
 			});
 			
 			YUI().use('aui-io-request', 'node', function(Y) {
-				Y.one('#saveCMR').on('click', function() {
-					Y.io.request('${saveCMR}', {
-						method: 'post', 
-						form: { id: 'form' }, 
+				Y.one('#btnSave').on('click', function() {
+					/******CAMPI CMR******/
+					var numeroCMR = Y.one('#<portlet:namespace />numero').val();
+	                var riserve = Y.one('#<portlet:namespace />riserve-vettore').val();
+	                var allegati = Y.one('#<portlet:namespace />allegati').val();
+	                var classe = Y.one('#<portlet:namespace />classe').val();
+	                var cifra = Y.one('#<portlet:namespace />cifra').val();
+	                var lettera = Y.one('#<portlet:namespace />lettera').val();
+	                var adr = Y.one('#<portlet:namespace />adr').val();
+	                var istruzioni = Y.one('#<portlet:namespace />istruzioni').val();
+	                var convenzioni = Y.one('#<portlet:namespace/>convenzioni').val();
+	                var rimborso = Y.one('#<portlet:namespace/>rimborso').val();
+	                
+	                var queryString = "&<portlet:namespace/>numeroCMR=" + (numeroCMR !== '' ? numeroCMR : "-1") + 
+	                	"&<portlet:namespace/>riserve=" + riserve +
+	                	"&<portlet:namespace/>allegati=" + allegati +
+	                	"&<portlet:namespace/>classe=" + classe +
+	                	"&<portlet:namespace/>cifra=" + cifra +
+	                	"&<portlet:namespace/>lettera=" + lettera +
+	                	"&<portlet:namespace/>adr=" + adr +
+	                	"&<portlet:namespace/>istruzioni=" + istruzioni +
+	                	"&<portlet:namespace/>convenzioni=" + convenzioni +
+	                	"&<portlet:namespace/>rimborso=" + rimborso;
+	                
+					Y.io.request('${saveCMR}' + queryString, {
 						on: { 
 							success: function() { 
-								var data = this.get('responseData'); 
-								var content= JSON.parse(data); 
-								alert(data); 
+								var data = JSON.parse(this.get('responseData'));
+                                if (data.code === 0){
+                                	alert("Salvataggio effettuato con successo.");
+                                    Y.one('#<portlet:namespace/>numero').set('value', data.id);
+                                    document.getElementById("printCMR").disabled = false;
+                                    document.getElementById("btnSave").disabled = true;
+                                } else {
+                                	alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+                                }
 							} 
 						} 
 					});

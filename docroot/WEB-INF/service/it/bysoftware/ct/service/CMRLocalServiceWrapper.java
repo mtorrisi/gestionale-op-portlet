@@ -280,6 +280,20 @@ public class CMRLocalServiceWrapper implements CMRLocalService,
 		return _cmrLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _cmrLocalService.getCMRByAnnoAssociato(anno, idAssociato);
+	}
+
+	@Override
+	public it.bysoftware.ct.model.CMR getCMRByAnnoAssociatoDDT(int anno,
+		long idAssociato, long numeroDocumento) {
+		return _cmrLocalService.getCMRByAnnoAssociatoDDT(anno, idAssociato,
+			numeroDocumento);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

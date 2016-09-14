@@ -68,6 +68,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			{ "ragione_sociale", Types.VARCHAR },
 			{ "partita_iva", Types.VARCHAR },
 			{ "indirizzo", Types.VARCHAR },
+			{ "comuneCMR", Types.VARCHAR },
 			{ "telefono", Types.VARCHAR },
 			{ "fax", Types.VARCHAR },
 			{ "nome_utente", Types.VARCHAR },
@@ -77,7 +78,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			{ "id_op", Types.BIGINT },
 			{ "attivo", Types.BOOLEAN }
 		};
-	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,nome_utente VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,comuneCMR VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,nome_utente VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN)";
 	public static final String TABLE_SQL_DROP = "drop table associato";
 	public static final String ORDER_BY_JPQL = " ORDER BY associato.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY associato.id ASC";
@@ -120,6 +121,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		model.setRagioneSociale(soapModel.getRagioneSociale());
 		model.setPartitaIVA(soapModel.getPartitaIVA());
 		model.setIndirizzo(soapModel.getIndirizzo());
+		model.setComune(soapModel.getComune());
 		model.setTelefono(soapModel.getTelefono());
 		model.setFax(soapModel.getFax());
 		model.setNomeUtente(soapModel.getNomeUtente());
@@ -197,6 +199,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		attributes.put("ragioneSociale", getRagioneSociale());
 		attributes.put("partitaIVA", getPartitaIVA());
 		attributes.put("indirizzo", getIndirizzo());
+		attributes.put("comune", getComune());
 		attributes.put("telefono", getTelefono());
 		attributes.put("fax", getFax());
 		attributes.put("nomeUtente", getNomeUtente());
@@ -239,6 +242,12 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 		if (indirizzo != null) {
 			setIndirizzo(indirizzo);
+		}
+
+		String comune = (String)attributes.get("comune");
+
+		if (comune != null) {
+			setComune(comune);
 		}
 
 		String telefono = (String)attributes.get("telefono");
@@ -393,6 +402,22 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	@Override
 	public void setIndirizzo(String indirizzo) {
 		_indirizzo = indirizzo;
+	}
+
+	@JSON
+	@Override
+	public String getComune() {
+		if (_comune == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _comune;
+		}
+	}
+
+	@Override
+	public void setComune(String comune) {
+		_comune = comune;
 	}
 
 	@JSON
@@ -595,6 +620,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoImpl.setRagioneSociale(getRagioneSociale());
 		associatoImpl.setPartitaIVA(getPartitaIVA());
 		associatoImpl.setIndirizzo(getIndirizzo());
+		associatoImpl.setComune(getComune());
 		associatoImpl.setTelefono(getTelefono());
 		associatoImpl.setFax(getFax());
 		associatoImpl.setNomeUtente(getNomeUtente());
@@ -716,6 +742,14 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			associatoCacheModel.indirizzo = null;
 		}
 
+		associatoCacheModel.comune = getComune();
+
+		String comune = associatoCacheModel.comune;
+
+		if ((comune != null) && (comune.length() == 0)) {
+			associatoCacheModel.comune = null;
+		}
+
 		associatoCacheModel.telefono = getTelefono();
 
 		String telefono = associatoCacheModel.telefono;
@@ -767,7 +801,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -779,6 +813,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		sb.append(getPartitaIVA());
 		sb.append(", indirizzo=");
 		sb.append(getIndirizzo());
+		sb.append(", comune=");
+		sb.append(getComune());
 		sb.append(", telefono=");
 		sb.append(getTelefono());
 		sb.append(", fax=");
@@ -802,7 +838,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -827,6 +863,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		sb.append(
 			"<column><column-name>indirizzo</column-name><column-value><![CDATA[");
 		sb.append(getIndirizzo());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>comune</column-name><column-value><![CDATA[");
+		sb.append(getComune());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>telefono</column-name><column-value><![CDATA[");
@@ -878,6 +918,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private String _partitaIVA;
 	private String _originalPartitaIVA;
 	private String _indirizzo;
+	private String _comune;
 	private String _telefono;
 	private String _fax;
 	private String _nomeUtente;

@@ -77,6 +77,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		attributes.put("ragioneSociale", getRagioneSociale());
 		attributes.put("partitaIVA", getPartitaIVA());
 		attributes.put("indirizzo", getIndirizzo());
+		attributes.put("comune", getComune());
 		attributes.put("telefono", getTelefono());
 		attributes.put("fax", getFax());
 		attributes.put("nomeUtente", getNomeUtente());
@@ -119,6 +120,12 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 		if (indirizzo != null) {
 			setIndirizzo(indirizzo);
+		}
+
+		String comune = (String)attributes.get("comune");
+
+		if (comune != null) {
+			setComune(comune);
 		}
 
 		String telefono = (String)attributes.get("telefono");
@@ -279,6 +286,29 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 				Method method = clazz.getMethod("setIndirizzo", String.class);
 
 				method.invoke(_associatoRemoteModel, indirizzo);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public String getComune() {
+		return _comune;
+	}
+
+	@Override
+	public void setComune(String comune) {
+		_comune = comune;
+
+		if (_associatoRemoteModel != null) {
+			try {
+				Class<?> clazz = _associatoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setComune", String.class);
+
+				method.invoke(_associatoRemoteModel, comune);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -549,6 +579,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		clone.setRagioneSociale(getRagioneSociale());
 		clone.setPartitaIVA(getPartitaIVA());
 		clone.setIndirizzo(getIndirizzo());
+		clone.setComune(getComune());
 		clone.setTelefono(getTelefono());
 		clone.setFax(getFax());
 		clone.setNomeUtente(getNomeUtente());
@@ -609,7 +640,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(29);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -621,6 +652,8 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		sb.append(getPartitaIVA());
 		sb.append(", indirizzo=");
 		sb.append(getIndirizzo());
+		sb.append(", comune=");
+		sb.append(getComune());
 		sb.append(", telefono=");
 		sb.append(getTelefono());
 		sb.append(", fax=");
@@ -644,7 +677,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(43);
+		StringBundler sb = new StringBundler(46);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -669,6 +702,10 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		sb.append(
 			"<column><column-name>indirizzo</column-name><column-value><![CDATA[");
 		sb.append(getIndirizzo());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>comune</column-name><column-value><![CDATA[");
+		sb.append(getComune());
 		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>telefono</column-name><column-value><![CDATA[");
@@ -713,6 +750,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 	private String _ragioneSociale;
 	private String _partitaIVA;
 	private String _indirizzo;
+	private String _comune;
 	private String _telefono;
 	private String _fax;
 	private String _nomeUtente;

@@ -32,6 +32,6 @@ public abstract class CMRActionableDynamicQuery
 
 		setClassLoader(it.bysoftware.ct.service.ClpSerializer.class.getClassLoader());
 
-		setPrimaryKeyPropertyName("primaryKey.anno");
+		setPrimaryKeyPropertyName("primaryKey.numeroCMR");
 	}
 }

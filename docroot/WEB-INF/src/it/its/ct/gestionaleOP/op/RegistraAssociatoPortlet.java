@@ -97,6 +97,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setPartitaIVA(ParamUtil.getString(areq, "pIVA"));
             a.setCentro(ParamUtil.getString(areq, "centro"));
             a.setIndirizzo(ParamUtil.getString(areq, "indirizzo"));
+            a.setComune(ParamUtil.getString(areq, "comune"));
             a.setTelefono(ParamUtil.getString(areq, "telefono"));
             a.setFax(ParamUtil.getString(areq, "fax"));
             a.setEmail(ParamUtil.getString(areq, "email"));
@@ -143,6 +144,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setPartitaIVA(ParamUtil.getString(areq, "pIVA"));
             a.setCentro(ParamUtil.getString(areq, "centro"));
             a.setIndirizzo(ParamUtil.getString(areq, "indirizzo"));
+            a.setComune(ParamUtil.getString(areq, "comune"));
             a.setTelefono(ParamUtil.getString(areq, "telefono"));
             a.setFax(ParamUtil.getString(areq, "fax"));
             String newEmail = ParamUtil.getString(areq, "email");

@@ -51,11 +51,12 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 
 	@Override
 	public CMRPK getPrimaryKey() {
-		return new CMRPK(_anno, _numeroDocumento, _idAssociato);
+		return new CMRPK(_numeroCMR, _anno, _numeroDocumento, _idAssociato);
 	}
 
 	@Override
 	public void setPrimaryKey(CMRPK primaryKey) {
+		setNumeroCMR(primaryKey.numeroCMR);
 		setAnno(primaryKey.anno);
 		setNumeroDocumento(primaryKey.numeroDocumento);
 		setIdAssociato(primaryKey.idAssociato);
@@ -63,7 +64,7 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new CMRPK(_anno, _numeroDocumento, _idAssociato);
+		return new CMRPK(_numeroCMR, _anno, _numeroDocumento, _idAssociato);
 	}
 
 	@Override
@@ -75,6 +76,7 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("numeroCMR", getNumeroCMR());
 		attributes.put("anno", getAnno());
 		attributes.put("numeroDocumento", getNumeroDocumento());
 		attributes.put("idAssociato", getIdAssociato());
@@ -93,6 +95,12 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long numeroCMR = (Long)attributes.get("numeroCMR");
+
+		if (numeroCMR != null) {
+			setNumeroCMR(numeroCMR);
+		}
+
 		Integer anno = (Integer)attributes.get("anno");
 
 		if (anno != null) {
@@ -105,7 +113,7 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 			setNumeroDocumento(numeroDocumento);
 		}
 
-		Integer idAssociato = (Integer)attributes.get("idAssociato");
+		Long idAssociato = (Long)attributes.get("idAssociato");
 
 		if (idAssociato != null) {
 			setIdAssociato(idAssociato);
@@ -167,6 +175,29 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 	}
 
 	@Override
+	public long getNumeroCMR() {
+		return _numeroCMR;
+	}
+
+	@Override
+	public void setNumeroCMR(long numeroCMR) {
+		_numeroCMR = numeroCMR;
+
+		if (_cmrRemoteModel != null) {
+			try {
+				Class<?> clazz = _cmrRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setNumeroCMR", long.class);
+
+				method.invoke(_cmrRemoteModel, numeroCMR);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public int getAnno() {
 		return _anno;
 	}
@@ -213,19 +244,19 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 	}
 
 	@Override
-	public int getIdAssociato() {
+	public long getIdAssociato() {
 		return _idAssociato;
 	}
 
 	@Override
-	public void setIdAssociato(int idAssociato) {
+	public void setIdAssociato(long idAssociato) {
 		_idAssociato = idAssociato;
 
 		if (_cmrRemoteModel != null) {
 			try {
 				Class<?> clazz = _cmrRemoteModel.getClass();
 
-				Method method = clazz.getMethod("setIdAssociato", int.class);
+				Method method = clazz.getMethod("setIdAssociato", long.class);
 
 				method.invoke(_cmrRemoteModel, idAssociato);
 			}
@@ -511,6 +542,7 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 	public Object clone() {
 		CMRClp clone = new CMRClp();
 
+		clone.setNumeroCMR(getNumeroCMR());
 		clone.setAnno(getAnno());
 		clone.setNumeroDocumento(getNumeroDocumento());
 		clone.setIdAssociato(getIdAssociato());
@@ -529,9 +561,25 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 
 	@Override
 	public int compareTo(CMR cmr) {
-		CMRPK primaryKey = cmr.getPrimaryKey();
+		int value = 0;
 
-		return getPrimaryKey().compareTo(primaryKey);
+		if (getNumeroCMR() < cmr.getNumeroCMR()) {
+			value = -1;
+		}
+		else if (getNumeroCMR() > cmr.getNumeroCMR()) {
+			value = 1;
+		}
+		else {
+			value = 0;
+		}
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -567,9 +615,11 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
-		sb.append("{anno=");
+		sb.append("{numeroCMR=");
+		sb.append(getNumeroCMR());
+		sb.append(", anno=");
 		sb.append(getAnno());
 		sb.append(", numeroDocumento=");
 		sb.append(getNumeroDocumento());
@@ -600,12 +650,16 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.CMR");
 		sb.append("</model-name>");
 
+		sb.append(
+			"<column><column-name>numeroCMR</column-name><column-value><![CDATA[");
+		sb.append(getNumeroCMR());
+		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>anno</column-name><column-value><![CDATA[");
 		sb.append(getAnno());
@@ -660,9 +714,10 @@ public class CMRClp extends BaseModelImpl<CMR> implements CMR {
 		return sb.toString();
 	}
 
+	private long _numeroCMR;
 	private int _anno;
 	private long _numeroDocumento;
-	private int _idAssociato;
+	private long _idAssociato;
 	private String _riserve;
 	private String _allegati;
 	private String _classe;

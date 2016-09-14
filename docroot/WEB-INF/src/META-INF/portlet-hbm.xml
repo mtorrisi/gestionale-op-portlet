@@ -95,6 +95,7 @@
 		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ragione_sociale" />
 		<property name="partitaIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="partita_iva" />
 		<property name="indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="comune" type="com.liferay.portal.dao.orm.hibernate.StringType" column="comuneCMR" />
 		<property name="telefono" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="fax" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="nomeUtente" type="com.liferay.portal.dao.orm.hibernate.StringType" column="nome_utente" />
@@ -137,9 +138,10 @@
 	<class name="it.bysoftware.ct.model.impl.CMRImpl" table="CMR">
 		<cache usage="read-write" />
 		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.CMRPK">
+			<key-property name="numeroCMR" column="numero_CMR" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 			<key-property name="anno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 			<key-property name="numeroDocumento" column="numero_documento" type="com.liferay.portal.dao.orm.hibernate.LongType" />
-			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.LongType" />
 		</composite-id>
 		<property name="riserve" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="allegati" type="com.liferay.portal.dao.orm.hibernate.StringType" />

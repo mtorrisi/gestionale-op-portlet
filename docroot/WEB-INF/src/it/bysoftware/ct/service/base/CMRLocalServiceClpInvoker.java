@@ -115,6 +115,14 @@ public class CMRLocalServiceClpInvoker {
 		_methodName185 = "setBeanIdentifier";
 
 		_methodParameterTypes185 = new String[] { "java.lang.String" };
+
+		_methodName190 = "getCMRByAnnoAssociato";
+
+		_methodParameterTypes190 = new String[] { "int", "long" };
+
+		_methodName191 = "getCMRByAnnoAssociatoDDT";
+
+		_methodParameterTypes191 = new String[] { "int", "long", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -218,6 +226,19 @@ public class CMRLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
+			return CMRLocalServiceUtil.getCMRByAnnoAssociato(((Integer)arguments[0]).intValue(),
+				((Long)arguments[1]).longValue());
+		}
+
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
+			return CMRLocalServiceUtil.getCMRByAnnoAssociatoDDT(((Integer)arguments[0]).intValue(),
+				((Long)arguments[1]).longValue(),
+				((Long)arguments[2]).longValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -257,4 +278,8 @@ public class CMRLocalServiceClpInvoker {
 	private String[] _methodParameterTypes184;
 	private String _methodName185;
 	private String[] _methodParameterTypes185;
+	private String _methodName190;
+	private String[] _methodParameterTypes190;
+	private String _methodName191;
+	private String[] _methodParameterTypes191;
 }

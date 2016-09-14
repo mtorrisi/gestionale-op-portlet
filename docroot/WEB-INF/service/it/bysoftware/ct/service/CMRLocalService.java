@@ -249,4 +249,13 @@ public interface CMRLocalService extends BaseLocalService, InvokableLocalService
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public it.bysoftware.ct.model.CMR getCMRByAnnoAssociatoDDT(int anno,
+		long idAssociato, long numeroDocumento);
 }

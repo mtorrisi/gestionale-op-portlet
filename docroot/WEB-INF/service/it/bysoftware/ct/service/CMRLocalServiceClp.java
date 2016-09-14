@@ -115,6 +115,14 @@ public class CMRLocalServiceClp implements CMRLocalService {
 		_methodName17 = "setBeanIdentifier";
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
+
+		_methodName19 = "getCMRByAnnoAssociato";
+
+		_methodParameterTypes19 = new String[] { "int", "long" };
+
+		_methodName20 = "getCMRByAnnoAssociatoDDT";
+
+		_methodParameterTypes20 = new String[] { "int", "long", "long" };
 	}
 
 	@Override
@@ -667,6 +675,60 @@ public class CMRLocalServiceClp implements CMRLocalService {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName19,
+					_methodParameterTypes19, new Object[] { anno, idAssociato });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.CMR>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
+	public it.bysoftware.ct.model.CMR getCMRByAnnoAssociatoDDT(int anno,
+		long idAssociato, long numeroDocumento) {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
+					new Object[] { anno, idAssociato, numeroDocumento });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (it.bysoftware.ct.model.CMR)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -704,4 +766,8 @@ public class CMRLocalServiceClp implements CMRLocalService {
 	private String[] _methodParameterTypes16;
 	private String _methodName17;
 	private String[] _methodParameterTypes17;
+	private String _methodName19;
+	private String[] _methodParameterTypes19;
+	private String _methodName20;
+	private String[] _methodParameterTypes20;
 }

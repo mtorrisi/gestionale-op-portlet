@@ -60,6 +60,20 @@ public interface CMRModel extends BaseModel<CMR> {
 	public void setPrimaryKey(CMRPK primaryKey);
 
 	/**
+	 * Returns the numero c m r of this c m r.
+	 *
+	 * @return the numero c m r of this c m r
+	 */
+	public long getNumeroCMR();
+
+	/**
+	 * Sets the numero c m r of this c m r.
+	 *
+	 * @param numeroCMR the numero c m r of this c m r
+	 */
+	public void setNumeroCMR(long numeroCMR);
+
+	/**
 	 * Returns the anno of this c m r.
 	 *
 	 * @return the anno of this c m r
@@ -92,14 +106,14 @@ public interface CMRModel extends BaseModel<CMR> {
 	 *
 	 * @return the id associato of this c m r
 	 */
-	public int getIdAssociato();
+	public long getIdAssociato();
 
 	/**
 	 * Sets the id associato of this c m r.
 	 *
 	 * @param idAssociato the id associato of this c m r
 	 */
-	public void setIdAssociato(int idAssociato);
+	public void setIdAssociato(long idAssociato);
 
 	/**
 	 * Returns the riserve of this c m r.

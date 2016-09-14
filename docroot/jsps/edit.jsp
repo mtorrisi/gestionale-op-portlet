@@ -108,6 +108,7 @@
     <liferay-portlet:param name="jspPage"  value="/jsps/traceability.jsp"/>
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="cmrURL">
+	<liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
     <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId())%>"/>
     <liferay-portlet:param name="jspPage"  value="/jsps/edit-cmr.jsp"/>
 </liferay-portlet:renderURL>
@@ -1204,7 +1205,7 @@
         
         YUI().use('node', function (Y) {
             Y.one('#btnCMR').on('click', function () {
-                window.location.href = '<%=cmrURL%>'.toString() + '&<portlet:namespace/>numeroDocumento=' + document.getElementById('<portlet:namespace/>nDoc').value + '&<portlet:namespace/>codiceCliente=' + <%=cliente.getCodiceAnagrafica() %>;
+                window.location.href = '<%=cmrURL%>'.toString() + '&<portlet:namespace/>numeroDocumento=' + document.getElementById('<portlet:namespace/>nDoc').value;
             });
         });
         

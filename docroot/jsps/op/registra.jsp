@@ -55,10 +55,18 @@
 
                 <!-- Text input-->
                 <div class="control-group">
-                    <label class="control-label" for="indirizzo">Indirizzo: </label>  
+                    <label class="control-label" for="indirizzo">Sede legale: </label>  
                     <div class="controls">
                         <!--<input id="indirizzo" name="<portlet:namespace />indirizzo" type="text" placeholder="" class="form-control input-md" required=""/>-->
                         <textarea id="indirizzo" name="<portlet:namespace />indirizzo" class="form-control" required=""></textarea>
+                    </div>
+                </div>
+                
+                <!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="indirizzo">Comune: </label>  
+                    <div class="controls">
+                        <input id="comune" name="<portlet:namespace />comune" type="text" placeholder="" class="form-control input-md" required=""/>
                     </div>
                 </div>
 

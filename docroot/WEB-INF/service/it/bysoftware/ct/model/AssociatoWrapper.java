@@ -53,6 +53,7 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 		attributes.put("ragioneSociale", getRagioneSociale());
 		attributes.put("partitaIVA", getPartitaIVA());
 		attributes.put("indirizzo", getIndirizzo());
+		attributes.put("comune", getComune());
 		attributes.put("telefono", getTelefono());
 		attributes.put("fax", getFax());
 		attributes.put("nomeUtente", getNomeUtente());
@@ -95,6 +96,12 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 
 		if (indirizzo != null) {
 			setIndirizzo(indirizzo);
+		}
+
+		String comune = (String)attributes.get("comune");
+
+		if (comune != null) {
+			setComune(comune);
 		}
 
 		String telefono = (String)attributes.get("telefono");
@@ -264,6 +271,26 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 	@Override
 	public void setIndirizzo(java.lang.String indirizzo) {
 		_associato.setIndirizzo(indirizzo);
+	}
+
+	/**
+	* Returns the comune of this associato.
+	*
+	* @return the comune of this associato
+	*/
+	@Override
+	public java.lang.String getComune() {
+		return _associato.getComune();
+	}
+
+	/**
+	* Sets the comune of this associato.
+	*
+	* @param comune the comune of this associato
+	*/
+	@Override
+	public void setComune(java.lang.String comune) {
+		_associato.setComune(comune);
 	}
 
 	/**

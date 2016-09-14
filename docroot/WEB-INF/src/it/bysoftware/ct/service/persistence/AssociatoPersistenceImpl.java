@@ -2749,6 +2749,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		associatoImpl.setRagioneSociale(associato.getRagioneSociale());
 		associatoImpl.setPartitaIVA(associato.getPartitaIVA());
 		associatoImpl.setIndirizzo(associato.getIndirizzo());
+		associatoImpl.setComune(associato.getComune());
 		associatoImpl.setTelefono(associato.getTelefono());
 		associatoImpl.setFax(associato.getFax());
 		associatoImpl.setNomeUtente(associato.getNomeUtente());
@@ -3081,8 +3082,8 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(AssociatoPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"ragioneSociale", "partitaIVA", "nomeUtente", "idLiferay",
-				"idOp"
+				"ragioneSociale", "partitaIVA", "comune", "nomeUtente",
+				"idLiferay", "idOp"
 			});
 	private static Associato _nullAssociato = new AssociatoImpl() {
 			@Override

@@ -24,17 +24,28 @@ import java.io.Serializable;
  * @generated
  */
 public class CMRPK implements Comparable<CMRPK>, Serializable {
+	public long numeroCMR;
 	public int anno;
 	public long numeroDocumento;
-	public int idAssociato;
+	public long idAssociato;
 
 	public CMRPK() {
 	}
 
-	public CMRPK(int anno, long numeroDocumento, int idAssociato) {
+	public CMRPK(long numeroCMR, int anno, long numeroDocumento,
+		long idAssociato) {
+		this.numeroCMR = numeroCMR;
 		this.anno = anno;
 		this.numeroDocumento = numeroDocumento;
 		this.idAssociato = idAssociato;
+	}
+
+	public long getNumeroCMR() {
+		return numeroCMR;
+	}
+
+	public void setNumeroCMR(long numeroCMR) {
+		this.numeroCMR = numeroCMR;
 	}
 
 	public int getAnno() {
@@ -53,11 +64,11 @@ public class CMRPK implements Comparable<CMRPK>, Serializable {
 		this.numeroDocumento = numeroDocumento;
 	}
 
-	public int getIdAssociato() {
+	public long getIdAssociato() {
 		return idAssociato;
 	}
 
-	public void setIdAssociato(int idAssociato) {
+	public void setIdAssociato(long idAssociato) {
 		this.idAssociato = idAssociato;
 	}
 
@@ -68,6 +79,20 @@ public class CMRPK implements Comparable<CMRPK>, Serializable {
 		}
 
 		int value = 0;
+
+		if (numeroCMR < pk.numeroCMR) {
+			value = -1;
+		}
+		else if (numeroCMR > pk.numeroCMR) {
+			value = 1;
+		}
+		else {
+			value = 0;
+		}
+
+		if (value != 0) {
+			return value;
+		}
 
 		if (anno < pk.anno) {
 			value = -1;
@@ -126,7 +151,8 @@ public class CMRPK implements Comparable<CMRPK>, Serializable {
 
 		CMRPK pk = (CMRPK)obj;
 
-		if ((anno == pk.anno) && (numeroDocumento == pk.numeroDocumento) &&
+		if ((numeroCMR == pk.numeroCMR) && (anno == pk.anno) &&
+				(numeroDocumento == pk.numeroDocumento) &&
 				(idAssociato == pk.idAssociato)) {
 			return true;
 		}
@@ -137,16 +163,22 @@ public class CMRPK implements Comparable<CMRPK>, Serializable {
 
 	@Override
 	public int hashCode() {
-		return (String.valueOf(anno) + String.valueOf(numeroDocumento) +
-		String.valueOf(idAssociato)).hashCode();
+		return (String.valueOf(numeroCMR) + String.valueOf(anno) +
+		String.valueOf(numeroDocumento) + String.valueOf(idAssociato)).hashCode();
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(20);
 
 		sb.append(StringPool.OPEN_CURLY_BRACE);
 
+		sb.append("numeroCMR");
+		sb.append(StringPool.EQUAL);
+		sb.append(numeroCMR);
+
+		sb.append(StringPool.COMMA);
+		sb.append(StringPool.SPACE);
 		sb.append("anno");
 		sb.append(StringPool.EQUAL);
 		sb.append(anno);

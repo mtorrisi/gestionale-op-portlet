@@ -14,6 +14,7 @@ import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.model.AnagraficaAssociatoOP;
 import it.bysoftware.ct.model.ArticoliAssociatoOP;
 import it.bysoftware.ct.model.Associato;
+import it.bysoftware.ct.model.CMR;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.model.Progressivo;
 import it.bysoftware.ct.model.RigoDocumento;
@@ -27,6 +28,7 @@ import it.bysoftware.ct.service.AnagraficaAssociatoOPLocalServiceUtil;
 import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
+import it.bysoftware.ct.service.CMRLocalServiceUtil;
 import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
 import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
@@ -39,6 +41,7 @@ import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPK;
 import it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPK;
+import it.bysoftware.ct.service.persistence.CMRPK;
 import it.bysoftware.ct.service.persistence.ProgressivoPK;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
@@ -1370,12 +1373,47 @@ public class DDTPortlet extends MVCPortlet {
             case saveCMR:
             {
             	writer = resourceResponse.getWriter();
-               	String s = ParamUtil.getString(resourceRequest, "mittente", null);
-               	_log.info("****: " + s);
-                response = new Response(Code.OK, 0);
-                writer.print(gson.toJson(response));
-                writer.flush();
-                writer.close();
+            	try {
+            		year = Calendar.getInstance().get(Calendar.YEAR);
+					associato = AssociatoLocalServiceUtil.findByLiferayId(Integer.parseInt(resourceRequest.getRemoteUser()));
+					nDoc = ParamUtil.getInteger(resourceRequest, "nDoc", -1);
+					if (nDoc != -1) {
+						long nCMR = ParamUtil.getInteger(resourceRequest, "numeroCMR");
+						CMR cmr;
+						if (nCMR == -1) {
+							List<CMR> list = CMRLocalServiceUtil.getCMRByAnnoAssociato(year, associato.getId());
+							if (list.size() > 0) {
+								nCMR = list.get(0).getNumeroCMR();
+							}
+							cmr = CMRLocalServiceUtil.createCMR(new CMRPK(nCMR + 1, year, nDoc, (int) associato.getId()));
+						} else {
+							cmr = CMRLocalServiceUtil.getCMR(new CMRPK(nCMR, year, nDoc, (int) associato.getId()));
+						}
+						cmr.setRiserve(ParamUtil.getString(resourceRequest, "riserve", ""));
+						cmr.setAllegati(ParamUtil.getString(resourceRequest, "allegati", ""));
+						cmr.setClasse(ParamUtil.getString(resourceRequest, "classe", ""));
+						cmr.setCifra(ParamUtil.getString(resourceRequest, "cifra", ""));
+						cmr.setLettera(ParamUtil.getString(resourceRequest, "lettera", ""));
+						cmr.setAdr(ParamUtil.getString(resourceRequest, "adr", ""));
+						cmr.setIstruzioni(ParamUtil.getString(resourceRequest, "istruzioni", ""));
+						cmr.setConvenzioni(ParamUtil.getString(resourceRequest, "convenzioni", ""));
+						cmr.setRimborso(ParamUtil.getString(resourceRequest, "rimborso", ""));
+						_log.info("Adding / Updating CRMR data: " + cmr);
+						CMRLocalServiceUtil.updateCMR(cmr);
+						response = new Response(Code.OK, new Long(cmr.getNumeroCMR()).intValue());
+					} else {
+						response = new Response(Code.NOT_VALID, -1);
+					}
+				} catch (NumberFormatException
+						| SystemException | PortalException e) {
+					_log.error(e.getMessage());
+					response = new Response(Code.GENERIC_ERROR, e.hashCode());
+				} finally {
+	                writer.print(gson.toJson(response));
+	                writer.flush();
+	                writer.close();
+				}
+                
                 break;
             }
             default:

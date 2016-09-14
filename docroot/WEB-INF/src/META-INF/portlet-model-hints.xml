@@ -50,6 +50,7 @@
 		<field name="ragioneSociale" type="String" />
 		<field name="partitaIVA" type="String" />
 		<field name="indirizzo" type="String" />
+		<field name="comune" type="String" />
 		<field name="telefono" type="String" />
 		<field name="fax" type="String" />
 		<field name="nomeUtente" type="String" />
@@ -81,9 +82,10 @@
 		<field name="codiceAliquota" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.CMR">
+		<field name="numeroCMR" type="long" />
 		<field name="anno" type="int" />
 		<field name="numeroDocumento" type="long" />
-		<field name="idAssociato" type="int" />
+		<field name="idAssociato" type="long" />
 		<field name="riserve" type="String" />
 		<field name="allegati" type="String" />
 		<field name="classe" type="String" />

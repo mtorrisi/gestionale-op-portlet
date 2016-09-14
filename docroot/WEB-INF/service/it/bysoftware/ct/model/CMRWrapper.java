@@ -48,6 +48,7 @@ public class CMRWrapper implements CMR, ModelWrapper<CMR> {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("numeroCMR", getNumeroCMR());
 		attributes.put("anno", getAnno());
 		attributes.put("numeroDocumento", getNumeroDocumento());
 		attributes.put("idAssociato", getIdAssociato());
@@ -66,6 +67,12 @@ public class CMRWrapper implements CMR, ModelWrapper<CMR> {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long numeroCMR = (Long)attributes.get("numeroCMR");
+
+		if (numeroCMR != null) {
+			setNumeroCMR(numeroCMR);
+		}
+
 		Integer anno = (Integer)attributes.get("anno");
 
 		if (anno != null) {
@@ -78,7 +85,7 @@ public class CMRWrapper implements CMR, ModelWrapper<CMR> {
 			setNumeroDocumento(numeroDocumento);
 		}
 
-		Integer idAssociato = (Integer)attributes.get("idAssociato");
+		Long idAssociato = (Long)attributes.get("idAssociato");
 
 		if (idAssociato != null) {
 			setIdAssociato(idAssociato);
@@ -161,6 +168,26 @@ public class CMRWrapper implements CMR, ModelWrapper<CMR> {
 	}
 
 	/**
+	* Returns the numero c m r of this c m r.
+	*
+	* @return the numero c m r of this c m r
+	*/
+	@Override
+	public long getNumeroCMR() {
+		return _cmr.getNumeroCMR();
+	}
+
+	/**
+	* Sets the numero c m r of this c m r.
+	*
+	* @param numeroCMR the numero c m r of this c m r
+	*/
+	@Override
+	public void setNumeroCMR(long numeroCMR) {
+		_cmr.setNumeroCMR(numeroCMR);
+	}
+
+	/**
 	* Returns the anno of this c m r.
 	*
 	* @return the anno of this c m r
@@ -206,7 +233,7 @@ public class CMRWrapper implements CMR, ModelWrapper<CMR> {
 	* @return the id associato of this c m r
 	*/
 	@Override
-	public int getIdAssociato() {
+	public long getIdAssociato() {
 		return _cmr.getIdAssociato();
 	}
 
@@ -216,7 +243,7 @@ public class CMRWrapper implements CMR, ModelWrapper<CMR> {
 	* @param idAssociato the id associato of this c m r
 	*/
 	@Override
-	public void setIdAssociato(int idAssociato) {
+	public void setIdAssociato(long idAssociato) {
 		_cmr.setIdAssociato(idAssociato);
 	}
 

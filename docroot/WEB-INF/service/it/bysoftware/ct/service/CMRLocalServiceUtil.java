@@ -275,6 +275,18 @@ public class CMRLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
+		int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getCMRByAnnoAssociato(anno, idAssociato);
+	}
+
+	public static it.bysoftware.ct.model.CMR getCMRByAnnoAssociatoDDT(
+		int anno, long idAssociato, long numeroDocumento) {
+		return getService()
+				   .getCMRByAnnoAssociatoDDT(anno, idAssociato, numeroDocumento);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

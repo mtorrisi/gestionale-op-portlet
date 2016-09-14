@@ -59,9 +59,10 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 	 */
 	public static final String TABLE_NAME = "CMR";
 	public static final Object[][] TABLE_COLUMNS = {
+			{ "numero_CMR", Types.BIGINT },
 			{ "anno", Types.INTEGER },
 			{ "numero_documento", Types.BIGINT },
-			{ "id_associato", Types.INTEGER },
+			{ "id_associato", Types.BIGINT },
 			{ "riserve", Types.VARCHAR },
 			{ "allegati", Types.VARCHAR },
 			{ "classe", Types.VARCHAR },
@@ -72,10 +73,10 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 			{ "convenzioni", Types.VARCHAR },
 			{ "rimborso", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table CMR (anno INTEGER not null,numero_documento LONG not null,id_associato INTEGER not null,riserve VARCHAR(75) null,allegati VARCHAR(75) null,classe VARCHAR(75) null,cifra VARCHAR(75) null,lettera VARCHAR(75) null,ADR VARCHAR(75) null,istruzioni VARCHAR(75) null,convenzioni VARCHAR(75) null,rimborso VARCHAR(75) null,primary key (anno, numero_documento, id_associato))";
+	public static final String TABLE_SQL_CREATE = "create table CMR (numero_CMR LONG not null,anno INTEGER not null,numero_documento LONG not null,id_associato LONG not null,riserve VARCHAR(75) null,allegati VARCHAR(75) null,classe VARCHAR(75) null,cifra VARCHAR(75) null,lettera VARCHAR(75) null,ADR VARCHAR(75) null,istruzioni VARCHAR(75) null,convenzioni VARCHAR(75) null,rimborso VARCHAR(75) null,primary key (numero_CMR, anno, numero_documento, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table CMR";
-	public static final String ORDER_BY_JPQL = " ORDER BY cmr.id.anno ASC, cmr.id.numeroDocumento ASC, cmr.id.idAssociato ASC";
-	public static final String ORDER_BY_SQL = " ORDER BY CMR.anno ASC, CMR.numero_documento ASC, CMR.id_associato ASC";
+	public static final String ORDER_BY_JPQL = " ORDER BY cmr.id.numeroCMR DESC";
+	public static final String ORDER_BY_SQL = " ORDER BY CMR.numero_CMR DESC";
 	public static final String DATA_SOURCE = "liferayDataSource";
 	public static final String SESSION_FACTORY = "liferaySessionFactory";
 	public static final String TX_MANAGER = "liferayTransactionManager";
@@ -91,6 +92,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 	public static long ANNO_COLUMN_BITMASK = 1L;
 	public static long IDASSOCIATO_COLUMN_BITMASK = 2L;
 	public static long NUMERODOCUMENTO_COLUMN_BITMASK = 4L;
+	public static long NUMEROCMR_COLUMN_BITMASK = 8L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -105,6 +107,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 		CMR model = new CMRImpl();
 
+		model.setNumeroCMR(soapModel.getNumeroCMR());
 		model.setAnno(soapModel.getAnno());
 		model.setNumeroDocumento(soapModel.getNumeroDocumento());
 		model.setIdAssociato(soapModel.getIdAssociato());
@@ -149,11 +152,12 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public CMRPK getPrimaryKey() {
-		return new CMRPK(_anno, _numeroDocumento, _idAssociato);
+		return new CMRPK(_numeroCMR, _anno, _numeroDocumento, _idAssociato);
 	}
 
 	@Override
 	public void setPrimaryKey(CMRPK primaryKey) {
+		setNumeroCMR(primaryKey.numeroCMR);
 		setAnno(primaryKey.anno);
 		setNumeroDocumento(primaryKey.numeroDocumento);
 		setIdAssociato(primaryKey.idAssociato);
@@ -161,7 +165,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public Serializable getPrimaryKeyObj() {
-		return new CMRPK(_anno, _numeroDocumento, _idAssociato);
+		return new CMRPK(_numeroCMR, _anno, _numeroDocumento, _idAssociato);
 	}
 
 	@Override
@@ -183,6 +187,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 	public Map<String, Object> getModelAttributes() {
 		Map<String, Object> attributes = new HashMap<String, Object>();
 
+		attributes.put("numeroCMR", getNumeroCMR());
 		attributes.put("anno", getAnno());
 		attributes.put("numeroDocumento", getNumeroDocumento());
 		attributes.put("idAssociato", getIdAssociato());
@@ -201,6 +206,12 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public void setModelAttributes(Map<String, Object> attributes) {
+		Long numeroCMR = (Long)attributes.get("numeroCMR");
+
+		if (numeroCMR != null) {
+			setNumeroCMR(numeroCMR);
+		}
+
 		Integer anno = (Integer)attributes.get("anno");
 
 		if (anno != null) {
@@ -213,7 +224,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 			setNumeroDocumento(numeroDocumento);
 		}
 
-		Integer idAssociato = (Integer)attributes.get("idAssociato");
+		Long idAssociato = (Long)attributes.get("idAssociato");
 
 		if (idAssociato != null) {
 			setIdAssociato(idAssociato);
@@ -276,6 +287,19 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@JSON
 	@Override
+	public long getNumeroCMR() {
+		return _numeroCMR;
+	}
+
+	@Override
+	public void setNumeroCMR(long numeroCMR) {
+		_columnBitmask = -1L;
+
+		_numeroCMR = numeroCMR;
+	}
+
+	@JSON
+	@Override
 	public int getAnno() {
 		return _anno;
 	}
@@ -305,17 +329,29 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public void setNumeroDocumento(long numeroDocumento) {
+		_columnBitmask |= NUMERODOCUMENTO_COLUMN_BITMASK;
+
+		if (!_setOriginalNumeroDocumento) {
+			_setOriginalNumeroDocumento = true;
+
+			_originalNumeroDocumento = _numeroDocumento;
+		}
+
 		_numeroDocumento = numeroDocumento;
+	}
+
+	public long getOriginalNumeroDocumento() {
+		return _originalNumeroDocumento;
 	}
 
 	@JSON
 	@Override
-	public int getIdAssociato() {
+	public long getIdAssociato() {
 		return _idAssociato;
 	}
 
 	@Override
-	public void setIdAssociato(int idAssociato) {
+	public void setIdAssociato(long idAssociato) {
 		_columnBitmask |= IDASSOCIATO_COLUMN_BITMASK;
 
 		if (!_setOriginalIdAssociato) {
@@ -327,7 +363,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 		_idAssociato = idAssociato;
 	}
 
-	public int getOriginalIdAssociato() {
+	public long getOriginalIdAssociato() {
 		return _originalIdAssociato;
 	}
 
@@ -493,6 +529,7 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 	public Object clone() {
 		CMRImpl cmrImpl = new CMRImpl();
 
+		cmrImpl.setNumeroCMR(getNumeroCMR());
 		cmrImpl.setAnno(getAnno());
 		cmrImpl.setNumeroDocumento(getNumeroDocumento());
 		cmrImpl.setIdAssociato(getIdAssociato());
@@ -513,9 +550,25 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public int compareTo(CMR cmr) {
-		CMRPK primaryKey = cmr.getPrimaryKey();
+		int value = 0;
 
-		return getPrimaryKey().compareTo(primaryKey);
+		if (getNumeroCMR() < cmr.getNumeroCMR()) {
+			value = -1;
+		}
+		else if (getNumeroCMR() > cmr.getNumeroCMR()) {
+			value = 1;
+		}
+		else {
+			value = 0;
+		}
+
+		value = value * -1;
+
+		if (value != 0) {
+			return value;
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -553,6 +606,10 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 		cmrModelImpl._setOriginalAnno = false;
 
+		cmrModelImpl._originalNumeroDocumento = cmrModelImpl._numeroDocumento;
+
+		cmrModelImpl._setOriginalNumeroDocumento = false;
+
 		cmrModelImpl._originalIdAssociato = cmrModelImpl._idAssociato;
 
 		cmrModelImpl._setOriginalIdAssociato = false;
@@ -563,6 +620,8 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 	@Override
 	public CacheModel<CMR> toCacheModel() {
 		CMRCacheModel cmrCacheModel = new CMRCacheModel();
+
+		cmrCacheModel.numeroCMR = getNumeroCMR();
 
 		cmrCacheModel.anno = getAnno();
 
@@ -647,9 +706,11 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
-		sb.append("{anno=");
+		sb.append("{numeroCMR=");
+		sb.append(getNumeroCMR());
+		sb.append(", anno=");
 		sb.append(getAnno());
 		sb.append(", numeroDocumento=");
 		sb.append(getNumeroDocumento());
@@ -680,12 +741,16 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(43);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.CMR");
 		sb.append("</model-name>");
 
+		sb.append(
+			"<column><column-name>numeroCMR</column-name><column-value><![CDATA[");
+		sb.append(getNumeroCMR());
+		sb.append("]]></column-value></column>");
 		sb.append(
 			"<column><column-name>anno</column-name><column-value><![CDATA[");
 		sb.append(getAnno());
@@ -742,12 +807,15 @@ public class CMRModelImpl extends BaseModelImpl<CMR> implements CMRModel {
 
 	private static ClassLoader _classLoader = CMR.class.getClassLoader();
 	private static Class<?>[] _escapedModelInterfaces = new Class[] { CMR.class };
+	private long _numeroCMR;
 	private int _anno;
 	private int _originalAnno;
 	private boolean _setOriginalAnno;
 	private long _numeroDocumento;
-	private int _idAssociato;
-	private int _originalIdAssociato;
+	private long _originalNumeroDocumento;
+	private boolean _setOriginalNumeroDocumento;
+	private long _idAssociato;
+	private long _originalIdAssociato;
 	private boolean _setOriginalIdAssociato;
 	private String _riserve;
 	private String _allegati;

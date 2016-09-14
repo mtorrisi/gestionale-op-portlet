@@ -35,9 +35,11 @@ import java.io.ObjectOutput;
 public class CMRCacheModel implements CacheModel<CMR>, Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(27);
 
-		sb.append("{anno=");
+		sb.append("{numeroCMR=");
+		sb.append(numeroCMR);
+		sb.append(", anno=");
 		sb.append(anno);
 		sb.append(", numeroDocumento=");
 		sb.append(numeroDocumento);
@@ -70,6 +72,7 @@ public class CMRCacheModel implements CacheModel<CMR>, Externalizable {
 	public CMR toEntityModel() {
 		CMRImpl cmrImpl = new CMRImpl();
 
+		cmrImpl.setNumeroCMR(numeroCMR);
 		cmrImpl.setAnno(anno);
 		cmrImpl.setNumeroDocumento(numeroDocumento);
 		cmrImpl.setIdAssociato(idAssociato);
@@ -144,9 +147,10 @@ public class CMRCacheModel implements CacheModel<CMR>, Externalizable {
 
 	@Override
 	public void readExternal(ObjectInput objectInput) throws IOException {
+		numeroCMR = objectInput.readLong();
 		anno = objectInput.readInt();
 		numeroDocumento = objectInput.readLong();
-		idAssociato = objectInput.readInt();
+		idAssociato = objectInput.readLong();
 		riserve = objectInput.readUTF();
 		allegati = objectInput.readUTF();
 		classe = objectInput.readUTF();
@@ -161,9 +165,10 @@ public class CMRCacheModel implements CacheModel<CMR>, Externalizable {
 	@Override
 	public void writeExternal(ObjectOutput objectOutput)
 		throws IOException {
+		objectOutput.writeLong(numeroCMR);
 		objectOutput.writeInt(anno);
 		objectOutput.writeLong(numeroDocumento);
-		objectOutput.writeInt(idAssociato);
+		objectOutput.writeLong(idAssociato);
 
 		if (riserve == null) {
 			objectOutput.writeUTF(StringPool.BLANK);
@@ -229,9 +234,10 @@ public class CMRCacheModel implements CacheModel<CMR>, Externalizable {
 		}
 	}
 
+	public long numeroCMR;
 	public int anno;
 	public long numeroDocumento;
-	public int idAssociato;
+	public long idAssociato;
 	public String riserve;
 	public String allegati;
 	public String classe;

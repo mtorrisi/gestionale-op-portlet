@@ -132,6 +132,21 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	public void setIndirizzo(String indirizzo);
 
 	/**
+	 * Returns the comune of this associato.
+	 *
+	 * @return the comune of this associato
+	 */
+	@AutoEscape
+	public String getComune();
+
+	/**
+	 * Sets the comune of this associato.
+	 *
+	 * @param comune the comune of this associato
+	 */
+	public void setComune(String comune);
+
+	/**
 	 * Returns the telefono of this associato.
 	 *
 	 * @return the telefono of this associato

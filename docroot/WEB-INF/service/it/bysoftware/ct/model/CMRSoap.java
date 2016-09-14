@@ -32,6 +32,7 @@ public class CMRSoap implements Serializable {
 	public static CMRSoap toSoapModel(CMR model) {
 		CMRSoap soapModel = new CMRSoap();
 
+		soapModel.setNumeroCMR(model.getNumeroCMR());
 		soapModel.setAnno(model.getAnno());
 		soapModel.setNumeroDocumento(model.getNumeroDocumento());
 		soapModel.setIdAssociato(model.getIdAssociato());
@@ -89,13 +90,22 @@ public class CMRSoap implements Serializable {
 	}
 
 	public CMRPK getPrimaryKey() {
-		return new CMRPK(_anno, _numeroDocumento, _idAssociato);
+		return new CMRPK(_numeroCMR, _anno, _numeroDocumento, _idAssociato);
 	}
 
 	public void setPrimaryKey(CMRPK pk) {
+		setNumeroCMR(pk.numeroCMR);
 		setAnno(pk.anno);
 		setNumeroDocumento(pk.numeroDocumento);
 		setIdAssociato(pk.idAssociato);
+	}
+
+	public long getNumeroCMR() {
+		return _numeroCMR;
+	}
+
+	public void setNumeroCMR(long numeroCMR) {
+		_numeroCMR = numeroCMR;
 	}
 
 	public int getAnno() {
@@ -114,11 +124,11 @@ public class CMRSoap implements Serializable {
 		_numeroDocumento = numeroDocumento;
 	}
 
-	public int getIdAssociato() {
+	public long getIdAssociato() {
 		return _idAssociato;
 	}
 
-	public void setIdAssociato(int idAssociato) {
+	public void setIdAssociato(long idAssociato) {
 		_idAssociato = idAssociato;
 	}
 
@@ -194,9 +204,10 @@ public class CMRSoap implements Serializable {
 		_rimborso = rimborso;
 	}
 
+	private long _numeroCMR;
 	private int _anno;
 	private long _numeroDocumento;
-	private int _idAssociato;
+	private long _idAssociato;
 	private String _riserve;
 	private String _allegati;
 	private String _classe;

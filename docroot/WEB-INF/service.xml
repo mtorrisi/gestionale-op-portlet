@@ -390,6 +390,8 @@
 		</column>
 		<column name='indirizzo' db-name='indirizzo' type='String'>
 		</column>
+		<column name='comune' db-name='comuneCMR' type='String'>
+		</column>
 		<column name='telefono' db-name='telefono' type='String'>
 		</column>
 		<column name='fax' db-name='fax' type='String'>
@@ -852,12 +854,15 @@
 	</entity>
 	<entity name='CMR' table='CMR' local-service='true'
 		remote-service='true'>
+		<column name='numeroCMR' db-name='numero_CMR' type='long'
+			primary="true">
+		</column>
 		<column name='anno' db-name='anno' type='int' primary="true">
 		</column>
 		<column name='numeroDocumento' db-name='numero_documento' type='long'
 			primary="true">
 		</column>
-		<column name='idAssociato' db-name='id_associato' type='int'
+		<column name='idAssociato' db-name='id_associato' type='long'
 			primary="true">
 		</column>
 		<column name='riserve' db-name='riserve' type='String'>
@@ -878,9 +883,17 @@
 		</column>
 		<column name='rimborso' db-name='rimborso' type='String'>
 		</column>
-		<finder name="progressivo" return-type="long">
+		<order>
+			<order-column name="numeroCMR" order-by="desc" />
+		</order>
+		<finder name="annoAssociato" return-type="Collection">
 			<finder-column name="anno" comparator="=" />
 			<finder-column name="idAssociato" comparator="=" />
+		</finder>
+		<finder name="annoAssociatoDDT" return-type="CMR">
+			<finder-column name="anno" comparator="=" />
+			<finder-column name="idAssociato" comparator="=" />
+			<finder-column name="numeroDocumento" comparator="=" />
 		</finder>
 	</entity>
 </service-builder>

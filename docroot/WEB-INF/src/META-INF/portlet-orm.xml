@@ -154,6 +154,9 @@
 				<column name="PARTITA_IVA" />
 			</basic>
 			<basic name="indirizzo" />
+			<basic name="comune">
+				<column name="COMUNECMR" />
+			</basic>
 			<basic name="telefono" />
 			<basic name="fax" />
 			<basic name="nomeUtente">
@@ -244,6 +247,9 @@
 	<mapped-superclass class="it.bysoftware.ct.model.impl.CMRModelImpl">
 		<id-class class="it.bysoftware.ct.service.persistence.CMRPK" />
 		<attributes>
+			<id name="numeroCMR">
+				<column name="NUMERO_CMR" />
+			</id>
 			<id name="anno" />
 			<id name="numeroDocumento">
 				<column name="NUMERO_DOCUMENTO" />

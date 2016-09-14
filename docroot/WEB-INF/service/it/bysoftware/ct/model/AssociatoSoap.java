@@ -35,6 +35,7 @@ public class AssociatoSoap implements Serializable {
 		soapModel.setRagioneSociale(model.getRagioneSociale());
 		soapModel.setPartitaIVA(model.getPartitaIVA());
 		soapModel.setIndirizzo(model.getIndirizzo());
+		soapModel.setComune(model.getComune());
 		soapModel.setTelefono(model.getTelefono());
 		soapModel.setFax(model.getFax());
 		soapModel.setNomeUtente(model.getNomeUtente());
@@ -135,6 +136,14 @@ public class AssociatoSoap implements Serializable {
 		_indirizzo = indirizzo;
 	}
 
+	public String getComune() {
+		return _comune;
+	}
+
+	public void setComune(String comune) {
+		_comune = comune;
+	}
+
 	public String getTelefono() {
 		return _telefono;
 	}
@@ -208,6 +217,7 @@ public class AssociatoSoap implements Serializable {
 	private String _ragioneSociale;
 	private String _partitaIVA;
 	private String _indirizzo;
+	private String _comune;
 	private String _telefono;
 	private String _fax;
 	private String _nomeUtente;
