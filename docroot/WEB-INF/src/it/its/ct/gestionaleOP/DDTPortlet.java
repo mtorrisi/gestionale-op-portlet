@@ -336,7 +336,7 @@ public class DDTPortlet extends MVCPortlet {
 
         ares.setRenderParameter("update", "true");
         ares.setRenderParameter("codiceCliente", codiceCliente);
-        ares.setRenderParameter("jspPage", "/jsps/search-credit-note.jsp");
+        ares.setRenderParameter("jspPage", "/jsps/search-creditNote.jsp");
     }
 
     public void upload(ActionRequest areq, ActionResponse ares) {

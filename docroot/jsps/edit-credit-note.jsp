@@ -118,6 +118,9 @@
 <liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
 </liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="packingURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
+</liferay-portlet:renderURL>
 
 <div class="yui3-skin-sam">
 	<div id="modal"></div>
@@ -310,11 +313,13 @@
                 label: 'Varieta\''
             },
             {
+            	allowHTML: true,
                 key: 'imballo',
-                label: 'Imballo '
+                label: 'Imballo',
+                emptyCellValue: '<button id="selectPack">Seleziona Imballo</button>'
             },
             {
-//                editor: nameEditor,
+               	editor: nameEditor,
                 key: 'lotto',
                 label: 'Lotto'
             },
@@ -323,15 +328,17 @@
                 label: 'U.M.'
             },
             {
+            	editor: numberEditor,
                 key: 'colli',
                 label: 'Colli'
             },
             {
+            	editor: numberEditor,
                 key: 'pesoLordo',
                 label: 'Peso Lordo'
             },
             {
-                editor: nameEditor,
+                editor: numberEditor,
                 key: 'pesoNetto',
                 label: 'Quantita\''
             },
@@ -435,7 +442,23 @@
         			recordSelected = table.getRecord(i);
         			calcolaSconto();
        		}
-        });        
+        });
+        table.delegate('click', function (e) {
+            recordSelected = table.getRecord(e.currentTarget);
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: true,
+                    draggable: true,
+                    //                    height: '600px',
+                    //                    width: '1024px'
+                },
+                id: '<portlet:namespace/>packDialog',
+                title: 'Seleziona Imballaggio',
+                uri: '<%=packingURL%>'
+            });
+        }, '#selectPack', table);
         table.after('*:pesoNettoChange', function (e) {
             calcolaSconto();
         });
@@ -515,6 +538,9 @@
             case '<portlet:namespace/>itemDialog':
                 setItem(data);
                 break;
+            case '<portlet:namespace/>packDialog':
+                setPack(data);
+                break;
         }
     }, ['liferay-util-window']);
 
@@ -584,6 +610,13 @@
         } else {
             table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg"}, {sync: true});
 //            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
+        }
+    }
+    
+    function setPack(data) {
+        if (recordSelected) {
+            recordSelected.setAttrs({imballo: data});
+            recordSelected = undefined;
         }
     }
     
