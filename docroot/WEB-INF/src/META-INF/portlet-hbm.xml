@@ -104,6 +104,7 @@
 		<property name="idLiferay" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_liferay" />
 		<property name="idOp" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_op" />
 		<property name="attivo" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="sezionaleOP" type="com.liferay.portal.dao.orm.hibernate.StringType" column="sezionale_op" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.BancheAppoggioImpl" table="BancheAppoggio">
 		<cache usage="read-write" />
@@ -329,6 +330,9 @@
 		<property name="produttore" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="foglio" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="particella" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="note" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="numeroColli" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="n_colli" />
+		<property name="kgScarto" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="kg_scarto" />
 		<property name="idSchedaTracciabilta" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_scheda_tracciabilita" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.TracciabilitaSchedaImpl" table="tracciabilitaScheda">

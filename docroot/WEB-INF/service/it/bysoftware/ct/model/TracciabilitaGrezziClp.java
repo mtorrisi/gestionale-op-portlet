@@ -80,6 +80,9 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 		attributes.put("produttore", getProduttore());
 		attributes.put("foglio", getFoglio());
 		attributes.put("particella", getParticella());
+		attributes.put("note", getNote());
+		attributes.put("numeroColli", getNumeroColli());
+		attributes.put("kgScarto", getKgScarto());
 		attributes.put("idSchedaTracciabilta", getIdSchedaTracciabilta());
 
 		return attributes;
@@ -127,6 +130,24 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 
 		if (particella != null) {
 			setParticella(particella);
+		}
+
+		String note = (String)attributes.get("note");
+
+		if (note != null) {
+			setNote(note);
+		}
+
+		Integer numeroColli = (Integer)attributes.get("numeroColli");
+
+		if (numeroColli != null) {
+			setNumeroColli(numeroColli);
+		}
+
+		Double kgScarto = (Double)attributes.get("kgScarto");
+
+		if (kgScarto != null) {
+			setKgScarto(kgScarto);
 		}
 
 		Long idSchedaTracciabilta = (Long)attributes.get("idSchedaTracciabilta");
@@ -298,6 +319,75 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 	}
 
 	@Override
+	public String getNote() {
+		return _note;
+	}
+
+	@Override
+	public void setNote(String note) {
+		_note = note;
+
+		if (_tracciabilitaGrezziRemoteModel != null) {
+			try {
+				Class<?> clazz = _tracciabilitaGrezziRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setNote", String.class);
+
+				method.invoke(_tracciabilitaGrezziRemoteModel, note);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public int getNumeroColli() {
+		return _numeroColli;
+	}
+
+	@Override
+	public void setNumeroColli(int numeroColli) {
+		_numeroColli = numeroColli;
+
+		if (_tracciabilitaGrezziRemoteModel != null) {
+			try {
+				Class<?> clazz = _tracciabilitaGrezziRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setNumeroColli", int.class);
+
+				method.invoke(_tracciabilitaGrezziRemoteModel, numeroColli);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
+	public double getKgScarto() {
+		return _kgScarto;
+	}
+
+	@Override
+	public void setKgScarto(double kgScarto) {
+		_kgScarto = kgScarto;
+
+		if (_tracciabilitaGrezziRemoteModel != null) {
+			try {
+				Class<?> clazz = _tracciabilitaGrezziRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setKgScarto", double.class);
+
+				method.invoke(_tracciabilitaGrezziRemoteModel, kgScarto);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public long getIdSchedaTracciabilta() {
 		return _idSchedaTracciabilta;
 	}
@@ -400,6 +490,9 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 		clone.setProduttore(getProduttore());
 		clone.setFoglio(getFoglio());
 		clone.setParticella(getParticella());
+		clone.setNote(getNote());
+		clone.setNumeroColli(getNumeroColli());
+		clone.setKgScarto(getKgScarto());
 		clone.setIdSchedaTracciabilta(getIdSchedaTracciabilta());
 
 		return clone;
@@ -453,7 +546,7 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -469,6 +562,12 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 		sb.append(getFoglio());
 		sb.append(", particella=");
 		sb.append(getParticella());
+		sb.append(", note=");
+		sb.append(getNote());
+		sb.append(", numeroColli=");
+		sb.append(getNumeroColli());
+		sb.append(", kgScarto=");
+		sb.append(getKgScarto());
 		sb.append(", idSchedaTracciabilta=");
 		sb.append(getIdSchedaTracciabilta());
 		sb.append("}");
@@ -478,7 +577,7 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.TracciabilitaGrezzi");
@@ -513,6 +612,18 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 		sb.append(getParticella());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>note</column-name><column-value><![CDATA[");
+		sb.append(getNote());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>numeroColli</column-name><column-value><![CDATA[");
+		sb.append(getNumeroColli());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>kgScarto</column-name><column-value><![CDATA[");
+		sb.append(getKgScarto());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>idSchedaTracciabilta</column-name><column-value><![CDATA[");
 		sb.append(getIdSchedaTracciabilta());
 		sb.append("]]></column-value></column>");
@@ -529,6 +640,9 @@ public class TracciabilitaGrezziClp extends BaseModelImpl<TracciabilitaGrezzi>
 	private String _produttore;
 	private int _foglio;
 	private int _particella;
+	private String _note;
+	private int _numeroColli;
+	private double _kgScarto;
 	private long _idSchedaTracciabilta;
 	private BaseModel<?> _tracciabilitaGrezziRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;

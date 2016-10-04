@@ -13,6 +13,7 @@
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
+		<resource-bundle>Language</resource-bundle>
 		<portlet-info>
 			<title>Gestione OP</title>
 			<short-title>Gestione OP</short-title>
@@ -43,6 +44,7 @@
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
+		<resource-bundle>Language</resource-bundle>
 		<portlet-info>
 			<title>Recupero Documenti</title>
 			<short-title>Recupero Documenti</short-title>
@@ -73,6 +75,7 @@
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
+		<resource-bundle>Language</resource-bundle>
 		<portlet-info>
 			<title>Registra Associato</title>
 			<short-title>Registra Associato</short-title>

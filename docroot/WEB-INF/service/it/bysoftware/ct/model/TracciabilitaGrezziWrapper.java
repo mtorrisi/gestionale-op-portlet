@@ -56,6 +56,9 @@ public class TracciabilitaGrezziWrapper implements TracciabilitaGrezzi,
 		attributes.put("produttore", getProduttore());
 		attributes.put("foglio", getFoglio());
 		attributes.put("particella", getParticella());
+		attributes.put("note", getNote());
+		attributes.put("numeroColli", getNumeroColli());
+		attributes.put("kgScarto", getKgScarto());
 		attributes.put("idSchedaTracciabilta", getIdSchedaTracciabilta());
 
 		return attributes;
@@ -103,6 +106,24 @@ public class TracciabilitaGrezziWrapper implements TracciabilitaGrezzi,
 
 		if (particella != null) {
 			setParticella(particella);
+		}
+
+		String note = (String)attributes.get("note");
+
+		if (note != null) {
+			setNote(note);
+		}
+
+		Integer numeroColli = (Integer)attributes.get("numeroColli");
+
+		if (numeroColli != null) {
+			setNumeroColli(numeroColli);
+		}
+
+		Double kgScarto = (Double)attributes.get("kgScarto");
+
+		if (kgScarto != null) {
+			setKgScarto(kgScarto);
 		}
 
 		Long idSchedaTracciabilta = (Long)attributes.get("idSchedaTracciabilta");
@@ -270,6 +291,66 @@ public class TracciabilitaGrezziWrapper implements TracciabilitaGrezzi,
 	@Override
 	public void setParticella(int particella) {
 		_tracciabilitaGrezzi.setParticella(particella);
+	}
+
+	/**
+	* Returns the note of this tracciabilita grezzi.
+	*
+	* @return the note of this tracciabilita grezzi
+	*/
+	@Override
+	public java.lang.String getNote() {
+		return _tracciabilitaGrezzi.getNote();
+	}
+
+	/**
+	* Sets the note of this tracciabilita grezzi.
+	*
+	* @param note the note of this tracciabilita grezzi
+	*/
+	@Override
+	public void setNote(java.lang.String note) {
+		_tracciabilitaGrezzi.setNote(note);
+	}
+
+	/**
+	* Returns the numero colli of this tracciabilita grezzi.
+	*
+	* @return the numero colli of this tracciabilita grezzi
+	*/
+	@Override
+	public int getNumeroColli() {
+		return _tracciabilitaGrezzi.getNumeroColli();
+	}
+
+	/**
+	* Sets the numero colli of this tracciabilita grezzi.
+	*
+	* @param numeroColli the numero colli of this tracciabilita grezzi
+	*/
+	@Override
+	public void setNumeroColli(int numeroColli) {
+		_tracciabilitaGrezzi.setNumeroColli(numeroColli);
+	}
+
+	/**
+	* Returns the kg scarto of this tracciabilita grezzi.
+	*
+	* @return the kg scarto of this tracciabilita grezzi
+	*/
+	@Override
+	public double getKgScarto() {
+		return _tracciabilitaGrezzi.getKgScarto();
+	}
+
+	/**
+	* Sets the kg scarto of this tracciabilita grezzi.
+	*
+	* @param kgScarto the kg scarto of this tracciabilita grezzi
+	*/
+	@Override
+	public void setKgScarto(double kgScarto) {
+		_tracciabilitaGrezzi.setKgScarto(kgScarto);
 	}
 
 	/**

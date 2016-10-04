@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
 <%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
@@ -45,13 +47,14 @@
 
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     //    request.setAttribute("destinazioni", destinazioni);
-
+        
     CuraTrasporto curaTrasportoDefault = CuraTrasportoLocalServiceUtil.getCuraTrasporto("VET");
     AspettoEsterioreBeni aspettoDefault = AspettoEsterioreBeniLocalServiceUtil.getAspettoEsterioreBeni("VIS");
     CausaleTrasporto causaleDefault = CausaleTrasportoLocalServiceUtil.getCausaleTrasporto("VEN");
     Porto portoDefault = PortoLocalServiceUtil.getPorto("001");
 
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
     List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), Constants.DDT_ID);
 
     ArrayList<Integer> idToRecover = new ArrayList<Integer>();
@@ -98,7 +101,7 @@
     <liferay-portlet:param name="mvcPath" value="/jsps/selectPort.jsp"  />
 </liferay-portlet:renderURL>
 <liferay-portlet:renderURL var="searchDDTURL">
-    <liferay-portlet:param name="filter" value="false" />
+    <liferay-portlet:param name="filter" value="<%= String.valueOf(cliente.getCodiceAnagrafica().equals(String.valueOf(op.getIdLiferay()))) %>" />
     <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
     <liferay-portlet:param name="update" value="true" />
     <liferay-portlet:param name="jspPage"  value="/jsps/search-ddt.jsp"/>
@@ -1139,6 +1142,12 @@
                                                 break;
                                             case 6:
                                                 alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
+                                                break;
+                                            case 9:
+                                                alert("Attenzione, non e' stato possibile salvare il DDT, e' necessario specificare il numero di protocollo da assegnare.");
+                                                break;
+                                            case 10:
+                                                alert("Attenzione, non e' stato possibile salvare il DDT, esiste almeno un documento con protocollo minore di: " + data.id + " e data maggiore di: " + orderDate);
                                                 break;
                                         }
                                     }

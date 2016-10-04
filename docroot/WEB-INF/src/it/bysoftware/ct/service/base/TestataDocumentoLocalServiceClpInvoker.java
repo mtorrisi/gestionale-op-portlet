@@ -149,6 +149,12 @@ public class TestataDocumentoLocalServiceClpInvoker {
 		_methodParameterTypes194 = new String[] {
 				"int", "java.lang.String", "long"
 			};
+
+		_methodName195 = "getDocumentiCollegati";
+
+		_methodParameterTypes195 = new String[] {
+				"int", "java.lang.String", "long", "java.lang.String"
+			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -283,6 +289,13 @@ public class TestataDocumentoLocalServiceClpInvoker {
 				(java.lang.String)arguments[1], ((Long)arguments[2]).longValue());
 		}
 
+		if (_methodName195.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes195, parameterTypes)) {
+			return TestataDocumentoLocalServiceUtil.getDocumentiCollegati(((Integer)arguments[0]).intValue(),
+				(java.lang.String)arguments[1],
+				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -332,4 +345,6 @@ public class TestataDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes193;
 	private String _methodName194;
 	private String[] _methodParameterTypes194;
+	private String _methodName195;
+	private String[] _methodParameterTypes195;
 }

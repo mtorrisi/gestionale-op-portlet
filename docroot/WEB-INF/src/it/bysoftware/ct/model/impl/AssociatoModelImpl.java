@@ -76,9 +76,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			{ "password", Types.VARCHAR },
 			{ "id_liferay", Types.BIGINT },
 			{ "id_op", Types.BIGINT },
-			{ "attivo", Types.BOOLEAN }
+			{ "attivo", Types.BOOLEAN },
+			{ "sezionale_op", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,comuneCMR VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,nome_utente VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN)";
+	public static final String TABLE_SQL_CREATE = "create table associato (id LONG not null primary key,centro VARCHAR(75) null,ragione_sociale VARCHAR(75) null,partita_iva VARCHAR(75) null,indirizzo VARCHAR(75) null,comuneCMR VARCHAR(75) null,telefono VARCHAR(75) null,fax VARCHAR(75) null,nome_utente VARCHAR(75) null,email VARCHAR(75) null,password VARCHAR(75) null,id_liferay LONG,id_op LONG,attivo BOOLEAN,sezionale_op VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table associato";
 	public static final String ORDER_BY_JPQL = " ORDER BY associato.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY associato.id ASC";
@@ -130,6 +131,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		model.setIdLiferay(soapModel.getIdLiferay());
 		model.setIdOp(soapModel.getIdOp());
 		model.setAttivo(soapModel.getAttivo());
+		model.setSezionaleOP(soapModel.getSezionaleOP());
 
 		return model;
 	}
@@ -208,6 +210,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		attributes.put("idLiferay", getIdLiferay());
 		attributes.put("idOp", getIdOp());
 		attributes.put("attivo", getAttivo());
+		attributes.put("sezionaleOP", getSezionaleOP());
 
 		return attributes;
 	}
@@ -296,6 +299,12 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 		if (attivo != null) {
 			setAttivo(attivo);
+		}
+
+		String sezionaleOP = (String)attributes.get("sezionaleOP");
+
+		if (sezionaleOP != null) {
+			setSezionaleOP(sezionaleOP);
 		}
 	}
 
@@ -584,6 +593,22 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		return _originalAttivo;
 	}
 
+	@JSON
+	@Override
+	public String getSezionaleOP() {
+		if (_sezionaleOP == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _sezionaleOP;
+		}
+	}
+
+	@Override
+	public void setSezionaleOP(String sezionaleOP) {
+		_sezionaleOP = sezionaleOP;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -629,6 +654,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		associatoImpl.setIdLiferay(getIdLiferay());
 		associatoImpl.setIdOp(getIdOp());
 		associatoImpl.setAttivo(getAttivo());
+		associatoImpl.setSezionaleOP(getSezionaleOP());
 
 		associatoImpl.resetOriginalValues();
 
@@ -796,12 +822,20 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 		associatoCacheModel.attivo = getAttivo();
 
+		associatoCacheModel.sezionaleOP = getSezionaleOP();
+
+		String sezionaleOP = associatoCacheModel.sezionaleOP;
+
+		if ((sezionaleOP != null) && (sezionaleOP.length() == 0)) {
+			associatoCacheModel.sezionaleOP = null;
+		}
+
 		return associatoCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -831,6 +865,8 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 		sb.append(getIdOp());
 		sb.append(", attivo=");
 		sb.append(getAttivo());
+		sb.append(", sezionaleOP=");
+		sb.append(getSezionaleOP());
 		sb.append("}");
 
 		return sb.toString();
@@ -838,7 +874,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -900,6 +936,10 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 			"<column><column-name>attivo</column-name><column-value><![CDATA[");
 		sb.append(getAttivo());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sezionaleOP</column-name><column-value><![CDATA[");
+		sb.append(getSezionaleOP());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -934,6 +974,7 @@ public class AssociatoModelImpl extends BaseModelImpl<Associato>
 	private boolean _attivo;
 	private boolean _originalAttivo;
 	private boolean _setOriginalAttivo;
+	private String _sezionaleOP;
 	private long _columnBitmask;
 	private Associato _escapedModel;
 }

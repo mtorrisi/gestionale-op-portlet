@@ -7,6 +7,9 @@
 <%
     OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.valueOf(renderRequest.getRemoteUser()));
 %>
+
+<liferay-ui:error key="delete-associato" message="delete-associato" />
+
 <liferay-portlet:actionURL name="addAssociato" var="addAssociato"/>
 <form id="registra-associato" class="form-horizontal" action="${addAssociato}" method="post">
     <fieldset>
@@ -31,16 +34,15 @@
                     <label class="control-label" for="ragioneSociale">Ragione sociale: </label>  
                     <div class="controls">
                         <input id="ragioneSociale" name="<portlet:namespace />ragioneSociale" type="text" placeholder="" class="form-control input-md" required=""/>
-
                     </div>
                 </div>
 
                 <!-- Text input-->
                 <div class="control-group">
-                    <label class="control-label" for="centro">Sezionale IVA: </label>  
+                    <label class="control-label" for="centro">Sezionale IVA (Assegnato dalla OP): </label>  
                     <div class="controls">
                         <input id="centro" name="<portlet:namespace />centro" type="text" placeholder="" class="form-control input-md" required=""/>
-
+                        <liferay-ui:icon-help message="help-sezionale-associato"/>
                     </div>
                 </div>
 
@@ -49,7 +51,6 @@
                     <label class="control-label" for="pIVA">Partita IVA: </label>  
                     <div class="controls">
                         <input id="pIVA" name="<portlet:namespace />pIVA" type="text" placeholder="" class="form-control input-md" required=""/>
-
                     </div>
                 </div>
 
@@ -67,6 +68,7 @@
                     <label class="control-label" for="indirizzo">Comune: </label>  
                     <div class="controls">
                         <input id="comune" name="<portlet:namespace />comune" type="text" placeholder="" class="form-control input-md" required=""/>
+                        <liferay-ui:icon-help message="help-comune"/>
                     </div>
                 </div>
 
@@ -77,7 +79,6 @@
                     <label class="control-label" for="telefono">Telefono: </label>  
                     <div class="controls">
                         <input id="telefono" name="<portlet:namespace />telefono" type="text" placeholder="" class="form-control input-md"/>
-
                     </div>
                 </div>
 
@@ -86,16 +87,23 @@
                     <label class="control-label" for="fax">Fax: </label>  
                     <div class="controls">
                         <input id="fax" name="<portlet:namespace />fax" type="text" placeholder="" class="form-control input-md"/>
-
                     </div>
                 </div>
 
+				<!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="sezionale_op">Sezionale IVA: (Assegnato alla OP) </label>  
+                    <div class="controls">
+                        <input id="sezionale_op" name="<portlet:namespace />sezionale_op" type="text" value="FIN" class="form-control input-md" />
+                        <liferay-ui:icon-help message="help-sezionale-op"/>
+                    </div>
+                </div>
+				
                 <!-- Text input-->
                 <div class="control-group">
                     <label class="control-label" for="nome">Nome cartella: </label>  
                     <div class="controls">
                         <input id="nome" name="<portlet:namespace />nome" type="text" placeholder="" class="form-control input-md" required=""/>
-
                     </div>
                 </div>
 
@@ -104,7 +112,6 @@
                     <label class="control-label" for="email">Email: </label>  
                     <div class="controls">
                         <input id="email" name="<portlet:namespace />email" type="text" placeholder="" class="form-control input-md" required=""/>
-
                     </div>
                 </div>
 
@@ -113,7 +120,6 @@
                     <label class="control-label" for="password">Password: </label>
                     <div class="controls">
                         <input id="password" name="<portlet:namespace />password" type="password" placeholder="" class="form-control input-md" required=""/>
-
                     </div>
                 </div>
             </aui:column>
@@ -214,6 +220,9 @@
     <portlet:namespace />password: {
                             required: true,
                             rangeLength: [4, 16]
+                        },
+	<portlet:namespace />sezionale_op: {
+                            maxLength: 3
                         }
                     };
 

@@ -194,6 +194,9 @@ create table TracciabilitaGrezzi (
 	produttore VARCHAR(75) null,
 	foglio INTEGER,
 	particella INTEGER,
+	note VARCHAR(75) null,
+	n_colli INTEGER,
+	kg_scarto DOUBLE,
 	id_scheda_tracciabilita LONG
 );
 
@@ -327,7 +330,8 @@ create table associato (
 	password VARCHAR(75) null,
 	id_liferay LONG,
 	id_op LONG,
-	attivo BOOLEAN
+	attivo BOOLEAN,
+	sezionale_op VARCHAR(75) null
 );
 
 create table associato_cliente (

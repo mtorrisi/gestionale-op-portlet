@@ -51,7 +51,7 @@
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <button id="btnUpload" class="btn" ><i class="icon-upload"></i>Importa</button>
+            <button id="btnUpload" class="btn" ><i class="icon-upload"></i>&nbsp;Importa</button>
 		</div>
 	</div>
 </aui:field-wrapper>

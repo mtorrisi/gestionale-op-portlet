@@ -1,3 +1,4 @@
+<%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
 <%@page import="it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil"%>
@@ -37,8 +38,9 @@
 <%
     int anno = Calendar.getInstance().get(Calendar.YEAR);
     long numeroDocumento = ParamUtil.getLong(renderRequest, "numeroDocumento");
+    String tipoDocumento = ParamUtil.getString(renderRequest, "tipoDocumento");
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
-    TestataDocumento testata = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(anno, numeroDocumento, "DDT", a.getId()));
+    TestataDocumento testata = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(anno, numeroDocumento, tipoDocumento, a.getId()));
 
     CuraTrasporto curaTrasporto = CuraTrasportoLocalServiceUtil.getCuraTrasporto(testata.getCuraTrasporto());
     AspettoEsterioreBeni aspetto = AspettoEsterioreBeniLocalServiceUtil.getAspettoEsterioreBeni(testata.getAspettoEsteriore());
@@ -57,7 +59,12 @@
     }
 
     JSONArray jsonArr = JSONFactoryUtil.createJSONArray();
-    List<RigoDocumento> listRigo = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroDocumento, anno, a.getId());
+    List<RigoDocumento> listRigo;
+    if (tipoDocumento.equals(DocumentType.DDT.name())){
+    	listRigo = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroDocumento, anno, a.getId());
+    } else {
+   		listRigo = RigoDocumentoLocalServiceUtil.getDDAByNumeroOrdineAnnoAssociato(numeroDocumento, anno, a.getId());
+    }
 
     for (RigoDocumento rigo : listRigo) {
 
@@ -1057,7 +1064,7 @@
                                             alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
                                             break;
                                         case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " e'Â¨ gia'Â  presente in archivio.\n");
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
                                             break;
                                         case 6:
                                             alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");

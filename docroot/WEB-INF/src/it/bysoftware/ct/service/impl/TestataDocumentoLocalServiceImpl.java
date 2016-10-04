@@ -71,4 +71,9 @@ public class TestataDocumentoLocalServiceImpl
         return this.testataDocumentoPersistence.findByannoTipoDocumentoIdAssociato(anno, idDocumento, idAssociato);
     }
     
+    @Override
+    public List<TestataDocumento> getDocumentiCollegati(int anno, String tipoDocumento, long idAssociato, String nota2) throws SystemException {
+        return this.testataDocumentoPersistence.findByannoTipoDocumentoIdAssociatoRiferimento(anno, tipoDocumento, idAssociato, nota2);
+    }
+   
 }

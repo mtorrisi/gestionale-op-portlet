@@ -159,6 +159,49 @@ public interface TracciabilitaGrezziModel extends BaseModel<TracciabilitaGrezzi>
 	public void setParticella(int particella);
 
 	/**
+	 * Returns the note of this tracciabilita grezzi.
+	 *
+	 * @return the note of this tracciabilita grezzi
+	 */
+	@AutoEscape
+	public String getNote();
+
+	/**
+	 * Sets the note of this tracciabilita grezzi.
+	 *
+	 * @param note the note of this tracciabilita grezzi
+	 */
+	public void setNote(String note);
+
+	/**
+	 * Returns the numero colli of this tracciabilita grezzi.
+	 *
+	 * @return the numero colli of this tracciabilita grezzi
+	 */
+	public int getNumeroColli();
+
+	/**
+	 * Sets the numero colli of this tracciabilita grezzi.
+	 *
+	 * @param numeroColli the numero colli of this tracciabilita grezzi
+	 */
+	public void setNumeroColli(int numeroColli);
+
+	/**
+	 * Returns the kg scarto of this tracciabilita grezzi.
+	 *
+	 * @return the kg scarto of this tracciabilita grezzi
+	 */
+	public double getKgScarto();
+
+	/**
+	 * Sets the kg scarto of this tracciabilita grezzi.
+	 *
+	 * @param kgScarto the kg scarto of this tracciabilita grezzi
+	 */
+	public void setKgScarto(double kgScarto);
+
+	/**
 	 * Returns the id scheda tracciabilta of this tracciabilita grezzi.
 	 *
 	 * @return the id scheda tracciabilta of this tracciabilita grezzi

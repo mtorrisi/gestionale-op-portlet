@@ -149,6 +149,12 @@ public class TestataDocumentoLocalServiceClp
 		_methodName23 = "getDocumentiSoggetto";
 
 		_methodParameterTypes23 = new String[] { "int", "java.lang.String", "long" };
+
+		_methodName24 = "getDocumentiCollegati";
+
+		_methodParameterTypes24 = new String[] {
+				"int", "java.lang.String", "long", "java.lang.String"
+			};
 	}
 
 	@Override
@@ -888,6 +894,45 @@ public class TestataDocumentoLocalServiceClp
 		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		java.lang.String nota2)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName24,
+					_methodParameterTypes24,
+					new Object[] {
+						anno,
+						
+					ClpSerializer.translateInput(tipoDocumento),
+						
+					idAssociato,
+						
+					ClpSerializer.translateInput(nota2)
+					});
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
+	}
+
 	private InvokableLocalService _invokableLocalService;
 	private String _methodName0;
 	private String[] _methodParameterTypes0;
@@ -935,4 +980,6 @@ public class TestataDocumentoLocalServiceClp
 	private String[] _methodParameterTypes22;
 	private String _methodName23;
 	private String[] _methodParameterTypes23;
+	private String _methodName24;
+	private String[] _methodParameterTypes24;
 }

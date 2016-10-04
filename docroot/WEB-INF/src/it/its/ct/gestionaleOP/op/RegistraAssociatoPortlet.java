@@ -47,7 +47,6 @@ import com.liferay.portlet.documentlibrary.model.DLFolder;
 import com.liferay.portlet.documentlibrary.model.DLFolderConstants;
 import com.liferay.portlet.documentlibrary.service.DLFolderLocalServiceUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
-import com.sun.org.apache.bcel.internal.generic.DCONST;
 
 /**
  *
@@ -79,12 +78,11 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
 
         try {
             Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(areq, "id"));
-            UserLocalServiceUtil.deleteUser(a.getIdLiferay());
             AssociatoLocalServiceUtil.deleteAssociato(a);
-        } catch (PortalException ex) {
-            _log.error(ex.getMessage());
-        } catch (SystemException ex) {
-            _log.error(ex.getMessage());
+            UserLocalServiceUtil.deleteUser(a.getIdLiferay());
+        } catch (Exception ex) {
+        	_log.error(ex.getMessage());
+            SessionErrors.add(areq, "delete-associato");
         }
     }
 
@@ -102,6 +100,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setFax(ParamUtil.getString(areq, "fax"));
             a.setEmail(ParamUtil.getString(areq, "email"));
             a.setNomeUtente(ParamUtil.getString(areq, "nome"));
+            a.setSezionaleOP(ParamUtil.getString(areq, "sezionale_op", "FIN"));
             String plainPwd = ParamUtil.getString(areq, "password");
 
             a.setPassword(plainPwd);
@@ -147,6 +146,7 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             a.setComune(ParamUtil.getString(areq, "comune"));
             a.setTelefono(ParamUtil.getString(areq, "telefono"));
             a.setFax(ParamUtil.getString(areq, "fax"));
+            a.setSezionaleOP(ParamUtil.getString(areq, "sezionale_op", "FIN"));
             String newEmail = ParamUtil.getString(areq, "email");
             String newPassword = ParamUtil.getString(areq, "password");
             User liferayUser = UserLocalServiceUtil.getUser(a.getIdLiferay());
@@ -166,7 +166,6 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
             AssociatoLocalServiceUtil.updateAssociato(a);
 
             for (String value : values) {
-                boolean flag = false;
                 ClientiDatiAgg clientiDatiAgg = ClientiDatiAggLocalServiceUtil.getClientiDatiAgg(new ClientiDatiAggPK(value, false));
 //                String[] idAssociati = clientiDatiAgg.getAssociati().split(",");
                 List<String> idAssociati = new ArrayList<String>(Arrays.asList(clientiDatiAgg.getAssociati().split(",")));
@@ -286,22 +285,32 @@ public class RegistraAssociatoPortlet extends MVCPortlet {
                     actionsRW);
             _log.debug("Created yearFolder: " + yearFolder);
             for(DocumentType type : DocumentType.values()){
-            	DLFolder docFolder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
-                        groupId,
-                        repositoryId,
-                        false,
-                        yearFolder.getFolderId(),
-                        type.name(),
-                        "Directory di " + associate.getFirstName(),
-                        false,
-                        new ServiceContext());
-            	ResourcePermissionLocalServiceUtil.setResourcePermissions(associate.getCompanyId(),
-                        "com.liferay.portlet.documentlibrary.model.DLFolder",
-                        ResourceConstants.SCOPE_INDIVIDUAL,
-                        "" + docFolder.getFolderId(),
-                        associateRole.getRoleId(),
-                        actionsRW);
-            	_log.debug("Created docFolder: " + docFolder);
+            	
+            	switch (type) {
+					case DDT:
+					case FAC:
+					case FAV:
+					case NAC:
+						DLFolder docFolder = DLFolderLocalServiceUtil.addFolder(associate.getUserId(),
+		                        groupId,
+		                        repositoryId,
+		                        false,
+		                        yearFolder.getFolderId(),
+		                        type.name(),
+		                        "Directory di " + associate.getFirstName(),
+		                        false,
+		                        new ServiceContext());
+		            			ResourcePermissionLocalServiceUtil.setResourcePermissions(associate.getCompanyId(),
+		                        "com.liferay.portlet.documentlibrary.model.DLFolder",
+		                        ResourceConstants.SCOPE_INDIVIDUAL,
+		                        "" + docFolder.getFolderId(),
+		                        associateRole.getRoleId(),
+		                        actionsRW);
+		            	_log.debug("Created docFolder: " + docFolder);
+						break;
+					default:
+						break;
+					}
             }
             
         } catch (PortalException ex) {

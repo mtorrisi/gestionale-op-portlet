@@ -62,6 +62,7 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 		attributes.put("idLiferay", getIdLiferay());
 		attributes.put("idOp", getIdOp());
 		attributes.put("attivo", getAttivo());
+		attributes.put("sezionaleOP", getSezionaleOP());
 
 		return attributes;
 	}
@@ -150,6 +151,12 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 
 		if (attivo != null) {
 			setAttivo(attivo);
+		}
+
+		String sezionaleOP = (String)attributes.get("sezionaleOP");
+
+		if (sezionaleOP != null) {
+			setSezionaleOP(sezionaleOP);
 		}
 	}
 
@@ -461,6 +468,26 @@ public class AssociatoWrapper implements Associato, ModelWrapper<Associato> {
 	@Override
 	public void setAttivo(boolean attivo) {
 		_associato.setAttivo(attivo);
+	}
+
+	/**
+	* Returns the sezionale o p of this associato.
+	*
+	* @return the sezionale o p of this associato
+	*/
+	@Override
+	public java.lang.String getSezionaleOP() {
+		return _associato.getSezionaleOP();
+	}
+
+	/**
+	* Sets the sezionale o p of this associato.
+	*
+	* @param sezionaleOP the sezionale o p of this associato
+	*/
+	@Override
+	public void setSezionaleOP(java.lang.String sezionaleOP) {
+		_associato.setSezionaleOP(sezionaleOP);
 	}
 
 	@Override

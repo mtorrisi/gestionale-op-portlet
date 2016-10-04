@@ -328,6 +328,15 @@ public class TestataDocumentoLocalServiceWrapper
 			idDocumento, idAssociato);
 	}
 
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		java.lang.String nota2)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.getDocumentiCollegati(anno,
+			tipoDocumento, idAssociato, nota2);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

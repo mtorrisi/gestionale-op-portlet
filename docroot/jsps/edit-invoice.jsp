@@ -1,3 +1,7 @@
+<%@page import="com.liferay.portal.kernel.exception.SystemException"%>
+<%@page import="it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException"%>
+<%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
@@ -44,18 +48,40 @@
     String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
     String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
     TestataDocumento fac = null;
+    boolean document2op = false;
+    boolean update = false;
     if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
-
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.FAV.name(), a.getId()));
-        cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
+    	update = true;
+    	long cod = ParamUtil.getLong(renderRequest, "codiceCliente");
+    	if (a.getIdLiferay() == cod){
+    		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.FAC.name(), a.getId()));
+    		document2op = true;
+    		OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
+    		cliente = AnagraficaLocalServiceUtil.getAnagrafica(String.valueOf(op.getIdLiferay()));
+    	} else {
+    		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.FAV.name(), a.getId()));
+    		cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
+    	}
+        
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
         datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
         
-        if(testata.getNota2()!=null && !testata.getNota2().isEmpty())
+        if(testata.getNota2()!=null
+        		&& !testata.getNota2().isEmpty()
+        		&& !testata.getNota2().equals(String.valueOf(testata.getNumeroOrdine()))){
         	fac = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(testata.getNota2()), DocumentType.FAC.name(), a.getId())); 
+        } else {
+        	fac = testata;
+        }
         
-        List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.FAV.name());
+        List<RigoDocumento> righe;
+        if(document2op){
+        	righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.FAC.name());
+        } else {
+        	righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.FAV.name());
+        }
+        	
 
         for (RigoDocumento rigo : righe) {
             JSONObject json = JSONFactoryUtil.createJSONObject();
@@ -94,22 +120,47 @@
         }
     } else {
         String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
-
-        testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), "DDT", a.getId()));
-        for (int i = 0; i < ids.length; i++) {
-            listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), "DDT", a.getId())));
+        
+        String cod = ParamUtil.getString(renderRequest, "codiceCliente", null);
+        OrganizzazioneProduttori op = null;
+        if(cod != null && !cod.isEmpty()){
+        	try {
+        		op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.parseLong(cod));
+        	} catch (Exception ex){
+        		op = null;
+        	}
+        }
+		List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
+        
+        if (op == null) {
+        	testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), DocumentType.DDT.name(), a.getId()));
+            for (int i = 0; i < ids.length; i++) {
+                listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), DocumentType.DDT.name(), a.getId())));
+            }
+            cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
+            
+            for (String id : ids) {
+                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
+                righeDocumenti.addAll(righe);
+            }
+            
+        } else {
+        	document2op = true;
+        	testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), DocumentType.DDA.name(), a.getId()));
+            for (int i = 0; i < ids.length; i++) {
+                listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), DocumentType.DDA.name(), a.getId())));
+            }
+            cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
+            for (String id : ids) {
+                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDAByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
+                righeDocumenti.addAll(righe);
+            }
+            
         }
 
-        cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
         datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
-        List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
-        
-        for (String id : ids) {
-            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
-            righeDocumenti.addAll(righe);
-        }
 
         long oldDocument = -1;
         for (RigoDocumento rigo : righeDocumenti) {
@@ -117,7 +168,8 @@
             int i = 0;
             JSONObject json = JSONFactoryUtil.createJSONObject();
             if (oldDocument != rigo.getNumeroOrdine()) {
-                json.put("descrizione", "Documento di trasporto N. " + rigo.getNumeroOrdine() + "/" + a.getCentro() + " del " + listTestata.get(i).getDataOrdine());
+            	TestataDocumento tmpTestataDocumento = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(rigo.getAnno(), rigo.getNumeroOrdine(), rigo.getTipoDocumento(), rigo.getIdAssociato()));
+                json.put("descrizione", "Documento di trasporto N. " + rigo.getNumeroOrdine() + "/" + a.getCentro() + " del " + tmpTestataDocumento.getDataOrdine());
                 jsonArr.put(json);
                 json = JSONFactoryUtil.createJSONObject();
                 oldDocument = rigo.getNumeroOrdine();
@@ -150,7 +202,7 @@
             importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
             importo2 = importo1 - ((importo1 * sconto2) / 100);
             importo = importo2 - ((importo2 * sconto3) / 100);
-
+            
             json.put("importo", importo);
 
             jsonArr.put(json);
@@ -176,6 +228,7 @@
     } else {
         iva = VociIvaLocalServiceUtil.fetchVociIva("04");
     }
+    
 %>
 
 <liferay-portlet:resourceURL var="updateInvoice"  id="updateInvoice" >
@@ -219,30 +272,47 @@
             <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
             <aui:input id="documentDate" type="text" name="documentDate" label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>"/>
         </aui:column>
-        <aui:column columnWidth="20" cssClass="test" >
-        	<aui:fieldset label="Fattura vendita">
-	            <aui:input type="text" name="nDoc" label="N. Documento" value="<%= origDoc%>">
-	            	<aui:validator name="digits"></aui:validator>
-	            </aui:input>
-	            <aui:select label="Rec Protocollo" name="recProt" style="background-color: #FFFFCC;"> 
-	                <c:forEach items="<%= idToRecover%>" var="id">
-	                    <aui:option value="${id}">
-	                        ${id}
-	                    </aui:option>
-	                </c:forEach>
-	            </aui:select>
-            </aui:fieldset>
-        </aui:column>
-        <aui:column columnWidth="20" cssClass="test" last="true" >
-            <aui:fieldset label="Fattura conferimento">
-	            <aui:input type="text" name="nDocConf" label="N. Documento" value="<%= testata.getNota2()%>">
-	            	<aui:validator name="digits"></aui:validator>
-	            </aui:input>
-	            <aui:input type="text" name="dateDocConf" label="Data Documento" value="<%= (fac != null) ? fac.getDataOrdine() : sdf.format(date)%>">
-	            	<aui:validator name="date" ></aui:validator>
-	            </aui:input>
-            </aui:fieldset>
-        </aui:column>
+        <c:choose>
+	        <c:when test="<%= !document2op %>">
+			        <aui:column columnWidth="20" cssClass="test" >
+		        	<aui:fieldset label="Fattura vendita">
+			            <aui:input type="text" name="nDoc" label="N. Documento" value="<%= origDoc%>" disabled="<%= update %>">
+			            	<aui:validator name="digits"></aui:validator>
+			            </aui:input>
+			            <aui:select label="Rec Protocollo" name="recProt" style="background-color: #FFFFCC;" disabled="<%= update %>"> 
+			                <c:forEach items="<%= idToRecover%>" var="id">
+			                    <aui:option value="${id}">
+			                        ${id}
+			                    </aui:option>
+			                </c:forEach>
+			            </aui:select>
+		            </aui:fieldset>
+		        </aui:column>
+		        <aui:column columnWidth="20" cssClass="test" last="true" >
+		            <aui:fieldset label="Fattura conferimento">
+			            <aui:input type="text" name="nDocConf" label="N. Documento" value="<%= testata.getNota2()%>" >
+			            	<aui:validator name="digits"></aui:validator>
+			            </aui:input>
+			            <aui:input type="text" name="dateDocConf" label="Data Documento" value="<%= (fac != null) ? fac.getDataOrdine() : sdf.format(date)%>" >
+			            	<aui:validator name="date" ></aui:validator>
+			            </aui:input>
+		            </aui:fieldset>
+		        </aui:column>
+	        </c:when>
+	        <c:otherwise>
+	        	<aui:column columnWidth="20" cssClass="test" last="true" >
+		            <aui:fieldset label="Fattura conferimento">
+			            <aui:input type="text" name="nDocConf" label="N. Documento" value="<%= testata.getNota2()%>" >
+			            	<aui:validator name="digits"></aui:validator>
+			            </aui:input>
+			            <aui:input type="text" name="dateDocConf" label="Data Documento" value="<%= (fac != null) ? fac.getDataOrdine() : sdf.format(date)%>" >
+			            	<aui:validator name="date" ></aui:validator>
+			            </aui:input>
+		            </aui:fieldset>
+		        </aui:column>
+	        </c:otherwise>
+        </c:choose>
+        
     </aui:layout>
 </aui:fieldset>
 <div id="myTab">
@@ -571,14 +641,13 @@
         });
 
         Y.one("#<portlet:namespace />btnRemove").on("click", function () {
-            console.log(recordSelected);
-            var row = recordSelected.getAttrs();
-            if (!row.codiceArticolo)
-                table.removeRow(recordSelected);
-            else if(row.prezzo !== 0)
-                table.removeRow(recordSelected);
+            var row = table.getActiveRecord();
+            if (row.getAttrs().codiceArticolo === '' || row.getAttrs().codiceArticolo === "PR")
+                table.removeRow(row);
+            else if(row.getAttrs().prezzo === '' || row.getAttrs().prezzo === 0)
+                table.removeRow(row);
             else
-                alert("Attenzione non ÃÂÃÂÃÂÃÂ¨ possibile rimuovere un rigo con un prodotto.");
+                alert("Attenzione non e' possibile rimuovere un rigo con un prodotto.");
             recordSelected = "";
         });
 
@@ -694,10 +763,15 @@
         }
         console.log(rows);
         var msg = checkInfoDocs();
-        if (rows.length !== 0 && ok && msg === '')
-            sendData(rows, origDoc);
-        else
-            alert("Attenzione non e' possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.\n" + msg);
+        if (rows.length !== 0 && ok) {
+        	if (msg === '') {
+            	sendData(rows, origDoc);
+        	} else {
+        		alert("Attenzione non e' possibile generare la fattura.\n" + msg);
+        	}
+        } else {
+        	alert("Attenzione non e' possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
+        }
 
     }
     
@@ -705,17 +779,20 @@
     	var msg = '';
     	YUI().use('aui-io-request', 'node', function (Y) {
     		var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
-    		var timestamp=Date.parse(Y.one('#<portlet:namespace/>dateDocConf').val());
+    		var tmp=Y.one('#<portlet:namespace/>dateDocConf').val().split("/");
+    		var timestamp = Date.parse(tmp[1] + "/" + tmp[0] + "/" + tmp[2]);
     		if(nDocConf !== '' && isNaN(nDocConf)){
-    			msg = 'Inserire un valore numerico per il numedo di fattura di conferimento.';
-    		} else if (isNaN(timestamp)){
-    			msg = 'La data del documento di conferimento non ÃÂÃÂÃÂÃÂ¨ valida';
+    			msg = 'Inserire un valore numerico per il numero di fattura di conferimento.';
+    		}
+    		if (isNaN(timestamp)){
+    			msg = "La data del documento di conferimento non e' valida";
     		} 
     	});
     	return msg;
 	}
     
     function sendData(rows, origDoc) {
+    	var document2op = <%= document2op %>;
         YUI().use('aui-io-request', 'node', function (Y) {
 
             /******CAMPI TESTATA******/
@@ -724,8 +801,8 @@
             var destinazioneTxt = Y.one('#<portlet:namespace />destinazioneTxt').val();
             var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
             var documentDate = Y.one('#<portlet:namespace />documentDate').val();
-            var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
-            var avanzaProtocollo = Y.one('#<portlet:namespace/>nDoc').val();
+            var numeroFattura = (!document2op) ? Y.one('#<portlet:namespace/>recProt').val() : '';
+            var avanzaProtocollo = (!document2op) ? Y.one('#<portlet:namespace/>recProt').val() : '';
             var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
             var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
             var datiDocConf = '';
@@ -733,7 +810,7 @@
             	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
             }
             
-            var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
+            var queryString = "&<portlet:namespace/>codCli=" + codiceCliente +
                     "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
                     "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
                     "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo + datiDocConf;
@@ -767,13 +844,19 @@
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
                                     }
-                                    alert("Attenzione, non ÃÂÃÂ¨ stato possibile invare la mail di notifica.\n");
+                                    alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
                                     break;
                                 case 5:
-                                    alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂÃÂ¨ giÃÂÃÂ ÃÂÃÂ  presente in archivio.\n");
+                                    alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
                                     break;
                                 case 6:
                                     alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + documentDate + ".");
+                                    break;
+                                case 9:
+                                    alert("Attenzione, non e' stato possibile salvare la fattura, e' necessario specificare il numero di protocollo da assegnare.");
+                                    break;
+                                case 10:
+                                    alert("Attenzione, non e' stato possibile salvare la fattura, esiste almeno una fattura con protocollo minore di: " + data.id + " e data maggiore di: " + documentDate);
                                     break;
                             }
                         }
@@ -785,8 +868,9 @@
     }
 
     YUI().use('aui-io-request', 'node', function (Y) {
+    	var document2op = <%= document2op %>;
         Y.one('#btnPrint').on('click', function () {
-            var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
+            var nDoc = (!document2op) ? Y.one('#<portlet:namespace/>nDoc').val() : '';
             var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
             var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
             var codiceCliente = Y.one('#<portlet:namespace/>codiceClienteTxt').val();

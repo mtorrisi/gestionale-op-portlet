@@ -37,6 +37,9 @@ public class TracciabilitaGrezziSoap implements Serializable {
 		soapModel.setProduttore(model.getProduttore());
 		soapModel.setFoglio(model.getFoglio());
 		soapModel.setParticella(model.getParticella());
+		soapModel.setNote(model.getNote());
+		soapModel.setNumeroColli(model.getNumeroColli());
+		soapModel.setKgScarto(model.getKgScarto());
 		soapModel.setIdSchedaTracciabilta(model.getIdSchedaTracciabilta());
 
 		return soapModel;
@@ -149,6 +152,30 @@ public class TracciabilitaGrezziSoap implements Serializable {
 		_particella = particella;
 	}
 
+	public String getNote() {
+		return _note;
+	}
+
+	public void setNote(String note) {
+		_note = note;
+	}
+
+	public int getNumeroColli() {
+		return _numeroColli;
+	}
+
+	public void setNumeroColli(int numeroColli) {
+		_numeroColli = numeroColli;
+	}
+
+	public double getKgScarto() {
+		return _kgScarto;
+	}
+
+	public void setKgScarto(double kgScarto) {
+		_kgScarto = kgScarto;
+	}
+
 	public long getIdSchedaTracciabilta() {
 		return _idSchedaTracciabilta;
 	}
@@ -164,5 +191,8 @@ public class TracciabilitaGrezziSoap implements Serializable {
 	private String _produttore;
 	private int _foglio;
 	private int _particella;
+	private String _note;
+	private int _numeroColli;
+	private double _kgScarto;
 	private long _idSchedaTracciabilta;
 }

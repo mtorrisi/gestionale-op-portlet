@@ -871,6 +871,9 @@ public class TracciabilitaGrezziPersistenceImpl extends BasePersistenceImpl<Trac
 		tracciabilitaGrezziImpl.setProduttore(tracciabilitaGrezzi.getProduttore());
 		tracciabilitaGrezziImpl.setFoglio(tracciabilitaGrezzi.getFoglio());
 		tracciabilitaGrezziImpl.setParticella(tracciabilitaGrezzi.getParticella());
+		tracciabilitaGrezziImpl.setNote(tracciabilitaGrezzi.getNote());
+		tracciabilitaGrezziImpl.setNumeroColli(tracciabilitaGrezzi.getNumeroColli());
+		tracciabilitaGrezziImpl.setKgScarto(tracciabilitaGrezzi.getKgScarto());
 		tracciabilitaGrezziImpl.setIdSchedaTracciabilta(tracciabilitaGrezzi.getIdSchedaTracciabilta());
 
 		return tracciabilitaGrezziImpl;
@@ -1198,7 +1201,7 @@ public class TracciabilitaGrezziPersistenceImpl extends BasePersistenceImpl<Trac
 				PropsKeys.HIBERNATE_CACHE_USE_SECOND_LEVEL_CACHE));
 	private static Log _log = LogFactoryUtil.getLog(TracciabilitaGrezziPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
-				"lottoGrezzo", "idSchedaTracciabilta"
+				"lottoGrezzo", "numeroColli", "kgScarto", "idSchedaTracciabilta"
 			});
 	private static TracciabilitaGrezzi _nullTracciabilitaGrezzi = new TracciabilitaGrezziImpl() {
 			@Override

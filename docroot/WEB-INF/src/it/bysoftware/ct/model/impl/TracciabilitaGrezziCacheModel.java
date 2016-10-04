@@ -36,7 +36,7 @@ public class TracciabilitaGrezziCacheModel implements CacheModel<TracciabilitaGr
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{id=");
 		sb.append(id);
@@ -52,6 +52,12 @@ public class TracciabilitaGrezziCacheModel implements CacheModel<TracciabilitaGr
 		sb.append(foglio);
 		sb.append(", particella=");
 		sb.append(particella);
+		sb.append(", note=");
+		sb.append(note);
+		sb.append(", numeroColli=");
+		sb.append(numeroColli);
+		sb.append(", kgScarto=");
+		sb.append(kgScarto);
 		sb.append(", idSchedaTracciabilta=");
 		sb.append(idSchedaTracciabilta);
 		sb.append("}");
@@ -90,6 +96,16 @@ public class TracciabilitaGrezziCacheModel implements CacheModel<TracciabilitaGr
 
 		tracciabilitaGrezziImpl.setFoglio(foglio);
 		tracciabilitaGrezziImpl.setParticella(particella);
+
+		if (note == null) {
+			tracciabilitaGrezziImpl.setNote(StringPool.BLANK);
+		}
+		else {
+			tracciabilitaGrezziImpl.setNote(note);
+		}
+
+		tracciabilitaGrezziImpl.setNumeroColli(numeroColli);
+		tracciabilitaGrezziImpl.setKgScarto(kgScarto);
 		tracciabilitaGrezziImpl.setIdSchedaTracciabilta(idSchedaTracciabilta);
 
 		tracciabilitaGrezziImpl.resetOriginalValues();
@@ -106,6 +122,9 @@ public class TracciabilitaGrezziCacheModel implements CacheModel<TracciabilitaGr
 		produttore = objectInput.readUTF();
 		foglio = objectInput.readInt();
 		particella = objectInput.readInt();
+		note = objectInput.readUTF();
+		numeroColli = objectInput.readInt();
+		kgScarto = objectInput.readDouble();
 		idSchedaTracciabilta = objectInput.readLong();
 	}
 
@@ -139,6 +158,16 @@ public class TracciabilitaGrezziCacheModel implements CacheModel<TracciabilitaGr
 
 		objectOutput.writeInt(foglio);
 		objectOutput.writeInt(particella);
+
+		if (note == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(note);
+		}
+
+		objectOutput.writeInt(numeroColli);
+		objectOutput.writeDouble(kgScarto);
 		objectOutput.writeLong(idSchedaTracciabilta);
 	}
 
@@ -149,5 +178,8 @@ public class TracciabilitaGrezziCacheModel implements CacheModel<TracciabilitaGr
 	public String produttore;
 	public int foglio;
 	public int particella;
+	public String note;
+	public int numeroColli;
+	public double kgScarto;
 	public long idSchedaTracciabilta;
 }

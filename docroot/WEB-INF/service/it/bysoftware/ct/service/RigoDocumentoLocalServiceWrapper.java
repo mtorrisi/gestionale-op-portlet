@@ -289,6 +289,14 @@ public class RigoDocumentoLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _rigoDocumentoLocalService.getDDAByNumeroOrdineAnnoAssociato(numeroOrdine,
+			anno, idAssociato);
+	}
+
+	@Override
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {

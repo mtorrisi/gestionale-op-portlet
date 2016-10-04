@@ -43,7 +43,7 @@
 	String codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
     
 	TestataDocumento testata = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.NAC.name(), a.getId()));
-	
+	double totale = 0.0; 
 	if(testata != null) {
 		List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getNACByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.NAC.name());
 	    for (RigoDocumento rigo : righe) {
@@ -71,12 +71,19 @@
 	        double sconto3 = rigo.getSconto3();
 	
 	        double importo1, importo2 = 0;
-	        double tmpImporto = rigo.getPrezzo() * rigo.getPesoNetto();
+	        double tmpImporto = 0;
+	        
+	        if (rigo.getPesoNetto() != 0) {
+	        	tmpImporto = rigo.getPrezzo() * rigo.getPesoNetto();
+	        } else {
+	        	tmpImporto = rigo.getPrezzo();
+	        }
 	
 	        importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
 	        importo2 = importo1 - ((importo1 * sconto2) / 100);
 	        importo = importo2 - ((importo2 * sconto3) / 100);
 	        importo = Math.round(importo * 100);
+	        totale += importo;
 	        json.put("importo", importo / 100);
 	
 	        jsonArr.put(json);
@@ -196,7 +203,7 @@
                 <aui:input id="totaleImponibileTxt" type="text" name="totImponibile" label="Totale imponiible" disabled="true" inlineField="true"/>
                 <aui:input id="aliquotaTxt" type="text" name="aliquota" label="Aliquota" disabled="true" inlineField="true" value="<%= String.valueOf(iva.getAliquota()) + "%"%>"/>
                 <aui:input id="totaleIVATxt" type="text" name="totIVA" label="Totale IVA" disabled="true" inlineField="true"/>
-                <aui:input id="totaleDocumentoTxt" type="text" name="totDocumento" label="Totale documento" disabled="true" inlineField="true"/>
+                <aui:input id="totaleDocumentoTxt" type="text" name="totDocumento" label="Totale documento" disabled="true" inlineField="true" value="<%= totale %>" />
             </aui:fieldset>
         </div>
     </div>

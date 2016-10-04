@@ -7,10 +7,10 @@ package it.its.ct.gestionaleOP.report;
 
 import it.its.ct.gestionaleOP.utils.DocumentType;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -84,7 +83,18 @@ public class Report {
 		Map<String, Object> parametersMap = new HashMap<String, Object>();
 		parametersMap.put("WkNOrd", nDoc);
 		parametersMap.put("idAssociato", idAssociato);
-		parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
+		String nomePDF = tipoDocumento;
+		if ((tipoDocumento.equals("ddt") && toOp) || tipoDocumento.equals("dda")){
+			reportFile = "ddt2op";
+			nomePDF = DocumentType.DDA.name();
+			parametersMap.put("tipoDocumento", DocumentType.DDA.name()); //I DDT per vendita diretta a OP sono di tipo DDA
+		} else if ((tipoDocumento.equals("fac") && toOp)) {
+			reportFile = "fav2op";
+			parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
+		} else {
+			parametersMap.put("tipoDocumento", tipoDocumento.toUpperCase());
+		}
+		
 		parametersMap.put("year", year);
 		if (!logo.equals(""))
 			parametersMap.put("logo", logo);
@@ -102,10 +112,10 @@ public class Report {
 		// rendering e generazione del file PDF
 		JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER
 				+ idOp + "/" + reportFile + ".jasper", parametersMap, conn);
-		JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento
+		JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + nomePDF
 				+ "_" + idAssociato + ".pdf");
 		conn.close();
-		return "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf";
+		return "/tmp/" + nomePDF + "_" + idAssociato + ".pdf";
 	}
 
 	public String print(int year, int nDoc, int idAssociato,
@@ -165,9 +175,8 @@ public class Report {
 				DB_PASSWORD);
 
 		List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
-		for (int i = 0; i < cmrHeader.length; i++) {
-			for(int j = 0; j < cmrHeader[i].length; j++)
-				System.out.println(cmrHeader[i][j]);
+		for (int i = 0; i < 5; i++) {
+			
 			parametersMap.put("header", cmrHeader[i]);
 			parametersMap.put("copies", i + 1);
 			parametersMap.put("year", year);
@@ -205,6 +214,11 @@ public class Report {
 		pdfExporter.setConfiguration(configuration);
 		pdfExporter.exportReport();
 		conn.close();
+		try {
+			output.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return "/tmp/CMR_" + idAssociato + ".pdf";
 	}
 }

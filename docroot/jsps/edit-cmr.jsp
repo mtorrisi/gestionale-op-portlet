@@ -1,3 +1,4 @@
+<%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.model.CMR"%>
 <%@page import="it.bysoftware.ct.service.CMRLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.service.PortoLocalServiceUtil"%>
@@ -38,7 +39,7 @@
 	if (tmp != null && !tmp.equals("null")){
 		nDoc = Long.parseLong(tmp);
 		cliente = AnagraficaLocalServiceUtil.getAnagrafica(codiceCliente);
-		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(anno, nDoc, "DDT", idAssociato));
+		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(anno, nDoc, DocumentType.DDT.name(), idAssociato));
 		vettore = VettoriLocalServiceUtil.fetchVettori(testata.getVettore());
 		vettore2 = VettoriLocalServiceUtil.fetchVettori(testata.getVettore2());
 		porto = PortoLocalServiceUtil.fetchPorto(testata.getPorto());
@@ -61,6 +62,7 @@
 	<liferay-portlet:param name="codiceCliente" value="<%=codiceCliente%>" />
 	<liferay-portlet:param name="numeroDocumento"
 		value="<%=String.valueOf(nDoc)%>" />
+	<liferay-portlet:param name="tipoDocumento" value="<%=DocumentType.DDT.name()%>" />
 	<liferay-portlet:param name="jspPage" value="/jsps/edit-ddt.jsp" />
 </liferay-portlet:renderURL>
 <liferay-ui:header backLabel="Back" title="Indietro"
@@ -337,7 +339,7 @@
 	                var convenzioni = Y.one('#<portlet:namespace/>convenzioni').val();
 	                var rimborso = Y.one('#<portlet:namespace/>rimborso').val();
 	                
-	                var queryString = "&<portlet:namespace/>numeroCMR=" + (numeroCMR !== '' ? numeroCMR : "-1") + 
+	                var queryString = "&<portlet:namespace/>numeroCMR=" + (numeroCMR !== '' ? numeroCMR : "0") + 
 	                	"&<portlet:namespace/>riserve=" + riserve +
 	                	"&<portlet:namespace/>allegati=" + allegati +
 	                	"&<portlet:namespace/>classe=" + classe +

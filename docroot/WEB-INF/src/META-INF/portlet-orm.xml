@@ -171,6 +171,9 @@
 				<column name="ID_OP" />
 			</basic>
 			<basic name="attivo" />
+			<basic name="sezionaleOP">
+				<column name="SEZIONALE_OP" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -678,6 +681,13 @@
 			<basic name="produttore" />
 			<basic name="foglio" />
 			<basic name="particella" />
+			<basic name="note" />
+			<basic name="numeroColli">
+				<column name="N_COLLI" />
+			</basic>
+			<basic name="kgScarto">
+				<column name="KG_SCARTO" />
+			</basic>
 			<basic name="idSchedaTracciabilta">
 				<column name="ID_SCHEDA_TRACCIABILITA" />
 			</basic>

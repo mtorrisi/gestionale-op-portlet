@@ -2758,6 +2758,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 		associatoImpl.setIdLiferay(associato.getIdLiferay());
 		associatoImpl.setIdOp(associato.getIdOp());
 		associatoImpl.setAttivo(associato.isAttivo());
+		associatoImpl.setSezionaleOP(associato.getSezionaleOP());
 
 		return associatoImpl;
 	}
@@ -3083,7 +3084,7 @@ public class AssociatoPersistenceImpl extends BasePersistenceImpl<Associato>
 	private static Log _log = LogFactoryUtil.getLog(AssociatoPersistenceImpl.class);
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"ragioneSociale", "partitaIVA", "comune", "nomeUtente",
-				"idLiferay", "idOp"
+				"idLiferay", "idOp", "sezionaleOP"
 			});
 	private static Associato _nullAssociato = new AssociatoImpl() {
 			@Override

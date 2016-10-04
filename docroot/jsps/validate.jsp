@@ -31,32 +31,35 @@
 		List<WKTestataDocumento> testateDocumentoReady = WKTestataDocumentoLocalServiceUtil.getReady(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		List<WKTestataDocumento> testateDocumentoToCheck = WKTestataDocumentoLocalServiceUtil.getToCheck(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		if(!testateDocumentoReady.isEmpty() || !testateDocumentoToCheck.isEmpty()){
-	viewImport = false;
-	for(WKTestataDocumento t : testateDocumentoReady){
-		Documento d = new Documento();
-		d.setTestata(t);
-		List<WKRigoDocumento> righe = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(t.getNumeroOrdine(), t.getAnno(), t.getIdAssociato(), t.getTipoDocumento());
-		if(righe != null){
-	boolean addReady = true;
-	d.setRighe(righe);
-	for(WKRigoDocumento r : righe)
-		if(!r.getVerificato()){
-	addReady = false;
-	break;
+			viewImport = false;
+			for (WKTestataDocumento t : testateDocumentoReady) {
+				Documento d = new Documento();
+				d.setTestata(t);
+				List<WKRigoDocumento> righe = WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(t.getNumeroOrdine(), t.getAnno(), t.getIdAssociato(), t.getTipoDocumento());
+				if (righe != null) {
+					boolean addReady = true;
+					d.setRighe(righe);
+					for (WKRigoDocumento r : righe) {
+						if (!r.getVerificato()) {
+							addReady = false;
+								break;
+						}
+					}
+					if (addReady) {
+						docsReady.add(d);
+					} else {
+						docsToCheck.add(d);
+					}
+				}
+			}
+			
+			for (WKTestataDocumento t : testateDocumentoToCheck) {
+				Documento d = new Documento();
+				d.setTestata(t);
+				d.setRighe(WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(t.getNumeroOrdine(), t.getAnno(), t.getIdAssociato(), t.getTipoDocumento()));
+				docsToCheck.add(d);
+			}
 		}
-	if(addReady)
-		docsReady.add(d);
-	else
-		docsToCheck.add(d);
-		}
-	}
-	for(WKTestataDocumento t : testateDocumentoToCheck){
-		Documento d = new Documento();
-		d.setTestata(t);
-		d.setRighe(WKRigoDocumentoLocalServiceUtil.getByNumeroOrdineAnnoAssociatoTipoDocumento(t.getNumeroOrdine(), t.getAnno(), t.getIdAssociato(), t.getTipoDocumento()));
-		docsToCheck.add(d);
-	}
-		}	
 	}
 %>
 <c:choose>

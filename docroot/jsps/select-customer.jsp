@@ -26,7 +26,7 @@
 
 %>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente Ã¨ stato ancora associato.">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente e' stato ancora associato.">
 
     <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
     total="<%= clientiAssociato.size()%>"/>

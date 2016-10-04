@@ -130,7 +130,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 	                bw.write(valoriTestata);
 	
 	//              CodlottoGR
-	                String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR\n";
+	                String stringRigo = "WorkRigaDocumento;Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;CodLotto;CodlottoGR;Impnet;Codiva\n";
 	                bw.write(stringRigo);
 	                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), testata.getTipoDocumento());
 	                for (RigoDocumento rigo : righe) {
@@ -158,10 +158,19 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 	                            Libdat1,
 	                            Libdat2,
 	                            Libdat3,
-	                            Codlotto = "";
+	                            Codlotto = "",
+	                            CodlottoGR,
+	                            Impnet = "0.0" + SEPARATOR ,
+	                            Codiva = "";
+	                    
 	                    if (rigo.getPesoNetto() != 0) {
-	                        //VALORI RIGO ARTICOLO
-	                        Tiprig = "0" + SEPARATOR;
+	                    	if (rigo.getCodiceArticolo().equals("")) {
+	                    		//RIGO FORFAIT
+	                    		Tiprig = "1" + SEPARATOR;
+	                    	} else {
+		                        //RIGO ARTICOLO
+		                        Tiprig = "0" + SEPARATOR;
+	                    	}
 	                        Codart = rigo.getCodiceArticolo() + SEPARATOR;
 	                        Codvar = rigo.getCodiceVariante() + SEPARATOR;
 	                        Descri = rigo.getDescrizione() + SEPARATOR;
@@ -184,9 +193,13 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 	                        Libdat2 = testata.getDataOrdine() + SEPARATOR;
 	                        Libdat3 = testata.getDataOrdine() + SEPARATOR;
 	                        Codlotto = rigo.getLotto() + SEPARATOR;
-	
-	                        if(!rigo.getCodiceArticolo().equals("PR")){
-	                        	valoriRigo = Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Scont1 + Scont2 + Scont3 + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
+	                        CodlottoGR = SEPARATOR;
+	                        if (rigo.getTipoDocumento().equals(DocumentType.NAC.name())){
+	                        	Impnet = String.valueOf(rigo.getPrezzo()) + SEPARATOR;
+	                        }
+	                        if(!rigo.getCodiceArticolo().equals("PR") &&
+	                        		!rigo.getCodiceArticolo().equals("")){
+	                        	valoriRigo = Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Scont1 + Scont2 + Scont3 + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + CodlottoGR + Impnet + Codiva + "\n";
 	                        	//VALORI RIGO IMBALLO
 		                        Tiprig = "0" + SEPARATOR;
 		                        Codart = rigo.getImballo() + SEPARATOR;
@@ -211,9 +224,15 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 		                        Libdat2 = testata.getDataOrdine() + SEPARATOR;
 		                        Libdat3 = testata.getDataOrdine() + SEPARATOR;
 		                        Codlotto = SEPARATOR;
+		                        CodlottoGR = SEPARATOR;
 	                        }
 	                    } else {
-	                        Tiprig = "2" + SEPARATOR;
+	                    	if(rigo.getTipoDocumento().equals(DocumentType.NAC.name())){
+	                    		Tiprig = "1" + SEPARATOR;
+	                    		Impnet = String.valueOf(rigo.getPrezzo()) + SEPARATOR;
+	                    	} else {
+	                    		Tiprig = "2" + SEPARATOR;
+	                    	}
 	                        Codart = rigo.getCodiceArticolo() + SEPARATOR;
 	                        Codvar = rigo.getDescrizioneVariante() + SEPARATOR;
 	                        Descri = rigo.getDescrizione() + SEPARATOR;
@@ -236,9 +255,9 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 	                        Libdat2 = testata.getDataOrdine() + SEPARATOR;
 	                        Libdat3 = testata.getDataOrdine() + SEPARATOR;
 	                        Codlotto = rigo.getLotto() + SEPARATOR;
-	
+	                        CodlottoGR = SEPARATOR;
 	                    }
-	                    valoriRigo += Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Scont1 + Scont2 + Scont3 + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + "\n";
+	                    valoriRigo += Tiprig + Codart + Codvar + Descri + Quanet + Qm2net + Prezzo + Scont1 + Scont2 + Scont3 + Libstr1 + Libstr2 + Libstr3 + Libdbl1 + Libdbl2 + Libdbl3 + Liblng1 + Liblng2 + Liblng3 + Libdat1 + Libdat2 + Libdat3 + Codlotto + CodlottoGR + Impnet + Codiva + "\n";
 	
 	                    bw.write(valoriRigo);
 	                }

@@ -310,6 +310,15 @@ public class TestataDocumentoLocalServiceUtil {
 		return getService().getDocumentiSoggetto(anno, idDocumento, idAssociato);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		java.lang.String nota2)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getDocumentiCollegati(anno, tipoDocumento, idAssociato,
+			nota2);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

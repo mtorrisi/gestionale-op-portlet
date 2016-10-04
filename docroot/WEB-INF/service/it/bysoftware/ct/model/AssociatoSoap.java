@@ -44,6 +44,7 @@ public class AssociatoSoap implements Serializable {
 		soapModel.setIdLiferay(model.getIdLiferay());
 		soapModel.setIdOp(model.getIdOp());
 		soapModel.setAttivo(model.getAttivo());
+		soapModel.setSezionaleOP(model.getSezionaleOP());
 
 		return soapModel;
 	}
@@ -212,6 +213,14 @@ public class AssociatoSoap implements Serializable {
 		_attivo = attivo;
 	}
 
+	public String getSezionaleOP() {
+		return _sezionaleOP;
+	}
+
+	public void setSezionaleOP(String sezionaleOP) {
+		_sezionaleOP = sezionaleOP;
+	}
+
 	private long _id;
 	private String _centro;
 	private String _ragioneSociale;
@@ -226,4 +235,5 @@ public class AssociatoSoap implements Serializable {
 	private long _idLiferay;
 	private long _idOp;
 	private boolean _attivo;
+	private String _sezionaleOP;
 }

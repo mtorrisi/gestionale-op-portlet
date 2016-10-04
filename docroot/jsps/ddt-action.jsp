@@ -13,6 +13,7 @@
     <liferay-portlet:renderURL var="editDDT">
         <liferay-portlet:param name="idAssociato" value="<%= String.valueOf(testata.getIdAssociato())%>"/>
         <liferay-portlet:param name="numeroDocumento" value="<%= String.valueOf(testata.getNumeroOrdine())%>"/>
+        <liferay-portlet:param name="tipoDocumento" value="<%= String.valueOf(testata.getTipoDocumento())%>" />
         <liferay-portlet:param name="jspPage"  value="/jsps/edit-ddt.jsp"/>
     </liferay-portlet:renderURL>
     <liferay-ui:icon 

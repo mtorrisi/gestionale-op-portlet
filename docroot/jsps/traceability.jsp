@@ -1,3 +1,4 @@
+<%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
@@ -25,7 +26,7 @@
     long numeroDocumento = Long.parseLong(ParamUtil.getString(renderRequest, "numeroDocumento"));
 
     Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
-    TestataDocumento testata = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(anno, numeroDocumento, "DDT", idAssociato));
+    TestataDocumento testata = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(anno, numeroDocumento, DocumentType.DDT.name(), idAssociato));
     List<RigoDocumento> prodotti = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroDocumento, anno, idAssociato);
     List<RigoDocumento> tmpProdotti = new ArrayList<RigoDocumento>();
     List<TracciabilitaScheda> schede = new ArrayList<TracciabilitaScheda>();
@@ -47,10 +48,6 @@
             if (!grezzi.containsKey(s.getCodiceProdotto())) {
                 grezzi.put(s.getCodiceProdotto(), listGrezzi);
             }
-//            for(TracciabilitaGrezzi grezzo : listGrezzi){
-//                TracciabilitaGrezziLocalServiceUtil.deleteTracciabilitaGrezzi(grezzo);
-//            }
-//            TracciabilitaSchedaLocalServiceUtil.deleteTracciabilitaScheda(s.getId());
         }
     }
 %>
@@ -92,8 +89,11 @@
                                 List<TracciabilitaGrezzi> listGrezzi = grezzi.get(prodotti.get(index).getCodiceArticolo());
 //                                boolean flag = listGrezzi.size() > 0;
                                 int size = 0;
-                                if(listGrezzi != null)
+                                if(listGrezzi != null) {
                                     size=listGrezzi.size();
+                                } else {
+                                	System.out.println("*** SONO IN ELSE PER: INDEX=" + index + " CODICE Art: " + prodotti.get(index).getCodiceArticolo());
+                                }
                                 int x = 0;
                             %>
                             <c:forEach var="j" begin="1" end="3">
@@ -103,7 +103,7 @@
                                         <aui:validator name="maxLength">15</aui:validator>
                                     </aui:input>
                                     <aui:input id="prodotto_${i}_${j}" type="text" name="prodotto_${i}_${j}" label="Prodotto utilizzato" cssClass="input-xxlarge" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getProdotto() : ""  %>" />
-                                    <aui:input id="kg_${i}_${j}" type="text" name="kg_${i}_${j}" label="Kg utilizzati" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getKg(): 0  %>">
+                                    <aui:input id="kg_${i}_${j}" type="text" name="kg_${i}_${j}" label="Kg utilizzati" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getKg() : 0.0  %>">
                                         <aui:validator name="required"></aui:validator>
                                         <aui:validator name="number"></aui:validator>
                                     </aui:input>
@@ -112,6 +112,13 @@
                                         <aui:validator name="number"></aui:validator>
                                     </aui:input>
                                     <aui:input id="particella_${i}_${j}" type="text" name="particella_${i}_${j}" label="Particella" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getParticella(): 0  %>">
+                                        <aui:validator name="number"></aui:validator>
+                                    </aui:input>
+                                    <aui:input id="note_${i}_${j}" type="textarea" name="note_${i}_${j}" label="Note" cssClass="input-xxlarge" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getNote() : ""  %>" />
+                                    <aui:input id="colli_${i}_${j}" type="text" name="colli_${i}_${j}" label="N. colli" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getNumeroColli() : 0  %>">
+                                        <aui:validator name="number"></aui:validator>
+                                    </aui:input>
+                                    <aui:input id="kg_scarto_${i}_${j}" type="text" name="kg_scarto_${i}_${j}" label="Kg scarto" cssClass="input-small" inlineField="true" value="<%= (x < size) ? listGrezzi.get(x).getKgScarto() : 0  %>">
                                         <aui:validator name="number"></aui:validator>
                                     </aui:input>
                                 </div>
@@ -155,14 +162,17 @@
                                 '"kg"          :   "' + Y.one("#<portlet:namespace/>kg_" + i + "_" + j).get('value') + '",' +
                                 '"produttore"  :   "' + Y.one("#<portlet:namespace/>produttore_" + i + "_" + j).get('value') + '",' +
                                 '"foglio"      :   "' + Y.one("#<portlet:namespace/>foglio_" + i + "_" + j).get('value') + '",' +
-                                '"particella"  :   "' + Y.one("#<portlet:namespace/>particella_" + i + "_" + j).get('value') + '"}';
+                                '"particella"  :   "' + Y.one("#<portlet:namespace/>particella_" + i + "_" + j).get('value') + '",' +
+                                '"note"		   :   "' + Y.one("#<portlet:namespace/>note_" + i + "_" + j).get('value') + '",' +
+                                '"colli" 	   :   "' + Y.one("#<portlet:namespace/>colli_" + i + "_" + j).get('value') + '",' +
+                                '"kg_scarto"   :   "' + Y.one("#<portlet:namespace/>kg_scarto_" + i + "_" + j).get('value') + '"}';
 
                     }
                 }
                 if (sum !== parseFloat(Y.one("#<portlet:namespace/>kgVenduti_" + i).get('value'))) {
                     console.log("i: " + i + " descrizione: " + descrizione);
                     console.log("sum: " + sum + " kgVenduti: " + parseFloat(Y.one("#<portlet:namespace/>kgVenduti_" + i).get('value')));
-                    alert("Verificare le quantitÃÂ  di prodotto grezzo inserite per il prodotto: '" + descrizione + "'");
+                    alert("Verificare le quantita' di prodotto grezzo inserite per il prodotto: '" + descrizione + "'");
                     return;
                 }
                 scheda += ']}';
@@ -210,19 +220,10 @@
                                             alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
                                             break;
                                         case 4:
-                                            alert("Salvataggio effettuato con successo.");
-//                                                Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
-//                                                document.getElementById("btnPrint").disabled = false;
-//                                                document.getElementById("btnSave").disabled = true;
-//                                                document.getElementById("btnTrace").disabled = false;
-//                                                if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
-//                                                    console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-//                                                    document.getElementById('<portlet:namespace/>recProt').value = "";
-//                                                }
-                                            alert("Attenzione, non ÃÂ¨ stato possibile invare la mail di notifica.\n");
+                                            alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
                                             break;
                                         case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " ÃÂ¨ giÃÂ  presente in archivio.\n");
+                                            alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
                                             break;
                                         case 6:
                                             alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");

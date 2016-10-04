@@ -1,3 +1,6 @@
+<%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
+<%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
 <%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
 <%@page import="java.util.Calendar"%>
@@ -14,8 +17,14 @@
     boolean filter = ParamUtil.getBoolean(renderRequest, "filter", false);
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
     String codiceOperatore = renderRequest.getRemoteUser();
-    List<TestataDocumento> listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), "DDT", a.getId());
+    List<TestataDocumento> listDDT;
+    if (cliente.getCodiceAnagrafica().equals(String.valueOf(op.getIdLiferay()))) {
+    	listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.DDA.name(), a.getId());
+    } else {
+   		listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.DDT.name(), a.getId());
+    }
     List<TestataDocumento> completed = new ArrayList<TestataDocumento>();
     List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
 
@@ -40,7 +49,7 @@
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
     String label = updateMode ? "Elenco DDT" : "Elenco DDT da fatturare";
 %>
-<liferay-ui:error key="error-delete" message="Non � stato possibile rimuovere il documento." />
+<liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
 <liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
 <liferay-portlet:renderURL var="searchInvoiceURL">
     <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
@@ -73,7 +82,7 @@
                         <liferay-ui:search-container-results results="<%= completed%>" 
                         total="<%= completed.size()%>"/>
                         <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
-                            <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
+                            <liferay-ui:search-container-column-text property="numeroOrdine" name="N."/>
                             <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
                             <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documento"/>
                             <liferay-ui:search-container-column-text property="completo" name="Stato"/>
@@ -98,7 +107,7 @@
                     <liferay-ui:search-container-results results="<%= invoiced%>" 
                     total="<%= invoiced.size()%>"/>
                     <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
-                        <liferay-ui:search-container-column-text property="numeroOrdine" name="N°"/>
+                        <liferay-ui:search-container-column-text property="numeroOrdine" name="N."/>
                         <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
                         <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
                         <liferay-ui:search-container-column-text property="completo" name="Stato"/>

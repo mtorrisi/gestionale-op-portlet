@@ -43,16 +43,15 @@
                     <label class="control-label" for="ragioneSociale">Ragione sociale: </label>  
                     <div class="controls">
                         <input id="ragioneSociale" name="<portlet:namespace />ragioneSociale" type="text" placeholder="" class="form-control input-md input-xlarge" required="" value="<%= a.getRagioneSociale()%>"/>
-
                     </div>
                 </div>
 
                 <!-- Text input-->
                 <div class="control-group">
-                    <label class="control-label" for="centro">Sezionale IVA: </label>  
+                    <label class="control-label" for="centro">Sezionale IVA: (Assegnato dalla OP) </label>  
                     <div class="controls">
                         <input id="centro" name="<portlet:namespace />centro" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getCentro()%>"/>
-
+                        <liferay-ui:icon-help message="help-sezionale-associato"/>
                     </div>
                 </div>
 
@@ -61,7 +60,6 @@
                     <label class="control-label" for="pIVA">Partita IVA: </label>  
                     <div class="controls">
                         <input id="pIVA" name="<portlet:namespace />pIVA" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getPartitaIVA()%>"/>
-
                     </div>
                 </div>
 
@@ -88,7 +86,6 @@
                     <label class="control-label" for="telefono">Telefono: </label>  
                     <div class="controls">
                         <input id="telefono" name="<portlet:namespace />telefono" type="text" placeholder="" class="form-control input-md input-xlarge"  value="<%= a.getTelefono()%>"/>
-
                     </div>
                 </div>
 
@@ -100,13 +97,21 @@
 
                     </div>
                 </div>
-
+                
+                <!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="sezionale_op">Sezionale IVA: (Assegnato alla OP) </label>  
+                    <div class="controls">
+                        <input id="sezionale_op" name="<portlet:namespace />sezionale_op" type="text" value="<%=a.getSezionaleOP() %>" class="form-control input-md"/>
+                        <liferay-ui:icon-help message="help-sezionale-op"/>
+                    </div>
+                </div>
+                
                 <!-- Text input-->
                 <div class="control-group">
                     <label class="control-label" for="email">Email: </label>  
                     <div class="controls">
                         <input id="email" name="<portlet:namespace />email" type="text" placeholder="" class="form-control input-md input-xlarge" required=""  value="<%= a.getEmail()%>"/>
-
                     </div>
                 </div>
 
@@ -197,6 +202,9 @@
     <portlet:namespace />password: {
                             required: true
 //                            rangeLength: [4, 8]
+                        },
+	<portlet:namespace />sezionale_op: {
+                            maxLength: 3
                         }
                     };
 

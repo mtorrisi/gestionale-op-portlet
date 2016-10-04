@@ -270,6 +270,21 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	 */
 	public void setAttivo(boolean attivo);
 
+	/**
+	 * Returns the sezionale o p of this associato.
+	 *
+	 * @return the sezionale o p of this associato
+	 */
+	@AutoEscape
+	public String getSezionaleOP();
+
+	/**
+	 * Sets the sezionale o p of this associato.
+	 *
+	 * @param sezionaleOP the sezionale o p of this associato
+	 */
+	public void setSezionaleOP(String sezionaleOP);
+
 	@Override
 	public boolean isNew();
 

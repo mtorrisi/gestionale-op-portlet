@@ -15,7 +15,9 @@ create index IX_2A84F1A9 on SSRIGORD (WkNOrd, WKAnno, WKTipdoc, WkCodart, WkVari
 create index IX_BFC9C5A0 on SSRIGORD (WkNOrd, WKAnno, id_associato);
 create index IX_CA243305 on SSRIGORD (WkNOrd, WKAnno, id_associato, WKTipdoc);
 
+create index IX_8D0468E1 on SSTESORD (WKAnno, WKNOrd, WKTipdoc, id_associato, Nota2);
 create index IX_2A5D7118 on SSTESORD (WKAnno, WKTipdoc, id_associato);
+create index IX_AF1AAF7C on SSTESORD (WKAnno, WKTipdoc, id_associato, Nota2);
 create index IX_5EF84E9D on SSTESORD (WkCodsog, WkOperatore);
 create index IX_8C00B6D8 on SSTESORD (WkOperatore);
 create index IX_67C73F9D on SSTESORD (WkOperatore, WKCompleto, WKInviato);

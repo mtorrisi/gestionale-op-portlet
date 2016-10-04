@@ -208,6 +208,16 @@
 			<finder-column name='idAssociato' comparator='='>
 			</finder-column>
 		</finder>
+		<finder name='annoTipoDocumentoIdAssociatoRiferimento' return-type='Collection'>
+			<finder-column name='anno' comparator='='>
+			</finder-column>
+			<finder-column name='tipoDocumento' comparator='='>
+			</finder-column>
+			<finder-column name='idAssociato' comparator='='>
+			</finder-column>
+			<finder-column name='nota2' comparator='='>
+			</finder-column>
+		</finder>
 	</entity>
 	<entity name='RigoDocumento' table='SSRIGORD' local-service='true'
 		remote-service='true'>
@@ -407,6 +417,8 @@
 		<column name='idOp' db-name='id_op' type='long'>
 		</column>
 		<column name='attivo' db-name='attivo' type='boolean'>
+		</column>
+		<column name='sezionaleOP' db-name='sezionale_op' type='String'>
 		</column>
 		<finder name="IdLiferay" return-type="Associato" unique="true">
 			<finder-column name="idLiferay" />
@@ -627,6 +639,12 @@
 		<column name='foglio' db-name='foglio' type='int'>
 		</column>
 		<column name='particella' db-name='particella' type='int'>
+		</column>
+		<column name='note' db-name='note' type='String'>
+		</column>
+		<column name='numeroColli' db-name='n_colli' type='int'>
+		</column>
+		<column name='kgScarto' db-name='kg_scarto' type='double'>
 		</column>
 		<column name='idSchedaTracciabilta' db-name='id_scheda_tracciabilita'
 			type='long'>

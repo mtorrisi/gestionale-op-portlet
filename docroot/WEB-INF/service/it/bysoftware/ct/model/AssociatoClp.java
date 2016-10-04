@@ -86,6 +86,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		attributes.put("idLiferay", getIdLiferay());
 		attributes.put("idOp", getIdOp());
 		attributes.put("attivo", getAttivo());
+		attributes.put("sezionaleOP", getSezionaleOP());
 
 		return attributes;
 	}
@@ -174,6 +175,12 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 		if (attivo != null) {
 			setAttivo(attivo);
+		}
+
+		String sezionaleOP = (String)attributes.get("sezionaleOP");
+
+		if (sezionaleOP != null) {
+			setSezionaleOP(sezionaleOP);
 		}
 	}
 
@@ -505,6 +512,29 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		}
 	}
 
+	@Override
+	public String getSezionaleOP() {
+		return _sezionaleOP;
+	}
+
+	@Override
+	public void setSezionaleOP(String sezionaleOP) {
+		_sezionaleOP = sezionaleOP;
+
+		if (_associatoRemoteModel != null) {
+			try {
+				Class<?> clazz = _associatoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setSezionaleOP", String.class);
+
+				method.invoke(_associatoRemoteModel, sezionaleOP);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getAssociatoRemoteModel() {
 		return _associatoRemoteModel;
 	}
@@ -588,6 +618,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		clone.setIdLiferay(getIdLiferay());
 		clone.setIdOp(getIdOp());
 		clone.setAttivo(getAttivo());
+		clone.setSezionaleOP(getSezionaleOP());
 
 		return clone;
 	}
@@ -640,7 +671,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(29);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -670,6 +701,8 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 		sb.append(getIdOp());
 		sb.append(", attivo=");
 		sb.append(getAttivo());
+		sb.append(", sezionaleOP=");
+		sb.append(getSezionaleOP());
 		sb.append("}");
 
 		return sb.toString();
@@ -677,7 +710,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(46);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Associato");
@@ -739,6 +772,10 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 			"<column><column-name>attivo</column-name><column-value><![CDATA[");
 		sb.append(getAttivo());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>sezionaleOP</column-name><column-value><![CDATA[");
+		sb.append(getSezionaleOP());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -759,6 +796,7 @@ public class AssociatoClp extends BaseModelImpl<Associato> implements Associato 
 	private long _idLiferay;
 	private long _idOp;
 	private boolean _attivo;
+	private String _sezionaleOP;
 	private BaseModel<?> _associatoRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }
