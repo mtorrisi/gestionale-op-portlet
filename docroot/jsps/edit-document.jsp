@@ -60,7 +60,7 @@
 	        	<aui:column columnWidth="70" cssClass="detail-column detail-column-first">
 	            	<aui:input id="codClienteAssociatoTxt" type="text" name="codClienteAssociato" label="" cssClass="input-small" readonly="true" inlineField="true" value="<%=testataDocumento.getCodiceSoggetto()%>" style="display: none"/>
 	            	<aui:input id="codiceClienteTxt" type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" readonly="true" inlineField="true" value="<%=testataDocumento.getCodiceSoggetto()%>" />
-	        	    <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=testataDocumento.getRagioneSociale()%>"/>
+	        	    <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=testataDocumento.getRagioneSociale()%>" required="true"/>
 	    	        <aui:input id="orderDate"    type="text" name="dataOrdine"   label="Data Documento" inlineField="true" value="<%= testataDocumento.getDataOrdine()%>"/>
 		            <aui:input id="deliveryDate" type="text" name="dataConsegna" label="Data Trasporto" inlineField="true" value="<%= testataDocumento.getDataOrdine()%>"/>
 		            <aui:input id="lottoTestata" type="text" name="lottoTestata" label="Lotto" cssClass="input-small" inlineField="true" value="<%= rows.get(0).getLotto() %>"/>
@@ -139,7 +139,12 @@
 	YUI().use("liferay-util-list-fields", function (Y) {
 
         Y.one('#btnSave').on('click', function (event) {
-            submitForm(document.<portlet:namespace/>fm);
+        	var ragSoc = document.getElementById('<portlet:namespace/>clienteTxt').value;
+        	if(ragSoc !== ""){
+        	    submitForm(document.<portlet:namespace/>fm);
+        	} else {
+        		alert("Attenzione Cliente non selizionato!!!");
+        	}
         });
     });
 </script>
