@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
@@ -35,7 +37,8 @@
 <%
 	JSONArray jsonArr = JSONFactoryUtil.createJSONArray();
 	String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
-	Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+	UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+	Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
 	Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
 	ClientiDatiAgg datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
 	

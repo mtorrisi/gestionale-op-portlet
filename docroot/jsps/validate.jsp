@@ -1,3 +1,6 @@
+<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page
 	import="it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil"%>
@@ -27,7 +30,8 @@
 	} else { // vedo se ci sono importazioni in sospeso
 		docsReady = new ArrayList<Documento>();
 		docsToCheck = new ArrayList<Documento>();
-		Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+		UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+		Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
 		List<WKTestataDocumento> testateDocumentoReady = WKTestataDocumentoLocalServiceUtil.getReady(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		List<WKTestataDocumento> testateDocumentoToCheck = WKTestataDocumentoLocalServiceUtil.getToCheck(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		if(!testateDocumentoReady.isEmpty() || !testateDocumentoToCheck.isEmpty()){

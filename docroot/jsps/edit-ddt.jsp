@@ -1,3 +1,6 @@
+<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
@@ -39,7 +42,8 @@
     int anno = Calendar.getInstance().get(Calendar.YEAR);
     long numeroDocumento = ParamUtil.getLong(renderRequest, "numeroDocumento");
     String tipoDocumento = ParamUtil.getString(renderRequest, "tipoDocumento");
-    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
     TestataDocumento testata = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(anno, numeroDocumento, tipoDocumento, a.getId()));
 
     CuraTrasporto curaTrasporto = CuraTrasportoLocalServiceUtil.getCuraTrasporto(testata.getCuraTrasporto());

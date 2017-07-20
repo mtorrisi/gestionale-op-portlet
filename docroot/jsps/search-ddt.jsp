@@ -1,3 +1,6 @@
+<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
@@ -16,7 +19,8 @@
 <%
     boolean filter = ParamUtil.getBoolean(renderRequest, "filter", false);
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
-    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
     OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
     String codiceOperatore = renderRequest.getRemoteUser();
     List<TestataDocumento> listDDT;
@@ -49,7 +53,7 @@
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
     String label = updateMode ? "Elenco DDT" : "Elenco DDT da fatturare";
 %>
-<liferay-ui:error key="error-delete" message="Non è stato possibile rimuovere il documento." />
+<liferay-ui:error key="error-delete" message="Non ÃÂ¨ stato possibile rimuovere il documento." />
 <liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
 <liferay-portlet:renderURL var="searchInvoiceURL">
     <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>

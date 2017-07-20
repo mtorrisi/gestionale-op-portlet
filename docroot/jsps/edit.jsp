@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.OrganizzazioneProduttori"%>
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
@@ -52,8 +54,8 @@
     AspettoEsterioreBeni aspettoDefault = AspettoEsterioreBeniLocalServiceUtil.getAspettoEsterioreBeni("VIS");
     CausaleTrasporto causaleDefault = CausaleTrasportoLocalServiceUtil.getCausaleTrasporto("VEN");
     Porto portoDefault = PortoLocalServiceUtil.getPorto("001");
-
-    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
     OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
     List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), Constants.DDT_ID);
 

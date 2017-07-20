@@ -5,11 +5,14 @@
 <%@include file="../../init.jsp" %>
 
 <%
+    String message = renderRequest.getParameter("message");
     OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.valueOf(renderRequest.getRemoteUser()));
 %>
 
 <liferay-ui:error key="delete-associato" message="delete-associato" />
-
+<c:if test="<%=message != null %>">
+        <span class="portlet-msg-info"><%=message%></span>
+    </c:if>
 <liferay-portlet:actionURL name="addAssociato" var="addAssociato"/>
 <form id="registra-associato" class="form-horizontal" action="${addAssociato}" method="post">
     <fieldset>
@@ -27,7 +30,15 @@
 
         <aui:layout>
             <aui:column columnWidth="50" first="true" >
-                <input id="id" name="id" type="text" placeholder="" class="form-control input-md"  style="display: none"/>
+            
+                <!-- Text input-->
+                <div class="control-group">
+                    <label class="control-label" for="codSoggetto">Codice Soggetto: </label>  
+                    <div class="controls">
+                        <input id="codSoggetto" name="<portlet:namespace />codSoggetto" type="text" placeholder="" class="form-control input-md" required="" />
+<%--                         <input id="ragioneSociale" name="<portlet:namespace />ragioneSociale" type="text" placeholder="" class="form-control input-md" required=""/> --%>
+                    </div>
+                </div>
 
                 <!-- Text input-->
                 <div class="control-group">
@@ -187,6 +198,11 @@
             'aui-form-validator',
             function (Y) {
                 var rules = {
+    <portlet:namespace />codSoggetto: {
+                            digits: true,
+                            minLength: 5,
+                            maxLength: 5
+                        },
     <portlet:namespace />ragioneSociale: {
                             required: true
                         },
@@ -227,6 +243,12 @@
                     };
 
                     var fieldStrings = {
+    <portlet:namespace />codSoggetto: {
+                            required: "Campo obbligatorio.",
+    	                    digits: 'Inserire solo caratteri numerici.',
+                            maxLength: 'Il Codice associato deve essere di 5 cifre.',
+                            minLength: 'Il Codice associato deve essere di 5 cifre.'
+                        },
     <portlet:namespace />ragioneSociale: {
                             required: 'Campo obbligatorio.'
                         },

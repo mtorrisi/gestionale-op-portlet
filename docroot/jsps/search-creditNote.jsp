@@ -1,3 +1,6 @@
+<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="it.bysoftware.ct.model.Associato"%>
@@ -14,7 +17,8 @@
 
 <%
     Anagrafica cliente = AnagraficaLocalServiceUtil.getAnagrafica(ParamUtil.getString(renderRequest, "codiceCliente"));
-    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
     String codiceOperatore = renderRequest.getRemoteUser();
     List<TestataDocumento> listCreditNote = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.NAC.name(), a.getId());
 %>

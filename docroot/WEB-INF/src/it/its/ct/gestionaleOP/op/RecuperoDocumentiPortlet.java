@@ -42,6 +42,8 @@ import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.servlet.ServletResponseUtil;
 import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.model.UserIdMapper;
+import com.liferay.portal.service.UserIdMapperLocalServiceUtil;
 import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
@@ -99,9 +101,10 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
             if(jsonTestata != null){
             	TestataDocumentoPK testataDocumentoPK = JSONFactoryUtil.looseDeserializeSafe(jsonTestata, TestataDocumentoPK.class);
             	list.add(TestataDocumentoLocalServiceUtil.fetchTestataDocumento(testataDocumentoPK));
-            } else
-            	list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", inviato);
-            
+            } else {
+                UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(a.getIdLiferay());
+            	list = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(userIdMapper.getUserId()), "completo", inviato);
+            }
             for (TestataDocumento testata : list) {
             	if(!testata.getCodiceSoggetto().equals(opId) || 
             			(!testata.getTipoDocumento().equals(DocumentType.FAV.name()) && 

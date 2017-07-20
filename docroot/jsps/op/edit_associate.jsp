@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
@@ -12,6 +14,7 @@
 
 <%
     Associato a = AssociatoLocalServiceUtil.getAssociato(ParamUtil.getLong(renderRequest, "id"));
+    UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(a.getIdLiferay());
 %>
 
 <liferay-portlet:actionURL name="editAssociato" var="editAssociato"/>
@@ -140,7 +143,7 @@
             if(datiAgg != null){
 	            String[] idAssociati = datiAgg.getAssociati().split(",");
 	            for (String idAssociato : idAssociati) {
-	                if (idAssociato.equals(String.valueOf(a.getIdLiferay()))) {
+	                if (idAssociato.equals(String.valueOf(userIdMapper.getUserId()))) {
 	                    clientiAssociato.add(new KeyValuePair(cliente.getCodiceAnagrafica(), cliente.getRagioneSociale()));
 	                    flag = true;
 	                    break;

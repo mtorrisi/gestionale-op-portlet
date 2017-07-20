@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="com.liferay.portal.kernel.exception.SystemException"%>
 <%@page import="it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException"%>
 <%@page import="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil"%>
@@ -44,7 +46,8 @@
     ClientiDatiAgg datiAggCliente;
     String codiceAliquotaCliente;
     String indirizzoCompleto;
-    Associato a = AssociatoLocalServiceUtil.findByLiferayId(Long.parseLong(renderRequest.getRemoteUser()));
+    UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
+    Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
     String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
     String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
     TestataDocumento fac = null;

@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
+<%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -19,7 +21,8 @@
 	System.out.println("date from: " + dateFrom + " to: " + dateTo);
 	long id = ParamUtil.getLong(renderRequest, "associato", 0);
 	Associato a = AssociatoLocalServiceUtil.getAssociato(id);
-    List<TestataDocumento> testateFatture = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 1);
+	UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(a.getIdLiferay());
+    List<TestataDocumento> testateFatture = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(userIdMapper.getUserId()), "completo", 1);
 	List<TestataDocumento> testate = new ArrayList<TestataDocumento>();
 	List<TestataDocumento> testateConferimento = new ArrayList<TestataDocumento>();
 	List<TestataDocumento> testateNote = new ArrayList<TestataDocumento>();
@@ -54,7 +57,7 @@
 				testateNote.add(t);
 		}
 	
-	List<TestataDocumento> testateFattureConferimento = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(a.getIdLiferay()), "completo", 1);
+	List<TestataDocumento> testateFattureConferimento = TestataDocumentoLocalServiceUtil.getByCodiceOperatore(String.valueOf(userIdMapper.getUserId()), "completo", 1);
 	
 
 	PortletURL renderURL = renderResponse.createRenderURL();
