@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.base.RigoDocumentoLocalServiceBaseImpl;
+import it.its.ct.gestionaleOP.utils.DocumentType;
 
 import java.util.List;
 
@@ -44,9 +45,14 @@ public class RigoDocumentoLocalServiceImpl
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
 	 */
     
+	@Override
+    public List<RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, DocumentType.DDA.name());
+    }
+	
     @Override
     public List<RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, "DDT");
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, DocumentType.DDT.name());
     }
     
     @Override
@@ -54,6 +60,11 @@ public class RigoDocumentoLocalServiceImpl
         return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
     }
     
+    @Override
+    public List<RigoDocumento> getNACByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+    }
+        
     @Override
     public List<RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
     	List<RigoDocumento> list = getFatturaByNumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);

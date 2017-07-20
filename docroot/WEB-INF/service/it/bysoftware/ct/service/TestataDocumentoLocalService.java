@@ -277,4 +277,10 @@ public interface TestataDocumentoLocalService extends BaseLocalService,
 	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
 		int anno, java.lang.String idDocumento, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		java.lang.String nota2)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }

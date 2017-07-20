@@ -154,6 +154,9 @@
 				<column name="PARTITA_IVA" />
 			</basic>
 			<basic name="indirizzo" />
+			<basic name="comune">
+				<column name="COMUNECMR" />
+			</basic>
 			<basic name="telefono" />
 			<basic name="fax" />
 			<basic name="nomeUtente">
@@ -168,6 +171,9 @@
 				<column name="ID_OP" />
 			</basic>
 			<basic name="attivo" />
+			<basic name="sezionaleOP">
+				<column name="SEZIONALE_OP" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -236,6 +242,35 @@
 			<basic name="codiceAliquota">
 				<column name="RVEESENZI" />
 			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.CMRModelImpl">
+		<id-class class="it.bysoftware.ct.service.persistence.CMRPK" />
+		<attributes>
+			<id name="numeroCMR">
+				<column name="NUMERO_CMR" />
+			</id>
+			<id name="anno" />
+			<id name="numeroDocumento">
+				<column name="NUMERO_DOCUMENTO" />
+			</id>
+			<id name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</id>
+			<basic name="riserve" />
+			<basic name="allegati" />
+			<basic name="classe" />
+			<basic name="cifra" />
+			<basic name="lettera" />
+			<basic name="adr">
+				<column name="ADR" />
+			</basic>
+			<basic name="istruzioni" />
+			<basic name="convenzioni" />
+			<basic name="rimborso" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -646,6 +681,13 @@
 			<basic name="produttore" />
 			<basic name="foglio" />
 			<basic name="particella" />
+			<basic name="note" />
+			<basic name="numeroColli">
+				<column name="N_COLLI" />
+			</basic>
+			<basic name="kgScarto">
+				<column name="KG_SCARTO" />
+			</basic>
 			<basic name="idSchedaTracciabilta">
 				<column name="ID_SCHEDA_TRACCIABILITA" />
 			</basic>
@@ -1003,6 +1045,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.ClientiDatiAggImpl" name="ClientiDatiAgg">
 		<table name="ClientiFornitoriDatiAgg" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.CMRImpl" name="CMR">
+		<table name="CMR" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CuraTrasportoImpl" name="CuraTrasporto">

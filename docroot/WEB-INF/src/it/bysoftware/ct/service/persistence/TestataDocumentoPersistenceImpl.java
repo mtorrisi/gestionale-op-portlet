@@ -2650,6 +2650,727 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 		"(testataDocumento.id.tipoDocumento IS NULL OR testataDocumento.id.tipoDocumento = '') AND ";
 	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATO_IDASSOCIATO_2 =
 		"testataDocumento.id.idAssociato = ?";
+	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO =
+		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
+			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
+			TestataDocumentoImpl.class, FINDER_CLASS_NAME_LIST_WITH_PAGINATION,
+			"findByannoTipoDocumentoIdAssociatoRiferimento",
+			new String[] {
+				Integer.class.getName(), String.class.getName(),
+				Long.class.getName(), String.class.getName(),
+				
+			Integer.class.getName(), Integer.class.getName(),
+				OrderByComparator.class.getName()
+			});
+	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO =
+		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
+			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED,
+			TestataDocumentoImpl.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"findByannoTipoDocumentoIdAssociatoRiferimento",
+			new String[] {
+				Integer.class.getName(), String.class.getName(),
+				Long.class.getName(), String.class.getName()
+			},
+			TestataDocumentoModelImpl.ANNO_COLUMN_BITMASK |
+			TestataDocumentoModelImpl.TIPODOCUMENTO_COLUMN_BITMASK |
+			TestataDocumentoModelImpl.IDASSOCIATO_COLUMN_BITMASK |
+			TestataDocumentoModelImpl.NOTA2_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO =
+		new FinderPath(TestataDocumentoModelImpl.ENTITY_CACHE_ENABLED,
+			TestataDocumentoModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByannoTipoDocumentoIdAssociatoRiferimento",
+			new String[] {
+				Integer.class.getName(), String.class.getName(),
+				Long.class.getName(), String.class.getName()
+			});
+
+	/**
+	 * Returns all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @return the matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<TestataDocumento> findByannoTipoDocumentoIdAssociatoRiferimento(
+		int anno, String tipoDocumento, long idAssociato, String nota2)
+		throws SystemException {
+		return findByannoTipoDocumentoIdAssociatoRiferimento(anno,
+			tipoDocumento, idAssociato, nota2, QueryUtil.ALL_POS,
+			QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param start the lower bound of the range of testata documentos
+	 * @param end the upper bound of the range of testata documentos (not inclusive)
+	 * @return the range of matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<TestataDocumento> findByannoTipoDocumentoIdAssociatoRiferimento(
+		int anno, String tipoDocumento, long idAssociato, String nota2,
+		int start, int end) throws SystemException {
+		return findByannoTipoDocumentoIdAssociatoRiferimento(anno,
+			tipoDocumento, idAssociato, nota2, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.TestataDocumentoModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	 * </p>
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param start the lower bound of the range of testata documentos
+	 * @param end the upper bound of the range of testata documentos (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public List<TestataDocumento> findByannoTipoDocumentoIdAssociatoRiferimento(
+		int anno, String tipoDocumento, long idAssociato, String nota2,
+		int start, int end, OrderByComparator orderByComparator)
+		throws SystemException {
+		boolean pagination = true;
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+				(orderByComparator == null)) {
+			pagination = false;
+			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO;
+			finderArgs = new Object[] { anno, tipoDocumento, idAssociato, nota2 };
+		}
+		else {
+			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO;
+			finderArgs = new Object[] {
+					anno, tipoDocumento, idAssociato, nota2,
+					
+					start, end, orderByComparator
+				};
+		}
+
+		List<TestataDocumento> list = (List<TestataDocumento>)FinderCacheUtil.getResult(finderPath,
+				finderArgs, this);
+
+		if ((list != null) && !list.isEmpty()) {
+			for (TestataDocumento testataDocumento : list) {
+				if ((anno != testataDocumento.getAnno()) ||
+						!Validator.equals(tipoDocumento,
+							testataDocumento.getTipoDocumento()) ||
+						(idAssociato != testataDocumento.getIdAssociato()) ||
+						!Validator.equals(nota2, testataDocumento.getNota2())) {
+					list = null;
+
+					break;
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler query = null;
+
+			if (orderByComparator != null) {
+				query = new StringBundler(6 +
+						(orderByComparator.getOrderByFields().length * 3));
+			}
+			else {
+				query = new StringBundler(6);
+			}
+
+			query.append(_SQL_SELECT_TESTATADOCUMENTO_WHERE);
+
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_ANNO_2);
+
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_2);
+			}
+
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_IDASSOCIATO_2);
+
+			boolean bindNota2 = false;
+
+			if (nota2 == null) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_1);
+			}
+			else if (nota2.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_3);
+			}
+			else {
+				bindNota2 = true;
+
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_2);
+			}
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
+					orderByComparator);
+			}
+			else
+			 if (pagination) {
+				query.append(TestataDocumentoModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(anno);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
+
+				qPos.add(idAssociato);
+
+				if (bindNota2) {
+					qPos.add(nota2);
+				}
+
+				if (!pagination) {
+					list = (List<TestataDocumento>)QueryUtil.list(q,
+							getDialect(), start, end, false);
+
+					Collections.sort(list);
+
+					list = new UnmodifiableList<TestataDocumento>(list);
+				}
+				else {
+					list = (List<TestataDocumento>)QueryUtil.list(q,
+							getDialect(), start, end);
+				}
+
+				cacheResult(list);
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, list);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching testata documento
+	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento findByannoTipoDocumentoIdAssociatoRiferimento_First(
+		int anno, String tipoDocumento, long idAssociato, String nota2,
+		OrderByComparator orderByComparator)
+		throws NoSuchTestataDocumentoException, SystemException {
+		TestataDocumento testataDocumento = fetchByannoTipoDocumentoIdAssociatoRiferimento_First(anno,
+				tipoDocumento, idAssociato, nota2, orderByComparator);
+
+		if (testataDocumento != null) {
+			return testataDocumento;
+		}
+
+		StringBundler msg = new StringBundler(10);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("anno=");
+		msg.append(anno);
+
+		msg.append(", tipoDocumento=");
+		msg.append(tipoDocumento);
+
+		msg.append(", idAssociato=");
+		msg.append(idAssociato);
+
+		msg.append(", nota2=");
+		msg.append(nota2);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTestataDocumentoException(msg.toString());
+	}
+
+	/**
+	 * Returns the first testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching testata documento, or <code>null</code> if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento fetchByannoTipoDocumentoIdAssociatoRiferimento_First(
+		int anno, String tipoDocumento, long idAssociato, String nota2,
+		OrderByComparator orderByComparator) throws SystemException {
+		List<TestataDocumento> list = findByannoTipoDocumentoIdAssociatoRiferimento(anno,
+				tipoDocumento, idAssociato, nota2, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching testata documento
+	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento findByannoTipoDocumentoIdAssociatoRiferimento_Last(
+		int anno, String tipoDocumento, long idAssociato, String nota2,
+		OrderByComparator orderByComparator)
+		throws NoSuchTestataDocumentoException, SystemException {
+		TestataDocumento testataDocumento = fetchByannoTipoDocumentoIdAssociatoRiferimento_Last(anno,
+				tipoDocumento, idAssociato, nota2, orderByComparator);
+
+		if (testataDocumento != null) {
+			return testataDocumento;
+		}
+
+		StringBundler msg = new StringBundler(10);
+
+		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		msg.append("anno=");
+		msg.append(anno);
+
+		msg.append(", tipoDocumento=");
+		msg.append(tipoDocumento);
+
+		msg.append(", idAssociato=");
+		msg.append(idAssociato);
+
+		msg.append(", nota2=");
+		msg.append(nota2);
+
+		msg.append(StringPool.CLOSE_CURLY_BRACE);
+
+		throw new NoSuchTestataDocumentoException(msg.toString());
+	}
+
+	/**
+	 * Returns the last testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching testata documento, or <code>null</code> if a matching testata documento could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento fetchByannoTipoDocumentoIdAssociatoRiferimento_Last(
+		int anno, String tipoDocumento, long idAssociato, String nota2,
+		OrderByComparator orderByComparator) throws SystemException {
+		int count = countByannoTipoDocumentoIdAssociatoRiferimento(anno,
+				tipoDocumento, idAssociato, nota2);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<TestataDocumento> list = findByannoTipoDocumentoIdAssociatoRiferimento(anno,
+				tipoDocumento, idAssociato, nota2, count - 1, count,
+				orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the testata documentos before and after the current testata documento in the ordered set where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param testataDocumentoPK the primary key of the current testata documento
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next testata documento
+	 * @throws it.bysoftware.ct.NoSuchTestataDocumentoException if a testata documento with the primary key could not be found
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public TestataDocumento[] findByannoTipoDocumentoIdAssociatoRiferimento_PrevAndNext(
+		TestataDocumentoPK testataDocumentoPK, int anno, String tipoDocumento,
+		long idAssociato, String nota2, OrderByComparator orderByComparator)
+		throws NoSuchTestataDocumentoException, SystemException {
+		TestataDocumento testataDocumento = findByPrimaryKey(testataDocumentoPK);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			TestataDocumento[] array = new TestataDocumentoImpl[3];
+
+			array[0] = getByannoTipoDocumentoIdAssociatoRiferimento_PrevAndNext(session,
+					testataDocumento, anno, tipoDocumento, idAssociato, nota2,
+					orderByComparator, true);
+
+			array[1] = testataDocumento;
+
+			array[2] = getByannoTipoDocumentoIdAssociatoRiferimento_PrevAndNext(session,
+					testataDocumento, anno, tipoDocumento, idAssociato, nota2,
+					orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception e) {
+			throw processException(e);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected TestataDocumento getByannoTipoDocumentoIdAssociatoRiferimento_PrevAndNext(
+		Session session, TestataDocumento testataDocumento, int anno,
+		String tipoDocumento, long idAssociato, String nota2,
+		OrderByComparator orderByComparator, boolean previous) {
+		StringBundler query = null;
+
+		if (orderByComparator != null) {
+			query = new StringBundler(6 +
+					(orderByComparator.getOrderByFields().length * 6));
+		}
+		else {
+			query = new StringBundler(3);
+		}
+
+		query.append(_SQL_SELECT_TESTATADOCUMENTO_WHERE);
+
+		query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_ANNO_2);
+
+		boolean bindTipoDocumento = false;
+
+		if (tipoDocumento == null) {
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_1);
+		}
+		else if (tipoDocumento.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_3);
+		}
+		else {
+			bindTipoDocumento = true;
+
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_2);
+		}
+
+		query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_IDASSOCIATO_2);
+
+		boolean bindNota2 = false;
+
+		if (nota2 == null) {
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_1);
+		}
+		else if (nota2.equals(StringPool.BLANK)) {
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_3);
+		}
+		else {
+			bindNota2 = true;
+
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_2);
+		}
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields = orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				query.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(WHERE_GREATER_THAN);
+					}
+					else {
+						query.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			query.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				query.append(_ORDER_BY_ENTITY_ALIAS);
+				query.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						query.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						query.append(ORDER_BY_ASC);
+					}
+					else {
+						query.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			query.append(TestataDocumentoModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = query.toString();
+
+		Query q = session.createQuery(sql);
+
+		q.setFirstResult(0);
+		q.setMaxResults(2);
+
+		QueryPos qPos = QueryPos.getInstance(q);
+
+		qPos.add(anno);
+
+		if (bindTipoDocumento) {
+			qPos.add(tipoDocumento);
+		}
+
+		qPos.add(idAssociato);
+
+		if (bindNota2) {
+			qPos.add(nota2);
+		}
+
+		if (orderByComparator != null) {
+			Object[] values = orderByComparator.getOrderByConditionValues(testataDocumento);
+
+			for (Object value : values) {
+				qPos.add(value);
+			}
+		}
+
+		List<TestataDocumento> list = q.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63; from the database.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public void removeByannoTipoDocumentoIdAssociatoRiferimento(int anno,
+		String tipoDocumento, long idAssociato, String nota2)
+		throws SystemException {
+		for (TestataDocumento testataDocumento : findByannoTipoDocumentoIdAssociatoRiferimento(
+				anno, tipoDocumento, idAssociato, nota2, QueryUtil.ALL_POS,
+				QueryUtil.ALL_POS, null)) {
+			remove(testataDocumento);
+		}
+	}
+
+	/**
+	 * Returns the number of testata documentos where anno = &#63; and tipoDocumento = &#63; and idAssociato = &#63; and nota2 = &#63;.
+	 *
+	 * @param anno the anno
+	 * @param tipoDocumento the tipo documento
+	 * @param idAssociato the id associato
+	 * @param nota2 the nota2
+	 * @return the number of matching testata documentos
+	 * @throws SystemException if a system exception occurred
+	 */
+	@Override
+	public int countByannoTipoDocumentoIdAssociatoRiferimento(int anno,
+		String tipoDocumento, long idAssociato, String nota2)
+		throws SystemException {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO;
+
+		Object[] finderArgs = new Object[] {
+				anno, tipoDocumento, idAssociato, nota2
+			};
+
+		Long count = (Long)FinderCacheUtil.getResult(finderPath, finderArgs,
+				this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(5);
+
+			query.append(_SQL_COUNT_TESTATADOCUMENTO_WHERE);
+
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_ANNO_2);
+
+			boolean bindTipoDocumento = false;
+
+			if (tipoDocumento == null) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_1);
+			}
+			else if (tipoDocumento.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_3);
+			}
+			else {
+				bindTipoDocumento = true;
+
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_2);
+			}
+
+			query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_IDASSOCIATO_2);
+
+			boolean bindNota2 = false;
+
+			if (nota2 == null) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_1);
+			}
+			else if (nota2.equals(StringPool.BLANK)) {
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_3);
+			}
+			else {
+				bindNota2 = true;
+
+				query.append(_FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_2);
+			}
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(anno);
+
+				if (bindTipoDocumento) {
+					qPos.add(tipoDocumento);
+				}
+
+				qPos.add(idAssociato);
+
+				if (bindNota2) {
+					qPos.add(nota2);
+				}
+
+				count = (Long)q.uniqueResult();
+
+				FinderCacheUtil.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				FinderCacheUtil.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_ANNO_2 =
+		"testataDocumento.id.anno = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_1 =
+		"testataDocumento.id.tipoDocumento IS NULL AND ";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_2 =
+		"testataDocumento.id.tipoDocumento = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_TIPODOCUMENTO_3 =
+		"(testataDocumento.id.tipoDocumento IS NULL OR testataDocumento.id.tipoDocumento = '') AND ";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_IDASSOCIATO_2 =
+		"testataDocumento.id.idAssociato = ? AND ";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_1 =
+		"testataDocumento.nota2 IS NULL";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_2 =
+		"testataDocumento.nota2 = ?";
+	private static final String _FINDER_COLUMN_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO_NOTA2_3 =
+		"(testataDocumento.nota2 IS NULL OR testataDocumento.nota2 = '')";
 
 	public TestataDocumentoPersistenceImpl() {
 		setModelClass(TestataDocumento.class);
@@ -2942,6 +3663,33 @@ public class TestataDocumentoPersistenceImpl extends BasePersistenceImpl<Testata
 				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ANNOTIPODOCUMENTOIDASSOCIATO,
 					args);
 				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATO,
+					args);
+			}
+
+			if ((testataDocumentoModelImpl.getColumnBitmask() &
+					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO.getColumnBitmask()) != 0) {
+				Object[] args = new Object[] {
+						testataDocumentoModelImpl.getOriginalAnno(),
+						testataDocumentoModelImpl.getOriginalTipoDocumento(),
+						testataDocumentoModelImpl.getOriginalIdAssociato(),
+						testataDocumentoModelImpl.getOriginalNota2()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO,
+					args);
+
+				args = new Object[] {
+						testataDocumentoModelImpl.getAnno(),
+						testataDocumentoModelImpl.getTipoDocumento(),
+						testataDocumentoModelImpl.getIdAssociato(),
+						testataDocumentoModelImpl.getNota2()
+					};
+
+				FinderCacheUtil.removeResult(FINDER_PATH_COUNT_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO,
+					args);
+				FinderCacheUtil.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_ANNOTIPODOCUMENTOIDASSOCIATORIFERIMENTO,
 					args);
 			}
 		}

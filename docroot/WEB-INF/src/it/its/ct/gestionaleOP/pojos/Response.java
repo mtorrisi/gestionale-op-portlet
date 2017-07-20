@@ -10,38 +10,46 @@ package it.its.ct.gestionaleOP.pojos;
  * @author mario
  */
 public class Response {
-    
-    public enum Code{
-        OK, GET_PRIMARY_KEY_ERROR, INSERT_ERROR, PARSING_JSON_ERROR, SENDING_MAIL_ERROR, ALREADY_EXISTS, NOT_VALID, DATE_FORMAT_ERROR
-    }
-    
-    public int id;
-    public int code;
 
-    public Response() {
-    }
-    
-    public Response(Code c, int id) {
-        this.code = c.ordinal();
-        this.id = id;
-    }
-    
-    public int getId() {
-        return id;
-    }
+	public enum Code {
+		OK,
+		GET_PRIMARY_KEY_ERROR,
+		INSERT_ERROR,
+		PARSING_JSON_ERROR,
+		SENDING_MAIL_ERROR,
+		ALREADY_EXISTS,
+		NOT_VALID,
+		DATE_FORMAT_ERROR,
+		GENERIC_ERROR,
+		SPECIFY_NUMBER,
+		DATE_BEFORE
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int id;
+	public int code;
 
-    public int getCode() {
-        return code;
-    }
-    
-    
-    
-    @Override
-    public String toString() {
-        return "Response{" + "id=" + id + '}';
-    }
+	public Response() {
+	}
+
+	public Response(Code c, int id) {
+		this.code = c.ordinal();
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	@Override
+	public String toString() {
+		return "Response{" + "id=" + id + '}';
+	}
 }

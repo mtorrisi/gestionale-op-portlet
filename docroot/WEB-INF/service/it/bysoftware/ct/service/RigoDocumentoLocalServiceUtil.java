@@ -275,6 +275,14 @@ public class RigoDocumentoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getDDAByNumeroOrdineAnnoAssociato(numeroOrdine, anno,
+			idAssociato);
+	}
+
 	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -289,6 +297,15 @@ public class RigoDocumentoLocalServiceUtil {
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
 				   .getFatturaByNumeroOrdineAnnoAssociato(numeroOrdine, anno,
+			idAssociato, tipoDocumento);
+	}
+
+	public static java.util.List<it.bysoftware.ct.model.RigoDocumento> getNACByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getNACByNumeroOrdineAnnoAssociato(numeroOrdine, anno,
 			idAssociato, tipoDocumento);
 	}
 

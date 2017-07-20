@@ -118,7 +118,7 @@ public interface ClientiDatiAggPersistence extends BasePersistence<ClientiDatiAg
 	* @return the new clienti dati agg
 	*/
 	public it.bysoftware.ct.model.ClientiDatiAgg create(
-		ClientiDatiAggPK clientiDatiAggPK);
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK);
 
 	/**
 	* Removes the clienti dati agg with the primary key from the database. Also notifies the appropriate model listeners.
@@ -129,7 +129,7 @@ public interface ClientiDatiAggPersistence extends BasePersistence<ClientiDatiAg
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.ClientiDatiAgg remove(
-		ClientiDatiAggPK clientiDatiAggPK)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchClientiDatiAggException;
 
@@ -146,7 +146,7 @@ public interface ClientiDatiAggPersistence extends BasePersistence<ClientiDatiAg
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.ClientiDatiAgg findByPrimaryKey(
-		ClientiDatiAggPK clientiDatiAggPK)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchClientiDatiAggException;
 
@@ -158,7 +158,7 @@ public interface ClientiDatiAggPersistence extends BasePersistence<ClientiDatiAg
 	* @throws SystemException if a system exception occurred
 	*/
 	public it.bysoftware.ct.model.ClientiDatiAgg fetchByPrimaryKey(
-		ClientiDatiAggPK clientiDatiAggPK)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

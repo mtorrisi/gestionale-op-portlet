@@ -41,6 +41,7 @@ import it.bysoftware.ct.service.persistence.ArticoliPersistence;
 import it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence;
 import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.BancheAppoggioPersistence;
+import it.bysoftware.ct.service.persistence.CMRPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
@@ -818,6 +819,61 @@ public abstract class ArticoliAssociatoOPLocalServiceBaseImpl
 	public void setClientiDatiAggPersistence(
 		ClientiDatiAggPersistence clientiDatiAggPersistence) {
 		this.clientiDatiAggPersistence = clientiDatiAggPersistence;
+	}
+
+	/**
+	 * Returns the c m r local service.
+	 *
+	 * @return the c m r local service
+	 */
+	public it.bysoftware.ct.service.CMRLocalService getCMRLocalService() {
+		return cmrLocalService;
+	}
+
+	/**
+	 * Sets the c m r local service.
+	 *
+	 * @param cmrLocalService the c m r local service
+	 */
+	public void setCMRLocalService(
+		it.bysoftware.ct.service.CMRLocalService cmrLocalService) {
+		this.cmrLocalService = cmrLocalService;
+	}
+
+	/**
+	 * Returns the c m r remote service.
+	 *
+	 * @return the c m r remote service
+	 */
+	public it.bysoftware.ct.service.CMRService getCMRService() {
+		return cmrService;
+	}
+
+	/**
+	 * Sets the c m r remote service.
+	 *
+	 * @param cmrService the c m r remote service
+	 */
+	public void setCMRService(it.bysoftware.ct.service.CMRService cmrService) {
+		this.cmrService = cmrService;
+	}
+
+	/**
+	 * Returns the c m r persistence.
+	 *
+	 * @return the c m r persistence
+	 */
+	public CMRPersistence getCMRPersistence() {
+		return cmrPersistence;
+	}
+
+	/**
+	 * Sets the c m r persistence.
+	 *
+	 * @param cmrPersistence the c m r persistence
+	 */
+	public void setCMRPersistence(CMRPersistence cmrPersistence) {
+		this.cmrPersistence = cmrPersistence;
 	}
 
 	/**
@@ -1959,6 +2015,12 @@ public abstract class ArticoliAssociatoOPLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.ClientiDatiAggService clientiDatiAggService;
 	@BeanReference(type = ClientiDatiAggPersistence.class)
 	protected ClientiDatiAggPersistence clientiDatiAggPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.CMRLocalService.class)
+	protected it.bysoftware.ct.service.CMRLocalService cmrLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.CMRService.class)
+	protected it.bysoftware.ct.service.CMRService cmrService;
+	@BeanReference(type = CMRPersistence.class)
+	protected CMRPersistence cmrPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.CuraTrasportoLocalService.class)
 	protected it.bysoftware.ct.service.CuraTrasportoLocalService curaTrasportoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.CuraTrasportoService.class)

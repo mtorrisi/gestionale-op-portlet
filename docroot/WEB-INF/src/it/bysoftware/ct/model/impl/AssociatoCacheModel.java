@@ -36,7 +36,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(27);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{id=");
 		sb.append(id);
@@ -48,6 +48,8 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		sb.append(partitaIVA);
 		sb.append(", indirizzo=");
 		sb.append(indirizzo);
+		sb.append(", comune=");
+		sb.append(comune);
 		sb.append(", telefono=");
 		sb.append(telefono);
 		sb.append(", fax=");
@@ -64,6 +66,8 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		sb.append(idOp);
 		sb.append(", attivo=");
 		sb.append(attivo);
+		sb.append(", sezionaleOP=");
+		sb.append(sezionaleOP);
 		sb.append("}");
 
 		return sb.toString();
@@ -101,6 +105,13 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		}
 		else {
 			associatoImpl.setIndirizzo(indirizzo);
+		}
+
+		if (comune == null) {
+			associatoImpl.setComune(StringPool.BLANK);
+		}
+		else {
+			associatoImpl.setComune(comune);
 		}
 
 		if (telefono == null) {
@@ -142,6 +153,13 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		associatoImpl.setIdOp(idOp);
 		associatoImpl.setAttivo(attivo);
 
+		if (sezionaleOP == null) {
+			associatoImpl.setSezionaleOP(StringPool.BLANK);
+		}
+		else {
+			associatoImpl.setSezionaleOP(sezionaleOP);
+		}
+
 		associatoImpl.resetOriginalValues();
 
 		return associatoImpl;
@@ -154,6 +172,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		ragioneSociale = objectInput.readUTF();
 		partitaIVA = objectInput.readUTF();
 		indirizzo = objectInput.readUTF();
+		comune = objectInput.readUTF();
 		telefono = objectInput.readUTF();
 		fax = objectInput.readUTF();
 		nomeUtente = objectInput.readUTF();
@@ -162,6 +181,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		idLiferay = objectInput.readLong();
 		idOp = objectInput.readLong();
 		attivo = objectInput.readBoolean();
+		sezionaleOP = objectInput.readUTF();
 	}
 
 	@Override
@@ -195,6 +215,13 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		}
 		else {
 			objectOutput.writeUTF(indirizzo);
+		}
+
+		if (comune == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(comune);
 		}
 
 		if (telefono == null) {
@@ -235,6 +262,13 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 		objectOutput.writeLong(idLiferay);
 		objectOutput.writeLong(idOp);
 		objectOutput.writeBoolean(attivo);
+
+		if (sezionaleOP == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(sezionaleOP);
+		}
 	}
 
 	public long id;
@@ -242,6 +276,7 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	public String ragioneSociale;
 	public String partitaIVA;
 	public String indirizzo;
+	public String comune;
 	public String telefono;
 	public String fax;
 	public String nomeUtente;
@@ -250,4 +285,5 @@ public class AssociatoCacheModel implements CacheModel<Associato>,
 	public long idLiferay;
 	public long idOp;
 	public boolean attivo;
+	public String sezionaleOP;
 }

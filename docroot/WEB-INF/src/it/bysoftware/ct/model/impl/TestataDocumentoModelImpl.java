@@ -120,9 +120,10 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	public static long COMPLETO_COLUMN_BITMASK = 4L;
 	public static long IDASSOCIATO_COLUMN_BITMASK = 8L;
 	public static long INVIATO_COLUMN_BITMASK = 16L;
-	public static long OPERATORE_COLUMN_BITMASK = 32L;
-	public static long TIPODOCUMENTO_COLUMN_BITMASK = 64L;
-	public static long NUMEROORDINE_COLUMN_BITMASK = 128L;
+	public static long NOTA2_COLUMN_BITMASK = 32L;
+	public static long OPERATORE_COLUMN_BITMASK = 64L;
+	public static long TIPODOCUMENTO_COLUMN_BITMASK = 128L;
+	public static long NUMEROORDINE_COLUMN_BITMASK = 256L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -938,7 +939,17 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 
 	@Override
 	public void setNota2(String nota2) {
+		_columnBitmask |= NOTA2_COLUMN_BITMASK;
+
+		if (_originalNota2 == null) {
+			_originalNota2 = _nota2;
+		}
+
 		_nota2 = nota2;
+	}
+
+	public String getOriginalNota2() {
+		return GetterUtil.getString(_originalNota2);
 	}
 
 	@JSON
@@ -1283,6 +1294,8 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 		testataDocumentoModelImpl._setOriginalInviato = false;
 
 		testataDocumentoModelImpl._originalTipoDocumento = testataDocumentoModelImpl._tipoDocumento;
+
+		testataDocumentoModelImpl._originalNota2 = testataDocumentoModelImpl._nota2;
 
 		testataDocumentoModelImpl._originalIdAssociato = testataDocumentoModelImpl._idAssociato;
 
@@ -1824,6 +1837,7 @@ public class TestataDocumentoModelImpl extends BaseModelImpl<TestataDocumento>
 	private String _destinazioneVettore;
 	private String _nota1;
 	private String _nota2;
+	private String _originalNota2;
 	private String _rigoDescrittivo;
 	private String _vettore2;
 	private String _curaTrasporto;

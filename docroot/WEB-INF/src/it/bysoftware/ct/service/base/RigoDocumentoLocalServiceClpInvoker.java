@@ -114,33 +114,43 @@ public class RigoDocumentoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.RigoDocumento"
 			};
 
-		_methodName178 = "getBeanIdentifier";
+		_methodName184 = "getBeanIdentifier";
 
-		_methodParameterTypes178 = new String[] {  };
+		_methodParameterTypes184 = new String[] {  };
 
-		_methodName179 = "setBeanIdentifier";
+		_methodName185 = "setBeanIdentifier";
 
-		_methodParameterTypes179 = new String[] { "java.lang.String" };
+		_methodParameterTypes185 = new String[] { "java.lang.String" };
 
-		_methodName184 = "getDDTByNumeroOrdineAnnoAssociato";
+		_methodName190 = "getDDAByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes184 = new String[] { "long", "int", "long" };
+		_methodParameterTypes190 = new String[] { "long", "int", "long" };
 
-		_methodName185 = "getFatturaByNumeroOrdineAnnoAssociato";
+		_methodName191 = "getDDTByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes185 = new String[] {
+		_methodParameterTypes191 = new String[] { "long", "int", "long" };
+
+		_methodName192 = "getFatturaByNumeroOrdineAnnoAssociato";
+
+		_methodParameterTypes192 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
 
-		_methodName186 = "deleteRigoByNumeroOrdineAnnoAssociato";
+		_methodName193 = "getNACByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes186 = new String[] {
+		_methodParameterTypes193 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
 
-		_methodName187 = "getDocumentoByOrdineAnnoAssociato";
+		_methodName194 = "deleteRigoByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes187 = new String[] {
+		_methodParameterTypes194 = new String[] {
+				"long", "int", "long", "java.lang.String"
+			};
+
+		_methodName195 = "getDocumentoByOrdineAnnoAssociato";
+
+		_methodParameterTypes195 = new String[] {
 				"long", "int", "java.lang.String", "java.lang.String",
 				"java.lang.String", "java.lang.String", "long"
 			};
@@ -235,41 +245,55 @@ public class RigoDocumentoLocalServiceClpInvoker {
 			return RigoDocumentoLocalServiceUtil.updateRigoDocumento((it.bysoftware.ct.model.RigoDocumento)arguments[0]);
 		}
 
-		if (_methodName178.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes178, parameterTypes)) {
+		if (_methodName184.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName179.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes179, parameterTypes)) {
+		if (_methodName185.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
 			RigoDocumentoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.getDDAByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				((Long)arguments[2]).longValue());
+		}
+
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue());
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName192.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 		}
 
-		if (_methodName186.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes186, parameterTypes)) {
+		if (_methodName193.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
+			return RigoDocumentoLocalServiceUtil.getNACByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
+				((Integer)arguments[1]).intValue(),
+				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
+		}
+
+		if (_methodName194.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes194, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.deleteRigoByNumeroOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
 		}
 
-		if (_methodName187.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes187, parameterTypes)) {
+		if (_methodName195.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes195, parameterTypes)) {
 			return RigoDocumentoLocalServiceUtil.getDocumentoByOrdineAnnoAssociato(((Long)arguments[0]).longValue(),
 				((Integer)arguments[1]).intValue(),
 				(java.lang.String)arguments[2], (java.lang.String)arguments[3],
@@ -312,16 +336,20 @@ public class RigoDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName178;
-	private String[] _methodParameterTypes178;
-	private String _methodName179;
-	private String[] _methodParameterTypes179;
 	private String _methodName184;
 	private String[] _methodParameterTypes184;
 	private String _methodName185;
 	private String[] _methodParameterTypes185;
-	private String _methodName186;
-	private String[] _methodParameterTypes186;
-	private String _methodName187;
-	private String[] _methodParameterTypes187;
+	private String _methodName190;
+	private String[] _methodParameterTypes190;
+	private String _methodName191;
+	private String[] _methodParameterTypes191;
+	private String _methodName192;
+	private String[] _methodParameterTypes192;
+	private String _methodName193;
+	private String[] _methodParameterTypes193;
+	private String _methodName194;
+	private String[] _methodParameterTypes194;
+	private String _methodName195;
+	private String[] _methodParameterTypes195;
 }

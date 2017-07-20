@@ -9,6 +9,7 @@ import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.RigoDocumentoPK;
 import it.bysoftware.ct.service.persistence.WKRigoDocumentoPK;
 import it.bysoftware.ct.service.persistence.WKTestataDocumentoPK;
+import it.its.ct.gestionaleOP.utils.DocumentType;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -37,41 +38,28 @@ public class CSVParser {
 		t.setCausaleTrasporto("VEN");
 		t.setDataOrdine(st[11]);
 		t.setDataConsegna(st[11]);
-//		if(st[0].equals("FAV")){
-//			if(!st[13].isEmpty()){
-//				String[] tmp = st[13].split(" ");
-//				if(tmp.length > 0){
-//					tmp[0] += " DDT";
-//				}
-//				StringBuilder sbStr = new StringBuilder();
-//			    for (int i = 0, il = tmp.length; i < il; i++) {
-//			        if (i > 0)
-//			            sbStr.append(" ");
-//			        sbStr.append(tmp[i]);
-//			    }
-//				t.setNota1(sbStr.toString());
-//			} else {
-//				t.setNota1(st[13]);
-//			}
-//		} 
 		
 		return t;
 	}
-
-
+	
 	public static WKRigoDocumento getRigo(String[] st, WKTestataDocumento testataDocumento, int rigoDocumento, long idAssociato) {
-//		String tipoDocumento = st[0];
+
 		rigoDocumento = (rigoDocumento !=-1) ? rigoDocumento : Integer.parseInt(st[26]);
 		NumberFormat nf = NumberFormat.getNumberInstance(Locale.ITALY);
 		WKRigoDocumento r = WKRigoDocumentoLocalServiceUtil.createWKRigoDocumento(new WKRigoDocumentoPK(testataDocumento.getAnno(), testataDocumento.getNumeroOrdine(), rigoDocumento, testataDocumento.getTipoDocumento(), idAssociato));
-//		Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;Codlot;Numbol;Numrigbol;Unimis;Posizione
+//		Tiprig;Codart;Codvar;Descri;Quanet;Qm2net;Prezzo;Scont1;Scont2;Scont3;Libstr1;Libstr2;Libstr3;Libdbl1;Libdbl2;Libdbl3;Liblng1;Liblng2;Liblng3;Libdat1;Libdat2;Libdat3;Codlot;Numbol;Numrigbol;Unimis;Posizione;Impnet;Codiva
 		r.setCodiceArticolo(st[1]);
 		r.setCodiceVariante(st[2]);
 		r.setDescrizione(st[3]);
 		try {
 			r.setPesoNetto(nf.parse(st[4]).doubleValue());
 			r.setColli(Integer.parseInt(st[5]));
-			r.setPrezzo(nf.parse(st[6]).doubleValue());
+			if (nf.parse(st[6]).doubleValue() == 0) {
+				r.setPrezzo(nf.parse(st[27]).doubleValue());
+			} else {
+				r.setPrezzo(nf.parse(st[6]).doubleValue());
+			}
+			
 			r.setSconto1((float) (-1 * Math.round(nf.parse(st[7]).floatValue() * 100.00)/100.00));
 			r.setSconto2((float) (-1 * Math.round(nf.parse(st[8]).floatValue() * 100.00)/100.00));
 			r.setSconto3((float) (-1 * Math.round(nf.parse(st[9]).floatValue() * 100.00)/100.00));
@@ -107,15 +95,17 @@ public class CSVParser {
 		return r;
 	}
 	
-	public static Map.Entry<Integer, WKRigoDocumento> getRigoFattura(String[] st, WKTestataDocumento testataDocumento, long idAssociato) {
+	public static Map.Entry<Integer, WKRigoDocumento> getRigoFattura(String[] st, WKTestataDocumento testataDocumento, long idAssociato) throws SystemException {
 		
 		int key = Integer.parseInt(st[26]); // key[0] --> doc index; key[1] --> row index;  
-		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
 		
-		if(r.getCodiceArticolo().equals("") && r.getDescrizione().equals(""))
+		WKRigoDocumento r = getRigo(st, testataDocumento, key, idAssociato);
+//		System.out.println(r.toString());
+		if(!testataDocumento.getTipoDocumento().equals(DocumentType.NAC.name()) && 
+				r.getCodiceArticolo().equals("") && r.getDescrizione().equals("") && r.getPrezzo() == 0)
 			return null;
 		return new AbstractMap.SimpleEntry<Integer, WKRigoDocumento>(key, r);
 		
 	}
-	
+
 }

@@ -151,4 +151,10 @@
 	   <property name="dataSource" ref="gestionaleOPDataSource" />
        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
    </bean>
+   <bean id="it.bysoftware.ct.service.CMRLocalService" class="it.bysoftware.ct.service.impl.CMRLocalServiceImpl" />
+   <bean id="it.bysoftware.ct.service.CMRService" class="it.bysoftware.ct.service.impl.CMRServiceImpl" />
+   <bean id="it.bysoftware.ct.service.persistence.CMRPersistence" class="it.bysoftware.ct.service.persistence.CMRPersistenceImpl" parent="basePersistence" >
+   	   <property name="dataSource" ref="gestionaleOPDataSource" />
+       <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+   </bean>
 </beans>

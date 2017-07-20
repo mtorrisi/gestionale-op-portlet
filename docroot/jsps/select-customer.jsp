@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
+<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
@@ -13,21 +15,32 @@
     List<Anagrafica> clientiAssociato = new ArrayList<Anagrafica>();
     for (Anagrafica cliente : clienti) {
         ClientiDatiAgg datiAgg = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
-        String[] idAssociati = datiAgg.getAssociati().split(",");
-        for (String idAssociato : idAssociati) {
-            if (idAssociato.equals(renderRequest.getRemoteUser())) {
-                clientiAssociato.add(cliente);
-                break;
-            }
+	        if(datiAgg != null){
+	        String[] idAssociati = datiAgg.getAssociati().split(",");
+	        for (String idAssociato : idAssociati) {
+	            if (idAssociato.equals(renderRequest.getRemoteUser())) {
+	                clientiAssociato.add(cliente);
+	                break;
+	            }
+	        }
         }
     }
-
+    
+    PortletURL renderURL = renderResponse.createRenderURL();
+    renderURL.setWindowState(LiferayWindowState.NORMAL);
+    renderURL.setParameter("jspPage","/jsps/select-customer.jsp");
 %>
 
-<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente è stato ancora associato.">
+<liferay-ui:search-container delta="20" emptyResultsMessage="Nessun cliente e' stato ancora associato." iteratorURL="<%= renderURL %>">
 
-    <liferay-ui:search-container-results results="<%= clientiAssociato%>" 
-    total="<%= clientiAssociato.size()%>"/>
+    <liferay-ui:search-container-results>
+        <% 
+            results = ListUtil.subList(clientiAssociato, searchContainer.getStart(), searchContainer.getEnd());
+            total = clientiAssociato.size();
+            pageContext.setAttribute("results", results);
+            pageContext.setAttribute("total", total);
+        %>
+    </liferay-ui:search-container-results>
     <liferay-ui:search-container-row className="it.bysoftware.ct.model.Anagrafica" modelVar="cliente">
         <liferay-ui:search-container-column-text property="codiceAnagrafica" name="Codice" />        
         <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
@@ -37,7 +50,7 @@
         <liferay-ui:search-container-column-button href="set('${cliente.codiceAnagrafica}|${cliente.ragioneSociale}')" name="Seleziona" align="center" />
     </liferay-ui:search-container-row>
 
-    <liferay-ui:search-iterator/>
+    <liferay-ui:search-iterator searchContainer="<%= searchContainer %>" paginate="true"/>
 </liferay-ui:search-container>
 
 <script type="text/javascript">

@@ -70,9 +70,12 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 			{ "produttore", Types.VARCHAR },
 			{ "foglio", Types.INTEGER },
 			{ "particella", Types.INTEGER },
+			{ "note", Types.VARCHAR },
+			{ "n_colli", Types.INTEGER },
+			{ "kg_scarto", Types.DOUBLE },
 			{ "id_scheda_tracciabilita", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table TracciabilitaGrezzi (id LONG not null primary key,lotto_grezzo VARCHAR(75) null,prodotto VARCHAR(75) null,kg DOUBLE,produttore VARCHAR(75) null,foglio INTEGER,particella INTEGER,id_scheda_tracciabilita LONG)";
+	public static final String TABLE_SQL_CREATE = "create table TracciabilitaGrezzi (id LONG not null primary key,lotto_grezzo VARCHAR(75) null,prodotto VARCHAR(75) null,kg DOUBLE,produttore VARCHAR(75) null,foglio INTEGER,particella INTEGER,note VARCHAR(75) null,n_colli INTEGER,kg_scarto DOUBLE,id_scheda_tracciabilita LONG)";
 	public static final String TABLE_SQL_DROP = "drop table TracciabilitaGrezzi";
 	public static final String ORDER_BY_JPQL = " ORDER BY tracciabilitaGrezzi.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY TracciabilitaGrezzi.id ASC";
@@ -111,6 +114,9 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 		model.setProduttore(soapModel.getProduttore());
 		model.setFoglio(soapModel.getFoglio());
 		model.setParticella(soapModel.getParticella());
+		model.setNote(soapModel.getNote());
+		model.setNumeroColli(soapModel.getNumeroColli());
+		model.setKgScarto(soapModel.getKgScarto());
 		model.setIdSchedaTracciabilta(soapModel.getIdSchedaTracciabilta());
 
 		return model;
@@ -184,6 +190,9 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 		attributes.put("produttore", getProduttore());
 		attributes.put("foglio", getFoglio());
 		attributes.put("particella", getParticella());
+		attributes.put("note", getNote());
+		attributes.put("numeroColli", getNumeroColli());
+		attributes.put("kgScarto", getKgScarto());
 		attributes.put("idSchedaTracciabilta", getIdSchedaTracciabilta());
 
 		return attributes;
@@ -231,6 +240,24 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 
 		if (particella != null) {
 			setParticella(particella);
+		}
+
+		String note = (String)attributes.get("note");
+
+		if (note != null) {
+			setNote(note);
+		}
+
+		Integer numeroColli = (Integer)attributes.get("numeroColli");
+
+		if (numeroColli != null) {
+			setNumeroColli(numeroColli);
+		}
+
+		Double kgScarto = (Double)attributes.get("kgScarto");
+
+		if (kgScarto != null) {
+			setKgScarto(kgScarto);
 		}
 
 		Long idSchedaTracciabilta = (Long)attributes.get("idSchedaTracciabilta");
@@ -334,6 +361,44 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 
 	@JSON
 	@Override
+	public String getNote() {
+		if (_note == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _note;
+		}
+	}
+
+	@Override
+	public void setNote(String note) {
+		_note = note;
+	}
+
+	@JSON
+	@Override
+	public int getNumeroColli() {
+		return _numeroColli;
+	}
+
+	@Override
+	public void setNumeroColli(int numeroColli) {
+		_numeroColli = numeroColli;
+	}
+
+	@JSON
+	@Override
+	public double getKgScarto() {
+		return _kgScarto;
+	}
+
+	@Override
+	public void setKgScarto(double kgScarto) {
+		_kgScarto = kgScarto;
+	}
+
+	@JSON
+	@Override
 	public long getIdSchedaTracciabilta() {
 		return _idSchedaTracciabilta;
 	}
@@ -393,6 +458,9 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 		tracciabilitaGrezziImpl.setProduttore(getProduttore());
 		tracciabilitaGrezziImpl.setFoglio(getFoglio());
 		tracciabilitaGrezziImpl.setParticella(getParticella());
+		tracciabilitaGrezziImpl.setNote(getNote());
+		tracciabilitaGrezziImpl.setNumeroColli(getNumeroColli());
+		tracciabilitaGrezziImpl.setKgScarto(getKgScarto());
 		tracciabilitaGrezziImpl.setIdSchedaTracciabilta(getIdSchedaTracciabilta());
 
 		tracciabilitaGrezziImpl.resetOriginalValues();
@@ -489,6 +557,18 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 
 		tracciabilitaGrezziCacheModel.particella = getParticella();
 
+		tracciabilitaGrezziCacheModel.note = getNote();
+
+		String note = tracciabilitaGrezziCacheModel.note;
+
+		if ((note != null) && (note.length() == 0)) {
+			tracciabilitaGrezziCacheModel.note = null;
+		}
+
+		tracciabilitaGrezziCacheModel.numeroColli = getNumeroColli();
+
+		tracciabilitaGrezziCacheModel.kgScarto = getKgScarto();
+
 		tracciabilitaGrezziCacheModel.idSchedaTracciabilta = getIdSchedaTracciabilta();
 
 		return tracciabilitaGrezziCacheModel;
@@ -496,7 +576,7 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(17);
+		StringBundler sb = new StringBundler(23);
 
 		sb.append("{id=");
 		sb.append(getId());
@@ -512,6 +592,12 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 		sb.append(getFoglio());
 		sb.append(", particella=");
 		sb.append(getParticella());
+		sb.append(", note=");
+		sb.append(getNote());
+		sb.append(", numeroColli=");
+		sb.append(getNumeroColli());
+		sb.append(", kgScarto=");
+		sb.append(getKgScarto());
 		sb.append(", idSchedaTracciabilta=");
 		sb.append(getIdSchedaTracciabilta());
 		sb.append("}");
@@ -521,7 +607,7 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(28);
+		StringBundler sb = new StringBundler(37);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.TracciabilitaGrezzi");
@@ -556,6 +642,18 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 		sb.append(getParticella());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>note</column-name><column-value><![CDATA[");
+		sb.append(getNote());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>numeroColli</column-name><column-value><![CDATA[");
+		sb.append(getNumeroColli());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>kgScarto</column-name><column-value><![CDATA[");
+		sb.append(getKgScarto());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>idSchedaTracciabilta</column-name><column-value><![CDATA[");
 		sb.append(getIdSchedaTracciabilta());
 		sb.append("]]></column-value></column>");
@@ -576,6 +674,9 @@ public class TracciabilitaGrezziModelImpl extends BaseModelImpl<TracciabilitaGre
 	private String _produttore;
 	private int _foglio;
 	private int _particella;
+	private String _note;
+	private int _numeroColli;
+	private double _kgScarto;
 	private long _idSchedaTracciabilta;
 	private long _originalIdSchedaTracciabilta;
 	private boolean _setOriginalIdSchedaTracciabilta;

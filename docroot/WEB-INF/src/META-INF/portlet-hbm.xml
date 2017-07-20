@@ -11,6 +11,7 @@
 	<import class="it.bysoftware.ct.model.BancheAppoggio" />
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
 	<import class="it.bysoftware.ct.model.ClientiDatiAgg" />
+	<import class="it.bysoftware.ct.model.CMR" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
 	<import class="it.bysoftware.ct.model.DescrizioniDocumenti" />
 	<import class="it.bysoftware.ct.model.DescrizioniVarianti" />
@@ -94,6 +95,7 @@
 		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ragione_sociale" />
 		<property name="partitaIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="partita_iva" />
 		<property name="indirizzo" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="comune" type="com.liferay.portal.dao.orm.hibernate.StringType" column="comuneCMR" />
 		<property name="telefono" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="fax" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="nomeUtente" type="com.liferay.portal.dao.orm.hibernate.StringType" column="nome_utente" />
@@ -102,6 +104,7 @@
 		<property name="idLiferay" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_liferay" />
 		<property name="idOp" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_op" />
 		<property name="attivo" type="com.liferay.portal.dao.orm.hibernate.BooleanType" />
+		<property name="sezionaleOP" type="com.liferay.portal.dao.orm.hibernate.StringType" column="sezionale_op" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.BancheAppoggioImpl" table="BancheAppoggio">
 		<cache usage="read-write" />
@@ -132,6 +135,24 @@
 		</composite-id>
 		<property name="associati" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveLibStr1" />
 		<property name="codiceAliquota" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RveEsenzi" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.CMRImpl" table="CMR">
+		<cache usage="read-write" />
+		<composite-id name="primaryKey" class="it.bysoftware.ct.service.persistence.CMRPK">
+			<key-property name="numeroCMR" column="numero_CMR" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="anno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+			<key-property name="numeroDocumento" column="numero_documento" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+			<key-property name="idAssociato" column="id_associato" type="com.liferay.portal.dao.orm.hibernate.LongType" />
+		</composite-id>
+		<property name="riserve" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="allegati" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="classe" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="cifra" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="lettera" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="adr" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ADR" />
+		<property name="istruzioni" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="convenzioni" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="rimborso" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.CuraTrasportoImpl" table="CuraTrasporto">
 		<cache usage="read-write" />
@@ -309,6 +330,9 @@
 		<property name="produttore" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="foglio" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
 		<property name="particella" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="note" type="com.liferay.portal.dao.orm.hibernate.StringType" />
+		<property name="numeroColli" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="n_colli" />
+		<property name="kgScarto" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="kg_scarto" />
 		<property name="idSchedaTracciabilta" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_scheda_tracciabilita" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.TracciabilitaSchedaImpl" table="tracciabilitaScheda">

@@ -24,48 +24,48 @@ import java.util.Arrays;
  */
 public class FileUploaderServiceClpInvoker {
 	public FileUploaderServiceClpInvoker() {
-		_methodName162 = "getBeanIdentifier";
+		_methodName168 = "getBeanIdentifier";
 
-		_methodParameterTypes162 = new String[] {  };
+		_methodParameterTypes168 = new String[] {  };
 
-		_methodName163 = "setBeanIdentifier";
+		_methodName169 = "setBeanIdentifier";
 
-		_methodParameterTypes163 = new String[] { "java.lang.String" };
+		_methodParameterTypes169 = new String[] { "java.lang.String" };
 
-		_methodName168 = "add";
+		_methodName174 = "add";
 
-		_methodParameterTypes168 = new String[] { "java.io.File" };
+		_methodParameterTypes174 = new String[] { "java.io.File" };
 
-		_methodName169 = "add";
+		_methodName175 = "add";
 
-		_methodParameterTypes169 = new String[] {
+		_methodParameterTypes175 = new String[] {
 				"java.io.File", "java.lang.String"
 			};
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
-		if (_methodName162.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes162, parameterTypes)) {
+		if (_methodName168.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes168, parameterTypes)) {
 			return FileUploaderServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName163.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes163, parameterTypes)) {
+		if (_methodName169.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes169, parameterTypes)) {
 			FileUploaderServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName168.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes168, parameterTypes)) {
+		if (_methodName174.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes174, parameterTypes)) {
 			FileUploaderServiceUtil.add((java.io.File)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName169.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes169, parameterTypes)) {
+		if (_methodName175.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes175, parameterTypes)) {
 			FileUploaderServiceUtil.add((java.io.File)arguments[0],
 				(java.lang.String)arguments[1]);
 
@@ -75,12 +75,12 @@ public class FileUploaderServiceClpInvoker {
 		throw new UnsupportedOperationException();
 	}
 
-	private String _methodName162;
-	private String[] _methodParameterTypes162;
-	private String _methodName163;
-	private String[] _methodParameterTypes163;
 	private String _methodName168;
 	private String[] _methodParameterTypes168;
 	private String _methodName169;
 	private String[] _methodParameterTypes169;
+	private String _methodName174;
+	private String[] _methodParameterTypes174;
+	private String _methodName175;
+	private String[] _methodParameterTypes175;
 }

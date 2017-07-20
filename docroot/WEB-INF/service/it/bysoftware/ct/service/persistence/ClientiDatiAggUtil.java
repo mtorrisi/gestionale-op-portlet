@@ -206,7 +206,7 @@ public class ClientiDatiAggUtil {
 	* @return the new clienti dati agg
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg create(
-		ClientiDatiAggPK clientiDatiAggPK) {
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK) {
 		return getPersistence().create(clientiDatiAggPK);
 	}
 
@@ -219,7 +219,7 @@ public class ClientiDatiAggUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg remove(
-		ClientiDatiAggPK clientiDatiAggPK)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchClientiDatiAggException {
 		return getPersistence().remove(clientiDatiAggPK);
@@ -240,7 +240,7 @@ public class ClientiDatiAggUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg findByPrimaryKey(
-		ClientiDatiAggPK clientiDatiAggPK)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchClientiDatiAggException {
 		return getPersistence().findByPrimaryKey(clientiDatiAggPK);
@@ -254,7 +254,7 @@ public class ClientiDatiAggUtil {
 	* @throws SystemException if a system exception occurred
 	*/
 	public static it.bysoftware.ct.model.ClientiDatiAgg fetchByPrimaryKey(
-		ClientiDatiAggPK clientiDatiAggPK)
+		it.bysoftware.ct.service.persistence.ClientiDatiAggPK clientiDatiAggPK)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getPersistence().fetchByPrimaryKey(clientiDatiAggPK);
 	}

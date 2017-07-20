@@ -208,6 +208,16 @@
 			<finder-column name='idAssociato' comparator='='>
 			</finder-column>
 		</finder>
+		<finder name='annoTipoDocumentoIdAssociatoRiferimento' return-type='Collection'>
+			<finder-column name='anno' comparator='='>
+			</finder-column>
+			<finder-column name='tipoDocumento' comparator='='>
+			</finder-column>
+			<finder-column name='idAssociato' comparator='='>
+			</finder-column>
+			<finder-column name='nota2' comparator='='>
+			</finder-column>
+		</finder>
 	</entity>
 	<entity name='RigoDocumento' table='SSRIGORD' local-service='true'
 		remote-service='true'>
@@ -390,6 +400,8 @@
 		</column>
 		<column name='indirizzo' db-name='indirizzo' type='String'>
 		</column>
+		<column name='comune' db-name='comuneCMR' type='String'>
+		</column>
 		<column name='telefono' db-name='telefono' type='String'>
 		</column>
 		<column name='fax' db-name='fax' type='String'>
@@ -405,6 +417,8 @@
 		<column name='idOp' db-name='id_op' type='long'>
 		</column>
 		<column name='attivo' db-name='attivo' type='boolean'>
+		</column>
+		<column name='sezionaleOP' db-name='sezionale_op' type='String'>
 		</column>
 		<finder name="IdLiferay" return-type="Associato" unique="true">
 			<finder-column name="idLiferay" />
@@ -472,8 +486,7 @@
 		<column name='codiceAnagrafica' db-name='RveCodclf' type='String'
 			primary='true'>
 		</column>
-		<column name='tipo' db-name='RveTipo' type='boolean'
-			primary='true'>
+		<column name='tipo' db-name='RveTipo' type='boolean' primary='true'>
 		</column>
 		<column name='associati' db-name='RveLibStr1' type='String'>
 		</column>
@@ -626,6 +639,12 @@
 		<column name='foglio' db-name='foglio' type='int'>
 		</column>
 		<column name='particella' db-name='particella' type='int'>
+		</column>
+		<column name='note' db-name='note' type='String'>
+		</column>
+		<column name='numeroColli' db-name='n_colli' type='int'>
+		</column>
+		<column name='kgScarto' db-name='kg_scarto' type='double'>
 		</column>
 		<column name='idSchedaTracciabilta' db-name='id_scheda_tracciabilita'
 			type='long'>
@@ -846,8 +865,53 @@
 			</finder-column>
 		</finder>
 	</entity>
-	<entity name="FileUploader" table="fileuploader" local-service="true" remote-service='true'>
+	<entity name="FileUploader" table="fileuploader" local-service="true"
+		remote-service='true'>
 		<column name="fid" type="long" primary="true" />
 		<column name="content" type="String" />
+	</entity>
+	<entity name='CMR' table='CMR' local-service='true'
+		remote-service='true'>
+		<column name='numeroCMR' db-name='numero_CMR' type='long'
+			primary="true">
+		</column>
+		<column name='anno' db-name='anno' type='int' primary="true">
+		</column>
+		<column name='numeroDocumento' db-name='numero_documento' type='long'
+			primary="true">
+		</column>
+		<column name='idAssociato' db-name='id_associato' type='long'
+			primary="true">
+		</column>
+		<column name='riserve' db-name='riserve' type='String'>
+		</column>
+		<column name='allegati' db-name='allegati' type='String'>
+		</column>
+		<column name='classe' db-name='classe' type='String'>
+		</column>
+		<column name='cifra' db-name='cifra' type='String'>
+		</column>
+		<column name='lettera' db-name='lettera' type='String'>
+		</column>
+		<column name='adr' db-name='ADR' type='String'>
+		</column>
+		<column name='istruzioni' db-name='istruzioni' type='String'>
+		</column>
+		<column name='convenzioni' db-name='convenzioni' type='String'>
+		</column>
+		<column name='rimborso' db-name='rimborso' type='String'>
+		</column>
+		<order>
+			<order-column name="numeroCMR" order-by="desc" />
+		</order>
+		<finder name="annoAssociato" return-type="Collection">
+			<finder-column name="anno" comparator="=" />
+			<finder-column name="idAssociato" comparator="=" />
+		</finder>
+		<finder name="annoAssociatoDDT" return-type="CMR">
+			<finder-column name="anno" comparator="=" />
+			<finder-column name="idAssociato" comparator="=" />
+			<finder-column name="numeroDocumento" comparator="=" />
+		</finder>
 	</entity>
 </service-builder>

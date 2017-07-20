@@ -132,6 +132,21 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	public void setIndirizzo(String indirizzo);
 
 	/**
+	 * Returns the comune of this associato.
+	 *
+	 * @return the comune of this associato
+	 */
+	@AutoEscape
+	public String getComune();
+
+	/**
+	 * Sets the comune of this associato.
+	 *
+	 * @param comune the comune of this associato
+	 */
+	public void setComune(String comune);
+
+	/**
 	 * Returns the telefono of this associato.
 	 *
 	 * @return the telefono of this associato
@@ -254,6 +269,21 @@ public interface AssociatoModel extends BaseModel<Associato> {
 	 * @param attivo the attivo of this associato
 	 */
 	public void setAttivo(boolean attivo);
+
+	/**
+	 * Returns the sezionale o p of this associato.
+	 *
+	 * @return the sezionale o p of this associato
+	 */
+	@AutoEscape
+	public String getSezionaleOP();
+
+	/**
+	 * Sets the sezionale o p of this associato.
+	 *
+	 * @param sezionaleOP the sezionale o p of this associato
+	 */
+	public void setSezionaleOP(String sezionaleOP);
 
 	@Override
 	public boolean isNew();

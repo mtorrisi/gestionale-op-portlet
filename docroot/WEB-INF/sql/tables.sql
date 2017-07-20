@@ -25,6 +25,23 @@ create table BancheAppoggio (
 	RbaCodiaz VARCHAR(75) null
 );
 
+create table CMR (
+	numero_CMR LONG not null,
+	anno INTEGER not null,
+	numero_documento LONG not null,
+	id_associato LONG not null,
+	riserve VARCHAR(75) null,
+	allegati VARCHAR(75) null,
+	classe VARCHAR(75) null,
+	cifra VARCHAR(75) null,
+	lettera VARCHAR(75) null,
+	ADR VARCHAR(75) null,
+	istruzioni VARCHAR(75) null,
+	convenzioni VARCHAR(75) null,
+	rimborso VARCHAR(75) null,
+	primary key (numero_CMR, anno, numero_documento, id_associato)
+);
+
 create table CausaleTrasporto (
 	RdeCoddes VARCHAR(75) not null primary key,
 	RdeDescri VARCHAR(75) null,
@@ -177,6 +194,9 @@ create table TracciabilitaGrezzi (
 	produttore VARCHAR(75) null,
 	foglio INTEGER,
 	particella INTEGER,
+	note VARCHAR(75) null,
+	n_colli INTEGER,
+	kg_scarto DOUBLE,
 	id_scheda_tracciabilita LONG
 );
 
@@ -302,6 +322,7 @@ create table associato (
 	ragione_sociale VARCHAR(75) null,
 	partita_iva VARCHAR(75) null,
 	indirizzo VARCHAR(75) null,
+	comuneCMR VARCHAR(75) null,
 	telefono VARCHAR(75) null,
 	fax VARCHAR(75) null,
 	nome_utente VARCHAR(75) null,
@@ -309,7 +330,8 @@ create table associato (
 	password VARCHAR(75) null,
 	id_liferay LONG,
 	id_op LONG,
-	attivo BOOLEAN
+	attivo BOOLEAN,
+	sezionale_op VARCHAR(75) null
 );
 
 create table associato_cliente (

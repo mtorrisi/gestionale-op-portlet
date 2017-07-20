@@ -50,6 +50,7 @@
 		<field name="ragioneSociale" type="String" />
 		<field name="partitaIVA" type="String" />
 		<field name="indirizzo" type="String" />
+		<field name="comune" type="String" />
 		<field name="telefono" type="String" />
 		<field name="fax" type="String" />
 		<field name="nomeUtente" type="String" />
@@ -58,6 +59,7 @@
 		<field name="idLiferay" type="long" />
 		<field name="idOp" type="long" />
 		<field name="attivo" type="boolean" />
+		<field name="sezionaleOP" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.BancheAppoggio">
 		<field name="cBanca" type="String" />
@@ -79,6 +81,21 @@
 		<field name="tipo" type="boolean" />
 		<field name="associati" type="String" />
 		<field name="codiceAliquota" type="String" />
+	</model>
+	<model name="it.bysoftware.ct.model.CMR">
+		<field name="numeroCMR" type="long" />
+		<field name="anno" type="int" />
+		<field name="numeroDocumento" type="long" />
+		<field name="idAssociato" type="long" />
+		<field name="riserve" type="String" />
+		<field name="allegati" type="String" />
+		<field name="classe" type="String" />
+		<field name="cifra" type="String" />
+		<field name="lettera" type="String" />
+		<field name="adr" type="String" />
+		<field name="istruzioni" type="String" />
+		<field name="convenzioni" type="String" />
+		<field name="rimborso" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.CuraTrasporto">
 		<field name="codiceCuraTrasporto" type="String" />
@@ -223,6 +240,9 @@
 		<field name="produttore" type="String" />
 		<field name="foglio" type="int" />
 		<field name="particella" type="int" />
+		<field name="note" type="String" />
+		<field name="numeroColli" type="int" />
+		<field name="kgScarto" type="double" />
 		<field name="idSchedaTracciabilta" type="long" />
 	</model>
 	<model name="it.bysoftware.ct.model.TracciabilitaScheda">
