@@ -2,41 +2,41 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
 "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean
-        class="
+	<bean
+		class="
 org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    </bean>
-    <bean id="gestionaleOPDataSourceTarget"
-          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://localhost:3306/gestionaleop" />
-        <property name="username" value="op_user" />
-        <property name="password" value="op_user" />
-    </bean>
-    <bean id="gestionaleOPDataSource"
-          class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
-        <property name="targetDataSource">
-            <ref bean="gestionaleOPDataSourceTarget" />
-        </property>
-    </bean>
-    <bean id="gestionaleOPHibernateSessionFactory"
-          class="com.liferay.portal.spring.hibernate.PortletHibernateConfiguration">
-        <property name="dataSource">
-            <ref bean="gestionaleOPDataSource" />
-        </property>
-    </bean>
-    <bean id="gestionaleOPSessionFactory" class="com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl">
-        <property name="sessionFactoryImplementor">
-            <ref bean="gestionaleOPHibernateSessionFactory" />
-        </property>
-    </bean>
-    <bean id="gestionaleOPTransactionManager"
-          class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-        <property name="dataSource">
-            <ref bean="gestionaleOPDataSource" />
-        </property>
-        <property name="sessionFactory">
-            <ref bean="gestionaleOPHibernateSessionFactory" />
-        </property>
-    </bean>
+	</bean>
+	<bean id="gestionaleOPDataSourceTarget"
+		  class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url" value="jdbc:sqlserver://192.168.196.1\\sqlexpress:1433;DatabaseName=FRUTTAPIU" />
+		<property name="username" value="sa" />
+		<property name="password" value="sistemi" />
+	</bean>
+	<bean id="gestionaleOPDataSource"
+		  class="org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy">
+		<property name="targetDataSource">
+			<ref bean="gestionaleOPDataSourceTarget" />
+		</property>
+	</bean>
+	<bean id="gestionaleOPHibernateSessionFactory"
+		  class="com.liferay.portal.spring.hibernate.PortletHibernateConfiguration">
+		<property name="dataSource">
+			<ref bean="gestionaleOPDataSource" />
+		</property>
+	</bean>
+	<bean id="gestionaleOPSessionFactory" class="com.liferay.portal.dao.orm.hibernate.SessionFactoryImpl">
+		<property name="sessionFactoryImplementor">
+			<ref bean="gestionaleOPHibernateSessionFactory" />
+		</property>
+	</bean>
+	<bean id="gestionaleOPTransactionManager"
+		  class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="dataSource">
+			<ref bean="gestionaleOPDataSource" />
+		</property>
+		<property name="sessionFactory">
+			<ref bean="gestionaleOPHibernateSessionFactory" />
+		</property>
+	</bean>
 </beans>

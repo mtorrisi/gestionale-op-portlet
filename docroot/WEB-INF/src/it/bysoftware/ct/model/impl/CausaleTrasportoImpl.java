@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class CausaleTrasportoImpl extends CausaleTrasportoBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a causale trasporto model instance should use the {@link it.bysoftware.ct.model.CausaleTrasporto} interface instead.

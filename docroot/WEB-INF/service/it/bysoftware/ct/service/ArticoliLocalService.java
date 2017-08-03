@@ -269,14 +269,16 @@ public interface ArticoliLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List searchArticoli(java.lang.String codiceArticolo,
+	public java.util.List<it.bysoftware.ct.model.Articoli> searchArticoli(
+		java.lang.String codiceArticolo, java.lang.String descrizione,
 		boolean andSearch, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List searchImballaggi(java.lang.String codiceImballaggio,
-		boolean andSearch, int start, int end,
+	public java.util.List<it.bysoftware.ct.model.Articoli> searchImballaggi(
+		java.lang.String codiceImballaggio, boolean andSearch, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

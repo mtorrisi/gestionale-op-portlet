@@ -1,31 +1,32 @@
-<%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
-<%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
-<%@page import="com.liferay.portal.model.UserIdMapper"%>
-<%@page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+<%@ page import="com.liferay.portal.model.UserIdMapper" %>
+<%@ page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil" %>
+
+<%@ page import="it.its.ct.gestionaleOP.utils.Constants" %>
+
 <%@page
-	import="it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil"%>
-<%@page import="java.util.Calendar"%>
-<%@page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.Associato"%>
+	import="it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil" %>
+<%@ page import="it.bysoftware.ct.model.Associato" %>
 <%@page
-	import="it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.WKTestataDocumento"%>
-<%@page import="it.bysoftware.ct.model.WKRigoDocumento"%>
-<%@page import="com.liferay.portal.kernel.servlet.SessionMessages"%>
-<%@page import="com.liferay.portal.kernel.util.Base64"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="it.its.ct.gestionaleOP.pojos.Documento"%>
-<%@page import="java.util.List"%>
-<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
-<%@include file="../init.jsp"%>
+	import="it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil" %>
+<%@ page import="it.bysoftware.ct.model.WKTestataDocumento" %>
+<%@ page import="it.bysoftware.ct.model.WKRigoDocumento" %>
+<%@ page import="com.liferay.portal.kernel.servlet.SessionMessages" %>
+<%@ page import="com.liferay.portal.kernel.util.Base64" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="it.its.ct.gestionaleOP.pojos.Documento" %>
+<%@ page import="java.util.List" %>
+<%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
+<%@ include file="../init.jsp" %>
 
 <%
 	List<Documento> docsReady = (List<Documento>) renderRequest.getAttribute("docsReady");;
 
-	List<Documento> docsToCheck  = (List<Documento>) renderRequest.getAttribute("docsToCheck");
+	List<Documento> docsToCheck = (List<Documento>) renderRequest.getAttribute("docsToCheck");
 
 	boolean viewImport = true;
-	if(docsReady != null || docsToCheck != null){
+	if (docsReady != null || docsToCheck != null) {
 		viewImport = false;
 	} else { // vedo se ci sono importazioni in sospeso
 		docsReady = new ArrayList<Documento>();
@@ -34,7 +35,7 @@
 		Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
 		List<WKTestataDocumento> testateDocumentoReady = WKTestataDocumentoLocalServiceUtil.getReady(Calendar.getInstance().get(Calendar.YEAR), a.getId());
 		List<WKTestataDocumento> testateDocumentoToCheck = WKTestataDocumentoLocalServiceUtil.getToCheck(Calendar.getInstance().get(Calendar.YEAR), a.getId());
-		if(!testateDocumentoReady.isEmpty() || !testateDocumentoToCheck.isEmpty()){
+		if (!testateDocumentoReady.isEmpty() || !testateDocumentoToCheck.isEmpty()) {
 			viewImport = false;
 			for (WKTestataDocumento t : testateDocumentoReady) {
 				Documento d = new Documento();
@@ -56,7 +57,7 @@
 					}
 				}
 			}
-			
+
 			for (WKTestataDocumento t : testateDocumentoToCheck) {
 				Documento d = new Documento();
 				d.setTestata(t);
@@ -66,27 +67,28 @@
 		}
 	}
 %>
+
 <c:choose>
-	<c:when test="<%=viewImport%>">
+	<c:when test="<%= viewImport %>">
 		<liferay-portlet:actionURL name="upload" var="uploadFileURL">
 			<liferay-portlet:param name="idAssociato"
-				value="<%=renderRequest.getRemoteUser()%>" />
+				value="<%= renderRequest.getRemoteUser() %>" />
 		</liferay-portlet:actionURL>
 
-		<aui:form action="<%=uploadFileURL%>" enctype="multipart/form-data"
+		<aui:form action="<%= uploadFileURL %>" enctype="multipart/form-data"
 			method="post">
 			<aui:fieldset label="Carica File">
-				<liferay-ui:error key="empty-file"
+				<liferay-ui:error key="emptyFile"
 					message="Hai importato un file vuoto" />
-				<liferay-ui:error key="disk-space"
+				<liferay-ui:error key="diskSpace"
 					message="Spazio disco insufficente." />
 				<aui:layout>
 					<aui:column columnWidth="100" first="true">
-						<aui:input type="file" name="fileupload" inlineField="true"
+						<aui:input name="fileupload" type="file" inlineField="true"
 							label="File">
 							<aui:validator name="required" />
 						</aui:input>
-						<aui:button id="btnUpload" name="Save" value="Importa" type="submit" />
+						<aui:button id="btnUpload" name="Save" type="submit" value="Importa" />
 					</aui:column>
 				</aui:layout>
 			</aui:fieldset>
@@ -96,48 +98,50 @@
 		<aui:layout>
 			<liferay-portlet:actionURL name="saveImported" var="saveImportedURL">
 				<liferay-portlet:param name="idAssociato"
-					value="<%=renderRequest.getRemoteUser()%>" />
+					value="<%= renderRequest.getRemoteUser() %>" />
 			</liferay-portlet:actionURL>
 			<aui:column columnWidth="50" first="true">
 				<aui:fieldset label="Documenti da importare">
 					<aui:field-wrapper>
 						<div class="btn-toolbar">
 							<div class="btn-group">
-								<button id="btnSave" class="btn">
+								<button class="btn" id="btnSave">
 									<i class="icon-hdd"></i>Salva
 								</button>
 							</div>
 						</div>
 					</aui:field-wrapper>
-					<aui:form method="post" name="fm" action="<%=saveImportedURL%>">
+					<aui:form action="<%= saveImportedURL %>" method="post" name="fm">
 						<liferay-ui:search-container delta="20"
 							emptyResultsMessage="Nessun documento pronto per l'importazione">
 							<liferay-ui:search-container-results>
+
 								<%
 									results = ListUtil.subList(docsReady, searchContainer.getStart(), searchContainer.getEnd());
 									total = docsReady.size();
 									pageContext.setAttribute("results", results);
 									pageContext.setAttribute("total", total);
 								%>
+
 							</liferay-ui:search-container-results>
 							<liferay-ui:search-container-row
 								className="it.its.ct.gestionaleOP.pojos.Documento" modelVar="d">
 								<liferay-ui:search-container-column-text
-									value="<%=d.getTestata().getTipoDocumento()%>"
+									value="<%= d.getTestata().getTipoDocumento() %>"
 									name="Tipo Documento" />
 								<liferay-ui:search-container-column-text
-									value="<%=String.valueOf(d.getTestata().getNumeroOrdine())%>"
+									value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>"
 									name="Numero Documento" />
 								<liferay-ui:search-container-column-text
-									value="<%=d.getTestata().getCodiceSoggetto()%>"
+									value="<%= d.getTestata().getCodiceSoggetto() %>"
 									name="Codice Soggetto" />
 								<liferay-ui:search-container-column-text
-									value="<%=d.getTestata().getRagioneSociale()%>"
+									value="<%= d.getTestata().getRagioneSociale() %>"
 									name="Rag. Sociale" />
 							</liferay-ui:search-container-row>
 
 							<liferay-ui:search-iterator
-								searchContainer="<%=searchContainer%>" paginate="true" />
+								searchContainer="<%= searchContainer %>" paginate="true" />
 						</liferay-ui:search-container>
 					</aui:form>
 				</aui:fieldset>
@@ -147,32 +151,34 @@
 					<liferay-ui:search-container delta="20"
 						emptyResultsMessage="Nessun documento da verificare">
 						<liferay-ui:search-container-results>
+
 							<%
 								results = ListUtil.subList(docsToCheck, searchContainer.getStart(), searchContainer.getEnd());
 								total = docsToCheck.size();
 								pageContext.setAttribute("results", results);
 								pageContext.setAttribute("total", total);
 							%>
+
 						</liferay-ui:search-container-results>
 						<liferay-ui:search-container-row
 							className="it.its.ct.gestionaleOP.pojos.Documento" modelVar="d">
 							<liferay-ui:search-container-column-text
-								value="<%=d.getTestata().getTipoDocumento()%>"
+								value="<%= d.getTestata().getTipoDocumento() %>"
 								name="Tipo Documento" />
 							<liferay-ui:search-container-column-text
-								value="<%=String.valueOf(d.getTestata().getNumeroOrdine())%>"
+								value="<%= String.valueOf(d.getTestata().getNumeroOrdine()) %>"
 								name="Numero Documento" />
 							<liferay-ui:search-container-column-text
-								value="<%=d.getTestata().getCodiceSoggetto()%>"
+								value="<%= d.getTestata().getCodiceSoggetto() %>"
 								name="Codice Soggetto" />
 							<liferay-ui:search-container-column-text
-								value="<%=d.getTestata().getRagioneSociale()%>"
+								value="<%= d.getTestata().getRagioneSociale() %>"
 								name="Rag. Sociale" />
 							<liferay-ui:search-container-column-jsp align="right"
 								path="/jsps/action-check-docs.jsp" />
 						</liferay-ui:search-container-row>
 
-						<liferay-ui:search-iterator searchContainer="<%=searchContainer%>"
+						<liferay-ui:search-iterator searchContainer="<%= searchContainer %>"
 							paginate="true" />
 					</liferay-ui:search-container>
 				</aui:fieldset>
@@ -188,12 +194,12 @@
 <script type="text/javascript">
 	YUI().use("liferay-util-list-fields", function(Y) {
 
-		if(Y.one('#<portlet:namespace />btnUpload')){
-		
+		if (Y.one('#<portlet:namespace />btnUpload')) {
+
 			Y.one('#<portlet:namespace />btnUpload').on('click', function(event) {
 				YUI().use('aui-modal', function(Y) {
 					var modal = new Y.Modal({
-						bodyContent : '<div class="loading-animation"/>',
+						bodyContent : '<div class="loading-animation" />',
 						centered : true,
 						headerContent : '<h3>Loading...</h3>',
 						modal : true,
@@ -201,19 +207,19 @@
 						close: false,
 						width : 450
 					}).render();
-	
+
 					modal.after("render", function() {
 						submitForm(document.<portlet:namespace/>fm);
 					})
 				});
-	
+
 			});
 		} else if (Y.one('#btnSave')) {
 
 			Y.one('#btnSave').on('click', function(event) {
 				YUI().use('aui-modal', function(Y) {
 					var modal = new Y.Modal({
-						bodyContent : '<div class="loading-animation"/>',
+						bodyContent : '<div class="loading-animation" />',
 						centered : true,
 						headerContent : '<h3>Loading...</h3>',
 						modal : true,
@@ -221,15 +227,14 @@
 						close: false,
 						width : 450
 					}).render();
-	
+
 					modal.after("render", function() {
 						submitForm(document.<portlet:namespace/>fm);
 					})
 				});
-	
+
 			});
 		}
 	});
-	
 
 </script>

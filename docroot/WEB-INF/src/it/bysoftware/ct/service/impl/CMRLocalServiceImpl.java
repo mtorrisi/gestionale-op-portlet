@@ -14,13 +14,13 @@
 
 package it.bysoftware.ct.service.impl;
 
+import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.NoSuchCMRException;
 import it.bysoftware.ct.model.CMR;
 import it.bysoftware.ct.service.base.CMRLocalServiceBaseImpl;
 
 import java.util.List;
-
-import com.liferay.portal.kernel.exception.SystemException;
 
 /**
  * The implementation of the c m r local service.
@@ -41,25 +41,25 @@ import com.liferay.portal.kernel.exception.SystemException;
  * @see it.bysoftware.ct.service.CMRLocalServiceUtil
  */
 public class CMRLocalServiceImpl extends CMRLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
-	 * 
+	 *
 	 * Never reference this interface directly. Always use {@link
 	 * it.bysoftware.ct.service.CMRLocalServiceUtil} to access the c m r local
 	 * service.
 	 */
 
 	@Override
-    public List<CMR> getCMRByAnnoAssociato(int anno, long idAssociato) throws SystemException {
-        return this.cmrPersistence.findByannoAssociato(anno, idAssociato);
-    }
-	
+	public List<CMR> getCMRByAnnoAssociato(int anno, long idAssociato) throws SystemException {
+		return this.cmrPersistence.findByannoAssociato(anno, idAssociato);
+	}
+
 	@Override
-    public CMR getCMRByAnnoAssociatoDDT(int anno, long idAssociato, long numeroDocumento) {
-        try {
+	public CMR getCMRByAnnoAssociatoDDT(int anno, long idAssociato, long numeroDocumento) {
+		try {
 			return this.cmrPersistence.findByannoAssociatoDDT(anno, idAssociato, numeroDocumento);
 		} catch (NoSuchCMRException | SystemException e) {
 			return null;
 		}
-    }
+	}
 }

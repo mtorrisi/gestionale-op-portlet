@@ -155,14 +155,52 @@ public class DDTPortlet extends MVCPortlet {
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
 
-        ares.setRenderParameter("codiceCliente",
-                ParamUtil.getString(areq, "clientId"));
-        // ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
-        ares.setRenderParameter("anno",
-                String.valueOf(Calendar.getInstance().get(Calendar.YEAR)));
-        ares.setRenderParameter("documentIds",
-                ParamUtil.getString(areq, "documentIds"));
-        ares.setRenderParameter("jspPage", "/jsps/edit-invoice.jsp");
+        boolean filter = ParamUtil.getBoolean(areq, "filter");
+        boolean update = ParamUtil.getBoolean(areq, "update");
+        String codiceCliente = null; // = ParamUtil.getString(areq, "clientId");
+        int anno = Calendar.getInstance().get(Calendar.YEAR);
+        String ids[] = ParamUtil.getString(areq, "documentIds").split(",");
+        UserIdMapper userIdMapper;
+        try {
+            userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(
+                    Long.parseLong(areq.getRemoteUser()), Constants.FUTURO_NET);
+            Associato a = AssociatoLocalServiceUtil
+                    .findByLiferayId(userIdMapper.getUserIdMapperId());
+            boolean success = true;
+            for (String id : ids) {
+                long numOrd = Long.parseLong(id);
+                TestataDocumento t = TestataDocumentoLocalServiceUtil
+                        .fetchTestataDocumento(new TestataDocumentoPK(anno,
+                                numOrd, DDT, a.getId()));
+                if (codiceCliente == null) {
+                    codiceCliente = t.getCodiceSoggetto();
+                }
+                if (!t.getCodiceSoggetto().equals(codiceCliente)) {
+                    SessionErrors.add(areq, "different-customers");
+                    ares.setRenderParameter("update", String.valueOf(update));
+                    ares.setRenderParameter("filter", String.valueOf(filter));
+                    ares.setRenderParameter("codiceCliente", codiceCliente);
+                    ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
+                    success = false;
+                    break;
+                }
+            }
+            if (success) {
+                ares.setRenderParameter("codiceCliente",
+                        ParamUtil.getString(areq, "clientId"));
+                // ares.setRenderParameter("jspPage", "/jsps/search-ddt.jsp");
+                ares.setRenderParameter("anno", String.valueOf(Calendar
+                        .getInstance().get(Calendar.YEAR)));
+                ares.setRenderParameter("documentIds",
+                        ParamUtil.getString(areq, "documentIds"));
+                ares.setRenderParameter("jspPage", "/jsps/edit-invoice.jsp");
+            }
+
+        } catch (NumberFormatException | PortalException | SystemException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     public void deleteDDT(ActionRequest areq, ActionResponse ares) {
@@ -207,8 +245,10 @@ public class DDTPortlet extends MVCPortlet {
             Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil
                     .getOrganizzazioneProduttori(a.getIdOp());
-            User liferayAssociato = UserLocalServiceUtil.getUser(a
-                    .getIdLiferay());
+            UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil
+                    .getUserIdMapper(a.getIdLiferay());
+            User liferayAssociato = UserLocalServiceUtil.getUser(userIdMapper
+                    .getUserId());
             User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
             DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
             DLFolder associatoFolder = Utils.getAssociatoFolder(groupId,
@@ -308,8 +348,10 @@ public class DDTPortlet extends MVCPortlet {
             Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil
                     .getOrganizzazioneProduttori(a.getIdOp());
-            User liferayAssociato = UserLocalServiceUtil.getUser(a
-                    .getIdLiferay());
+            UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil
+                    .getUserIdMapper(a.getIdLiferay());
+            User liferayAssociato = UserLocalServiceUtil.getUser(userIdMapper
+                    .getUserId());
             User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
             DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
             DLFolder associatoFolder = Utils.getAssociatoFolder(groupId,
@@ -387,8 +429,10 @@ public class DDTPortlet extends MVCPortlet {
             Associato a = AssociatoLocalServiceUtil.fetchAssociato(idAssociato);
             OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil
                     .getOrganizzazioneProduttori(a.getIdOp());
-            User liferayAssociato = UserLocalServiceUtil.getUser(a
-                    .getIdLiferay());
+            UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil
+                    .getUserIdMapper(a.getIdLiferay());
+            User liferayAssociato = UserLocalServiceUtil.getUser(userIdMapper
+                    .getUserId());
             User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
             DLFolder opFolder = Utils.getOpFolder(groupId, liferayOp);
             DLFolder associatoFolder = Utils.getAssociatoFolder(groupId,
@@ -1409,6 +1453,7 @@ public class DDTPortlet extends MVCPortlet {
 
                 } catch (JRException ex) {
                     _log.error(ex.getMessage());
+                    ex.printStackTrace();
                 } catch (ClassNotFoundException ex) {
                     _log.error(ex.getMessage());
                 } catch (SQLException ex) {
@@ -1532,6 +1577,7 @@ public class DDTPortlet extends MVCPortlet {
 
             } catch (JRException ex) {
                 _log.error(ex.getMessage());
+                ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 _log.error(ex.getMessage());
             } catch (SQLException ex) {
@@ -2103,7 +2149,10 @@ public class DDTPortlet extends MVCPortlet {
             SystemException, IOException {
 
         User liferayOp = UserLocalServiceUtil.getUser(op.getIdLiferay());
-        User liferayAssociato = UserLocalServiceUtil.getUser(a.getIdLiferay());
+        UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil
+                .getUserIdMapper(a.getIdLiferay());
+        User liferayAssociato = UserLocalServiceUtil.getUser(userIdMapper
+                .getUserId());
         ThemeDisplay themeDisplay = (ThemeDisplay) actionRequest
                 .getAttribute(WebKeys.THEME_DISPLAY);
         long groupId = themeDisplay.getLayout().getGroupId();
@@ -2388,27 +2437,39 @@ public class DDTPortlet extends MVCPortlet {
                 resourceRequest, "data", null)));
         String codiceCliente = ParamUtil.getString(resourceRequest, "codCli",
                 null);
+        _log.info("****** codiceCliente: " + codiceCliente + " !!!");
         String cliente = ParamUtil.getString(resourceRequest, "clienteTxt",
                 null);
+        _log.info("****** cliente: " + cliente + " !!!");
         String destinazioneTxt = ParamUtil.getString(resourceRequest,
                 "destinazioneTxt", null);
+        _log.info("****** destinazioneTxt: " + destinazioneTxt + " !!!");
         String codiceDestinazione = ParamUtil.getString(resourceRequest,
                 "codiceDestinazione", null);
+        _log.info("****** codiceDestinazione: " + codiceDestinazione + " !!!");
         String documentDate = ParamUtil.getString(resourceRequest,
                 "documentDate", null);
+        _log.info("****** documentDate: " + documentDate + " !!!");
         String numeroFatturaStr = ParamUtil.getString(resourceRequest,
                 "numeroFattura", null);
+        _log.info("****** numeroFatturaStr: " + numeroFatturaStr + " !!!");
         int avanzaProtocollo = ParamUtil.getInteger(resourceRequest,
                 "avanzaProtocollo", -1);
+        _log.info("****** avanzaProtocollo: " + avanzaProtocollo + " !!!");
         int nDocConf = ParamUtil.getInteger(resourceRequest, "nDocConf", -1);
+        _log.info("****** nDocDonf: " + nDocConf + " !!!");
         String dateDocConf = ParamUtil.getString(resourceRequest,
                 "dateDocConf", null);
+        _log.info("****** dateDocConf: " + dateDocConf + " !!!");
 
         long origDoc = ParamUtil
                 .getLong(resourceRequest, "numeroDocumento", -1);
+        _log.info("****** origDoc: " + origDoc + " !!!");
         String[] origIds = StringUtil.split(ParamUtil.getString(
                 resourceRequest, "documentIds", ""));
-
+        _log.info("****** documentIds: "
+                + ParamUtil.getString(resourceRequest, "documentIds", "")
+                + " !!!");
         long[] idsToUpdate = new long[] {};
 
         if (origDoc != -1) {
@@ -2421,81 +2482,89 @@ public class DDTPortlet extends MVCPortlet {
             }
         }
 
-        int numeroFattura;
+        int numeroFattura = 0;
+        _log.info("******: " + numeroFatturaStr + " !!!");
+        if (!update) {
+            if (!numeroFatturaStr.equals("")) {
+                numeroFattura = Integer.parseInt(numeroFatturaStr);
+                if (!update) { // RECUPERO PROTOCOLLO
+                    ProgressivoLocalServiceUtil
+                            .deleteProgressivo(new ProgressivoPK(Calendar
+                                    .getInstance().get(Calendar.YEAR),
+                                    associato.getId(), Constants.INVOICE_ID,
+                                    numeroFattura));
+                }
+            } else if (avanzaProtocollo == -1) { // AVANZAMENTO AUTOMATICO
+                                                 // PROTOCOLLO
+                // numeroFattura =
+                // TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR),
+                // FAV, associato.getId()).size() + 1;
+                try {
+                    List<TestataDocumento> documentiSoggetto = TestataDocumentoLocalServiceUtil
+                            .getDocumentiSoggetto(
+                                    Calendar.getInstance().get(Calendar.YEAR),
+                                    FAV, associato.getId());
+                    if (documentiSoggetto.size() > 0) {
+                        numeroFattura = (int) documentiSoggetto.get(0)
+                                .getNumeroOrdine() + 1;
 
-        if (!numeroFatturaStr.equals("")) {
-            numeroFattura = Integer.parseInt(numeroFatturaStr);
-            if (!update) { // RECUPERO PROTOCOLLO
-                ProgressivoLocalServiceUtil
-                        .deleteProgressivo(new ProgressivoPK(Calendar
-                                .getInstance().get(Calendar.YEAR), associato
-                                .getId(), Constants.INVOICE_ID, numeroFattura));
-            }
-        } else if (avanzaProtocollo == -1) { // AVANZAMENTO AUTOMATICO
-                                             // PROTOCOLLO
-            // numeroFattura =
-            // TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR),
-            // FAV, associato.getId()).size() + 1;
-            try {
-                List<TestataDocumento> documentiSoggetto = TestataDocumentoLocalServiceUtil
+                        String dataTestataStr = documentiSoggetto.get(0)
+                                .getDataOrdine();
+                        SimpleDateFormat sdf = new SimpleDateFormat(
+                                "dd/MM/yyyy");
+
+                        Date dataTestata = sdf.parse(dataTestataStr);
+                        Date dataDocumento = sdf.parse(documentDate);
+                        if (dataDocumento.before(dataTestata)) { // Verifico se
+                                                                 // la
+                                                                 // data è
+                                                                 // minore
+                                                                 // della data
+                                                                 // dell'ultimo
+                                                                 // FAV
+                            return new Response(Response.Code.DATE_BEFORE,
+                                    numeroFattura);
+                        }
+
+                    } else {
+                        numeroFattura = 1;
+                    }
+
+                } catch (SystemException ex) {
+                    _log.error(ex.getMessage());
+                    return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
+                }
+            } else { // AVANZAMENTO PROTOCOLLO MANUALE
+                List<TestataDocumento> testate = TestataDocumentoLocalServiceUtil
                         .getDocumentiSoggetto(
                                 Calendar.getInstance().get(Calendar.YEAR), FAV,
                                 associato.getId());
-                if (documentiSoggetto.size() > 0) {
-                    numeroFattura = (int) documentiSoggetto.get(0)
-                            .getNumeroOrdine() + 1;
-
-                    String dataTestataStr = documentiSoggetto.get(0)
-                            .getDataOrdine();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-                    Date dataTestata = sdf.parse(dataTestataStr);
-                    Date dataDocumento = sdf.parse(documentDate);
-                    if (dataDocumento.before(dataTestata)) { // Verifico se la
-                                                             // data è minore
-                                                             // della data
-                                                             // dell'ultimo FAV
-                        return new Response(Response.Code.DATE_BEFORE,
-                                numeroFattura);
-                    }
-
-                } else {
-                    numeroFattura = 1;
+                TestataDocumento t = TestataDocumentoLocalServiceUtil
+                        .fetchTestataDocumento(new TestataDocumentoPK(ANNO,
+                                avanzaProtocollo, FAV, associato.getId()));
+                if (t != null && !update) {
+                    _log.warn("Protocol already exists.");
+                    return new Response(Response.Code.ALREADY_EXISTS,
+                            avanzaProtocollo);
                 }
+                for (TestataDocumento testata : testate) {
+                    if (avanzaProtocollo < testata.getNumeroOrdine()) {
+                        String dataTestataStr = testata.getDataOrdine();
+                        SimpleDateFormat sdf = new SimpleDateFormat(
+                                "dd/MM/yyyy");
 
-            } catch (SystemException ex) {
-                _log.error(ex.getMessage());
-                return new Response(Response.Code.GET_PRIMARY_KEY_ERROR, -1);
-            }
-        } else { // AVANZAMENTO PROTOCOLLO MANUALE
-            List<TestataDocumento> testate = TestataDocumentoLocalServiceUtil
-                    .getDocumentiSoggetto(
-                            Calendar.getInstance().get(Calendar.YEAR), FAV,
-                            associato.getId());
-            TestataDocumento t = TestataDocumentoLocalServiceUtil
-                    .fetchTestataDocumento(new TestataDocumentoPK(ANNO,
-                            avanzaProtocollo, FAV, associato.getId()));
-            if (t != null && !update) {
-                _log.warn("Protocol already exists.");
-                return new Response(Response.Code.ALREADY_EXISTS,
-                        avanzaProtocollo);
-            }
-            for (TestataDocumento testata : testate) {
-                if (avanzaProtocollo < testata.getNumeroOrdine()) {
-                    String dataTestataStr = testata.getDataOrdine();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-                    Date dataTestata = sdf.parse(dataTestataStr);
-                    Date dataDocumento = sdf.parse(documentDate);
-                    if (dataDocumento.after(dataTestata)) {
-                        if (!update && dataDocumento.equals(dataTestata)) {
-                            return new Response(Response.Code.NOT_VALID,
-                                    avanzaProtocollo);
+                        Date dataTestata = sdf.parse(dataTestataStr);
+                        Date dataDocumento = sdf.parse(documentDate);
+                        if (dataDocumento.after(dataTestata)) {
+                            if (!update && dataDocumento.equals(dataTestata)) {
+                                return new Response(Response.Code.NOT_VALID,
+                                        avanzaProtocollo);
+                            }
                         }
                     }
                 }
+                numeroFattura = avanzaProtocollo;
             }
-            numeroFattura = avanzaProtocollo;
         }
 
         List<TestataDocumento> invoices = new ArrayList<TestataDocumento>();
@@ -2518,15 +2587,67 @@ public class DDTPortlet extends MVCPortlet {
             sellInvoice.setDestinazione(destinazioneTxt);
             sellInvoice.setDataOrdine(documentDate);
             sellInvoice.setOperatore(resourceRequest.getRemoteUser());
+            sellInvoice.setInviato(0);
             sellInvoice.setCompleto(COMPLETED);
             if (nDocConf != -1) {
-                sellInvoice.setNota2(String.valueOf(nDocConf)); // Memorizzo il
-                                                                // riferimento
-                                                                // alla fattura
-                                                                // di
-                                                                // conferimento
-                                                                // nella fattura
-                                                                // di vendita.
+                if (update && !sellInvoice.getNota2().isEmpty()) {
+                    int nOldFac;
+                    try {
+                        nOldFac = Integer.parseInt(sellInvoice.getNota2());
+
+                    } catch (NumberFormatException ex) {
+                        _log.error("Il riferimanto alla FAC non è valido: "
+                                + sellInvoice.getNota2());
+                        return new Response(Code.GENERIC_ERROR, ex.hashCode());
+                    }
+                    if (nOldFac != nDocConf) {
+                        TestataDocumento oldFac = TestataDocumentoLocalServiceUtil
+                                .fetchTestataDocumento(new TestataDocumentoPK(
+                                        ANNO, nOldFac, FAC, associato.getId()));
+                        _log.info("Deleting invoice: " + oldFac);
+                        List<RigoDocumento> oldFacRows = RigoDocumentoLocalServiceUtil
+                                .getFatturaByNumeroOrdineAnnoAssociato(nOldFac,
+                                        ANNO, associato.getId(), FAC);
+                        for (RigoDocumento rigoDocumento : oldFacRows) {
+                            _log.debug("Elimino rigo: " + rigoDocumento);
+                            RigoDocumentoLocalServiceUtil
+                                    .deleteRigoDocumento(rigoDocumento);
+                            _log.info("Rigo eliminato: {"
+                                    + rigoDocumento.getPrimaryKey() + "}");
+                        }
+                        TestataDocumentoLocalServiceUtil
+                                .deleteTestataDocumento(oldFac);
+                        _log.info("Fattura eliminata: {"
+                                + oldFac.getPrimaryKey() + "}");
+                        ThemeDisplay themeDisplay = (ThemeDisplay) resourceRequest
+                                .getAttribute(WebKeys.THEME_DISPLAY);
+                        User liferayOp = UserLocalServiceUtil.getUser(op
+                                .getIdLiferay());
+                        long groupId = themeDisplay.getLayout().getGroupId();
+                        long repositoryId = themeDisplay.getScopeGroupId();
+                        DLFolder opFolder = Utils.getOpFolder(groupId,
+                                liferayOp);
+                        UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil
+                                .getUserIdMapper(associato.getIdLiferay());
+                        User liferayAssociato = UserLocalServiceUtil
+                                .getUser(userIdMapper.getUserId());
+                        DLFolder associatoFolder = Utils.getAssociatoFolder(
+                                groupId, opFolder, liferayAssociato);
+                        DLFolder yearFolder = Utils.getAssociatoYearFolder(
+                                groupId, associatoFolder, ANNO);
+                        DLFolder docFolder = Utils.getAssociatoDocumentFolder(
+                                groupId, yearFolder, FAC);
+                        _log.info("Deleting file: " + FAC + "_" + ANNO + "_"
+                                + nDocConf + "_" + OP_VAT_CENTER + ".pdf");
+                        DLAppServiceUtil.deleteFileEntryByTitle(repositoryId,
+                                docFolder.getFolderId(), FAC + "_" + ANNO + "_"
+                                        + nOldFac + "_" + OP_VAT_CENTER
+                                        + ".pdf");
+                    }
+                }
+                // Memorizzo il riferimento alla fattura di conferimento
+                // nella fattura di vendita.
+                sellInvoice.setNota2(String.valueOf(nDocConf));
             }
             invoices.add(sellInvoice);
         } else if (nDocConf == -1) {
@@ -2534,23 +2655,14 @@ public class DDTPortlet extends MVCPortlet {
         }
 
         if (nDocConf != -1) {
-
-            TestataDocumento purchaseInvoice;
-
-            if (update) {
-                purchaseInvoice = TestataDocumentoLocalServiceUtil
-                        .fetchTestataDocumento(new TestataDocumentoPK(ANNO,
-                                nDocConf, FAC, associato.getId()));
-                if (purchaseInvoice == null) // Non avevo ancora generato la
-                                             // fattura di conferimento
-                    purchaseInvoice = TestataDocumentoLocalServiceUtil
-                            .createTestataDocumento(new TestataDocumentoPK(
-                                    ANNO, nDocConf, FAC, associato.getId()));
+            TestataDocumento purchaseInvoice = TestataDocumentoLocalServiceUtil
+                    .fetchTestataDocumento(new TestataDocumentoPK(ANNO,
+                            nDocConf, FAC, associato.getId()));
+            if (purchaseInvoice != null) {
+                return new Response(Code.FAC_ALREADY_EXISTS, nDocConf);
             } else {
-                // TODO: gestire il caso FAC duplicato
-                purchaseInvoice = TestataDocumentoLocalServiceUtil
-                        .createTestataDocumento(new TestataDocumentoPK(ANNO,
-                                nDocConf, FAC, associato.getId()));
+                purchaseInvoice = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO,
+                            nDocConf, FAC, associato.getId()));
             }
 
             purchaseInvoice.setCodiceSoggetto(String.valueOf(associato
@@ -2560,16 +2672,10 @@ public class DDTPortlet extends MVCPortlet {
             purchaseInvoice.setDestinazione(op.getIndirizzo());
             purchaseInvoice.setDataOrdine(dateDocConf);
             purchaseInvoice.setOperatore(resourceRequest.getRemoteUser());
+            purchaseInvoice.setInviato(0);
             purchaseInvoice.setCompleto(COMPLETED);
-            if (codiceCliente.equals(String.valueOf(op.getIdLiferay()))) { // nel
-                                                                           // caso
-                                                                           // di
-                                                                           // FAC
-                                                                           // per
-                                                                           // vendita
-                                                                           // diretta
-                                                                           // ad
-                                                                           // OP
+            if (codiceCliente.equals(String.valueOf(op.getIdLiferay()))) {
+                // nel caso di FAC per vendita diretta ad OP
                 purchaseInvoice.setNota2(String.valueOf(nDocConf));
             }
             invoices.add(purchaseInvoice);

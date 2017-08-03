@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class TracciabilitaSchedaImpl extends TracciabilitaSchedaBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a tracciabilita scheda model instance should use the {@link it.bysoftware.ct.model.TracciabilitaScheda} interface instead.

@@ -15,10 +15,10 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.service.base.OrganizzazioneProduttoriLocalServiceBaseImpl;
-import java.util.List;
 
 /**
  * The implementation of the organizzazione produttori local service.
@@ -36,14 +36,14 @@ import java.util.List;
  */
 public class OrganizzazioneProduttoriLocalServiceImpl
 	extends OrganizzazioneProduttoriLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil} to access the organizzazione produttori local service.
 	 */
-    
-    public OrganizzazioneProduttori getOP(long id) throws SystemException, NoSuchOrganizzazioneProduttoriException {
-        return this.organizzazioneProduttoriPersistence.findByIdLiferay(id);
-    }
-    
+
+	public OrganizzazioneProduttori getOP(long id) throws NoSuchOrganizzazioneProduttoriException, SystemException {
+		return this.organizzazioneProduttoriPersistence.findByIdLiferay(id);
+	}
+
 }

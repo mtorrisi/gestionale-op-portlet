@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.VettoriLocalServiceBaseImpl;
  * @see it.bysoftware.ct.service.VettoriLocalServiceUtil
  */
 public class VettoriLocalServiceImpl extends VettoriLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.VettoriLocalServiceUtil} to access the vettori local service.

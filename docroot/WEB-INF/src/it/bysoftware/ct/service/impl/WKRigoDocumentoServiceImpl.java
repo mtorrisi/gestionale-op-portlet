@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.WKRigoDocumentoServiceBaseImpl;
  * @see it.bysoftware.ct.service.WKRigoDocumentoServiceUtil
  */
 public class WKRigoDocumentoServiceImpl extends WKRigoDocumentoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.WKRigoDocumentoServiceUtil} to access the w k rigo documento remote service.

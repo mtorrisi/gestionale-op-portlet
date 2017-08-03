@@ -19,6 +19,7 @@ import com.liferay.portal.kernel.exception.SystemException;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.base.RigoDocumentoLocalServiceBaseImpl;
+
 import it.its.ct.gestionaleOP.utils.DocumentType;
 
 import java.util.List;
@@ -39,40 +40,32 @@ import java.util.List;
  */
 public class RigoDocumentoLocalServiceImpl
 	extends RigoDocumentoLocalServiceBaseImpl {
-	/*
+	@Override
+	public List<RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+		List<RigoDocumento> list = getFatturaByNumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+
+		for (RigoDocumento rigoDocumento : list) {
+			RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigoDocumento);
+		}
+
+		return list;
+	}
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
 	 */
-    
+
 	@Override
-    public List<RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, DocumentType.DDA.name());
-    }
-	
-    @Override
-    public List<RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, DocumentType.DDT.name());
-    }
-    
-    @Override
-    public List<RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
-    }
-    
-    @Override
-    public List<RigoDocumento> getNACByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
-        return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
-    }
-        
-    @Override
-    public List<RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
-    	List<RigoDocumento> list = getFatturaByNumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
-    	for (RigoDocumento rigoDocumento : list) {
-			RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigoDocumento);
-		}
-    	return list;
-    }
+	public List<RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
+		return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, DocumentType.DDA.name());
+	}
+
+	@Override
+	public List<RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato) throws SystemException {
+		return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, DocumentType.DDT.name());
+	}
 
 	@Override
 	public List<RigoDocumento> getDocumentoByOrdineAnnoAssociato(long numeroOrdine,
@@ -81,4 +74,14 @@ public class RigoDocumentoLocalServiceImpl
 			throws SystemException {
 		return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociatoArticolo(numeroOrdine, anno, tipoDocumento, codiceArticolo, codiceVariante, imballo, idAssociato);
 	}
+
+	@Override
+	public List<RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+		return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+	}
+
+	public List<RigoDocumento> getNACByNumeroOrdineAnnoAssociato(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+		return this.rigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+	}
+
 }

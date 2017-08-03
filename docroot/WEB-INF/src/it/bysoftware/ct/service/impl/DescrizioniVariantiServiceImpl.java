@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.DescrizioniVariantiServiceBaseImpl;
  */
 public class DescrizioniVariantiServiceImpl
 	extends DescrizioniVariantiServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DescrizioniVariantiServiceUtil} to access the descrizioni varianti remote service.

@@ -127,7 +127,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 		_methodName23 = "searchArticoli";
 
 		_methodParameterTypes23 = new String[] {
-				"java.lang.String", "boolean", "int", "int",
+				"java.lang.String", "java.lang.String", "boolean", "int", "int",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
 
@@ -806,7 +806,8 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 	}
 
 	@Override
-	public java.util.List searchArticoli(java.lang.String codiceArticolo,
+	public java.util.List<it.bysoftware.ct.model.Articoli> searchArticoli(
+		java.lang.String codiceArticolo, java.lang.String descrizione,
 		boolean andSearch, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -817,6 +818,8 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 					_methodParameterTypes23,
 					new Object[] {
 						ClpSerializer.translateInput(codiceArticolo),
+						
+					ClpSerializer.translateInput(descrizione),
 						
 					andSearch,
 						
@@ -843,12 +846,13 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<it.bysoftware.ct.model.Articoli>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public java.util.List searchImballaggi(java.lang.String codiceImballaggio,
-		boolean andSearch, int start, int end,
+	public java.util.List<it.bysoftware.ct.model.Articoli> searchImballaggi(
+		java.lang.String codiceImballaggio, boolean andSearch, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -884,7 +888,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<it.bysoftware.ct.model.Articoli>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	private InvokableLocalService _invokableLocalService;

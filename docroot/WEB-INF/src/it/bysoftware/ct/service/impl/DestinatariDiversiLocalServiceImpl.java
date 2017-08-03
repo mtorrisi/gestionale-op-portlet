@@ -15,8 +15,10 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.model.DestinatariDiversi;
 import it.bysoftware.ct.service.base.DestinatariDiversiLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -35,24 +37,23 @@ import java.util.List;
  */
 public class DestinatariDiversiLocalServiceImpl
 	extends DestinatariDiversiLocalServiceBaseImpl {
-	/*
+	public int countDestinazioniDiverse(String codiceRiferimento) throws SystemException {
+		return this.destinatariDiversiPersistence.countBycodiceRiferimento(codiceRiferimento);
+	} public List<DestinatariDiversi> getDestinazioni(String codiceRiferimento) throws SystemException {
+		return this.destinatariDiversiPersistence.findBycodiceRiferimento(codiceRiferimento);
+	}
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil} to access the destinatari diversi local service.
 	 */
-    public List<DestinatariDiversi> getDestinazioni() throws SystemException {
-        return this.destinatariDiversiPersistence.findAll();
-    }
-    
-    public List<DestinatariDiversi> getDestinazioni(String codiceRiferimento) throws SystemException {
-        return this.destinatariDiversiPersistence.findBycodiceRiferimento(codiceRiferimento);
-    }
+	public List<DestinatariDiversi> getDestinazioni() throws SystemException {
+		return this.destinatariDiversiPersistence.findAll();
+	}
 
-    public List<DestinatariDiversi> getDestinazioni(String codiceRiferimento, int start, int end) throws SystemException {
-        return this.destinatariDiversiPersistence.findBycodiceRiferimento(codiceRiferimento, start, end);
-    }
-    
-    public int countDestinazioniDiverse(String codiceRiferimento) throws SystemException {
-        return this.destinatariDiversiPersistence.countBycodiceRiferimento(codiceRiferimento);
-    }
+	public List<DestinatariDiversi> getDestinazioni(String codiceRiferimento, int start, int end) throws SystemException {
+		return this.destinatariDiversiPersistence.findBycodiceRiferimento(codiceRiferimento, start, end);
+	}
+
 }

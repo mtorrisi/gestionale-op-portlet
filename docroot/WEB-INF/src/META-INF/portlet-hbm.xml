@@ -69,6 +69,7 @@
 		<property name="descrizioneFiscale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanDesfis" />
 		<property name="unitaMisura" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanUnimis" />
 		<property name="tara" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="RanLibDbl1" />
+		<property name="codiceIVA" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RanCodiva" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.ArticoliAssociatoOPImpl" table="articoli_associato_op">
 		<cache usage="read-write" />
@@ -89,7 +90,7 @@
 	<class name="it.bysoftware.ct.model.impl.AssociatoImpl" table="associato">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="assigned" />
+			<generator class="native" />
 		</id>
 		<property name="centro" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ragione_sociale" />
@@ -322,7 +323,7 @@
 	<class name="it.bysoftware.ct.model.impl.TracciabilitaGrezziImpl" table="TracciabilitaGrezzi">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="assigned" />
+			<generator class="native" />
 		</id>
 		<property name="lottoGrezzo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="lotto_grezzo" />
 		<property name="prodotto" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -338,7 +339,7 @@
 	<class name="it.bysoftware.ct.model.impl.TracciabilitaSchedaImpl" table="tracciabilitaScheda">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="assigned" />
+			<generator class="native" />
 		</id>
 		<property name="codiceProdotto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="codice_prodotto" />
 		<property name="prodottoVenduto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="prodotto" />

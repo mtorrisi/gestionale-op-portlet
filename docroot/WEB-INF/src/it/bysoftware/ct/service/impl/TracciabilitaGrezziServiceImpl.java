@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.TracciabilitaGrezziServiceBaseImpl;
  */
 public class TracciabilitaGrezziServiceImpl
 	extends TracciabilitaGrezziServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaGrezziServiceUtil} to access the tracciabilita grezzi remote service.

@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.VociIvaServiceBaseImpl;
  * @see it.bysoftware.ct.service.VociIvaServiceUtil
  */
 public class VociIvaServiceImpl extends VociIvaServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.VociIvaServiceUtil} to access the voci iva remote service.

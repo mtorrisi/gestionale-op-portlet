@@ -13,10 +13,7 @@
  */
 package it.bysoftware.ct.service.impl;
 
-import com.liferay.portal.kernel.exception.SystemException;
-import it.bysoftware.ct.model.DestinatariDiversi;
 import it.bysoftware.ct.service.base.DestinatariDiversiServiceBaseImpl;
-import java.util.List;
 
 /**
  * The implementation of the destinatari diversi remote service.
@@ -37,12 +34,11 @@ import java.util.List;
  * @see it.bysoftware.ct.service.DestinatariDiversiServiceUtil
  */
 public class DestinatariDiversiServiceImpl
-        extends DestinatariDiversiServiceBaseImpl {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DestinatariDiversiServiceUtil} to access the destinatari diversi remote service.
-     */
-    
-    
+		extends DestinatariDiversiServiceBaseImpl {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DestinatariDiversiServiceUtil} to access the destinatari diversi remote service.
+	 */
+
 }

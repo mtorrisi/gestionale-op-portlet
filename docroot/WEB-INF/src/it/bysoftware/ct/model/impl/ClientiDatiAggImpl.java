@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class ClientiDatiAggImpl extends ClientiDatiAggBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a clienti dati agg model instance should use the {@link it.bysoftware.ct.model.ClientiDatiAgg} interface instead.

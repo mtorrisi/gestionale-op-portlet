@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.WKTestataDocumentoServiceBaseImpl;
  */
 public class WKTestataDocumentoServiceImpl
 	extends WKTestataDocumentoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.WKTestataDocumentoServiceUtil} to access the w k testata documento remote service.

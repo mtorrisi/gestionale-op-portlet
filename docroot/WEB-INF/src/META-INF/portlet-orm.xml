@@ -105,6 +105,9 @@
 			<basic name="tara">
 				<column name="RANLIBDBL1" />
 			</basic>
+			<basic name="codiceIVA">
+				<column name="RANCODIVA" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

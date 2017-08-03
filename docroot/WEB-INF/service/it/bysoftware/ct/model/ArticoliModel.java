@@ -161,6 +161,21 @@ public interface ArticoliModel extends BaseModel<Articoli> {
 	 */
 	public void setTara(double tara);
 
+	/**
+	 * Returns the codice i v a of this articoli.
+	 *
+	 * @return the codice i v a of this articoli
+	 */
+	@AutoEscape
+	public String getCodiceIVA();
+
+	/**
+	 * Sets the codice i v a of this articoli.
+	 *
+	 * @param codiceIVA the codice i v a of this articoli
+	 */
+	public void setCodiceIVA(String codiceIVA);
+
 	@Override
 	public boolean isNew();
 

@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class ProgressivoImpl extends ProgressivoBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a progressivo model instance should use the {@link it.bysoftware.ct.model.Progressivo} interface instead.

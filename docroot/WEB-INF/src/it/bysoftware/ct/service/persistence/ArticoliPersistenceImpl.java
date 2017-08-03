@@ -1479,6 +1479,7 @@ public class ArticoliPersistenceImpl extends BasePersistenceImpl<Articoli>
 		articoliImpl.setDescrizioneFiscale(articoli.getDescrizioneFiscale());
 		articoliImpl.setUnitaMisura(articoli.getUnitaMisura());
 		articoliImpl.setTara(articoli.getTara());
+		articoliImpl.setCodiceIVA(articoli.getCodiceIVA());
 
 		return articoliImpl;
 	}
@@ -1804,7 +1805,7 @@ public class ArticoliPersistenceImpl extends BasePersistenceImpl<Articoli>
 	private static Set<String> _badColumnNames = SetUtil.fromArray(new String[] {
 				"codiceArticolo", "categoriaMerceologica", "descrizione",
 				"descrizioneDocumento", "descrizioneFiscale", "unitaMisura",
-				"tara"
+				"tara", "codiceIVA"
 			});
 	private static Articoli _nullArticoli = new ArticoliImpl() {
 			@Override

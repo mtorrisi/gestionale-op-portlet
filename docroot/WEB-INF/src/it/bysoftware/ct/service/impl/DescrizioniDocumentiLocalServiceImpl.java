@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.DescrizioniDocumentiLocalServiceBaseImpl;
  */
 public class DescrizioniDocumentiLocalServiceImpl
 	extends DescrizioniDocumentiLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil} to access the descrizioni documenti local service.

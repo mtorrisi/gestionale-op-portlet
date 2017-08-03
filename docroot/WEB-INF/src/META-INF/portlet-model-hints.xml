@@ -33,6 +33,7 @@
 		<field name="descrizioneFiscale" type="String" />
 		<field name="unitaMisura" type="String" />
 		<field name="tara" type="double" />
+		<field name="codiceIVA" type="String" />
 	</model>
 	<model name="it.bysoftware.ct.model.ArticoliAssociatoOP">
 		<field name="idAssociato" type="long" />

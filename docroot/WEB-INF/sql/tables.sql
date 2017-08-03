@@ -5,7 +5,8 @@ create table Articoli (
 	RanDesdoc VARCHAR(75) null,
 	RanDesfis VARCHAR(75) null,
 	RanUnimis VARCHAR(75) null,
-	RanLibDbl1 DOUBLE
+	RanLibDbl1 DOUBLE,
+	RanCodiva VARCHAR(75) null
 );
 
 create table AspettoEsterioreBeni (

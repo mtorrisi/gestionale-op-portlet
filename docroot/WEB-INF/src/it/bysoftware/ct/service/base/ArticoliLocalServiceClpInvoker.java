@@ -127,7 +127,7 @@ public class ArticoliLocalServiceClpInvoker {
 		_methodName194 = "searchArticoli";
 
 		_methodParameterTypes194 = new String[] {
-				"java.lang.String", "boolean", "int", "int",
+				"java.lang.String", "java.lang.String", "boolean", "int", "int",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
 
@@ -263,10 +263,11 @@ public class ArticoliLocalServiceClpInvoker {
 		if (_methodName194.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes194, parameterTypes)) {
 			return ArticoliLocalServiceUtil.searchArticoli((java.lang.String)arguments[0],
-				((Boolean)arguments[1]).booleanValue(),
-				((Integer)arguments[2]).intValue(),
+				(java.lang.String)arguments[1],
+				((Boolean)arguments[2]).booleanValue(),
 				((Integer)arguments[3]).intValue(),
-				(com.liferay.portal.kernel.util.OrderByComparator)arguments[4]);
+				((Integer)arguments[4]).intValue(),
+				(com.liferay.portal.kernel.util.OrderByComparator)arguments[5]);
 		}
 
 		if (_methodName195.equals(name) &&

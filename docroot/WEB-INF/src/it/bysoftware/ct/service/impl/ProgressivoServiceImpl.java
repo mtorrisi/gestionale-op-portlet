@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.ProgressivoServiceBaseImpl;
  * @see it.bysoftware.ct.service.ProgressivoServiceUtil
  */
 public class ProgressivoServiceImpl extends ProgressivoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ProgressivoServiceUtil} to access the progressivo remote service.

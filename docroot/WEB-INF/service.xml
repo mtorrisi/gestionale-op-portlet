@@ -87,6 +87,8 @@
 		</column>
 		<column name='tara' db-name='RanLibDbl1' type='double'>
 		</column>
+		<column name='codiceIVA' db-name='RanCodiva' type='String'>
+		</column>
 		<finder name='categoriaMerceologica' return-type='Collection'>
 			<finder-column name='categoriaMerceologica'>
 			</finder-column>

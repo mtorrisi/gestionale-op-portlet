@@ -5,23 +5,23 @@
 	<portlet>
 		<portlet-name>gestionale-op</portlet-name>
 		<icon>/icon.png</icon>
-                <instanceable>false</instanceable>
+				<instanceable>false</instanceable>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>gestionale-op-portlet</css-class-wrapper>
 	</portlet>
-        <portlet>
+		<portlet>
 		<portlet-name>recupero-documenti</portlet-name>
 		<icon>/icon.png</icon>
-                <instanceable>false</instanceable>
+				<instanceable>false</instanceable>
 		<header-portlet-css>/css/op/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/op/main.js</footer-portlet-javascript>
 		<css-class-wrapper>gestionale-op-portlet</css-class-wrapper>
 	</portlet>
-        <portlet>
+		<portlet>
 		<portlet-name>registra-associato</portlet-name>
 		<icon>/icon.png</icon>
-                <instanceable>false</instanceable>
+				<instanceable>false</instanceable>
 		<header-portlet-css>/css/op/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/op/main.js</footer-portlet-javascript>
 		<css-class-wrapper>gestionale-op-portlet</css-class-wrapper>

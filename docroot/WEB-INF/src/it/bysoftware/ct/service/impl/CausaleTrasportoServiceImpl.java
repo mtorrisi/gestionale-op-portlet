@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.CausaleTrasportoServiceBaseImpl;
  * @see it.bysoftware.ct.service.CausaleTrasportoServiceUtil
  */
 public class CausaleTrasportoServiceImpl extends CausaleTrasportoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.CausaleTrasportoServiceUtil} to access the causale trasporto remote service.

@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.AssociatoServiceBaseImpl;
  * @see it.bysoftware.ct.service.AssociatoServiceUtil
  */
 public class AssociatoServiceImpl extends AssociatoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AssociatoServiceUtil} to access the associato remote service.

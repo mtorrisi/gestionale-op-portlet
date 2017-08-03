@@ -14,12 +14,12 @@
 
 package it.bysoftware.ct.service.impl;
 
-import java.util.List;
-
 import com.liferay.portal.kernel.exception.SystemException;
 
 import it.bysoftware.ct.model.WKTestataDocumento;
 import it.bysoftware.ct.service.base.WKTestataDocumentoLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the w k testata documento local service.
@@ -37,18 +37,18 @@ import it.bysoftware.ct.service.base.WKTestataDocumentoLocalServiceBaseImpl;
  */
 public class WKTestataDocumentoLocalServiceImpl
 	extends WKTestataDocumentoLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil} to access the w k testata documento local service.
 	 */
 	@Override
-    public List<WKTestataDocumento> getReady(int anno, long idAssociato) throws SystemException {
-        return this.wkTestataDocumentoPersistence.findByAnnoAssociatoVerificato(anno, idAssociato, true);
-    }
-	
+	public List<WKTestataDocumento> getReady(int anno, long idAssociato) throws SystemException {
+		return this.wkTestataDocumentoPersistence.findByAnnoAssociatoVerificato(anno, idAssociato, true);
+	}
+
 	@Override
-    public List<WKTestataDocumento> getToCheck(int anno, long idAssociato) throws SystemException {
-        return this.wkTestataDocumentoPersistence.findByAnnoAssociatoVerificato(anno, idAssociato, false);
-    }
+	public List<WKTestataDocumento> getToCheck(int anno, long idAssociato) throws SystemException {
+		return this.wkTestataDocumentoPersistence.findByAnnoAssociatoVerificato(anno, idAssociato, false);
+	}
 }

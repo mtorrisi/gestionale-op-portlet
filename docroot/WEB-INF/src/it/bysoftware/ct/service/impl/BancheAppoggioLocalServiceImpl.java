@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.BancheAppoggioLocalServiceBaseImpl;
  */
 public class BancheAppoggioLocalServiceImpl
 	extends BancheAppoggioLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.BancheAppoggioLocalServiceUtil} to access the banche appoggio local service.

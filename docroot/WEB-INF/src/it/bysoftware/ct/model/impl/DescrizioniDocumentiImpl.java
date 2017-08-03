@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class DescrizioniDocumentiImpl extends DescrizioniDocumentiBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a descrizioni documenti model instance should use the {@link it.bysoftware.ct.model.DescrizioniDocumenti} interface instead.

@@ -1,3 +1,5 @@
+<%@page import="it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.DescrizioniVarianti"%>
 <%@page import="com.google.gson.JsonArray"%>
 <%@page import="it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.DescrizioniDocumenti"%>
@@ -44,275 +46,45 @@
 <%@include file="../init.jsp" %>
 
 <%
-    JSONArray jsonArr = JSONFactoryUtil.createJSONArray();
-    TestataDocumento testata;
-    List<TestataDocumento> listTestata = new ArrayList<TestataDocumento>();
-    Anagrafica cliente;
-    ClientiDatiAgg datiAggCliente;
-    String codiceAliquotaCliente;
-    String indirizzoCompleto;
+    String codiceAliquotaCliente = "";
+    String indirizzoCompleto = "";
     UserIdMapper userIdMapper = UserIdMapperLocalServiceUtil.getUserIdMapper(Long.parseLong(renderRequest.getRemoteUser()), Constants.FUTURO_NET);
     Associato a = AssociatoLocalServiceUtil.findByLiferayId(userIdMapper.getUserIdMapperId());
-    String origDoc = ParamUtil.getString(renderRequest, "numeroDocumento", "");
-    String origDocs = ParamUtil.getString(renderRequest, "documentIds", "");
-    TestataDocumento fac = null;
-    boolean document2op = false;
-    boolean update = false;
-    if (ParamUtil.getLong(renderRequest, "numeroDocumento", -1) != -1) {
-    	update = true;
-    	long cod = ParamUtil.getLong(renderRequest, "codiceCliente");
-    	if (a.getIdLiferay() == cod){
-    		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.FAC.name(), a.getId()));
-    		document2op = true;
-    		OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil.getOrganizzazioneProduttori(a.getIdOp());
-    		cliente = AnagraficaLocalServiceUtil.getAnagrafica(String.valueOf(op.getIdLiferay()));
-    	} else {
-    		testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), ParamUtil.getLong(renderRequest, "numeroDocumento", -1), DocumentType.FAV.name(), a.getId()));
-    		cliente = AnagraficaLocalServiceUtil.getAnagrafica(testata.getCodiceSoggetto());
-    	}
-        
+    String cod = ParamUtil.getString(renderRequest, "codiceCliente", null);
+    Anagrafica cliente = null;
+    ClientiDatiAgg datiAggCliente = null;
+    if (cod != null && !cod.isEmpty()){
+        cliente = AnagraficaLocalServiceUtil.getAnagrafica(cod);
+        datiAggCliente = ClientiDatiAggLocalServiceUtil.getDatiAggByCodiceAnagrafica(cod);
         indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
-        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
         codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-        
-        if(testata.getNota2()!=null
-        		&& !testata.getNota2().isEmpty()
-        		&& !testata.getNota2().equals(String.valueOf(testata.getNumeroOrdine()))){
-        	fac = TestataDocumentoLocalServiceUtil.fetchTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(testata.getNota2()), DocumentType.FAC.name(), a.getId())); 
-        } else {
-        	fac = testata;
-        }
-        
-        List<RigoDocumento> righe;
-        if(document2op){
-        	righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.FAC.name());
-        } else {
-        	righe = RigoDocumentoLocalServiceUtil.getFatturaByNumeroOrdineAnnoAssociato(testata.getNumeroOrdine(), testata.getAnno(), a.getId(), DocumentType.FAV.name());
-        }
-        	
-
-        for (RigoDocumento rigo : righe) {
-            JSONObject json = JSONFactoryUtil.createJSONObject();
-            json.put("codiceArticolo", rigo.getCodiceArticolo());
-            json.put("descrizione", rigo.getDescrizione());
-            json.put("codiceVariante", rigo.getCodiceVariante());
-            json.put("descrizioneVariante", rigo.getDescrizioneVariante());
-            json.put("imballo", rigo.getImballo());
-            json.put("lotto", rigo.getLotto());
-            json.put("unitaMisura", rigo.getUnitaMisura());
-            json.put("colli", rigo.getColli());
-            json.put("pesoLordo", rigo.getPesoLordo());
-            json.put("pesoNetto", rigo.getPesoNetto());
-            json.put("prezzo", rigo.getPrezzo());
-            json.put("sconto1", rigo.getSconto1());
-            json.put("sconto2", rigo.getSconto2());
-            json.put("sconto3", rigo.getSconto3());
-            if (!rigo.getCodiceArticolo().equals("")) {
-                if (rigo.getPesoLordo() != 0) {
-                    if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
-                        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-                    } else {
-                        Articoli articolo = ArticoliLocalServiceUtil.getArticoli(rigo.getCodiceArticolo());
-                        if (articolo != null) {
-                            codiceAliquotaCliente = articolo.getCodiceIVA();
-                        } else {
-                            codiceAliquotaCliente = "04";
-                        }
-                    }
-                } else {
-                    DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil.fetchDescrizioniDocumenti(rigo.getCodiceArticolo());
-                    if (descr != null) {
-                        codiceAliquotaCliente = descr.getCodiceIVA();
-                    }
-                }
-                json.put("codiceIva", codiceAliquotaCliente);
-                VociIva iva = VociIvaLocalServiceUtil.getVociIva(codiceAliquotaCliente);
-                if (iva != null) {
-                    json.put("aliquotaIva", iva.getAliquota());
-                }
-            }
-            
-            double importo = 0;
-
-            double sconto1 = rigo.getSconto1();
-            double sconto2 = rigo.getSconto2();
-            double sconto3 = rigo.getSconto3();
-
-            double importo1, importo2 = 0;
-            double tmpImporto = rigo.getPrezzo() * rigo.getPesoNetto();
-
-            importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
-            importo2 = importo1 - ((importo1 * sconto2) / 100);
-            importo = importo2 - ((importo2 * sconto3) / 100);
-            importo = Math.round(importo * 100);
-            json.put("importo", importo / 100);
-
-            jsonArr.put(json);
-        }
-    } else {
-        String[] ids = StringUtil.split(ParamUtil.getString(renderRequest, "documentIds"));
-        
-        String cod = ParamUtil.getString(renderRequest, "codiceCliente", null);
-        OrganizzazioneProduttori op = null;
-        if(cod != null && !cod.isEmpty()){
-        	try {
-        		op = OrganizzazioneProduttoriLocalServiceUtil.getOP(Long.parseLong(cod));
-        	} catch (Exception ex){
-        		op = null;
-        	}
-        }
-		List<RigoDocumento> righeDocumenti = new ArrayList<RigoDocumento>();
-        
-        if (op == null) {
-        	testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), DocumentType.DDT.name(), a.getId()));
-            for (int i = 0; i < ids.length; i++) {
-                listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), DocumentType.DDT.name(), a.getId())));
-            }
-            cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
-            
-            for (String id : ids) {
-                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
-                righeDocumenti.addAll(righe);
-            }
-            
-        } else {
-        	document2op = true;
-        	testata = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[0]), DocumentType.DDA.name(), a.getId()));
-            for (int i = 0; i < ids.length; i++) {
-                listTestata.add(TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(ParamUtil.getInteger(renderRequest, "anno"), Long.parseLong(ids[i]), DocumentType.DDA.name(), a.getId())));
-            }
-            cliente = AnagraficaLocalServiceUtil.getAnagrafica(listTestata.get(0).getCodiceSoggetto());
-            for (String id : ids) {
-                List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.getDDAByNumeroOrdineAnnoAssociato(Long.parseLong(id), ParamUtil.getInteger(renderRequest, "anno"), a.getId());
-                righeDocumenti.addAll(righe);
-            }
-            
-        }
-
-        datiAggCliente = ClientiDatiAggLocalServiceUtil.fetchClientiDatiAgg(new ClientiDatiAggPK(cliente.getCodiceAnagrafica(), false));
-        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-        indirizzoCompleto = cliente.getIndirizzo() + " - " + cliente.getCap() + ", " + cliente.getComune() + " (" + cliente.getProvincia() + ") - " + cliente.getStato();
-
-        long oldDocument = -1;
-        for (RigoDocumento rigo : righeDocumenti) {
-            System.out.println(rigo);
-            int i = 0;
-            JSONObject json = JSONFactoryUtil.createJSONObject();
-            if (oldDocument != rigo.getNumeroOrdine()) {
-            	TestataDocumento tmpTestataDocumento = TestataDocumentoLocalServiceUtil.getTestataDocumento(new TestataDocumentoPK(rigo.getAnno(), rigo.getNumeroOrdine(), rigo.getTipoDocumento(), rigo.getIdAssociato()));
-                json.put("descrizione", "Documento di trasporto N. " + rigo.getNumeroOrdine() + "/" + a.getCentro() + " del " + tmpTestataDocumento.getDataOrdine());
-                jsonArr.put(json);
-                json = JSONFactoryUtil.createJSONObject();
-                oldDocument = rigo.getNumeroOrdine();
-            }
-            json.put("codiceArticolo", rigo.getCodiceArticolo());
-            json.put("descrizione", rigo.getDescrizione());
-            json.put("codiceVariante", rigo.getCodiceVariante());
-            json.put("descrizioneVariante", rigo.getDescrizioneVariante());
-            json.put("imballo", rigo.getImballo());
-            json.put("lotto", rigo.getLotto());
-            json.put("unitaMisura", rigo.getUnitaMisura());
-            json.put("colli", rigo.getColli());
-            json.put("pesoLordo", rigo.getPesoLordo());
-            json.put("pesoNetto", rigo.getPesoNetto());
-            json.put("prezzo", rigo.getPrezzo());
-            json.put("sconto1", rigo.getSconto1());
-            json.put("sconto2", rigo.getSconto2());
-            json.put("sconto3", rigo.getSconto3());
-            if (!rigo.getCodiceArticolo().equals("")) {
-                if (rigo.getPesoLordo() != 0) {
-                    if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
-                        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-                    } else {
-                        Articoli articolo = ArticoliLocalServiceUtil.getArticoli(rigo.getCodiceArticolo());
-                        if (articolo != null) {
-                            codiceAliquotaCliente = articolo.getCodiceIVA();
-                        } else {
-                            codiceAliquotaCliente = "04";
-                        }
-                    }
-                } else {
-                    DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil.fetchDescrizioniDocumenti(rigo.getCodiceArticolo());
-                    if (descr != null) {
-                        codiceAliquotaCliente = descr.getCodiceIVA();
-                    }
-                }
-                json.put("codiceIva", codiceAliquotaCliente);
-                VociIva iva = VociIvaLocalServiceUtil.getVociIva(codiceAliquotaCliente);
-                if (iva != null) {
-                    json.put("aliquotaIva", iva.getAliquota());
-                }
-            }
-            
-            double importo = 0;
-
-            double sconto1 = rigo.getSconto1();
-            double sconto2 = rigo.getSconto2();
-            double sconto3 = rigo.getSconto3();
-
-            double importo1, importo2 = 0;
-            double tmpImporto = rigo.getPrezzo() * rigo.getPesoNetto();
-
-            importo1 = tmpImporto - ((tmpImporto * sconto1) / 100);
-            importo2 = importo1 - ((importo1 * sconto2) / 100);
-            importo = importo2 - ((importo2 * sconto3) / 100);
-            
-            json.put("importo", String.format("%.2f", importo));
-
-            jsonArr.put(json);
-            i++;
-        }
-
     }
-
-    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), Constants.INVOICE_ID);
-
+    Date date = Calendar.getInstance().getTime();
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
     ArrayList<Integer> idToRecover = new ArrayList<Integer>();
-
+    List<Progressivo> listProgressivo = ProgressivoLocalServiceUtil.getByAnnoIdAssociatoTipoDocumento(Calendar.getInstance().get(Calendar.YEAR), a.getId(), Constants.INVOICE_ID);
     for (Progressivo p : listProgressivo) {
         idToRecover.add(p.getNumeroProgressivo());
     }
-
-    Date date = Calendar.getInstance().getTime();
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-
-    VociIva iva;
+    double iva = 0.0;
     if (!codiceAliquotaCliente.equals("")) {
-        iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
-    } else {
-        iva = VociIvaLocalServiceUtil.fetchVociIva("04");
+        VociIva vociIva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+        if (vociIva != null) {
+            iva = vociIva.getAliquota(); 
+        }
     }
-    
-//     JSONObject jsonTotali = JSONFactoryUtil.createJSONObject();
-//     for (int i = 0; i < jsonArr.length(); i++) {
-//         JSONObject rigo = jsonArr.getJSONObject(i);
-//         JSONObject totale;
-//         JSONArray imponibili;
-//         if(!rigo.getString("codiceIva").isEmpty()) {
-// 	        if(jsonTotali.length() == 0 || jsonTotali.isNull(rigo.getString("codiceIva"))) {
-// 	            totale = JSONFactoryUtil.createJSONObject();
-// 	            imponibili = JSONFactoryUtil.createJSONArray();
-// 	            imponibili.put(rigo.getDouble("importo"));
-// 	            totale.put("imponibili", imponibili);
-// 	            totale.put("aliquota", rigo.getDouble("aliquotaIva"));
-// 	            jsonTotali.put(rigo.getString("codiceIva"), totale);
-// 	        } else {
-// 	            totale = jsonTotali.getJSONObject(rigo.getString("codiceIva"));
-// 	            imponibili = totale.getJSONArray("imponibili");
-// 	            imponibili.put(rigo.getDouble("importo"));
-// 	        }
-//         }
-//     }
+    List<DescrizioniVarianti> varianti = DescrizioniVariantiLocalServiceUtil.getVarianti();
+    String stringVarianti = "";
+    for (int i = 0; i < varianti.size(); i++) {
+        if (i == varianti.size() - 1) {
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " + varianti.get(i).getDescrizioneVariante();
+        } else {
+            stringVarianti += varianti.get(i).getCodiceVariante() + " - " + varianti.get(i).getDescrizioneVariante() + "|";
+        }
+    }
 %>
 
-<liferay-portlet:resourceURL var="updateInvoice"  id="updateInvoice" >
-    <liferay-portlet:param name="numeroDocumento" value="<%= origDoc%>" />
-    <%--<liferay-portlet:param name="documentIds" value="<%= origDocs%>" />--%>
-</liferay-portlet:resourceURL>
-<liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" >
-    <%--<liferay-portlet:param name="numeroDocumento" value="<%= origDoc%>" />--%>
-    <liferay-portlet:param name="documentIds" value="<%= origDocs%>" />
-</liferay-portlet:resourceURL>
+<liferay-portlet:resourceURL var="saveInvoice"  id="generateInvoice" />
 <portlet:resourceURL var="printInvoice" id="printInvoice" />
 <liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectDescription.jsp" />
@@ -320,74 +92,48 @@
 <liferay-portlet:renderURL var="itemURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectItem.jsp" />
 </liferay-portlet:renderURL>
-
+<liferay-portlet:renderURL var="packingURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/selectPack.jsp" />
+</liferay-portlet:renderURL>
+<liferay-portlet:renderURL var="popupURL" windowState="<%= LiferayWindowState.POP_UP.toString() %>">
+    <liferay-portlet:param name="mvcPath" value="/jsps/destinations.jsp" />
+    <liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />
+</liferay-portlet:renderURL>
 <aui:field-wrapper >
     <div class="btn-toolbar">
         <div class="btn-group">
-            <c:choose>
-                <c:when test="<%= origDoc.equals("")%>">
-                    <button id="btnInvoice" class="btn" onclick="saveInvoice()"><i class="icon-list-alt"></i>Genera Fattura</button>
-                </c:when>
-                <c:when test="<%= !origDoc.equals("")%>">
-                    <button id="btnInvoice" class="btn" onclick="saveInvoice(<%= origDoc%>)"><i class="icon-save"></i>Salva Modifiche</button>
-                </c:when>
-            </c:choose>
-            <button id="btnPrint"   class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : ""%>><i class="icon-print"></i>Stampa</button>
-            <button id="btnPrintCessione" class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : ""%>><i class="icon-envelope"></i> Cessione Credito</button>
+            <button id="btnInvoice" class="btn" onclick="saveInvoice()"><i class="icon-list-alt"></i> Genera Fattura</button>
+            <button id="btnPrint"   class="btn" disabled="true"><i class="icon-print"></i> Stampa</button>
+            <button id="btnPrintCessione" class="btn" disabled="true"><i class="icon-envelope"></i> Cessione Credito</button>
         </div>
     </div>  
 </aui:field-wrapper>
 
 <aui:fieldset label="Testata Fattura">
     <aui:layout>
-        <aui:column columnWidth="60" cssClass="detail-column detail-column-first">
+        <aui:column columnWidth="80" cssClass="detail-column detail-column-first">
             <aui:input id="codiceClienteTxt" type="text" name="codCliente" label="Codice Cliente" cssClass="input-small" disabled="true" inlineField="true" value="<%=cliente.getCodiceAnagrafica()%>" />
             <aui:input id="clienteTxt" type="text" name="cliente" label="Cliente" cssClass="input-xxlarge" inlineField="true" value="<%=cliente.getRagioneSociale()%>"/>
             <aui:input id="destinazioneTxt" type="text" name="destinazione" label="Destinazione diversa" cssClass="input-xxlarge" value="<%=indirizzoCompleto%>" inlineField="true"/>
-            <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none" value="<%= testata.getCodiceDestinazione()%>" />    
-            <aui:input id="documentDate" type="text" name="documentDate" label="Data Documento" inlineField="true" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>"/>
+            <aui:input id="codiceDestinazione" type="text" name="codiceDest" label="" inlineField="true" style="display: none"/>    
+            <aui:a href="#" onClick="restoreAdress()">Ripristina</aui:a><br />
+            <aui:input id="documentDate" type="text" name="documentDate" label="Data Documento" inlineField="true" value="<%= sdf.format(date)%>"/>
+            <aui:input cssClass="input-small" id="lottoTestata" inlineField="true" label="Lotto" name="lottoTestata" type="text" />
         </aui:column>
-        <c:choose>
-	        <c:when test="<%= !document2op %>">
-			        <aui:column columnWidth="20" cssClass="test" >
-		        	<aui:fieldset label="Fattura vendita">
-			            <aui:input type="text" name="nDoc" label="N. Documento" value="<%= origDoc%>" disabled="<%= update %>">
-			            	<aui:validator name="digits"></aui:validator>
-			            </aui:input>
-			            <aui:select label="Rec Protocollo" name="recProt" style="background-color: #FFFFCC;" disabled="<%= update %>"> 
-			                <c:forEach items="<%= idToRecover%>" var="id">
-			                    <aui:option value="${id}">
-			                        ${id}
-			                    </aui:option>
-			                </c:forEach>
-			            </aui:select>
-		            </aui:fieldset>
-		        </aui:column>
-		        <aui:column columnWidth="20" cssClass="test" last="true" >
-		            <aui:fieldset label="Fattura conferimento">
-			            <aui:input type="text" name="nDocConf" label="N. Documento" value="<%= testata.getNota2()%>" >
-			            	<aui:validator name="digits"></aui:validator>
-			            </aui:input>
-			            <aui:input type="text" name="dateDocConf" label="Data Documento" value="<%= (fac != null) ? fac.getDataOrdine() : sdf.format(date)%>" >
-			            	<aui:validator name="date" ></aui:validator>
-			            </aui:input>
-		            </aui:fieldset>
-		        </aui:column>
-	        </c:when>
-	        <c:otherwise>
-	        	<aui:column columnWidth="20" cssClass="test" last="true" >
-		            <aui:fieldset label="Fattura conferimento">
-			            <aui:input type="text" name="nDocConf" label="N. Documento" value="<%= testata.getNota2()%>" >
-			            	<aui:validator name="digits"></aui:validator>
-			            </aui:input>
-			            <aui:input type="text" name="dateDocConf" label="Data Documento" value="<%= (fac != null) ? fac.getDataOrdine() : sdf.format(date)%>" >
-			            	<aui:validator name="date" ></aui:validator>
-			            </aui:input>
-		            </aui:fieldset>
-		        </aui:column>
-	        </c:otherwise>
-        </c:choose>
-        
+        <aui:column columnWidth="20" cssClass="test" >
+       	<aui:fieldset label="Fattura vendita">
+            <aui:input type="text" name="nDoc" label="N. Documento">
+            	<aui:validator name="digits"></aui:validator>
+            </aui:input>
+            <aui:select label="Rec Protocollo" name="recProt" style="background-color: #FFFFCC;" > 
+                <c:forEach items="<%= idToRecover%>" var="id">
+                    <aui:option value="${id}">
+                        ${id}
+                    </aui:option>
+                </c:forEach>
+            </aui:select>
+           </aui:fieldset>
+       </aui:column>
     </aui:layout>
 </aui:fieldset>
 <div id="myTab">
@@ -429,9 +175,19 @@
 //        window.onbeforeunload = function () {
 //            return "";
 //        };
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    var todayDateInDDMMYYYY = dd + '/' + mm + '/' + yyyy;
 
-    var aliquotaIVA     = <%= iva.getAliquota()%>;
-    var codiceAliquota  = <%= iva.getCodiceIva()%>;
+    var variety = "<%= stringVarianti %>";
+    var aliquotaIVA     = <%= iva%>;
+    var codiceAliquota  = <%= codiceAliquotaCliente%>;
+    
+    YUI().use('node', function(Y) {
+        Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto(today));
+    });
     
     YUI().use(
             'aui-tabview',
@@ -469,37 +225,10 @@
             on: {
                 selectionChange: function (event) {
                     console.log(event.newSelection);
+                    document.getElementById('<portlet:namespace/>lottoTestata').value = calcolaLotto(event.newSelection[0]);
                 }
             }
         });
-        
-        var confDate = new Y.DatePicker({
-            trigger: '#<portlet:namespace />dateDocConf',
-            mask: '%d/%m/%Y',
-            popover: {
-                position: 'top',
-                toolbars: {
-                    header: [[
-                            {
-                                icon: 'icon-trash',
-                                label: 'Cancella',
-                                on: {
-                                    click: function () {
-                                    	confDate.clearSelection();
-                                    }
-                                }
-                            }
-                        ]]
-                },
-                zIndex: 1
-            },
-            on: {
-                selectionChange: function (event) {
-                    console.log(event.newSelection);
-                }
-            }
-        });
-
     });
 
     var recordSelected;
@@ -518,7 +247,7 @@
             }
         });
 
-        var data = <%=jsonArr%>;
+        var data = [];
         var numberEditor = new Y.TextCellEditor(
                 {
                     inputFormatter: Y.DataType.String.evaluate,
@@ -532,6 +261,12 @@
                     }
                 }
         );
+        var retiCheckbox = new Y.RadioCellEditor({
+            options: {
+                si: 'Si',
+                no: 'No'
+            }
+        });
 
         var columns = [
             //            {
@@ -552,34 +287,71 @@
                 key: 'descrizione',
                 label: 'Descrizione Articolo'
             },
+//             {
+//             	key: 'codiceVariante',
+//                 label: 'Cod. Var.'
+//             },
             {
-            	key: 'codiceVariante',
-                label: 'Cod. Var.'
-            },
-            {
+                editor: new Y.DropDownCellEditor({
+                    options: variety.split("|")
+                }),
                 key: 'descrizioneVariante',
                 label: 'Varieta\''
             },
             {
+            	allowHTML: true,
                 key: 'imballo',
-                label: 'Imballo '
+                label: 'Imballo',
+                emptyCellValue: '<button id="selectPack">Seleziona Imballo</button>'
             },
             {
-//                editor: nameEditor,
+            	editor: nameEditor,
                 key: 'lotto',
                 label: 'Lotto'
+            },
+            {
+                editor: retiCheckbox,
+                key: 'reti',
+                label: 'Reti'
+            },
+            {
+                editor: numberEditor,
+                key: 'rtxCl',
+                label: 'RtxCl'
+            },
+            {
+                editor: numberEditor,
+                key: 'kgRete',
+                label: 'KG Rete'
+            },
+            {
+                editor: numberEditor,
+                key: 'pedane',
+                label: 'Ped'
             },
             {
                 key: 'unitaMisura',
                 label: 'U.M.'
             },
             {
-                key: 'colli',
+            	editor: numberEditor,
+            	key: 'colli',
                 label: 'Colli'
             },
             {
-                key: 'pesoLordo',
+            	editor: numberEditor,
+            	key: 'pesoLordo',
                 label: 'Peso Lordo'
+            },
+            {
+                editor: numberEditor,
+                key: 'tara',
+                label: 'Tara'
+            },
+            {
+                editor: numberEditor,
+                key: 'taraPedana',
+                label: 'Tara P.'
             },
             {
                 editor: nameEditor,
@@ -597,14 +369,16 @@
                 label: 'Sconto1'
             },
             {
-                editor: numberEditor,
+            	editor: numberEditor,
                 key: 'sconto2',
-                label: 'Sconto2'
+                label: 'Sconto2',
+                className: 'hide'
             },
             {
                 editor: numberEditor,
                 key: 'sconto3',
-                label: 'Sconto3'
+                label: 'Sconto3',
+                className: 'hide'
             },
             {
                 key: 'importo',
@@ -642,6 +416,45 @@
         table.delegate('click', function (e) {
             recordSelected = table.getRecord(e.currentTarget);
         }, 'tr', table);
+        
+        table.delegate('click', function(e) {
+            recordSelected = table.getRecord(e.currentTarget);
+            Liferay.Util.openWindow({
+                dialog: {
+                    centered: true,
+                    modal: true,
+                    resizable: true,
+                    draggable: true,
+                    //                    height: '600px',
+                    //                    width: '1024px'
+                },
+                id: '<portlet:namespace/>packDialog',
+                title: 'Seleziona Imballaggio',
+                uri: '<%= packingURL %>'
+            });
+        }, '#selectPack', table);
+        
+        table.after('*:pedaneChange', function(e) {
+            calcola();
+        });
+
+        table.after('*:rtxclChange', function(e) {
+            calcola();
+        });
+
+        table.after('*:colliChange', function(e) {
+            calcola();
+        });
+        table.after('*:pesoLordoChange', function(e) {
+            calcola();
+        });
+        table.after('*:taraChange', function(e) {
+            calcola();
+        });
+        table.after('*:taraPedanaChange', function(e) {
+            calcola();
+        });
+        
         table.after('*:pesoNettoChange', function (e) {
             calcolaSconto();
         });
@@ -710,6 +523,24 @@
                 uri: '<%=itemURL%>'
             });
         });
+        
+        YUI().use('liferay-util-window', function(Y) {
+            Y.one('#<portlet:namespace/>destinazioneTxt').on('click', function(event) {
+
+                Liferay.Util.openWindow({
+                    dialog: {
+                        centered: true,
+                        modal: true,
+                        resizable: false
+                                //                    height: '600px',
+                                //                    width: '800px'
+                    },
+                    id: '<portlet:namespace/>dialog',
+                    title: 'Seleziona Destinazione',
+                    uri: '<%= popupURL %>'
+                });
+            });
+        });
     });
 
     Liferay.provide(window, 'closePopup', function (data, dialogId) {
@@ -719,8 +550,20 @@
         dialog.hide();
         console.log(data);
         switch (dialogId) {
+            case '<portlet:namespace/>dialog':
+                if (!indirizzo)
+                    indirizzo = document.getElementById('<portlet:namespace/>destinazioneTxt').value;
+                var tmp = data.split('|');
+                var dest = tmp[0];
+                var codice = tmp[1];
+                document.getElementById('<portlet:namespace/>destinazioneTxt').value = dest;
+                document.getElementById('<portlet:namespace/>codiceDestinazione').value = codice;
+                break;
             case '<portlet:namespace/>DescriptionDialog':
                 setDescription(data);
+                break;
+            case '<portlet:namespace/>packDialog':
+                setPack(data);
                 break;
             case '<portlet:namespace/>itemDialog':
                 setItem(data);
@@ -750,36 +593,37 @@
 
     }
 
-//     function calcolaImporti() {
-//         var imponibile = 0;
-//         var iva = 0;
-//         var totaledocumento = 0;
-
-//         for (var i = 0; i < table.data.size(); i++) {
-//             var importo = table.getRecord(i).getAttrs().importo;
-//             if (!isNaN(importo))
-//                 imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
-//             console.log(imponibile);
-//         }
-//         iva = imponibile * aliquotaIVA / 100;
-//         totaledocumento = imponibile + iva;
-
-//         document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
-//         document.getElementById('<portlet:namespace />totaleIVATxt').value = iva.toFixed(2);
-//         document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = totaledocumento.toFixed(2);
-//     }
-
+    function setPack(data) {
+        if (recordSelected) {
+            recordSelected.setAttrs({imballo: data});
+            recordSelected = undefined;
+        }
+    }
+    
     function setDescription(data) {
     	var tmp = data.split('|');
         console.log(recordSelected);
         if (recordSelected) {
-            recordSelected.setAttrs({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2], aliquotaIva: tmp[3]});
+            recordSelected.setAttrs({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: (codiceAliquota === "" ? tmp[2] : codiceAliquota), aliquotaIva: (codiceAliquota === "" ? tmp[3] : aliquotaIVA)});
             //recordSelected = undefined;
         } else {
-            table.addRow({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2], aliquotaIva: tmp[3]}, {sync: true});
+            table.addRow({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: (codiceAliquota === "" ? tmp[2] : codiceAliquota), aliquotaIva: (codiceAliquota === "" ? tmp[3] : aliquotaIVA)}, {sync: true});
         }
     }
+    
+    function calcolaLotto(date) {
+        var d;
+        if (date)
+            d = new Date(Date.parse(date));
+        else
+            d = new Date();
+        var anno = d.getFullYear().toString().substr(2, 2);
+        var onejan = new Date(d.getFullYear(), 0, 1);
+        var juldate = Math.ceil((d - onejan) / 86400000);
 
+        return "L-" + anno + juldate;
+    }
+    
     function setItem(data) {
         var tmp = data.split('|');
 
@@ -788,7 +632,7 @@
             recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
             recordSelected = undefined;
         } else {
-            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg"}, {sync: true});
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: document.getElementById('<portlet:namespace/>lottoTestata').value, pedane: 1, unitaMisura: tmp[3], taraPedana: 0.0, codiceIva: (codiceAliquota === "" ? tmp[4] : codiceAliquota), aliquotaIva: (codiceAliquota === "" ? tmp[5] : aliquotaIVA)}, {sync: true});
 //            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
         }
     }
@@ -798,44 +642,52 @@
         var ok = true;
         for (var i = 0; i < table.data.size(); i++) {
             if (table.data.item(i).toJSON().pesoLordo !== 0)
-                if (table.data.item(i).toJSON().importo === 0 || table.data.item(i).toJSON().importo === "0.00") {
+                if (isNaN(table.data.item(i).toJSON().importo) || table.data.item(i).toJSON().importo === 0 ||
+                		table.data.item(i).toJSON().importo === "0.00") {
                     ok = false;
                     break;
                 }
             rows[i] = table.data.item(i).toJSON();
         }
         console.log(rows);
-        var msg = checkInfoDocs();
         if (rows.length !== 0 && ok) {
-        	if (msg === '') {
-            	sendData(rows, origDoc);
-        	} else {
-        		alert("Attenzione non e' possibile generare la fattura.\n" + msg);
-        	}
+           	sendData(rows, origDoc);
         } else {
         	alert("Attenzione non e' possibile generare la fattura.\nVerificare di aver inserito i prezzi per tutti gli articoli.");
         }
 
     }
-    
-    function checkInfoDocs() {
-    	var msg = '';
-    	YUI().use('aui-io-request', 'node', function (Y) {
-    		var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
-    		var tmp=Y.one('#<portlet:namespace/>dateDocConf').val().split("/");
-    		var timestamp = Date.parse(tmp[1] + "/" + tmp[0] + "/" + tmp[2]);
-    		if(nDocConf !== '' && isNaN(nDocConf)){
-    			msg = 'Inserire un valore numerico per il numero di fattura di conferimento.';
-    		}
-    		if (isNaN(timestamp)){
-    			msg = "La data del documento di conferimento non e' valida";
-    		} 
-    	});
-    	return msg;
-	}
+        
+    function calcola() {
+        var record = recordSelected.getAttrs();
+        var colli = record.colli;
+        var pesoLordo;
+        var tara = record.tara;
+        var taraPedana = record.taraPedana;
+        var pedane = record.pedane;
+        var pesoNetto;
+        if (!record.reti || record.reti === 'no') {
+            console.log("GESTIONE RETI NO");
+            pesoLordo = record.pesoLordo;
+            pesoNetto = pesoLordo - (tara * colli) - (taraPedana * pedane);
+            console.log(pesoNetto);
+            recordSelected.setAttrs({pesoNetto: pesoNetto});
+        } else if (record.reti === 'si') {
+            console.log("GESTIONE RETI SI");
+            //            recordSelected.setAttrs({tara: 1.25, taraPedana: 0}, {sync: true});
+            var rtxCl = record.rtxCl;
+            var kgRete = record.kgRete;
+            //            var tara = record.tara;
+            //            var taraPedana = record.taraPedana;
+            pesoNetto = rtxCl * kgRete * colli;
+            pesoLordo = pesoNetto + (tara * colli) + (taraPedana * pedane);
+            if (!isNaN(pesoLordo))
+                recordSelected.setAttrs({pesoNetto: pesoNetto, pesoLordo: pesoLordo});
+        }
+    }
     
     function sendData(rows, origDoc) {
-    	var document2op = <%= document2op %>;
+<%--     	var document2op = <%= document2op %>; --%>
         YUI().use('aui-io-request', 'node', function (Y) {
 
             /******CAMPI TESTATA******/
@@ -844,19 +696,13 @@
             var destinazioneTxt = Y.one('#<portlet:namespace />destinazioneTxt').val();
             var codiceDestinazione = Y.one('#<portlet:namespace />codiceDestinazione').val();
             var documentDate = Y.one('#<portlet:namespace />documentDate').val();
-            var numeroFattura = (!document2op) ? Y.one('#<portlet:namespace/>recProt').val() : '';
-            var avanzaProtocollo = (!document2op) ? Y.one('#<portlet:namespace/>recProt').val() : '';
-            var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
-            var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
-            var datiDocConf = '';
-            if(nDocConf !== ''){
-            	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
-            }
+            var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
+            var avanzaProtocollo = Y.one('#<portlet:namespace/>recProt').val();
             
             var queryString = "&<portlet:namespace/>codCli=" + codiceCliente +
                     "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
                     "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo + datiDocConf;
+                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
             //        Y.one('#btnSave').on('click', function () {
             Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
                 on: {
@@ -903,9 +749,6 @@
                                 case 10:
                                     alert("Attenzione, non e' stato possibile salvare la fattura, esiste almeno una fattura con protocollo minore di: " + data.id + " e data maggiore di: " + documentDate);
                                     break;
-                                case 11:
-                                    alert("Attenzione, esiste gia' una fattura di conferimento con muero di portocollo: " + data.id);
-                                    break;
                             }
                         }
                     }
@@ -916,17 +759,11 @@
     }
 
     YUI().use('aui-io-request', 'node', function (Y) {
-    	var document2op = <%= document2op %>;
+<%--     	var document2op = <%= document2op %>; --%>
         Y.one('#btnPrint').on('click', function () {
-            var nDoc = (!document2op) ? Y.one('#<portlet:namespace/>nDoc').val() : '';
-            var nDocConf = Y.one('#<portlet:namespace/>nDocConf').val();
-            var dateDocConf = Y.one('#<portlet:namespace/>dateDocConf').val();
+            var nDoc =Y.one('#<portlet:namespace/>nDoc').val();
             var codiceCliente = Y.one('#<portlet:namespace/>codiceClienteTxt').val();
-            var datiDocConf = '';
-            if(nDocConf !== ''){
-            	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
-            }
-            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true + datiDocConf, '_blank');
+            var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true, '_blank');
             win.focus();
 
         });
@@ -1007,6 +844,16 @@
             t1.set('data', eval(data)); 
         }
         return data;
+    }
+    
+    var indirizzo;
+
+    function restoreAdress() {
+        if (indirizzo) {
+            console.log(indirizzo);
+            document.getElementById('<portlet:namespace/>destinazioneTxt').value = indirizzo;
+            document.getElementById('<portlet:namespace/>codiceDestinazione').value = "";
+        }
     }
 </script>
 

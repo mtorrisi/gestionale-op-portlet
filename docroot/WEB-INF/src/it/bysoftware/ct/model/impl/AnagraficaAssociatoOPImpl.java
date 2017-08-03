@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class AnagraficaAssociatoOPImpl extends AnagraficaAssociatoOPBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a anagrafica associato o p model instance should use the {@link it.bysoftware.ct.model.AnagraficaAssociatoOP} interface instead.

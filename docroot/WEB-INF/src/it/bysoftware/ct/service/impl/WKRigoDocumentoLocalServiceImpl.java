@@ -14,12 +14,12 @@
 
 package it.bysoftware.ct.service.impl;
 
-import java.util.List;
-
 import com.liferay.portal.kernel.exception.SystemException;
 
 import it.bysoftware.ct.model.WKRigoDocumento;
 import it.bysoftware.ct.service.base.WKRigoDocumentoLocalServiceBaseImpl;
+
+import java.util.List;
 
 /**
  * The implementation of the w k rigo documento local service.
@@ -37,19 +37,20 @@ import it.bysoftware.ct.service.base.WKRigoDocumentoLocalServiceBaseImpl;
  */
 public class WKRigoDocumentoLocalServiceImpl
 	extends WKRigoDocumentoLocalServiceBaseImpl {
-	/*
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil} to access the w k rigo documento local service.
 	 */
-	
+
 	@Override
-    public List<WKRigoDocumento> getByNumeroOrdineAnnoAssociatoTipoDocumento(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
-        return this.wkRigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
-    }
-	
+	public List<WKRigoDocumento> getByNumeroOrdineAnnoAssociatoTipoDocumento(long numeroOrdine, int anno, long idAssociato, String tipoDocumento) throws SystemException {
+		return this.wkRigoDocumentoPersistence.findBynumeroOrdineAnnoAssociato(numeroOrdine, anno, idAssociato, tipoDocumento);
+	}
+
 	@Override
-    public List<WKRigoDocumento> getByAnnoAssociato(int anno, long idAssociato) throws SystemException {
-        return this.wkRigoDocumentoPersistence.findByAnnoAssociato(anno, idAssociato);
-    }
+	public List<WKRigoDocumento> getByAnnoAssociato(int anno, long idAssociato) throws SystemException {
+		return this.wkRigoDocumentoPersistence.findByAnnoAssociato(anno, idAssociato);
+	}
 }
