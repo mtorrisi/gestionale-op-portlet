@@ -157,4 +157,10 @@
        <property name="dataSource" ref="gestionaleOPDataSource" />
        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
     </bean>
+    <bean id="it.bysoftware.ct.service.CessioneCreditoLocalService" class="it.bysoftware.ct.service.impl.CessioneCreditoLocalServiceImpl" />
+    <bean id="it.bysoftware.ct.service.CessioneCreditoService" class="it.bysoftware.ct.service.impl.CessioneCreditoServiceImpl" />
+    <bean id="it.bysoftware.ct.service.persistence.CessioneCreditoPersistence" class="it.bysoftware.ct.service.persistence.CessioneCreditoPersistenceImpl" parent="basePersistence" >
+        <property name="dataSource" ref="gestionaleOPDataSource" />
+        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+    </bean>
 </beans>

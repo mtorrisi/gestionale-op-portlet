@@ -34,6 +34,7 @@ import it.bysoftware.ct.model.AssociatoClp;
 import it.bysoftware.ct.model.BancheAppoggioClp;
 import it.bysoftware.ct.model.CMRClp;
 import it.bysoftware.ct.model.CausaleTrasportoClp;
+import it.bysoftware.ct.model.CessioneCreditoClp;
 import it.bysoftware.ct.model.ClientiDatiAggClp;
 import it.bysoftware.ct.model.CuraTrasportoClp;
 import it.bysoftware.ct.model.DescrizioniDocumentiClp;
@@ -157,6 +158,10 @@ public class ClpSerializer {
 
 		if (oldModelClassName.equals(CausaleTrasportoClp.class.getName())) {
 			return translateInputCausaleTrasporto(oldModel);
+		}
+
+		if (oldModelClassName.equals(CessioneCreditoClp.class.getName())) {
+			return translateInputCessioneCredito(oldModel);
 		}
 
 		if (oldModelClassName.equals(ClientiDatiAggClp.class.getName())) {
@@ -324,6 +329,16 @@ public class ClpSerializer {
 		CausaleTrasportoClp oldClpModel = (CausaleTrasportoClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getCausaleTrasportoRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
+	public static Object translateInputCessioneCredito(BaseModel<?> oldModel) {
+		CessioneCreditoClp oldClpModel = (CessioneCreditoClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getCessioneCreditoRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -793,6 +808,43 @@ public class ClpSerializer {
 		if (oldModelClassName.equals(
 					"it.bysoftware.ct.model.impl.CausaleTrasportoImpl")) {
 			return translateOutputCausaleTrasporto(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
+		if (oldModelClassName.equals(
+					"it.bysoftware.ct.model.impl.CessioneCreditoImpl")) {
+			return translateOutputCessioneCredito(oldModel);
 		}
 		else if (oldModelClassName.endsWith("Clp")) {
 			try {
@@ -1604,6 +1656,10 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchCausaleTrasportoException();
 		}
 
+		if (className.equals("it.bysoftware.ct.NoSuchCessioneCreditoException")) {
+			return new it.bysoftware.ct.NoSuchCessioneCreditoException();
+		}
+
 		if (className.equals("it.bysoftware.ct.NoSuchClientiDatiAggException")) {
 			return new it.bysoftware.ct.NoSuchClientiDatiAggException();
 		}
@@ -1765,6 +1821,16 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setCausaleTrasportoRemoteModel(oldModel);
+
+		return newModel;
+	}
+
+	public static Object translateOutputCessioneCredito(BaseModel<?> oldModel) {
+		CessioneCreditoClp newModel = new CessioneCreditoClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setCessioneCreditoRemoteModel(oldModel);
 
 		return newModel;
 	}

@@ -10,6 +10,7 @@
 	<import class="it.bysoftware.ct.model.Associato" />
 	<import class="it.bysoftware.ct.model.BancheAppoggio" />
 	<import class="it.bysoftware.ct.model.CausaleTrasporto" />
+	<import class="it.bysoftware.ct.model.CessioneCredito" />
 	<import class="it.bysoftware.ct.model.ClientiDatiAgg" />
 	<import class="it.bysoftware.ct.model.CMR" />
 	<import class="it.bysoftware.ct.model.CuraTrasporto" />
@@ -127,6 +128,20 @@
 		</id>
 		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeDescri" />
 		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RdeCodiaz" />
+	</class>
+	<class name="it.bysoftware.ct.model.impl.CessioneCreditoImpl" table="cessioneCredito">
+		<cache usage="read-write" />
+		<id name="id" type="long">
+			<generator class="assigned" />
+		</id>
+		<property name="data" type="org.hibernate.type.TimestampType" />
+		<property name="codiceSoggetto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCodana" />
+		<property name="idAssociato" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_associato" />
+		<property name="idFile" type="com.liferay.portal.dao.orm.hibernate.LongType" column="id_file" />
+		<property name="anno" type="com.liferay.portal.dao.orm.hibernate.IntegerType" />
+		<property name="numeroFattura" type="com.liferay.portal.dao.orm.hibernate.IntegerType" column="numero_fattura" />
+		<property name="totale" type="com.liferay.portal.dao.orm.hibernate.DoubleType" />
+		<property name="note" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.ClientiDatiAggImpl" table="ClientiFornitoriDatiAgg">
 		<cache usage="read-write" />

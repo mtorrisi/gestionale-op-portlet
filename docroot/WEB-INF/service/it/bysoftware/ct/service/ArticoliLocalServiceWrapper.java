@@ -287,9 +287,9 @@ public class ArticoliLocalServiceWrapper implements ArticoliLocalService,
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
+	public int countArticoli()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _articoliLocalService.getImballaggi();
+		return _articoliLocalService.countArticoli();
 	}
 
 	@Override
@@ -305,9 +305,9 @@ public class ArticoliLocalServiceWrapper implements ArticoliLocalService,
 	}
 
 	@Override
-	public int countArticoli()
+	public java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _articoliLocalService.countArticoli();
+		return _articoliLocalService.getImballaggi();
 	}
 
 	@Override

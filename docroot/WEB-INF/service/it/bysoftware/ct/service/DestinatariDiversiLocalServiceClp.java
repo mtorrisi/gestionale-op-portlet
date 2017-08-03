@@ -116,9 +116,9 @@ public class DestinatariDiversiLocalServiceClp
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "getDestinazioni";
+		_methodName19 = "countDestinazioniDiverse";
 
-		_methodParameterTypes19 = new String[] {  };
+		_methodParameterTypes19 = new String[] { "java.lang.String" };
 
 		_methodName20 = "getDestinazioni";
 
@@ -126,11 +126,11 @@ public class DestinatariDiversiLocalServiceClp
 
 		_methodName21 = "getDestinazioni";
 
-		_methodParameterTypes21 = new String[] { "java.lang.String", "int", "int" };
+		_methodParameterTypes21 = new String[] {  };
 
-		_methodName22 = "countDestinazioniDiverse";
+		_methodName22 = "getDestinazioni";
 
-		_methodParameterTypes22 = new String[] { "java.lang.String" };
+		_methodParameterTypes22 = new String[] { "java.lang.String", "int", "int" };
 	}
 
 	@Override
@@ -698,13 +698,15 @@ public class DestinatariDiversiLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+	public int countDestinazioniDiverse(java.lang.String codiceRiferimento)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
-					_methodParameterTypes19, new Object[] {  });
+					_methodParameterTypes19,
+					new Object[] { ClpSerializer.translateInput(
+							codiceRiferimento) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -722,7 +724,7 @@ public class DestinatariDiversiLocalServiceClp
 			}
 		}
 
-		return (java.util.List<it.bysoftware.ct.model.DestinatariDiversi>)ClpSerializer.translateOutput(returnObj);
+		return ((Integer)returnObj).intValue();
 	}
 
 	@Override
@@ -757,14 +759,42 @@ public class DestinatariDiversiLocalServiceClp
 	}
 
 	@Override
+	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName21,
+					_methodParameterTypes21, new Object[] {  });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
+		return (java.util.List<it.bysoftware.ct.model.DestinatariDiversi>)ClpSerializer.translateOutput(returnObj);
+	}
+
+	@Override
 	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni(
 		java.lang.String codiceRiferimento, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName21,
-					_methodParameterTypes21,
+			returnObj = _invokableLocalService.invokeMethod(_methodName22,
+					_methodParameterTypes22,
 					new Object[] {
 						ClpSerializer.translateInput(codiceRiferimento),
 						
@@ -790,36 +820,6 @@ public class DestinatariDiversiLocalServiceClp
 		}
 
 		return (java.util.List<it.bysoftware.ct.model.DestinatariDiversi>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public int countDestinazioniDiverse(java.lang.String codiceRiferimento)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName22,
-					_methodParameterTypes22,
-					new Object[] { ClpSerializer.translateInput(
-							codiceRiferimento) });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return ((Integer)returnObj).intValue();
 	}
 
 	private InvokableLocalService _invokableLocalService;

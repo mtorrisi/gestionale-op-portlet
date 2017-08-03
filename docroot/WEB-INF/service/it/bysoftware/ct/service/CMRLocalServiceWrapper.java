@@ -280,6 +280,13 @@ public class CMRLocalServiceWrapper implements CMRLocalService,
 		return _cmrLocalService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.CMRLocalServiceUtil} to access the c m r local
+	* service.
+	*/
 	@Override
 	public java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
 		int anno, long idAssociato)

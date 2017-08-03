@@ -254,8 +254,7 @@ public interface DestinatariDiversiLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+	public int countDestinazioniDiverse(java.lang.String codiceRiferimento)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -263,11 +262,17 @@ public interface DestinatariDiversiLocalService extends BaseLocalService,
 		java.lang.String codiceRiferimento)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil} to access the destinatari diversi local service.
+	*/
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni(
 		java.lang.String codiceRiferimento, int start, int end)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	public int countDestinazioniDiverse(java.lang.String codiceRiferimento)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -290,9 +290,9 @@ public class DestinatariDiversiLocalServiceWrapper
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+	public int countDestinazioniDiverse(java.lang.String codiceRiferimento)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return _destinatariDiversiLocalService.getDestinazioni();
+		return _destinatariDiversiLocalService.countDestinazioniDiverse(codiceRiferimento);
 	}
 
 	@Override
@@ -302,18 +302,23 @@ public class DestinatariDiversiLocalServiceWrapper
 		return _destinatariDiversiLocalService.getDestinazioni(codiceRiferimento);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil} to access the destinatari diversi local service.
+	*/
+	@Override
+	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _destinatariDiversiLocalService.getDestinazioni();
+	}
+
 	@Override
 	public java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni(
 		java.lang.String codiceRiferimento, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _destinatariDiversiLocalService.getDestinazioni(codiceRiferimento,
 			start, end);
-	}
-
-	@Override
-	public int countDestinazioniDiverse(java.lang.String codiceRiferimento)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _destinatariDiversiLocalService.countDestinazioniDiverse(codiceRiferimento);
 	}
 
 	/**

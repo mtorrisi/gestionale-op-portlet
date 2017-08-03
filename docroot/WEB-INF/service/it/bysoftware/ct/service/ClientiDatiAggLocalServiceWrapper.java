@@ -288,6 +288,11 @@ public class ClientiDatiAggLocalServiceWrapper
 			arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil} to access the clienti dati agg local service.
+	*/
 	@Override
 	public it.bysoftware.ct.model.ClientiDatiAgg getDatiAggByCodiceAnagrafica(
 		java.lang.String codiceAnagrafica)

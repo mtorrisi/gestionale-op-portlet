@@ -254,6 +254,11 @@ public interface ClientiDatiAggLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil} to access the clienti dati agg local service.
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public it.bysoftware.ct.model.ClientiDatiAgg getDatiAggByCodiceAnagrafica(
 		java.lang.String codiceAnagrafica)

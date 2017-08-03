@@ -289,6 +289,11 @@ public class OrganizzazioneProduttoriLocalServiceWrapper
 			parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil} to access the organizzazione produttori local service.
+	*/
 	@Override
 	public it.bysoftware.ct.model.OrganizzazioneProduttori getOP(long id)
 		throws com.liferay.portal.kernel.exception.SystemException,

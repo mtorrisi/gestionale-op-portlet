@@ -275,9 +275,9 @@ public class ArticoliLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	public static java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
+	public static int countArticoli()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getImballaggi();
+		return getService().countArticoli();
 	}
 
 	public static int countImballaggi()
@@ -290,9 +290,9 @@ public class ArticoliLocalServiceUtil {
 		return getService().getArticoli();
 	}
 
-	public static int countArticoli()
+	public static java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().countArticoli();
+		return getService().getImballaggi();
 	}
 
 	public static java.util.List<it.bysoftware.ct.model.Articoli> searchArticoli(

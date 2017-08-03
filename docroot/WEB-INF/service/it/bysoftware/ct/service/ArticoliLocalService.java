@@ -254,8 +254,7 @@ public interface ArticoliLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
+	public int countArticoli()
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public int countImballaggi()
@@ -265,7 +264,8 @@ public interface ArticoliLocalService extends BaseLocalService,
 	public java.util.List<it.bysoftware.ct.model.Articoli> getArticoli()
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public int countArticoli()
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

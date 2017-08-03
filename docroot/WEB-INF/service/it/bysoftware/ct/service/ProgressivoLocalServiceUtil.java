@@ -275,6 +275,11 @@ public class ProgressivoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ProgressivoLocalServiceUtil} to access the progressivo local service.
+	*/
 	public static java.util.List<it.bysoftware.ct.model.Progressivo> getByAnnoIdAssociatoTipoDocumento(
 		int anno, long idAssociato, int tipoDocumento)
 		throws com.liferay.portal.kernel.exception.SystemException {

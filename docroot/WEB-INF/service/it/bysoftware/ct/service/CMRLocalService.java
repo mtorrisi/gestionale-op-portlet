@@ -250,6 +250,13 @@ public interface CMRLocalService extends BaseLocalService, InvokableLocalService
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.CMRLocalServiceUtil} to access the c m r local
+	* service.
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
 		int anno, long idAssociato)

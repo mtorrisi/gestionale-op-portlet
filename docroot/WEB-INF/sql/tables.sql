@@ -341,6 +341,18 @@ create table associato_cliente (
 	primary key (id_associato, id_cliente)
 );
 
+create table cessioneCredito (
+	id LONG not null primary key,
+	data DATE null,
+	RacCodana VARCHAR(75) null,
+	id_associato LONG,
+	id_file LONG,
+	anno INTEGER,
+	numero_fattura INTEGER,
+	totale DOUBLE,
+	note VARCHAR(75) null
+);
+
 create table fileuploader (
 	fid LONG not null primary key,
 	content VARCHAR(75) null

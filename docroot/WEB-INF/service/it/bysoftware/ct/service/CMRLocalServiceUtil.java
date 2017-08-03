@@ -275,6 +275,13 @@ public class CMRLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.CMRLocalServiceUtil} to access the c m r local
+	* service.
+	*/
 	public static java.util.List<it.bysoftware.ct.model.CMR> getCMRByAnnoAssociato(
 		int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {

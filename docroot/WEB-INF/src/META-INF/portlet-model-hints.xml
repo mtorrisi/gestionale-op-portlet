@@ -77,6 +77,17 @@
 		<field name="descrizione" type="String" />
 		<field name="codiceAzienda" type="String" />
 	</model>
+	<model name="it.bysoftware.ct.model.CessioneCredito">
+		<field name="id" type="long" />
+		<field name="data" type="Date" />
+		<field name="codiceSoggetto" type="String" />
+		<field name="idAssociato" type="long" />
+		<field name="idFile" type="long" />
+		<field name="anno" type="int" />
+		<field name="numeroFattura" type="int" />
+		<field name="totale" type="double" />
+		<field name="note" type="String" />
+	</model>
 	<model name="it.bysoftware.ct.model.ClientiDatiAgg">
 		<field name="codiceAnagrafica" type="String" />
 		<field name="tipo" type="boolean" />

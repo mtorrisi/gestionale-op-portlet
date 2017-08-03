@@ -63,6 +63,13 @@ public class FileUploaderServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.FileUploaderServiceUtil} to access the file
+	* uploader remote service.
+	*/
 	public static void add(java.io.File file) {
 		getService().add(file);
 	}

@@ -108,21 +108,21 @@ public class CMRLocalServiceClpInvoker {
 
 		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.CMR" };
 
-		_methodName184 = "getBeanIdentifier";
+		_methodName190 = "getBeanIdentifier";
 
-		_methodParameterTypes184 = new String[] {  };
+		_methodParameterTypes190 = new String[] {  };
 
-		_methodName185 = "setBeanIdentifier";
+		_methodName191 = "setBeanIdentifier";
 
-		_methodParameterTypes185 = new String[] { "java.lang.String" };
+		_methodParameterTypes191 = new String[] { "java.lang.String" };
 
-		_methodName190 = "getCMRByAnnoAssociato";
+		_methodName196 = "getCMRByAnnoAssociato";
 
-		_methodParameterTypes190 = new String[] { "int", "long" };
+		_methodParameterTypes196 = new String[] { "int", "long" };
 
-		_methodName191 = "getCMRByAnnoAssociatoDDT";
+		_methodName197 = "getCMRByAnnoAssociatoDDT";
 
-		_methodParameterTypes191 = new String[] { "int", "long", "long" };
+		_methodParameterTypes197 = new String[] { "int", "long", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -214,26 +214,26 @@ public class CMRLocalServiceClpInvoker {
 			return CMRLocalServiceUtil.updateCMR((it.bysoftware.ct.model.CMR)arguments[0]);
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return CMRLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			CMRLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName190.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
+		if (_methodName196.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes196, parameterTypes)) {
 			return CMRLocalServiceUtil.getCMRByAnnoAssociato(((Integer)arguments[0]).intValue(),
 				((Long)arguments[1]).longValue());
 		}
 
-		if (_methodName191.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
+		if (_methodName197.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes197, parameterTypes)) {
 			return CMRLocalServiceUtil.getCMRByAnnoAssociatoDDT(((Integer)arguments[0]).intValue(),
 				((Long)arguments[1]).longValue(),
 				((Long)arguments[2]).longValue());
@@ -274,12 +274,12 @@ public class CMRLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName184;
-	private String[] _methodParameterTypes184;
-	private String _methodName185;
-	private String[] _methodParameterTypes185;
 	private String _methodName190;
 	private String[] _methodParameterTypes190;
 	private String _methodName191;
 	private String[] _methodParameterTypes191;
+	private String _methodName196;
+	private String[] _methodParameterTypes196;
+	private String _methodName197;
+	private String[] _methodParameterTypes197;
 }

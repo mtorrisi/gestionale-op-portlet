@@ -273,6 +273,13 @@ public class FileUploaderLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.FileUploaderLocalServiceUtil} to access the file
+	* uploader local service.
+	*/
 	public static void add(java.io.File file) {
 		getService().add(file);
 	}

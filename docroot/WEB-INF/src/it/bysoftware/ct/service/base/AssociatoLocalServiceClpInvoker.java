@@ -102,33 +102,33 @@ public class AssociatoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.Associato"
 			};
 
-		_methodName184 = "getBeanIdentifier";
+		_methodName190 = "getBeanIdentifier";
 
-		_methodParameterTypes184 = new String[] {  };
+		_methodParameterTypes190 = new String[] {  };
 
-		_methodName185 = "setBeanIdentifier";
+		_methodName191 = "setBeanIdentifier";
 
-		_methodParameterTypes185 = new String[] { "java.lang.String" };
+		_methodParameterTypes191 = new String[] { "java.lang.String" };
 
-		_methodName190 = "getAssociatiAttivi";
+		_methodName196 = "countAssociatiAttivi";
 
-		_methodParameterTypes190 = new String[] { "long" };
+		_methodParameterTypes196 = new String[] { "long" };
 
-		_methodName191 = "getAssociatiDisattivati";
+		_methodName197 = "countAssociatiDisattivati";
 
-		_methodParameterTypes191 = new String[] { "long" };
+		_methodParameterTypes197 = new String[] { "long" };
 
-		_methodName192 = "countAssociatiAttivi";
+		_methodName198 = "findByLiferayId";
 
-		_methodParameterTypes192 = new String[] { "long" };
+		_methodParameterTypes198 = new String[] { "long" };
 
-		_methodName193 = "countAssociatiDisattivati";
+		_methodName199 = "getAssociatiDisattivati";
 
-		_methodParameterTypes193 = new String[] { "long" };
+		_methodParameterTypes199 = new String[] { "long" };
 
-		_methodName194 = "findByLiferayId";
+		_methodName200 = "getAssociatiAttivi";
 
-		_methodParameterTypes194 = new String[] { "long" };
+		_methodParameterTypes200 = new String[] { "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -220,41 +220,41 @@ public class AssociatoLocalServiceClpInvoker {
 			return AssociatoLocalServiceUtil.updateAssociato((it.bysoftware.ct.model.Associato)arguments[0]);
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return AssociatoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			AssociatoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName190.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
-			return AssociatoLocalServiceUtil.getAssociatiAttivi(((Long)arguments[0]).longValue());
-		}
-
-		if (_methodName191.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
-			return AssociatoLocalServiceUtil.getAssociatiDisattivati(((Long)arguments[0]).longValue());
-		}
-
-		if (_methodName192.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
+		if (_methodName196.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes196, parameterTypes)) {
 			return AssociatoLocalServiceUtil.countAssociatiAttivi(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName193.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
+		if (_methodName197.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes197, parameterTypes)) {
 			return AssociatoLocalServiceUtil.countAssociatiDisattivati(((Long)arguments[0]).longValue());
 		}
 
-		if (_methodName194.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes194, parameterTypes)) {
+		if (_methodName198.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
 			return AssociatoLocalServiceUtil.findByLiferayId(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName199.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
+			return AssociatoLocalServiceUtil.getAssociatiDisattivati(((Long)arguments[0]).longValue());
+		}
+
+		if (_methodName200.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
+			return AssociatoLocalServiceUtil.getAssociatiAttivi(((Long)arguments[0]).longValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -292,18 +292,18 @@ public class AssociatoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName184;
-	private String[] _methodParameterTypes184;
-	private String _methodName185;
-	private String[] _methodParameterTypes185;
 	private String _methodName190;
 	private String[] _methodParameterTypes190;
 	private String _methodName191;
 	private String[] _methodParameterTypes191;
-	private String _methodName192;
-	private String[] _methodParameterTypes192;
-	private String _methodName193;
-	private String[] _methodParameterTypes193;
-	private String _methodName194;
-	private String[] _methodParameterTypes194;
+	private String _methodName196;
+	private String[] _methodParameterTypes196;
+	private String _methodName197;
+	private String[] _methodParameterTypes197;
+	private String _methodName198;
+	private String[] _methodParameterTypes198;
+	private String _methodName199;
+	private String[] _methodParameterTypes199;
+	private String _methodName200;
+	private String[] _methodParameterTypes200;
 }

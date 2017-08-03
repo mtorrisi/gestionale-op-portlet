@@ -114,46 +114,46 @@ public class TestataDocumentoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.TestataDocumento"
 			};
 
-		_methodName184 = "getBeanIdentifier";
+		_methodName190 = "getBeanIdentifier";
 
-		_methodParameterTypes184 = new String[] {  };
+		_methodParameterTypes190 = new String[] {  };
 
-		_methodName185 = "setBeanIdentifier";
+		_methodName191 = "setBeanIdentifier";
 
-		_methodParameterTypes185 = new String[] { "java.lang.String" };
+		_methodParameterTypes191 = new String[] { "java.lang.String" };
 
-		_methodName190 = "getByCodiceOperatore";
+		_methodName196 = "countDocumnetByCodiceOperatore";
 
-		_methodParameterTypes190 = new String[] { "java.lang.String" };
-
-		_methodName191 = "getByCodiceOperatore";
-
-		_methodParameterTypes191 = new String[] {
+		_methodParameterTypes196 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName192 = "countDocumnetByCodiceOperatore";
+		_methodName197 = "getByCodiceOperatore";
 
-		_methodParameterTypes192 = new String[] {
+		_methodParameterTypes197 = new String[] { "java.lang.String" };
+
+		_methodName198 = "getByCodiceOperatore";
+
+		_methodParameterTypes198 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName193 = "getByCodiceSoggettoCodiceOperatore";
+		_methodName199 = "getByCodiceSoggettoCodiceOperatore";
 
-		_methodParameterTypes193 = new String[] {
+		_methodParameterTypes199 = new String[] {
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName194 = "getDocumentiSoggetto";
+		_methodName200 = "getDocumentiCollegati";
 
-		_methodParameterTypes194 = new String[] {
-				"int", "java.lang.String", "long"
+		_methodParameterTypes200 = new String[] {
+				"int", "java.lang.String", "long", "java.lang.String"
 			};
 
-		_methodName195 = "getDocumentiCollegati";
+		_methodName201 = "getDocumentiSoggetto";
 
-		_methodParameterTypes195 = new String[] {
-				"int", "java.lang.String", "long", "java.lang.String"
+		_methodParameterTypes201 = new String[] {
+				"int", "java.lang.String", "long"
 			};
 	}
 
@@ -246,54 +246,54 @@ public class TestataDocumentoLocalServiceClpInvoker {
 			return TestataDocumentoLocalServiceUtil.updateTestataDocumento((it.bysoftware.ct.model.TestataDocumento)arguments[0]);
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			TestataDocumentoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName190.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
-			return TestataDocumentoLocalServiceUtil.getByCodiceOperatore((java.lang.String)arguments[0]);
-		}
-
-		if (_methodName191.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
-			return TestataDocumentoLocalServiceUtil.getByCodiceOperatore((java.lang.String)arguments[0],
-				(java.lang.String)arguments[1],
-				((Integer)arguments[2]).intValue());
-		}
-
-		if (_methodName192.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes192, parameterTypes)) {
+		if (_methodName196.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes196, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.countDocumnetByCodiceOperatore((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1],
 				((Integer)arguments[2]).intValue());
 		}
 
-		if (_methodName193.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes193, parameterTypes)) {
+		if (_methodName197.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes197, parameterTypes)) {
+			return TestataDocumentoLocalServiceUtil.getByCodiceOperatore((java.lang.String)arguments[0]);
+		}
+
+		if (_methodName198.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes198, parameterTypes)) {
+			return TestataDocumentoLocalServiceUtil.getByCodiceOperatore((java.lang.String)arguments[0],
+				(java.lang.String)arguments[1],
+				((Integer)arguments[2]).intValue());
+		}
+
+		if (_methodName199.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes199, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getByCodiceSoggettoCodiceOperatore((java.lang.String)arguments[0],
 				(java.lang.String)arguments[1]);
 		}
 
-		if (_methodName194.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes194, parameterTypes)) {
-			return TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(((Integer)arguments[0]).intValue(),
-				(java.lang.String)arguments[1], ((Long)arguments[2]).longValue());
-		}
-
-		if (_methodName195.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes195, parameterTypes)) {
+		if (_methodName200.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes200, parameterTypes)) {
 			return TestataDocumentoLocalServiceUtil.getDocumentiCollegati(((Integer)arguments[0]).intValue(),
 				(java.lang.String)arguments[1],
 				((Long)arguments[2]).longValue(), (java.lang.String)arguments[3]);
+		}
+
+		if (_methodName201.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes201, parameterTypes)) {
+			return TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(((Integer)arguments[0]).intValue(),
+				(java.lang.String)arguments[1], ((Long)arguments[2]).longValue());
 		}
 
 		throw new UnsupportedOperationException();
@@ -331,20 +331,20 @@ public class TestataDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName184;
-	private String[] _methodParameterTypes184;
-	private String _methodName185;
-	private String[] _methodParameterTypes185;
 	private String _methodName190;
 	private String[] _methodParameterTypes190;
 	private String _methodName191;
 	private String[] _methodParameterTypes191;
-	private String _methodName192;
-	private String[] _methodParameterTypes192;
-	private String _methodName193;
-	private String[] _methodParameterTypes193;
-	private String _methodName194;
-	private String[] _methodParameterTypes194;
-	private String _methodName195;
-	private String[] _methodParameterTypes195;
+	private String _methodName196;
+	private String[] _methodParameterTypes196;
+	private String _methodName197;
+	private String[] _methodParameterTypes197;
+	private String _methodName198;
+	private String[] _methodParameterTypes198;
+	private String _methodName199;
+	private String[] _methodParameterTypes199;
+	private String _methodName200;
+	private String[] _methodParameterTypes200;
+	private String _methodName201;
+	private String[] _methodParameterTypes201;
 }
