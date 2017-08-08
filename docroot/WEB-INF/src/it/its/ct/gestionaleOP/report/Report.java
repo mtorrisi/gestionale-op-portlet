@@ -69,6 +69,10 @@ public class Report {
         JasperCompileManager
                 .compileReportToFile(jasperDesign, JASPER_REPORT_FOLDER + idOp
                         + "/" + JASPER_FILENAME + ".jasper");
+        jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + idOp
+                + "/castelletto_iva.jrxml");
+        JasperCompileManager.compileReportToFile(jasperDesign,
+                JASPER_REPORT_FOLDER + idOp + "/castelletto_iva.jasper");
 
         // inizializzazione connessione al database
 
