@@ -314,6 +314,12 @@
     <liferay-portlet:param name="documentIds" value="<%= origDocs%>" />
 </liferay-portlet:resourceURL>
 <portlet:resourceURL var="printInvoice" id="printInvoice" />
+<portlet:renderURL var="printCreditTransferUrl" >
+    <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId()) %>" />
+    <liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />
+    <liferay-portlet:param name="dataFattura" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>" /> 
+    <liferay-portlet:param name="jspPage"  value="/jsps/edit-credit-transfer.jsp" />
+</portlet:renderURL>
 <liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectDescription.jsp" />
 </liferay-portlet:renderURL>
@@ -432,6 +438,7 @@
 
     var aliquotaIVA     = <%= iva.getAliquota()%>;
     var codiceAliquota  = <%= iva.getCodiceIva()%>;
+    var printCreditTransferUrl = "<%= printCreditTransferUrl.toString() %>";
     
     YUI().use(
             'aui-tabview',
@@ -868,6 +875,7 @@
 								Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
 							}
                             document.getElementById("btnPrint").disabled = false;
+                            document.getElementById("btnPrintCessione").disabled = false;
                             document.getElementById("btnInvoice").disabled = true;
                             if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                 document.getElementById('<portlet:namespace/>recProt').value = "";
@@ -885,6 +893,7 @@
                                     alert("Salvataggio effettuato con successo.");
                                     Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                     document.getElementById("btnPrint").disabled = false;
+                                    document.getElementById("btnPrintCessione").disabled = false;
                                     document.getElementById("btnInvoice").disabled = true;
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
@@ -929,6 +938,12 @@
             var win = window.open('${printInvoice}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente + '&<portlet:namespace />update=' + false + '&<portlet:namespace />send=' + true + datiDocConf, '_blank');
             win.focus();
 
+        });
+        Y.one('#btnPrintCessione').on('click', function () {
+            var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
+            var codiceCliente = Y.one('#<portlet:namespace/>codiceClienteTxt').val();
+            var totaleFattura = Y.one('#<portlet:namespace/>totaleDocumentoTxt').val();
+            window.location.href = printCreditTransferUrl + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente +'&<portlet:namespace />totaleFattura=' + totaleFattura;
         });
     });
 

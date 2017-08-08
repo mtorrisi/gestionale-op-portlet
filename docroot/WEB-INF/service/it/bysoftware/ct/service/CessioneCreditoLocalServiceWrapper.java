@@ -285,6 +285,14 @@ public class CessioneCreditoLocalServiceWrapper
 			arguments);
 	}
 
+	@Override
+	public it.bysoftware.ct.model.CessioneCredito getByAnnoAssociatoNumeroFattura(
+		int anno, long idAssociato, int numeroFattura)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _cessioneCreditoLocalService.getByAnnoAssociatoNumeroFattura(anno,
+			idAssociato, numeroFattura);
+	}
+
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */

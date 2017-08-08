@@ -113,6 +113,10 @@ public class CessioneCreditoLocalServiceClpInvoker {
 		_methodName191 = "setBeanIdentifier";
 
 		_methodParameterTypes191 = new String[] { "java.lang.String" };
+
+		_methodName196 = "getByAnnoAssociatoNumeroFattura";
+
+		_methodParameterTypes196 = new String[] { "int", "long", "int" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -216,6 +220,13 @@ public class CessioneCreditoLocalServiceClpInvoker {
 			return null;
 		}
 
+		if (_methodName196.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes196, parameterTypes)) {
+			return CessioneCreditoLocalServiceUtil.getByAnnoAssociatoNumeroFattura(((Integer)arguments[0]).intValue(),
+				((Long)arguments[1]).longValue(),
+				((Integer)arguments[2]).intValue());
+		}
+
 		throw new UnsupportedOperationException();
 	}
 
@@ -255,4 +266,6 @@ public class CessioneCreditoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes190;
 	private String _methodName191;
 	private String[] _methodParameterTypes191;
+	private String _methodName196;
+	private String[] _methodParameterTypes196;
 }

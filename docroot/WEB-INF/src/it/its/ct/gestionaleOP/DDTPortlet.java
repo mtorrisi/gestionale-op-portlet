@@ -16,6 +16,7 @@ import it.bysoftware.ct.model.AnagraficaAssociatoOP;
 import it.bysoftware.ct.model.ArticoliAssociatoOP;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.CMR;
+import it.bysoftware.ct.model.CessioneCredito;
 import it.bysoftware.ct.model.OrganizzazioneProduttori;
 import it.bysoftware.ct.model.Progressivo;
 import it.bysoftware.ct.model.RigoDocumento;
@@ -30,6 +31,7 @@ import it.bysoftware.ct.service.AnagraficaLocalServiceUtil;
 import it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.CMRLocalServiceUtil;
+import it.bysoftware.ct.service.CessioneCreditoLocalServiceUtil;
 import it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil;
 import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
@@ -92,6 +94,7 @@ import net.sf.jasperreports.engine.JRException;
 import com.google.gson.Gson;
 import com.liferay.counter.service.CounterLocalServiceUtil;
 import com.liferay.mail.service.MailServiceUtil;
+import com.liferay.portal.kernel.exception.NestableException;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.json.JSONArray;
@@ -150,7 +153,7 @@ public class DDTPortlet extends MVCPortlet {
     public static final String INVOICED = "fatturato";
 
     public enum CommandID {
-        save, print, send, modify, generateInvoice, printInvoice, updateInvoice, saveTrace, printTrace, saveCreditNote, updateCreditNote, printCreditNote, printCMR, saveCMR
+        save, print, send, modify, generateInvoice, printInvoice, updateInvoice, saveTrace, printTrace, saveCreditNote, updateCreditNote, printCreditNote, printCMR, saveCMR, saveCreditTransfer, printCreditTransfer
     }
 
     public void generateInvoice(ActionRequest areq, ActionResponse ares) {
@@ -1284,6 +1287,7 @@ public class DDTPortlet extends MVCPortlet {
         boolean update;
         boolean send;
         UserIdMapper userIdMapper = null;
+        CessioneCredito cessioneCredito = null;
 
         switch (CommandID.valueOf(resourceID)) {
         case modify: {
@@ -1967,6 +1971,90 @@ public class DDTPortlet extends MVCPortlet {
 
             break;
         }
+        case saveCreditTransfer: {
+            try {
+                String dataStr = ParamUtil.getString(resourceRequest,
+                        "dataFattura");
+                _log.info("dataStr: " + dataStr);
+
+                codiceCliente = ParamUtil.getString(resourceRequest,
+                        "codiceCliente");
+                _log.info("codiceCliente: " + codiceCliente);
+                long idAssociato = ParamUtil.getLong(resourceRequest,
+                        "idAssociato");
+                _log.info("idAssociato: " + idAssociato);
+                year = ANNO;
+                _log.info("year: " + year);
+                nDoc = ParamUtil.getInteger(resourceRequest, "numeroFattura");
+                _log.info("nDoc: " + nDoc);
+                double totale = ParamUtil.getDouble(resourceRequest,
+                        "totaleFattura");
+                _log.info("totale: " + totale);
+                String body = ParamUtil.getString(resourceRequest, "body");
+                _log.info("body: " + body);
+                String note = ParamUtil.getString(resourceRequest, "note");
+                _log.info("note: " + note);
+
+                cessioneCredito = CessioneCreditoLocalServiceUtil
+                        .createCessioneCredito(0);
+                cessioneCredito.setCodiceSoggetto(codiceCliente);
+                cessioneCredito.setIdAssociato(idAssociato);
+                cessioneCredito.setAnno(year);
+                cessioneCredito.setNumeroFattura(nDoc);
+                cessioneCredito.setTotale(totale);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                cessioneCredito.setData(formatter.parse(dataStr));
+
+                CessioneCreditoLocalServiceUtil
+                        .addCessioneCredito(cessioneCredito);
+                _log.info("Added CessioneCredito: " + cessioneCredito);
+            } catch (ParseException | NestableException e) {
+                _log.error(e.getMessage());
+            }
+        }
+        case printCreditTransfer: {
+            try {
+                long id = ParamUtil.getLong(resourceRequest, "idLettera");
+                _log.info("id: " + id);
+                String body = ParamUtil.getString(resourceRequest, "body");
+                _log.info("body: " + body);
+                String note = ParamUtil.getString(resourceRequest, "note");
+                _log.info("note: " + note);
+
+                if (id != 0) {
+                    cessioneCredito = CessioneCreditoLocalServiceUtil
+                            .getCessioneCredito(id);
+                }
+
+                cessioneCredito.setNote(note);
+
+                CessioneCreditoLocalServiceUtil
+                        .updateCessioneCredito(cessioneCredito);
+                
+                associato = AssociatoLocalServiceUtil
+                        .getAssociato(cessioneCredito.getIdAssociato());
+                op = OrganizzazioneProduttoriLocalServiceUtil
+                        .getOrganizzazioneProduttori(associato.getIdOp());
+                r = new Report();
+                String pdf = r.printCessioneCredito(cessioneCredito,
+                        op.getIdLiferay(), body);
+                File letteraCessione = new File(pdf);
+                InputStream in = new FileInputStream(letteraCessione);
+                HttpServletResponse httpRes = PortalUtil
+                        .getHttpServletResponse(resourceResponse);
+                HttpServletRequest httpReq = PortalUtil
+                        .getHttpServletRequest(resourceRequest);
+                ServletResponseUtil.sendFile(httpReq, httpRes,
+                        letteraCessione.getName(), in, "application/pdf");
+
+                in.close();
+
+            } catch (SystemException | PortalException | ClassNotFoundException
+                    | JRException | SQLException e) {
+                _log.error(e.getMessage());
+            }
+            break;
+        }
         default:
             _log.warn("Uknown operation.");
         }
@@ -2437,37 +2525,37 @@ public class DDTPortlet extends MVCPortlet {
                 resourceRequest, "data", null)));
         String codiceCliente = ParamUtil.getString(resourceRequest, "codCli",
                 null);
-        _log.info("****** codiceCliente: " + codiceCliente + " !!!");
+        _log.debug("****** codiceCliente: " + codiceCliente + " !!!");
         String cliente = ParamUtil.getString(resourceRequest, "clienteTxt",
                 null);
-        _log.info("****** cliente: " + cliente + " !!!");
+        _log.debug("****** cliente: " + cliente + " !!!");
         String destinazioneTxt = ParamUtil.getString(resourceRequest,
                 "destinazioneTxt", null);
-        _log.info("****** destinazioneTxt: " + destinazioneTxt + " !!!");
+        _log.debug("****** destinazioneTxt: " + destinazioneTxt + " !!!");
         String codiceDestinazione = ParamUtil.getString(resourceRequest,
                 "codiceDestinazione", null);
-        _log.info("****** codiceDestinazione: " + codiceDestinazione + " !!!");
+        _log.debug("****** codiceDestinazione: " + codiceDestinazione + " !!!");
         String documentDate = ParamUtil.getString(resourceRequest,
                 "documentDate", null);
-        _log.info("****** documentDate: " + documentDate + " !!!");
+        _log.debug("****** documentDate: " + documentDate + " !!!");
         String numeroFatturaStr = ParamUtil.getString(resourceRequest,
                 "numeroFattura", null);
-        _log.info("****** numeroFatturaStr: " + numeroFatturaStr + " !!!");
+        _log.debug("****** numeroFatturaStr: " + numeroFatturaStr + " !!!");
         int avanzaProtocollo = ParamUtil.getInteger(resourceRequest,
                 "avanzaProtocollo", -1);
-        _log.info("****** avanzaProtocollo: " + avanzaProtocollo + " !!!");
+        _log.debug("****** avanzaProtocollo: " + avanzaProtocollo + " !!!");
         int nDocConf = ParamUtil.getInteger(resourceRequest, "nDocConf", -1);
-        _log.info("****** nDocDonf: " + nDocConf + " !!!");
+        _log.debug("****** nDocDonf: " + nDocConf + " !!!");
         String dateDocConf = ParamUtil.getString(resourceRequest,
                 "dateDocConf", null);
-        _log.info("****** dateDocConf: " + dateDocConf + " !!!");
+        _log.debug("****** dateDocConf: " + dateDocConf + " !!!");
 
         long origDoc = ParamUtil
                 .getLong(resourceRequest, "numeroDocumento", -1);
-        _log.info("****** origDoc: " + origDoc + " !!!");
+        _log.debug("****** origDoc: " + origDoc + " !!!");
         String[] origIds = StringUtil.split(ParamUtil.getString(
                 resourceRequest, "documentIds", ""));
-        _log.info("****** documentIds: "
+        _log.debug("****** documentIds: "
                 + ParamUtil.getString(resourceRequest, "documentIds", "")
                 + " !!!");
         long[] idsToUpdate = new long[] {};
@@ -2661,8 +2749,9 @@ public class DDTPortlet extends MVCPortlet {
             if (purchaseInvoice != null) {
                 return new Response(Code.FAC_ALREADY_EXISTS, nDocConf);
             } else {
-                purchaseInvoice = TestataDocumentoLocalServiceUtil.createTestataDocumento(new TestataDocumentoPK(ANNO,
-                            nDocConf, FAC, associato.getId()));
+                purchaseInvoice = TestataDocumentoLocalServiceUtil
+                        .createTestataDocumento(new TestataDocumentoPK(ANNO,
+                                nDocConf, FAC, associato.getId()));
             }
 
             purchaseInvoice.setCodiceSoggetto(String.valueOf(associato

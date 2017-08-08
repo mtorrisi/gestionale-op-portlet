@@ -274,6 +274,14 @@ public class CessioneCreditoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static it.bysoftware.ct.model.CessioneCredito getByAnnoAssociatoNumeroFattura(
+		int anno, long idAssociato, int numeroFattura)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .getByAnnoAssociatoNumeroFattura(anno, idAssociato,
+			numeroFattura);
+	}
+
 	public static void clearService() {
 		_service = null;
 	}

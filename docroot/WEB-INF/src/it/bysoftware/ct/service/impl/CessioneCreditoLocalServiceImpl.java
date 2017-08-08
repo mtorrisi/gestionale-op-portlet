@@ -14,27 +14,54 @@
 
 package it.bysoftware.ct.service.impl;
 
+import it.bysoftware.ct.NoSuchCessioneCreditoException;
+import it.bysoftware.ct.model.CessioneCredito;
 import it.bysoftware.ct.service.base.CessioneCreditoLocalServiceBaseImpl;
+
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
 
 /**
  * The implementation of the cessione credito local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link it.bysoftware.ct.service.CessioneCreditoLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are
+ * added, rerun ServiceBuilder to copy their definitions into the
+ * {@link it.bysoftware.ct.service.CessioneCreditoLocalService} interface.
  *
  * <p>
- * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
+ * This is a local service. Methods of this service will not have security
+ * checks based on the propagated JAAS credentials because this service can only
+ * be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
  * @see it.bysoftware.ct.service.base.CessioneCreditoLocalServiceBaseImpl
  * @see it.bysoftware.ct.service.CessioneCreditoLocalServiceUtil
  */
-public class CessioneCreditoLocalServiceImpl
-	extends CessioneCreditoLocalServiceBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.CessioneCreditoLocalServiceUtil} to access the cessione credito local service.
-	 */
+public class CessioneCreditoLocalServiceImpl extends
+        CessioneCreditoLocalServiceBaseImpl {
+    /*
+     * NOTE FOR DEVELOPERS:
+     * 
+     * Never reference this interface directly. Always use {@link
+     * it.bysoftware.ct.service.CessioneCreditoLocalServiceUtil} to access the
+     * cessione credito local service.
+     */
+    private Log logger = LogFactoryUtil.getLog(CessioneCredito.class);
+    
+    @Override
+    public CessioneCredito getByAnnoAssociatoNumeroFattura(int anno,
+            long idAssociato, int numeroFattura) throws SystemException {
+        try {
+            return this.cessioneCreditoPersistence
+                    .findByAnnoAssociatoNumeroFattura(anno, idAssociato,
+                            numeroFattura);
+        } catch (NoSuchCessioneCreditoException e) {
+            this.logger.warn(e.getMessage());
+            return null;
+        }
+    }
+
 }

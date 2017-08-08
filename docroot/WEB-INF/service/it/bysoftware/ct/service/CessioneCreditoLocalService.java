@@ -249,4 +249,9 @@ public interface CessioneCreditoLocalService extends BaseLocalService,
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public it.bysoftware.ct.model.CessioneCredito getByAnnoAssociatoNumeroFattura(
+		int anno, long idAssociato, int numeroFattura)
+		throws com.liferay.portal.kernel.exception.SystemException;
 }
