@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.CMRServiceBaseImpl;
  * @see it.bysoftware.ct.service.CMRServiceUtil
  */
 public class CMRServiceImpl extends CMRServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.CMRServiceUtil} to access the c m r remote service.

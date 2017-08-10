@@ -123,37 +123,37 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "getDDAByNumeroOrdineAnnoAssociato";
+		_methodName19 = "deleteRigoByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes19 = new String[] { "long", "int", "long" };
+		_methodParameterTypes19 = new String[] {
+				"long", "int", "long", "java.lang.String"
+			};
 
-		_methodName20 = "getDDTByNumeroOrdineAnnoAssociato";
+		_methodName20 = "getDDAByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes20 = new String[] { "long", "int", "long" };
 
-		_methodName21 = "getFatturaByNumeroOrdineAnnoAssociato";
+		_methodName21 = "getDDTByNumeroOrdineAnnoAssociato";
 
-		_methodParameterTypes21 = new String[] {
-				"long", "int", "long", "java.lang.String"
-			};
+		_methodParameterTypes21 = new String[] { "long", "int", "long" };
 
-		_methodName22 = "getNACByNumeroOrdineAnnoAssociato";
+		_methodName22 = "getDocumentoByOrdineAnnoAssociato";
 
 		_methodParameterTypes22 = new String[] {
-				"long", "int", "long", "java.lang.String"
+				"long", "int", "java.lang.String", "java.lang.String",
+				"java.lang.String", "java.lang.String", "long"
 			};
 
-		_methodName23 = "deleteRigoByNumeroOrdineAnnoAssociato";
+		_methodName23 = "getFatturaByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes23 = new String[] {
 				"long", "int", "long", "java.lang.String"
 			};
 
-		_methodName24 = "getDocumentoByOrdineAnnoAssociato";
+		_methodName24 = "getNACByNumeroOrdineAnnoAssociato";
 
 		_methodParameterTypes24 = new String[] {
-				"long", "int", "java.lang.String", "java.lang.String",
-				"java.lang.String", "java.lang.String", "long"
+				"long", "int", "long", "java.lang.String"
 			};
 	}
 
@@ -712,15 +712,24 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato)
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
 					_methodParameterTypes19,
-					new Object[] { numeroOrdine, anno, idAssociato });
+					new Object[] {
+						numeroOrdine,
+						
+					anno,
+						
+					idAssociato,
+						
+					ClpSerializer.translateInput(tipoDocumento)
+					});
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -742,7 +751,7 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -772,24 +781,15 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato,
-		java.lang.String tipoDocumento)
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDTByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName21,
 					_methodParameterTypes21,
-					new Object[] {
-						numeroOrdine,
-						
-					anno,
-						
-					idAssociato,
-						
-					ClpSerializer.translateInput(tipoDocumento)
-					});
+					new Object[] { numeroOrdine, anno, idAssociato });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -811,9 +811,10 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getNACByNumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato,
-		java.lang.String tipoDocumento)
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDocumentoByOrdineAnnoAssociato(
+		long numeroOrdine, int anno, java.lang.String tipoDocumento,
+		java.lang.String codiceArticolo, java.lang.String codiceVariante,
+		java.lang.String imballo, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -825,9 +826,15 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 						
 					anno,
 						
-					idAssociato,
+					ClpSerializer.translateInput(tipoDocumento),
 						
-					ClpSerializer.translateInput(tipoDocumento)
+					ClpSerializer.translateInput(codiceArticolo),
+						
+					ClpSerializer.translateInput(codiceVariante),
+						
+					ClpSerializer.translateInput(imballo),
+						
+					idAssociato
 					});
 		}
 		catch (Throwable t) {
@@ -850,7 +857,7 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getFatturaByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato,
 		java.lang.String tipoDocumento)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -889,10 +896,9 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDocumentoByOrdineAnnoAssociato(
-		long numeroOrdine, int anno, java.lang.String tipoDocumento,
-		java.lang.String codiceArticolo, java.lang.String codiceVariante,
-		java.lang.String imballo, long idAssociato)
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getNACByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -904,15 +910,9 @@ public class RigoDocumentoLocalServiceClp implements RigoDocumentoLocalService {
 						
 					anno,
 						
-					ClpSerializer.translateInput(tipoDocumento),
+					idAssociato,
 						
-					ClpSerializer.translateInput(codiceArticolo),
-						
-					ClpSerializer.translateInput(codiceVariante),
-						
-					ClpSerializer.translateInput(imballo),
-						
-					idAssociato
+					ClpSerializer.translateInput(tipoDocumento)
 					});
 		}
 		catch (Throwable t) {

@@ -56,6 +56,13 @@ public class FileUploaderServiceWrapper implements FileUploaderService,
 		return _fileUploaderService.invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.FileUploaderServiceUtil} to access the file
+	* uploader remote service.
+	*/
 	@Override
 	public void add(java.io.File file) {
 		_fileUploaderService.add(file);

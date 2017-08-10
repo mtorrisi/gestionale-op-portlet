@@ -15,6 +15,7 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.NoSuchClientiDatiAggException;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.service.base.ClientiDatiAggLocalServiceBaseImpl;
@@ -35,12 +36,12 @@ import it.bysoftware.ct.service.base.ClientiDatiAggLocalServiceBaseImpl;
  */
 public class ClientiDatiAggLocalServiceImpl
 	extends ClientiDatiAggLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil} to access the clienti dati agg local service.
 	 */
-    public ClientiDatiAgg getDatiAggByCodiceAnagrafica(String codiceAnagrafica) throws SystemException, NoSuchClientiDatiAggException{
-        return this.clientiDatiAggPersistence.findByCodiceAnagrafica(codiceAnagrafica);
-    }
+	public ClientiDatiAgg getDatiAggByCodiceAnagrafica(String codiceAnagrafica) throws NoSuchClientiDatiAggException, SystemException {
+		return this.clientiDatiAggPersistence.findByCodiceAnagrafica(codiceAnagrafica);
+	}
 }

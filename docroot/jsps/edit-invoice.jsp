@@ -1,3 +1,8 @@
+<%@page import="com.google.gson.JsonArray"%>
+<%@page import="it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.DescrizioniDocumenti"%>
+<%@page import="it.bysoftware.ct.service.ArticoliLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Articoli"%>
 <%@page import="com.liferay.portal.service.UserIdMapperLocalServiceUtil"%>
 <%@page import="com.liferay.portal.model.UserIdMapper"%>
 <%@page import="com.liferay.portal.kernel.exception.SystemException"%>
@@ -102,8 +107,31 @@
             json.put("sconto1", rigo.getSconto1());
             json.put("sconto2", rigo.getSconto2());
             json.put("sconto3", rigo.getSconto3());
-            json.put("codiceIva", ((!rigo.getCodiceArticolo().equals("")) ? ((rigo.getPesoNetto() != 0) ? codiceAliquotaCliente : "04") : ""));
-
+            if (!rigo.getCodiceArticolo().equals("")) {
+                if (rigo.getPesoLordo() != 0) {
+                    if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
+                        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
+                    } else {
+                        Articoli articolo = ArticoliLocalServiceUtil.getArticoli(rigo.getCodiceArticolo());
+                        if (articolo != null) {
+                            codiceAliquotaCliente = articolo.getCodiceIVA();
+                        } else {
+                            codiceAliquotaCliente = "04";
+                        }
+                    }
+                } else {
+                    DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil.fetchDescrizioniDocumenti(rigo.getCodiceArticolo());
+                    if (descr != null) {
+                        codiceAliquotaCliente = descr.getCodiceIVA();
+                    }
+                }
+                json.put("codiceIva", codiceAliquotaCliente);
+                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+                if (iva != null) {
+                    json.put("aliquotaIva", iva.getAliquota());
+                }
+            }
+            
             double importo = 0;
 
             double sconto1 = rigo.getSconto1();
@@ -191,7 +219,30 @@
             json.put("sconto1", rigo.getSconto1());
             json.put("sconto2", rigo.getSconto2());
             json.put("sconto3", rigo.getSconto3());
-            json.put("codiceIva", ((!rigo.getCodiceArticolo().equals("")) ? ((rigo.getPesoNetto() != 0) ? codiceAliquotaCliente : "04") : ""));
+            if (!rigo.getCodiceArticolo().equals("")) {
+                if (rigo.getPesoLordo() != 0) {
+                    if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
+                        codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
+                    } else {
+                        Articoli articolo = ArticoliLocalServiceUtil.getArticoli(rigo.getCodiceArticolo());
+                        if (articolo != null) {
+                            codiceAliquotaCliente = articolo.getCodiceIVA();
+                        } else {
+                            codiceAliquotaCliente = "04";
+                        }
+                    }
+                } else {
+                    DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil.fetchDescrizioniDocumenti(rigo.getCodiceArticolo());
+                    if (descr != null) {
+                        codiceAliquotaCliente = descr.getCodiceIVA();
+                    }
+                }
+                json.put("codiceIva", codiceAliquotaCliente);
+                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+                if (iva != null) {
+                    json.put("aliquotaIva", iva.getAliquota());
+                }
+            }
             
             double importo = 0;
 
@@ -206,7 +257,7 @@
             importo2 = importo1 - ((importo1 * sconto2) / 100);
             importo = importo2 - ((importo2 * sconto3) / 100);
             
-            json.put("importo", importo);
+            json.put("importo", String.format("%.2f", importo));
 
             jsonArr.put(json);
             i++;
@@ -232,6 +283,26 @@
         iva = VociIvaLocalServiceUtil.fetchVociIva("04");
     }
     
+//     JSONObject jsonTotali = JSONFactoryUtil.createJSONObject();
+//     for (int i = 0; i < jsonArr.length(); i++) {
+//         JSONObject rigo = jsonArr.getJSONObject(i);
+//         JSONObject totale;
+//         JSONArray imponibili;
+//         if(!rigo.getString("codiceIva").isEmpty()) {
+// 	        if(jsonTotali.length() == 0 || jsonTotali.isNull(rigo.getString("codiceIva"))) {
+// 	            totale = JSONFactoryUtil.createJSONObject();
+// 	            imponibili = JSONFactoryUtil.createJSONArray();
+// 	            imponibili.put(rigo.getDouble("importo"));
+// 	            totale.put("imponibili", imponibili);
+// 	            totale.put("aliquota", rigo.getDouble("aliquotaIva"));
+// 	            jsonTotali.put(rigo.getString("codiceIva"), totale);
+// 	        } else {
+// 	            totale = jsonTotali.getJSONObject(rigo.getString("codiceIva"));
+// 	            imponibili = totale.getJSONArray("imponibili");
+// 	            imponibili.put(rigo.getDouble("importo"));
+// 	        }
+//         }
+//     }
 %>
 
 <liferay-portlet:resourceURL var="updateInvoice"  id="updateInvoice" >
@@ -243,6 +314,12 @@
     <liferay-portlet:param name="documentIds" value="<%= origDocs%>" />
 </liferay-portlet:resourceURL>
 <portlet:resourceURL var="printInvoice" id="printInvoice" />
+<portlet:renderURL var="printCreditTransferUrl" >
+    <liferay-portlet:param name="idAssociato"  value="<%= String.valueOf(a.getId()) %>" />
+    <liferay-portlet:param name="codiceCliente" value="<%= cliente.getCodiceAnagrafica() %>" />
+    <liferay-portlet:param name="dataFattura" value="<%= origDoc.equals("") ? sdf.format(date) : testata.getDataOrdine()%>" /> 
+    <liferay-portlet:param name="jspPage"  value="/jsps/edit-credit-transfer.jsp" />
+</portlet:renderURL>
 <liferay-portlet:renderURL var="descrURL" windowState="<%=LiferayWindowState.POP_UP.toString()%>">
     <liferay-portlet:param name="mvcPath" value="/jsps/selectDescription.jsp" />
 </liferay-portlet:renderURL>
@@ -262,6 +339,7 @@
                 </c:when>
             </c:choose>
             <button id="btnPrint"   class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : ""%>><i class="icon-print"></i>Stampa</button>
+            <button id="btnPrintCessione" class="btn" <%= origDoc.equals("") ? "disabled=\"true\"" : ""%>><i class="icon-envelope"></i> Cessione Credito</button>
         </div>
     </div>  
 </aui:field-wrapper>
@@ -341,10 +419,12 @@
         </div>
         <div id="tab-2">
             <aui:fieldset label="Totali Fattura">
-                <aui:input id="totaleImponibileTxt" type="text" name="totImponibile" label="Totale imponiible" disabled="true" inlineField="true"/>
-                <aui:input id="aliquotaTxt" type="text" name="aliquota" label="Aliquota" disabled="true" inlineField="true" value="<%= String.valueOf(iva.getAliquota()) + "%"%>"/>
-                <aui:input id="totaleIVATxt" type="text" name="totIVA" label="Totale IVA" disabled="true" inlineField="true"/>
+                <aui:fieldset id="tabellaTotali" />
+<%--                 <aui:input id="totaleImponibileTxt" type="text" name="totImponibile" label="Totale imponiible" disabled="true" inlineField="true"/> --%>
+<%--                 <aui:input id="aliquotaTxt" type="text" name="aliquota" label="Aliquota" disabled="true" inlineField="true" value="<%= String.valueOf(iva.getAliquota()) + "%"%>"/> --%>
+<%--                 <aui:input id="totaleIVATxt" type="text" name="totIVA" label="Totale IVA" disabled="true" inlineField="true"/> --%>
                 <aui:input id="totaleDocumentoTxt" type="text" name="totDocumento" label="Totale documento" disabled="true" inlineField="true"/>
+                
             </aui:fieldset>
         </div>
     </div>
@@ -357,7 +437,8 @@
 //        };
 
     var aliquotaIVA     = <%= iva.getAliquota()%>;
-    var codiceAliquota  = <%= iva.getCodiceIva()%>;
+    var codiceAliquota  = '<%= iva.getCodiceIva()%>';
+    var printCreditTransferUrl = "<%= printCreditTransferUrl.toString() %>";
     
     YUI().use(
             'aui-tabview',
@@ -533,14 +614,17 @@
                 label: 'Sconto3'
             },
             {
-//                editor: numberEditor,
                 key: 'importo',
                 label: 'Importo'
             },
             {
-//                editor: numberEditor,
                 key: 'codiceIva',
                 label: 'C.I.' 
+            },
+            {
+              key: 'aliquotaIva',
+              label: '%',
+              className: 'hide'
             }
         ];
 
@@ -559,48 +643,6 @@
             ]
 
         }).render('#<portlet:namespace />myDataTable');
-
-        calcolaImporti();
-        //
-        //        // To avoid checkbox click causing harmless error in sorting
-        //        // Workaround for bug #2532244
-        //        table.detach('*:change');
-        //
-        //        //----------------
-        //        //   "checkbox" Click listeners ...
-        //        //----------------
-        //
-        //        // Define a listener on the DT first column for each record's "checkbox",
-        //        //   to set the value of `select` to the checkbox setting
-        //        table.delegate("click", function (e) {
-        //            console.log("1");
-        //            // undefined to trigger the emptyCellValue
-        //            var checked = e.target.get('checked') || undefined;
-        //
-        //            // Don't pass `{silent:true}` if there are other objects in your app
-        //            // that need to be notified of the checkbox change.
-        //            this.getRecord(e.target).set('select', checked, {silent: true});
-        //
-        //            // Uncheck the header checkbox
-        //            this.get('contentBox')
-        //                    .one('.protocol-select-all').set('checked', false);
-        //        }, ".yui3-datatable-data .yui3-datatable-col-select input", table);
-        //
-        //
-        //        // Also define a listener on the single TH "checkbox" to
-        //        //   toggle all of the checkboxes
-        //        table.delegate('click', function (e) {
-        //            console.log("2");
-        //            // undefined to trigger the emptyCellValue
-        //            var checked = e.target.get('checked') || undefined;
-        //            console.log(e);
-        //            // Set the selected attribute in all records in the ModelList silently
-        //            // to avoid each update triggering a table update
-        //            this.data.invoke('set', 'select', checked, {silent: true});
-        //
-        //            // Update the table now that all records have been updated
-        //            this.syncUI();
-        //        }, '.protocol-select-all', table);
 
         table.addAttr("selectedRow", {value: null});
 
@@ -645,10 +687,15 @@
 
         Y.one("#<portlet:namespace />btnRemove").on("click", function () {
             var row = table.getActiveRecord();
-            if (row.getAttrs().codiceArticolo === '' || row.getAttrs().codiceArticolo === "PR")
+            if (row.getAttrs().codiceArticolo === '' || row.getAttrs().codiceArticolo === "PR"){
                 table.removeRow(row);
-            else if(row.getAttrs().prezzo === '' || row.getAttrs().prezzo === 0)
+                calcolaImporti();
+            }
+//             else if(row.getAttrs().prezzo === '' || row.getAttrs().prezzo === 0)
+	        else if(!row.getAttrs().colli || row.getAttrs().colli === '') {
                 table.removeRow(row);
+                calcolaImporti();
+            }
             else
                 alert("Attenzione non e' possibile rimuovere un rigo con un prodotto.");
             recordSelected = "";
@@ -710,33 +757,33 @@
 
     }
 
-    function calcolaImporti() {
-        var imponibile = 0;
-        var iva = 0;
-        var totaledocumento = 0;
+//     function calcolaImporti() {
+//         var imponibile = 0;
+//         var iva = 0;
+//         var totaledocumento = 0;
 
-        for (var i = 0; i < table.data.size(); i++) {
-            var importo = table.getRecord(i).getAttrs().importo;
-            if (!isNaN(importo))
-                imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
-            console.log(imponibile);
-        }
-        iva = imponibile * aliquotaIVA / 100;
-        totaledocumento = imponibile + iva;
+//         for (var i = 0; i < table.data.size(); i++) {
+//             var importo = table.getRecord(i).getAttrs().importo;
+//             if (!isNaN(importo))
+//                 imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
+//             console.log(imponibile);
+//         }
+//         iva = imponibile * aliquotaIVA / 100;
+//         totaledocumento = imponibile + iva;
 
-        document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
-        document.getElementById('<portlet:namespace />totaleIVATxt').value = iva.toFixed(2);
-        document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = totaledocumento.toFixed(2);
-    }
+//         document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
+//         document.getElementById('<portlet:namespace />totaleIVATxt').value = iva.toFixed(2);
+//         document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = totaledocumento.toFixed(2);
+//     }
 
     function setDescription(data) {
-
+    	var tmp = data.split('|');
         console.log(recordSelected);
         if (recordSelected) {
-            recordSelected.setAttrs({descrizione: data});
-            recordSelected = undefined;
+            recordSelected.setAttrs({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2], aliquotaIva: tmp[3]});
+            //recordSelected = undefined;
         } else {
-            table.addRow({descrizione: data}, {sync: true});
+            table.addRow({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2], aliquotaIva: tmp[3]}, {sync: true});
         }
     }
 
@@ -748,7 +795,7 @@
             recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
             recordSelected = undefined;
         } else {
-            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg"}, {sync: true});
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg", codiceIva: tmp[4], aliquotaIva: tmp[5]}, {sync: true});
 //            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
         }
     }
@@ -824,8 +871,11 @@
                         var data = JSON.parse(this.get('responseData'));
                         if (data.code === 0) {
                             alert("Salvataggio effettuato con successo.");
-                            Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+                            if (Y.one('#<portlet:namespace/>nDoc').get('value') === '' ) {
+								Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
+							}
                             document.getElementById("btnPrint").disabled = false;
+                            document.getElementById("btnPrintCessione").disabled = false;
                             document.getElementById("btnInvoice").disabled = true;
                             if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                 document.getElementById('<portlet:namespace/>recProt').value = "";
@@ -843,6 +893,7 @@
                                     alert("Salvataggio effettuato con successo.");
                                     Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
                                     document.getElementById("btnPrint").disabled = false;
+                                    document.getElementById("btnPrintCessione").disabled = false;
                                     document.getElementById("btnInvoice").disabled = true;
                                     if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                         document.getElementById('<portlet:namespace/>recProt').value = "";
@@ -860,6 +911,9 @@
                                     break;
                                 case 10:
                                     alert("Attenzione, non e' stato possibile salvare la fattura, esiste almeno una fattura con protocollo minore di: " + data.id + " e data maggiore di: " + documentDate);
+                                    break;
+                                case 11:
+                                    alert("Attenzione, esiste gia' una fattura di conferimento con muero di portocollo: " + data.id);
                                     break;
                             }
                         }
@@ -885,7 +939,89 @@
             win.focus();
 
         });
+        Y.one('#btnPrintCessione').on('click', function () {
+            var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
+            var codiceCliente = Y.one('#<portlet:namespace/>codiceClienteTxt').val();
+            var totaleFattura = Y.one('#<portlet:namespace/>totaleDocumentoTxt').val();
+            window.location.href = printCreditTransferUrl + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />codiceCliente=' + codiceCliente +'&<portlet:namespace />totaleFattura=' + totaleFattura;
+        });
     });
 
+    var t1;
+    YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function(Y) {
+
+    	var data = calcolaImporti();
+    	
+    	var columns = [{
+    		key: 'imponibile',
+    		label: 'Imponibile'
+    	},
+    	{
+    		label: 'Aliquota',
+    		key: 'aliquota'
+    	},
+    	{
+    		key: 'IVA',
+    		label: 'Totale IVA'
+    	},
+    	{
+            key: 'totale',
+            label: 'Totale'
+        }];
+    	
+    	t1 = new Y.DataTable(
+    			{
+    				columns: columns,
+    		        data: data
+   		        }
+    		    
+    	).render('#<portlet:namespace />tabellaTotali');
+   	});
+    
+    function calcolaImporti(){
+        var data = [];
+        var i = 0;
+        var somma = 0.0;
+        var jsonTotali = {};
+        
+        for (var k = 0; k < table.data.size(); k++) {
+            var rigo = table.getRecord(k).getAttrs();
+            if(rigo.codiceIva){         
+                var codiceIva = rigo.codiceIva;
+                if(!jsonTotali[codiceIva]) {
+                    jsonTotali[codiceIva]={};
+                    jsonTotali[codiceIva].aliquota = Number(rigo.aliquotaIva);
+                    jsonTotali[codiceIva].imponibili=[]; 
+                }
+                jsonTotali[codiceIva].imponibili.push(Number(rigo.importo));
+            }
+        }
+        console.log("OLELLEL " + JSON.stringify(jsonTotali));
+        
+        for (var key in jsonTotali) {
+            var totale = jsonTotali[key];
+            var sommaImponibili = 0.0;
+            for (var j = 0; j < totale.imponibili.length; j++) {
+                sommaImponibili += totale.imponibili[j];
+            }
+            var x = sommaImponibili * (totale.aliquota / 100);
+            var y = sommaImponibili * (1 + totale.aliquota / 100);
+            somma += y;
+            data[i] = {
+                    imponibile: sommaImponibili.toFixed(2),
+                    aliquota: totale.aliquota + '%',
+                    IVA: x.toFixed(2),
+                    totale: y.toFixed(2)
+            }
+            i++;
+            console.log(JSON.stringify(data));
+        }
+        
+        document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = somma.toFixed(2);
+        if(t1) {
+            t1.set('data', eval(data)); 
+        }
+        return data;
+    }
 </script>
 

@@ -14,12 +14,11 @@
 
 package it.bysoftware.ct.service.impl;
 
-import java.io.File;
-
-import com.liferay.portal.kernel.util.FileUtil;
-
 import it.bysoftware.ct.service.base.FileUploaderServiceBaseImpl;
+
 import it.its.ct.gestionaleOP.Azioni;
+
+import java.io.File;
 
 /**
  * The implementation of the file uploader remote service.
@@ -40,22 +39,22 @@ import it.its.ct.gestionaleOP.Azioni;
  * @see it.bysoftware.ct.service.FileUploaderServiceUtil
  */
 public class FileUploaderServiceImpl extends FileUploaderServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
-	 * 
+	 *
 	 * Never reference this interface directly. Always use {@link
 	 * it.bysoftware.ct.service.FileUploaderServiceUtil} to access the file
 	 * uploader remote service.
 	 */
-	
+
 	public void add(File file) {
 		Thread thread = new Thread(new Azioni(file));
 		thread.start();
 	}
-	
+
 	public void add(File file, String name) {
 		Thread thread = new Thread(new Azioni(file, name));
 		thread.start();
 	}
-	
+
 }

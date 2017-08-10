@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.TestataDocumentoServiceBaseImpl;
  * @see it.bysoftware.ct.service.TestataDocumentoServiceUtil
  */
 public class TestataDocumentoServiceImpl extends TestataDocumentoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TestataDocumentoServiceUtil} to access the testata documento remote service.

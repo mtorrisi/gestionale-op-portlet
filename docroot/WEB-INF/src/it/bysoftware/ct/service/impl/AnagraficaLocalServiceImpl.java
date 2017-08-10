@@ -14,8 +14,10 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.model.Anagrafica;
 import it.bysoftware.ct.service.base.AnagraficaLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -37,17 +39,17 @@ import java.util.List;
  * @see it.bysoftware.ct.service.AnagraficaLocalServiceUtil
  */
 public class AnagraficaLocalServiceImpl extends AnagraficaLocalServiceBaseImpl {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AnagraficaLocalServiceUtil} to access the anagrafica local service.
-     */
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AnagraficaLocalServiceUtil} to access the anagrafica local service.
+	 */
 
-    public List<Anagrafica> getClienti() throws SystemException {
-        return this.anagraficaPersistence.findBytipoSoggetto("CLIGEN");
-    }
+	public List<Anagrafica> getClienti() throws SystemException {
+		return this.anagraficaPersistence.findBytipoSoggetto("CLIGEN");
+	}
 
-    public int countClienti() throws SystemException {
-        return this.anagraficaPersistence.countBytipoSoggetto("CLIGEN");
-    }
+	public int countClienti() throws SystemException {
+		return this.anagraficaPersistence.countBytipoSoggetto("CLIGEN");
+	}
 }

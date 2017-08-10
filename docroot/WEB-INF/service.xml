@@ -87,6 +87,8 @@
 		</column>
 		<column name='tara' db-name='RanLibDbl1' type='double'>
 		</column>
+		<column name='codiceIVA' db-name='RanCodiva' type='String'>
+		</column>
 		<finder name='categoriaMerceologica' return-type='Collection'>
 			<finder-column name='categoriaMerceologica'>
 			</finder-column>
@@ -914,4 +916,21 @@
 			<finder-column name="numeroDocumento" comparator="=" />
 		</finder>
 	</entity>
+	<entity name='CessioneCredito' table='cessioneCredito'
+        local-service='true' remote-service='true'>
+        <column name='id' db-name='id' type='long' primary="true" />
+        <column name='data' db-name='data' type='Date'/>
+        <column name='codiceSoggetto' db-name='RacCodana' type='String' />
+        <column name='idAssociato' db-name='id_associato' type='long' />
+        <column name='idFile' db-name='id_file' type='long' />
+        <column name='anno' db-name='anno' type='int' />
+        <column name='numeroFattura' db-name='numero_fattura' type='int' />
+        <column name='totale' db-name='totale' type='double' />
+        <column name='note' db-name='note' type='String' />
+        <finder name="AnnoAssociatoNumeroFattura" return-type="CessioneCredito">
+            <finder-column name="anno" comparator="=" />
+            <finder-column name="idAssociato" comparator="=" />
+            <finder-column name="numeroFattura" comparator="=" />
+        </finder>
+    </entity>
 </service-builder>

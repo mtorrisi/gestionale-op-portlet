@@ -108,7 +108,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "getImballaggi";
+		_methodName19 = "countArticoli";
 
 		_methodParameterTypes19 = new String[] {  };
 
@@ -120,14 +120,14 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 
 		_methodParameterTypes21 = new String[] {  };
 
-		_methodName22 = "countArticoli";
+		_methodName22 = "getImballaggi";
 
 		_methodParameterTypes22 = new String[] {  };
 
 		_methodName23 = "searchArticoli";
 
 		_methodParameterTypes23 = new String[] {
-				"java.lang.String", "boolean", "int", "int",
+				"java.lang.String", "java.lang.String", "boolean", "int", "int",
 				"com.liferay.portal.kernel.util.OrderByComparator"
 			};
 
@@ -694,7 +694,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
+	public int countArticoli()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -718,7 +718,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 			}
 		}
 
-		return (java.util.List<it.bysoftware.ct.model.Articoli>)ClpSerializer.translateOutput(returnObj);
+		return ((Integer)returnObj).intValue();
 	}
 
 	@Override
@@ -778,7 +778,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 	}
 
 	@Override
-	public int countArticoli()
+	public java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -802,11 +802,12 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 			}
 		}
 
-		return ((Integer)returnObj).intValue();
+		return (java.util.List<it.bysoftware.ct.model.Articoli>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public java.util.List searchArticoli(java.lang.String codiceArticolo,
+	public java.util.List<it.bysoftware.ct.model.Articoli> searchArticoli(
+		java.lang.String codiceArticolo, java.lang.String descrizione,
 		boolean andSearch, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -817,6 +818,8 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 					_methodParameterTypes23,
 					new Object[] {
 						ClpSerializer.translateInput(codiceArticolo),
+						
+					ClpSerializer.translateInput(descrizione),
 						
 					andSearch,
 						
@@ -843,12 +846,13 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<it.bysoftware.ct.model.Articoli>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public java.util.List searchImballaggi(java.lang.String codiceImballaggio,
-		boolean andSearch, int start, int end,
+	public java.util.List<it.bysoftware.ct.model.Articoli> searchImballaggi(
+		java.lang.String codiceImballaggio, boolean andSearch, int start,
+		int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -884,7 +888,7 @@ public class ArticoliLocalServiceClp implements ArticoliLocalService {
 			}
 		}
 
-		return (java.util.List)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<it.bysoftware.ct.model.Articoli>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	private InvokableLocalService _invokableLocalService;

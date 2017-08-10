@@ -15,8 +15,10 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.model.DescrizioniVarianti;
 import it.bysoftware.ct.service.base.DescrizioniVariantiLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -35,13 +37,13 @@ import java.util.List;
  */
 public class DescrizioniVariantiLocalServiceImpl
 	extends DescrizioniVariantiLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil} to access the descrizioni varianti local service.
 	 */
-    
-    public List<DescrizioniVarianti> getVarianti() throws SystemException {
-        return this.descrizioniVariantiPersistence.findAll();
-    }
+
+	public List<DescrizioniVarianti> getVarianti() throws SystemException {
+		return this.descrizioniVariantiPersistence.findAll();
+	}
 }

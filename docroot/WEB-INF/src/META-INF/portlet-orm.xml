@@ -105,6 +105,9 @@
 			<basic name="tara">
 				<column name="RANLIBDBL1" />
 			</basic>
+			<basic name="codiceIVA">
+				<column name="RANCODIVA" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -222,6 +225,32 @@
 			<basic name="codiceAzienda">
 				<column name="RDECODIAZ" />
 			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.CessioneCreditoModelImpl">
+		<attributes>
+			<id name="id" />
+			<basic name="data">
+				<temporal>TIMESTAMP</temporal>
+			</basic>
+			<basic name="codiceSoggetto">
+				<column name="RACCODANA" />
+			</basic>
+			<basic name="idAssociato">
+				<column name="ID_ASSOCIATO" />
+			</basic>
+			<basic name="idFile">
+				<column name="ID_FILE" />
+			</basic>
+			<basic name="anno" />
+			<basic name="numeroFattura">
+				<column name="NUMERO_FATTURA" />
+			</basic>
+			<basic name="totale" />
+			<basic name="note" />
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -1041,6 +1070,10 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.CausaleTrasportoImpl" name="CausaleTrasporto">
 		<table name="CausaleTrasporto" />
+		<attributes />
+	</entity>
+	<entity class="it.bysoftware.ct.model.impl.CessioneCreditoImpl" name="CessioneCredito">
+		<table name="cessioneCredito" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.ClientiDatiAggImpl" name="ClientiDatiAgg">

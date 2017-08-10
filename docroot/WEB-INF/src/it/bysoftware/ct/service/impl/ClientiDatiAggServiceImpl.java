@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.ClientiDatiAggServiceBaseImpl;
  * @see it.bysoftware.ct.service.ClientiDatiAggServiceUtil
  */
 public class ClientiDatiAggServiceImpl extends ClientiDatiAggServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ClientiDatiAggServiceUtil} to access the clienti dati agg remote service.

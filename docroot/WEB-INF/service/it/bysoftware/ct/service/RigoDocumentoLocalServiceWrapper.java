@@ -289,6 +289,20 @@ public class RigoDocumentoLocalServiceWrapper
 	}
 
 	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
+		long numeroOrdine, int anno, long idAssociato,
+		java.lang.String tipoDocumento)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _rigoDocumentoLocalService.deleteRigoByNumeroOrdineAnnoAssociato(numeroOrdine,
+			anno, idAssociato, tipoDocumento);
+	}
+
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil} to access the rigo documento local service.
+	*/
+	@Override
 	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDDAByNumeroOrdineAnnoAssociato(
 		long numeroOrdine, int anno, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -302,6 +316,17 @@ public class RigoDocumentoLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _rigoDocumentoLocalService.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine,
 			anno, idAssociato);
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDocumentoByOrdineAnnoAssociato(
+		long numeroOrdine, int anno, java.lang.String tipoDocumento,
+		java.lang.String codiceArticolo, java.lang.String codiceVariante,
+		java.lang.String imballo, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _rigoDocumentoLocalService.getDocumentoByOrdineAnnoAssociato(numeroOrdine,
+			anno, tipoDocumento, codiceArticolo, codiceVariante, imballo,
+			idAssociato);
 	}
 
 	@Override
@@ -320,26 +345,6 @@ public class RigoDocumentoLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _rigoDocumentoLocalService.getNACByNumeroOrdineAnnoAssociato(numeroOrdine,
 			anno, idAssociato, tipoDocumento);
-	}
-
-	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> deleteRigoByNumeroOrdineAnnoAssociato(
-		long numeroOrdine, int anno, long idAssociato,
-		java.lang.String tipoDocumento)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _rigoDocumentoLocalService.deleteRigoByNumeroOrdineAnnoAssociato(numeroOrdine,
-			anno, idAssociato, tipoDocumento);
-	}
-
-	@Override
-	public java.util.List<it.bysoftware.ct.model.RigoDocumento> getDocumentoByOrdineAnnoAssociato(
-		long numeroOrdine, int anno, java.lang.String tipoDocumento,
-		java.lang.String codiceArticolo, java.lang.String codiceVariante,
-		java.lang.String imballo, long idAssociato)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _rigoDocumentoLocalService.getDocumentoByOrdineAnnoAssociato(numeroOrdine,
-			anno, tipoDocumento, codiceArticolo, codiceVariante, imballo,
-			idAssociato);
 	}
 
 	/**

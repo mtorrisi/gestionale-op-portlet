@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class AspettoEsterioreBeniImpl extends AspettoEsterioreBeniBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a aspetto esteriore beni model instance should use the {@link it.bysoftware.ct.model.AspettoEsterioreBeni} interface instead.

@@ -37,6 +37,7 @@ public class ArticoliSoap implements Serializable {
 		soapModel.setDescrizioneFiscale(model.getDescrizioneFiscale());
 		soapModel.setUnitaMisura(model.getUnitaMisura());
 		soapModel.setTara(model.getTara());
+		soapModel.setCodiceIVA(model.getCodiceIVA());
 
 		return soapModel;
 	}
@@ -145,6 +146,14 @@ public class ArticoliSoap implements Serializable {
 		_tara = tara;
 	}
 
+	public String getCodiceIVA() {
+		return _codiceIVA;
+	}
+
+	public void setCodiceIVA(String codiceIVA) {
+		_codiceIVA = codiceIVA;
+	}
+
 	private String _codiceArticolo;
 	private String _categoriaMerceologica;
 	private String _descrizione;
@@ -152,4 +161,5 @@ public class ArticoliSoap implements Serializable {
 	private String _descrizioneFiscale;
 	private String _unitaMisura;
 	private double _tara;
+	private String _codiceIVA;
 }

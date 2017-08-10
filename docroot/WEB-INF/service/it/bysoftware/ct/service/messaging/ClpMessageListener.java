@@ -35,6 +35,8 @@ import it.bysoftware.ct.service.CMRLocalServiceUtil;
 import it.bysoftware.ct.service.CMRServiceUtil;
 import it.bysoftware.ct.service.CausaleTrasportoLocalServiceUtil;
 import it.bysoftware.ct.service.CausaleTrasportoServiceUtil;
+import it.bysoftware.ct.service.CessioneCreditoLocalServiceUtil;
+import it.bysoftware.ct.service.CessioneCreditoServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggServiceUtil;
 import it.bysoftware.ct.service.ClpSerializer;
@@ -110,6 +112,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			CausaleTrasportoLocalServiceUtil.clearService();
 
 			CausaleTrasportoServiceUtil.clearService();
+			CessioneCreditoLocalServiceUtil.clearService();
+
+			CessioneCreditoServiceUtil.clearService();
 			ClientiDatiAggLocalServiceUtil.clearService();
 
 			ClientiDatiAggServiceUtil.clearService();

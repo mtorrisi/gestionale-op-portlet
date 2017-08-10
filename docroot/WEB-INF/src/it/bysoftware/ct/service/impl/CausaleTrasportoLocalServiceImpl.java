@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.CausaleTrasportoLocalServiceBaseImpl;
  */
 public class CausaleTrasportoLocalServiceImpl
 	extends CausaleTrasportoLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.CausaleTrasportoLocalServiceUtil} to access the causale trasporto local service.

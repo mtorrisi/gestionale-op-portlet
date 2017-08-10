@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.CuraTrasportoServiceBaseImpl;
  * @see it.bysoftware.ct.service.CuraTrasportoServiceUtil
  */
 public class CuraTrasportoServiceImpl extends CuraTrasportoServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.CuraTrasportoServiceUtil} to access the cura trasporto remote service.

@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.AspettoEsterioreBeniServiceBaseImpl;
  */
 public class AspettoEsterioreBeniServiceImpl
 	extends AspettoEsterioreBeniServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AspettoEsterioreBeniServiceUtil} to access the aspetto esteriore beni remote service.

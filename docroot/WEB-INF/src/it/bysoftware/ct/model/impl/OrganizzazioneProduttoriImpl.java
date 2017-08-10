@@ -25,7 +25,7 @@ package it.bysoftware.ct.model.impl;
  */
 public class OrganizzazioneProduttoriImpl
 	extends OrganizzazioneProduttoriBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a organizzazione produttori model instance should use the {@link it.bysoftware.ct.model.OrganizzazioneProduttori} interface instead.

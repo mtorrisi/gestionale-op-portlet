@@ -114,13 +114,13 @@ public class ArticoliAssociatoOPLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.ArticoliAssociatoOP"
 			};
 
-		_methodName184 = "getBeanIdentifier";
+		_methodName190 = "getBeanIdentifier";
 
-		_methodParameterTypes184 = new String[] {  };
+		_methodParameterTypes190 = new String[] {  };
 
-		_methodName185 = "setBeanIdentifier";
+		_methodName191 = "setBeanIdentifier";
 
-		_methodParameterTypes185 = new String[] { "java.lang.String" };
+		_methodParameterTypes191 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -212,13 +212,13 @@ public class ArticoliAssociatoOPLocalServiceClpInvoker {
 			return ArticoliAssociatoOPLocalServiceUtil.updateArticoliAssociatoOP((it.bysoftware.ct.model.ArticoliAssociatoOP)arguments[0]);
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return ArticoliAssociatoOPLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			ArticoliAssociatoOPLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
@@ -259,8 +259,8 @@ public class ArticoliAssociatoOPLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName184;
-	private String[] _methodParameterTypes184;
-	private String _methodName185;
-	private String[] _methodParameterTypes185;
+	private String _methodName190;
+	private String[] _methodParameterTypes190;
+	private String _methodName191;
+	private String[] _methodParameterTypes191;
 }

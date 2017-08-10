@@ -65,9 +65,10 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			{ "RanDesdoc", Types.VARCHAR },
 			{ "RanDesfis", Types.VARCHAR },
 			{ "RanUnimis", Types.VARCHAR },
-			{ "RanLibDbl1", Types.DOUBLE }
+			{ "RanLibDbl1", Types.DOUBLE },
+			{ "RanCodiva", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table Articoli (RanCodart VARCHAR(75) not null primary key,RanCatmer VARCHAR(75) null,RanDescri VARCHAR(75) null,RanDesdoc VARCHAR(75) null,RanDesfis VARCHAR(75) null,RanUnimis VARCHAR(75) null,RanLibDbl1 DOUBLE)";
+	public static final String TABLE_SQL_CREATE = "create table Articoli (RanCodart VARCHAR(75) not null primary key,RanCatmer VARCHAR(75) null,RanDescri VARCHAR(75) null,RanDesdoc VARCHAR(75) null,RanDesfis VARCHAR(75) null,RanUnimis VARCHAR(75) null,RanLibDbl1 DOUBLE,RanCodiva VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table Articoli";
 	public static final String ORDER_BY_JPQL = " ORDER BY articoli.codiceArticolo ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY Articoli.RanCodart ASC";
@@ -106,6 +107,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		model.setDescrizioneFiscale(soapModel.getDescrizioneFiscale());
 		model.setUnitaMisura(soapModel.getUnitaMisura());
 		model.setTara(soapModel.getTara());
+		model.setCodiceIVA(soapModel.getCodiceIVA());
 
 		return model;
 	}
@@ -177,6 +179,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
 		attributes.put("unitaMisura", getUnitaMisura());
 		attributes.put("tara", getTara());
+		attributes.put("codiceIVA", getCodiceIVA());
 
 		return attributes;
 	}
@@ -225,6 +228,12 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 		if (tara != null) {
 			setTara(tara);
+		}
+
+		String codiceIVA = (String)attributes.get("codiceIVA");
+
+		if (codiceIVA != null) {
+			setCodiceIVA(codiceIVA);
 		}
 	}
 
@@ -345,6 +354,22 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		_tara = tara;
 	}
 
+	@JSON
+	@Override
+	public String getCodiceIVA() {
+		if (_codiceIVA == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _codiceIVA;
+		}
+	}
+
+	@Override
+	public void setCodiceIVA(String codiceIVA) {
+		_codiceIVA = codiceIVA;
+	}
+
 	public long getColumnBitmask() {
 		return _columnBitmask;
 	}
@@ -370,6 +395,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		articoliImpl.setDescrizioneFiscale(getDescrizioneFiscale());
 		articoliImpl.setUnitaMisura(getUnitaMisura());
 		articoliImpl.setTara(getTara());
+		articoliImpl.setCodiceIVA(getCodiceIVA());
 
 		articoliImpl.resetOriginalValues();
 
@@ -475,12 +501,20 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 		articoliCacheModel.tara = getTara();
 
+		articoliCacheModel.codiceIVA = getCodiceIVA();
+
+		String codiceIVA = articoliCacheModel.codiceIVA;
+
+		if ((codiceIVA != null) && (codiceIVA.length() == 0)) {
+			articoliCacheModel.codiceIVA = null;
+		}
+
 		return articoliCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{codiceArticolo=");
 		sb.append(getCodiceArticolo());
@@ -496,6 +530,8 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 		sb.append(getUnitaMisura());
 		sb.append(", tara=");
 		sb.append(getTara());
+		sb.append(", codiceIVA=");
+		sb.append(getCodiceIVA());
 		sb.append("}");
 
 		return sb.toString();
@@ -503,7 +539,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Articoli");
@@ -537,6 +573,10 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 			"<column><column-name>tara</column-name><column-value><![CDATA[");
 		sb.append(getTara());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>codiceIVA</column-name><column-value><![CDATA[");
+		sb.append(getCodiceIVA());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -555,6 +595,7 @@ public class ArticoliModelImpl extends BaseModelImpl<Articoli>
 	private String _descrizioneFiscale;
 	private String _unitaMisura;
 	private double _tara;
+	private String _codiceIVA;
 	private long _columnBitmask;
 	private Articoli _escapedModel;
 }

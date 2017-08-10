@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.AnagraficaServiceBaseImpl;
  * @see it.bysoftware.ct.service.AnagraficaServiceUtil
  */
 public class AnagraficaServiceImpl extends AnagraficaServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AnagraficaServiceUtil} to access the anagrafica remote service.

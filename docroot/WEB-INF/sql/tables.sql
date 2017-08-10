@@ -5,7 +5,8 @@ create table Articoli (
 	RanDesdoc VARCHAR(75) null,
 	RanDesfis VARCHAR(75) null,
 	RanUnimis VARCHAR(75) null,
-	RanLibDbl1 DOUBLE
+	RanLibDbl1 DOUBLE,
+	RanCodiva VARCHAR(75) null
 );
 
 create table AspettoEsterioreBeni (
@@ -338,6 +339,18 @@ create table associato_cliente (
 	id_associato LONG not null,
 	id_cliente VARCHAR(75) not null,
 	primary key (id_associato, id_cliente)
+);
+
+create table cessioneCredito (
+	id LONG not null primary key,
+	data DATE null,
+	RacCodana VARCHAR(75) null,
+	id_associato LONG,
+	id_file LONG,
+	anno INTEGER,
+	numero_fattura INTEGER,
+	totale DOUBLE,
+	note VARCHAR(75) null
 );
 
 create table fileuploader (

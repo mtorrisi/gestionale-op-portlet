@@ -15,8 +15,10 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.model.Progressivo;
 import it.bysoftware.ct.service.base.ProgressivoLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -34,14 +36,14 @@ import java.util.List;
  * @see it.bysoftware.ct.service.ProgressivoLocalServiceUtil
  */
 public class ProgressivoLocalServiceImpl extends ProgressivoLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ProgressivoLocalServiceUtil} to access the progressivo local service.
 	 */
-    
-    public List<Progressivo> getByAnnoIdAssociatoTipoDocumento(int anno, long idAssociato, int tipoDocumento) throws SystemException{
-        return this.progressivoPersistence.findByAnnoIdAssociatoTipoDocumento(anno, idAssociato, tipoDocumento);
-    }
-    
+
+	public List<Progressivo> getByAnnoIdAssociatoTipoDocumento(int anno, long idAssociato, int tipoDocumento) throws SystemException {
+		return this.progressivoPersistence.findByAnnoIdAssociatoTipoDocumento(anno, idAssociato, tipoDocumento);
+	}
+
 }

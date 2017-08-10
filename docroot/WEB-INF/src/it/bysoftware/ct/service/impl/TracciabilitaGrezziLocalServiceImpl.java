@@ -14,8 +14,10 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.model.TracciabilitaGrezzi;
 import it.bysoftware.ct.service.base.TracciabilitaGrezziLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -37,15 +39,15 @@ import java.util.List;
  * @see it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil
  */
 public class TracciabilitaGrezziLocalServiceImpl
-        extends TracciabilitaGrezziLocalServiceBaseImpl {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil} to access the tracciabilita grezzi local service.
-     */
+		extends TracciabilitaGrezziLocalServiceBaseImpl {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaGrezziLocalServiceUtil} to access the tracciabilita grezzi local service.
+	 */
 
-    @Override
-    public List<TracciabilitaGrezzi> getIdSchedaTracciabilita(long idSchedaTracciabilita) throws SystemException {
-        return this.tracciabilitaGrezziPersistence.findBySchedaTracciabilita(idSchedaTracciabilita);
-    }
+	@Override
+	public List<TracciabilitaGrezzi> getIdSchedaTracciabilita(long idSchedaTracciabilita) throws SystemException {
+		return this.tracciabilitaGrezziPersistence.findBySchedaTracciabilita(idSchedaTracciabilita);
+	}
 }

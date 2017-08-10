@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.CuraTrasportoLocalServiceBaseImpl;
  */
 public class CuraTrasportoLocalServiceImpl
 	extends CuraTrasportoLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.CuraTrasportoLocalServiceUtil} to access the cura trasporto local service.

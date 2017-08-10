@@ -15,17 +15,16 @@
 <%@page import="javax.portlet.PortletURL"%>
 
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0"%>
-<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="f" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="portlet" uri="http://java.sun.com/portlet_2_0" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<%@taglib prefix="liferay-theme" uri="http://liferay.com/tld/theme"%>
-<%@taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet"%>
-<%@taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui"%>
-<%@taglib prefix="liferay-util" uri="http://liferay.com/tld/util"%>
+<%@taglib prefix="liferay-theme" uri="http://liferay.com/tld/theme" %>
+<%@taglib prefix="liferay-portlet" uri="http://liferay.com/tld/portlet" %>
+<%@taglib prefix="liferay-ui" uri="http://liferay.com/tld/ui" %>
+<%@taglib prefix="liferay-util" uri="http://liferay.com/tld/util" %>
 
-<%@taglib prefix="aui" uri="http://liferay.com/tld/aui"%>
-
+<%@taglib prefix="aui" uri="http://liferay.com/tld/aui" %>
 
 <portlet:defineObjects/>
 <liferay-theme:defineObjects/>

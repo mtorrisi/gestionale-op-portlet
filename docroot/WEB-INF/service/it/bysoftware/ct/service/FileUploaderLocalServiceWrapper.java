@@ -283,6 +283,13 @@ public class FileUploaderLocalServiceWrapper implements FileUploaderLocalService
 			arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.FileUploaderLocalServiceUtil} to access the file
+	* uploader local service.
+	*/
 	@Override
 	public void add(java.io.File file) {
 		_fileUploaderLocalService.add(file);

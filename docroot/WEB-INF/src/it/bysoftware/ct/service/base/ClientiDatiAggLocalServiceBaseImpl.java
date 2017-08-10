@@ -42,6 +42,7 @@ import it.bysoftware.ct.service.persistence.AssociatoPersistence;
 import it.bysoftware.ct.service.persistence.BancheAppoggioPersistence;
 import it.bysoftware.ct.service.persistence.CMRPersistence;
 import it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence;
+import it.bysoftware.ct.service.persistence.CessioneCreditoPersistence;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence;
 import it.bysoftware.ct.service.persistence.CuraTrasportoPersistence;
@@ -761,6 +762,63 @@ public abstract class ClientiDatiAggLocalServiceBaseImpl
 	public void setCausaleTrasportoPersistence(
 		CausaleTrasportoPersistence causaleTrasportoPersistence) {
 		this.causaleTrasportoPersistence = causaleTrasportoPersistence;
+	}
+
+	/**
+	 * Returns the cessione credito local service.
+	 *
+	 * @return the cessione credito local service
+	 */
+	public it.bysoftware.ct.service.CessioneCreditoLocalService getCessioneCreditoLocalService() {
+		return cessioneCreditoLocalService;
+	}
+
+	/**
+	 * Sets the cessione credito local service.
+	 *
+	 * @param cessioneCreditoLocalService the cessione credito local service
+	 */
+	public void setCessioneCreditoLocalService(
+		it.bysoftware.ct.service.CessioneCreditoLocalService cessioneCreditoLocalService) {
+		this.cessioneCreditoLocalService = cessioneCreditoLocalService;
+	}
+
+	/**
+	 * Returns the cessione credito remote service.
+	 *
+	 * @return the cessione credito remote service
+	 */
+	public it.bysoftware.ct.service.CessioneCreditoService getCessioneCreditoService() {
+		return cessioneCreditoService;
+	}
+
+	/**
+	 * Sets the cessione credito remote service.
+	 *
+	 * @param cessioneCreditoService the cessione credito remote service
+	 */
+	public void setCessioneCreditoService(
+		it.bysoftware.ct.service.CessioneCreditoService cessioneCreditoService) {
+		this.cessioneCreditoService = cessioneCreditoService;
+	}
+
+	/**
+	 * Returns the cessione credito persistence.
+	 *
+	 * @return the cessione credito persistence
+	 */
+	public CessioneCreditoPersistence getCessioneCreditoPersistence() {
+		return cessioneCreditoPersistence;
+	}
+
+	/**
+	 * Sets the cessione credito persistence.
+	 *
+	 * @param cessioneCreditoPersistence the cessione credito persistence
+	 */
+	public void setCessioneCreditoPersistence(
+		CessioneCreditoPersistence cessioneCreditoPersistence) {
+		this.cessioneCreditoPersistence = cessioneCreditoPersistence;
 	}
 
 	/**
@@ -2008,6 +2066,12 @@ public abstract class ClientiDatiAggLocalServiceBaseImpl
 	protected it.bysoftware.ct.service.CausaleTrasportoService causaleTrasportoService;
 	@BeanReference(type = CausaleTrasportoPersistence.class)
 	protected CausaleTrasportoPersistence causaleTrasportoPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.CessioneCreditoLocalService.class)
+	protected it.bysoftware.ct.service.CessioneCreditoLocalService cessioneCreditoLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.CessioneCreditoService.class)
+	protected it.bysoftware.ct.service.CessioneCreditoService cessioneCreditoService;
+	@BeanReference(type = CessioneCreditoPersistence.class)
+	protected CessioneCreditoPersistence cessioneCreditoPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.ClientiDatiAggLocalService.class)
 	protected it.bysoftware.ct.service.ClientiDatiAggLocalService clientiDatiAggLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.ClientiDatiAggService.class)

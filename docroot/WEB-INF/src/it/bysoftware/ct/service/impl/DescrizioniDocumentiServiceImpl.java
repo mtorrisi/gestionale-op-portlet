@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.DescrizioniDocumentiServiceBaseImpl;
  */
 public class DescrizioniDocumentiServiceImpl
 	extends DescrizioniDocumentiServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DescrizioniDocumentiServiceUtil} to access the descrizioni documenti remote service.

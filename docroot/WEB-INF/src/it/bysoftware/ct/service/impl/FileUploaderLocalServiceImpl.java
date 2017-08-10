@@ -14,10 +14,11 @@
 
 package it.bysoftware.ct.service.impl;
 
+import com.liferay.portal.kernel.util.FileUtil;
+
 import it.bysoftware.ct.service.base.FileUploaderLocalServiceBaseImpl;
 
 import java.io.File;
-import com.liferay.portal.kernel.util.FileUtil;
 
 /**
  * The implementation of the file uploader local service.
@@ -37,11 +38,11 @@ import com.liferay.portal.kernel.util.FileUtil;
  * @see it.bysoftware.ct.service.base.FileUploaderLocalServiceBaseImpl
  * @see it.bysoftware.ct.service.FileUploaderLocalServiceUtil
  */
-public class FileUploaderLocalServiceImpl extends
-		FileUploaderLocalServiceBaseImpl {
-	/*
+public class FileUploaderLocalServiceImpl
+		extends FileUploaderLocalServiceBaseImpl {
+	/**
 	 * NOTE FOR DEVELOPERS:
-	 * 
+	 *
 	 * Never reference this interface directly. Always use {@link
 	 * it.bysoftware.ct.service.FileUploaderLocalServiceUtil} to access the file
 	 * uploader local service.
@@ -49,7 +50,9 @@ public class FileUploaderLocalServiceImpl extends
 
 	public void add(File file) {
 		File folder = new File("/opt/glassfish4/data/upload/");
+
 		// This is our final file path.
+
 		File f = new File(folder + file.getName());
 		FileUtil.move(file, f);
 	}

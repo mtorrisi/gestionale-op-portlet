@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class DescrizioniVariantiImpl extends DescrizioniVariantiBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a descrizioni varianti model instance should use the {@link it.bysoftware.ct.model.DescrizioniVarianti} interface instead.

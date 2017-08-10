@@ -289,6 +289,11 @@ public class WKRigoDocumentoLocalServiceWrapper
 			arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil} to access the w k rigo documento local service.
+	*/
 	@Override
 	public java.util.List<it.bysoftware.ct.model.WKRigoDocumento> getByNumeroOrdineAnnoAssociatoTipoDocumento(
 		long numeroOrdine, int anno, long idAssociato,

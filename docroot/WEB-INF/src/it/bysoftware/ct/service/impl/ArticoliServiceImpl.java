@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.ArticoliServiceBaseImpl;
  * @see it.bysoftware.ct.service.ArticoliServiceUtil
  */
 public class ArticoliServiceImpl extends ArticoliServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ArticoliServiceUtil} to access the articoli remote service.

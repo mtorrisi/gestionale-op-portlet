@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class DestinatariDiversiImpl extends DestinatariDiversiBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a destinatari diversi model instance should use the {@link it.bysoftware.ct.model.DestinatariDiversi} interface instead.

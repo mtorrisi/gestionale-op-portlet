@@ -114,21 +114,21 @@ public class WKTestataDocumentoLocalServiceClpInvoker {
 				"it.bysoftware.ct.model.WKTestataDocumento"
 			};
 
-		_methodName184 = "getBeanIdentifier";
+		_methodName190 = "getBeanIdentifier";
 
-		_methodParameterTypes184 = new String[] {  };
+		_methodParameterTypes190 = new String[] {  };
 
-		_methodName185 = "setBeanIdentifier";
+		_methodName191 = "setBeanIdentifier";
 
-		_methodParameterTypes185 = new String[] { "java.lang.String" };
+		_methodParameterTypes191 = new String[] { "java.lang.String" };
 
-		_methodName190 = "getReady";
+		_methodName196 = "getReady";
 
-		_methodParameterTypes190 = new String[] { "int", "long" };
+		_methodParameterTypes196 = new String[] { "int", "long" };
 
-		_methodName191 = "getToCheck";
+		_methodName197 = "getToCheck";
 
-		_methodParameterTypes191 = new String[] { "int", "long" };
+		_methodParameterTypes197 = new String[] { "int", "long" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
@@ -220,26 +220,26 @@ public class WKTestataDocumentoLocalServiceClpInvoker {
 			return WKTestataDocumentoLocalServiceUtil.updateWKTestataDocumento((it.bysoftware.ct.model.WKTestataDocumento)arguments[0]);
 		}
 
-		if (_methodName184.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes184, parameterTypes)) {
+		if (_methodName190.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
 			return WKTestataDocumentoLocalServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName185.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes185, parameterTypes)) {
+		if (_methodName191.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
 			WKTestataDocumentoLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}
 
-		if (_methodName190.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
+		if (_methodName196.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes196, parameterTypes)) {
 			return WKTestataDocumentoLocalServiceUtil.getReady(((Integer)arguments[0]).intValue(),
 				((Long)arguments[1]).longValue());
 		}
 
-		if (_methodName191.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
+		if (_methodName197.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes197, parameterTypes)) {
 			return WKTestataDocumentoLocalServiceUtil.getToCheck(((Integer)arguments[0]).intValue(),
 				((Long)arguments[1]).longValue());
 		}
@@ -279,12 +279,12 @@ public class WKTestataDocumentoLocalServiceClpInvoker {
 	private String[] _methodParameterTypes14;
 	private String _methodName15;
 	private String[] _methodParameterTypes15;
-	private String _methodName184;
-	private String[] _methodParameterTypes184;
-	private String _methodName185;
-	private String[] _methodParameterTypes185;
 	private String _methodName190;
 	private String[] _methodParameterTypes190;
 	private String _methodName191;
 	private String[] _methodParameterTypes191;
+	private String _methodName196;
+	private String[] _methodParameterTypes196;
+	private String _methodName197;
+	private String[] _methodParameterTypes197;
 }

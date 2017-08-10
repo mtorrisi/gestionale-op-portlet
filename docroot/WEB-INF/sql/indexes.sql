@@ -42,6 +42,8 @@ create index IX_B149F450 on associato (ragione_sociale);
 create index IX_D4174921 on associato_cliente (id_associato);
 create index IX_57975933 on associato_cliente (id_cliente);
 
+create index IX_1756E7F1 on cessioneCredito (anno, id_associato, numero_fattura);
+
 create index IX_D2B09DD9 on gestionaleOP_Testata_Righe (WKAnno);
 create index IX_E72C6D7E on gestionaleOP_Testata_Righe (WKNOrd);
 create index IX_83F3D59E on gestionaleOP_Testata_Righe (WkNOrd);

@@ -24,24 +24,24 @@ import java.util.Arrays;
  */
 public class VociIvaServiceClpInvoker {
 	public VociIvaServiceClpInvoker() {
-		_methodName168 = "getBeanIdentifier";
+		_methodName174 = "getBeanIdentifier";
 
-		_methodParameterTypes168 = new String[] {  };
+		_methodParameterTypes174 = new String[] {  };
 
-		_methodName169 = "setBeanIdentifier";
+		_methodName175 = "setBeanIdentifier";
 
-		_methodParameterTypes169 = new String[] { "java.lang.String" };
+		_methodParameterTypes175 = new String[] { "java.lang.String" };
 	}
 
 	public Object invokeMethod(String name, String[] parameterTypes,
 		Object[] arguments) throws Throwable {
-		if (_methodName168.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes168, parameterTypes)) {
+		if (_methodName174.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes174, parameterTypes)) {
 			return VociIvaServiceUtil.getBeanIdentifier();
 		}
 
-		if (_methodName169.equals(name) &&
-				Arrays.deepEquals(_methodParameterTypes169, parameterTypes)) {
+		if (_methodName175.equals(name) &&
+				Arrays.deepEquals(_methodParameterTypes175, parameterTypes)) {
 			VociIvaServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
@@ -50,8 +50,8 @@ public class VociIvaServiceClpInvoker {
 		throw new UnsupportedOperationException();
 	}
 
-	private String _methodName168;
-	private String[] _methodParameterTypes168;
-	private String _methodName169;
-	private String[] _methodParameterTypes169;
+	private String _methodName174;
+	private String[] _methodParameterTypes174;
+	private String _methodName175;
+	private String[] _methodParameterTypes175;
 }

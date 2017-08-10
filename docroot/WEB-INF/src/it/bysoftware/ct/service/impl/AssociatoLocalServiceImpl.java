@@ -15,9 +15,11 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.NoSuchAssociatoException;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.service.base.AssociatoLocalServiceBaseImpl;
+
 import java.util.List;
 
 /**
@@ -35,29 +37,28 @@ import java.util.List;
  * @see it.bysoftware.ct.service.AssociatoLocalServiceUtil
  */
 public class AssociatoLocalServiceImpl extends AssociatoLocalServiceBaseImpl {
-	/*
+	public int countAssociatiAttivi(long idOp) throws SystemException {
+		return this.associatoPersistence.findByAssociatiAttivi(true, idOp).size();
+	}
+
+	public int countAssociatiDisattivati(long idOp) throws SystemException {
+		return this.associatoPersistence.findByAssociatiAttivi(false, idOp).size();
+	}
+
+	public Associato findByLiferayId(long idLiferay) throws NoSuchAssociatoException, SystemException {
+		return this.associatoPersistence.findByIdLiferay(idLiferay);
+	} public List<Associato> getAssociatiDisattivati(long idOp) throws SystemException {
+		return this.associatoPersistence.findByAssociatiAttivi(false, idOp);
+	}
+
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AssociatoLocalServiceUtil} to access the associato local service.
 	 */
-    
-    public List<Associato> getAssociatiAttivi(long idOp) throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(true, idOp);
-    }
-    
-    public List<Associato> getAssociatiDisattivati(long idOp) throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(false, idOp);
-    }
-    
-    public int countAssociatiAttivi(long idOp) throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(true, idOp).size();
-    }
-    
-    public int countAssociatiDisattivati(long idOp) throws SystemException{
-        return this.associatoPersistence.findByAssociatiAttivi(false, idOp).size();
-    }
-    
-    public Associato findByLiferayId(long idLiferay) throws SystemException, NoSuchAssociatoException{
-        return this.associatoPersistence.findByIdLiferay(idLiferay);
-    }
+
+	public List<Associato> getAssociatiAttivi(long idOp) throws SystemException {
+		return this.associatoPersistence.findByAssociatiAttivi(true, idOp);
+	}
+
 }

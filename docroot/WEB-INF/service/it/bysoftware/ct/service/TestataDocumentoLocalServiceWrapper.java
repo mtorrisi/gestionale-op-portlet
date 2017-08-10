@@ -290,6 +290,14 @@ public class TestataDocumentoLocalServiceWrapper
 	}
 
 	@Override
+	public int countDocumnetByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.countDocumnetByCodiceOperatore(codiceOperatore,
+			completo, inviato);
+	}
+
+	@Override
 	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
 		java.lang.String codiceOperatore)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -305,27 +313,11 @@ public class TestataDocumentoLocalServiceWrapper
 	}
 
 	@Override
-	public int countDocumnetByCodiceOperatore(
-		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _testataDocumentoLocalService.countDocumnetByCodiceOperatore(codiceOperatore,
-			completo, inviato);
-	}
-
-	@Override
 	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
 		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _testataDocumentoLocalService.getByCodiceSoggettoCodiceOperatore(codiceSoggetto,
 			codiceOperatore);
-	}
-
-	@Override
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
-		int anno, java.lang.String idDocumento, long idAssociato)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return _testataDocumentoLocalService.getDocumentiSoggetto(anno,
-			idDocumento, idAssociato);
 	}
 
 	@Override
@@ -335,6 +327,14 @@ public class TestataDocumentoLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _testataDocumentoLocalService.getDocumentiCollegati(anno,
 			tipoDocumento, idAssociato, nota2);
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return _testataDocumentoLocalService.getDocumentiSoggetto(anno,
+			idDocumento, idAssociato);
 	}
 
 	/**

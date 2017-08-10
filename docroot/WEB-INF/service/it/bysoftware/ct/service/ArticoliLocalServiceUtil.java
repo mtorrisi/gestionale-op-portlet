@@ -275,9 +275,9 @@ public class ArticoliLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	public static java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
+	public static int countArticoli()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getImballaggi();
+		return getService().countArticoli();
 	}
 
 	public static int countImballaggi()
@@ -290,21 +290,22 @@ public class ArticoliLocalServiceUtil {
 		return getService().getArticoli();
 	}
 
-	public static int countArticoli()
+	public static java.util.List<it.bysoftware.ct.model.Articoli> getImballaggi()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().countArticoli();
+		return getService().getImballaggi();
 	}
 
-	public static java.util.List searchArticoli(
-		java.lang.String codiceArticolo, boolean andSearch, int start, int end,
+	public static java.util.List<it.bysoftware.ct.model.Articoli> searchArticoli(
+		java.lang.String codiceArticolo, java.lang.String descrizione,
+		boolean andSearch, int start, int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
-				   .searchArticoli(codiceArticolo, andSearch, start, end,
-			orderByComparator);
+				   .searchArticoli(codiceArticolo, descrizione, andSearch,
+			start, end, orderByComparator);
 	}
 
-	public static java.util.List searchImballaggi(
+	public static java.util.List<it.bysoftware.ct.model.Articoli> searchImballaggi(
 		java.lang.String codiceImballaggio, boolean andSearch, int start,
 		int end,
 		com.liferay.portal.kernel.util.OrderByComparator orderByComparator)

@@ -287,6 +287,11 @@ public class ProgressivoLocalServiceWrapper implements ProgressivoLocalService,
 			arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ProgressivoLocalServiceUtil} to access the progressivo local service.
+	*/
 	@Override
 	public java.util.List<it.bysoftware.ct.model.Progressivo> getByAnnoIdAssociatoTipoDocumento(
 		int anno, long idAssociato, int tipoDocumento)

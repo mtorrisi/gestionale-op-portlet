@@ -55,6 +55,7 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
 		attributes.put("unitaMisura", getUnitaMisura());
 		attributes.put("tara", getTara());
+		attributes.put("codiceIVA", getCodiceIVA());
 
 		return attributes;
 	}
@@ -103,6 +104,12 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 
 		if (tara != null) {
 			setTara(tara);
+		}
+
+		String codiceIVA = (String)attributes.get("codiceIVA");
+
+		if (codiceIVA != null) {
+			setCodiceIVA(codiceIVA);
 		}
 	}
 
@@ -264,6 +271,26 @@ public class ArticoliWrapper implements Articoli, ModelWrapper<Articoli> {
 	@Override
 	public void setTara(double tara) {
 		_articoli.setTara(tara);
+	}
+
+	/**
+	* Returns the codice i v a of this articoli.
+	*
+	* @return the codice i v a of this articoli
+	*/
+	@Override
+	public java.lang.String getCodiceIVA() {
+		return _articoli.getCodiceIVA();
+	}
+
+	/**
+	* Sets the codice i v a of this articoli.
+	*
+	* @param codiceIVA the codice i v a of this articoli
+	*/
+	@Override
+	public void setCodiceIVA(java.lang.String codiceIVA) {
+		_articoli.setCodiceIVA(codiceIVA);
 	}
 
 	@Override

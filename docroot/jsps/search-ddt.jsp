@@ -25,9 +25,9 @@
     String codiceOperatore = renderRequest.getRemoteUser();
     List<TestataDocumento> listDDT;
     if (cliente.getCodiceAnagrafica().equals(String.valueOf(op.getIdLiferay()))) {
-    	listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.DDA.name(), a.getId());
+        listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.DDA.name(), a.getId());
     } else {
-   		listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.DDT.name(), a.getId());
+        listDDT = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.DDT.name(), a.getId());
     }
     List<TestataDocumento> completed = new ArrayList<TestataDocumento>();
     List<TestataDocumento> invoiced = new ArrayList<TestataDocumento>();
@@ -53,14 +53,23 @@
     boolean updateMode = ParamUtil.getBoolean(renderRequest, "update");
     String label = updateMode ? "Elenco DDT" : "Elenco DDT da fatturare";
 %>
-<liferay-ui:error key="error-delete" message="Non ÃÂ¨ stato possibile rimuovere il documento." />
-<liferay-portlet:actionURL name="generateInvoice" var="generateInvoice"/>
+
+<liferay-ui:error key="errorDelete" message="Non e\' stato possibile rimuovere il documento." />
+<liferay-ui:error key="differentCustomers" message="Impossibile generare la fattura, i documenti selezionati appartengono a clienti differenti." />
+<liferay-portlet:actionURL name="generateInvoice" var="generateInvoice" />
 <liferay-portlet:renderURL var="searchInvoiceURL">
-    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica()%>"/>
+    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica() %>" />
+    <liferay-portlet:param name="update"  value="<%= String.valueOf(updateMode) %>" />
+    <liferay-portlet:param name="filter"  value="<%= String.valueOf(filter) %>" />
     <%--<liferay-portlet:param name="update" value="true" />--%>
-    <liferay-portlet:param name="jspPage"  value="/jsps/search-invoice.jsp"/>
+    <liferay-portlet:param name="jspPage"  value="/jsps/search-invoice.jsp" />
 </liferay-portlet:renderURL>
-<aui:fieldset label="<%= label%>">
+<liferay-portlet:renderURL var="instantInvoiceURL">
+    <liferay-portlet:param name="immediate"  value="true" />
+    <liferay-portlet:param name="codiceCliente"  value="<%= cliente.getCodiceAnagrafica() %>" />
+    <liferay-portlet:param name="jspPage"  value="/jsps/edit-instant-invoice.jsp" />
+</liferay-portlet:renderURL>
+<aui:fieldset label="<%= label %>">
     <div id="myTab">
 
         <ul class="nav nav-tabs">
@@ -68,34 +77,37 @@
             <li><a href="#tab-2">Fatturati</a></li>
         </ul>
         <div class="tab-content">
-            <div id="tab-1" class="tab-pane">
+            <div class="tab-pane" id="tab-1">
                 <aui:field-wrapper>
                     <div class="btn-toolbar">
                         <div class="btn-group">
-                            <button id="btnSearch"  class="btn" <%= ((updateMode) ? "style=\"display: none\"" : "") %>><i class="icon-search"></i>Cerca fattura</button>
-                            <button id="btnInvoice" class="btn" ><i class="icon-list-alt"></i>Genera Fattura</button>
+                            <button class="btn"  id="btnSearch" <%= ((updateMode) ? "style=\"display: none\"" : "") %>><i class="icon-search"></i> Cerca fattura</button>
+                            <button class="btn" id="btnInvoice"><i class="icon-list-alt"></i> Genera Fattura</button>
+                            <button class="btn" id="btnInstantInvoice"><i class="icon-list-alt"></i> Fattura Immediata</button>
                         </div>
-                    </div>  
+                    </div>
                 </aui:field-wrapper>
 
-                <aui:form method="post" name="fm" action="${generateInvoice}">
-                    <aui:input name="documentIds" type="hidden"/>
-                    <aui:input name="clientId" type="hidden" value="<%=cliente.getCodiceAnagrafica()%>"/>
-                    <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
+                <aui:form action="${generateInvoice}" method="post" name="fm">
+                    <aui:input name="filter" type="hidden" value="<%= String.valueOf(filter) %>" />
+                    <aui:input name="update" type="hidden" value="<%= String.valueOf(updateMode) %>" />
+                    <aui:input name="documentIds" type="hidden" />
+                    <aui:input name="clientId" type="hidden" value="<%= cliente.getCodiceAnagrafica() %>" />
+                    <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse) %>">
 
-                        <liferay-ui:search-container-results results="<%= completed%>" 
-                        total="<%= completed.size()%>"/>
-                        <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
-                            <liferay-ui:search-container-column-text property="numeroOrdine" name="N."/>
-                            <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-                            <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documento"/>
-                            <liferay-ui:search-container-column-text property="completo" name="Stato"/>
+                        <liferay-ui:search-container-results results="<%= completed %>"
+                        total="<%= completed.size() %>" />
+                        <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" keyProperty="numeroOrdine" modelVar="testataDDT">
+                            <liferay-ui:search-container-column-text name="N." property="numeroOrdine" />
+                            <liferay-ui:search-container-column-text name="Ragione Sociale" property="ragioneSociale" />
+                            <liferay-ui:search-container-column-text name="Data Documento" property="dataOrdine" />
+                            <liferay-ui:search-container-column-text name="Stato" property="completo" />
                             <c:choose>
-                                <c:when test="<%= updateMode%>">
-                                    <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
+                                <c:when test="<%= updateMode %>">
+                                    <liferay-ui:search-container-column-jsp align="right" path="/jsps/ddt-action.jsp" valign="middle" />
                                 </c:when>
                                 <c:otherwise>
-                                    <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
+                                    <liferay-ui:search-container-column-jsp align="right" path="/jsps/invoice-action.jsp" valign="middle" />
                                 </c:otherwise>
                             </c:choose>
                         </liferay-ui:search-container-row>
@@ -106,21 +118,21 @@
             </div>
 
             <div id="tab-2">
-                <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse)%>">
+                <liferay-ui:search-container delta="20" emptyResultsMessage="Nessuna documento trovato." rowChecker="<%= new RowChecker(renderResponse) %>">
 
-                    <liferay-ui:search-container-results results="<%= invoiced%>" 
-                    total="<%= invoiced.size()%>"/>
-                    <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" modelVar="testataDDT" keyProperty="numeroOrdine">
-                        <liferay-ui:search-container-column-text property="numeroOrdine" name="N."/>
-                        <liferay-ui:search-container-column-text property="ragioneSociale" name="Ragione Sociale" />
-                        <liferay-ui:search-container-column-text property="dataOrdine" name="Data Documeto"/>
-                        <liferay-ui:search-container-column-text property="completo" name="Stato"/>
+                    <liferay-ui:search-container-results results="<%= invoiced %>"
+                    total="<%= invoiced.size() %>" />
+                    <liferay-ui:search-container-row className="it.bysoftware.ct.model.TestataDocumento" keyProperty="numeroOrdine" modelVar="testataDDT">
+                        <liferay-ui:search-container-column-text name="N." property="numeroOrdine" />
+                        <liferay-ui:search-container-column-text name="Ragione Sociale" property="ragioneSociale" />
+                        <liferay-ui:search-container-column-text name="Data Documeto" property="dataOrdine" />
+                        <liferay-ui:search-container-column-text name="Stato" property="completo" />
                         <%--c:choose>
-                            <c:when test="<%= updateMode%>">
-                                <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/ddt-action.jsp"/>                        
+                            <c:when test="<%= updateMode %>">
+                                <liferay-ui:search-container-column-jsp align="right" path="/jsps/ddt-action.jsp" valign="middle" />
                             </c:when>
                             <c:otherwise>
-                                <liferay-ui:search-container-column-jsp align="right" valign="middle" path="/jsps/invoice-action.jsp"/>
+                                <liferay-ui:search-container-column-jsp align="right" path="/jsps/invoice-action.jsp" valign="middle" />
                             </c:otherwise>
                         </c:choose--%>
                     </liferay-ui:search-container-row>
@@ -132,14 +144,14 @@
     </div>
 </aui:fieldset>
 
-
 <script type="text/javascript">
 
-    var searchInvoiceURL = "<%= searchInvoiceURL%>";
+    var searchInvoiceURL = "<%= searchInvoiceURL %>";
+    var instantInvoiceURL = "<%= instantInvoiceURL %>";
 
     YUI().use(
             'aui-tabview',
-            function (Y) {
+            function(Y) {
                 new Y.TabView(
                         {
                             srcNode: '#myTab'
@@ -148,8 +160,8 @@
             }
     );
 
-    YUI().use('liferay-util-list-fields', function (Y) {
-        Y.one('#btnInvoice').on('click', function (event) {
+    YUI().use('liferay-util-list-fields', function(Y) {
+        Y.one('#btnInvoice').on('click', function(event) {
             var checkBoxValue = Liferay.Util.listCheckedExcept(document.<portlet:namespace />fm, "<portlet:namespace />allRowIds");
             if (checkBoxValue == "" || checkBoxValue == null) {
                 alert("Seleziona almeno un documento");
@@ -157,15 +169,20 @@
             }
             if (confirm("Procedere alla generazione della fattura per i documenti selezionati?")) {
                 document.<portlet:namespace />fm.<portlet:namespace />documentIds.value = checkBoxValue;
-                submitForm(document.<portlet:namespace />fm, "<%=generateInvoice.toString()%>");
+                submitForm(document.<portlet:namespace />fm, "<%= generateInvoice.toString() %>");
             }
 
         });
     });
 
-    YUI().use('node', function (Y) {
-        Y.one('#btnSearch').on('click', function () {
+    YUI().use('node', function(Y) {
+        Y.one('#btnSearch').on('click', function() {
             window.location.href = searchInvoiceURL;
+        });
+    });
+    YUI().use('node', function(Y) {
+        Y.one('#btnInstantInvoice').on('click', function() {
+            window.location.href = instantInvoiceURL;
         });
     });
 </script>

@@ -275,6 +275,14 @@ public class TestataDocumentoLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	public static int countDocumnetByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService()
+				   .countDocumnetByCodiceOperatore(codiceOperatore, completo,
+			inviato);
+	}
+
 	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
 		java.lang.String codiceOperatore)
 		throws com.liferay.portal.kernel.exception.SystemException {
@@ -288,26 +296,12 @@ public class TestataDocumentoLocalServiceUtil {
 				   .getByCodiceOperatore(codiceOperatore, completo, inviato);
 	}
 
-	public static int countDocumnetByCodiceOperatore(
-		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService()
-				   .countDocumnetByCodiceOperatore(codiceOperatore, completo,
-			inviato);
-	}
-
 	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
 		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService()
 				   .getByCodiceSoggettoCodiceOperatore(codiceSoggetto,
 			codiceOperatore);
-	}
-
-	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
-		int anno, java.lang.String idDocumento, long idAssociato)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getDocumentiSoggetto(anno, idDocumento, idAssociato);
 	}
 
 	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
@@ -317,6 +311,12 @@ public class TestataDocumentoLocalServiceUtil {
 		return getService()
 				   .getDocumentiCollegati(anno, tipoDocumento, idAssociato,
 			nota2);
+	}
+
+	public static java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDocumentiSoggetto(anno, idDocumento, idAssociato);
 	}
 
 	public static void clearService() {

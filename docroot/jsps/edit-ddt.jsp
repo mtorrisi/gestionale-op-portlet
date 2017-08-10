@@ -1112,7 +1112,12 @@
         if (deliveryDate >= orderDate) {
             var rows = [];
             for (var i = 0; i < table.data.size(); i++) {
-                rows[i] = table.data.item(i).toJSON();
+            	if (table.data.item(i).toJSON().codiceArticolo !== ''  && table.data.item(i).toJSON().imballo === '') {
+                    console.log("Manca imballo alla riga: " + (i + 1));
+                    alert("Impossibile procedere al salvataggio.\nManca imballo alla riga: " + (i + 1));
+                    return;
+                }
+            	rows[i] = table.data.item(i).toJSON();
             }
             console.log(rows);
 

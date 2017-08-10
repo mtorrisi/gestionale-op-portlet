@@ -289,6 +289,11 @@ public class WKTestataDocumentoLocalServiceWrapper
 			parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil} to access the w k testata documento local service.
+	*/
 	@Override
 	public java.util.List<it.bysoftware.ct.model.WKTestataDocumento> getReady(
 		int anno, long idAssociato)

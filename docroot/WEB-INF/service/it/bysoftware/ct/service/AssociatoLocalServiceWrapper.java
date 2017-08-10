@@ -283,18 +283,6 @@ public class AssociatoLocalServiceWrapper implements AssociatoLocalService,
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi(
-		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
-		return _associatoLocalService.getAssociatiAttivi(idOp);
-	}
-
-	@Override
-	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati(
-		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
-		return _associatoLocalService.getAssociatiDisattivati(idOp);
-	}
-
-	@Override
 	public int countAssociatiAttivi(long idOp)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return _associatoLocalService.countAssociatiAttivi(idOp);
@@ -311,6 +299,23 @@ public class AssociatoLocalServiceWrapper implements AssociatoLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException,
 			it.bysoftware.ct.NoSuchAssociatoException {
 		return _associatoLocalService.findByLiferayId(idLiferay);
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiDisattivati(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.getAssociatiDisattivati(idOp);
+	}
+
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AssociatoLocalServiceUtil} to access the associato local service.
+	*/
+	@Override
+	public java.util.List<it.bysoftware.ct.model.Associato> getAssociatiAttivi(
+		long idOp) throws com.liferay.portal.kernel.exception.SystemException {
+		return _associatoLocalService.getAssociatiAttivi(idOp);
 	}
 
 	/**

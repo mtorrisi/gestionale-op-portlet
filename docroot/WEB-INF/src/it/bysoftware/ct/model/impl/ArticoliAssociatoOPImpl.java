@@ -24,7 +24,7 @@ package it.bysoftware.ct.model.impl;
  * @author Brian Wing Shun Chan
  */
 public class ArticoliAssociatoOPImpl extends ArticoliAssociatoOPBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this class directly. All methods that expect a articoli associato o p model instance should use the {@link it.bysoftware.ct.model.ArticoliAssociatoOP} interface instead.

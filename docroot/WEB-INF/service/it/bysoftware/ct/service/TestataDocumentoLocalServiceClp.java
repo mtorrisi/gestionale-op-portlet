@@ -124,17 +124,17 @@ public class TestataDocumentoLocalServiceClp
 
 		_methodParameterTypes17 = new String[] { "java.lang.String" };
 
-		_methodName19 = "getByCodiceOperatore";
+		_methodName19 = "countDocumnetByCodiceOperatore";
 
-		_methodParameterTypes19 = new String[] { "java.lang.String" };
-
-		_methodName20 = "getByCodiceOperatore";
-
-		_methodParameterTypes20 = new String[] {
+		_methodParameterTypes19 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
 			};
 
-		_methodName21 = "countDocumnetByCodiceOperatore";
+		_methodName20 = "getByCodiceOperatore";
+
+		_methodParameterTypes20 = new String[] { "java.lang.String" };
+
+		_methodName21 = "getByCodiceOperatore";
 
 		_methodParameterTypes21 = new String[] {
 				"java.lang.String", "java.lang.String", "int"
@@ -146,15 +146,15 @@ public class TestataDocumentoLocalServiceClp
 				"java.lang.String", "java.lang.String"
 			};
 
-		_methodName23 = "getDocumentiSoggetto";
+		_methodName23 = "getDocumentiCollegati";
 
-		_methodParameterTypes23 = new String[] { "int", "java.lang.String", "long" };
-
-		_methodName24 = "getDocumentiCollegati";
-
-		_methodParameterTypes24 = new String[] {
+		_methodParameterTypes23 = new String[] {
 				"int", "java.lang.String", "long", "java.lang.String"
 			};
+
+		_methodName24 = "getDocumentiSoggetto";
+
+		_methodParameterTypes24 = new String[] { "int", "java.lang.String", "long" };
 	}
 
 	@Override
@@ -723,44 +723,14 @@ public class TestataDocumentoLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
-		java.lang.String codiceOperatore)
+	public int countDocumnetByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName19,
 					_methodParameterTypes19,
-					new Object[] { ClpSerializer.translateInput(codiceOperatore) });
-		}
-		catch (Throwable t) {
-			t = ClpSerializer.translateThrowable(t);
-
-			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
-				throw (com.liferay.portal.kernel.exception.SystemException)t;
-			}
-
-			if (t instanceof RuntimeException) {
-				throw (RuntimeException)t;
-			}
-			else {
-				throw new RuntimeException(t.getClass().getName() +
-					" is not a valid exception");
-			}
-		}
-
-		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
-	}
-
-	@Override
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
-		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		Object returnObj = null;
-
-		try {
-			returnObj = _invokableLocalService.invokeMethod(_methodName20,
-					_methodParameterTypes20,
 					new Object[] {
 						ClpSerializer.translateInput(codiceOperatore),
 						
@@ -785,11 +755,41 @@ public class TestataDocumentoLocalServiceClp
 			}
 		}
 
+		return ((Integer)returnObj).intValue();
+	}
+
+	@Override
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
+		java.lang.String codiceOperatore)
+		throws com.liferay.portal.kernel.exception.SystemException {
+		Object returnObj = null;
+
+		try {
+			returnObj = _invokableLocalService.invokeMethod(_methodName20,
+					_methodParameterTypes20,
+					new Object[] { ClpSerializer.translateInput(codiceOperatore) });
+		}
+		catch (Throwable t) {
+			t = ClpSerializer.translateThrowable(t);
+
+			if (t instanceof com.liferay.portal.kernel.exception.SystemException) {
+				throw (com.liferay.portal.kernel.exception.SystemException)t;
+			}
+
+			if (t instanceof RuntimeException) {
+				throw (RuntimeException)t;
+			}
+			else {
+				throw new RuntimeException(t.getClass().getName() +
+					" is not a valid exception");
+			}
+		}
+
 		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public int countDocumnetByCodiceOperatore(
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
 		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -821,7 +821,7 @@ public class TestataDocumentoLocalServiceClp
 			}
 		}
 
-		return ((Integer)returnObj).intValue();
+		return (java.util.List<it.bysoftware.ct.model.TestataDocumento>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
@@ -859,8 +859,9 @@ public class TestataDocumentoLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
-		int anno, java.lang.String idDocumento, long idAssociato)
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
+		int anno, java.lang.String tipoDocumento, long idAssociato,
+		java.lang.String nota2)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -870,9 +871,11 @@ public class TestataDocumentoLocalServiceClp
 					new Object[] {
 						anno,
 						
-					ClpSerializer.translateInput(idDocumento),
+					ClpSerializer.translateInput(tipoDocumento),
 						
-					idAssociato
+					idAssociato,
+						
+					ClpSerializer.translateInput(nota2)
 					});
 		}
 		catch (Throwable t) {
@@ -895,9 +898,8 @@ public class TestataDocumentoLocalServiceClp
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
-		int anno, java.lang.String tipoDocumento, long idAssociato,
-		java.lang.String nota2)
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -907,11 +909,9 @@ public class TestataDocumentoLocalServiceClp
 					new Object[] {
 						anno,
 						
-					ClpSerializer.translateInput(tipoDocumento),
+					ClpSerializer.translateInput(idDocumento),
 						
-					idAssociato,
-						
-					ClpSerializer.translateInput(nota2)
+					idAssociato
 					});
 		}
 		catch (Throwable t) {

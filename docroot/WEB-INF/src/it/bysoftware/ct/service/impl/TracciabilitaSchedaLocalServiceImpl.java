@@ -14,12 +14,12 @@
 package it.bysoftware.ct.service.impl;
 
 import com.liferay.portal.kernel.exception.SystemException;
+
 import it.bysoftware.ct.NoSuchTracciabilitaSchedaException;
 import it.bysoftware.ct.model.TracciabilitaScheda;
 import it.bysoftware.ct.service.base.TracciabilitaSchedaLocalServiceBaseImpl;
+
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * The implementation of the tracciabilita scheda local service.
@@ -40,24 +40,24 @@ import java.util.logging.Logger;
  * @see it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil
  */
 public class TracciabilitaSchedaLocalServiceImpl
-        extends TracciabilitaSchedaLocalServiceBaseImpl {
-    /*
-     * NOTE FOR DEVELOPERS:
-     *
-     * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil} to access the tracciabilita scheda local service.
-     */
+		extends TracciabilitaSchedaLocalServiceBaseImpl {
+	/*
+	 * NOTE FOR DEVELOPERS:
+	 *
+	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil} to access the tracciabilita scheda local service.
+	 */
 
-    @Override
-    public List<TracciabilitaScheda> getByAnnoIdAssociato(int anno, long numeroDocumento, long idAssociato) throws SystemException {
-        return this.tracciabilitaSchedaPersistence.findByAnnoIdAssociatoNDocumento(anno, idAssociato, numeroDocumento,"DDT");
-    }
-    
-    @Override
-    public TracciabilitaScheda getByAnnoIdAssociatoCodiceProdotto(int anno, long numeroDocumento, long idAssociato, String codiceProdotto) throws SystemException {
-        try {
-            return this.tracciabilitaSchedaPersistence.findByAnnoIdAssociatoNDocumentoCodiceProdotto(anno, idAssociato, numeroDocumento,"DDT", codiceProdotto);
-        } catch (NoSuchTracciabilitaSchedaException ex) {
-            return null;
-        }
-    }
+	@Override
+	public List<TracciabilitaScheda> getByAnnoIdAssociato(int anno, long numeroDocumento, long idAssociato) throws SystemException {
+		return this.tracciabilitaSchedaPersistence.findByAnnoIdAssociatoNDocumento(anno, idAssociato, numeroDocumento,"DDT");
+	}
+
+	@Override
+	public TracciabilitaScheda getByAnnoIdAssociatoCodiceProdotto(int anno, long numeroDocumento, long idAssociato, String codiceProdotto) throws SystemException {
+		try {
+			return this.tracciabilitaSchedaPersistence.findByAnnoIdAssociatoNDocumentoCodiceProdotto(anno, idAssociato, numeroDocumento,"DDT", codiceProdotto);
+		} catch (NoSuchTracciabilitaSchedaException ex) {
+			return null;
+		}
+	}
 }

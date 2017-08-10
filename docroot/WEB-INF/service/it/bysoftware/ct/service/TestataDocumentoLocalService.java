@@ -254,6 +254,10 @@ public interface TestataDocumentoLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	public int countDocumnetByCodiceOperatore(
+		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceOperatore(
 		java.lang.String codiceOperatore)
@@ -264,23 +268,19 @@ public interface TestataDocumentoLocalService extends BaseLocalService,
 		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
-	public int countDocumnetByCodiceOperatore(
-		java.lang.String codiceOperatore, java.lang.String completo, int inviato)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getByCodiceSoggettoCodiceOperatore(
 		java.lang.String codiceSoggetto, java.lang.String codiceOperatore)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
-		int anno, java.lang.String idDocumento, long idAssociato)
-		throws com.liferay.portal.kernel.exception.SystemException;
-
-	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiCollegati(
 		int anno, java.lang.String tipoDocumento, long idAssociato,
 		java.lang.String nota2)
+		throws com.liferay.portal.kernel.exception.SystemException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public java.util.List<it.bysoftware.ct.model.TestataDocumento> getDocumentiSoggetto(
+		int anno, java.lang.String idDocumento, long idAssociato)
 		throws com.liferay.portal.kernel.exception.SystemException;
 }

@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.AnagraficaAssociatoOPServiceBaseImpl;
  */
 public class AnagraficaAssociatoOPServiceImpl
 	extends AnagraficaAssociatoOPServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AnagraficaAssociatoOPServiceUtil} to access the anagrafica associato o p remote service.

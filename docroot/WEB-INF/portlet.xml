@@ -32,7 +32,7 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
-        <portlet>
+	<portlet>
 		<portlet-name>recupero-documenti</portlet-name>
 		<display-name>Recupero Documenti</display-name>
 		<portlet-class>it.its.ct.gestionaleOP.op.RecuperoDocumentiPortlet</portlet-class>
@@ -63,7 +63,7 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
-        <portlet>
+	<portlet>
 		<portlet-name>registra-associato</portlet-name>
 		<display-name>Registra Associato</display-name>
 		<portlet-class>it.its.ct.gestionaleOP.op.RegistraAssociatoPortlet</portlet-class>

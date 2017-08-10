@@ -79,6 +79,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		attributes.put("descrizioneFiscale", getDescrizioneFiscale());
 		attributes.put("unitaMisura", getUnitaMisura());
 		attributes.put("tara", getTara());
+		attributes.put("codiceIVA", getCodiceIVA());
 
 		return attributes;
 	}
@@ -127,6 +128,12 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 
 		if (tara != null) {
 			setTara(tara);
+		}
+
+		String codiceIVA = (String)attributes.get("codiceIVA");
+
+		if (codiceIVA != null) {
+			setCodiceIVA(codiceIVA);
 		}
 	}
 
@@ -295,6 +302,29 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		}
 	}
 
+	@Override
+	public String getCodiceIVA() {
+		return _codiceIVA;
+	}
+
+	@Override
+	public void setCodiceIVA(String codiceIVA) {
+		_codiceIVA = codiceIVA;
+
+		if (_articoliRemoteModel != null) {
+			try {
+				Class<?> clazz = _articoliRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setCodiceIVA", String.class);
+
+				method.invoke(_articoliRemoteModel, codiceIVA);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
 	public BaseModel<?> getArticoliRemoteModel() {
 		return _articoliRemoteModel;
 	}
@@ -371,6 +401,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		clone.setDescrizioneFiscale(getDescrizioneFiscale());
 		clone.setUnitaMisura(getUnitaMisura());
 		clone.setTara(getTara());
+		clone.setCodiceIVA(getCodiceIVA());
 
 		return clone;
 	}
@@ -415,7 +446,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(15);
+		StringBundler sb = new StringBundler(17);
 
 		sb.append("{codiceArticolo=");
 		sb.append(getCodiceArticolo());
@@ -431,6 +462,8 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 		sb.append(getUnitaMisura());
 		sb.append(", tara=");
 		sb.append(getTara());
+		sb.append(", codiceIVA=");
+		sb.append(getCodiceIVA());
 		sb.append("}");
 
 		return sb.toString();
@@ -438,7 +471,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(28);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.Articoli");
@@ -472,6 +505,10 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 			"<column><column-name>tara</column-name><column-value><![CDATA[");
 		sb.append(getTara());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>codiceIVA</column-name><column-value><![CDATA[");
+		sb.append(getCodiceIVA());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -485,6 +522,7 @@ public class ArticoliClp extends BaseModelImpl<Articoli> implements Articoli {
 	private String _descrizioneFiscale;
 	private String _unitaMisura;
 	private double _tara;
+	private String _codiceIVA;
 	private BaseModel<?> _articoliRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }

@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.ArticoliAssociatoOPLocalServiceBaseImpl;
  */
 public class ArticoliAssociatoOPLocalServiceImpl
 	extends ArticoliAssociatoOPLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.ArticoliAssociatoOPLocalServiceUtil} to access the articoli associato o p local service.

@@ -64,6 +64,13 @@ public interface FileUploaderService extends BaseService, InvokableService {
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.FileUploaderServiceUtil} to access the file
+	* uploader remote service.
+	*/
 	public void add(java.io.File file);
 
 	public void add(java.io.File file, java.lang.String name);

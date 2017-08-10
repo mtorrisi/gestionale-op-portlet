@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.TracciabilitaSchedaServiceBaseImpl;
  */
 public class TracciabilitaSchedaServiceImpl
 	extends TracciabilitaSchedaServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.TracciabilitaSchedaServiceUtil} to access the tracciabilita scheda remote service.

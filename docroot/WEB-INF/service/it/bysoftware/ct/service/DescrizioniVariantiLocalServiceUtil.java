@@ -275,6 +275,11 @@ public class DescrizioniVariantiLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DescrizioniVariantiLocalServiceUtil} to access the descrizioni varianti local service.
+	*/
 	public static java.util.List<it.bysoftware.ct.model.DescrizioniVarianti> getVarianti()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getVarianti();

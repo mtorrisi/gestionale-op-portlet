@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.OrganizzazioneProduttoriServiceBaseImpl;
  */
 public class OrganizzazioneProduttoriServiceImpl
 	extends OrganizzazioneProduttoriServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.OrganizzazioneProduttoriServiceUtil} to access the organizzazione produttori remote service.

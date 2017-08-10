@@ -253,6 +253,11 @@ public interface OrganizzazioneProduttoriLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil} to access the organizzazione produttori local service.
+	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public it.bysoftware.ct.model.OrganizzazioneProduttori getOP(long id)
 		throws com.liferay.portal.kernel.exception.SystemException,

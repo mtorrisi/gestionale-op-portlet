@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.PortoLocalServiceBaseImpl;
  * @see it.bysoftware.ct.service.PortoLocalServiceUtil
  */
 public class PortoLocalServiceImpl extends PortoLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.PortoLocalServiceUtil} to access the porto local service.

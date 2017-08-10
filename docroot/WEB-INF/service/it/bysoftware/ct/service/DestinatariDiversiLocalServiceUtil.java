@@ -275,9 +275,10 @@ public class DestinatariDiversiLocalServiceUtil {
 		return getService().invokeMethod(name, parameterTypes, arguments);
 	}
 
-	public static java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+	public static int countDestinazioniDiverse(
+		java.lang.String codiceRiferimento)
 		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().getDestinazioni();
+		return getService().countDestinazioniDiverse(codiceRiferimento);
 	}
 
 	public static java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni(
@@ -286,16 +287,20 @@ public class DestinatariDiversiLocalServiceUtil {
 		return getService().getDestinazioni(codiceRiferimento);
 	}
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil} to access the destinatari diversi local service.
+	*/
+	public static java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni()
+		throws com.liferay.portal.kernel.exception.SystemException {
+		return getService().getDestinazioni();
+	}
+
 	public static java.util.List<it.bysoftware.ct.model.DestinatariDiversi> getDestinazioni(
 		java.lang.String codiceRiferimento, int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		return getService().getDestinazioni(codiceRiferimento, start, end);
-	}
-
-	public static int countDestinazioniDiverse(
-		java.lang.String codiceRiferimento)
-		throws com.liferay.portal.kernel.exception.SystemException {
-		return getService().countDestinazioniDiverse(codiceRiferimento);
 	}
 
 	public static void clearService() {

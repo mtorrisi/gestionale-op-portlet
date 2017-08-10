@@ -250,5 +250,12 @@ public interface FileUploaderLocalService extends BaseLocalService,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable;
 
+	/**
+	* NOTE FOR DEVELOPERS:
+	*
+	* Never reference this interface directly. Always use {@link
+	* it.bysoftware.ct.service.FileUploaderLocalServiceUtil} to access the file
+	* uploader local service.
+	*/
 	public void add(java.io.File file);
 }

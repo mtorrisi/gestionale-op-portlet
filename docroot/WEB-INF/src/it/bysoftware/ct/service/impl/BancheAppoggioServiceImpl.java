@@ -31,7 +31,7 @@ import it.bysoftware.ct.service.base.BancheAppoggioServiceBaseImpl;
  * @see it.bysoftware.ct.service.BancheAppoggioServiceUtil
  */
 public class BancheAppoggioServiceImpl extends BancheAppoggioServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.BancheAppoggioServiceUtil} to access the banche appoggio remote service.

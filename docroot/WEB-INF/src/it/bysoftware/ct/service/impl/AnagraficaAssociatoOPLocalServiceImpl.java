@@ -32,7 +32,7 @@ import it.bysoftware.ct.service.base.AnagraficaAssociatoOPLocalServiceBaseImpl;
  */
 public class AnagraficaAssociatoOPLocalServiceImpl
 	extends AnagraficaAssociatoOPLocalServiceBaseImpl {
-	/*
+	/**
 	 * NOTE FOR DEVELOPERS:
 	 *
 	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.AnagraficaAssociatoOPLocalServiceUtil} to access the anagrafica associato o p local service.
