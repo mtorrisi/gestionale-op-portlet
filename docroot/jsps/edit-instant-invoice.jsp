@@ -183,7 +183,7 @@
 
     var variety = "<%= stringVarianti %>";
     var aliquotaIVA     = <%= iva%>;
-    var codiceAliquota  = <%= codiceAliquotaCliente%>;
+    var codiceAliquota  = '<%= codiceAliquotaCliente%>';
     
     YUI().use('node', function(Y) {
         Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto(today));
@@ -284,6 +284,7 @@
                         //                emptyCellValue: '<button class="selectArt"><i class="icon-hdd"></i>Seleziona</button>'
             },
             {
+            	editor: nameEditor,
                 key: 'descrizione',
                 label: 'Descrizione Articolo'
             },
@@ -633,6 +634,7 @@
             recordSelected = undefined;
         } else {
             table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2], lotto: document.getElementById('<portlet:namespace/>lottoTestata').value, pedane: 1, unitaMisura: tmp[3], taraPedana: 0.0, codiceIva: (codiceAliquota === "" ? tmp[4] : codiceAliquota), aliquotaIva: (codiceAliquota === "" ? tmp[5] : aliquotaIVA)}, {sync: true});
+            console.log(tmp[0] + "|" + tmp[1] + "|" + tmp[2] + "|" + tmp[3] + "|" + tmp[4] + "|" + tmp[5]);
 //            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
         }
     }
@@ -641,7 +643,7 @@
         var rows = [];
         var ok = true;
         for (var i = 0; i < table.data.size(); i++) {
-            if (table.data.item(i).toJSON().pesoLordo !== 0)
+            if ('pesoLordo' in table.data.item(i).toJSON())
                 if (isNaN(table.data.item(i).toJSON().importo) || table.data.item(i).toJSON().importo === 0 ||
                 		table.data.item(i).toJSON().importo === "0.00") {
                     ok = false;
@@ -714,6 +716,7 @@
 								Y.one('#<portlet:namespace/>nDoc').set('value', data.id);
 							}
                             document.getElementById("btnPrint").disabled = false;
+                            document.getElementById("btnPrintCessione").disabled = false;
                             document.getElementById("btnInvoice").disabled = true;
                             if (Y.one('#<portlet:namespace/>recProt').val() !== "") {
                                 document.getElementById('<portlet:namespace/>recProt').value = "";

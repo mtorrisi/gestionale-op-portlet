@@ -178,8 +178,8 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                     String codVe1 = testata.getCodiceVettore() + SEPARATOR;
                     String codVe2 = testata.getVettore2() + SEPARATOR;
                     String numDoc = testata.getNumeroOrdine() + SEPARATOR;
-                    String protoc = ((testata.getTipoDocumento()
-                            .equals(DocumentType.FAV.name())) ? testata
+                    String protoc = ((!testata.getTipoDocumento()
+                            .equals(DocumentType.FAC.name())) ? testata
                             .getNumeroOrdine() : 0)
                             + SEPARATOR;
                     String dataDoc = testata.getDataOrdine() + SEPARATOR;
@@ -209,9 +209,23 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
 
                         if (rigo.getPesoNetto() != 0) {
 //                            if (rigo.getCodiceArticolo().equals("")) {
-                            if (rigo.getColli() == 0) {
+                            if (rigo.getColli() == 0 && !rigo.getCodiceArticolo().equals("PR")) {
                                 // RIGO FORFAIT
                                 Tiprig = "1" + SEPARATOR;
+                                if (rigo.getCodiceArticolo().isEmpty()) {
+                                    ClientiDatiAgg cliente = ClientiDatiAggLocalServiceUtil
+                                            .fetchClientiDatiAgg(new ClientiDatiAggPK(
+                                                    testata.getCodiceSoggetto(),
+                                                    false));
+                                    Codiva = cliente.getCodiceAliquota();
+                                } else {
+                                    DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil
+                                            .fetchDescrizioniDocumenti(rigo
+                                                    .getCodiceArticolo());
+                                    Codiva = descr.getCodiceIVA();
+                                }
+                                Impnet = String.valueOf(rigo.getPesoNetto() * rigo.getPrezzo())
+                                        + SEPARATOR;
                             } else {
                                 // RIGO ARTICOLO
                                 Tiprig = "0" + SEPARATOR;

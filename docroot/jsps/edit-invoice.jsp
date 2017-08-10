@@ -126,7 +126,7 @@
                     }
                 }
                 json.put("codiceIva", codiceAliquotaCliente);
-                VociIva iva = VociIvaLocalServiceUtil.getVociIva(codiceAliquotaCliente);
+                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
                 if (iva != null) {
                     json.put("aliquotaIva", iva.getAliquota());
                 }
@@ -238,7 +238,7 @@
                     }
                 }
                 json.put("codiceIva", codiceAliquotaCliente);
-                VociIva iva = VociIvaLocalServiceUtil.getVociIva(codiceAliquotaCliente);
+                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
                 if (iva != null) {
                     json.put("aliquotaIva", iva.getAliquota());
                 }
@@ -437,7 +437,7 @@
 //        };
 
     var aliquotaIVA     = <%= iva.getAliquota()%>;
-    var codiceAliquota  = <%= iva.getCodiceIva()%>;
+    var codiceAliquota  = '<%= iva.getCodiceIva()%>';
     var printCreditTransferUrl = "<%= printCreditTransferUrl.toString() %>";
     
     YUI().use(
@@ -795,7 +795,7 @@
             recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
             recordSelected = undefined;
         } else {
-            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg"}, {sync: true});
+            table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg", codiceIva: tmp[4], aliquotaIva: tmp[5]}, {sync: true});
 //            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
         }
     }

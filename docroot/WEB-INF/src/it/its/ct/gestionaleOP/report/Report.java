@@ -13,13 +13,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -39,17 +43,16 @@ import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
  */
 public class Report {
 
-    public static String DB_PASSWORD = "sistemi";
-
-    public static String DB_URL = "jdbc:sqlserver://192.168.196.1\\sqlexpress:1433;DatabaseName=FRUTTAPIU";
-
-    public static String DB_USERNAME = "sa";
-
-    public static String DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-
     public static String JASPER_FILENAME = "ddt";
-
     public static String JASPER_REPORT_FOLDER = "/home/mario/ITS/";
+    private Connection conn;
+    
+    public Report() throws NamingException, SQLException {
+        Context ctx = new InitialContext();
+        DataSource ds = (DataSource) ctx.lookup("jdbc/GestionaleOPPool");
+
+        this.conn = ds.getConnection();
+    }
 
     public String print(int year, int nDoc, int idAssociato, long idOp)
             throws ClassNotFoundException, JRException, SQLException {
@@ -74,21 +77,15 @@ public class Report {
         JasperCompileManager.compileReportToFile(jasperDesign,
                 JASPER_REPORT_FOLDER + idOp + "/castelletto_iva.jasper");
 
-        // inizializzazione connessione al database
-
-        Class.forName(DRIVER);
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME,
-                DB_PASSWORD);
-
         // rendering e generazione del file PDF
 
         JasperPrint jp = JasperFillManager
                 .fillReport(JASPER_REPORT_FOLDER + idOp + "/" + JASPER_FILENAME
-                        + ".jasper", parametersMap, conn);
+                        + ".jasper", parametersMap, this.conn);
         JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + "ddt_"
                 + idAssociato + ".pdf");
 
-        conn.close();
+        this.conn.close();
         return "/tmp/ddt_" + idAssociato + ".pdf";
     }
 
@@ -146,26 +143,20 @@ public class Report {
         JasperCompileManager.compileReportToFile(jasperDesign,
                 JASPER_REPORT_FOLDER + idOp + "/" + reportFile + ".jasper");
 
-        if (reportFile.equals("fav")) {
+//        if (reportFile.equals("fav")) {
             jasperDesign = JRXmlLoader.load(JASPER_REPORT_FOLDER + idOp
                     + "/castelletto_iva.jrxml");
             JasperCompileManager.compileReportToFile(jasperDesign,
                     JASPER_REPORT_FOLDER + idOp + "/castelletto_iva.jasper");
-        }
-
-        // inizializzazione connessione al database
-
-        Class.forName(DRIVER);
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME,
-                DB_PASSWORD);
+//        }
 
         // rendering e generazione del file PDF
 
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER
-                + idOp + "/" + reportFile + ".jasper", parametersMap, conn);
+                + idOp + "/" + reportFile + ".jasper", parametersMap, this.conn);
         JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + nomePDF + "_"
                 + idAssociato + ".pdf");
-        conn.close();
+        this.conn.close();
         return "/tmp/" + nomePDF + "_" + idAssociato + ".pdf";
     }
 
@@ -191,16 +182,12 @@ public class Report {
         JasperCompileManager.compileReportToFile(jasperDesign,
                 JASPER_REPORT_FOLDER + idOp + "/"
                         + "tracciabilita_subreport.jasper");
-        // inizializzazione connessione al database
-        Class.forName(DRIVER);
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME,
-                DB_PASSWORD);
         // rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER
-                + idOp + "/" + "tracciabilita.jasper", parametersMap, conn);
+                + idOp + "/" + "tracciabilita.jasper", parametersMap, this.conn);
         JasperExportManager.exportReportToPdfFile(jp, "/tmp/" + tipoDocumento
                 + "_" + idAssociato + ".pdf");
-        conn.close();
+        this.conn.close();
         return "/tmp/" + tipoDocumento + "_" + idAssociato + ".pdf";
     }
 
@@ -208,13 +195,6 @@ public class Report {
             int idAssociato, String cmr, long idOp) throws JRException,
             ClassNotFoundException, SQLException, FileNotFoundException {
         Map<String, Object> parametersMap = new HashMap<String, Object>();
-
-        // inizializzazione connessione al database
-
-        Class.forName(DRIVER);
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME,
-                DB_PASSWORD);
-
         List<JasperPrint> jasperPrintList = new ArrayList<JasperPrint>();
 
         for (int i = 0; i < 5; i++) {
@@ -249,7 +229,7 @@ public class Report {
             // rendering e generazione del file PDF
 
             JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER
-                    + idOp + "/" + "cmr.jasper", parametersMap, conn);
+                    + idOp + "/" + "cmr.jasper", parametersMap, this.conn);
 
             jasperPrintList.add(jp);
         }
@@ -265,7 +245,7 @@ public class Report {
         configuration.setCreatingBatchModeBookmarks(true);
         pdfExporter.setConfiguration(configuration);
         pdfExporter.exportReport();
-        conn.close();
+        this.conn.close();
         try {
             output.close();
         } catch (IOException e) {
@@ -294,16 +274,12 @@ public class Report {
         JasperCompileManager.compileReportToFile(jasperDesign,
                 JASPER_REPORT_FOLDER + idOp + "/" + "cessione_credito.jasper");
         
-        // inizializzazione connessione al database
-        Class.forName(DRIVER);
-        Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME,
-                DB_PASSWORD);
         // rendering e generazione del file PDF
         JasperPrint jp = JasperFillManager.fillReport(JASPER_REPORT_FOLDER
-                + idOp + "/" + "cessione_credito.jasper", parametersMap, conn);
+                + idOp + "/" + "cessione_credito.jasper", parametersMap, this.conn);
         JasperExportManager.exportReportToPdfFile(jp, "/tmp/cessione_credito" 
                 + "_" + cessioneCredito.getIdAssociato() + ".pdf");
-        conn.close();
+        this.conn.close();
         return "/tmp/cessione_credito" 
                 + "_" + cessioneCredito.getIdAssociato() + ".pdf";
     }

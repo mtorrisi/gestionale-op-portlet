@@ -80,6 +80,7 @@ import java.util.Map;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.naming.NamingException;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
@@ -998,6 +999,8 @@ public class DDTPortlet extends MVCPortlet {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } catch (NamingException e) {
+                        e.printStackTrace();
                     }
 
                 }
@@ -1021,7 +1024,7 @@ public class DDTPortlet extends MVCPortlet {
     private void stampaENotifica(TestataDocumento t, Associato a,
             ActionRequest areq) throws PortalException, SystemException,
             ClassNotFoundException, JRException, SQLException,
-            AddressException, IOException {
+            AddressException, IOException, NamingException {
 
         OrganizzazioneProduttori op = OrganizzazioneProduttoriLocalServiceUtil
                 .getOrganizzazioneProduttori(a.getIdOp());
@@ -1352,12 +1355,8 @@ public class DDTPortlet extends MVCPortlet {
                         "codiceCliente");
                 int protocollo = ParamUtil.getInteger(resourceRequest,
                         "avanzaProtocollo");
-                if (codiceCliente.equals(String.valueOf(op.getIdLiferay()))) { // Se
-                                                                               // il
-                                                                               // cliente
-                                                                               // è
-                                                                               // la
-                                                                               // OP
+                // Se il cliente è la OP
+                if (codiceCliente.equals(String.valueOf(op.getIdLiferay()))) { 
                     if (protocollo != 0) { // Il numero del DDT deve essere
                                            // valorizzato
                         response = saveDDT(resourceRequest, associato, false,
@@ -1394,8 +1393,6 @@ public class DDTPortlet extends MVCPortlet {
         }
         case print: {
 
-            r = new Report();
-
             year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
             nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
             codiceCliente = ParamUtil.getString(resourceRequest,
@@ -1414,6 +1411,7 @@ public class DDTPortlet extends MVCPortlet {
                             .getOrganizzazioneProduttori(associato.getIdOp());
                     String ddt;
                     String tipoDocumento;
+                    r = new Report();
                     if (!codiceCliente
                             .equals(String.valueOf(op.getIdLiferay()))) { // DDT
                                                                           // to
@@ -1471,6 +1469,9 @@ public class DDTPortlet extends MVCPortlet {
                     _log.error(ex.getMessage());
                     // response = new Response(Response.Code.SENDING_MAIL_ERROR,
                     // -1);
+                } catch (NamingException e) {
+                     _log.error(e.getMessage());
+//                    e.printStackTrace();
                 }
             }
             break;
@@ -1513,7 +1514,6 @@ public class DDTPortlet extends MVCPortlet {
         }
         case printInvoice: {
 
-            r = new Report();
             year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
             nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
             nDocConf = ParamUtil.getInteger(resourceRequest, "nDocConf");
@@ -1531,7 +1531,9 @@ public class DDTPortlet extends MVCPortlet {
                 op = OrganizzazioneProduttoriLocalServiceUtil
                         .getOrganizzazioneProduttori(associato.getIdOp());
                 File fileFattura = null;
+
                 if (nDocConf != 0) {
+                    r = new Report();
                     String fac = r.print(year, nDocConf,
                             new Long(associato.getId()).intValue(),
                             FAC.toLowerCase(), op.getIdLiferay(), false,
@@ -1544,6 +1546,7 @@ public class DDTPortlet extends MVCPortlet {
 
                 if (nDoc != 0) {
                     String fav;
+                    r = new Report();
                     if (codiceCliente.equals(String.valueOf(op.getIdLiferay())))
                         fav = r.print(
                                 year,
@@ -1593,9 +1596,12 @@ public class DDTPortlet extends MVCPortlet {
                 _log.error(ex.getMessage());
                 ex.printStackTrace();
             } catch (AddressException ex) {
-                _log.error(ex.getMessage());
+                
                 // response = new Response(Response.Code.SENDING_MAIL_ERROR,
                 // -1);
+            } catch (NamingException ex) {
+                _log.error(ex.getMessage());
+                ex.printStackTrace();
             }
             break;
         }
@@ -1666,7 +1672,6 @@ public class DDTPortlet extends MVCPortlet {
             break;
         }
         case printTrace: {
-            r = new Report();
 
             year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
             nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
@@ -1682,6 +1687,7 @@ public class DDTPortlet extends MVCPortlet {
                             .findByLiferayId(userIdMapper.getUserIdMapperId());
                     op = OrganizzazioneProduttoriLocalServiceUtil
                             .getOrganizzazioneProduttori(associato.getIdOp());
+                    r = new Report();
                     String trace = r.printTrace(ANNO, nDoc,
                             new Long(associato.getId()).intValue(), TRAC,
                             op.getIdLiferay());
@@ -1721,6 +1727,9 @@ public class DDTPortlet extends MVCPortlet {
                     // response = new Response(Response.Code.SENDING_MAIL_ERROR,
                     // -1);
                     // writer.print(response);
+                } catch (NamingException ex) {
+                    _log.error(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
             break;
@@ -1803,7 +1812,6 @@ public class DDTPortlet extends MVCPortlet {
         }
         case printCreditNote: {
 
-            r = new Report();
             year = ParamUtil.getInteger(resourceRequest, "year", ANNO);
             nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
             codiceCliente = ParamUtil.getString(resourceRequest,
@@ -1821,6 +1829,7 @@ public class DDTPortlet extends MVCPortlet {
                     op = OrganizzazioneProduttoriLocalServiceUtil
                             .getOrganizzazioneProduttori(associato.getIdOp());
                     String nac;
+                    r = new Report();
                     if (codiceCliente.equals(String.valueOf(op.getIdLiferay())))
                         nac = r.print(
                                 year,
@@ -1871,12 +1880,15 @@ public class DDTPortlet extends MVCPortlet {
                     _log.error(ex.getMessage());
                     // response = new Response(Response.Code.SENDING_MAIL_ERROR,
                     // -1);
+                } catch (NamingException ex) {
+                    _log.error(ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
             break;
         }
         case printCMR: {
-            r = new Report();
+            
             nDoc = ParamUtil.getInteger(resourceRequest, "nDoc");
             if (nDoc > 0) {
                 try {
@@ -1888,6 +1900,7 @@ public class DDTPortlet extends MVCPortlet {
                     op = OrganizzazioneProduttoriLocalServiceUtil
                             .getOrganizzazioneProduttori(associato.getIdOp());
                     year = Calendar.getInstance().get(Calendar.YEAR);
+                    r = new Report();
                     String cmr = r.printCMR(CMR_HEADER, year, nDoc, new Long(
                             associato.getId()).intValue(), CMR, op
                             .getIdLiferay());
@@ -1904,7 +1917,7 @@ public class DDTPortlet extends MVCPortlet {
                     in.close();
                 } catch (NumberFormatException | SystemException
                         | ClassNotFoundException | JRException | SQLException
-                        | PortalException ex) {
+                        | PortalException | NamingException ex) {
                     _log.error(ex.getMessage());
                 }
             }
@@ -2050,7 +2063,7 @@ public class DDTPortlet extends MVCPortlet {
                 in.close();
 
             } catch (SystemException | PortalException | ClassNotFoundException
-                    | JRException | SQLException e) {
+                    | JRException | SQLException | NamingException e) {
                 _log.error(e.getMessage());
             }
             break;

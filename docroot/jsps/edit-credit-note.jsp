@@ -224,10 +224,12 @@
 		</div>
 		<div id="tab-2">
 			<aui:fieldset label="Totali Nota di Credito">
-				<aui:input disabled="true" id="totaleImponibileTxt" inlineField="true" label="Totale imponiible" name="totImponibile" type="text" />
-				<aui:input disabled="true" id="aliquotaTxt" inlineField="true" label="Aliquota" name="aliquota" type="text" value='<%= String.valueOf(iva.getAliquota()) + "%" %>'/>
-				<aui:input disabled="true" id="totaleIVATxt" inlineField="true" label="Totale IVA" name="totIVA" type="text" />
-				<aui:input disabled="true" id="totaleDocumentoTxt" inlineField="true" label="Totale documento" name="totDocumento" type="text" value="<%= totale %>" />
+                <aui:fieldset id="tabellaTotali" />
+<%--                 <aui:input id="totaleImponibileTxt" type="text" name="totImponibile" label="Totale imponiible" disabled="true" inlineField="true"/> --%>
+<%--                 <aui:input id="aliquotaTxt" type="text" name="aliquota" label="Aliquota" disabled="true" inlineField="true" value="<%= String.valueOf(iva.getAliquota()) + "%"%>"/> --%>
+<%--                 <aui:input id="totaleIVATxt" type="text" name="totIVA" label="Totale IVA" disabled="true" inlineField="true"/> --%>
+                <aui:input id="totaleDocumentoTxt" type="text" name="totDocumento" label="Totale documento" disabled="true" inlineField="true"/>
+                
 			</aui:fieldset>
 		</div>
 	</div>
@@ -240,7 +242,7 @@
 
 	var origDoc = '<%= origDoc %>';
 	var aliquotaIVA = <%= iva.getAliquota() %>;
-	var codiceAliquota = <%= iva.getCodiceIva() %>;
+	var codiceAliquota = '<%= iva.getCodiceIva() %>';
 
 	YUI().use(
 			'aui-tabview',
@@ -402,7 +404,12 @@
 //                editor: numberEditor,
 				key: 'codiceIva',
 				label: 'C.I.'
-			}
+			},
+            {
+              key: 'aliquotaIva',
+              label: '%',
+//               className: 'hide'
+            }
 		];
 
 		//        var data = [{}];
@@ -600,24 +607,24 @@
 
 	}
 
-	function calcolaImporti() {
-		var imponibile = 0;
-		var iva = 0;
-		var totaledocumento = 0;
+// 	function calcolaImporti() {
+// 		var imponibile = 0;
+// 		var iva = 0;
+// 		var totaledocumento = 0;
 
-		for (var i = 0; i < table.data.size(); i++) {
-			var importo = table.getRecord(i).getAttrs().importo;
-			if (!isNaN(importo))
-				imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
-			console.log(imponibile);
-		}
-		iva = imponibile * aliquotaIVA / 100;
-		totaledocumento = imponibile + iva;
+// 		for (var i = 0; i < table.data.size(); i++) {
+// 			var importo = table.getRecord(i).getAttrs().importo;
+// 			if (!isNaN(importo))
+// 				imponibile += parseFloat(table.getRecord(i).getAttrs().importo);
+// 			console.log(imponibile);
+// 		}
+// 		iva = imponibile * aliquotaIVA / 100;
+// 		totaledocumento = imponibile + iva;
 
-		document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
-		document.getElementById('<portlet:namespace />totaleIVATxt').value = iva.toFixed(2);
-		document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = totaledocumento.toFixed(2);
-	}
+// 		document.getElementById('<portlet:namespace />totaleImponibileTxt').value = imponibile.toFixed(2);
+// 		document.getElementById('<portlet:namespace />totaleIVATxt').value = iva.toFixed(2);
+// 		document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = totaledocumento.toFixed(2);
+// 	}
 
 	function setDescription(data) {
 
@@ -627,7 +634,7 @@
 			recordSelected.setAttrs({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2]});
 			recordSelected = undefined;
 		} else {
-			table.addRow({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2]}, {sync: true});
+			table.addRow({descrizione: tmp[0], codiceArticolo: tmp[1], codiceIva: tmp[2], aliquotaIva: tmp[3]}, {sync: true});
 		}
 	}
 
@@ -639,7 +646,7 @@
 			recordSelected.setAttrs({codiceArticolo: tmp[0], descrizione: tmp[1], tara: tmp[2]});
 			recordSelected = undefined;
 		} else {
-			table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg"}, {sync: true});
+			table.addRow({codiceArticolo: tmp[0], descrizione: tmp[1], unitaMisura: "Kg", codiceIva: tmp[4], aliquotaIva: tmp[5]}, {sync: true});
 //            console.log("####: " + tmp[0] + " " + tmp[1] + " " + tmp[2]);
 		}
 	}
@@ -777,4 +784,81 @@
 			window.location.href = searchCreditNoteURL;
 		});
 	});
+	
+	var t1;
+    YUI().use('aui-datatable', 'aui-datatype', 'datatable-sort', 'datatable-mutable', function(Y) {
+
+        var data = calcolaImporti();
+        
+        var columns = [{
+            key: 'imponibile',
+            label: 'Imponibile'
+        },
+        {
+            label: 'Aliquota',
+            key: 'aliquota'
+        },
+        {
+            key: 'IVA',
+            label: 'Totale IVA'
+        },
+        {
+            key: 'totale',
+            label: 'Totale'
+        }];
+        
+        t1 = new Y.DataTable(
+                {
+                    columns: columns,
+                    data: data
+                }
+                
+        ).render('#<portlet:namespace />tabellaTotali');
+    });
+    
+    function calcolaImporti(){
+        var data = [];
+        var i = 0;
+        var somma = 0.0;
+        var jsonTotali = {};
+        
+        for (var k = 0; k < table.data.size(); k++) {
+            var rigo = table.getRecord(k).getAttrs();
+            if(rigo.codiceIva){         
+                var codiceIva = rigo.codiceIva;
+                if(!jsonTotali[codiceIva]) {
+                    jsonTotali[codiceIva]={};
+                    jsonTotali[codiceIva].aliquota = Number(rigo.aliquotaIva);
+                    jsonTotali[codiceIva].imponibili=[]; 
+                }
+                jsonTotali[codiceIva].imponibili.push(Number(rigo.importo));
+            }
+        }
+        console.log("OLELLEL " + JSON.stringify(jsonTotali));
+        
+        for (var key in jsonTotali) {
+            var totale = jsonTotali[key];
+            var sommaImponibili = 0.0;
+            for (var j = 0; j < totale.imponibili.length; j++) {
+                sommaImponibili += totale.imponibili[j];
+            }
+            var x = sommaImponibili * (totale.aliquota / 100);
+            var y = sommaImponibili * (1 + totale.aliquota / 100);
+            somma += y;
+            data[i] = {
+                    imponibile: sommaImponibili.toFixed(2),
+                    aliquota: totale.aliquota + '%',
+                    IVA: x.toFixed(2),
+                    totale: y.toFixed(2)
+            }
+            i++;
+            console.log(JSON.stringify(data));
+        }
+        
+        document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = somma.toFixed(2);
+        if(t1) {
+            t1.set('data', eval(data)); 
+        }
+        return data;
+    }
 </script>
