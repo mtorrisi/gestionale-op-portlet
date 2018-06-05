@@ -14,7 +14,7 @@
 
 package it.bysoftware.ct.service.base;
 
-import it.bysoftware.ct.service.VociIvaLocalServiceUtil;
+import it.bysoftware.ct.service.IvaLocalServiceUtil;
 
 import java.util.Arrays;
 
@@ -22,23 +22,23 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class VociIvaLocalServiceClpInvoker {
-	public VociIvaLocalServiceClpInvoker() {
-		_methodName0 = "addVociIva";
+public class IvaLocalServiceClpInvoker {
+	public IvaLocalServiceClpInvoker() {
+		_methodName0 = "addIva";
 
-		_methodParameterTypes0 = new String[] { "it.bysoftware.ct.model.VociIva" };
+		_methodParameterTypes0 = new String[] { "it.bysoftware.ct.model.Iva" };
 
-		_methodName1 = "createVociIva";
+		_methodName1 = "createIva";
 
 		_methodParameterTypes1 = new String[] { "java.lang.String" };
 
-		_methodName2 = "deleteVociIva";
+		_methodName2 = "deleteIva";
 
 		_methodParameterTypes2 = new String[] { "java.lang.String" };
 
-		_methodName3 = "deleteVociIva";
+		_methodName3 = "deleteIva";
 
-		_methodParameterTypes3 = new String[] { "it.bysoftware.ct.model.VociIva" };
+		_methodParameterTypes3 = new String[] { "it.bysoftware.ct.model.Iva" };
 
 		_methodName4 = "dynamicQuery";
 
@@ -76,11 +76,11 @@ public class VociIvaLocalServiceClpInvoker {
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName10 = "fetchVociIva";
+		_methodName10 = "fetchIva";
 
 		_methodParameterTypes10 = new String[] { "java.lang.String" };
 
-		_methodName11 = "getVociIva";
+		_methodName11 = "getIva";
 
 		_methodParameterTypes11 = new String[] { "java.lang.String" };
 
@@ -88,17 +88,17 @@ public class VociIvaLocalServiceClpInvoker {
 
 		_methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-		_methodName13 = "getVociIvas";
+		_methodName13 = "getIvas";
 
 		_methodParameterTypes13 = new String[] { "int", "int" };
 
-		_methodName14 = "getVociIvasCount";
+		_methodName14 = "getIvasCount";
 
 		_methodParameterTypes14 = new String[] {  };
 
-		_methodName15 = "updateVociIva";
+		_methodName15 = "updateIva";
 
-		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.VociIva" };
+		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.Iva" };
 
 		_methodName190 = "getBeanIdentifier";
 
@@ -113,44 +113,44 @@ public class VociIvaLocalServiceClpInvoker {
 		Object[] arguments) throws Throwable {
 		if (_methodName0.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes0, parameterTypes)) {
-			return VociIvaLocalServiceUtil.addVociIva((it.bysoftware.ct.model.VociIva)arguments[0]);
+			return IvaLocalServiceUtil.addIva((it.bysoftware.ct.model.Iva)arguments[0]);
 		}
 
 		if (_methodName1.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes1, parameterTypes)) {
-			return VociIvaLocalServiceUtil.createVociIva((java.lang.String)arguments[0]);
+			return IvaLocalServiceUtil.createIva((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName2.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes2, parameterTypes)) {
-			return VociIvaLocalServiceUtil.deleteVociIva((java.lang.String)arguments[0]);
+			return IvaLocalServiceUtil.deleteIva((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName3.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes3, parameterTypes)) {
-			return VociIvaLocalServiceUtil.deleteVociIva((it.bysoftware.ct.model.VociIva)arguments[0]);
+			return IvaLocalServiceUtil.deleteIva((it.bysoftware.ct.model.Iva)arguments[0]);
 		}
 
 		if (_methodName4.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes4, parameterTypes)) {
-			return VociIvaLocalServiceUtil.dynamicQuery();
+			return IvaLocalServiceUtil.dynamicQuery();
 		}
 
 		if (_methodName5.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes5, parameterTypes)) {
-			return VociIvaLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return IvaLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName6.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes6, parameterTypes)) {
-			return VociIvaLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return IvaLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue());
 		}
 
 		if (_methodName7.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes7, parameterTypes)) {
-			return VociIvaLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return IvaLocalServiceUtil.dynamicQuery((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				((Integer)arguments[1]).intValue(),
 				((Integer)arguments[2]).intValue(),
 				(com.liferay.portal.kernel.util.OrderByComparator)arguments[3]);
@@ -158,54 +158,54 @@ public class VociIvaLocalServiceClpInvoker {
 
 		if (_methodName8.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes8, parameterTypes)) {
-			return VociIvaLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
+			return IvaLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0]);
 		}
 
 		if (_methodName9.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes9, parameterTypes)) {
-			return VociIvaLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
+			return IvaLocalServiceUtil.dynamicQueryCount((com.liferay.portal.kernel.dao.orm.DynamicQuery)arguments[0],
 				(com.liferay.portal.kernel.dao.orm.Projection)arguments[1]);
 		}
 
 		if (_methodName10.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes10, parameterTypes)) {
-			return VociIvaLocalServiceUtil.fetchVociIva((java.lang.String)arguments[0]);
+			return IvaLocalServiceUtil.fetchIva((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName11.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes11, parameterTypes)) {
-			return VociIvaLocalServiceUtil.getVociIva((java.lang.String)arguments[0]);
+			return IvaLocalServiceUtil.getIva((java.lang.String)arguments[0]);
 		}
 
 		if (_methodName12.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes12, parameterTypes)) {
-			return VociIvaLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
+			return IvaLocalServiceUtil.getPersistedModel((java.io.Serializable)arguments[0]);
 		}
 
 		if (_methodName13.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes13, parameterTypes)) {
-			return VociIvaLocalServiceUtil.getVociIvas(((Integer)arguments[0]).intValue(),
+			return IvaLocalServiceUtil.getIvas(((Integer)arguments[0]).intValue(),
 				((Integer)arguments[1]).intValue());
 		}
 
 		if (_methodName14.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes14, parameterTypes)) {
-			return VociIvaLocalServiceUtil.getVociIvasCount();
+			return IvaLocalServiceUtil.getIvasCount();
 		}
 
 		if (_methodName15.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes15, parameterTypes)) {
-			return VociIvaLocalServiceUtil.updateVociIva((it.bysoftware.ct.model.VociIva)arguments[0]);
+			return IvaLocalServiceUtil.updateIva((it.bysoftware.ct.model.Iva)arguments[0]);
 		}
 
 		if (_methodName190.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes190, parameterTypes)) {
-			return VociIvaLocalServiceUtil.getBeanIdentifier();
+			return IvaLocalServiceUtil.getBeanIdentifier();
 		}
 
 		if (_methodName191.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes191, parameterTypes)) {
-			VociIvaLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
+			IvaLocalServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}

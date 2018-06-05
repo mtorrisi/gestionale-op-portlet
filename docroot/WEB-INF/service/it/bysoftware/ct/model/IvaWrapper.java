@@ -22,26 +22,26 @@ import java.util.Map;
 
 /**
  * <p>
- * This class is a wrapper for {@link VociIva}.
+ * This class is a wrapper for {@link Iva}.
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see VociIva
+ * @see Iva
  * @generated
  */
-public class VociIvaWrapper implements VociIva, ModelWrapper<VociIva> {
-	public VociIvaWrapper(VociIva vociIva) {
-		_vociIva = vociIva;
+public class IvaWrapper implements Iva, ModelWrapper<Iva> {
+	public IvaWrapper(Iva iva) {
+		_iva = iva;
 	}
 
 	@Override
 	public Class<?> getModelClass() {
-		return VociIva.class;
+		return Iva.class;
 	}
 
 	@Override
 	public String getModelClassName() {
-		return VociIva.class.getName();
+		return Iva.class.getName();
 	}
 
 	@Override
@@ -85,207 +85,207 @@ public class VociIvaWrapper implements VociIva, ModelWrapper<VociIva> {
 	}
 
 	/**
-	* Returns the primary key of this voci iva.
+	* Returns the primary key of this iva.
 	*
-	* @return the primary key of this voci iva
+	* @return the primary key of this iva
 	*/
 	@Override
 	public java.lang.String getPrimaryKey() {
-		return _vociIva.getPrimaryKey();
+		return _iva.getPrimaryKey();
 	}
 
 	/**
-	* Sets the primary key of this voci iva.
+	* Sets the primary key of this iva.
 	*
-	* @param primaryKey the primary key of this voci iva
+	* @param primaryKey the primary key of this iva
 	*/
 	@Override
 	public void setPrimaryKey(java.lang.String primaryKey) {
-		_vociIva.setPrimaryKey(primaryKey);
+		_iva.setPrimaryKey(primaryKey);
 	}
 
 	/**
-	* Returns the codice iva of this voci iva.
+	* Returns the codice iva of this iva.
 	*
-	* @return the codice iva of this voci iva
+	* @return the codice iva of this iva
 	*/
 	@Override
 	public java.lang.String getCodiceIva() {
-		return _vociIva.getCodiceIva();
+		return _iva.getCodiceIva();
 	}
 
 	/**
-	* Sets the codice iva of this voci iva.
+	* Sets the codice iva of this iva.
 	*
-	* @param codiceIva the codice iva of this voci iva
+	* @param codiceIva the codice iva of this iva
 	*/
 	@Override
 	public void setCodiceIva(java.lang.String codiceIva) {
-		_vociIva.setCodiceIva(codiceIva);
+		_iva.setCodiceIva(codiceIva);
 	}
 
 	/**
-	* Returns the descrizione of this voci iva.
+	* Returns the descrizione of this iva.
 	*
-	* @return the descrizione of this voci iva
+	* @return the descrizione of this iva
 	*/
 	@Override
 	public java.lang.String getDescrizione() {
-		return _vociIva.getDescrizione();
+		return _iva.getDescrizione();
 	}
 
 	/**
-	* Sets the descrizione of this voci iva.
+	* Sets the descrizione of this iva.
 	*
-	* @param descrizione the descrizione of this voci iva
+	* @param descrizione the descrizione of this iva
 	*/
 	@Override
 	public void setDescrizione(java.lang.String descrizione) {
-		_vociIva.setDescrizione(descrizione);
+		_iva.setDescrizione(descrizione);
 	}
 
 	/**
-	* Returns the descrizione documento of this voci iva.
+	* Returns the descrizione documento of this iva.
 	*
-	* @return the descrizione documento of this voci iva
+	* @return the descrizione documento of this iva
 	*/
 	@Override
 	public java.lang.String getDescrizioneDocumento() {
-		return _vociIva.getDescrizioneDocumento();
+		return _iva.getDescrizioneDocumento();
 	}
 
 	/**
-	* Sets the descrizione documento of this voci iva.
+	* Sets the descrizione documento of this iva.
 	*
-	* @param descrizioneDocumento the descrizione documento of this voci iva
+	* @param descrizioneDocumento the descrizione documento of this iva
 	*/
 	@Override
 	public void setDescrizioneDocumento(java.lang.String descrizioneDocumento) {
-		_vociIva.setDescrizioneDocumento(descrizioneDocumento);
+		_iva.setDescrizioneDocumento(descrizioneDocumento);
 	}
 
 	/**
-	* Returns the aliquota of this voci iva.
+	* Returns the aliquota of this iva.
 	*
-	* @return the aliquota of this voci iva
+	* @return the aliquota of this iva
 	*/
 	@Override
 	public double getAliquota() {
-		return _vociIva.getAliquota();
+		return _iva.getAliquota();
 	}
 
 	/**
-	* Sets the aliquota of this voci iva.
+	* Sets the aliquota of this iva.
 	*
-	* @param aliquota the aliquota of this voci iva
+	* @param aliquota the aliquota of this iva
 	*/
 	@Override
 	public void setAliquota(double aliquota) {
-		_vociIva.setAliquota(aliquota);
+		_iva.setAliquota(aliquota);
 	}
 
 	@Override
 	public boolean isNew() {
-		return _vociIva.isNew();
+		return _iva.isNew();
 	}
 
 	@Override
 	public void setNew(boolean n) {
-		_vociIva.setNew(n);
+		_iva.setNew(n);
 	}
 
 	@Override
 	public boolean isCachedModel() {
-		return _vociIva.isCachedModel();
+		return _iva.isCachedModel();
 	}
 
 	@Override
 	public void setCachedModel(boolean cachedModel) {
-		_vociIva.setCachedModel(cachedModel);
+		_iva.setCachedModel(cachedModel);
 	}
 
 	@Override
 	public boolean isEscapedModel() {
-		return _vociIva.isEscapedModel();
+		return _iva.isEscapedModel();
 	}
 
 	@Override
 	public java.io.Serializable getPrimaryKeyObj() {
-		return _vociIva.getPrimaryKeyObj();
+		return _iva.getPrimaryKeyObj();
 	}
 
 	@Override
 	public void setPrimaryKeyObj(java.io.Serializable primaryKeyObj) {
-		_vociIva.setPrimaryKeyObj(primaryKeyObj);
+		_iva.setPrimaryKeyObj(primaryKeyObj);
 	}
 
 	@Override
 	public com.liferay.portlet.expando.model.ExpandoBridge getExpandoBridge() {
-		return _vociIva.getExpandoBridge();
+		return _iva.getExpandoBridge();
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.model.BaseModel<?> baseModel) {
-		_vociIva.setExpandoBridgeAttributes(baseModel);
+		_iva.setExpandoBridgeAttributes(baseModel);
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portlet.expando.model.ExpandoBridge expandoBridge) {
-		_vociIva.setExpandoBridgeAttributes(expandoBridge);
+		_iva.setExpandoBridgeAttributes(expandoBridge);
 	}
 
 	@Override
 	public void setExpandoBridgeAttributes(
 		com.liferay.portal.service.ServiceContext serviceContext) {
-		_vociIva.setExpandoBridgeAttributes(serviceContext);
+		_iva.setExpandoBridgeAttributes(serviceContext);
 	}
 
 	@Override
 	public java.lang.Object clone() {
-		return new VociIvaWrapper((VociIva)_vociIva.clone());
+		return new IvaWrapper((Iva)_iva.clone());
 	}
 
 	@Override
-	public int compareTo(it.bysoftware.ct.model.VociIva vociIva) {
-		return _vociIva.compareTo(vociIva);
+	public int compareTo(it.bysoftware.ct.model.Iva iva) {
+		return _iva.compareTo(iva);
 	}
 
 	@Override
 	public int hashCode() {
-		return _vociIva.hashCode();
+		return _iva.hashCode();
 	}
 
 	@Override
-	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.VociIva> toCacheModel() {
-		return _vociIva.toCacheModel();
+	public com.liferay.portal.model.CacheModel<it.bysoftware.ct.model.Iva> toCacheModel() {
+		return _iva.toCacheModel();
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva toEscapedModel() {
-		return new VociIvaWrapper(_vociIva.toEscapedModel());
+	public it.bysoftware.ct.model.Iva toEscapedModel() {
+		return new IvaWrapper(_iva.toEscapedModel());
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva toUnescapedModel() {
-		return new VociIvaWrapper(_vociIva.toUnescapedModel());
+	public it.bysoftware.ct.model.Iva toUnescapedModel() {
+		return new IvaWrapper(_iva.toUnescapedModel());
 	}
 
 	@Override
 	public java.lang.String toString() {
-		return _vociIva.toString();
+		return _iva.toString();
 	}
 
 	@Override
 	public java.lang.String toXmlString() {
-		return _vociIva.toXmlString();
+		return _iva.toXmlString();
 	}
 
 	@Override
 	public void persist()
 		throws com.liferay.portal.kernel.exception.SystemException {
-		_vociIva.persist();
+		_iva.persist();
 	}
 
 	@Override
@@ -294,13 +294,13 @@ public class VociIvaWrapper implements VociIva, ModelWrapper<VociIva> {
 			return true;
 		}
 
-		if (!(obj instanceof VociIvaWrapper)) {
+		if (!(obj instanceof IvaWrapper)) {
 			return false;
 		}
 
-		VociIvaWrapper vociIvaWrapper = (VociIvaWrapper)obj;
+		IvaWrapper ivaWrapper = (IvaWrapper)obj;
 
-		if (Validator.equals(_vociIva, vociIvaWrapper._vociIva)) {
+		if (Validator.equals(_iva, ivaWrapper._iva)) {
 			return true;
 		}
 
@@ -310,19 +310,19 @@ public class VociIvaWrapper implements VociIva, ModelWrapper<VociIva> {
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedModel}
 	 */
-	public VociIva getWrappedVociIva() {
-		return _vociIva;
+	public Iva getWrappedIva() {
+		return _iva;
 	}
 
 	@Override
-	public VociIva getWrappedModel() {
-		return _vociIva;
+	public Iva getWrappedModel() {
+		return _iva;
 	}
 
 	@Override
 	public void resetOriginalValues() {
-		_vociIva.resetOriginalValues();
+		_iva.resetOriginalValues();
 	}
 
-	private VociIva _vociIva;
+	private Iva _iva;
 }

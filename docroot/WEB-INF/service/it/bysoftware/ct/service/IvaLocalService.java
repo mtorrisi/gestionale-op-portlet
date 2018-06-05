@@ -25,72 +25,68 @@ import com.liferay.portal.service.InvokableLocalService;
 import com.liferay.portal.service.PersistedModelLocalService;
 
 /**
- * Provides the local service interface for VociIva. Methods of this
+ * Provides the local service interface for Iva. Methods of this
  * service will not have security checks based on the propagated JAAS
  * credentials because this service can only be accessed from within the same
  * VM.
  *
  * @author Brian Wing Shun Chan
- * @see VociIvaLocalServiceUtil
- * @see it.bysoftware.ct.service.base.VociIvaLocalServiceBaseImpl
- * @see it.bysoftware.ct.service.impl.VociIvaLocalServiceImpl
+ * @see IvaLocalServiceUtil
+ * @see it.bysoftware.ct.service.base.IvaLocalServiceBaseImpl
+ * @see it.bysoftware.ct.service.impl.IvaLocalServiceImpl
  * @generated
  */
 @Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
 	PortalException.class, SystemException.class})
-public interface VociIvaLocalService extends BaseLocalService,
-	InvokableLocalService, PersistedModelLocalService {
+public interface IvaLocalService extends BaseLocalService, InvokableLocalService,
+	PersistedModelLocalService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link VociIvaLocalServiceUtil} to access the voci iva local service. Add custom service methods to {@link it.bysoftware.ct.service.impl.VociIvaLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link IvaLocalServiceUtil} to access the iva local service. Add custom service methods to {@link it.bysoftware.ct.service.impl.IvaLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**
-	* Adds the voci iva to the database. Also notifies the appropriate model listeners.
+	* Adds the iva to the database. Also notifies the appropriate model listeners.
 	*
-	* @param vociIva the voci iva
-	* @return the voci iva that was added
+	* @param iva the iva
+	* @return the iva that was added
 	* @throws SystemException if a system exception occurred
 	*/
 	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
-	public it.bysoftware.ct.model.VociIva addVociIva(
-		it.bysoftware.ct.model.VociIva vociIva)
+	public it.bysoftware.ct.model.Iva addIva(it.bysoftware.ct.model.Iva iva)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Creates a new voci iva with the primary key. Does not add the voci iva to the database.
+	* Creates a new iva with the primary key. Does not add the iva to the database.
 	*
-	* @param codiceIva the primary key for the new voci iva
-	* @return the new voci iva
+	* @param codiceIva the primary key for the new iva
+	* @return the new iva
 	*/
-	public it.bysoftware.ct.model.VociIva createVociIva(
-		java.lang.String codiceIva);
+	public it.bysoftware.ct.model.Iva createIva(java.lang.String codiceIva);
 
 	/**
-	* Deletes the voci iva with the primary key from the database. Also notifies the appropriate model listeners.
+	* Deletes the iva with the primary key from the database. Also notifies the appropriate model listeners.
 	*
-	* @param codiceIva the primary key of the voci iva
-	* @return the voci iva that was removed
-	* @throws PortalException if a voci iva with the primary key could not be found
+	* @param codiceIva the primary key of the iva
+	* @return the iva that was removed
+	* @throws PortalException if a iva with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
-	public it.bysoftware.ct.model.VociIva deleteVociIva(
-		java.lang.String codiceIva)
+	public it.bysoftware.ct.model.Iva deleteIva(java.lang.String codiceIva)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Deletes the voci iva from the database. Also notifies the appropriate model listeners.
+	* Deletes the iva from the database. Also notifies the appropriate model listeners.
 	*
-	* @param vociIva the voci iva
-	* @return the voci iva that was removed
+	* @param iva the iva
+	* @return the iva that was removed
 	* @throws SystemException if a system exception occurred
 	*/
 	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.DELETE)
-	public it.bysoftware.ct.model.VociIva deleteVociIva(
-		it.bysoftware.ct.model.VociIva vociIva)
+	public it.bysoftware.ct.model.Iva deleteIva(it.bysoftware.ct.model.Iva iva)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	public com.liferay.portal.kernel.dao.orm.DynamicQuery dynamicQuery();
@@ -111,7 +107,7 @@ public interface VociIvaLocalService extends BaseLocalService,
 	* Performs a dynamic query on the database and returns a range of the matching rows.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.VociIvaModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.IvaModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param dynamicQuery the dynamic query
@@ -129,7 +125,7 @@ public interface VociIvaLocalService extends BaseLocalService,
 	* Performs a dynamic query on the database and returns an ordered range of the matching rows.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.VociIvaModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.IvaModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
 	* @param dynamicQuery the dynamic query
@@ -171,20 +167,19 @@ public interface VociIvaLocalService extends BaseLocalService,
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public it.bysoftware.ct.model.VociIva fetchVociIva(
-		java.lang.String codiceIva)
+	public it.bysoftware.ct.model.Iva fetchIva(java.lang.String codiceIva)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the voci iva with the primary key.
+	* Returns the iva with the primary key.
 	*
-	* @param codiceIva the primary key of the voci iva
-	* @return the voci iva
-	* @throws PortalException if a voci iva with the primary key could not be found
+	* @param codiceIva the primary key of the iva
+	* @return the iva
+	* @throws PortalException if a iva with the primary key could not be found
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public it.bysoftware.ct.model.VociIva getVociIva(java.lang.String codiceIva)
+	public it.bysoftware.ct.model.Iva getIva(java.lang.String codiceIva)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException;
 
@@ -196,42 +191,40 @@ public interface VociIvaLocalService extends BaseLocalService,
 			com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns a range of all the voci ivas.
+	* Returns a range of all the ivas.
 	*
 	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.VociIvaModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link com.liferay.portal.kernel.dao.orm.QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link it.bysoftware.ct.model.impl.IvaModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
 	* </p>
 	*
-	* @param start the lower bound of the range of voci ivas
-	* @param end the upper bound of the range of voci ivas (not inclusive)
-	* @return the range of voci ivas
+	* @param start the lower bound of the range of ivas
+	* @param end the upper bound of the range of ivas (not inclusive)
+	* @return the range of ivas
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public java.util.List<it.bysoftware.ct.model.VociIva> getVociIvas(
-		int start, int end)
+	public java.util.List<it.bysoftware.ct.model.Iva> getIvas(int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Returns the number of voci ivas.
+	* Returns the number of ivas.
 	*
-	* @return the number of voci ivas
+	* @return the number of ivas
 	* @throws SystemException if a system exception occurred
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-	public int getVociIvasCount()
+	public int getIvasCount()
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**
-	* Updates the voci iva in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
+	* Updates the iva in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	*
-	* @param vociIva the voci iva
-	* @return the voci iva that was updated
+	* @param iva the iva
+	* @return the iva that was updated
 	* @throws SystemException if a system exception occurred
 	*/
 	@com.liferay.portal.kernel.search.Indexable(type = IndexableType.REINDEX)
-	public it.bysoftware.ct.model.VociIva updateVociIva(
-		it.bysoftware.ct.model.VociIva vociIva)
+	public it.bysoftware.ct.model.Iva updateIva(it.bysoftware.ct.model.Iva iva)
 		throws com.liferay.portal.kernel.exception.SystemException;
 
 	/**

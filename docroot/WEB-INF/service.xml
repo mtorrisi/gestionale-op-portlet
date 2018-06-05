@@ -47,7 +47,8 @@
 		</finder>
 	</entity>
 	<entity name='DestinatariDiversi' table='DestinatariDiversi'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceAnagrafica' db-name='RavCodana' type='String'
 			primary='true'>
 		</column>
@@ -71,7 +72,8 @@
 		</finder>
 	</entity>
 	<entity name='Articoli' table='Articoli' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceArticolo' db-name='RanCodart' type='String'
 			primary='true'>
 		</column>
@@ -99,7 +101,8 @@
 		</finder>
 	</entity>
 	<entity name='TestataDocumento' table='SSTESORD' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
 		<column name='numeroOrdine' db-name='WKNOrd' type='long'
@@ -222,7 +225,8 @@
 		</finder>
 	</entity>
 	<entity name='RigoDocumento' table='SSRIGORD' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
 		<column name='numeroOrdine' db-name='WkNOrd' type='long'
@@ -313,7 +317,8 @@
 		</finder>
 	</entity>
 	<entity name='Vettori' table='Vettori' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='albo' db-name='RavAlbo' type='String'>
 		</column>
 		<column name='CAP' db-name='RavCap' type='String'>
@@ -347,7 +352,8 @@
 		</column>
 	</entity>
 	<entity name='CuraTrasporto' table='CuraTrasporto'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceCuraTrasporto' db-name='RdeCoddes' type='String'
 			primary='true'>
 		</column>
@@ -357,7 +363,8 @@
 		</column>
 	</entity>
 	<entity name='AspettoEsterioreBeni' table='AspettoEsterioreBeni'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceAspettoEsteriore' db-name='RdeCoddes' type='String'
 			primary='true'>
 		</column>
@@ -367,7 +374,8 @@
 		</column>
 	</entity>
 	<entity name='CausaleTrasporto' table='CausaleTrasporto'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceCausaleTrasporto' db-name='RdeCoddes' type='String'
 			primary='true'>
 		</column>
@@ -377,7 +385,8 @@
 		</column>
 	</entity>
 	<entity name='Porto' table='Porto' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='Cdinco' db-name='RdeCdinco' type='String'>
 		</column>
 		<column name='codicePorto' db-name='RdeCoddes' type='String'
@@ -391,7 +400,8 @@
 		</column>
 	</entity>
 	<entity name='Associato' table='associato' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='id' db-name='id' type='long' primary='true'>
 		</column>
 		<column name='centro' db-name='centro' type='String'>
@@ -445,7 +455,8 @@
 		</finder>
 	</entity>
 	<entity name='OrganizzazioneProduttori' table='op'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='id' db-name='id' type='long' primary='true'>
 		</column>
 		<column name='ragioneSociale' db-name='ragione_sociale' type='String'>
@@ -484,7 +495,8 @@
 		</finder>
 	</entity>
 	<entity name='ClientiDatiAgg' table='ClientiFornitoriDatiAgg'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceAnagrafica' db-name='RveCodclf' type='String'
 			primary='true'>
 		</column>
@@ -499,7 +511,8 @@
 		</finder>
 	</entity>
 	<entity name='DescrizioniDocumenti' table='DescrizioniDocumenti'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceDescrizione' db-name='Re1Coddes' type='String'
 			primary='true'>
 		</column>
@@ -513,7 +526,8 @@
 		</column>
 	</entity>
 	<entity name='Progressivo' table='ProgAnnFor' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='anno' db-name='Re4Anno' type='int' primary='true'>
 		</column>
 		<column name='idAssociato' db-name='Re4Codatt' type='long'
@@ -547,7 +561,8 @@
 		</finder>
 	</entity>
 	<entity name='DescrizioniVarianti' table='DescrizioniVarianti'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceVariante' db-name='CvdCodvar' type='String'
 			primary='true'>
 		</column>
@@ -561,7 +576,8 @@
 		</column>
 	</entity>
 	<entity name='BancheAppoggio' table='BancheAppoggio'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='cBanca' db-name='`RbaCbanca`' type='String'>
 		</column>
 		<column name='codiceABI' db-name='RbaCodabi' type='int'>
@@ -581,8 +597,9 @@
 		</column>
 	</entity>
 	<entity name='TracciabilitaScheda' table='tracciabilitaScheda'
-		local-service='true' remote-service='true'>
-		<column name='id' db-name='id' type='long' primary="true">
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
+		<column name='id' db-name='id' type='long' primary="true" id-type="identity" >
 		</column>
 		<column name='codiceProdotto' db-name='codice_prodotto' type='String'>
 		</column>
@@ -627,8 +644,9 @@
 		</finder>
 	</entity>
 	<entity name='TracciabilitaGrezzi' table='TracciabilitaGrezzi'
-		local-service='true' remote-service='true'>
-		<column name='id' db-name='id' type='long' primary="true">
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
+		<column name='id' db-name='id' type='long' primary="true" id-type="identity" >
 		</column>
 		<column name='lottoGrezzo' db-name='lotto_grezzo' type='String'>
 		</column>
@@ -655,8 +673,9 @@
 			<finder-column name="idSchedaTracciabilta" comparator="=" />
 		</finder>
 	</entity>
-	<entity name='VociIva' table='VociIva' local-service='true'
-		remote-service='true'>
+	<entity name='Iva' table='VociIva' local-service='true'
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='codiceIva' db-name='RiaCodiva' type='String'
 			primary="true">
 		</column>
@@ -668,7 +687,8 @@
 		</column>
 	</entity>
 	<entity name='AnagraficaAssociatoOP' table='anagrafica_associato_op'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='idAssociato' db-name='id_associato' type='long'
 			primary="true" />
 		<column name='codiceSogettoAssociato' db-name='codice_sogetto_associato'
@@ -677,7 +697,8 @@
 			type='String' />
 	</entity>
 	<entity name='ArticoliAssociatoOP' table='articoli_associato_op'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='idAssociato' db-name='id_associato' type='long'
 			primary="true" />
 		<column name='codiceArticoloAssociato' db-name='codice_articolo_associato'
@@ -686,7 +707,8 @@
 			type='String' />
 	</entity>
 	<entity name='WKTestataDocumento' table='WK_SSTESORD'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
 		<column name='numeroOrdine' db-name='WKNOrd' type='long'
@@ -781,7 +803,8 @@
 		</finder>
 	</entity>
 	<entity name='WKRigoDocumento' table='WK_SSRIGORD'
-		local-service='true' remote-service='true'>
+		local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='anno' db-name='WKAnno' type='int' primary='true'>
 		</column>
 		<column name='numeroOrdine' db-name='WkNOrd' type='long'
@@ -868,12 +891,14 @@
 		</finder>
 	</entity>
 	<entity name="FileUploader" table="fileuploader" local-service="true"
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name="fid" type="long" primary="true" />
 		<column name="content" type="String" />
 	</entity>
 	<entity name='CMR' table='CMR' local-service='true'
-		remote-service='true'>
+		remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
 		<column name='numeroCMR' db-name='numero_CMR' type='long'
 			primary="true">
 		</column>
@@ -917,7 +942,8 @@
 		</finder>
 	</entity>
 	<entity name='CessioneCredito' table='cessioneCredito'
-        local-service='true' remote-service='true'>
+        local-service='true' remote-service='true' data-source='gestionaleOPDataSource'
+        session-factory='gestionaleOPSessionFactory' tx-manager='gestionaleOPTransactionManager'>
         <column name='id' db-name='id' type='long' primary="true" />
         <column name='data' db-name='data' type='Date'/>
         <column name='codiceSoggetto' db-name='RacCodana' type='String' />

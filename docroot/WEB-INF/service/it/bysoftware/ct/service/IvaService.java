@@ -24,25 +24,25 @@ import com.liferay.portal.service.BaseService;
 import com.liferay.portal.service.InvokableService;
 
 /**
- * Provides the remote service interface for VociIva. Methods of this
+ * Provides the remote service interface for Iva. Methods of this
  * service are expected to have security checks based on the propagated JAAS
  * credentials because this service can be accessed remotely.
  *
  * @author Brian Wing Shun Chan
- * @see VociIvaServiceUtil
- * @see it.bysoftware.ct.service.base.VociIvaServiceBaseImpl
- * @see it.bysoftware.ct.service.impl.VociIvaServiceImpl
+ * @see IvaServiceUtil
+ * @see it.bysoftware.ct.service.base.IvaServiceBaseImpl
+ * @see it.bysoftware.ct.service.impl.IvaServiceImpl
  * @generated
  */
 @AccessControlled
 @JSONWebService
 @Transactional(isolation = Isolation.PORTAL, rollbackFor =  {
 	PortalException.class, SystemException.class})
-public interface VociIvaService extends BaseService, InvokableService {
+public interface IvaService extends BaseService, InvokableService {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify or reference this interface directly. Always use {@link VociIvaServiceUtil} to access the voci iva remote service. Add custom service methods to {@link it.bysoftware.ct.service.impl.VociIvaServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never modify or reference this interface directly. Always use {@link IvaServiceUtil} to access the iva remote service. Add custom service methods to {@link it.bysoftware.ct.service.impl.IvaServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
 
 	/**

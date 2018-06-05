@@ -13,7 +13,7 @@
 <%@ page import="it.bysoftware.ct.model.Progressivo" %>
 <%@ page import="it.bysoftware.ct.model.RigoDocumento" %>
 <%@ page import="it.bysoftware.ct.model.TestataDocumento" %>
-<%@ page import="it.bysoftware.ct.model.VociIva" %>
+<%@ page import="it.bysoftware.ct.model.Iva" %>
 <%@ page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.ArticoliLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil" %>
@@ -22,7 +22,7 @@
 <%@ page import="it.bysoftware.ct.service.ProgressivoLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil" %>
-<%@ page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil" %>
+<%@ page import="it.bysoftware.ct.service.IvaLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK" %>
 <%@ page import="it.bysoftware.ct.service.persistence.TestataDocumentoPK" %>
 
@@ -124,11 +124,11 @@
 	Date date = Calendar.getInstance().getTime();
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-	VociIva iva;
+	Iva iva;
 	if (!codiceAliquotaIva.equals("")) {
-		iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaIva);
+		iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaIva);
 	} else {
-		iva = VociIvaLocalServiceUtil.fetchVociIva("04");
+		iva = IvaLocalServiceUtil.fetchIva("04");
 	}
 %>
 

@@ -14,8 +14,8 @@
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
-<%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.VociIva"%>
+<%@page import="it.bysoftware.ct.service.IvaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Iva"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -68,7 +68,7 @@
     }
     double iva = 0.0;
     if (!codiceAliquotaCliente.equals("")) {
-        VociIva vociIva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+        Iva vociIva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
         if (vociIva != null) {
             iva = vociIva.getAliquota(); 
         }

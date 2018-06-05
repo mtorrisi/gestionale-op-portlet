@@ -1,5 +1,5 @@
-<%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.VociIva"%>
+<%@page import="it.bysoftware.ct.service.IvaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Iva"%>
 <%@ page import="it.bysoftware.ct.model.DescrizioniDocumenti" %>
 <%@ page import="it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil" %>
 
@@ -30,7 +30,7 @@
 		<liferay-ui:search-container-row className="DescrizioniDocumenti" modelVar="currentDescr">
 			<liferay-ui:search-container-column-text name="Descrizione" property="descrizione" />
 			<%
-			    VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(currentDescr.getCodiceIVA());
+			    Iva iva = IvaLocalServiceUtil.fetchIva(currentDescr.getCodiceIVA());
 			    double aliquota = 0.0;
 			    if(iva != null)
 			       currentDescr.setCodiceIVA(currentDescr.getCodiceIVA() + "|" + iva.getAliquota());

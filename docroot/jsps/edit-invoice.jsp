@@ -12,8 +12,8 @@
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
-<%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.VociIva"%>
+<%@page import="it.bysoftware.ct.service.IvaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Iva"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -126,7 +126,7 @@
                     }
                 }
                 json.put("codiceIva", codiceAliquotaCliente);
-                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+                Iva iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
                 if (iva != null) {
                     json.put("aliquotaIva", iva.getAliquota());
                 }
@@ -238,7 +238,7 @@
                     }
                 }
                 json.put("codiceIva", codiceAliquotaCliente);
-                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+                Iva iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
                 if (iva != null) {
                     json.put("aliquotaIva", iva.getAliquota());
                 }
@@ -276,11 +276,11 @@
     Date date = Calendar.getInstance().getTime();
     SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    VociIva iva;
+    Iva iva;
     if (!codiceAliquotaCliente.equals("")) {
-        iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+        iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
     } else {
-        iva = VociIvaLocalServiceUtil.fetchVociIva("04");
+        iva = IvaLocalServiceUtil.fetchIva("04");
     }
     
 //     JSONObject jsonTotali = JSONFactoryUtil.createJSONObject();

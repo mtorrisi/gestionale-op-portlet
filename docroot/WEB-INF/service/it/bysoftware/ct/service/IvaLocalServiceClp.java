@@ -20,25 +20,25 @@ import com.liferay.portal.service.InvokableLocalService;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class VociIvaLocalServiceClp implements VociIvaLocalService {
-	public VociIvaLocalServiceClp(InvokableLocalService invokableLocalService) {
+public class IvaLocalServiceClp implements IvaLocalService {
+	public IvaLocalServiceClp(InvokableLocalService invokableLocalService) {
 		_invokableLocalService = invokableLocalService;
 
-		_methodName0 = "addVociIva";
+		_methodName0 = "addIva";
 
-		_methodParameterTypes0 = new String[] { "it.bysoftware.ct.model.VociIva" };
+		_methodParameterTypes0 = new String[] { "it.bysoftware.ct.model.Iva" };
 
-		_methodName1 = "createVociIva";
+		_methodName1 = "createIva";
 
 		_methodParameterTypes1 = new String[] { "java.lang.String" };
 
-		_methodName2 = "deleteVociIva";
+		_methodName2 = "deleteIva";
 
 		_methodParameterTypes2 = new String[] { "java.lang.String" };
 
-		_methodName3 = "deleteVociIva";
+		_methodName3 = "deleteIva";
 
-		_methodParameterTypes3 = new String[] { "it.bysoftware.ct.model.VociIva" };
+		_methodParameterTypes3 = new String[] { "it.bysoftware.ct.model.Iva" };
 
 		_methodName4 = "dynamicQuery";
 
@@ -76,11 +76,11 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 				"com.liferay.portal.kernel.dao.orm.Projection"
 			};
 
-		_methodName10 = "fetchVociIva";
+		_methodName10 = "fetchIva";
 
 		_methodParameterTypes10 = new String[] { "java.lang.String" };
 
-		_methodName11 = "getVociIva";
+		_methodName11 = "getIva";
 
 		_methodParameterTypes11 = new String[] { "java.lang.String" };
 
@@ -88,17 +88,17 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 
 		_methodParameterTypes12 = new String[] { "java.io.Serializable" };
 
-		_methodName13 = "getVociIvas";
+		_methodName13 = "getIvas";
 
 		_methodParameterTypes13 = new String[] { "int", "int" };
 
-		_methodName14 = "getVociIvasCount";
+		_methodName14 = "getIvasCount";
 
 		_methodParameterTypes14 = new String[] {  };
 
-		_methodName15 = "updateVociIva";
+		_methodName15 = "updateIva";
 
-		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.VociIva" };
+		_methodParameterTypes15 = new String[] { "it.bysoftware.ct.model.Iva" };
 
 		_methodName16 = "getBeanIdentifier";
 
@@ -110,15 +110,14 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva addVociIva(
-		it.bysoftware.ct.model.VociIva vociIva)
+	public it.bysoftware.ct.model.Iva addIva(it.bysoftware.ct.model.Iva iva)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName0,
 					_methodParameterTypes0,
-					new Object[] { ClpSerializer.translateInput(vociIva) });
+					new Object[] { ClpSerializer.translateInput(iva) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -136,12 +135,11 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva createVociIva(
-		java.lang.String codiceIva) {
+	public it.bysoftware.ct.model.Iva createIva(java.lang.String codiceIva) {
 		Object returnObj = null;
 
 		try {
@@ -161,12 +159,11 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva deleteVociIva(
-		java.lang.String codiceIva)
+	public it.bysoftware.ct.model.Iva deleteIva(java.lang.String codiceIva)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -196,19 +193,18 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva deleteVociIva(
-		it.bysoftware.ct.model.VociIva vociIva)
+	public it.bysoftware.ct.model.Iva deleteIva(it.bysoftware.ct.model.Iva iva)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName3,
 					_methodParameterTypes3,
-					new Object[] { ClpSerializer.translateInput(vociIva) });
+					new Object[] { ClpSerializer.translateInput(iva) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -226,7 +222,7 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
@@ -427,8 +423,7 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva fetchVociIva(
-		java.lang.String codiceIva)
+	public it.bysoftware.ct.model.Iva fetchIva(java.lang.String codiceIva)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -453,11 +448,11 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva getVociIva(java.lang.String codiceIva)
+	public it.bysoftware.ct.model.Iva getIva(java.lang.String codiceIva)
 		throws com.liferay.portal.kernel.exception.PortalException,
 			com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
@@ -487,7 +482,7 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
@@ -526,8 +521,7 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 	}
 
 	@Override
-	public java.util.List<it.bysoftware.ct.model.VociIva> getVociIvas(
-		int start, int end)
+	public java.util.List<it.bysoftware.ct.model.Iva> getIvas(int start, int end)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -551,11 +545,11 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (java.util.List<it.bysoftware.ct.model.VociIva>)ClpSerializer.translateOutput(returnObj);
+		return (java.util.List<it.bysoftware.ct.model.Iva>)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override
-	public int getVociIvasCount()
+	public int getIvasCount()
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
@@ -583,15 +577,14 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 	}
 
 	@Override
-	public it.bysoftware.ct.model.VociIva updateVociIva(
-		it.bysoftware.ct.model.VociIva vociIva)
+	public it.bysoftware.ct.model.Iva updateIva(it.bysoftware.ct.model.Iva iva)
 		throws com.liferay.portal.kernel.exception.SystemException {
 		Object returnObj = null;
 
 		try {
 			returnObj = _invokableLocalService.invokeMethod(_methodName15,
 					_methodParameterTypes15,
-					new Object[] { ClpSerializer.translateInput(vociIva) });
+					new Object[] { ClpSerializer.translateInput(iva) });
 		}
 		catch (Throwable t) {
 			t = ClpSerializer.translateThrowable(t);
@@ -609,7 +602,7 @@ public class VociIvaLocalServiceClp implements VociIvaLocalService {
 			}
 		}
 
-		return (it.bysoftware.ct.model.VociIva)ClpSerializer.translateOutput(returnObj);
+		return (it.bysoftware.ct.model.Iva)ClpSerializer.translateOutput(returnObj);
 	}
 
 	@Override

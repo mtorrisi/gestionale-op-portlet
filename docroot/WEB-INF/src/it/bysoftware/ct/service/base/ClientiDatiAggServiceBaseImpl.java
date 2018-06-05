@@ -40,6 +40,7 @@ import it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence;
 import it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistence;
 import it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence;
 import it.bysoftware.ct.service.persistence.FileUploaderPersistence;
+import it.bysoftware.ct.service.persistence.IvaPersistence;
 import it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence;
 import it.bysoftware.ct.service.persistence.PortoPersistence;
 import it.bysoftware.ct.service.persistence.ProgressivoPersistence;
@@ -48,7 +49,6 @@ import it.bysoftware.ct.service.persistence.TestataDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistence;
 import it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistence;
 import it.bysoftware.ct.service.persistence.VettoriPersistence;
-import it.bysoftware.ct.service.persistence.VociIvaPersistence;
 import it.bysoftware.ct.service.persistence.WKRigoDocumentoPersistence;
 import it.bysoftware.ct.service.persistence.WKTestataDocumentoPersistence;
 
@@ -984,6 +984,61 @@ public abstract class ClientiDatiAggServiceBaseImpl extends BaseServiceImpl
 	}
 
 	/**
+	 * Returns the iva local service.
+	 *
+	 * @return the iva local service
+	 */
+	public it.bysoftware.ct.service.IvaLocalService getIvaLocalService() {
+		return ivaLocalService;
+	}
+
+	/**
+	 * Sets the iva local service.
+	 *
+	 * @param ivaLocalService the iva local service
+	 */
+	public void setIvaLocalService(
+		it.bysoftware.ct.service.IvaLocalService ivaLocalService) {
+		this.ivaLocalService = ivaLocalService;
+	}
+
+	/**
+	 * Returns the iva remote service.
+	 *
+	 * @return the iva remote service
+	 */
+	public it.bysoftware.ct.service.IvaService getIvaService() {
+		return ivaService;
+	}
+
+	/**
+	 * Sets the iva remote service.
+	 *
+	 * @param ivaService the iva remote service
+	 */
+	public void setIvaService(it.bysoftware.ct.service.IvaService ivaService) {
+		this.ivaService = ivaService;
+	}
+
+	/**
+	 * Returns the iva persistence.
+	 *
+	 * @return the iva persistence
+	 */
+	public IvaPersistence getIvaPersistence() {
+		return ivaPersistence;
+	}
+
+	/**
+	 * Sets the iva persistence.
+	 *
+	 * @param ivaPersistence the iva persistence
+	 */
+	public void setIvaPersistence(IvaPersistence ivaPersistence) {
+		this.ivaPersistence = ivaPersistence;
+	}
+
+	/**
 	 * Returns the organizzazione produttori local service.
 	 *
 	 * @return the organizzazione produttori local service
@@ -1438,62 +1493,6 @@ public abstract class ClientiDatiAggServiceBaseImpl extends BaseServiceImpl
 	}
 
 	/**
-	 * Returns the voci iva local service.
-	 *
-	 * @return the voci iva local service
-	 */
-	public it.bysoftware.ct.service.VociIvaLocalService getVociIvaLocalService() {
-		return vociIvaLocalService;
-	}
-
-	/**
-	 * Sets the voci iva local service.
-	 *
-	 * @param vociIvaLocalService the voci iva local service
-	 */
-	public void setVociIvaLocalService(
-		it.bysoftware.ct.service.VociIvaLocalService vociIvaLocalService) {
-		this.vociIvaLocalService = vociIvaLocalService;
-	}
-
-	/**
-	 * Returns the voci iva remote service.
-	 *
-	 * @return the voci iva remote service
-	 */
-	public it.bysoftware.ct.service.VociIvaService getVociIvaService() {
-		return vociIvaService;
-	}
-
-	/**
-	 * Sets the voci iva remote service.
-	 *
-	 * @param vociIvaService the voci iva remote service
-	 */
-	public void setVociIvaService(
-		it.bysoftware.ct.service.VociIvaService vociIvaService) {
-		this.vociIvaService = vociIvaService;
-	}
-
-	/**
-	 * Returns the voci iva persistence.
-	 *
-	 * @return the voci iva persistence
-	 */
-	public VociIvaPersistence getVociIvaPersistence() {
-		return vociIvaPersistence;
-	}
-
-	/**
-	 * Sets the voci iva persistence.
-	 *
-	 * @param vociIvaPersistence the voci iva persistence
-	 */
-	public void setVociIvaPersistence(VociIvaPersistence vociIvaPersistence) {
-		this.vociIvaPersistence = vociIvaPersistence;
-	}
-
-	/**
 	 * Returns the w k rigo documento local service.
 	 *
 	 * @return the w k rigo documento local service
@@ -1874,6 +1873,12 @@ public abstract class ClientiDatiAggServiceBaseImpl extends BaseServiceImpl
 	protected it.bysoftware.ct.service.FileUploaderService fileUploaderService;
 	@BeanReference(type = FileUploaderPersistence.class)
 	protected FileUploaderPersistence fileUploaderPersistence;
+	@BeanReference(type = it.bysoftware.ct.service.IvaLocalService.class)
+	protected it.bysoftware.ct.service.IvaLocalService ivaLocalService;
+	@BeanReference(type = it.bysoftware.ct.service.IvaService.class)
+	protected it.bysoftware.ct.service.IvaService ivaService;
+	@BeanReference(type = IvaPersistence.class)
+	protected IvaPersistence ivaPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService.class)
 	protected it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService organizzazioneProduttoriLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.OrganizzazioneProduttoriService.class)
@@ -1922,12 +1927,6 @@ public abstract class ClientiDatiAggServiceBaseImpl extends BaseServiceImpl
 	protected it.bysoftware.ct.service.VettoriService vettoriService;
 	@BeanReference(type = VettoriPersistence.class)
 	protected VettoriPersistence vettoriPersistence;
-	@BeanReference(type = it.bysoftware.ct.service.VociIvaLocalService.class)
-	protected it.bysoftware.ct.service.VociIvaLocalService vociIvaLocalService;
-	@BeanReference(type = it.bysoftware.ct.service.VociIvaService.class)
-	protected it.bysoftware.ct.service.VociIvaService vociIvaService;
-	@BeanReference(type = VociIvaPersistence.class)
-	protected VociIvaPersistence vociIvaPersistence;
 	@BeanReference(type = it.bysoftware.ct.service.WKRigoDocumentoLocalService.class)
 	protected it.bysoftware.ct.service.WKRigoDocumentoLocalService wkRigoDocumentoLocalService;
 	@BeanReference(type = it.bysoftware.ct.service.WKRigoDocumentoService.class)

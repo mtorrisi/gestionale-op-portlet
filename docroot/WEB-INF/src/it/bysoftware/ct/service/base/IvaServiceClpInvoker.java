@@ -14,7 +14,7 @@
 
 package it.bysoftware.ct.service.base;
 
-import it.bysoftware.ct.service.VociIvaServiceUtil;
+import it.bysoftware.ct.service.IvaServiceUtil;
 
 import java.util.Arrays;
 
@@ -22,8 +22,8 @@ import java.util.Arrays;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class VociIvaServiceClpInvoker {
-	public VociIvaServiceClpInvoker() {
+public class IvaServiceClpInvoker {
+	public IvaServiceClpInvoker() {
 		_methodName174 = "getBeanIdentifier";
 
 		_methodParameterTypes174 = new String[] {  };
@@ -37,12 +37,12 @@ public class VociIvaServiceClpInvoker {
 		Object[] arguments) throws Throwable {
 		if (_methodName174.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes174, parameterTypes)) {
-			return VociIvaServiceUtil.getBeanIdentifier();
+			return IvaServiceUtil.getBeanIdentifier();
 		}
 
 		if (_methodName175.equals(name) &&
 				Arrays.deepEquals(_methodParameterTypes175, parameterTypes)) {
-			VociIvaServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
+			IvaServiceUtil.setBeanIdentifier((java.lang.String)arguments[0]);
 
 			return null;
 		}

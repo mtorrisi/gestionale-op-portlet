@@ -78,9 +78,9 @@ public class CessioneCreditoModelImpl extends BaseModelImpl<CessioneCredito>
 	public static final String TABLE_SQL_DROP = "drop table cessioneCredito";
 	public static final String ORDER_BY_JPQL = " ORDER BY cessioneCredito.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY cessioneCredito.id ASC";
-	public static final String DATA_SOURCE = "liferayDataSource";
-	public static final String SESSION_FACTORY = "liferaySessionFactory";
-	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final String DATA_SOURCE = "gestionaleOPDataSource";
+	public static final String SESSION_FACTORY = "gestionaleOPSessionFactory";
+	public static final String TX_MANAGER = "gestionaleOPTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.entity.cache.enabled.it.bysoftware.ct.model.CessioneCredito"),
 			true);
