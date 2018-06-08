@@ -131,24 +131,15 @@
                     json.put("aliquotaIva", iva.getAliquota());
                 }
             } else if (rigo.getPrezzo() != 0) {
-                System.out.println("2");
                 if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
-                    System.out.println("3A");
                     codiceAliquotaCliente = datiAggCliente.getCodiceAliquota();
-                    System.out.println("4A");
                 } else if (!"".equals(rigo.getCodiceIva())) {
-                    System.out.println("3B");
                     codiceAliquotaCliente = rigo.getCodiceIva();
-                    System.out.println("4B");
                 }
-                System.out.println("5");
                 json.put("codiceIva", codiceAliquotaCliente);
                 Iva iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
                 if (iva != null) {
-                    System.out.println("6A");
                     json.put("aliquotaIva", iva.getAliquota());
-                } else {
-                    System.out.println("6B");
                 }
             }
             
@@ -298,10 +289,8 @@
 
     Iva iva;
     if (!codiceAliquotaCliente.equals("")) {
-        System.out.println("7A");
         iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
     } else {
-        System.out.println("7B");
         iva = IvaLocalServiceUtil.fetchIva("04");
     }
     
@@ -655,7 +644,7 @@
             {
               key: 'aliquotaIva',
               label: '%',
-//               className: 'hide'
+              className: 'hide'
             }
         ];
 
