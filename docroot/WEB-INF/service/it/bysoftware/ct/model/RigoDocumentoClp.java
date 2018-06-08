@@ -108,6 +108,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
 		attributes.put("tipoDocumento", getTipoDocumento());
+		attributes.put("codiceIva", getCodiceIva());
 		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
@@ -282,6 +283,12 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 		if (tipoDocumento != null) {
 			setTipoDocumento(tipoDocumento);
+		}
+
+		String codiceIva = (String)attributes.get("codiceIva");
+
+		if (codiceIva != null) {
+			setCodiceIva(codiceIva);
 		}
 
 		Long idAssociato = (Long)attributes.get("idAssociato");
@@ -944,6 +951,29 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	}
 
 	@Override
+	public String getCodiceIva() {
+		return _codiceIva;
+	}
+
+	@Override
+	public void setCodiceIva(String codiceIva) {
+		_codiceIva = codiceIva;
+
+		if (_rigoDocumentoRemoteModel != null) {
+			try {
+				Class<?> clazz = _rigoDocumentoRemoteModel.getClass();
+
+				Method method = clazz.getMethod("setCodiceIva", String.class);
+
+				method.invoke(_rigoDocumentoRemoteModel, codiceIva);
+			}
+			catch (Exception e) {
+				throw new UnsupportedOperationException(e);
+			}
+		}
+	}
+
+	@Override
 	public long getIdAssociato() {
 		return _idAssociato;
 	}
@@ -1064,6 +1094,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		clone.setSconto2(getSconto2());
 		clone.setSconto3(getSconto3());
 		clone.setTipoDocumento(getTipoDocumento());
+		clone.setCodiceIva(getCodiceIva());
 		clone.setIdAssociato(getIdAssociato());
 
 		return clone;
@@ -1109,7 +1140,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1167,6 +1198,8 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getSconto3());
 		sb.append(", tipoDocumento=");
 		sb.append(getTipoDocumento());
+		sb.append(", codiceIva=");
+		sb.append(getCodiceIva());
 		sb.append(", idAssociato=");
 		sb.append(getIdAssociato());
 		sb.append("}");
@@ -1176,7 +1209,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1295,6 +1328,10 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 		sb.append(getTipoDocumento());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>codiceIva</column-name><column-value><![CDATA[");
+		sb.append(getCodiceIva());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
 		sb.append(getIdAssociato());
 		sb.append("]]></column-value></column>");
@@ -1332,6 +1369,7 @@ public class RigoDocumentoClp extends BaseModelImpl<RigoDocumento>
 	private float _sconto2;
 	private float _sconto3;
 	private String _tipoDocumento;
+	private String _codiceIva;
 	private long _idAssociato;
 	private BaseModel<?> _rigoDocumentoRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;

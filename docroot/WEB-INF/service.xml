@@ -286,6 +286,8 @@
 		<column name='tipoDocumento' db-name='WKTipdoc' type='String'
 			primary='true'>
 		</column>
+		<column name='codiceIva' db-name='codice_iva' type='String'>
+        </column>
 		<column name='idAssociato' db-name='id_associato' type='long'
 			primary="true">
 		</column>

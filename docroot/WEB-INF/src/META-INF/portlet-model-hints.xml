@@ -208,6 +208,7 @@
 		<field name="sconto2" type="float" />
 		<field name="sconto3" type="float" />
 		<field name="tipoDocumento" type="String" />
+		<field name="codiceIva" type="String" />
 		<field name="idAssociato" type="long" />
 	</model>
 	<model name="it.bysoftware.ct.model.TestataDocumento">

@@ -88,9 +88,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			{ "sconto2", Types.FLOAT },
 			{ "sconto3", Types.FLOAT },
 			{ "WKTipdoc", Types.VARCHAR },
+			{ "codice_iva", Types.VARCHAR },
 			{ "id_associato", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkVarian VARCHAR(75) null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,NRigRiferimento INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
+	public static final String TABLE_SQL_CREATE = "create table SSRIGORD (WKAnno INTEGER not null,WkNOrd LONG not null,WkRigord INTEGER not null,WkVarian VARCHAR(75) null,WkDesvar VARCHAR(75) null,WkCodart VARCHAR(75) null,WkDescri VARCHAR(75) null,WkUnimis VARCHAR(75) null,WkColli INTEGER,WkPeslor DOUBLE,WkTara DOUBLE,WkPesnet DOUBLE,WkPrezzo DOUBLE,WkPedane DOUBLE,WkNote VARCHAR(75) null,WkTotpes DOUBLE,WKImballo VARCHAR(75) null,WkGesRetine BOOLEAN,WkRtxCl DOUBLE,WkKgRetine DOUBLE,WkLotto VARCHAR(75) null,CodPassaportoAlfa VARCHAR(75) null,CodPassaportoNum INTEGER,NRigRiferimento INTEGER,sconto1 DOUBLE,sconto2 DOUBLE,sconto3 DOUBLE,WKTipdoc VARCHAR(75) not null,codice_iva VARCHAR(75) null,id_associato LONG not null,primary key (WKAnno, WkNOrd, WkRigord, WKTipdoc, id_associato))";
 	public static final String TABLE_SQL_DROP = "drop table SSRIGORD";
 	public static final String ORDER_BY_JPQL = " ORDER BY rigoDocumento.id.anno ASC, rigoDocumento.id.numeroOrdine ASC, rigoDocumento.id.rigoOrdine ASC, rigoDocumento.id.tipoDocumento ASC, rigoDocumento.id.idAssociato ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY SSRIGORD.WKAnno ASC, SSRIGORD.WkNOrd ASC, SSRIGORD.WkRigord ASC, SSRIGORD.WKTipdoc ASC, SSRIGORD.id_associato ASC";
@@ -156,6 +157,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		model.setSconto2(soapModel.getSconto2());
 		model.setSconto3(soapModel.getSconto3());
 		model.setTipoDocumento(soapModel.getTipoDocumento());
+		model.setCodiceIva(soapModel.getCodiceIva());
 		model.setIdAssociato(soapModel.getIdAssociato());
 
 		return model;
@@ -255,6 +257,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
 		attributes.put("tipoDocumento", getTipoDocumento());
+		attributes.put("codiceIva", getCodiceIva());
 		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
@@ -429,6 +432,12 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 		if (tipoDocumento != null) {
 			setTipoDocumento(tipoDocumento);
+		}
+
+		String codiceIva = (String)attributes.get("codiceIva");
+
+		if (codiceIva != null) {
+			setCodiceIva(codiceIva);
 		}
 
 		Long idAssociato = (Long)attributes.get("idAssociato");
@@ -867,6 +876,22 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@JSON
 	@Override
+	public String getCodiceIva() {
+		if (_codiceIva == null) {
+			return StringPool.BLANK;
+		}
+		else {
+			return _codiceIva;
+		}
+	}
+
+	@Override
+	public void setCodiceIva(String codiceIva) {
+		_codiceIva = codiceIva;
+	}
+
+	@JSON
+	@Override
 	public long getIdAssociato() {
 		return _idAssociato;
 	}
@@ -934,6 +959,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		rigoDocumentoImpl.setSconto2(getSconto2());
 		rigoDocumentoImpl.setSconto3(getSconto3());
 		rigoDocumentoImpl.setTipoDocumento(getTipoDocumento());
+		rigoDocumentoImpl.setCodiceIva(getCodiceIva());
 		rigoDocumentoImpl.setIdAssociato(getIdAssociato());
 
 		rigoDocumentoImpl.resetOriginalValues();
@@ -1123,6 +1149,14 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 			rigoDocumentoCacheModel.tipoDocumento = null;
 		}
 
+		rigoDocumentoCacheModel.codiceIva = getCodiceIva();
+
+		String codiceIva = rigoDocumentoCacheModel.codiceIva;
+
+		if ((codiceIva != null) && (codiceIva.length() == 0)) {
+			rigoDocumentoCacheModel.codiceIva = null;
+		}
+
 		rigoDocumentoCacheModel.idAssociato = getIdAssociato();
 
 		return rigoDocumentoCacheModel;
@@ -1130,7 +1164,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{anno=");
 		sb.append(getAnno());
@@ -1188,6 +1222,8 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getSconto3());
 		sb.append(", tipoDocumento=");
 		sb.append(getTipoDocumento());
+		sb.append(", codiceIva=");
+		sb.append(getCodiceIva());
 		sb.append(", idAssociato=");
 		sb.append(getIdAssociato());
 		sb.append("}");
@@ -1197,7 +1233,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(91);
+		StringBundler sb = new StringBundler(94);
 
 		sb.append("<model><model-name>");
 		sb.append("it.bysoftware.ct.model.RigoDocumento");
@@ -1316,6 +1352,10 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 		sb.append(getTipoDocumento());
 		sb.append("]]></column-value></column>");
 		sb.append(
+			"<column><column-name>codiceIva</column-name><column-value><![CDATA[");
+		sb.append(getCodiceIva());
+		sb.append("]]></column-value></column>");
+		sb.append(
 			"<column><column-name>idAssociato</column-name><column-value><![CDATA[");
 		sb.append(getIdAssociato());
 		sb.append("]]></column-value></column>");
@@ -1365,6 +1405,7 @@ public class RigoDocumentoModelImpl extends BaseModelImpl<RigoDocumento>
 	private float _sconto3;
 	private String _tipoDocumento;
 	private String _originalTipoDocumento;
+	private String _codiceIva;
 	private long _idAssociato;
 	private long _originalIdAssociato;
 	private boolean _setOriginalIdAssociato;

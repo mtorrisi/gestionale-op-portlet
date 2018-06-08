@@ -593,6 +593,9 @@
 			<basic name="sconto1" />
 			<basic name="sconto2" />
 			<basic name="sconto3" />
+			<basic name="codiceIva">
+				<column name="CODICE_IVA" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />

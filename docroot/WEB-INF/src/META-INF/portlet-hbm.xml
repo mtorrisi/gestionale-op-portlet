@@ -300,6 +300,7 @@
 		<property name="sconto1" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto2" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto3" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
+		<property name="codiceIva" type="com.liferay.portal.dao.orm.hibernate.StringType" column="codice_iva" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.TestataDocumentoImpl" table="SSTESORD">
 		<cache usage="read-write" />

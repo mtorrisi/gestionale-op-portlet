@@ -2485,6 +2485,14 @@ public class DDTPortlet extends MVCPortlet {
         if (update) {
             TestataDocumentoLocalServiceUtil
                     .updateTestataDocumento(testataDocumento);
+            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.
+                    getDDTByNumeroOrdineAnnoAssociato(
+                            testataDocumento.getNumeroOrdine(),
+                            testataDocumento.getAnno(),
+                            testataDocumento.getIdAssociato());
+            for (RigoDocumento rigo : righe) {
+                RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigo);
+            }
             // righe =
             // RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine,
             // ANNO, associato.getId());
@@ -2789,6 +2797,15 @@ public class DDTPortlet extends MVCPortlet {
             if (update) {
                 TestataDocumentoLocalServiceUtil
                         .updateTestataDocumento(invoice);
+                    List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.
+                            getFatturaByNumeroOrdineAnnoAssociato(
+                                    invoice.getNumeroOrdine(),
+                                    invoice.getAnno(), invoice.getIdAssociato(),
+                                    invoice.getTipoDocumento());
+                    for (RigoDocumento rigo : righe) {
+                        RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigo);
+                    }
+                    
             } else {
                 TestataDocumentoLocalServiceUtil.addTestataDocumento(invoice);
             }
@@ -2806,23 +2823,6 @@ public class DDTPortlet extends MVCPortlet {
 
                 if (update) {
                     // ****elimino i vecchi righi****
-                    try {
-                        RigoDocumento rigoOrig = RigoDocumentoLocalServiceUtil
-                                .getRigoDocumento(new RigoDocumentoPK(rigo
-                                        .getAnno(), rigo.getNumeroOrdine(),
-                                        rigo.getRigoOrdine(), rigo
-                                                .getTipoDocumento(), rigo
-                                                .getIdAssociato()));
-                        RigoDocumentoLocalServiceUtil
-                                .deleteRigoDocumento(rigoOrig);
-                    } catch (Exception e) {
-                        _log.warn("Non esiste un rigo con chiave: "
-                                + rigo.getAnno() + "-" + rigo.getNumeroOrdine()
-                                + "-" + rigo.getRigoOrdine() + "-"
-                                + rigo.getTipoDocumento() + "-"
-                                + rigo.getIdAssociato());
-                    }
-
                     if (!rigo.getDescrizione().contains(
                             "Documento di trasporto")
                             || rigo.getTipoDocumento().equals(FAV)) {

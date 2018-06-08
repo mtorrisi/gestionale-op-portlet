@@ -2035,6 +2035,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 		rigoDocumentoImpl.setSconto2(rigoDocumento.getSconto2());
 		rigoDocumentoImpl.setSconto3(rigoDocumento.getSconto3());
 		rigoDocumentoImpl.setTipoDocumento(rigoDocumento.getTipoDocumento());
+		rigoDocumentoImpl.setCodiceIva(rigoDocumento.getCodiceIva());
 		rigoDocumentoImpl.setIdAssociato(rigoDocumento.getIdAssociato());
 
 		return rigoDocumentoImpl;
@@ -2366,7 +2367,7 @@ public class RigoDocumentoPersistenceImpl extends BasePersistenceImpl<RigoDocume
 				"unitaMisura", "colli", "pesoLordo", "tara", "pesoNetto",
 				"prezzo", "pedane", "note", "totalePesata", "imballo",
 				"gestioneReti", "RtxCl", "kgRete", "lotto", "passaporto",
-				"progressivo", "riferimentoBolla", "tipoDocumento",
+				"progressivo", "riferimentoBolla", "tipoDocumento", "codiceIva",
 				"idAssociato"
 			});
 	private static RigoDocumento _nullRigoDocumento = new RigoDocumentoImpl() {
