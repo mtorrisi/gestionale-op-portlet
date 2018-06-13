@@ -663,7 +663,7 @@
                         options: variety.split("|")
                     }),
                 key: 'descrizioneVariante',
-                label: 'Varieta\''
+                label: 'Var.'
             },
             {
 //                editor: nameEditor,

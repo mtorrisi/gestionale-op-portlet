@@ -578,11 +578,12 @@
             },
             {
             	key: 'codiceVariante',
-                label: 'Cod. Var.'
+                label: 'Cod. Var.',
+                className: 'hide'
             },
             {
                 key: 'descrizioneVariante',
-                label: 'Varieta\''
+                label: 'Var.'
             },
             {
                 key: 'imballo',
@@ -603,12 +604,12 @@
             },
             {
                 key: 'pesoLordo',
-                label: 'Peso Lordo'
+                label: 'P. Lordo'
             },
             {
                 editor: nameEditor,
                 key: 'pesoNetto',
-                label: 'Quantita\''
+                label: 'Quant.'
             },
             {
                 editor: numberEditor,
@@ -618,17 +619,17 @@
             {
                 editor: numberEditor,
                 key: 'sconto1',
-                label: 'Sconto1'
+                label: 'Sc. 1'
             },
             {
                 editor: numberEditor,
                 key: 'sconto2',
-                label: 'Sconto2'
+                label: 'Sc. 2'
             },
             {
                 editor: numberEditor,
                 key: 'sconto3',
-                label: 'Sconto3'
+                label: 'Sc. 3'
             },
             {
                 key: 'importo',
@@ -636,6 +637,7 @@
             },
             {
             	editor: new Y.DropDownCellEditor({
+            		centered: 'Node',
             		options: vatCodes.split('|'), 
            		}),
                 key: 'codiceIva',

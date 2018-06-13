@@ -18,11 +18,13 @@ import com.liferay.portal.util.PortalUtil;
 import com.liferay.util.bridges.mvc.MVCPortlet;
 
 import it.bysoftware.ct.NoSuchAssociatoException;
+import it.bysoftware.ct.model.Articoli;
 import it.bysoftware.ct.model.Associato;
 import it.bysoftware.ct.model.ClientiDatiAgg;
 import it.bysoftware.ct.model.DescrizioniDocumenti;
 import it.bysoftware.ct.model.RigoDocumento;
 import it.bysoftware.ct.model.TestataDocumento;
+import it.bysoftware.ct.service.ArticoliLocalServiceUtil;
 import it.bysoftware.ct.service.AssociatoLocalServiceUtil;
 import it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil;
 import it.bysoftware.ct.service.DescrizioniDocumentiLocalServiceUtil;
@@ -30,7 +32,6 @@ import it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.persistence.ClientiDatiAggPK;
 import it.bysoftware.ct.service.persistence.TestataDocumentoPK;
-
 import it.its.ct.gestionaleOP.utils.DocumentType;
 
 import java.io.BufferedWriter;
@@ -39,11 +40,9 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,6 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -201,6 +199,10 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                                     testata.getAnno(), a.getId(),
                                     testata.getTipoDocumento());
 
+                    ClientiDatiAgg cliente = ClientiDatiAggLocalServiceUtil
+                            .fetchClientiDatiAgg(new ClientiDatiAggPK(
+                                    testata.getCodiceSoggetto(),
+                                    false));
                     for (RigoDocumento rigo : righe) {
                         _log.info(rigo);
                         String valoriRigo = "";
@@ -213,11 +215,11 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                                 // RIGO FORFAIT
                                 Tiprig = "1" + SEPARATOR;
                                 if (rigo.getCodiceArticolo().isEmpty()) {
-                                    ClientiDatiAgg cliente = ClientiDatiAggLocalServiceUtil
-                                            .fetchClientiDatiAgg(new ClientiDatiAggPK(
-                                                    testata.getCodiceSoggetto(),
-                                                    false));
-                                    Codiva = cliente.getCodiceAliquota();
+                                    if (cliente != null && !"".equals(cliente.getCodiceAliquota())) {
+                                        Codiva = cliente.getCodiceAliquota();
+                                    } else {
+                                        Codiva = rigo.getCodiceIva();
+                                    }
                                 } else {
                                     DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil
                                             .fetchDescrizioniDocumenti(rigo
@@ -229,6 +231,13 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                             } else {
                                 // RIGO ARTICOLO
                                 Tiprig = "0" + SEPARATOR;
+                                if (cliente != null && !"".equals(cliente.getCodiceAliquota())) {
+                                    Codiva = cliente.getCodiceAliquota();
+                                } else {
+                                    Articoli art = ArticoliLocalServiceUtil.
+                                            getArticoli(rigo.getCodiceArticolo());
+                                    Codiva = art.getCodiceIVA();
+                                }
                             }
 
                             Codart = rigo.getCodiceArticolo() + SEPARATOR;
@@ -298,6 +307,7 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                                 Libdat3 = testata.getDataOrdine() + SEPARATOR;
                                 Codlotto = SEPARATOR;
                                 CodlottoGR = SEPARATOR;
+                                Codiva = "";
                             }
                         } else {
                             if (rigo.getTipoDocumento().equals(
@@ -307,11 +317,15 @@ public class RecuperoDocumentiPortlet extends MVCPortlet {
                                         + SEPARATOR;
 
                                 if (rigo.getCodiceArticolo().isEmpty()) {
-                                    ClientiDatiAgg cliente = ClientiDatiAggLocalServiceUtil
-                                            .fetchClientiDatiAgg(new ClientiDatiAggPK(
-                                                    testata.getCodiceSoggetto(),
-                                                    false));
-                                    Codiva = cliente.getCodiceAliquota();
+//                                    ClientiDatiAgg cliente = ClientiDatiAggLocalServiceUtil
+//                                            .fetchClientiDatiAgg(new ClientiDatiAggPK(
+//                                                    testata.getCodiceSoggetto(),
+//                                                    false));
+                                    if (cliente != null && !"".equals(cliente.getCodiceAliquota())) {
+                                        Codiva = cliente.getCodiceAliquota();
+                                    } else {
+                                        Codiva = rigo.getCodiceIva();
+                                    }
                                 } else {
                                     DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil
                                             .fetchDescrizioniDocumenti(rigo

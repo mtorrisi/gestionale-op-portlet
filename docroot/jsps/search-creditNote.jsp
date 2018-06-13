@@ -25,7 +25,7 @@
 	List<TestataDocumento> listCreditNote = TestataDocumentoLocalServiceUtil.getDocumentiSoggetto(Calendar.getInstance().get(Calendar.YEAR), DocumentType.NAC.name(), a.getId());
 %>
 
-<aui:fieldset label="Elenco Fatture">
+<aui:fieldset label="Elenco Note di credito">
 	<aui:form action="${generateInvoice}" method="post" name="fm">
 		<%--<aui:input name="documentIds" />--%>
 		<%--<aui:input name="clientId" value="<%= //cliente.getCodiceAnagrafica() %>" />--%>
