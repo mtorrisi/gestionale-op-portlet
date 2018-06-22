@@ -74,7 +74,7 @@ public class CessioneCreditoModelImpl extends BaseModelImpl<CessioneCredito>
 			{ "totale", Types.DOUBLE },
 			{ "note", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table cessioneCredito (id LONG not null primary key,data DATE null,RacCodana VARCHAR(75) null,id_associato LONG,id_file LONG,anno INTEGER,numero_fattura INTEGER,totale DOUBLE,note VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table cessioneCredito (id LONG not null primary key IDENTITY,data DATE null,RacCodana VARCHAR(75) null,id_associato LONG,id_file LONG,anno INTEGER,numero_fattura INTEGER,totale DOUBLE,note VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table cessioneCredito";
 	public static final String ORDER_BY_JPQL = " ORDER BY cessioneCredito.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY cessioneCredito.id ASC";

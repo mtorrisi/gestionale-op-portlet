@@ -2820,7 +2820,9 @@ public class DDTPortlet extends MVCPortlet {
                 rigo.setRigoOrdine(i + 1);
                 rigo.setTipoDocumento(invoice.getTipoDocumento());
                 rigo.setIdAssociato(associato.getId());
-
+                if (rigo.getTipoDocumento().equals(FAC)) {
+                    rigo.setCodiceIva("04");
+                }
                 if (update) {
                     // ****elimino i vecchi righi****
                     if (!rigo.getDescrizione().contains(

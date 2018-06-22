@@ -886,13 +886,21 @@
             	datiDocConf = "&<portlet:namespace/>nDocConf=" + nDocConf + "&<portlet:namespace/>dateDocConf=" + dateDocConf;
             }
             
-            var queryString = "&<portlet:namespace/>codCli=" + codiceCliente +
-                    "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo + datiDocConf;
-            //        Y.one('#btnSave').on('click', function () {
-            Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
-                on: {
+	           Y.io.request(origDoc ? '${updateInvoice}' : '${saveInvoice}', {
+            	method: 'POST',
+            	data: {
+            		<portlet:namespace />codCli: codiceCliente,
+            		<portlet:namespace />clienteTxt: clienteTxt,
+            		<portlet:namespace />destinazioneTxt: destinazioneTxt,
+            		<portlet:namespace />codiceDestinazione: codiceDestinazione,
+            		<portlet:namespace />documentDate: documentDate,
+            		<portlet:namespace />numeroFattura: numeroFattura,
+            		<portlet:namespace />avanzaProtocollo: avanzaProtocollo,
+            		<portlet:namespace />nDocConf: nDocConf,
+            		<portlet:namespace />dateDocConf: dateDocConf,
+            		<portlet:namespace />data: window.btoa(JSON.stringify(rows))
+                },
+            	on: {
                     success: function () {
                         var data = JSON.parse(this.get('responseData'));
                         if (data.code === 0) {
@@ -943,6 +951,10 @@
                                     break;
                             }
                         }
+                    },
+                    error: function() {
+                    	modal.hide();
+                    	alert('Si e\' verificato un errore nel salvataggio dei dati.');
                     }
                 }
             });

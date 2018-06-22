@@ -719,13 +719,19 @@
             var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
             var avanzaProtocollo = Y.one('#<portlet:namespace/>recProt').val();
             
-            var queryString = "&<portlet:namespace/>codCli=" + codiceCliente +
-                    "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
-            //        Y.one('#btnSave').on('click', function () {
-            Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
-                on: {
+            Y.io.request(origDoc ? '${updateInvoice}' : '${saveInvoice}', {
+            	method: 'POST',
+                data: {
+                    <portlet:namespace />codCli: codiceCliente,
+                    <portlet:namespace />clienteTxt: clienteTxt,
+                    <portlet:namespace />destinazioneTxt: destinazioneTxt,
+                    <portlet:namespace />codiceDestinazione: codiceDestinazione,
+                    <portlet:namespace />documentDate: documentDate,
+                    <portlet:namespace />numeroFattura: numeroFattura,
+                    <portlet:namespace />avanzaProtocollo: avanzaProtocollo,
+                    <portlet:namespace />data: window.btoa(JSON.stringify(rows))
+                },
+            	on: {
                     success: function () {
                         var data = JSON.parse(this.get('responseData'));
                         if (data.code === 0) {

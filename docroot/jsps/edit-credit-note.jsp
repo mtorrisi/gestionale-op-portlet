@@ -751,12 +751,18 @@
 			var numeroNota = Y.one('#<portlet:namespace/>recProt').val();
 			var avanzaProtocollo = Y.one('#<portlet:namespace/>nDoc').val();
 
-			var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
-					"&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-					"&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-					"&<portlet:namespace/>numeroNota=" + numeroNota + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
-			//        Y.one('#btnSave').on('click', function() {
-			Y.io.request(((origDoc) ? '${updateCreditNote}' : '${saveCreditNote}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
+			Y.io.request(origDoc ? '${updateCreditNote}' : '${saveCreditNote}', {
+				method: 'POST',
+                data: {
+                    <portlet:namespace />codiceCliente: codiceCliente,
+                    <portlet:namespace />clienteTxt: clienteTxt,
+                    <portlet:namespace />destinazioneTxt: destinazioneTxt,
+                    <portlet:namespace />codiceDestinazione: codiceDestinazione,
+                    <portlet:namespace />documentDate: documentDate,
+                    <portlet:namespace />numeroNota: numeroNota,
+                    <portlet:namespace />avanzaProtocollo: avanzaProtocollo,
+                    <portlet:namespace />data: window.btoa(JSON.stringify(rows))
+                },
 				on: {
 					success: function() {
 						var data = JSON.parse(this.get('responseData'));
@@ -797,6 +803,11 @@
 						}
 						if (modal)
 							modal.hide();
+					},
+					error: function() {
+						if (modal)
+                            modal.hide();
+						alert("Errore durante il salvataggio dei dati.");
 					}
 				}
 			});
