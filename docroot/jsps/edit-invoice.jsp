@@ -947,7 +947,7 @@
                                     alert("Attenzione, non e' stato possibile salvare la fattura, esiste almeno una fattura con protocollo minore di: " + data.id + " e data maggiore di: " + documentDate);
                                     break;
                                 case 11:
-                                    alert("Attenzione, esiste gia' una fattura di conferimento con muero di portocollo: " + data.id);
+                                    alert("Attenzione, esiste gia' una fattura di conferimento con numero di portocollo: " + data.id);
                                     break;
                             }
                         }
