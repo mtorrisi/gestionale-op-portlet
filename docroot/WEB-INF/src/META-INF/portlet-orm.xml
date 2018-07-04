@@ -405,6 +405,25 @@
 			<transient name="primaryKeyObj" />
 		</attributes>
 	</mapped-superclass>
+	<mapped-superclass class="it.bysoftware.ct.model.impl.IvaModelImpl">
+		<attributes>
+			<id name="codiceIva">
+				<column name="RIACODIVA" />
+			</id>
+			<basic name="descrizione">
+				<column name="RIADESCRI" />
+			</basic>
+			<basic name="descrizioneDocumento">
+				<column name="RIADESDOC" />
+			</basic>
+			<basic name="aliquota">
+				<column name="RIAALIQUO" />
+			</basic>
+			<transient name="modelAttributes" />
+			<transient name="primaryKey" />
+			<transient name="primaryKeyObj" />
+		</attributes>
+	</mapped-superclass>
 	<mapped-superclass class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriModelImpl">
 		<attributes>
 			<id name="id" />
@@ -574,6 +593,9 @@
 			<basic name="sconto1" />
 			<basic name="sconto2" />
 			<basic name="sconto3" />
+			<basic name="codiceIva">
+				<column name="CODICE_IVA" />
+			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
 			<transient name="primaryKeyObj" />
@@ -804,25 +826,6 @@
 			</basic>
 			<basic name="codiceAzienda">
 				<column name="RAVCODIAZ" />
-			</basic>
-			<transient name="modelAttributes" />
-			<transient name="primaryKey" />
-			<transient name="primaryKeyObj" />
-		</attributes>
-	</mapped-superclass>
-	<mapped-superclass class="it.bysoftware.ct.model.impl.VociIvaModelImpl">
-		<attributes>
-			<id name="codiceIva">
-				<column name="RIACODIVA" />
-			</id>
-			<basic name="descrizione">
-				<column name="RIADESCRI" />
-			</basic>
-			<basic name="descrizioneDocumento">
-				<column name="RIADESDOC" />
-			</basic>
-			<basic name="aliquota">
-				<column name="RIAALIQUO" />
 			</basic>
 			<transient name="modelAttributes" />
 			<transient name="primaryKey" />
@@ -1104,6 +1107,10 @@
 		<table name="fileuploader" />
 		<attributes />
 	</entity>
+	<entity class="it.bysoftware.ct.model.impl.IvaImpl" name="Iva">
+		<table name="VociIva" />
+		<attributes />
+	</entity>
 	<entity class="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" name="OrganizzazioneProduttori">
 		<table name="op" />
 		<attributes />
@@ -1134,10 +1141,6 @@
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.VettoriImpl" name="Vettori">
 		<table name="Vettori" />
-		<attributes />
-	</entity>
-	<entity class="it.bysoftware.ct.model.impl.VociIvaImpl" name="VociIva">
-		<table name="VociIva" />
 		<attributes />
 	</entity>
 	<entity class="it.bysoftware.ct.model.impl.WKRigoDocumentoImpl" name="WKRigoDocumento">

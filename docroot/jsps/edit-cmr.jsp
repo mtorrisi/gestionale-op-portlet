@@ -343,18 +343,20 @@
 	                var convenzioni = Y.one('#<portlet:namespace/>convenzioni').val();
 	                var rimborso = Y.one('#<portlet:namespace/>rimborso').val();
 
-	                var queryString = "&<portlet:namespace/>numeroCMR=" + (numeroCMR !== '' ? numeroCMR : "0") +
-	                	"&<portlet:namespace/>riserve=" + riserve +
-	                	"&<portlet:namespace/>allegati=" + allegati +
-	                	"&<portlet:namespace/>classe=" + classe +
-	                	"&<portlet:namespace/>cifra=" + cifra +
-	                	"&<portlet:namespace/>lettera=" + lettera +
-	                	"&<portlet:namespace/>adr=" + adr +
-	                	"&<portlet:namespace/>istruzioni=" + istruzioni +
-	                	"&<portlet:namespace/>convenzioni=" + convenzioni +
-	                	"&<portlet:namespace/>rimborso=" + rimborso;
-
-					Y.io.request('${saveCMR}' + queryString, {
+					Y.io.request('${saveCMR}', {
+						method: 'POST',
+		                data: {
+		                    <portlet:namespace />numeroCMR: (numeroCMR !== '' ? numeroCMR : "0"),
+		                    <portlet:namespace />riserve: riserve,
+		                    <portlet:namespace />allegati: allegati,
+		                    <portlet:namespace />classe: classe,
+		                    <portlet:namespace />cifra: cifra,
+		                    <portlet:namespace />lettera: lettera,
+		                    <portlet:namespace />adr: adr,
+		                    <portlet:namespace />istruzioni: istruzioni,
+		                    <portlet:namespace />convenzioni: convenzioni,
+		                    <portlet:namespace />rimborso: rimborso
+		                },
 						on: {
 							success: function() {
 								var data = JSON.parse(this.get('responseData'));
@@ -366,6 +368,9 @@
 								} else {
 									alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
 								}
+							},
+		                    error: function() {
+		                    	alert("Errore durante il salvataggio dei dati.");
 							}
 						}
 					});

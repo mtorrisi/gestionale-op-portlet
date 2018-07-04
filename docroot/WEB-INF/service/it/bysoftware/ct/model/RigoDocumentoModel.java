@@ -469,6 +469,21 @@ public interface RigoDocumentoModel extends BaseModel<RigoDocumento> {
 	public void setTipoDocumento(String tipoDocumento);
 
 	/**
+	 * Returns the codice iva of this rigo documento.
+	 *
+	 * @return the codice iva of this rigo documento
+	 */
+	@AutoEscape
+	public String getCodiceIva();
+
+	/**
+	 * Sets the codice iva of this rigo documento.
+	 *
+	 * @param codiceIva the codice iva of this rigo documento
+	 */
+	public void setCodiceIva(String codiceIva);
+
+	/**
 	 * Returns the id associato of this rigo documento.
 	 *
 	 * @return the id associato of this rigo documento

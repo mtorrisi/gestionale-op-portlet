@@ -1,5 +1,5 @@
-<%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.VociIva"%>
+<%@page import="it.bysoftware.ct.service.IvaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Iva"%>
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState" %>
 <%@ page import="com.liferay.portal.kernel.util.ListUtil" %>
 
@@ -67,7 +67,7 @@
 			<liferay-ui:search-container-column-text property="descrizione"
 				name="Descrizione" />
 			<%
-                VociIva iva = VociIvaLocalServiceUtil.fetchVociIva(articolo.getCodiceIVA());
+                Iva iva = IvaLocalServiceUtil.fetchIva(articolo.getCodiceIVA());
                 double aliquota = 0.0;
                 if(iva != null)
                     articolo.setCodiceIVA(articolo.getCodiceIVA() + "|" + iva.getAliquota());

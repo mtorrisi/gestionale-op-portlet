@@ -48,7 +48,7 @@
 <div id="myTab">
 	   <ul class="nav nav-tabs">
 		   <li class="active"><a href="#tab-1">Fatture di vendita</a></li>
-		   <li><a href="#tab-2">Fatture verso OP</a></li>
+		   <li><a href="#tab-2" class="hidden">Fatture verso OP</a></li>
 	   </ul>
 	   <div class="tab-content">
 		   <div id="tab-1" class="tab-pane">

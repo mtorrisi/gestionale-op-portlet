@@ -41,6 +41,7 @@ import it.bysoftware.ct.model.DescrizioniDocumentiClp;
 import it.bysoftware.ct.model.DescrizioniVariantiClp;
 import it.bysoftware.ct.model.DestinatariDiversiClp;
 import it.bysoftware.ct.model.FileUploaderClp;
+import it.bysoftware.ct.model.IvaClp;
 import it.bysoftware.ct.model.OrganizzazioneProduttoriClp;
 import it.bysoftware.ct.model.PortoClp;
 import it.bysoftware.ct.model.ProgressivoClp;
@@ -49,7 +50,6 @@ import it.bysoftware.ct.model.TestataDocumentoClp;
 import it.bysoftware.ct.model.TracciabilitaGrezziClp;
 import it.bysoftware.ct.model.TracciabilitaSchedaClp;
 import it.bysoftware.ct.model.VettoriClp;
-import it.bysoftware.ct.model.VociIvaClp;
 import it.bysoftware.ct.model.WKRigoDocumentoClp;
 import it.bysoftware.ct.model.WKTestataDocumentoClp;
 
@@ -192,6 +192,10 @@ public class ClpSerializer {
 			return translateInputFileUploader(oldModel);
 		}
 
+		if (oldModelClassName.equals(IvaClp.class.getName())) {
+			return translateInputIva(oldModel);
+		}
+
 		if (oldModelClassName.equals(
 					OrganizzazioneProduttoriClp.class.getName())) {
 			return translateInputOrganizzazioneProduttori(oldModel);
@@ -223,10 +227,6 @@ public class ClpSerializer {
 
 		if (oldModelClassName.equals(VettoriClp.class.getName())) {
 			return translateInputVettori(oldModel);
-		}
-
-		if (oldModelClassName.equals(VociIvaClp.class.getName())) {
-			return translateInputVociIva(oldModel);
 		}
 
 		if (oldModelClassName.equals(WKRigoDocumentoClp.class.getName())) {
@@ -417,6 +417,16 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateInputIva(BaseModel<?> oldModel) {
+		IvaClp oldClpModel = (IvaClp)oldModel;
+
+		BaseModel<?> newModel = oldClpModel.getIvaRemoteModel();
+
+		newModel.setModelAttributes(oldClpModel.getModelAttributes());
+
+		return newModel;
+	}
+
 	public static Object translateInputOrganizzazioneProduttori(
 		BaseModel<?> oldModel) {
 		OrganizzazioneProduttoriClp oldClpModel = (OrganizzazioneProduttoriClp)oldModel;
@@ -494,16 +504,6 @@ public class ClpSerializer {
 		VettoriClp oldClpModel = (VettoriClp)oldModel;
 
 		BaseModel<?> newModel = oldClpModel.getVettoriRemoteModel();
-
-		newModel.setModelAttributes(oldClpModel.getModelAttributes());
-
-		return newModel;
-	}
-
-	public static Object translateInputVociIva(BaseModel<?> oldModel) {
-		VociIvaClp oldClpModel = (VociIvaClp)oldModel;
-
-		BaseModel<?> newModel = oldClpModel.getVociIvaRemoteModel();
 
 		newModel.setModelAttributes(oldClpModel.getModelAttributes());
 
@@ -1137,6 +1137,42 @@ public class ClpSerializer {
 			}
 		}
 
+		if (oldModelClassName.equals("it.bysoftware.ct.model.impl.IvaImpl")) {
+			return translateOutputIva(oldModel);
+		}
+		else if (oldModelClassName.endsWith("Clp")) {
+			try {
+				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
+
+				Method getClpSerializerClassMethod = oldModelClass.getMethod(
+						"getClpSerializerClass");
+
+				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
+
+				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
+
+				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
+						BaseModel.class);
+
+				Class<?> oldModelModelClass = oldModel.getModelClass();
+
+				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
+						oldModelModelClass.getSimpleName() + "RemoteModel");
+
+				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
+
+				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
+						oldRemoteModel);
+
+				return newModel;
+			}
+			catch (Throwable t) {
+				if (_log.isInfoEnabled()) {
+					_log.info("Unable to translate " + oldModelClassName, t);
+				}
+			}
+		}
+
 		if (oldModelClassName.equals(
 					"it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl")) {
 			return translateOutputOrganizzazioneProduttori(oldModel);
@@ -1431,42 +1467,6 @@ public class ClpSerializer {
 			}
 		}
 
-		if (oldModelClassName.equals("it.bysoftware.ct.model.impl.VociIvaImpl")) {
-			return translateOutputVociIva(oldModel);
-		}
-		else if (oldModelClassName.endsWith("Clp")) {
-			try {
-				ClassLoader classLoader = ClpSerializer.class.getClassLoader();
-
-				Method getClpSerializerClassMethod = oldModelClass.getMethod(
-						"getClpSerializerClass");
-
-				Class<?> oldClpSerializerClass = (Class<?>)getClpSerializerClassMethod.invoke(oldModel);
-
-				Class<?> newClpSerializerClass = classLoader.loadClass(oldClpSerializerClass.getName());
-
-				Method translateOutputMethod = newClpSerializerClass.getMethod("translateOutput",
-						BaseModel.class);
-
-				Class<?> oldModelModelClass = oldModel.getModelClass();
-
-				Method getRemoteModelMethod = oldModelClass.getMethod("get" +
-						oldModelModelClass.getSimpleName() + "RemoteModel");
-
-				Object oldRemoteModel = getRemoteModelMethod.invoke(oldModel);
-
-				BaseModel<?> newModel = (BaseModel<?>)translateOutputMethod.invoke(null,
-						oldRemoteModel);
-
-				return newModel;
-			}
-			catch (Throwable t) {
-				if (_log.isInfoEnabled()) {
-					_log.info("Unable to translate " + oldModelClassName, t);
-				}
-			}
-		}
-
 		if (oldModelClassName.equals(
 					"it.bysoftware.ct.model.impl.WKRigoDocumentoImpl")) {
 			return translateOutputWKRigoDocumento(oldModel);
@@ -1691,6 +1691,10 @@ public class ClpSerializer {
 			return new it.bysoftware.ct.NoSuchFileUploaderException();
 		}
 
+		if (className.equals("it.bysoftware.ct.NoSuchIvaException")) {
+			return new it.bysoftware.ct.NoSuchIvaException();
+		}
+
 		if (className.equals(
 					"it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException")) {
 			return new it.bysoftware.ct.NoSuchOrganizzazioneProduttoriException();
@@ -1724,10 +1728,6 @@ public class ClpSerializer {
 
 		if (className.equals("it.bysoftware.ct.NoSuchVettoriException")) {
 			return new it.bysoftware.ct.NoSuchVettoriException();
-		}
-
-		if (className.equals("it.bysoftware.ct.NoSuchVociIvaException")) {
-			return new it.bysoftware.ct.NoSuchVociIvaException();
 		}
 
 		if (className.equals("it.bysoftware.ct.NoSuchWKRigoDocumentoException")) {
@@ -1908,6 +1908,16 @@ public class ClpSerializer {
 		return newModel;
 	}
 
+	public static Object translateOutputIva(BaseModel<?> oldModel) {
+		IvaClp newModel = new IvaClp();
+
+		newModel.setModelAttributes(oldModel.getModelAttributes());
+
+		newModel.setIvaRemoteModel(oldModel);
+
+		return newModel;
+	}
+
 	public static Object translateOutputOrganizzazioneProduttori(
 		BaseModel<?> oldModel) {
 		OrganizzazioneProduttoriClp newModel = new OrganizzazioneProduttoriClp();
@@ -1987,16 +1997,6 @@ public class ClpSerializer {
 		newModel.setModelAttributes(oldModel.getModelAttributes());
 
 		newModel.setVettoriRemoteModel(oldModel);
-
-		return newModel;
-	}
-
-	public static Object translateOutputVociIva(BaseModel<?> oldModel) {
-		VociIvaClp newModel = new VociIvaClp();
-
-		newModel.setModelAttributes(oldModel.getModelAttributes());
-
-		newModel.setVociIvaRemoteModel(oldModel);
 
 		return newModel;
 	}

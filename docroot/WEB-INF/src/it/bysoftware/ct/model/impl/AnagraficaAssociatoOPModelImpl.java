@@ -68,9 +68,9 @@ public class AnagraficaAssociatoOPModelImpl extends BaseModelImpl<AnagraficaAsso
 	public static final String TABLE_SQL_DROP = "drop table anagrafica_associato_op";
 	public static final String ORDER_BY_JPQL = " ORDER BY anagraficaAssociatoOP.id.idAssociato ASC, anagraficaAssociatoOP.id.codiceSogettoAssociato ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY anagrafica_associato_op.id_associato ASC, anagrafica_associato_op.codice_sogetto_associato ASC";
-	public static final String DATA_SOURCE = "liferayDataSource";
-	public static final String SESSION_FACTORY = "liferaySessionFactory";
-	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final String DATA_SOURCE = "gestionaleOPDataSource";
+	public static final String SESSION_FACTORY = "gestionaleOPSessionFactory";
+	public static final String TX_MANAGER = "gestionaleOPTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.entity.cache.enabled.it.bysoftware.ct.model.AnagraficaAssociatoOP"),
 			true);

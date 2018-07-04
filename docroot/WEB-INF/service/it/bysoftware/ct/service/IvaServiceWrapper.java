@@ -17,16 +17,16 @@ package it.bysoftware.ct.service;
 import com.liferay.portal.service.ServiceWrapper;
 
 /**
- * Provides a wrapper for {@link VociIvaService}.
+ * Provides a wrapper for {@link IvaService}.
  *
  * @author Brian Wing Shun Chan
- * @see VociIvaService
+ * @see IvaService
  * @generated
  */
-public class VociIvaServiceWrapper implements VociIvaService,
-	ServiceWrapper<VociIvaService> {
-	public VociIvaServiceWrapper(VociIvaService vociIvaService) {
-		_vociIvaService = vociIvaService;
+public class IvaServiceWrapper implements IvaService,
+	ServiceWrapper<IvaService> {
+	public IvaServiceWrapper(IvaService ivaService) {
+		_ivaService = ivaService;
 	}
 
 	/**
@@ -36,7 +36,7 @@ public class VociIvaServiceWrapper implements VociIvaService,
 	*/
 	@Override
 	public java.lang.String getBeanIdentifier() {
-		return _vociIvaService.getBeanIdentifier();
+		return _ivaService.getBeanIdentifier();
 	}
 
 	/**
@@ -46,39 +46,39 @@ public class VociIvaServiceWrapper implements VociIvaService,
 	*/
 	@Override
 	public void setBeanIdentifier(java.lang.String beanIdentifier) {
-		_vociIvaService.setBeanIdentifier(beanIdentifier);
+		_ivaService.setBeanIdentifier(beanIdentifier);
 	}
 
 	@Override
 	public java.lang.Object invokeMethod(java.lang.String name,
 		java.lang.String[] parameterTypes, java.lang.Object[] arguments)
 		throws java.lang.Throwable {
-		return _vociIvaService.invokeMethod(name, parameterTypes, arguments);
+		return _ivaService.invokeMethod(name, parameterTypes, arguments);
 	}
 
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #getWrappedService}
 	 */
-	public VociIvaService getWrappedVociIvaService() {
-		return _vociIvaService;
+	public IvaService getWrappedIvaService() {
+		return _ivaService;
 	}
 
 	/**
 	 * @deprecated As of 6.1.0, replaced by {@link #setWrappedService}
 	 */
-	public void setWrappedVociIvaService(VociIvaService vociIvaService) {
-		_vociIvaService = vociIvaService;
+	public void setWrappedIvaService(IvaService ivaService) {
+		_ivaService = ivaService;
 	}
 
 	@Override
-	public VociIvaService getWrappedService() {
-		return _vociIvaService;
+	public IvaService getWrappedService() {
+		return _ivaService;
 	}
 
 	@Override
-	public void setWrappedService(VociIvaService vociIvaService) {
-		_vociIvaService = vociIvaService;
+	public void setWrappedService(IvaService ivaService) {
+		_ivaService = ivaService;
 	}
 
-	private VociIvaService _vociIvaService;
+	private IvaService _ivaService;
 }

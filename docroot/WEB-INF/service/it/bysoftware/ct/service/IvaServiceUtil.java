@@ -19,24 +19,24 @@ import com.liferay.portal.kernel.util.ReferenceRegistry;
 import com.liferay.portal.service.InvokableService;
 
 /**
- * Provides the remote service utility for VociIva. This utility wraps
- * {@link it.bysoftware.ct.service.impl.VociIvaServiceImpl} and is the
+ * Provides the remote service utility for Iva. This utility wraps
+ * {@link it.bysoftware.ct.service.impl.IvaServiceImpl} and is the
  * primary access point for service operations in application layer code running
  * on a remote server. Methods of this service are expected to have security
  * checks based on the propagated JAAS credentials because this service can be
  * accessed remotely.
  *
  * @author Brian Wing Shun Chan
- * @see VociIvaService
- * @see it.bysoftware.ct.service.base.VociIvaServiceBaseImpl
- * @see it.bysoftware.ct.service.impl.VociIvaServiceImpl
+ * @see IvaService
+ * @see it.bysoftware.ct.service.base.IvaServiceBaseImpl
+ * @see it.bysoftware.ct.service.impl.IvaServiceImpl
  * @generated
  */
-public class VociIvaServiceUtil {
+public class IvaServiceUtil {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this class directly. Add custom service methods to {@link it.bysoftware.ct.service.impl.VociIvaServiceImpl} and rerun ServiceBuilder to regenerate this class.
+	 * Never modify this class directly. Add custom service methods to {@link it.bysoftware.ct.service.impl.IvaServiceImpl} and rerun ServiceBuilder to regenerate this class.
 	 */
 
 	/**
@@ -67,20 +67,19 @@ public class VociIvaServiceUtil {
 		_service = null;
 	}
 
-	public static VociIvaService getService() {
+	public static IvaService getService() {
 		if (_service == null) {
 			InvokableService invokableService = (InvokableService)PortletBeanLocatorUtil.locate(ClpSerializer.getServletContextName(),
-					VociIvaService.class.getName());
+					IvaService.class.getName());
 
-			if (invokableService instanceof VociIvaService) {
-				_service = (VociIvaService)invokableService;
+			if (invokableService instanceof IvaService) {
+				_service = (IvaService)invokableService;
 			}
 			else {
-				_service = new VociIvaServiceClp(invokableService);
+				_service = new IvaServiceClp(invokableService);
 			}
 
-			ReferenceRegistry.registerReference(VociIvaServiceUtil.class,
-				"_service");
+			ReferenceRegistry.registerReference(IvaServiceUtil.class, "_service");
 		}
 
 		return _service;
@@ -89,8 +88,8 @@ public class VociIvaServiceUtil {
 	/**
 	 * @deprecated As of 6.2.0
 	 */
-	public void setService(VociIvaService service) {
+	public void setService(IvaService service) {
 	}
 
-	private static VociIvaService _service;
+	private static IvaService _service;
 }

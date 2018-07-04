@@ -75,9 +75,9 @@ public class ProgressivoModelImpl extends BaseModelImpl<Progressivo>
 	public static final String TABLE_SQL_DROP = "drop table ProgAnnFor";
 	public static final String ORDER_BY_JPQL = " ORDER BY progressivo.id.anno ASC, progressivo.id.idAssociato ASC, progressivo.id.tipoDocumento ASC, progressivo.id.numeroProgressivo ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY ProgAnnFor.Re4Anno ASC, ProgAnnFor.Re4Codatt ASC, ProgAnnFor.Re4Numcon ASC, ProgAnnFor.Re4Prgcon ASC";
-	public static final String DATA_SOURCE = "liferayDataSource";
-	public static final String SESSION_FACTORY = "liferaySessionFactory";
-	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final String DATA_SOURCE = "gestionaleOPDataSource";
+	public static final String SESSION_FACTORY = "gestionaleOPSessionFactory";
+	public static final String TX_MANAGER = "gestionaleOPTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.entity.cache.enabled.it.bysoftware.ct.model.Progressivo"),
 			true);

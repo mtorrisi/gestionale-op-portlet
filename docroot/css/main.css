@@ -16,3 +16,7 @@
 yui3-skin-sam .yui3-hide {
 	display:none;
 }
+
+.table-col-descrizione {
+    width: 200px;
+}

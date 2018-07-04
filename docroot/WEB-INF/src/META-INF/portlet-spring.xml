@@ -1,166 +1,166 @@
 <?xml version="1.0"?>
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" default-destroy-method="destroy" default-init-method="afterPropertiesSet" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-    <bean id="it.bysoftware.ct.service.AnagraficaLocalService" class="it.bysoftware.ct.service.impl.AnagraficaLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.AnagraficaService" class="it.bysoftware.ct.service.impl.AnagraficaServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.AnagraficaPersistence" class="it.bysoftware.ct.service.persistence.AnagraficaPersistenceImpl" parent="basePersistence">
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.ArticoliLocalService" class="it.bysoftware.ct.service.impl.ArticoliLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.ArticoliService" class="it.bysoftware.ct.service.impl.ArticoliServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.ArticoliPersistence" class="it.bysoftware.ct.service.persistence.ArticoliPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.DestinatariDiversiLocalService" class="it.bysoftware.ct.service.impl.DestinatariDiversiLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.DestinatariDiversiService" class="it.bysoftware.ct.service.impl.DestinatariDiversiServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence" class="it.bysoftware.ct.service.persistence.DestinatariDiversiPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.RigoDocumentoLocalService" class="it.bysoftware.ct.service.impl.RigoDocumentoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.RigoDocumentoService" class="it.bysoftware.ct.service.impl.RigoDocumentoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.RigoDocumentoPersistence" class="it.bysoftware.ct.service.persistence.RigoDocumentoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.TestataDocumentoLocalService" class="it.bysoftware.ct.service.impl.TestataDocumentoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.TestataDocumentoService" class="it.bysoftware.ct.service.impl.TestataDocumentoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.TestataDocumentoPersistence" class="it.bysoftware.ct.service.persistence.TestataDocumentoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.VettoriLocalService" class="it.bysoftware.ct.service.impl.VettoriLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.VettoriService" class="it.bysoftware.ct.service.impl.VettoriServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.VettoriPersistence" class="it.bysoftware.ct.service.persistence.VettoriPersistenceImpl" parent="basePersistence">
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.AspettoEsterioreBeniLocalService" class="it.bysoftware.ct.service.impl.AspettoEsterioreBeniLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.AspettoEsterioreBeniService" class="it.bysoftware.ct.service.impl.AspettoEsterioreBeniServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence" class="it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.CausaleTrasportoLocalService" class="it.bysoftware.ct.service.impl.CausaleTrasportoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.CausaleTrasportoService" class="it.bysoftware.ct.service.impl.CausaleTrasportoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence" class="it.bysoftware.ct.service.persistence.CausaleTrasportoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.CuraTrasportoLocalService" class="it.bysoftware.ct.service.impl.CuraTrasportoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.CuraTrasportoService" class="it.bysoftware.ct.service.impl.CuraTrasportoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.CuraTrasportoPersistence" class="it.bysoftware.ct.service.persistence.CuraTrasportoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.PortoLocalService" class="it.bysoftware.ct.service.impl.PortoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.PortoService" class="it.bysoftware.ct.service.impl.PortoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.PortoPersistence" class="it.bysoftware.ct.service.persistence.PortoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.AssociatoLocalService" class="it.bysoftware.ct.service.impl.AssociatoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.AssociatoService" class="it.bysoftware.ct.service.impl.AssociatoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.AssociatoPersistence" class="it.bysoftware.ct.service.persistence.AssociatoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService" class="it.bysoftware.ct.service.impl.OrganizzazioneProduttoriLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.OrganizzazioneProduttoriService" class="it.bysoftware.ct.service.impl.OrganizzazioneProduttoriServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence" class="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistenceImpl" parent="basePersistence">
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.ClientiDatiAggLocalService" class="it.bysoftware.ct.service.impl.ClientiDatiAggLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.ClientiDatiAggService" class="it.bysoftware.ct.service.impl.ClientiDatiAggServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence" class="it.bysoftware.ct.service.persistence.ClientiDatiAggPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.DescrizioniDocumentiLocalService" class="it.bysoftware.ct.service.impl.DescrizioniDocumentiLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.DescrizioniDocumentiService" class="it.bysoftware.ct.service.impl.DescrizioniDocumentiServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence" class="it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.ProgressivoLocalService" class="it.bysoftware.ct.service.impl.ProgressivoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.ProgressivoService" class="it.bysoftware.ct.service.impl.ProgressivoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.ProgressivoPersistence" class="it.bysoftware.ct.service.persistence.ProgressivoPersistenceImpl" parent="basePersistence">
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.DescrizioniVariantiLocalService" class="it.bysoftware.ct.service.impl.DescrizioniVariantiLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.DescrizioniVariantiService" class="it.bysoftware.ct.service.impl.DescrizioniVariantiServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistence" class="it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.BancheAppoggioLocalService" class="it.bysoftware.ct.service.impl.BancheAppoggioLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.BancheAppoggioService" class="it.bysoftware.ct.service.impl.BancheAppoggioServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.BancheAppoggioPersistence" class="it.bysoftware.ct.service.persistence.BancheAppoggioPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.TracciabilitaSchedaLocalService" class="it.bysoftware.ct.service.impl.TracciabilitaSchedaLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.TracciabilitaSchedaService" class="it.bysoftware.ct.service.impl.TracciabilitaSchedaServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistence" class="it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.TracciabilitaGrezziLocalService" class="it.bysoftware.ct.service.impl.TracciabilitaGrezziLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.TracciabilitaGrezziService" class="it.bysoftware.ct.service.impl.TracciabilitaGrezziServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistence" class="it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.VociIvaLocalService" class="it.bysoftware.ct.service.impl.VociIvaLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.VociIvaService" class="it.bysoftware.ct.service.impl.VociIvaServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.VociIvaPersistence" class="it.bysoftware.ct.service.persistence.VociIvaPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.AnagraficaAssociatoOPLocalService" class="it.bysoftware.ct.service.impl.AnagraficaAssociatoOPLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.AnagraficaAssociatoOPService" class="it.bysoftware.ct.service.impl.AnagraficaAssociatoOPServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPersistence" class="it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.ArticoliAssociatoOPLocalService" class="it.bysoftware.ct.service.impl.ArticoliAssociatoOPLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.ArticoliAssociatoOPService" class="it.bysoftware.ct.service.impl.ArticoliAssociatoOPServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPersistence" class="it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.WKRigoDocumentoLocalService" class="it.bysoftware.ct.service.impl.WKRigoDocumentoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.WKRigoDocumentoService" class="it.bysoftware.ct.service.impl.WKRigoDocumentoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.WKRigoDocumentoPersistence" class="it.bysoftware.ct.service.persistence.WKRigoDocumentoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.WKTestataDocumentoLocalService" class="it.bysoftware.ct.service.impl.WKTestataDocumentoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.WKTestataDocumentoService" class="it.bysoftware.ct.service.impl.WKTestataDocumentoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.WKTestataDocumentoPersistence" class="it.bysoftware.ct.service.persistence.WKTestataDocumentoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.FileUploaderLocalService" class="it.bysoftware.ct.service.impl.FileUploaderLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.FileUploaderService" class="it.bysoftware.ct.service.impl.FileUploaderServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.FileUploaderPersistence" class="it.bysoftware.ct.service.persistence.FileUploaderPersistenceImpl" parent="basePersistence" >
-       <property name="dataSource" ref="gestionaleOPDataSource" />
-       <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.CMRLocalService" class="it.bysoftware.ct.service.impl.CMRLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.CMRService" class="it.bysoftware.ct.service.impl.CMRServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.CMRPersistence" class="it.bysoftware.ct.service.persistence.CMRPersistenceImpl" parent="basePersistence" >
-       <property name="dataSource" ref="gestionaleOPDataSource" />
-       <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
-    <bean id="it.bysoftware.ct.service.CessioneCreditoLocalService" class="it.bysoftware.ct.service.impl.CessioneCreditoLocalServiceImpl" />
-    <bean id="it.bysoftware.ct.service.CessioneCreditoService" class="it.bysoftware.ct.service.impl.CessioneCreditoServiceImpl" />
-    <bean id="it.bysoftware.ct.service.persistence.CessioneCreditoPersistence" class="it.bysoftware.ct.service.persistence.CessioneCreditoPersistenceImpl" parent="basePersistence" >
-        <property name="dataSource" ref="gestionaleOPDataSource" />
-        <property name="sessionFactory" ref="gestionaleOPSessionFactory" />
-    </bean>
+	<bean id="it.bysoftware.ct.service.AnagraficaLocalService" class="it.bysoftware.ct.service.impl.AnagraficaLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.AnagraficaService" class="it.bysoftware.ct.service.impl.AnagraficaServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.AnagraficaPersistence" class="it.bysoftware.ct.service.persistence.AnagraficaPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.AnagraficaAssociatoOPLocalService" class="it.bysoftware.ct.service.impl.AnagraficaAssociatoOPLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.AnagraficaAssociatoOPService" class="it.bysoftware.ct.service.impl.AnagraficaAssociatoOPServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPersistence" class="it.bysoftware.ct.service.persistence.AnagraficaAssociatoOPPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.ArticoliLocalService" class="it.bysoftware.ct.service.impl.ArticoliLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.ArticoliService" class="it.bysoftware.ct.service.impl.ArticoliServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.ArticoliPersistence" class="it.bysoftware.ct.service.persistence.ArticoliPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.ArticoliAssociatoOPLocalService" class="it.bysoftware.ct.service.impl.ArticoliAssociatoOPLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.ArticoliAssociatoOPService" class="it.bysoftware.ct.service.impl.ArticoliAssociatoOPServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPersistence" class="it.bysoftware.ct.service.persistence.ArticoliAssociatoOPPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.AspettoEsterioreBeniLocalService" class="it.bysoftware.ct.service.impl.AspettoEsterioreBeniLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.AspettoEsterioreBeniService" class="it.bysoftware.ct.service.impl.AspettoEsterioreBeniServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistence" class="it.bysoftware.ct.service.persistence.AspettoEsterioreBeniPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.AssociatoLocalService" class="it.bysoftware.ct.service.impl.AssociatoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.AssociatoService" class="it.bysoftware.ct.service.impl.AssociatoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.AssociatoPersistence" class="it.bysoftware.ct.service.persistence.AssociatoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.BancheAppoggioLocalService" class="it.bysoftware.ct.service.impl.BancheAppoggioLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.BancheAppoggioService" class="it.bysoftware.ct.service.impl.BancheAppoggioServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.BancheAppoggioPersistence" class="it.bysoftware.ct.service.persistence.BancheAppoggioPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.CausaleTrasportoLocalService" class="it.bysoftware.ct.service.impl.CausaleTrasportoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.CausaleTrasportoService" class="it.bysoftware.ct.service.impl.CausaleTrasportoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.CausaleTrasportoPersistence" class="it.bysoftware.ct.service.persistence.CausaleTrasportoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.CessioneCreditoLocalService" class="it.bysoftware.ct.service.impl.CessioneCreditoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.CessioneCreditoService" class="it.bysoftware.ct.service.impl.CessioneCreditoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.CessioneCreditoPersistence" class="it.bysoftware.ct.service.persistence.CessioneCreditoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.ClientiDatiAggLocalService" class="it.bysoftware.ct.service.impl.ClientiDatiAggLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.ClientiDatiAggService" class="it.bysoftware.ct.service.impl.ClientiDatiAggServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.ClientiDatiAggPersistence" class="it.bysoftware.ct.service.persistence.ClientiDatiAggPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.CMRLocalService" class="it.bysoftware.ct.service.impl.CMRLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.CMRService" class="it.bysoftware.ct.service.impl.CMRServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.CMRPersistence" class="it.bysoftware.ct.service.persistence.CMRPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.CuraTrasportoLocalService" class="it.bysoftware.ct.service.impl.CuraTrasportoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.CuraTrasportoService" class="it.bysoftware.ct.service.impl.CuraTrasportoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.CuraTrasportoPersistence" class="it.bysoftware.ct.service.persistence.CuraTrasportoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.DescrizioniDocumentiLocalService" class="it.bysoftware.ct.service.impl.DescrizioniDocumentiLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.DescrizioniDocumentiService" class="it.bysoftware.ct.service.impl.DescrizioniDocumentiServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistence" class="it.bysoftware.ct.service.persistence.DescrizioniDocumentiPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.DescrizioniVariantiLocalService" class="it.bysoftware.ct.service.impl.DescrizioniVariantiLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.DescrizioniVariantiService" class="it.bysoftware.ct.service.impl.DescrizioniVariantiServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistence" class="it.bysoftware.ct.service.persistence.DescrizioniVariantiPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.DestinatariDiversiLocalService" class="it.bysoftware.ct.service.impl.DestinatariDiversiLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.DestinatariDiversiService" class="it.bysoftware.ct.service.impl.DestinatariDiversiServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.DestinatariDiversiPersistence" class="it.bysoftware.ct.service.persistence.DestinatariDiversiPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.FileUploaderLocalService" class="it.bysoftware.ct.service.impl.FileUploaderLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.FileUploaderService" class="it.bysoftware.ct.service.impl.FileUploaderServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.FileUploaderPersistence" class="it.bysoftware.ct.service.persistence.FileUploaderPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.IvaLocalService" class="it.bysoftware.ct.service.impl.IvaLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.IvaService" class="it.bysoftware.ct.service.impl.IvaServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.IvaPersistence" class="it.bysoftware.ct.service.persistence.IvaPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.OrganizzazioneProduttoriLocalService" class="it.bysoftware.ct.service.impl.OrganizzazioneProduttoriLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.OrganizzazioneProduttoriService" class="it.bysoftware.ct.service.impl.OrganizzazioneProduttoriServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistence" class="it.bysoftware.ct.service.persistence.OrganizzazioneProduttoriPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.PortoLocalService" class="it.bysoftware.ct.service.impl.PortoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.PortoService" class="it.bysoftware.ct.service.impl.PortoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.PortoPersistence" class="it.bysoftware.ct.service.persistence.PortoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.ProgressivoLocalService" class="it.bysoftware.ct.service.impl.ProgressivoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.ProgressivoService" class="it.bysoftware.ct.service.impl.ProgressivoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.ProgressivoPersistence" class="it.bysoftware.ct.service.persistence.ProgressivoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.RigoDocumentoLocalService" class="it.bysoftware.ct.service.impl.RigoDocumentoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.RigoDocumentoService" class="it.bysoftware.ct.service.impl.RigoDocumentoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.RigoDocumentoPersistence" class="it.bysoftware.ct.service.persistence.RigoDocumentoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.TestataDocumentoLocalService" class="it.bysoftware.ct.service.impl.TestataDocumentoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.TestataDocumentoService" class="it.bysoftware.ct.service.impl.TestataDocumentoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.TestataDocumentoPersistence" class="it.bysoftware.ct.service.persistence.TestataDocumentoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.TracciabilitaGrezziLocalService" class="it.bysoftware.ct.service.impl.TracciabilitaGrezziLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.TracciabilitaGrezziService" class="it.bysoftware.ct.service.impl.TracciabilitaGrezziServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistence" class="it.bysoftware.ct.service.persistence.TracciabilitaGrezziPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.TracciabilitaSchedaLocalService" class="it.bysoftware.ct.service.impl.TracciabilitaSchedaLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.TracciabilitaSchedaService" class="it.bysoftware.ct.service.impl.TracciabilitaSchedaServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistence" class="it.bysoftware.ct.service.persistence.TracciabilitaSchedaPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.VettoriLocalService" class="it.bysoftware.ct.service.impl.VettoriLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.VettoriService" class="it.bysoftware.ct.service.impl.VettoriServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.VettoriPersistence" class="it.bysoftware.ct.service.persistence.VettoriPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.WKRigoDocumentoLocalService" class="it.bysoftware.ct.service.impl.WKRigoDocumentoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.WKRigoDocumentoService" class="it.bysoftware.ct.service.impl.WKRigoDocumentoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.WKRigoDocumentoPersistence" class="it.bysoftware.ct.service.persistence.WKRigoDocumentoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
+	<bean id="it.bysoftware.ct.service.WKTestataDocumentoLocalService" class="it.bysoftware.ct.service.impl.WKTestataDocumentoLocalServiceImpl" />
+	<bean id="it.bysoftware.ct.service.WKTestataDocumentoService" class="it.bysoftware.ct.service.impl.WKTestataDocumentoServiceImpl" />
+	<bean id="it.bysoftware.ct.service.persistence.WKTestataDocumentoPersistence" class="it.bysoftware.ct.service.persistence.WKTestataDocumentoPersistenceImpl" parent="basePersistence">
+		<property name="dataSource" ref="gestionaleOPDataSource" />
+		<property name="sessionFactory" ref="gestionaleOPSessionFactory" />
+	</bean>
 </beans>

@@ -74,13 +74,13 @@ public class TracciabilitaSchedaModelImpl extends BaseModelImpl<TracciabilitaSch
 			{ "tipo_documento", Types.VARCHAR },
 			{ "id_associato", Types.BIGINT }
 		};
-	public static final String TABLE_SQL_CREATE = "create table tracciabilitaScheda (id LONG not null primary key,codice_prodotto VARCHAR(75) null,prodotto VARCHAR(75) null,kg DOUBLE,lotto_vendita VARCHAR(75) null,anno INTEGER,numero_documento LONG,rigo_ordine INTEGER,tipo_documento VARCHAR(75) null,id_associato LONG)";
+	public static final String TABLE_SQL_CREATE = "create table tracciabilitaScheda (id LONG not null primary key IDENTITY,codice_prodotto VARCHAR(75) null,prodotto VARCHAR(75) null,kg DOUBLE,lotto_vendita VARCHAR(75) null,anno INTEGER,numero_documento LONG,rigo_ordine INTEGER,tipo_documento VARCHAR(75) null,id_associato LONG)";
 	public static final String TABLE_SQL_DROP = "drop table tracciabilitaScheda";
 	public static final String ORDER_BY_JPQL = " ORDER BY tracciabilitaScheda.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY tracciabilitaScheda.id ASC";
-	public static final String DATA_SOURCE = "liferayDataSource";
-	public static final String SESSION_FACTORY = "liferaySessionFactory";
-	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final String DATA_SOURCE = "gestionaleOPDataSource";
+	public static final String SESSION_FACTORY = "gestionaleOPSessionFactory";
+	public static final String TX_MANAGER = "gestionaleOPTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.entity.cache.enabled.it.bysoftware.ct.model.TracciabilitaScheda"),
 			true);

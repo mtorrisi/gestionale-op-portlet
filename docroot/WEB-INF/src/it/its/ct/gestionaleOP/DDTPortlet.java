@@ -2485,6 +2485,14 @@ public class DDTPortlet extends MVCPortlet {
         if (update) {
             TestataDocumentoLocalServiceUtil
                     .updateTestataDocumento(testataDocumento);
+            List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.
+                    getDDTByNumeroOrdineAnnoAssociato(
+                            testataDocumento.getNumeroOrdine(),
+                            testataDocumento.getAnno(),
+                            testataDocumento.getIdAssociato());
+            for (RigoDocumento rigo : righe) {
+                RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigo);
+            }
             // righe =
             // RigoDocumentoLocalServiceUtil.getDDTByNumeroOrdineAnnoAssociato(numeroOrdine,
             // ANNO, associato.getId());
@@ -2760,7 +2768,9 @@ public class DDTPortlet extends MVCPortlet {
                     .fetchTestataDocumento(new TestataDocumentoPK(ANNO,
                             nDocConf, FAC, associato.getId()));
             if (purchaseInvoice != null) {
-                return new Response(Code.FAC_ALREADY_EXISTS, nDocConf);
+                if (!update) {
+                    return new Response(Code.FAC_ALREADY_EXISTS, nDocConf);
+                }
             } else {
                 purchaseInvoice = TestataDocumentoLocalServiceUtil
                         .createTestataDocumento(new TestataDocumentoPK(ANNO,
@@ -2789,6 +2799,15 @@ public class DDTPortlet extends MVCPortlet {
             if (update) {
                 TestataDocumentoLocalServiceUtil
                         .updateTestataDocumento(invoice);
+                    List<RigoDocumento> righe = RigoDocumentoLocalServiceUtil.
+                            getFatturaByNumeroOrdineAnnoAssociato(
+                                    invoice.getNumeroOrdine(),
+                                    invoice.getAnno(), invoice.getIdAssociato(),
+                                    invoice.getTipoDocumento());
+                    for (RigoDocumento rigo : righe) {
+                        RigoDocumentoLocalServiceUtil.deleteRigoDocumento(rigo);
+                    }
+                    
             } else {
                 TestataDocumentoLocalServiceUtil.addTestataDocumento(invoice);
             }
@@ -2803,26 +2822,11 @@ public class DDTPortlet extends MVCPortlet {
                 rigo.setRigoOrdine(i + 1);
                 rigo.setTipoDocumento(invoice.getTipoDocumento());
                 rigo.setIdAssociato(associato.getId());
-
+//                if (rigo.getTipoDocumento().equals(FAC)) {
+//                    rigo.setCodiceIva("04");
+//                }
                 if (update) {
                     // ****elimino i vecchi righi****
-                    try {
-                        RigoDocumento rigoOrig = RigoDocumentoLocalServiceUtil
-                                .getRigoDocumento(new RigoDocumentoPK(rigo
-                                        .getAnno(), rigo.getNumeroOrdine(),
-                                        rigo.getRigoOrdine(), rigo
-                                                .getTipoDocumento(), rigo
-                                                .getIdAssociato()));
-                        RigoDocumentoLocalServiceUtil
-                                .deleteRigoDocumento(rigoOrig);
-                    } catch (Exception e) {
-                        _log.warn("Non esiste un rigo con chiave: "
-                                + rigo.getAnno() + "-" + rigo.getNumeroOrdine()
-                                + "-" + rigo.getRigoOrdine() + "-"
-                                + rigo.getTipoDocumento() + "-"
-                                + rigo.getIdAssociato());
-                    }
-
                     if (!rigo.getDescrizione().contains(
                             "Documento di trasporto")
                             || rigo.getTipoDocumento().equals(FAV)) {

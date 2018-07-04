@@ -16,7 +16,7 @@ package it.bysoftware.ct.service.http;
 
 /**
  * Provides the SOAP utility for the
- * {@link it.bysoftware.ct.service.VociIvaServiceUtil} service utility. The
+ * {@link it.bysoftware.ct.service.IvaServiceUtil} service utility. The
  * static methods of this class calls the same methods of the service utility.
  * However, the signatures are different because it is difficult for SOAP to
  * support certain types.
@@ -24,10 +24,10 @@ package it.bysoftware.ct.service.http;
  * <p>
  * ServiceBuilder follows certain rules in translating the methods. For example,
  * if the method in the service utility returns a {@link java.util.List}, that
- * is translated to an array of {@link it.bysoftware.ct.model.VociIvaSoap}.
+ * is translated to an array of {@link it.bysoftware.ct.model.IvaSoap}.
  * If the method in the service utility returns a
- * {@link it.bysoftware.ct.model.VociIva}, that is translated to a
- * {@link it.bysoftware.ct.model.VociIvaSoap}. Methods that SOAP cannot
+ * {@link it.bysoftware.ct.model.Iva}, that is translated to a
+ * {@link it.bysoftware.ct.model.IvaSoap}. Methods that SOAP cannot
  * safely wire are skipped.
  * </p>
  *
@@ -49,10 +49,10 @@ package it.bysoftware.ct.service.http;
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see VociIvaServiceHttp
- * @see it.bysoftware.ct.model.VociIvaSoap
- * @see it.bysoftware.ct.service.VociIvaServiceUtil
+ * @see IvaServiceHttp
+ * @see it.bysoftware.ct.model.IvaSoap
+ * @see it.bysoftware.ct.service.IvaServiceUtil
  * @generated
  */
-public class VociIvaServiceSoap {
+public class IvaServiceSoap {
 }

@@ -94,8 +94,8 @@
 								int size = 0;
 								if (listGrezzi != null) {
 									size=listGrezzi.size();
-								} else {
-									System.out.println("*** SONO IN ELSE PER: INDEX=" + index + " CODICE Art: " + prodotti.get(index).getCodiceArticolo());
+// 								} else {
+// 									System.out.println("*** SONO IN ELSE PER: INDEX=" + index + " CODICE Art: " + prodotti.get(index).getCodiceArticolo());
 								}
 								int x = 0;
 							%>
@@ -203,42 +203,43 @@
 	function salvaScheda(data) {
 		YUI().use('aui-io-request', 'node', function(Y) {
 			var nDoc = Y.one('#<portlet:namespace/>nDoc').val();
-			Y.io.request(
-					'${saveScheda}' + '&<portlet:namespace />nDoc=' + nDoc + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
-					{
-						on: {
-							success: function() {
-								var data = JSON.parse(this.get('responseData'));
-								console.log(data);
-								if (data.code === 0) {
-									alert("Salvataggio effettuato con successo.");
-									document.getElementById("btnPrint").disabled = false;
-									document.getElementById("btnSave").disabled = true;
-								} else {
-									console.log(data);
-									switch (data.code) {
-										case 1:
-										case 2:
-										case 3:
-										case 7:
-											alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
-											break;
-										case 4:
-											alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
-											break;
-										case 5:
-											alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
-											break;
-										case 6:
-											alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
-											break;
-									}
-								}
+			Y.io.request('${saveScheda}', {
+				method: 'POST',
+                data: {
+                    <portlet:namespace />nDoc: nDoc,
+                    <portlet:namespace />data: window.btoa(JSON.stringify(data))
+                },
+				on: {
+					success: function() {
+						var data = JSON.parse(this.get('responseData'));
+						console.log(data);
+						if (data.code === 0) {
+							alert("Salvataggio effettuato con successo.");
+							document.getElementById("btnPrint").disabled = false;
+							document.getElementById("btnSave").disabled = true;
+						} else {
+							console.log(data);
+							switch (data.code) {
+								case 1:
+								case 2:
+								case 3:
+								case 7:
+									alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+									break;
+								case 4:
+									alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
+									break;
+								case 5:
+									alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
+									break;
+								case 6:
+									alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
+									break;
 							}
 						}
 					}
-			);
-
+				}
+			});
 		});
 	}
 

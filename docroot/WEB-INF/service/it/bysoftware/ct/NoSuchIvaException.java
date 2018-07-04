@@ -19,21 +19,21 @@ import com.liferay.portal.NoSuchModelException;
 /**
  * @author Brian Wing Shun Chan
  */
-public class NoSuchVociIvaException extends NoSuchModelException {
+public class NoSuchIvaException extends NoSuchModelException {
 
-	public NoSuchVociIvaException() {
+	public NoSuchIvaException() {
 		super();
 	}
 
-	public NoSuchVociIvaException(String msg) {
+	public NoSuchIvaException(String msg) {
 		super(msg);
 	}
 
-	public NoSuchVociIvaException(String msg, Throwable cause) {
+	public NoSuchIvaException(String msg, Throwable cause) {
 		super(msg, cause);
 	}
 
-	public NoSuchVociIvaException(Throwable cause) {
+	public NoSuchIvaException(Throwable cause) {
 		super(cause);
 	}
 

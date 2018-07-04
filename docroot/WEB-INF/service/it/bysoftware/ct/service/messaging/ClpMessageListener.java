@@ -50,6 +50,8 @@ import it.bysoftware.ct.service.DestinatariDiversiLocalServiceUtil;
 import it.bysoftware.ct.service.DestinatariDiversiServiceUtil;
 import it.bysoftware.ct.service.FileUploaderLocalServiceUtil;
 import it.bysoftware.ct.service.FileUploaderServiceUtil;
+import it.bysoftware.ct.service.IvaLocalServiceUtil;
+import it.bysoftware.ct.service.IvaServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriLocalServiceUtil;
 import it.bysoftware.ct.service.OrganizzazioneProduttoriServiceUtil;
 import it.bysoftware.ct.service.PortoLocalServiceUtil;
@@ -66,8 +68,6 @@ import it.bysoftware.ct.service.TracciabilitaSchedaLocalServiceUtil;
 import it.bysoftware.ct.service.TracciabilitaSchedaServiceUtil;
 import it.bysoftware.ct.service.VettoriLocalServiceUtil;
 import it.bysoftware.ct.service.VettoriServiceUtil;
-import it.bysoftware.ct.service.VociIvaLocalServiceUtil;
-import it.bysoftware.ct.service.VociIvaServiceUtil;
 import it.bysoftware.ct.service.WKRigoDocumentoLocalServiceUtil;
 import it.bysoftware.ct.service.WKRigoDocumentoServiceUtil;
 import it.bysoftware.ct.service.WKTestataDocumentoLocalServiceUtil;
@@ -136,6 +136,9 @@ public class ClpMessageListener extends BaseMessageListener {
 			FileUploaderLocalServiceUtil.clearService();
 
 			FileUploaderServiceUtil.clearService();
+			IvaLocalServiceUtil.clearService();
+
+			IvaServiceUtil.clearService();
 			OrganizzazioneProduttoriLocalServiceUtil.clearService();
 
 			OrganizzazioneProduttoriServiceUtil.clearService();
@@ -160,9 +163,6 @@ public class ClpMessageListener extends BaseMessageListener {
 			VettoriLocalServiceUtil.clearService();
 
 			VettoriServiceUtil.clearService();
-			VociIvaLocalServiceUtil.clearService();
-
-			VociIvaServiceUtil.clearService();
 			WKRigoDocumentoLocalServiceUtil.clearService();
 
 			WKRigoDocumentoServiceUtil.clearService();

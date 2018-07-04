@@ -13,7 +13,7 @@
 <%@ page import="it.bysoftware.ct.model.Progressivo" %>
 <%@ page import="it.bysoftware.ct.model.RigoDocumento" %>
 <%@ page import="it.bysoftware.ct.model.TestataDocumento" %>
-<%@ page import="it.bysoftware.ct.model.VociIva" %>
+<%@ page import="it.bysoftware.ct.model.Iva" %>
 <%@ page import="it.bysoftware.ct.service.AnagraficaLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.ArticoliLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.AssociatoLocalServiceUtil" %>
@@ -22,7 +22,7 @@
 <%@ page import="it.bysoftware.ct.service.ProgressivoLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.RigoDocumentoLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.TestataDocumentoLocalServiceUtil" %>
-<%@ page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil" %>
+<%@ page import="it.bysoftware.ct.service.IvaLocalServiceUtil" %>
 <%@ page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK" %>
 <%@ page import="it.bysoftware.ct.service.persistence.TestataDocumentoPK" %>
 
@@ -68,25 +68,47 @@
 	        json.put("sconto2", rigo.getSconto2());
 	        json.put("sconto3", rigo.getSconto3());
 	        if (!rigo.getCodiceArticolo().equals("")) {
+	            System.out.println("CODICE: " + rigo.getCodiceArticolo());
 	            if (rigo.getPesoNetto() != 0) {
+	                System.out.println("1.");
 	                if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
+	                    System.out.println("2.");
 	                    codiceAliquotaIva = datiAggCliente.getCodiceAliquota();
 	                } else {
+	                    System.out.println("3.");
 	                    Articoli articolo = ArticoliLocalServiceUtil.getArticoli(rigo.getCodiceArticolo());
 	                    if (articolo != null) {
+	                        System.out.println("4.");
 	                        codiceAliquotaIva = articolo.getCodiceIVA();
 	                    } else {
+	                        System.out.println("5.");
 	                        codiceAliquotaIva = "04";
 	                    }
 	                }
 	            } else {
-	                DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil.fetchDescrizioniDocumenti(rigo.getCodiceArticolo());
-	                if (descr != null) {
-	                    codiceAliquotaIva = descr.getCodiceIVA();
+	                System.out.println("6.");
+	                if (!datiAggCliente.getCodiceAliquota().isEmpty()) {
+	                    System.out.println("7.");
+                        codiceAliquotaIva = datiAggCliente.getCodiceAliquota();
+	                } else {
+	                    System.out.println("8.");
+	                    DescrizioniDocumenti descr = DescrizioniDocumentiLocalServiceUtil.fetchDescrizioniDocumenti(rigo.getCodiceArticolo());
+	                    if (descr != null && !"".equals(descr.getCodiceIVA())) {
+	                        System.out.println("9.");
+	                        codiceAliquotaIva = descr.getCodiceIVA();
+	                    } else {
+	                        System.out.println("10.");
+	                        codiceAliquotaIva = rigo.getCodiceIva();
+	                    }
 	                }
 	            }
 	        }
 	        json.put("codiceIva", codiceAliquotaIva);
+	        Iva iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaIva);
+            if (iva != null) {
+                json.put("aliquotaIva", iva.getAliquota());
+            }
+// 	        json.put("aliquotaIva", codiceAliquotaIva);
 
 	        double importo = 0;
 
@@ -124,12 +146,19 @@
 	Date date = Calendar.getInstance().getTime();
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-	VociIva iva;
+	Iva iva;
 	if (!codiceAliquotaIva.equals("")) {
-		iva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaIva);
+		iva = IvaLocalServiceUtil.fetchIva(codiceAliquotaIva);
 	} else {
-		iva = VociIvaLocalServiceUtil.fetchVociIva("04");
+		iva = IvaLocalServiceUtil.fetchIva("04");
 	}
+	
+	List<Iva> vats = IvaLocalServiceUtil.getIvas(0,
+            IvaLocalServiceUtil.getIvasCount());
+    String vatCodes = "";
+    for (Iva vat : vats) {
+        vatCodes += "|" + vat.getCodiceIva() + " --> " + vat.getDescrizione() + " --> " + (int)vat.getAliquota();
+    }
 %>
 
 <liferay-portlet:resourceURL id="updateCreditNote"  var="updateCreditNote">
@@ -243,6 +272,7 @@
 	var origDoc = '<%= origDoc %>';
 	var aliquotaIVA = <%= iva.getAliquota() %>;
 	var codiceAliquota = '<%= iva.getCodiceIva() %>';
+	var vatCodes = '<%= vatCodes%>';
 
 	YUI().use(
 			'aui-tabview',
@@ -339,11 +369,12 @@
 			},
 			{
 				key: 'codiceVariante',
-				label: 'Cod. Var.'
+				label: 'Cod. Var.',
+				className: 'hide'
 			},
 			{
 				key: 'descrizioneVariante',
-				label: 'Varieta\''
+				label: 'Var.'
 			},
 			{
 				allowHTML: true,
@@ -368,12 +399,12 @@
 			{
 				editor: numberEditor,
 				key: 'pesoLordo',
-				label: 'Peso Lordo'
+				label: 'P. Lordo'
 			},
 			{
 				editor: numberEditor,
 				key: 'pesoNetto',
-				label: 'Quantita\''
+				label: 'Quant.'
 			},
 			{
 				editor: numberEditor,
@@ -383,17 +414,17 @@
 			{
 				editor: numberEditor,
 				key: 'sconto1',
-				label: 'Sconto1'
+				label: 'Sc. 1'
 			},
 			{
 				editor: numberEditor,
 				key: 'sconto2',
-				label: 'Sconto2'
+				label: 'Sc. 2'
 			},
 			{
 				editor: numberEditor,
 				key: 'sconto3',
-				label: 'Sconto3'
+				label: 'Sc. 3'
 			},
 			{
 //                editor: numberEditor,
@@ -401,14 +432,17 @@
 				label: 'Importo'
 			},
 			{
-//                editor: numberEditor,
-				key: 'codiceIva',
-				label: 'C.I.'
-			},
+                editor: new Y.DropDownCellEditor({
+                    centered: 'Node',
+                    options: vatCodes.split('|'), 
+                }),
+                key: 'codiceIva',
+                label: 'C.I.' 
+            },
             {
               key: 'aliquotaIva',
               label: '%',
-//               className: 'hide'
+              className: 'hide'
             }
 		];
 
@@ -516,6 +550,10 @@
 		table.after('*:importoChange', function(e) {
 			calcolaImporti();
 		});
+		
+		table.after('*:codiceIvaChange', function (e) {
+            setCodiceIva();
+        });
 
 		Y.one("#<portlet:namespace />btnAddDescription").on("click", function() {
 			recordSelected = undefined;
@@ -713,12 +751,18 @@
 			var numeroNota = Y.one('#<portlet:namespace/>recProt').val();
 			var avanzaProtocollo = Y.one('#<portlet:namespace/>nDoc').val();
 
-			var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
-					"&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-					"&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-					"&<portlet:namespace/>numeroNota=" + numeroNota + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
-			//        Y.one('#btnSave').on('click', function() {
-			Y.io.request(((origDoc) ? '${updateCreditNote}' : '${saveCreditNote}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
+			Y.io.request(origDoc ? '${updateCreditNote}' : '${saveCreditNote}', {
+				method: 'POST',
+                data: {
+                    <portlet:namespace />codiceCliente: codiceCliente,
+                    <portlet:namespace />clienteTxt: clienteTxt,
+                    <portlet:namespace />destinazioneTxt: destinazioneTxt,
+                    <portlet:namespace />codiceDestinazione: codiceDestinazione,
+                    <portlet:namespace />documentDate: documentDate,
+                    <portlet:namespace />numeroNota: numeroNota,
+                    <portlet:namespace />avanzaProtocollo: avanzaProtocollo,
+                    <portlet:namespace />data: window.btoa(JSON.stringify(rows))
+                },
 				on: {
 					success: function() {
 						var data = JSON.parse(this.get('responseData'));
@@ -759,6 +803,11 @@
 						}
 						if (modal)
 							modal.hide();
+					},
+					error: function() {
+						if (modal)
+                            modal.hide();
+						alert("Errore durante il salvataggio dei dati.");
 					}
 				}
 			});
@@ -816,6 +865,14 @@
         ).render('#<portlet:namespace />tabellaTotali');
     });
     
+    function setCodiceIva() {
+        var record = recordSelected.getAttrs();
+        var codice = record.codiceIva.split(" --> ")[0];
+        var aliquota = record.codiceIva.split(" --> ")[2];
+        recordSelected.setAttrs({codiceIva: codice, aliquotaIva: aliquota});
+        calcolaImporti();
+    }
+    
     function calcolaImporti(){
         var data = [];
         var i = 0;
@@ -856,6 +913,9 @@
         }
         
         document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = somma.toFixed(2);
+        data.sort(function(a, b) {
+            return parseFloat(a.aliquota.replace("%","")) - parseFloat(b.aliquota.replace("%",""));
+        });
         if(t1) {
             t1.set('data', eval(data)); 
         }
