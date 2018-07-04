@@ -74,13 +74,13 @@ public class CessioneCreditoModelImpl extends BaseModelImpl<CessioneCredito>
 			{ "totale", Types.DOUBLE },
 			{ "note", Types.VARCHAR }
 		};
-	public static final String TABLE_SQL_CREATE = "create table cessioneCredito (id LONG not null primary key,data DATE null,RacCodana VARCHAR(75) null,id_associato LONG,id_file LONG,anno INTEGER,numero_fattura INTEGER,totale DOUBLE,note VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table cessioneCredito (id LONG not null primary key IDENTITY,data DATE null,RacCodana VARCHAR(75) null,id_associato LONG,id_file LONG,anno INTEGER,numero_fattura INTEGER,totale DOUBLE,note VARCHAR(75) null)";
 	public static final String TABLE_SQL_DROP = "drop table cessioneCredito";
 	public static final String ORDER_BY_JPQL = " ORDER BY cessioneCredito.id ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY cessioneCredito.id ASC";
-	public static final String DATA_SOURCE = "liferayDataSource";
-	public static final String SESSION_FACTORY = "liferaySessionFactory";
-	public static final String TX_MANAGER = "liferayTransactionManager";
+	public static final String DATA_SOURCE = "gestionaleOPDataSource";
+	public static final String SESSION_FACTORY = "gestionaleOPSessionFactory";
+	public static final String TX_MANAGER = "gestionaleOPTransactionManager";
 	public static final boolean ENTITY_CACHE_ENABLED = GetterUtil.getBoolean(com.liferay.util.service.ServiceProps.get(
 				"value.object.entity.cache.enabled.it.bysoftware.ct.model.CessioneCredito"),
 			true);

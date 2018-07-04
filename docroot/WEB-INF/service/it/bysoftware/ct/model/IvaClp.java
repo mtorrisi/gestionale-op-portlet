@@ -22,7 +22,7 @@ import com.liferay.portal.model.BaseModel;
 import com.liferay.portal.model.impl.BaseModelImpl;
 
 import it.bysoftware.ct.service.ClpSerializer;
-import it.bysoftware.ct.service.VociIvaLocalServiceUtil;
+import it.bysoftware.ct.service.IvaLocalServiceUtil;
 
 import java.io.Serializable;
 
@@ -34,18 +34,18 @@ import java.util.Map;
 /**
  * @author Brian Wing Shun Chan
  */
-public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
-	public VociIvaClp() {
+public class IvaClp extends BaseModelImpl<Iva> implements Iva {
+	public IvaClp() {
 	}
 
 	@Override
 	public Class<?> getModelClass() {
-		return VociIva.class;
+		return Iva.class;
 	}
 
 	@Override
 	public String getModelClassName() {
-		return VociIva.class.getName();
+		return Iva.class.getName();
 	}
 
 	@Override
@@ -117,13 +117,13 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	public void setCodiceIva(String codiceIva) {
 		_codiceIva = codiceIva;
 
-		if (_vociIvaRemoteModel != null) {
+		if (_ivaRemoteModel != null) {
 			try {
-				Class<?> clazz = _vociIvaRemoteModel.getClass();
+				Class<?> clazz = _ivaRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setCodiceIva", String.class);
 
-				method.invoke(_vociIvaRemoteModel, codiceIva);
+				method.invoke(_ivaRemoteModel, codiceIva);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -140,13 +140,13 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	public void setDescrizione(String descrizione) {
 		_descrizione = descrizione;
 
-		if (_vociIvaRemoteModel != null) {
+		if (_ivaRemoteModel != null) {
 			try {
-				Class<?> clazz = _vociIvaRemoteModel.getClass();
+				Class<?> clazz = _ivaRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setDescrizione", String.class);
 
-				method.invoke(_vociIvaRemoteModel, descrizione);
+				method.invoke(_ivaRemoteModel, descrizione);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -163,14 +163,14 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	public void setDescrizioneDocumento(String descrizioneDocumento) {
 		_descrizioneDocumento = descrizioneDocumento;
 
-		if (_vociIvaRemoteModel != null) {
+		if (_ivaRemoteModel != null) {
 			try {
-				Class<?> clazz = _vociIvaRemoteModel.getClass();
+				Class<?> clazz = _ivaRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setDescrizioneDocumento",
 						String.class);
 
-				method.invoke(_vociIvaRemoteModel, descrizioneDocumento);
+				method.invoke(_ivaRemoteModel, descrizioneDocumento);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -187,13 +187,13 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	public void setAliquota(double aliquota) {
 		_aliquota = aliquota;
 
-		if (_vociIvaRemoteModel != null) {
+		if (_ivaRemoteModel != null) {
 			try {
-				Class<?> clazz = _vociIvaRemoteModel.getClass();
+				Class<?> clazz = _ivaRemoteModel.getClass();
 
 				Method method = clazz.getMethod("setAliquota", double.class);
 
-				method.invoke(_vociIvaRemoteModel, aliquota);
+				method.invoke(_ivaRemoteModel, aliquota);
 			}
 			catch (Exception e) {
 				throw new UnsupportedOperationException(e);
@@ -201,12 +201,12 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 		}
 	}
 
-	public BaseModel<?> getVociIvaRemoteModel() {
-		return _vociIvaRemoteModel;
+	public BaseModel<?> getIvaRemoteModel() {
+		return _ivaRemoteModel;
 	}
 
-	public void setVociIvaRemoteModel(BaseModel<?> vociIvaRemoteModel) {
-		_vociIvaRemoteModel = vociIvaRemoteModel;
+	public void setIvaRemoteModel(BaseModel<?> ivaRemoteModel) {
+		_ivaRemoteModel = ivaRemoteModel;
 	}
 
 	public Object invokeOnRemoteModel(String methodName,
@@ -220,7 +220,7 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 			}
 		}
 
-		Class<?> remoteModelClass = _vociIvaRemoteModel.getClass();
+		Class<?> remoteModelClass = _ivaRemoteModel.getClass();
 
 		ClassLoader remoteModelClassLoader = remoteModelClass.getClassLoader();
 
@@ -240,7 +240,7 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 		Method method = remoteModelClass.getMethod(methodName,
 				remoteParameterTypes);
 
-		Object returnValue = method.invoke(_vociIvaRemoteModel,
+		Object returnValue = method.invoke(_ivaRemoteModel,
 				remoteParameterValues);
 
 		if (returnValue != null) {
@@ -253,22 +253,22 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	@Override
 	public void persist() throws SystemException {
 		if (this.isNew()) {
-			VociIvaLocalServiceUtil.addVociIva(this);
+			IvaLocalServiceUtil.addIva(this);
 		}
 		else {
-			VociIvaLocalServiceUtil.updateVociIva(this);
+			IvaLocalServiceUtil.updateIva(this);
 		}
 	}
 
 	@Override
-	public VociIva toEscapedModel() {
-		return (VociIva)ProxyUtil.newProxyInstance(VociIva.class.getClassLoader(),
-			new Class[] { VociIva.class }, new AutoEscapeBeanHandler(this));
+	public Iva toEscapedModel() {
+		return (Iva)ProxyUtil.newProxyInstance(Iva.class.getClassLoader(),
+			new Class[] { Iva.class }, new AutoEscapeBeanHandler(this));
 	}
 
 	@Override
 	public Object clone() {
-		VociIvaClp clone = new VociIvaClp();
+		IvaClp clone = new IvaClp();
 
 		clone.setCodiceIva(getCodiceIva());
 		clone.setDescrizione(getDescrizione());
@@ -279,8 +279,8 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	}
 
 	@Override
-	public int compareTo(VociIva vociIva) {
-		String primaryKey = vociIva.getPrimaryKey();
+	public int compareTo(Iva iva) {
+		String primaryKey = iva.getPrimaryKey();
 
 		return getPrimaryKey().compareTo(primaryKey);
 	}
@@ -291,13 +291,13 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 			return true;
 		}
 
-		if (!(obj instanceof VociIvaClp)) {
+		if (!(obj instanceof IvaClp)) {
 			return false;
 		}
 
-		VociIvaClp vociIva = (VociIvaClp)obj;
+		IvaClp iva = (IvaClp)obj;
 
-		String primaryKey = vociIva.getPrimaryKey();
+		String primaryKey = iva.getPrimaryKey();
 
 		if (getPrimaryKey().equals(primaryKey)) {
 			return true;
@@ -338,7 +338,7 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 		StringBundler sb = new StringBundler(16);
 
 		sb.append("<model><model-name>");
-		sb.append("it.bysoftware.ct.model.VociIva");
+		sb.append("it.bysoftware.ct.model.Iva");
 		sb.append("</model-name>");
 
 		sb.append(
@@ -367,6 +367,6 @@ public class VociIvaClp extends BaseModelImpl<VociIva> implements VociIva {
 	private String _descrizione;
 	private String _descrizioneDocumento;
 	private double _aliquota;
-	private BaseModel<?> _vociIvaRemoteModel;
+	private BaseModel<?> _ivaRemoteModel;
 	private Class<?> _clpSerializerClass = it.bysoftware.ct.service.ClpSerializer.class;
 }

@@ -18,7 +18,7 @@ import com.liferay.portal.kernel.util.StringBundler;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.model.CacheModel;
 
-import it.bysoftware.ct.model.VociIva;
+import it.bysoftware.ct.model.Iva;
 
 import java.io.Externalizable;
 import java.io.IOException;
@@ -26,13 +26,13 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 
 /**
- * The cache model class for representing VociIva in entity cache.
+ * The cache model class for representing Iva in entity cache.
  *
  * @author Brian Wing Shun Chan
- * @see VociIva
+ * @see Iva
  * @generated
  */
-public class VociIvaCacheModel implements CacheModel<VociIva>, Externalizable {
+public class IvaCacheModel implements CacheModel<Iva>, Externalizable {
 	@Override
 	public String toString() {
 		StringBundler sb = new StringBundler(9);
@@ -51,35 +51,35 @@ public class VociIvaCacheModel implements CacheModel<VociIva>, Externalizable {
 	}
 
 	@Override
-	public VociIva toEntityModel() {
-		VociIvaImpl vociIvaImpl = new VociIvaImpl();
+	public Iva toEntityModel() {
+		IvaImpl ivaImpl = new IvaImpl();
 
 		if (codiceIva == null) {
-			vociIvaImpl.setCodiceIva(StringPool.BLANK);
+			ivaImpl.setCodiceIva(StringPool.BLANK);
 		}
 		else {
-			vociIvaImpl.setCodiceIva(codiceIva);
+			ivaImpl.setCodiceIva(codiceIva);
 		}
 
 		if (descrizione == null) {
-			vociIvaImpl.setDescrizione(StringPool.BLANK);
+			ivaImpl.setDescrizione(StringPool.BLANK);
 		}
 		else {
-			vociIvaImpl.setDescrizione(descrizione);
+			ivaImpl.setDescrizione(descrizione);
 		}
 
 		if (descrizioneDocumento == null) {
-			vociIvaImpl.setDescrizioneDocumento(StringPool.BLANK);
+			ivaImpl.setDescrizioneDocumento(StringPool.BLANK);
 		}
 		else {
-			vociIvaImpl.setDescrizioneDocumento(descrizioneDocumento);
+			ivaImpl.setDescrizioneDocumento(descrizioneDocumento);
 		}
 
-		vociIvaImpl.setAliquota(aliquota);
+		ivaImpl.setAliquota(aliquota);
 
-		vociIvaImpl.resetOriginalValues();
+		ivaImpl.resetOriginalValues();
 
-		return vociIvaImpl;
+		return ivaImpl;
 	}
 
 	@Override

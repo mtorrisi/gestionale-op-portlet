@@ -83,7 +83,7 @@
                         <div class="btn-group">
                             <button class="btn"  id="btnSearch" <%= ((updateMode) ? "style=\"display: none\"" : "") %>><i class="icon-search"></i> Cerca fattura</button>
                             <button class="btn" id="btnInvoice"><i class="icon-list-alt"></i> Genera Fattura</button>
-                            <button class="btn" id="btnInstantInvoice"><i class="icon-list-alt"></i> Fattura Immediata</button>
+                            <button class="btn hidden" id="btnInstantInvoice" ><i class="icon-list-alt"></i> Fattura Immediata</button>
                         </div>
                     </div>
                 </aui:field-wrapper>

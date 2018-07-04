@@ -14,8 +14,8 @@
 <%@page import="it.its.ct.gestionaleOP.utils.Constants"%>
 <%@page import="it.its.ct.gestionaleOP.utils.DocumentType"%>
 <%@page import="it.bysoftware.ct.service.persistence.ClientiDatiAggPK"%>
-<%@page import="it.bysoftware.ct.service.VociIvaLocalServiceUtil"%>
-<%@page import="it.bysoftware.ct.model.VociIva"%>
+<%@page import="it.bysoftware.ct.service.IvaLocalServiceUtil"%>
+<%@page import="it.bysoftware.ct.model.Iva"%>
 <%@page import="it.bysoftware.ct.service.ClientiDatiAggLocalServiceUtil"%>
 <%@page import="it.bysoftware.ct.model.ClientiDatiAgg"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -68,11 +68,19 @@
     }
     double iva = 0.0;
     if (!codiceAliquotaCliente.equals("")) {
-        VociIva vociIva = VociIvaLocalServiceUtil.fetchVociIva(codiceAliquotaCliente);
+        Iva vociIva = IvaLocalServiceUtil.fetchIva(codiceAliquotaCliente);
         if (vociIva != null) {
             iva = vociIva.getAliquota(); 
         }
     }
+    
+    List<Iva> vats = IvaLocalServiceUtil.getIvas(0,
+            IvaLocalServiceUtil.getIvasCount());
+    String vatCodes = "";
+    for (Iva vat : vats) {
+        vatCodes += "|" + vat.getCodiceIva() + " --> " + vat.getDescrizione() + " --> " + (int)vat.getAliquota();
+    }
+    
     List<DescrizioniVarianti> varianti = DescrizioniVariantiLocalServiceUtil.getVarianti();
     String stringVarianti = "";
     for (int i = 0; i < varianti.size(); i++) {
@@ -184,6 +192,8 @@
     var variety = "<%= stringVarianti %>";
     var aliquotaIVA     = <%= iva%>;
     var codiceAliquota  = '<%= codiceAliquotaCliente%>';
+    
+    var vatCodes = '<%= vatCodes%>';
     
     YUI().use('node', function(Y) {
         Y.one('#<portlet:namespace/>lottoTestata').set('value', calcolaLotto(today));
@@ -297,7 +307,7 @@
                     options: variety.split("|")
                 }),
                 key: 'descrizioneVariante',
-                label: 'Varieta\''
+                label: 'Var.'
             },
             {
             	allowHTML: true,
@@ -342,7 +352,7 @@
             {
             	editor: numberEditor,
             	key: 'pesoLordo',
-                label: 'Peso Lordo'
+                label: 'P. Lordo'
             },
             {
                 editor: numberEditor,
@@ -357,7 +367,7 @@
             {
                 editor: nameEditor,
                 key: 'pesoNetto',
-                label: 'Quantita\''
+                label: 'Quant.'
             },
             {
                 editor: numberEditor,
@@ -367,18 +377,18 @@
             {
                 editor: numberEditor,
                 key: 'sconto1',
-                label: 'Sconto1'
+                label: 'Sc. 1'
             },
             {
             	editor: numberEditor,
                 key: 'sconto2',
-                label: 'Sconto2',
+                label: 'Sc. 2',
                 className: 'hide'
             },
             {
                 editor: numberEditor,
                 key: 'sconto3',
-                label: 'Sconto3',
+                label: 'Sc. 3',
                 className: 'hide'
             },
             {
@@ -386,6 +396,10 @@
                 label: 'Importo'
             },
             {
+                editor: new Y.DropDownCellEditor({
+                    centered: 'Node',
+                    options: vatCodes.split('|'), 
+                }),
                 key: 'codiceIva',
                 label: 'C.I.' 
             },
@@ -474,6 +488,10 @@
 
         table.after('*:importoChange', function (e) {
             calcolaImporti();
+        });
+        
+        table.after('*:codiceIvaChange', function (e) {
+            setCodiceIva();
         });
 
         Y.one("#<portlet:namespace />btnAddDescription").on("click", function () {
@@ -701,13 +719,19 @@
             var numeroFattura = Y.one('#<portlet:namespace/>recProt').val();
             var avanzaProtocollo = Y.one('#<portlet:namespace/>recProt').val();
             
-            var queryString = "&<portlet:namespace/>codCli=" + codiceCliente +
-                    "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>documentDate=" + documentDate +
-                    "&<portlet:namespace/>numeroFattura=" + numeroFattura + "&<portlet:namespace/>avanzaProtocollo=" + avanzaProtocollo;
-            //        Y.one('#btnSave').on('click', function () {
-            Y.io.request(((origDoc) ? '${updateInvoice}' : '${saveInvoice}') + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(rows)), {
-                on: {
+            Y.io.request(origDoc ? '${updateInvoice}' : '${saveInvoice}', {
+            	method: 'POST',
+                data: {
+                    <portlet:namespace />codCli: codiceCliente,
+                    <portlet:namespace />clienteTxt: clienteTxt,
+                    <portlet:namespace />destinazioneTxt: destinazioneTxt,
+                    <portlet:namespace />codiceDestinazione: codiceDestinazione,
+                    <portlet:namespace />documentDate: documentDate,
+                    <portlet:namespace />numeroFattura: numeroFattura,
+                    <portlet:namespace />avanzaProtocollo: avanzaProtocollo,
+                    <portlet:namespace />data: window.btoa(JSON.stringify(rows))
+                },
+            	on: {
                     success: function () {
                         var data = JSON.parse(this.get('responseData'));
                         if (data.code === 0) {
@@ -802,7 +826,13 @@
     		    
     	).render('#<portlet:namespace />tabellaTotali');
    	});
-    
+    function setCodiceIva() {
+        var record = recordSelected.getAttrs();
+        var codice = record.codiceIva.split(" --> ")[0];
+        var aliquota = record.codiceIva.split(" --> ")[2];
+        recordSelected.setAttrs({codiceIva: codice, aliquotaIva: aliquota});
+        calcolaImporti();
+    }
     function calcolaImporti(){
         var data = [];
         var i = 0;
@@ -843,6 +873,9 @@
         }
         
         document.getElementById('<portlet:namespace />totaleDocumentoTxt').value = somma.toFixed(2);
+        data.sort(function(a, b) {
+            return parseFloat(a.aliquota.replace("%","")) - parseFloat(b.aliquota.replace("%",""));
+        });
         if(t1) {
             t1.set('data', eval(data)); 
         }

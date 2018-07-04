@@ -36,7 +36,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	Externalizable {
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(59);
+		StringBundler sb = new StringBundler(61);
 
 		sb.append("{anno=");
 		sb.append(anno);
@@ -94,6 +94,8 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sb.append(sconto3);
 		sb.append(", tipoDocumento=");
 		sb.append(tipoDocumento);
+		sb.append(", codiceIva=");
+		sb.append(codiceIva);
 		sb.append(", idAssociato=");
 		sb.append(idAssociato);
 		sb.append("}");
@@ -198,6 +200,13 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 			rigoDocumentoImpl.setTipoDocumento(tipoDocumento);
 		}
 
+		if (codiceIva == null) {
+			rigoDocumentoImpl.setCodiceIva(StringPool.BLANK);
+		}
+		else {
+			rigoDocumentoImpl.setCodiceIva(codiceIva);
+		}
+
 		rigoDocumentoImpl.setIdAssociato(idAssociato);
 
 		rigoDocumentoImpl.resetOriginalValues();
@@ -235,6 +244,7 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 		sconto2 = objectInput.readFloat();
 		sconto3 = objectInput.readFloat();
 		tipoDocumento = objectInput.readUTF();
+		codiceIva = objectInput.readUTF();
 		idAssociato = objectInput.readLong();
 	}
 
@@ -334,6 +344,13 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 			objectOutput.writeUTF(tipoDocumento);
 		}
 
+		if (codiceIva == null) {
+			objectOutput.writeUTF(StringPool.BLANK);
+		}
+		else {
+			objectOutput.writeUTF(codiceIva);
+		}
+
 		objectOutput.writeLong(idAssociato);
 	}
 
@@ -365,5 +382,6 @@ public class RigoDocumentoCacheModel implements CacheModel<RigoDocumento>,
 	public float sconto2;
 	public float sconto3;
 	public String tipoDocumento;
+	public String codiceIva;
 	public long idAssociato;
 }

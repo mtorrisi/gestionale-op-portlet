@@ -138,6 +138,7 @@
             }
             data = data + "&<portlet:namespace/>note=" + A.one('#<portlet:namespace/>noteTxt').val() +
                 "&<portlet:namespace/>body=" + window.<portlet:namespace />body.getHTML();
+            console.log(creditTransferUrl);
             var win = window.open(creditTransferUrl + data, '_blank');
             win.focus();
         });

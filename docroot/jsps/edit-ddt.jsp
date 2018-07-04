@@ -298,10 +298,10 @@
                     <label for="costo" class="control-label">Costo Trasporto: </label>
                     <div class="controls form-inline">
                         <input type="text" class="input-small" id="costo" value="<%= testata.getCostoTrasporto()%>">
-                        <label for="pedane-euro">N. Pedane Euro: </label>
-                        <input type="text" class="input-small" id="pedane-euro" value="<%= testata.getNumeroPedaneEuro()%>"/>
-                        <label for="pedane-normali">N. Pedane Normali: </label>
-                        <input type="text" class="input-small" id="pedane-normali" value="<%= testata.getNumeroPedaneNormali()%>"/>
+                        <label for="pedane_euro">N. Pedane Euro: </label>
+                        <input type="text" class="input-small" id="pedane_euro" value="<%= testata.getNumeroPedaneEuro()%>"/>
+                        <label for="pedane_normali">N. Pedane Normali: </label>
+                        <input type="text" class="input-small" id="pedane_normali" value="<%= testata.getNumeroPedaneNormali()%>"/>
                     </div>
                 </div>
                 <div class="control-group">
@@ -663,7 +663,7 @@
                         options: variety.split("|")
                     }),
                 key: 'descrizioneVariante',
-                label: 'Varieta\''
+                label: 'Var.'
             },
             {
 //                editor: nameEditor,
@@ -997,7 +997,6 @@
     function sendData(data) { //loadURL + "&" + portletNamespace + "file=" + file + ""
         //        console.log('${saveDDT}' + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)));
         YUI().use('aui-io-request', 'node', function (Y) {
-
             /******CAMPI TESTATA******/
             var codiceCliente = Y.one('#<portlet:namespace />codiceClienteTxt').val();
             var clienteTxt = Y.one('#<portlet:namespace />clienteTxt').val();
@@ -1009,7 +1008,7 @@
 
             /******CAMPI FINE CORPO******/
             var vettore1 = Y.one('#codiceVettore1').val();
-            var vettore2 = Y.one('#codiceVettore1').val();
+            var vettore2 = Y.one('#codiceVettore2').val();
             var autista = Y.one('#autista').val();
             var telefono = Y.one('#telefono').val();
             var trasporto = Y.one('#trasporto').val();
@@ -1019,67 +1018,80 @@
             var origine = Y.one('#origine').val();
             var rigo = Y.one('#rigo').val();
             var costo = Y.one('#costo').val();
-            var pedane_euro = Y.one('#pedane-euro').val();
-            var pedane_normali = Y.one('#pedane-normali').val();
+            var pedane_euro = Y.one('#pedane_euro').val();
+            var pedane_normali = Y.one('#pedane_normali').val();
             var motrice = Y.one('#motrice').val();
             var rimorchio = Y.one('#rimorchio').val();
             var numeroOrdine = Y.one('#<portlet:namespace/>nDoc').val();
 
-            var queryString = "&<portlet:namespace/>codiceCliente=" + codiceCliente +
-                    "&<portlet:namespace/>clienteTxt=" + clienteTxt + "&<portlet:namespace/>destinazioneTxt=" + destinazioneTxt +
-                    "&<portlet:namespace/>codiceDestinazione=" + codiceDestinazione + "&<portlet:namespace/>orderDate=" + orderDate +
-                    "&<portlet:namespace/>deliveryDate=" + deliveryDate + "&<portlet:namespace/>lottoTestata=" + lottoTestata +
-                    "&<portlet:namespace/>vettore1=" + vettore1 + "&<portlet:namespace/>vettore2=" + vettore2 +
-                    "&<portlet:namespace/>autista=" + autista + "&<portlet:namespace/>telefono=" + telefono +
-                    "&<portlet:namespace/>trasporto=" + trasporto + "&<portlet:namespace/>aspetto=" + aspetto +
-                    "&<portlet:namespace/>causale=" + causale + "&<portlet:namespace/>porto=" + porto +
-                    "&<portlet:namespace/>origine=" + origine + "&<portlet:namespace/>rigo=" + rigo +
-                    "&<portlet:namespace/>costo=" + costo + "&<portlet:namespace/>pedane-euro=" + pedane_euro +
-                    "&<portlet:namespace/>pedane-normali=" + pedane_normali + "&<portlet:namespace/>motrice=" + motrice +
-                    "&<portlet:namespace/>rimorchio=" + rimorchio + "&<portlet:namespace/>numeroOrdine=" + numeroOrdine;
-            //        Y.one('#btnSave').on('click', function () {
-            Y.io.request(
-                    '${saveDDT}' + queryString + '&<portlet:namespace />data=' + window.btoa(JSON.stringify(data)),
-                    {
-                        on: {
-                            success: function () {
-                                var data = JSON.parse(this.get('responseData'));
-                                if (data.code === 0) {
-                                    alert("Salvataggio effettuato con successo.");
-                                    document.getElementById("btnPrint").disabled = false;
-                                    document.getElementById("btnSave").disabled = true;
-                                    document.getElementById("btnTrace").disabled = false;
-                                    console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-                                } else {
-                                    console.log(data)
-                                    switch (data.code) {
-                                        case 1:
-                                        case 2:
-                                        case 3:
-                                        case 7:
-                                            alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
-                                            break;
-                                        case 4:
-                                            alert("Salvataggio effettuato con successo.");
-                                            document.getElementById("btnPrint").disabled = false;
-                                            document.getElementById("btnSave").disabled = true;
-                                            document.getElementById("btnTrace").disabled = false;
-                                            console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
-                                            alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
-                                            break;
-                                        case 5:
-                                            alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
-                                            break;
-                                        case 6:
-                                            alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
-                                            break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-            );
-
+            Y.io.request('${saveDDT}', {
+            	method: 'POST',
+                data: {
+                    <portlet:namespace />codiceCliente: codiceCliente,
+                    <portlet:namespace />clienteTxt: clienteTxt,
+                    <portlet:namespace />destinazioneTxt: destinazioneTxt,
+                    <portlet:namespace />codiceDestinazione: codiceDestinazione,
+                    <portlet:namespace />orderDate: orderDate,
+                    <portlet:namespace />deliveryDate: deliveryDate,
+                    <portlet:namespace />lottoTestata: lottoTestata,
+                    <portlet:namespace />vettore1: vettore1,
+                    <portlet:namespace />vettore2: vettore2,
+                    <portlet:namespace />autista: autista,
+                    <portlet:namespace />telefono: telefono,
+                    <portlet:namespace />trasporto: trasporto,
+                    <portlet:namespace />aspetto: aspetto,
+                    <portlet:namespace />causale: causale,
+                    <portlet:namespace />porto: porto,
+                    <portlet:namespace />origine: origine,
+                    <portlet:namespace />rigo: rigo,
+                    <portlet:namespace />costo: costo,
+                    <portlet:namespace />pedane_euro: pedane_euro,
+                    <portlet:namespace />pedane_normali: pedane_normali,
+                    <portlet:namespace />motrice: motrice,
+                    <portlet:namespace />rimorchio: rimorchio,
+                    <portlet:namespace/>numeroOrdine: numeroOrdine,
+                    <portlet:namespace />data: window.btoa(JSON.stringify(data))
+                },
+            	on: {
+            		success: function () {
+	                    var data = JSON.parse(this.get('responseData'));
+	                    if (data.code === 0) {
+	                        alert("Salvataggio effettuato con successo.");
+	                        document.getElementById("btnPrint").disabled = false;
+	                        document.getElementById("btnSave").disabled = true;
+	                        document.getElementById("btnTrace").disabled = false;
+	                        console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
+	                    } else {
+	                        console.log(data)
+	                        switch (data.code) {
+	                            case 1:
+	                            case 2:
+	                            case 3:
+	                            case 7:
+	                                alert("Errore durante il salvataggio dei dati.\n" + JSON.stringify(data));
+	                                break;
+	                            case 4:
+	                                alert("Salvataggio effettuato con successo.");
+	                                document.getElementById("btnPrint").disabled = false;
+	                                document.getElementById("btnSave").disabled = true;
+	                                document.getElementById("btnTrace").disabled = false;
+	                                console.log("1: " + Y.one('#<portlet:namespace/>recProt').val());
+	                                alert("Attenzione, non e' stato possibile invare la mail di notifica.\n");
+	                                break;
+	                            case 5:
+	                                alert("Attenzione, il numero di protocollo: " + data.id + " e' gia' presente in archivio.\n");
+	                                break;
+	                            case 6:
+	                                alert("Attenzione, esiste almeno un numero di protocollo maggiore di " + data.id + " con una data precedente a: " + orderDate + ".");
+	                                break;
+	                        }
+	                    }
+	                }
+                },
+                error: function() {
+                    alert("Errore durante il salvataggio dei dati.");
+                }
+            });
         });
     }
 

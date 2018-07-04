@@ -14,26 +14,26 @@
 
 package it.bysoftware.ct.service.impl;
 
-import it.bysoftware.ct.service.base.VociIvaLocalServiceBaseImpl;
+import it.bysoftware.ct.service.base.IvaLocalServiceBaseImpl;
 
 /**
- * The implementation of the voci iva local service.
+ * The implementation of the iva local service.
  *
  * <p>
- * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link it.bysoftware.ct.service.VociIvaLocalService} interface.
+ * All custom service methods should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link it.bysoftware.ct.service.IvaLocalService} interface.
  *
  * <p>
  * This is a local service. Methods of this service will not have security checks based on the propagated JAAS credentials because this service can only be accessed from within the same VM.
  * </p>
  *
  * @author Brian Wing Shun Chan
- * @see it.bysoftware.ct.service.base.VociIvaLocalServiceBaseImpl
- * @see it.bysoftware.ct.service.VociIvaLocalServiceUtil
+ * @see it.bysoftware.ct.service.base.IvaLocalServiceBaseImpl
+ * @see it.bysoftware.ct.service.IvaLocalServiceUtil
  */
-public class VociIvaLocalServiceImpl extends VociIvaLocalServiceBaseImpl {
-	/**
+public class IvaLocalServiceImpl extends IvaLocalServiceBaseImpl {
+	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.VociIvaLocalServiceUtil} to access the voci iva local service.
+	 * Never reference this interface directly. Always use {@link it.bysoftware.ct.service.IvaLocalServiceUtil} to access the iva local service.
 	 */
 }

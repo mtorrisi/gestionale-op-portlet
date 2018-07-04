@@ -60,6 +60,7 @@ public class RigoDocumentoSoap implements Serializable {
 		soapModel.setSconto2(model.getSconto2());
 		soapModel.setSconto3(model.getSconto3());
 		soapModel.setTipoDocumento(model.getTipoDocumento());
+		soapModel.setCodiceIva(model.getCodiceIva());
 		soapModel.setIdAssociato(model.getIdAssociato());
 
 		return soapModel;
@@ -346,6 +347,14 @@ public class RigoDocumentoSoap implements Serializable {
 		_tipoDocumento = tipoDocumento;
 	}
 
+	public String getCodiceIva() {
+		return _codiceIva;
+	}
+
+	public void setCodiceIva(String codiceIva) {
+		_codiceIva = codiceIva;
+	}
+
 	public long getIdAssociato() {
 		return _idAssociato;
 	}
@@ -382,5 +391,6 @@ public class RigoDocumentoSoap implements Serializable {
 	private float _sconto2;
 	private float _sconto3;
 	private String _tipoDocumento;
+	private String _codiceIva;
 	private long _idAssociato;
 }

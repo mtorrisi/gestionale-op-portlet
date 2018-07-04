@@ -77,6 +77,7 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 		attributes.put("sconto2", getSconto2());
 		attributes.put("sconto3", getSconto3());
 		attributes.put("tipoDocumento", getTipoDocumento());
+		attributes.put("codiceIva", getCodiceIva());
 		attributes.put("idAssociato", getIdAssociato());
 
 		return attributes;
@@ -251,6 +252,12 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 
 		if (tipoDocumento != null) {
 			setTipoDocumento(tipoDocumento);
+		}
+
+		String codiceIva = (String)attributes.get("codiceIva");
+
+		if (codiceIva != null) {
+			setCodiceIva(codiceIva);
 		}
 
 		Long idAssociato = (Long)attributes.get("idAssociato");
@@ -849,6 +856,26 @@ public class RigoDocumentoWrapper implements RigoDocumento,
 	@Override
 	public void setTipoDocumento(java.lang.String tipoDocumento) {
 		_rigoDocumento.setTipoDocumento(tipoDocumento);
+	}
+
+	/**
+	* Returns the codice iva of this rigo documento.
+	*
+	* @return the codice iva of this rigo documento
+	*/
+	@Override
+	public java.lang.String getCodiceIva() {
+		return _rigoDocumento.getCodiceIva();
+	}
+
+	/**
+	* Sets the codice iva of this rigo documento.
+	*
+	* @param codiceIva the codice iva of this rigo documento
+	*/
+	@Override
+	public void setCodiceIva(java.lang.String codiceIva) {
+		_rigoDocumento.setCodiceIva(codiceIva);
 	}
 
 	/**

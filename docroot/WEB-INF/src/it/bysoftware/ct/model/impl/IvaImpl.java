@@ -12,23 +12,23 @@
  * details.
  */
 
-package it.bysoftware.ct.model;
-
-import com.liferay.portal.model.PersistedModel;
+package it.bysoftware.ct.model.impl;
 
 /**
- * The extended model interface for the VociIva service. Represents a row in the &quot;VociIva&quot; database table, with each column mapped to a property of this class.
+ * The extended model implementation for the Iva service. Represents a row in the &quot;VociIva&quot; database table, with each column mapped to a property of this class.
+ *
+ * <p>
+ * Helper methods and all application logic should be put in this class. Whenever methods are added, rerun ServiceBuilder to copy their definitions into the {@link it.bysoftware.ct.model.Iva} interface.
+ * </p>
  *
  * @author Brian Wing Shun Chan
- * @see VociIvaModel
- * @see it.bysoftware.ct.model.impl.VociIvaImpl
- * @see it.bysoftware.ct.model.impl.VociIvaModelImpl
- * @generated
  */
-public interface VociIva extends VociIvaModel, PersistedModel {
+public class IvaImpl extends IvaBaseImpl {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
-	 * Never modify this interface directly. Add methods to {@link it.bysoftware.ct.model.impl.VociIvaImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
+	 * Never reference this class directly. All methods that expect a iva model instance should use the {@link it.bysoftware.ct.model.Iva} interface instead.
 	 */
+	public IvaImpl() {
+	}
 }

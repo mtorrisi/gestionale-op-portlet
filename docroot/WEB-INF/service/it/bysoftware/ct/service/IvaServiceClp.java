@@ -20,8 +20,8 @@ import com.liferay.portal.service.InvokableService;
  * @author Brian Wing Shun Chan
  * @generated
  */
-public class VociIvaServiceClp implements VociIvaService {
-	public VociIvaServiceClp(InvokableService invokableService) {
+public class IvaServiceClp implements IvaService {
+	public IvaServiceClp(InvokableService invokableService) {
 		_invokableService = invokableService;
 
 		_methodName0 = "getBeanIdentifier";

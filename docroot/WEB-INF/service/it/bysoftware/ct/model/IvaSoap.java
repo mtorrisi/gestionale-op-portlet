@@ -20,15 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class is used by SOAP remote services, specifically {@link it.bysoftware.ct.service.http.VociIvaServiceSoap}.
+ * This class is used by SOAP remote services, specifically {@link it.bysoftware.ct.service.http.IvaServiceSoap}.
  *
  * @author Brian Wing Shun Chan
- * @see it.bysoftware.ct.service.http.VociIvaServiceSoap
+ * @see it.bysoftware.ct.service.http.IvaServiceSoap
  * @generated
  */
-public class VociIvaSoap implements Serializable {
-	public static VociIvaSoap toSoapModel(VociIva model) {
-		VociIvaSoap soapModel = new VociIvaSoap();
+public class IvaSoap implements Serializable {
+	public static IvaSoap toSoapModel(Iva model) {
+		IvaSoap soapModel = new IvaSoap();
 
 		soapModel.setCodiceIva(model.getCodiceIva());
 		soapModel.setDescrizione(model.getDescrizione());
@@ -38,8 +38,8 @@ public class VociIvaSoap implements Serializable {
 		return soapModel;
 	}
 
-	public static VociIvaSoap[] toSoapModels(VociIva[] models) {
-		VociIvaSoap[] soapModels = new VociIvaSoap[models.length];
+	public static IvaSoap[] toSoapModels(Iva[] models) {
+		IvaSoap[] soapModels = new IvaSoap[models.length];
 
 		for (int i = 0; i < models.length; i++) {
 			soapModels[i] = toSoapModel(models[i]);
@@ -48,14 +48,14 @@ public class VociIvaSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static VociIvaSoap[][] toSoapModels(VociIva[][] models) {
-		VociIvaSoap[][] soapModels = null;
+	public static IvaSoap[][] toSoapModels(Iva[][] models) {
+		IvaSoap[][] soapModels = null;
 
 		if (models.length > 0) {
-			soapModels = new VociIvaSoap[models.length][models[0].length];
+			soapModels = new IvaSoap[models.length][models[0].length];
 		}
 		else {
-			soapModels = new VociIvaSoap[0][0];
+			soapModels = new IvaSoap[0][0];
 		}
 
 		for (int i = 0; i < models.length; i++) {
@@ -65,17 +65,17 @@ public class VociIvaSoap implements Serializable {
 		return soapModels;
 	}
 
-	public static VociIvaSoap[] toSoapModels(List<VociIva> models) {
-		List<VociIvaSoap> soapModels = new ArrayList<VociIvaSoap>(models.size());
+	public static IvaSoap[] toSoapModels(List<Iva> models) {
+		List<IvaSoap> soapModels = new ArrayList<IvaSoap>(models.size());
 
-		for (VociIva model : models) {
+		for (Iva model : models) {
 			soapModels.add(toSoapModel(model));
 		}
 
-		return soapModels.toArray(new VociIvaSoap[soapModels.size()]);
+		return soapModels.toArray(new IvaSoap[soapModels.size()]);
 	}
 
-	public VociIvaSoap() {
+	public IvaSoap() {
 	}
 
 	public String getPrimaryKey() {

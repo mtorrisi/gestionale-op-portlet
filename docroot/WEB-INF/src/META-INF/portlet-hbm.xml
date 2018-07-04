@@ -18,6 +18,7 @@
 	<import class="it.bysoftware.ct.model.DescrizioniVarianti" />
 	<import class="it.bysoftware.ct.model.DestinatariDiversi" />
 	<import class="it.bysoftware.ct.model.FileUploader" />
+	<import class="it.bysoftware.ct.model.Iva" />
 	<import class="it.bysoftware.ct.model.OrganizzazioneProduttori" />
 	<import class="it.bysoftware.ct.model.Porto" />
 	<import class="it.bysoftware.ct.model.Progressivo" />
@@ -26,7 +27,6 @@
 	<import class="it.bysoftware.ct.model.TracciabilitaGrezzi" />
 	<import class="it.bysoftware.ct.model.TracciabilitaScheda" />
 	<import class="it.bysoftware.ct.model.Vettori" />
-	<import class="it.bysoftware.ct.model.VociIva" />
 	<import class="it.bysoftware.ct.model.WKRigoDocumento" />
 	<import class="it.bysoftware.ct.model.WKTestataDocumento" />
 	<class name="it.bysoftware.ct.model.impl.AnagraficaImpl" table="AnagraficheClientiFornitori">
@@ -91,7 +91,7 @@
 	<class name="it.bysoftware.ct.model.impl.AssociatoImpl" table="associato">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="native" />
+			<generator class="assigned" />
 		</id>
 		<property name="centro" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 		<property name="ragioneSociale" type="com.liferay.portal.dao.orm.hibernate.StringType" column="ragione_sociale" />
@@ -132,7 +132,7 @@
 	<class name="it.bysoftware.ct.model.impl.CessioneCreditoImpl" table="cessioneCredito">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="data" type="org.hibernate.type.TimestampType" />
 		<property name="codiceSoggetto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RacCodana" />
@@ -218,6 +218,15 @@
 		</id>
 		<property name="content" type="com.liferay.portal.dao.orm.hibernate.StringType" />
 	</class>
+	<class name="it.bysoftware.ct.model.impl.IvaImpl" table="VociIva">
+		<cache usage="read-write" />
+		<id name="codiceIva" column="RiaCodiva" type="java.lang.String">
+			<generator class="assigned" />
+		</id>
+		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RiaDescri" />
+		<property name="descrizioneDocumento" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RiaDesdoc" />
+		<property name="aliquota" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="RiaAliquo" />
+	</class>
 	<class name="it.bysoftware.ct.model.impl.OrganizzazioneProduttoriImpl" table="op">
 		<cache usage="read-write" />
 		<id name="id" type="long">
@@ -291,6 +300,7 @@
 		<property name="sconto1" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto2" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
 		<property name="sconto3" type="com.liferay.portal.dao.orm.hibernate.FloatType" />
+		<property name="codiceIva" type="com.liferay.portal.dao.orm.hibernate.StringType" column="codice_iva" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.TestataDocumentoImpl" table="SSTESORD">
 		<cache usage="read-write" />
@@ -338,7 +348,7 @@
 	<class name="it.bysoftware.ct.model.impl.TracciabilitaGrezziImpl" table="TracciabilitaGrezzi">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="lottoGrezzo" type="com.liferay.portal.dao.orm.hibernate.StringType" column="lotto_grezzo" />
 		<property name="prodotto" type="com.liferay.portal.dao.orm.hibernate.StringType" />
@@ -354,7 +364,7 @@
 	<class name="it.bysoftware.ct.model.impl.TracciabilitaSchedaImpl" table="tracciabilitaScheda">
 		<cache usage="read-write" />
 		<id name="id" type="long">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="codiceProdotto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="codice_prodotto" />
 		<property name="prodottoVenduto" type="com.liferay.portal.dao.orm.hibernate.StringType" column="prodotto" />
@@ -385,15 +395,6 @@
 		<property name="stato" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavSigsta" />
 		<property name="tipoAnagrafica" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavTipana" />
 		<property name="codiceAzienda" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RavCodiaz" />
-	</class>
-	<class name="it.bysoftware.ct.model.impl.VociIvaImpl" table="VociIva">
-		<cache usage="read-write" />
-		<id name="codiceIva" column="RiaCodiva" type="java.lang.String">
-			<generator class="assigned" />
-		</id>
-		<property name="descrizione" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RiaDescri" />
-		<property name="descrizioneDocumento" type="com.liferay.portal.dao.orm.hibernate.StringType" column="RiaDesdoc" />
-		<property name="aliquota" type="com.liferay.portal.dao.orm.hibernate.DoubleType" column="RiaAliquo" />
 	</class>
 	<class name="it.bysoftware.ct.model.impl.WKRigoDocumentoImpl" table="WK_SSRIGORD">
 		<cache usage="read-write" />
